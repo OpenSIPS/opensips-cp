@@ -1,0 +1,28 @@
+
+Server Controller Tool
+----------------------
+
+Description 	
+-----------
+
+
+The Server Controller tool will display the list of  configured servers.
+an it features a way to execute pre-configured commands on the servers.
+For fetching server status or executing commands,the tool connects to the 
+servers via the SSH protocol.  
+
+Configuration
+-------------
+
+The module uses variables from the global configuration file:
+boxes.global.inc.php
+	
+It also uses variables from the local configuration file:
+opensips-cp/config/tools/scontroller/local.inc.php
+
+Attributes like 
+
++ the path to a private key file, 
++ the path to public key file and 
++ the key secret for ssh connections are set in this file 
+(not mandatory , unless your key is encryted)

@@ -1,0 +1,322 @@
+OpenSIPS Control Panel (OCP) Configuration Guide 
+------------------------------------------------
+
+
+This file shows information about the configuration of the OPENSIPS-CP.
+A minimal knowledge of php is necesarry to configure it.
+
+
+This file is structured as follows :
+
+
+1. Global Configuration Files Description
+
+2. Local Configuration Files Description
+
+
+
+
+
+1. Global Configuration Files Description
+--------------------------------------
+
+
+All configuration files are situated in the `config` directory .
+
+
+access.inc.php 
+--------------
+
+
+this file configures user/admin access to the opensips control panel .
+It contains an array that defines who can access resources of ocp , it features 
+an ACL (access control list). You can have full access users to certain
+modules or only read-only users . Also, combinations between these two are 
+possible.
+
+
+
+Example: 
+
+This entry sets up an user with full administration rights:
+
+$admin[0] = array(
+    "admin", // username
+    "admin", // password
+    "*", // available tabs - all
+ );
+
+This entry sets up an user with only read access to the 4 listed modules:
+drouting,domains,pdt,trace
+
+$admin[1] = array(
+    "someuser",
+    "somepass",
+    "drouting,domains,pdt,trace",
+    "read-only,read-only,read-only,read-only" // - only read-only access
+ );
+
+
+
+local.inc.php 
+------------
+
+This file contains some text variables which do not change very often.
+It basically looks like this:
+
+$login_page_title = "OpenSIPS Control Panel - Login Page";
+$login_title = "OpenSIPS Control Panel";
+$login_user = "Username";
+$login_pass = "Password";
+$login_err = "Invalid ".$login_user." / ".$login_pass;
+$session_err = "Your Session has expired";
+
+$page_title = "OpenSIPS Control Panel";
+$header_title = ".: OpenSIPS Control Panel";
+$copyright = "Copyright &copy; 2004 - 2008 Voice System";
+
+
+
+
+
+boxes.global.inc.php 
+--------------------
+
+For an easy deployment of the opensips control panel , 
+the "boxes.global.inc.php" file has been developed. The ideea was to keep the 
+data that changes more often in this file. 
+
+
+
+
+You must set the IP addresses of the machines OCP works with through this file.
+Each machine has an unique identification number ($box_id) .
+
+
+Description of the associative arrays in the file:
+-------------------------------------------------
+
+
+You must configure the IP address of the MI connector of opensips through this 
+array. it can be a host:port pair (ex: 127.0.0.1:8080 ) or an fifo file 
+(/tmp/opensips_fifo)
+
+$boxes[$box_id]['mi']['conn']="127.0.0.1:8080";
+
+You must configure the IP address of monit through this array:
+
+$boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
+$boxes[$box_id]['monit']['user']="monit_user";
+$boxes[$box_id]['monit']['pass']="monit_pass";
+$boxes[$box_id]['monit']['has_ssl']=1;
+
+you must configure the IP address of servers through this array:
+
+
+// text description of server 
+$boxes[$box_id]['scontroller']['server_name']="Sip Server"; 
+
+// IP and port of the ssh server
+$boxes[$box_id]['scontroller']['conn']="192.168.2.1:22"; 
+
+// user of the connection 
+$boxes[$box_id]['scontroller']['user']="root"; 
+ 
+ // the path to the VRRP start script 
+$boxes[$box_id]['scontroller']['file1']="/etc/init.d/vrrpd1";
+
+// the path to the VRRP start script 
+$boxes[$box_id]['scontroller']['file2']="/etc/init.d/vrrpd2"; 
+
+// an array of commands and their text description
+$boxes[$box_id]['scontroller']['comm']= array( array("Interfaces Configuration",
+"ifconfig")); 
+
+			
+the text description of the box as it will appear in mi and monit modules 
+$boxes[$box_id]['desc']="Primary SIP server";
+
+$boxes[$box_id]['assoc_id']=1; // the association ID of this machine. 
+It is ment to select the system this machine is part of. 
+If two machines are in the same system , they must have the same `assoc_id`. 
+
+Don't forget to increment the $box_id variable as you add boxes to this array.
+
+
+
+---------------------------
+
+SYSTEMS configuration 
+
+
+$_system_id=0; // the unique id  of the system 
+
+// The name of the system as it will appear in the scontroller module  
+$systems[$_system_id]['name']="SIP Servers"; 
+
+// a text description of the cluster as it will appear in the scontroller module
+$systems[$_system_id]['desc']="OpenSIPS SIP server cluster"; 
+
+//boxes with this assoc_id are assigned to this system
+
+$systems[$_system_id]['assoc_id']=1;
+
+// 1= sip proxies pair , 2 = databases , 3 = media servers , etc..
+$systems[$_system_id]['system_type_id']=1;
+
+// high availability : 1 = master/slave , 2= master/master
+
+// The HA (high availibilty) mode of the system 
+$systems[$_system_id]['ha']=2 ; 
+
+// the first virtual private address of the system 
+$systems[$_system_id]['vip1']='192.168.2.200' ;  
+
+
+// if ha == 1 then vip2 is ignored
+// the second virtual private address of the system 
+$systems[$_system_id]['vip2']='192.168.2.201' ; 
+
+
+
+
+2. Local Configuration Files Description
+----------------------------------------
+
+
+
+The local configuration files contain  database layer connection data  
+and  other attributes that are characteristic for each tool. 
+
+These files are : 
+
+opensips-cp/config/tools/_tool_name_/db.inc.php 
+
+opensips-cp/config/tools/_tool_name_/local.inc.php
+
+
+
+
+Not all the tools require access to the database but every module that uses the 
+database has its own database configuration file.  
+It may have also a local configuration file.
+
+
+
+
+
+tools/cdrviewer/db.inc.php  - The variables in this file are somewhat self 
+explanatory.You must set up the mysql connection data through this file. 
+
+
+tools/cdrviewer/local.inc.php  - the table used by the module must be configured
+in this file 
+
+There are three arrays and some configuration variables in this file: 
+$config,$show_field,$export_csv
+
+The config array variables are as follows:
+
+$config->cdr_table = "cdrs";
+$config->results_per_page = 10 ;
+$config->results_page_range = 10 ;
+
+Next are some color description variables that we are not going to detail beeing 
+somewhat self explanatory (from $config->from_color="black" to  
+$config->regexp_bgcolor="red";)
+ 
+
+$show_field - this array defines  which fields from the table are to be 
+shown on the page.
+ 
+// the field that should be used to link with the siptrace module
+$sip_call_id_field_name='sip_call_id'; 
+
+ 
+$export_csv - this array defines  which fields from the table are to be exported
+using the daily export script
+  
+ 
+// where the export script puts the cdrs as csv files 
+$cdr_repository_path = '/var/lib/opensips_cdrs' ; 
+
+// if to set field names on top of the file or not
+//(this might be useful for CDR aggregation/some billing engines) 
+$cdr_set_field_names = 1 ; 
+
+
+			    
+
+// the delay with whom the cron script will extract the records from the 
+database , defaults to one hour . 
+$delay=3600 ; 
+
+
+
+
+dialplan module 
+---------------
+
+
+tools/dialplan/db.inc.php
+You must set up the mysql connection data through this file. 
+
+
+
+
+domains module
+--------------
+
+
+
+tools/dialplan/db.inc.php
+You must set up the mysql connection data through this file. 
+
+
+mi module
+---------
+
+tools/mi/local.inc.php
+
+
+
+
+
+monit module
+------------
+
+
+tools/monit/local.inc.php
+
+$refresh_timeout - the refresh timeout for monit - a monit page will reload in
+$refresh_timeout seconds . 
+
+
+
+pdt module
+----------
+
+
+
+tools/pdt/db.inc.php
+You must set up the mysql connection data through this file. 
+
+
+
+
+ 
+
+siptrace module 
+---------------
+
+tools/siptrace/db.inc.php
+You must set up the mysql connection data through this file. 
+
+// the assoc_id (which selects the system this module will talk to)
+$talk_to_this_assoc_id = 1 ; 
+
+
+$proxy_list = an array containing the sip proxies which are going to be used
+for identifying the SIP dialog. 
+
+example:  $proxy_list=array("udp:192.168.2.134:5060","udp:127.0.0.1:5060");
