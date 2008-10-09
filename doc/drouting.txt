@@ -1,0 +1,59 @@
+Dynamic Routing 
+---------------
+
+Description 	
+-----------
+
+The tool offers control over the gateways and the routing rules of the platform. 
+
+Configuration
+-------------
+
+* Database layer configuration file : 
+opensips-cp/config/tools/drouting/db.inc.php
+
+Attributes like username, password, database name, host and port for database 
+server are set in this file.
+
+* Local configuration file :  
+opensips-cp/config/tools/drouting/local.inc.php
+
+Attributes like database table names,  results per page and the default domain 
+name are set in this file.
+
+Usage and Features
+------------------
+
+
+The tool features three tabs :  Gateways , Rules and Settings .
+Their description follows. 
+
+
+
+
+
+Gateways
+--------
+
+The gateways tab shows routing destinations. 
+
+
+Rules
+-----
+
+
+This tab refers to the gateways defined in the “Gateways” tab. 
+
+ID: rule IDentificator
+Type: TO_BE_FILLED
+Address:  TO_BE_FILLED
+Strip:  TO_BE_FILLED
+PRI Prefix:  TO_BE_FILLED
+Description :  TO_BE_FILLED
+Status:  TO_BE_FILLED
+
+Settings
+Gateway types file :
+Group IDs file : 
+When “Apply changes to server” button is triggered the routing configuration 
+will be loaded into opensips.
