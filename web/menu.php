@@ -53,7 +53,7 @@
  if ($handle=opendir('tools/'))
  {
   while (false!==($file=readdir($handle)))
-   if (($file!=".") && ($file!="..") && ($file!="CVS") && ((in_array($file,$available_tabs)) || ($super_admin)))
+   if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ((in_array($file,$available_tabs)) || ($super_admin)))
    {
     $menu_link_text[$file."/"]=trim(file_get_contents("tools/".$file."/tool.name"));
     $i++;
