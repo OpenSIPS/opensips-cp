@@ -1,0 +1,54 @@
+
+Dialplan Tool
+-------------
+
+
+Description 
+-----------
+
+The dialplan tool is used to perform modifications in opensips's dialplan rules 
+in realtime.  The rules are kept in a database and they can be reloaded into 
+opensips at any moment from the web interface. It shows a table with opensips 
+dialplan rules, offering the ability to  edit or delete existing rules and to 
+add new rules.
+
+Configuration
+-------------
+
+* Database layer configuration file : 
+opensips-cp/config/tools/dialplan/db.inc.php
+
+Attributes like username, password, database name, host and port for database 
+server are set in this file.
+
+* Local configuration file :  
+opensips-cp/config/tools/dialplan/local.inc.php
+
+Attributes like database table name,  results per page  are set in this file .
+
+Usage and Features
+------------------
+
+The user can list, add, edit and delete dialplan rules. 
+Following is an explanation of the actions performed by the buttons on the page:
+
+“Search”:  Searches through the dialplan rules, displaying only the rules with 
+the dialplan ID submited by the user.
+“Show All”: Shows all the dialplan rules from all dialplans.
+“Clone Dialplan”: Creates a new entry of the selected dialplan rule identical 
+with the selected one.
+“Delete Dialplan”: Deletes all  entries from a certain dialplan ID. 
+“Add New Rule”: Presents a form to add new rule into dialplan.
+“Apply Changes to Server”: Reloads the dialplan rules from the database into 
+opensips instantaneously.
+
+Following is a description of the table columns:
+
+ Dialplan ID: TO_BE_FILLED
+ Rule Priority: TO_BE_FILLED
+ Matching Operator : TO_BE_FILLED
+ Matching Regular Expression: TO_BE_FILLED
+ Matching String Lenght: TO_BE_FILLED
+ Substitution Regular Expression: TO_BE_FILLED
+ Replacement Expression: TO_BE_FILLED
+ Attributes: TO_BE_FILLED
