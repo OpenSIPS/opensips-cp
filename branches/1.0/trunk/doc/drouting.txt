@@ -1,0 +1,44 @@
+Dynamic Routing Tool (drouting)
+----------------------------------------------
+
+Description 	
+----------------
+
+
+The tool is used for provisioning the OpenSIPS drouting module. You can add , delete 
+and edit routing groups.
+You can find  the drouting module documentation here : 
+http://www.opensips.org/html/docs/modules/devel/drouting.html
+
+
+Configuration
+------------------
+
+* Database layer configuration file : 
+opensips-cp/config/tools/drouting/db.inc.php
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration file :  
+opensips-cp/config/tools/drouting/local.inc.php
+
++ database table name  
++ the `results per page` variable is set in this file (how many records to be 
+seen on a single page , pagination )
++ the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers
+
+
+Usage and Features
+---------------------------
+
+
+The tool features three tabs :  Gateways , Rules and Settings .
+When “Apply changes to server” button is triggered the routing configuration 
+will be loaded into opensips.

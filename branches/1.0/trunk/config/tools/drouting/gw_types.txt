@@ -1,0 +1,4 @@
+0 Gateway
+1 Proxy
+2 PSTN
+3 Other
