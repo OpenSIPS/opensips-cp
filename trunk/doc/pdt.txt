@@ -1,18 +1,21 @@
 
-Prefix 2 Domain Tool
---------------------
+Prefix 2 Domain Tool (pdt)
+------------------------------------
 
 
 Description 
------------
+---------------
 
 
 This tool translates a local domain into a foreign domain based on a numerical 
 prefix. 
 
+You can find  the pdt module documentation here : 
+(http://www.opensips.org/html/docs/modules/devel/pdt.html)
+
 
 Configuration
--------------
+-------------------
 
 
 
@@ -20,22 +23,29 @@ Configuration
 
 opensips-cp/config/tools/pdt/db.inc.php
 
-Attributes set in this file :
-username, password, database name, host and port for database server 
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
 
 * Local configuration file :  
 
 opensips-cp/config/tools/pdt/local.inc.php
 
 Attributes set in this file:
- database table names 
+
++ database table names 
++ the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers
 
 
 
 Usage and Features
-------------------
+--------------------------
 
 
-You have the ability to list, add, edit and delete entries. 
+You have the ability to list, add, edit and delete mappings between prefixes and domains. 
 The commands update the database and the cache of the SIP Servers automatically. 
 There is no explicit reload mechanism.

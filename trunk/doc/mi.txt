@@ -1,11 +1,11 @@
 
-MI Tool
--------
+MI Tool (mi)
+------------------
 
 
 
 Description 	
------------
+---------------
 
 
 
@@ -14,17 +14,23 @@ The tool offers the possibility to execute commands - via FIFO or XMLRPC -
 on the SIP servers  configured on the platform. 
 This is a form of low–level access to the server configuration. 
 
+you can find the MI modules documentation here : 
+http://www.opensips.org/html/docs/modules/devel/mi_xmlrpc.html
+http://www.opensips.org/html/docs/modules/devel/mi_fifo.html
+
 
 Configuration
--------------
+-------------------
 
-The tool connects to the machines configured in the global configuration file. 
+The tool connects to the machines configured in the global configuration file.
 (global.boxes.inc.php) 
 
+Example:
+$boxes[$box_id]['mi']['conn']="127.0.0.1:8080";
 
 
 Usage and Features
-------------------
+--------------------------
 
 
 The tool presents an input box for commands. 

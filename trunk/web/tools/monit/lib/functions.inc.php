@@ -219,12 +219,13 @@ function get_priv()
 	else {
 		$available_tabs = explode(",", $_SESSION['user_tabs']);
 		$available_priv = explode(",", $_SESSION['user_priv']);
-		$key = array_search("scontroller", $available_tabs);
+		$key = array_search("monit", $available_tabs);
 		if ($available_priv[$key]=="read-only") $_SESSION['read_only'] = true;
 		if ($available_priv[$key]=="read-write") $_SESSION['read_only'] = false;
 	}
 	return;
 }
+
 
 function monit_html_replace($page){
 	global $refresh_timeout;

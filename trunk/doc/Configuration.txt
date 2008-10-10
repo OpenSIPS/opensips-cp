@@ -1,5 +1,5 @@
 OpenSIPS Control Panel (OCP) Configuration Guide 
-------------------------------------------------
+------------------------------------------------------------------------
 
 
 This file shows information about the configuration of the OPENSIPS-CP.
@@ -18,14 +18,15 @@ This file is structured as follows :
 
 
 1. Global Configuration Files Description
------------------------------------------
+-------------------------------------------------------
 
 
-All configuration files are situated in the `config` directory .
+All configuration files are situated in a separated  directory  `opensips-cp/config`.
+
 
 
 access.inc.php 
---------------
+-------------------
 
 
 this file configures user/admin access to the opensips control panel .
@@ -59,9 +60,9 @@ $admin[1] = array(
 
 
 local.inc.php 
--------------
+-----------------
 
-This file contains some text variables which do not change very often.
+This file contains some text constatnts which do not change very often.
 It basically looks like this:
 
 $login_page_title = "OpenSIPS Control Panel - Login Page";
@@ -78,12 +79,11 @@ $copyright = "Copyright &copy; 2004 - 2008 Voice System";
 
 
 boxes.global.inc.php 
---------------------
+----------------------------
 
-For an easy deployment of the opensips control panel , 
+For an easy deployment of the Opensips Control Panel , 
 the "boxes.global.inc.php" file has been developed. The ideea was to keep the 
 data that changes more often in this file. 
-
 
 
 
@@ -92,94 +92,57 @@ Each machine has an unique identification number ($box_id) .
 
 
 Description of the associative arrays in the file:
---------------------------------------------------
 
 
-You must configure the IP address of the MI connector of opensips through this 
-array. it can be a host:port pair (ex: 127.0.0.1:8080 ) or a fifo file 
-(/tmp/opensips_fifo)
+//You must configure the IP address of the MI connector of opensips through this 
+//array. it can be a host:port pair (ex: 127.0.0.1:8080 ) or a fifo file 
+//(/tmp/opensips_fifo)
+//If the machine does not have a MI you can leave this  blank. 
 
 $boxes[$box_id]['mi']['conn']="127.0.0.1:8080";
 
-You must configure the IP address of monit through this array:
+//You must configure the IP address of monit through this array:
+//the next three variables are somewhat self explained.
 
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
 $boxes[$box_id]['monit']['user']="monit_user";
 $boxes[$box_id]['monit']['pass']="monit_pass";
+
+//the monit tool can connect to a monit server over a ssl connection. 
+//set 1 here if monit has ssl, otherwise put 0.
+
 $boxes[$box_id]['monit']['has_ssl']=1;
 
-you must configure the IP address of servers through this array:
-
-
-// text description of server 
-$boxes[$box_id]['scontroller']['server_name']="Sip Server"; 
-
-// IP and port of the ssh server
-$boxes[$box_id]['scontroller']['conn']="192.168.2.1:22"; 
-
-// user of the connection 
-$boxes[$box_id]['scontroller']['user']="root"; 
- 
- // the path to the VRRP start script 
-$boxes[$box_id]['scontroller']['file1']="/etc/init.d/vrrpd1";
-
-// the path to the VRRP start script 
-$boxes[$box_id]['scontroller']['file2']="/etc/init.d/vrrpd2"; 
-
-// an array of commands and their text description
-$boxes[$box_id]['scontroller']['comm']= array( array("Interfaces Configuration",
-"ifconfig")); 
-
-			
-the text description of the box as it will appear in mi and monit modules 
+		
+//the text description of the box as it will show in mi and monit tools 
 $boxes[$box_id]['desc']="Primary SIP server";
 
-$boxes[$box_id]['assoc_id']=1; // the association ID of this machine. 
-It is ment to select the system this machine is part of. 
-If two machines are in the same system , they must have the same `assoc_id`. 
+// the association ID of this machine. 
+//It is ment to select the system this machine is part of. 
+//If two machines are in the same system , they must have the same `assoc_id`. 
+
+// This is  a very important parameter . Some of the tools are designed to talk certain type of servers 
+// (there can be multiple servers of the same type)
+// Servers of the same type have same assoc_id - the tools will use this to identify which are the OpenSIPS servers 
+// (typically for MI interaction)
+// the tools that check this variable are:
+// -  drouting
+// -  dialplan 
+// -  siptrace
+// -  pdt
+// -  domains 
+// The so called `assoc_id` which marks the machines the tools talk to is set in the local.inc.php config file (for each tool)
+
+$boxes[$box_id]['assoc_id']=1; 
+
+
 
 Don't forget to increment the $box_id variable as you add boxes to this array.
 
 
 
----------------------------
-
-SYSTEMS configuration 
-
-
-$_system_id=0; // the unique id  of the system 
-
-// The name of the system as it will appear in the scontroller module  
-$systems[$_system_id]['name']="SIP Servers"; 
-
-// a text description of the cluster as it will appear in the scontroller module
-$systems[$_system_id]['desc']="OpenSIPS SIP server cluster"; 
-
-//boxes with this assoc_id are assigned to this system
-
-$systems[$_system_id]['assoc_id']=1;
-
-// 1= sip proxies pair , 2 = databases , 3 = media servers , etc..
-$systems[$_system_id]['system_type_id']=1;
-
-// high availability : 1 = master/slave , 2= master/master
-
-// The HA (high availibilty) mode of the system 
-$systems[$_system_id]['ha']=2 ; 
-
-// the first virtual private address of the system 
-$systems[$_system_id]['vip1']='192.168.2.200' ;  
-
-
-// if ha == 1 then vip2 is ignored
-// the second virtual private address of the system 
-$systems[$_system_id]['vip2']='192.168.2.201' ; 
-
-
-
-
 2. Local Configuration Files Description
-----------------------------------------
+-----------------------------------------------------
 
 
 
@@ -190,18 +153,40 @@ These files are :
 
 * opensips-cp/config/tools/_tool_name_/db.inc.php 
 
+The variables in this file are somewhat self 
+explanatory.You must set up the mysql connection data through this file. 
+
+All db.inc.php files look the same , like this : 
+
+//database host
+ $config->db_host = "localhost";
+
+ //database port - leave empty for default
+ $config->db_port = "";
+
+ //database connection user
+ $config->db_user = "root";
+
+ //database connection password
+ $config->db_pass = "mysql";
+
+ //database name
+ $config->db_name = "opensips";
+
+
+Not all the tools require access to the database but every tool that uses the 
+database has its own database configuration file.  
+
+
+
 * opensips-cp/config/tools/_tool_name_/local.inc.php
 
+The tools have also a `local` configuration file where configuration variables
+specific for each tool are kept.
 
 
-
-Not all the tools require access to the database but every module that uses the 
-database has its own database configuration file.  
-It may have also a local configuration file.
-
-
-cdrviewer module
-----------------
+cdrviewer tool configuration
+---------------------------------------
 
 
 opensips-cp/config/tools/cdrviewer/db.inc.php  - The variables in this file are somewhat self 
@@ -246,15 +231,15 @@ $cdr_set_field_names = 1 ;
 
 			    
 
-// the delay with whom the cron script will extract the records from the 
+// the delay the cron script will extract the records from the 
 database , defaults to one hour . 
 $delay=3600 ; 
 
 
 
 
-dialplan module 
----------------
+dialplan tool configuration
+------------------------------------
 
 
 * opensips-cp/tools/dialplan/db.inc.php
@@ -263,9 +248,14 @@ You must set up the mysql connection data through this file.
 * opensips-cp/tools/dialplan/local.inc.php
 Attributes like database table name, results per page are set in this file
 
+// the assoc_id - must point to the type of machines which are OpenSIPS servers
+$talk_to_this_assoc_id = 1 ; 
+(see global.boxes.inc.php)
 
-domains module
---------------
+
+
+domains tool configuration
+------------------------------------
 
 * opensips-cp/config/tools/dialplan/db.inc.php
 You must set up the mysql connection data through this file. 
@@ -274,26 +264,47 @@ You must set up the mysql connection data through this file.
 
 The table name is set in this file. 
 
+// the assoc_id - must point to the type of machines which are OpenSIPS servers
+$talk_to_this_assoc_id = 1 ; 
+(see global.boxes.inc.php)
 
-mi module
----------
+drouting  tool configuration
+------------------------------------
+
+* opensips-cp/config/tools/drouting/db.inc.php
+You must set up the mysql connection data through this file. 
+
+* opensips-cp/config/tools/drouting/local.inc.php 
+
+The table name is set in this file. 
+
+// the assoc_id - must point to the type of machines which are OpenSIPS servers
+$talk_to_this_assoc_id = 1 ; 
+(see global.boxes.inc.php)
+
+
+
+
+
+mi tool configuration
+---------------------------------
 
 * opensips-cp/config/tools/mi/local.inc.php
 
 
-monit module
-------------
+
+monit tool configuration
+--------------------------------------
 
 
 * opensips-cp/config/tools/monit/local.inc.php
 
-$refresh_timeout - the refresh timeout for monit - a monit page will reload in
-$refresh_timeout seconds . 
+$refresh_timeout - the refresh timeout for monit - a monit page will reload in this seconds 
 
 
 
-pdt module
-----------
+pdt tool configuration
+-----------------------------------
 
 
 * opensips-cp/config/tools/pdt/db.inc.php
@@ -301,24 +312,27 @@ You must set up the mysql connection data through this file.
 
 * opensips-cp/config/tools/pdt/local.inc.php
 
+// the assoc_id - must point to the type of machines which are OpenSIPS servers
+$talk_to_this_assoc_id = 1 ; 
+(see global.boxes.inc.php)
 
 
-siptrace module 
----------------
+siptrace tool  configuration
+------------------------------------------
 
-* opensips-cp/config/tools/siptrace/db.inc.php
+* opensips-cp/config/tools/pdt/db.inc.php
 You must set up the mysql connection data through this file. 
+
 
 * opensips-cp/config/tools/siptrace/local.inc.php
 
 
-// the assoc_id (which selects the system this module will talk to)
+// the assoc_id - must point to the type of machines which are OpenSIPS servers
 $talk_to_this_assoc_id = 1 ; 
-
+(see global.boxes.inc.php)
 
 
 $proxy_list = an array containing the sip proxies which are going to be used
 for identifying the SIP dialog. 
 
 example:  $proxy_list=array("udp:192.168.2.134:5060","udp:127.0.0.1:5060");
-
