@@ -1,38 +1,46 @@
 
-SIPTrace Tool
--------------
-
+SIPTrace Tool (siptrace)
+---------------------------------
 
 Description 	
------------
+---------------
 
 
-The SIPTrace tool offers the ability to trace the SIP messages between two 
-subscribers in  real time.   
-The tool will log all the SIP messages into the database and present them to 
-the user for further analysis.
-the siptrace module must be enabled in opensips.
-
-
+The siptrace tool uses the info provided by the OpenSIPS siptrace module and shows it on the page in a nice graphical way.
+You can find  the siptrace module documentation here : 
+http://www.opensips.org/html/docs/modules/devel/siptrace.html
 
 
 Configuration
--------------
+------------------
 
 
 * Database layer configuration file : 
 opensips-cp/config/tools/siptrace/db.inc.php
 
-Attributes like username, password, database name, host and port for database 
-server are set in this file.
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
 
 * Local configuration  file : 
+
 opensips-cp/config/tools/siptrace/local.inc.php
 
 Attributes set in this file : 
 
 + database table name  
 + the `results per page` variable is set in this file (how many records to be 
-seen on a single page - pagination )
+seen on a single page , pagination )
 + a list of  IP addresses and ports to be recognized as proxies - you must 
 provide at least one entry .
+
+Usage and Features 
+---------------------------
+
+
+The tool presents the info from the  siptrace table  in a nice graphical way .

@@ -1,11 +1,11 @@
 
 
-Monit Tool
-----------
+Monit Tool (monit)
+---------------------------
 
 
 Description 	
------------
+---------------
 
 
 MONIT is a monitoring server (see http://www.tildeslash.com/monit ). 
@@ -16,16 +16,20 @@ monitored.
 
 
 Global Configuration
---------------------
-
+-----------------------------
 
 
 The Monit tool uses data from the global configuration file  
 (global.boxes.inc.php) .
 
+$boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
+$boxes[$box_id]['monit']['user']="admin";
+$boxes[$box_id]['monit']['pass']="pass";
+$boxes[$box_id]['monit']['has_ssl']=1;
+
 
 Database Configuration File
----------------------------
+--------------------------------------
 
 
 This tool does not have a database configuration file.
@@ -33,7 +37,7 @@ This tool does not have a database configuration file.
 
 
 Local Configuration File 
-------------------------
+--------------------------------
 
 
 
@@ -43,7 +47,7 @@ The refresh time is configurable in the local configuration file
 
 
 Usage and Features 
-------------------
+---------------------------
 
 The tool has a drop down box with pre-configured machines
 to easily switch between  MONIT servers. 

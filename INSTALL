@@ -7,7 +7,6 @@ You will need apache , php and a mysql server for OCP to work.
 Apache
 ------
 
-
 You need to add this entry in your httpd.conf (or apache.conf) :
 
 Alias /cp /var/www/opensips-cp/web
@@ -16,7 +15,6 @@ Alias /cp /var/www/opensips-cp/web
 
 If you want to use another webserver , note the OCP has been tested only 
 on apache and lighthttpd.
-
 
 
 
@@ -35,9 +33,64 @@ The MySQL support  and  XMLRPC support in PHP must be enabled.
 MySQL server 
 ------------
 
-MySQL v4.1+ must be installed to create the opensips database. 
 The OpenSIPS Control Panel can connect to a remote database server, 
 so the MySQL server can be used from the SIP Server machine or another 
 machine in the network.
 
 
+
+* MySQL v4.1+ must be installed .
+
+* You will need the opensips database schema from the opensips distribution 
+(OCP is made for it)
+
+
+* Additional steps:
+
+    * for cdrviewer module : you must add a table and a stored procedure to the opensips database.
+     
+	1 . install the cdr table schema cdrs.sql 
+	(opensips-cp/web/tools/cdrviewer/cdrs.sql)
+	mysql -Dopensips_1_4 -p < cdrs.sql 
+
+	2. install opensips_cdrs_1_2.sql a mysql stored procedure that generates cdrs
+	from the acc table 
+	
+	mysql -Dopensips_1_4 -p < opensips_cdrs_1_4.sql     
+	
+	3. edit the cron_job/generate-cdrs.sh file and change there the mysql connection data
+	(hostname,username,password,and database)
+	
+	4. you will need to call this procedure from cron at an arbitrary interval.
+	here's a cron entry for a 3 minutes interval:
+	
+	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs.sh
+	
+	
+	
+	
+	
+	
+	
+	
+    * for the smonitor module : you must add two tables to the opensips database .
+    
+	- install the monitored_stats.sql and monitoring_stats.sql tables
+	you will find them in 
+	opensips-cp/web/tools/cdrviewer/monitored_stats.sql	
+	and 
+	opensips-cp/web/tools/cdrviewer/monitoring_stats.sql	
+	
+	
+    
+	- add a cron job that collects data from the opensips machine(s)
+	here's a cron job that collects data at one minute interval:
+	(note this interval is not arbitrary , it must be set at 1 minute interval , so is the smonitor tool designed )
+	
+	* * * * *   root   php /var/www/opensips-cp/cron_job/get_openser_stats.php > /dev/null
+	
+ 
+	
+	
+	
+	

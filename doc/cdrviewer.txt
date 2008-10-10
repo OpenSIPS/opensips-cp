@@ -1,23 +1,29 @@
 
 CDRviewer Tool
---------------
+----------------------
 
 Description
------------
+----------------
 
 It shows Call Detail Records(CDRs) from the database. You have the possibility 
 to filter CDRs and to export CDRs in csv (comma-separated values) files. 
 
 Configuration
--------------
+-------------------
 
 
 * Database layer configuration file: 
 
 opensips-cp/config/tools/cdrviewer/db.inc.php
 
-Attributes like username, password, database name, host and port for database
-server are set in this file.
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
 
 * Local configuration file :  
 opensips-cp/config/tools/cdrviewer/local.inc.php
@@ -43,8 +49,7 @@ $show_field[index]['database_field_name'] = "Field Description | Field_Type";
 
 “Field Description”  is the column description that will be displayed.
 
-“Field_Type” must be  “int”  or “string”, depending on the type of the record 
-			 in the database. 
+“Field_Type” must be  “int”  or “string”, depending on the type of the record  in the database. 
 
 
 $export_csv
@@ -62,15 +67,16 @@ tools might be  configured to work on this file.
 
 
 Usage and Features
+---------------------------
 
 You can search by any field and use a wildcard 
 ( '%' - matches a set of characters ). 
 The filters  “CDR Field”, “Start Date”, “End Date” can be  applied in parallel. 
 With the help of this tool you can export CDR records in a csv file.
-The filters applied on search are working on the exported CDRs as well, so it 
+The filters applied on "Search" are working on the exported CDRs as well, so it 
 exports what is displayed. 
 When the “Export” button is pressed a download pop-up will show in your browser.  
-Also, you have the ability to jump to SIP traces of the call if such records 
+There is a feature to jump to SIP traces of the call if such records 
 exist (see SIPTrace module). 
 The correlation between CDRs and the SIPTrace tool is done following the 
-`call_id` field which is common for both types of records.
+`call_id` field which is common for both cdrs and siptrace tables .
