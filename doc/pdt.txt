@@ -6,12 +6,11 @@ Prefix 2 Domain Tool (pdt)
 Description 
 ---------------
 
-
-This tool translates a local domain into a foreign domain based on a numerical 
-prefix. 
+This tool provisions (add, delete, edit) the prefix-to-domain mappings used by the PDT module 
+(translates a local domain into a foreign domain based on a numerical prefix).
 
 You can find  the pdt module documentation here : 
-(http://www.opensips.org/html/docs/modules/devel/pdt.html)
+(http://www.opensips.org/html/docs/modules/1.4.x/pdt.html)
 
 
 Configuration
@@ -38,7 +37,8 @@ opensips-cp/config/tools/pdt/local.inc.php
 Attributes set in this file:
 
 + database table names 
-+ the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers
++ the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
+trigger the MI command).
 
 
 
