@@ -11,12 +11,12 @@ Description
 
 MI stands for management interface.	
 The tool offers the possibility to execute commands - via FIFO or XMLRPC - 
-on the SIP servers  configured on the platform. 
-This is a form of low–level access to the server configuration. 
+on the OpenSIPS servers  configured on the platform. 
+This is a form of low–level access to the server management. 
 
 you can find the MI modules documentation here : 
-http://www.opensips.org/html/docs/modules/devel/mi_xmlrpc.html
-http://www.opensips.org/html/docs/modules/devel/mi_fifo.html
+http://www.opensips.org/html/docs/modules/1.4.x/mi_xmlrpc.html
+http://www.opensips.org/html/docs/modules/1.4.x/mi_fifo.html
 
 
 Configuration

@@ -9,8 +9,8 @@ Description
 
 
 MONIT is a monitoring server (see http://www.tildeslash.com/monit ). 
-The Monit tool connects to  web interfaces of MONIT servers configured  
-across the SIP platform and shows the status of machines and processes that are 
+The Monit tool is a centralized point of access  to the web interfaces of all MONIT servers 
+configured  across the SIP platform - it shows the status of machines and processes that are 
 monitored.
 
 

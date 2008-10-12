@@ -30,9 +30,9 @@ access.inc.php
 
 
 this file configures user/admin access to the opensips control panel .
-It contains an array that defines who can access resources of ocp , it features 
+It contains an array that defines who can access tools of ocp , it features 
 an ACL (access control list). You can have full access users to certain
-modules or only read-only users . Also, combinations between these two are 
+tools or only read-only users . Also, combinations between these two are 
 possible.
 
 
@@ -83,19 +83,20 @@ boxes.global.inc.php
 
 For an easy deployment of the Opensips Control Panel , 
 the "boxes.global.inc.php" file has been developed. The ideea was to keep the 
-data that changes more often in this file. 
+commonly used data (by multiple tools) in this file (to avoid data redundancy). 
 
+This file contains the descriptions of the boxes (servers) that form the platform
+provisioned/controlled by OpenSIPS Control Panel.
 
-
-You must set the IP addresses of the machines OCP works with through this file.
-Each machine has an unique identification number ($box_id) .
-
+Each machine has an unique identification number ($box_id)  - for each of  them,
+you must configure a set of properties, like the IP addresses of the machine, MI 
+interface, MONIT interface, etc
 
 Description of the associative arrays in the file:
 
 
 //You must configure the IP address of the MI connector of opensips through this 
-//array. it can be a host:port pair (ex: 127.0.0.1:8080 ) or a fifo file 
+//array. It can be a XMLRPC host:port pair (ex: 127.0.0.1:8080 ) or a fifo file 
 //(/tmp/opensips_fifo)
 //If the machine does not have a MI you can leave this  blank. 
 
@@ -147,7 +148,7 @@ Don't forget to increment the $box_id variable as you add boxes to this array.
 
 
 The local configuration files contain  database layer connection data  
-and  other attributes that are characteristic for each tool. 
+and  other attributes that are specific to each tool. 
 
 These files are : 
 
@@ -218,6 +219,7 @@ $sip_call_id_field_name='sip_call_id';
 
  
 $export_csv - this array defines  which fields from the table are to be exported
+
 using the daily export script
   
  
