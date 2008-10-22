@@ -44,4 +44,4 @@ Usage and Features:
 
 
 The user can list, add, edit and delete domains. When “Apply changes to server” 
-button is triggered the domains will be loaded from the database into opensips.
+button is triggered the domains will be loaded from the database into OpenSIPS.

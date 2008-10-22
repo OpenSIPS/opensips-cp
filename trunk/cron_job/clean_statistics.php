@@ -1,6 +1,6 @@
 <?php
 
-$openser_path="/var/www/openser-cp/";
+$openser_path="/var/www/opensips-cp/";
 require($openser_path."config/tools/smonitor/db.inc.php");
 require($openser_path."config/tools/smonitor/local.inc.php");
 require($openser_path."web/tools/smonitor/lib/functions.inc.php");
