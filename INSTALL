@@ -47,50 +47,43 @@ machine in the network.
 
 * Additional steps:
 
-    * for cdrviewer module : you must add a table and a stored procedure to the opensips database.
+    * for cdrviewer module : you must add a table and a stored procedure to the OpenSIPS database.
+
+     follow these steps:	
      
 	1 . install the cdr table schema cdrs.sql 
 	(opensips-cp/web/tools/cdrviewer/cdrs.sql)
 	mysql -Dopensips_1_4 -p < cdrs.sql 
 
-	2. install opensips_cdrs_1_2.sql a mysql stored procedure that generates cdrs
+	2. install opensips_cdrs_1_4.sql , a mysql stored procedure that generates cdrs
 	from the acc table 
 	
 	mysql -Dopensips_1_4 -p < opensips_cdrs_1_4.sql     
 	
-	3. edit the cron_job/generate-cdrs.sh file and change there the mysql connection data
-	(hostname,username,password,and database)
+	3. edit the cron_job/generate-cdrs.sh file and change the mysql connection data
+	(hostname,username,password and database)
 	
 	4. you will need to call this procedure from cron at an arbitrary interval.
 	here's a cron entry for a 3 minutes interval:
 	
 	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs.sh
+		
 	
-	
-	
-	
-	
-	
-	
-	
-    * for the smonitor module : you must add two tables to the opensips database .
+    * For the smonitor module : you must add two tables to the OpenSIPS database .
+
+       follow these steps:	
     
-	- install the monitored_stats.sql and monitoring_stats.sql tables
-	you will find them in 
+	1. Install the monitored_stats.sql and monitoring_stats.sql tables
+	You will find them in :
 	opensips-cp/web/tools/cdrviewer/monitored_stats.sql	
 	and 
 	opensips-cp/web/tools/cdrviewer/monitoring_stats.sql	
 	
 	
     
-	- add a cron job that collects data from the opensips machine(s)
-	here's a cron job that collects data at one minute interval:
-	(note this interval is not arbitrary , it must be set at 1 minute interval , so is the smonitor tool designed )
+	2. Add a cron job that collects data from the opensips machine(s).
+	Here's a cron job that collects data at one minute interval:
+	(This interval is not arbitrary , it must be set at 1 minute interval , so is the smonitor tool designed )
 	
 	* * * * *   root   php /var/www/opensips-cp/cron_job/get_openser_stats.php > /dev/null
-	
- 
-	
-	
-	
 	

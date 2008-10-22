@@ -1,0 +1,63 @@
+
+
+Cron Jobs in OpenSIPS Control Panel
+
+
+
+
+there are 4 cron jobs in opensips-cp/cron_job :
+
+
+
+* cdr_export.php 
+* get_openser_stats.php
+* clean_statistics.php
+* generate-cdrs.sh
+
+
+Their usage is documented further in this file.
+
+
+
+cdr_export.php 
+--------------
+
+
+This program extracts cdr records from the database and  writes them to 
+csv files in a pre-configured directory. 
+
+
+For configuration,it uses data from cdrviewer tool config files (db.inc.php 
+and local.inc.php).
+
+
+
+get_openser_stats.php
+---------------------
+
+This program gathers data for the smonitor tool and inserts it to a database.
+
+For configuration, it uses data from smonitor tool config files (db.inc.php 
+and local.inc.php).
+
+
+
+clean_statistics.php
+--------------------
+
+
+This program is for smonitor tool as well. It cleans out statistics.
+older than a pre-configured time period. 
+
+
+For configuration,it uses data from smonitor tool config files (db.inc.php 
+and local.inc.php).
+
+
+
+
+generate-cdrs.sh
+----------------
+
+This script calls the stored procedure that generates CDRs.
+You must edit the script and change the mysql connection data accordingly.

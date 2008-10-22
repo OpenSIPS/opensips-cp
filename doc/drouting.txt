@@ -32,8 +32,8 @@ opensips-cp/config/tools/drouting/local.inc.php
 + database table name  
 + the `results per page` variable is set in this file (how many records to be 
 seen on a single page , pagination )
-+ the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
-trigger the reload command via MI)
++ the $talk_to_this_assoc_id variable - must point to the type of machines which 
+are OpenSIPS servers (to trigger the reload command via MI)
 
 
 Usage and Features
@@ -42,7 +42,7 @@ Usage and Features
 
 The tool features three tabs :  Gateways , Rules and Settings .
 When “Apply changes to server” button is triggered the routing configuration 
-will be loaded into opensips.
+will be loaded into OpenSIPS.
 
 NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to 
 do “Apply Changes to Server”

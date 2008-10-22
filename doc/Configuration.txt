@@ -122,7 +122,7 @@ $boxes[$box_id]['desc']="Primary SIP server";
 //It is ment to select the system this machine is part of. 
 //If two machines are in the same system , they must have the same `assoc_id`. 
 
-// This is  a very important parameter . Some of the tools are designed to talk certain type of servers 
+// This is  a very important parameter . Some of the tools are designed to talk to certain type of servers 
 // (there can be multiple servers of the same type)
 // Servers of the same type have same assoc_id - the tools will use this to identify which are the OpenSIPS servers 
 // (typically for MI interaction)
@@ -132,7 +132,8 @@ $boxes[$box_id]['desc']="Primary SIP server";
 // -  siptrace
 // -  pdt
 // -  domains 
-// The so called `assoc_id` which marks the machines the tools talk to is set in the local.inc.php config file (for each tool)
+// The so called `assoc_id` which marks the machines the tools talk to is set in the 
+// local.inc.php config file (for each tool)
 
 $boxes[$box_id]['assoc_id']=1; 
 
@@ -334,7 +335,7 @@ $talk_to_this_assoc_id = 1 ;
 (see global.boxes.inc.php)
 
 
-$proxy_list = an array containing the sip proxies which are going to be used
+$proxy_list - an array containing the sip proxies which are going to be used
 for identifying the SIP dialog. 
 
 example:  $proxy_list=array("udp:192.168.2.134:5060","udp:127.0.0.1:5060");
