@@ -10,7 +10,7 @@ there are 4 cron jobs in opensips-cp/cron_job :
 
 
 * cdr_export.php 
-* get_openser_stats.php
+* get_opensips_stats.php
 * clean_statistics.php
 * generate-cdrs.sh
 
@@ -32,7 +32,7 @@ and local.inc.php).
 
 
 
-get_openser_stats.php
+get_opensips_stats.php
 ---------------------
 
 This program gathers data for the smonitor tool and inserts it to a database.

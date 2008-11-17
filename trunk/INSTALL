@@ -85,5 +85,5 @@ machine in the network.
 	Here's a cron job that collects data at one minute interval:
 	(This interval is not arbitrary , it must be set at 1 minute interval , so is the smonitor tool designed )
 	
-	* * * * *   root   php /var/www/opensips-cp/cron_job/get_openser_stats.php > /dev/null
+	* * * * *   root   php /var/www/opensips-cp/cron_job/get_opensips_stats.php > /dev/null
 	

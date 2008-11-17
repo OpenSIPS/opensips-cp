@@ -206,7 +206,7 @@ function clean_stats_table()
 function inspect_config_mi(){
 
 global $config_type ; 
-global $openser_boxes ; 
+global $opensips_boxes ; 
 global $box_count ; 
 
 $a=0; $b=0 ; 
