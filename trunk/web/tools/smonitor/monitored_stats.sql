@@ -33,7 +33,7 @@ CREATE TABLE `monitored_stats` (
 
 LOCK TABLES `monitored_stats` WRITE;
 /*!40000 ALTER TABLE `monitored_stats` DISABLE KEYS */;
-INSERT INTO `monitored_stats` VALUES ('sampling_time','5',0),('chart_size','700',0),('chart_history','auto',0),('dialog:activedialogs','',0),('shmem:real_used_size','',0),('sl','',0),('tm:inuse_transactions','',0),('msilo','',0),('usrloc:location-users','',0),('usrloc:location-contacts','',0),('shmem:max_used_size','',0);
+INSERT INTO `monitored_stats` VALUES ('sampling_time','5',0),('chart_size','700',0),('chart_history','auto',0),('dialog:activedialogs','',0),('shmem:real_used_size','',0),('tm:inuse_transactions','',0),('usrloc:location-users','',0),('usrloc:location-contacts','',0),('shmem:max_used_size','',0);
 /*!40000 ALTER TABLE `monitored_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
