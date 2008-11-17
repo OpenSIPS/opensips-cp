@@ -1,11 +1,11 @@
 <?php
 
-$openser_path="/var/www/opensips-cp/";
-require($openser_path."config/tools/smonitor/db.inc.php");
-require($openser_path."config/tools/smonitor/local.inc.php");
-require($openser_path."web/tools/smonitor/lib/functions.inc.php");
-require($openser_path."web/common/mi_comm.php");
-require($openser_path."config/boxes.global.inc.php");
+$opensips_path="/var/www/opensips-cp/";
+require($opensips_path."config/tools/smonitor/db.inc.php");
+require($opensips_path."config/tools/smonitor/local.inc.php");
+require($opensips_path."web/tools/smonitor/lib/functions.inc.php");
+require($opensips_path."web/common/mi_comm.php");
+require($opensips_path."config/boxes.global.inc.php");
 
 
 $box_id=0;

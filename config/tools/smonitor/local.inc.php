@@ -9,7 +9,7 @@
 ###############################################################################
 # Attention : advanced options !!
 
- $config->fifo_server = "/tmp/openser_fifo";
+ $config->fifo_server = "/tmp/opensips_fifo";
  $config->reply_fifo_filename = "webfifo_".rand();
  $config->reply_fifo_path = "/tmp/".$config->reply_fifo_filename;
 
