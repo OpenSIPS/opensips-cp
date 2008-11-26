@@ -9,12 +9,14 @@ backend.
 
 
 
-OpenSIPS Control Panel currently features 7 modules:
+OpenSIPS Control Panel currently features 9 modules:
 
 
 cdrviewer - allows cdr search and listing 
 
 dialplan  - the user can easily operate changes in OpenSIPS's dialplan domains
+
+drouting - tool used for provisioning the drouting module of OpenSIPS
 
 domains  - handy tool for adding / deleting domains 
 
@@ -26,7 +28,7 @@ pdt  -  `prefix to domain` editing tool
 
 siptrace   -  this an interface with the siptrace engine of OpenSIPS
 
-
+smonitor - tool to monitor the internals of OpenSIPS . It shows nice graphs.
 
 
 
