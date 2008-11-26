@@ -2,8 +2,6 @@ CREATE TABLE `cdrs` (
   `cdr_id` bigint(20) NOT NULL auto_increment,
   `call_start_time` datetime NOT NULL default '0000-00-00 00:00:00',
   `duration` int(10) unsigned NOT NULL default '0',
-  `src_uri` varchar(128) NOT NULL default '',
-  `dst_uri` varchar(128) NOT NULL default '',
   `leg_status` varchar(32) NOT NULL default '',
   `sip_call_id` varchar(128) NOT NULL default '',
   `sip_from_tag` varchar(128) NOT NULL default '',
@@ -14,8 +12,8 @@ CREATE TABLE `cdrs` (
   `leg_transition` varchar(32) NOT NULL default '',
   `caller_id` varchar(32) NOT NULL default '',
   `callee_id` varchar(32) NOT NULL default '',
-  `in_gw` varchar(15) default ' ',
-  `cdr_cost` int(11) NOT NULL default '0',
-  `cdr_type` int(11) NOT NULL default '0',
+  `destination` varchar(64) NOT NULL default '',
   PRIMARY KEY  (`cdr_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3152438 DEFAULT CHARSET=latin1
+) ENGINE=MyISAM AUTO_INCREMENT=1332970 DEFAULT CHARSET=latin1 ;
+
+
