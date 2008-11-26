@@ -40,12 +40,13 @@
  $config->cseq_color="white";	   $config->cseq_bgcolor="navy";
  $config->regexp_color="navy";   $config->regexp_bgcolor="red";
  
+ 
  // what fields to show  
- $show_field[0]['src_username'] = "Source Username" ; 
- $show_field[1]['src_domain'] = "Source Domain" ; 
- $show_field[2]['destination'] = "Destination" ; 
- $show_field[3]['call_start_time'] = "Call Start Time";
- $show_field[4]['duration'] = "Duration"; 
+ $show_field[0]['caller_id'] = "Caller" ; 
+ $show_field[1]['callee_id'] = "Callee" ; 
+ $show_field[2]['call_start_time'] = "Call Start Time";
+ $show_field[3]['duration'] = "Duration"; 
+ $show_field[4]['leg_type'] = "Leg Type"; 
  
  
 /*  
@@ -63,11 +64,18 @@
 
 
  // what fields to export (cron job)
- $export_csv[0]['src_username'] = "Source Username" ; 
- $export_csv[1]['src_domain'] =  "Source Domain" ; 
- $export_csv[2]['destination'] = "Destination" ; 
- $export_csv[3]['call_start_time'] = "Call Start Time";
- $export_csv[4]['duration'] = "Duration"; 
+ $export_csv[0]['cdr_id'] = "CDR ID" ;
+ $export_csv[1]['call_start_time'] = "Call Start Time";
+ $export_csv[2]['duration'] = "Duration"; 
+ $export_csv[3]['sip_call_id'] = "SIP callid"; 
+ $export_csv[4]['sip_from_tag'] = "SIP fromTag"; 
+ $export_csv[5]['sip_to_tag'] = "SIP toTag"; 
+ $export_csv[6]['leg_status'] = "LEG status" ;
+ $export_csv[7]['leg_type'] = "LEG type" ;
+ $export_csv[8]['leg_transition'] = "LEG transition" ;
+ $export_csv[9]['caller_id'] = "Caller" ; 
+ $export_csv[10]['callee_id'] =  "Callee" ; 
+ $export_csv[11]['destination'] = "Destination" ; 
 
  
 /* 
@@ -81,12 +89,15 @@
 */ 
  
  // where to dump the files (cron job)
+ 
+ 
+ // where to dump the files (cron job)
  $cdr_repository_path = '/var/lib/opensips_cdrs' ; 
 
 //  field description in csv file (cron job) ; 
 //	1 == on ,  0 == off
  $cdr_set_field_names = 1 ;
 
-  $delay=3600 ; 
+ $delay=3600 ; 
  
 ?>
