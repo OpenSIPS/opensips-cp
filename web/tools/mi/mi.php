@@ -22,6 +22,7 @@
 */
 
 require("../../common/mi_comm.php");
+require("../../../config/tools/mi/local.inc.php");
 require("lib/functions.inc.php");
 
 session_start();
