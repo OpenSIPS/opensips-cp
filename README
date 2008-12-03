@@ -24,7 +24,7 @@ mi -  the user can issue commands to opensips via xmlrpc/fifo interface
 
 monit  - an interface which integrates the `monit` monitoring tool 
 
-pdt  -  `prefix to domain` editing tool 
+pdt  -  tool provisions (add, delete, edit) the prefix-to-domain mappings used by the PDT module
 
 siptrace   -  this an interface with the siptrace engine of OpenSIPS
 

@@ -55,4 +55,4 @@ with the selected one.
 OpenSIPS instantaneously.
 
 NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to 
-do “Apply Changes to Server”
+click on  “Apply Changes to Server” button.

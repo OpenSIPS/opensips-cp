@@ -10,7 +10,7 @@ Description
 The Domains tool is used to perform modifications in OpenSIPS's local domain list 
 in real time. The domain names are kept in a database and they can be re-loaded 
 into OpenSIPS at any moment.
-You can find the  domains module documentation here: 
+You can find the domains OpenSIPS module documentation here: 
 http://www.opensips.org/html/docs/modules/1.4.x/domain.html
 
 
@@ -43,5 +43,5 @@ Usage and Features:
 
 
 
-The user can list, add, edit and delete domains. When “Apply changes to server” 
+You can list, add, edit and delete domains. When “Apply changes to server” 
 button is triggered the domains will be loaded from the database into OpenSIPS.
