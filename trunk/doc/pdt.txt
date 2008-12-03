@@ -46,6 +46,6 @@ Usage and Features
 --------------------------
 
 
-You have the ability to list, add, edit and delete mappings between prefixes and domains. 
+You can list, add, edit and delete mappings between prefixes and domains. 
 The commands update the database and the cache of the SIP Servers automatically. 
 There is no explicit reload mechanism.

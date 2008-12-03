@@ -3,8 +3,8 @@ OpenSIPS Control Panel (OCP) Installation Guide
 
 
 OCP was tested and developed mostly on Debian Linux , but of course it works
-with other linux distros as well. I emphasise that because some of the paths 
-and commands in this INSTALL guide might be debian specific.   
+with other Linux distros as well. Some of the paths and commands in this INSTALL 
+guide might be debian specific.   
 
 
 
@@ -27,8 +27,8 @@ on apache and lighthttpd.
 
 chown www-data.www-data /var/www/opensips-cp/config/access.log
 
-You might be not running debian , so check out the user and the group apache is
-running on .
+You might be not running debian, so check out the user and the group apache is
+running on (I believe www-data is debian specific).
 
 
 
@@ -62,8 +62,8 @@ machine in the network.
 
 
 
-* MySQL v4.1+ must be installed . If you plan to use the the cdrviewer tool you will need Mysql5. 
-The cdrviewer tool uses a mysql stored procedure, and there is no stored procedures support into Mysql4.
+* MySQL v4.1+ must be installed . If you plan to use the the cdrviewer tool you will need Mysql 5. 
+The cdrviewer tool uses a mysql stored procedure, and there is no stored procedures support into Mysql 4.
 
 
 * You will need the opensips database schema from the opensips distribution. (www.opensips.org) 
@@ -116,4 +116,8 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 	(This interval is not arbitrary , it must be set at 1 minute , so is the smonitor tool designed )
 	
 	* * * * *   root   php /var/www/opensips-cp/cron_job/get_opensips_stats.php > /dev/null
+	
+	
+	The cron jobs do not need to run as root, you might want to change the user.
+	
 	

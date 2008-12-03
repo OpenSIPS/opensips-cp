@@ -40,6 +40,7 @@ meaning of these variables.
 
 
 $show_field
+===========
 
 This array controls which fields from the database are to be  displayed.  
 The order in which the fields are placed in the csv file can be established  by 
@@ -53,16 +54,18 @@ $show_field[index]['database_field_name'] = "Field Description | Field_Type";
 
 
 $export_csv
+===========
 
 This array is used only by the cdr_exporter.php script which is a command-line 
 script meant to export cdr records from the database into csv files. 
-(The inner workings of this script are detailed in a different file) 
+
 $export_csv[index]['database_field_name'] = "Field Description";
+
 The order in which the fields are placed in the csv file can be established  by 
 modifying the array index.  
 “Field Description” ($export_csv)  is the column description that will show in 
 the exported csv file.
-The presence of field description in the csv files is optional because automated
+The presence of the field description in the csv files is optional because automated
 tools might be  configured to work on this file.
 
 
@@ -79,4 +82,4 @@ When the “Export” button is pressed a download pop-up will show in your brow
 There is a feature to jump to SIP traces of the call if such records 
 exist (see SIPTrace module). 
 The correlation between CDRs and the SIPTrace tool is done following the 
-`call_id` field which is common for both cdrs and siptrace tables .
+`call_id` field which is common for both `cdrs` and `siptrace` tables .
