@@ -29,4 +29,8 @@
  // whats the id of the `system` ?  
  $talk_to_this_assoc_id = 1 ;
 
+ $config->reply_fifo_filename="webfifo_".rand();
+ $config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
+
+ 
 ?>
