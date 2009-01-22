@@ -16,7 +16,7 @@
  $config->db_pass = "mysql";
  
  //database name
- $config->db_name = "openser";
+ $config->db_name = "opensips";
  
  if ($config->db_port != "") $config->db_host = $config->db_host . ":" . $config->db_port;
  
