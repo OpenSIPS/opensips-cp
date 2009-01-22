@@ -1,6 +1,6 @@
 -- MySQL dump 10.11
 --
--- Host: localhost    Database: openser
+-- Host: localhost    Database: opensips
 -- ------------------------------------------------------
 -- Server version	5.0.32-Debian_7-log
 

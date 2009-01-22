@@ -1,4 +1,4 @@
-USE openser;
+USE opensips;
 CREATE TABLE IF NOT EXISTS dr_gateways (
 	`gwid` integer auto_increment,
 	`type` int(11) NOT NULL default '0',

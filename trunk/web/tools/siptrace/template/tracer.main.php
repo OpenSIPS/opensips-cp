@@ -78,9 +78,9 @@ if ($search_callid!="") $sql_search.=" AND callid='".$search_callid."'";
 $search_traced_user=$_SESSION['tracer_search_traced_user'];
 if ($search_traced_user!="") $sql_search.=" AND traced_user='".$search_traced_user."'";
 $search_start=$_SESSION['tracer_search_start'];
-if ($search_start!="") $sql_search.=" AND date>'".$search_start."'";
+if ($search_start!="") $sql_search.=" AND time_stamp>'".$search_start."'";
 $search_end=$_SESSION['tracer_search_end'];
-if ($search_end!="") $sql_search.=" AND date<'".$search_end."'";
+if ($search_end!="") $sql_search.=" AND time_stamp<'".$search_end."'";
 
 
 if (isset($_SESSION['delete']) && (isset($sql_search)) ){
@@ -195,7 +195,7 @@ else
 			$matched_trace_id=$row_['id'];
    ?>
    <tr>
-   <td class="rowOdd"><?=$row_['date']?></td>
+   <td class="rowOdd"><?=$row_['time_stamp']?></td>
    <td class="rowOdd"><?=$row_['method']?></td>
    <td class="rowOdd"><?=$trace_text?></td>
    <td class="rowOdd" align="center"><?=$details_msg?></td>
@@ -472,7 +472,7 @@ else
      	$details='<a href="details.php?traceid='.$row_d['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$row_d['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
       ?>
       <tr align="center">
-       <td class="<?=$row_style?>"><?=$row_d['date']?></td>
+       <td class="<?=$row_style?>"><?=$row_d['time_stamp']?></td>
        <td class="<?=$row_style?>"><?=$row_d['method']?></td>
        <td class="<?=$row_style?>"><?=$status?></td>
        <td class="<?=$row_style?>"><?=$path?></td> 
