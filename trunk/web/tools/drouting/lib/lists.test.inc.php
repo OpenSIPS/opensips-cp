@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: rules.test.inc.php,v 1.2 2007-05-11 15:35:15 bogdan Exp $
+ * $Id$
  */
   extract($_POST);
   $form_valid=true;

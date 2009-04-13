@@ -9,6 +9,10 @@
           "Gateways" // menu name
     ),
     array(
+          "lists.php", // page name
+          "Gateways Lists" // menu name
+    ),
+    array(
           "rules.php", // page name
           "Rules" // menu name
     ),

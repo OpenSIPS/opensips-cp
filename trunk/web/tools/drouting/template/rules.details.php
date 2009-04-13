@@ -1,5 +1,5 @@
 <!--
- * $Id: rules.details.php,v 1.1.1.1 2006-08-30 10:43:09 bogdan Exp $
+ * $Id$
  -->
 
 <?php

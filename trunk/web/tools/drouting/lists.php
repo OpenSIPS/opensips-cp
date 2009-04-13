@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: rules.php,v 1.2 2007-04-19 14:06:53 bogdan Exp $
+ * $Id$
  */
 
  require("template/header.php");

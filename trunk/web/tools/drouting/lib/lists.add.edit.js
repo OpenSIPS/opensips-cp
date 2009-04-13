@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: rules.add.edit.js,v 1.1.1.1 2006-08-30 10:43:08 bogdan Exp $
+// $Id$
 //
 
 function clearObject(object_name)
