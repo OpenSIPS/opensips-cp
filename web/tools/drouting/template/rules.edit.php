@@ -1,5 +1,5 @@
 <!--
- * $Id: rules.edit.php,v 1.2 2007-05-11 15:35:15 bogdan Exp $
+ * $Id$
  -->
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
