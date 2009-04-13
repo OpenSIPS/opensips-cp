@@ -4,6 +4,7 @@
 
 <?php
  if ($row['gwlist']=="") $gwlist='<img src="images/inactive.gif" alt="No GW List">';
+  else if ( preg_match('/[#][0-9]+/',$row['gwlist'])) $gwlist=parse_list($row['gwlist']); 
   else $gwlist=parse_gwlist($row['gwlist']);
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">

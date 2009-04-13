@@ -22,7 +22,7 @@ function clearObject(object_name)
 
 function addElementToObject(object_name)
 {
-if (document.getElementById(object_name).value=="") document.getElementById(object_name).value=document.getElementById(object_name+"_value").value;
+ if (document.getElementById(object_name).value=="") document.getElementById(object_name).value=document.getElementById(object_name+"_value").value;
   else {
         var values=document.getElementById(object_name).value;
         values_modified=values.replace(/;/g,",");
@@ -66,45 +66,6 @@ function optionChange(object_name)
  var div_object="div_"+object_name;
  if (document.getElementById(object_name).value==1) document.getElementById(div_object).style.display="block";
   else document.getElementById(div_object).style.display="none";
-}
-
-function addElement(object_name)
-{
- if (document.getElementById(object_name).value=="") document.getElementById(object_name).value=document.getElementById(object_name+"_value").value;
-}
-
-function optionClick(object_name) 
-{
-var selectedItem = document.getElementById(object_name).value;	
-var div_object="div_"+object_name;	
- if ( selectedItem == "gw_list" ) {
-        document.getElementById("div_gws").style.display='none';
-        document.getElementById("div_lists").style.display='none';
- } else if ( selectedItem == "lists" ) {
-        document.getElementById("div_gw_list").style.display='block';
-        document.getElementById("div_lists").style.display='block';
-	document.getElementById("div_gws").style.display='none';
- } else if ( selectedItem == "gws" ) {
-        document.getElementById("div_gw_list").style.display='block';
-        document.getElementById('div_gws').style.display='block';
-        document.getElementById('div_lists').style.display='none';
- }	
-}
-function clickOpt(object_name) {
-var selectedItem = document.getElementById(object_name).value;
-alert("ddd"+selectedItem);
-var div_object="div_"+object_name;
- if ( selectedItem == "lists" ) {
-        document.getElementById("div_gw_list").style.display='block';
-        document.getElementById("div_lists").style.display='block';
-        document.getElementById("div_gws").style.display='none';
- } else if ( selectedItem == "gws" ) {
-        document.getElementById("div_gw_list").style.display='block';
-        document.getElementById('div_gws').style.display='block';
-        document.getElementById('div_lists').style.display='none';
- }
-	
-
 }
 
 </script>

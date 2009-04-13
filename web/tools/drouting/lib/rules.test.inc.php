@@ -2,8 +2,8 @@
 /*
  * $Id: rules.test.inc.php,v 1.2 2007-05-11 15:35:15 bogdan Exp $
  */
-
   extract($_POST);
+if (isset($lists)) $gwlist=$lists;
   $form_valid=true;
   if ($form_valid)
    if ($groupid=="") {
@@ -40,13 +40,12 @@
                     $form_valid=false;
                     $form_error="- <b>Route ID</b> field must be a positive number -";
                    }
-  if ($form_valid)
-   if ($gwlist=="") {
+  if ($form_valid ) 
+    if ($gwlist=="") {
                      $form_valid=false;
                      $form_error="- invalid <b>Gateway List</b> field -";
                     }
   
- 
                      
    if (isset($frequency)){
    

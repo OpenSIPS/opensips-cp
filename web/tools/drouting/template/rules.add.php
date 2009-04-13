@@ -144,12 +144,31 @@
  <tr>
   <td class="dataRecord"><b>Gateway List:</b></td>
   <td class="dataRecord">
-   <input type="text" name="gwlist" id="gwlist" value="<?=$gwlist?>" maxlength="255" readonly class="dataInput">
-   <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
-   <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
-   <input type="button" name="end_group_gwlist" value="End Group" class="formButton" onclick="endGroupGwList('gwlist')"><br>
-  </td>
+   <select name="gw_list" class="dataSelect" id="gw_list" onChange="optionClick('gw_list')">
+    <option value="gw_list">--Select--</option>
+    <option value="lists">Use Gateway List</option>
+    <option value="gws">Use Gateways</option>
+   </select>
+
+   <div id='div_gw_list' style="display:none">
+
+    <div id="div_lists" style="display:none">
+     <input type="text" name="lists" id="lists" value="<?php echo $lists;?>" maxlength="255" readonly class="dataInput">
+     <input type="button" name="clear_lists" value="Clear" class="formButton" onclick="clearObject('lists')"><br>
+     <input type="button" name="add_lists" value="Set" class="formButton" onclick="addElement('lists')"><?=print_lists()?>&nbsp;
+
+    </div>
+
+   <div id="div_gws" style="display:none">
+    <input type="text" name="gwlist" id="gwlist" value="<?=$gwlist?>" maxlength="255" readonly class="dataInput">
+    <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
+    <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
+    <input type="button" name="end_group_gwlist" value="End Group" class="formButton" onclick="endGroupGwList('gwlist')"><br>
+   </div>
+   </div>
+ </td>
  </tr>
+
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
   <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" maxlength="128" class="dataInput"></td>
