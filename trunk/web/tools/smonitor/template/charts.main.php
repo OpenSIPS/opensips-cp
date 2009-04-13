@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: charts.main.php,v 1.3 2007-04-18 07:39:47 bogdan Exp $
+ * $Id$
  */
 ?>
 

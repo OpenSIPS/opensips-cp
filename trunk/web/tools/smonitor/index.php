@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: index.php,v 1.2 2007-04-03 13:10:53 daniel Exp $
+ * $Id$
  */
  
  require("../../../config/tools/smonitor/db.inc.php");

@@ -1,6 +1,6 @@
 <?php
  /*
- * $Id: local.inc.php,v 1.3 2008-01-11 13:58:30 dragos Exp $
+ * $Id$
  */ 
  $config->sampling_time = 10; // minutes
  $config->chart_size = 100;

@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: local.inc.php,v 1.3 2007-04-19 14:27:57 bogdan Exp $
+ * $Id$
  */ 
 
  $config->results_per_page = 10;

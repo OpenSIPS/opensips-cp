@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: chart_data.php,v 1.5 2007-12-03 16:14:41 dragos Exp $
+ * $Id$
  */
 
 $var = $_REQUEST['stat'];

@@ -1,5 +1,5 @@
 <!--
- * $Id: menu.php,v 1.1.1.1 2006-08-30 10:43:17 bogdan Exp $
+ * $Id$
  -->
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">

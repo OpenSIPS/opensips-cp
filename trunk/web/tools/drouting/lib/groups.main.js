@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: groups.main.js,v 1.1.1.1 2006-08-30 10:43:07 bogdan Exp $
+// $Id$
 //
 
 function confirmDelete(id)

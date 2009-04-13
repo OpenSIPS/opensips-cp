@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: configuration.main.php,v 1.1.1.1 2006-08-30 10:43:18 bogdan Exp $
+ * $Id$
  */
 ?>
 

@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: domains.main.js,v 1.1.1.1 2006-08-30 10:43:10 bogdan Exp $
+// $Id$
 //
   
 function confirmDelete(id)

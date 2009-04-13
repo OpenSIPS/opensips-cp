@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: functions.inc.php,v 1.4 2007-10-08 16:40:14 dragos Exp $
+ * $Id$
  */
 
 ######################

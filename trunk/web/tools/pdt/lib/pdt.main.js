@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: pdt.main.js,v 1.1.1.1 2006-08-30 10:43:11 bogdan Exp $
+// $Id$
 //
   
 function confirmDelete(id)

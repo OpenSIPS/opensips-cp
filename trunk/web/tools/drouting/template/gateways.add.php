@@ -1,5 +1,5 @@
 <!--
- * $Id: gateways.add.php,v 1.1.1.1 2006-08-30 10:43:08 bogdan Exp $
+ * $Id:$
 -->
 
 <form action="<?=$page_name?>?action=add_verify" method="post">

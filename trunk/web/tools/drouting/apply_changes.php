@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: apply_changes.php,v 1.4 2007-04-19 16:02:52 bogdan Exp $
+ * $Id$
  */
 
 ?>
