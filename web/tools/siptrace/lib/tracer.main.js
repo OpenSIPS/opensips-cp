@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: tracer.main.js,v 1.4 2007-11-29 18:54:24 dragos Exp $
+// $Id$
 //
   
 function changeState(id)

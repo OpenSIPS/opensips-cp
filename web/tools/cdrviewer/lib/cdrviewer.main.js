@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: cdrviewer.main.js,v 1.4 2007-11-02 15:26:28 dragos Exp $
+// $Id$
 //
 
 function changeState(id)

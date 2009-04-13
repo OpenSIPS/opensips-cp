@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: settings.php,v 1.2 2006-08-30 11:47:52 bogdan Exp $
+ * $Id$
  */
  
  require("template/header.php");

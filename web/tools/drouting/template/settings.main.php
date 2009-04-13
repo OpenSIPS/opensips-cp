@@ -1,5 +1,5 @@
 <!--
- * $Id: settings.main.php,v 1.2 2006-08-30 11:03:22 bogdan Exp $
+ * $Id:$
  -->
 
 <form action="<?=$page_name?>?action=gw_types" method="post">

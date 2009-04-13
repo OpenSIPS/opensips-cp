@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: menu.inc.php,v 1.1 2007-04-03 13:49:41 daniel Exp $
+ * $Id$
  */
 
  $config->menu_item = array(

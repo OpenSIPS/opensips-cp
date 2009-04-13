@@ -1,5 +1,5 @@
 <!--
- * $Id: groups.edit.php,v 1.1.1.1 2006-08-30 10:43:09 bogdan Exp $
+ * $Id$
  -->
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">

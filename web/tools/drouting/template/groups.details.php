@@ -1,5 +1,5 @@
 <!--
- * $Id: groups.details.php,v 1.1.1.1 2006-08-30 10:43:09 bogdan Exp $
+ * $Id$
  -->
 
 <table width="400" cellspacing="2" cellpadding="2" border="0">

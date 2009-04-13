@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: charts.php,v 1.3 2007-04-18 07:39:47 bogdan Exp $
+ * $Id$
  */
  require("../../../config/tools/smonitor/local.inc.php"); 
  require("../../../config/tools/smonitor/db.inc.php"); 

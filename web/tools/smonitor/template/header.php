@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: header.php,v 1.2 2007-04-03 13:10:53 daniel Exp $
+ * $Id$
  */
 
  require_once("../../../config/session.inc.php");

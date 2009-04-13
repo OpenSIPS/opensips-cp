@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: gateways.test.inc.php,v 1.1 2007-04-19 14:06:54 bogdan Exp $
+ * $Id$
  */
 
   extract($_POST);

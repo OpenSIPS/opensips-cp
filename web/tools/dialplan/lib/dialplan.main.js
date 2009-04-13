@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id: dialplan.main.js,v 1.4 2007-09-11 09:29:06 daniel Exp $
+// $Id$
 //
   
 function confirmDelete()

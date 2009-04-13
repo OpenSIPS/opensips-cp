@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: charts.inc.php,v 1.2 2007-08-09 08:26:15 daniel Exp $
+ * $Id$
  */
 
 // http://www.maani.us/charts/
