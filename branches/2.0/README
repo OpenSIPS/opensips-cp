@@ -1,0 +1,43 @@
+
+
+This is OpenSIPS Control Panel (OCP), a web application for the 
+system provisioning of OpenSIPS SIP server (www.opensips.org)
+
+
+OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL 
+backend. 
+
+
+OpenSIPS Control Panel version 2.0 is compatible with OpenSIPS 1.5.x.
+
+
+OpenSIPS Control Panel currently features 12 modules:
+
+
+cdrviewer - allows cdr search and listing 
+
+dialplan  - the user can easily operate changes in OpenSIPS's dialplan domains
+
+dispatcher  - provisioning of dispatching lists (view list and status, edit, add and reload)
+
+drouting - tool used for provisioning the drouting module of OpenSIPS
+
+domains  - handy tool for adding / deleting domains 
+
+mi -  the user can issue commands to opensips via xmlrpc/fifo interface 
+
+monit  - an interface which integrates the `monit` monitoring tool 
+
+nathelper - provisioning via DB of the RTPproxy's sockets, cache viewing (status of RTPproxy socks), enable/disable sockets, NAT ping control
+
+permissions - provisioning of "trusted" table
+
+pdt  -  tool provisions (add, delete, edit) the prefix-to-domain mappings used by the PDT module
+
+siptrace   -  this an interface with the siptrace engine of OpenSIPS
+
+smonitor - tool to monitor the internals of OpenSIPS . It shows nice graphs.
+
+
+
+Please see the doc directory for further documentation.
