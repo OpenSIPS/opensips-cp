@@ -45,7 +45,7 @@ $boxes[$box_id]['assoc_id']=1;
 $boxes[$box_id]['smonitor']['charts']=1;
 
 
-/*==============================================================*/
+/*==============================================================
 $box_id=1;
 
 // mi host:port pair || fifo_file 
@@ -68,6 +68,6 @@ $boxes[$box_id]['assoc_id']=1;
 // enable local smonitor charts on this box : 0=disabled 1=enabled
 // (cron)
 $boxes[$box_id]['smonitor']['charts']=1;
-
+*/
 
 ?>
