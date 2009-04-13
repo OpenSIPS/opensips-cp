@@ -22,6 +22,8 @@ Configuration
 
 opensips-cp/config/tools/pdt/db.inc.php
 
+Mysql connection data is set through this file.
+
 Attributes  set in this file : 
 
 +database host 
@@ -38,7 +40,7 @@ Attributes set in this file:
 
 + database table names 
 + the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
-trigger the MI command).
+trigger the MI command $talk_to_this_assoc_id = 1 ; ).
 
 
 
