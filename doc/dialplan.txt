@@ -16,9 +16,10 @@ http://www.opensips.org/html/docs/modules/1.4.x/dialplan.html
 
 Configuration
 -------------------
-
 * Database layer configuration file : 
-opensips-cp/config/tools/dialplan/db.inc.php
+opensips-cp/config/tools/dialplan/db.inc.php 
+
+- Mysql connection data is set through this file.
 
 Attributes  set in this file : 
 
@@ -31,11 +32,13 @@ Attributes  set in this file :
 * Local configuration file :  
 opensips-cp/config/tools/dialplan/local.inc.php
 
+Attributes like database table name, results per page are set in this file
+
 + database table name  
 + the `results per page` variable is set in this file (how many records to be 
 seen on a single page , pagination )
  + the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
-trigger the reload command via MI).
+trigger the reload command via MI $talk_to_this_assoc_id = 1 ;).
 
 Usage and Features
 --------------------------
@@ -54,5 +57,4 @@ with the selected one.
 “Apply Changes to Server”: Reloads the dialplan rules from the database into 
 OpenSIPS instantaneously.
 
-NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to 
-click on  “Apply Changes to Server” button.
+NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to click on  “Apply Changes to Server” button.

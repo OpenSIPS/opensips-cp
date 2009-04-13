@@ -21,6 +21,8 @@ Configuration
 * Database layer configuration file: 
 opensips-cp/config/tools/domains/db.inc.php
 
+Mysql connection data is set through this file.
+
 Attributes  set in this file : 
 
 +database host 
@@ -37,6 +39,7 @@ opensips-cp/config/tools/domains/local.inc.php
 + the `results per page` variable is set in this file (how many records to be 
 seen on a single page , pagination )
 + the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers
+ ($talk_to_this_assoc_id = 1 ;)
 
 Usage and Features:
 ---------------------------

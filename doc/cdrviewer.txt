@@ -10,11 +10,12 @@ to filter CDRs and to export CDRs in csv (comma-separated values) files.
 
 Configuration
 -------------------
-
-
 * Database layer configuration file: 
 
-opensips-cp/config/tools/cdrviewer/db.inc.php
+opensips-cp/config/tools/cdrviewer/db.inc.php  
+
+- The variables in this file are somewhat self explanatory.You must set 
+up the mysql connection data through this file.
 
 Attributes  set in this file : 
 
@@ -67,6 +68,17 @@ modifying the array index.
 the exported csv file.
 The presence of the field description in the csv files is optional because automated
 tools might be  configured to work on this file.
+
+// where the export script puts the cdrs as csv files
+$cdr_repository_path = '/var/lib/opensips_cdrs' ;
+
+// if to set field names on top of the file or not
+//(this might be useful for CDR aggregation/some billing engines)
+$cdr_set_field_names = 1 ;
+
+// the delay the cron script will extract the records from the
+database , defaults to one hour .
+$delay=3600 ;
 
 
 Usage and Features
