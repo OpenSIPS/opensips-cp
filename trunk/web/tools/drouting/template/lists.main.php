@@ -5,23 +5,6 @@
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
  $sql_search="";
- $search_groupid=$_SESSION['rules_search_groupid'];
- if ($search_groupid!="") {
-                           $id=$search_groupid;
-                           $id=str_replace("*",".*",$id);
-                           $id=str_replace("%",".*",$id);
-                           $sql_search.=" and groupid regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
-                          }
- $search_prefix=$_SESSION['rules_search_prefix'];
- if ($search_prefix!="") {
-                          $pos=strpos($search_prefix,"*");
-                          if ($pos===false) $sql_search.=" and prefix='".$search_prefix."'";
-                           else $sql_search.=" and prefix like '".str_replace("*","%",$search_prefix)."'";
-                          }
- $search_priority=$_SESSION['rules_search_priority'];
- if ($search_priority!="") $sql_search.=" and priority='".$search_priority."'";
- $search_routeid=$_SESSION['rules_search_routeid'];
- if ($search_routeid!="") $sql_search.=" and routeid='".$search_routeid."'";
  $search_gwlist=$_SESSION['rules_search_gwlist'];
  if ($search_gwlist!="") {
                           $id=$search_gwlist;
@@ -34,30 +17,14 @@
 ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="searchTitle">Search Rules by</td>
+  <td colspan="2" class="searchTitle">Search GW LIST by</td>
  </tr>
  <tr>
-  <td class="searchRecord">Group ID :</td>
-  <td class="searchRecord" width="200"><input type="text" name="search_groupid" value="<?=$_SESSION['rules_search_groupid']?>" maxlength="64" class="searchInput"></td>
- </tr>
- <tr>
-  <td class="searchRecord">Prefix :</td>
-  <td class="searchRecord" width="200"><input type="text" name="search_prefix" value="<?=$_SESSION['rules_search_prefix']?>" maxlength="64" class="searchInput"></td>
- </tr>
- <tr>
-  <td class="searchRecord">Priority :</td>
-  <td class="searchRecord" width="200"><input type="text" name="search_priority" value="<?=$_SESSION['rules_search_priority']?>" maxlength="11" class="searchInput"></td>
- </tr>
- <tr>
-  <td class="searchRecord">Route ID :</td>
-  <td class="searchRecord" width="200"><input type="text" name="search_routeid" value="<?=$_SESSION['rules_search_routeid']?>" maxlength="11" class="searchInput"></td>
- </tr>
- <tr>
-  <td class="searchRecord">Gateway List :</td>
+  <td class="searchRecord"> GW List: </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Description :</td>
+  <td class="searchRecord">Description: </td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['rules_search_description']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
@@ -80,20 +47,15 @@
 <table width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td class="dataTitle">ID</td>
-  <td class="dataTitle">Group ID</td>
-  <td class="dataTitle">Prefix</td>
-  <td class="dataTitle">Priority</td>
-  <td class="dataTitle">Route ID</td>
   <td class="dataTitle">GW List</td>  
   <td class="dataTitle">Description</td>
-  <td class="dataTitle">Details</td>
   <td class="dataTitle">Edit</td>
   <td class="dataTitle">Delete</td>
  </tr>
 <?php
  db_connect();
- if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by ruleid asc";
-  else $sql_command="select * from ".$table." where 1 ".$sql_search." order by ruleid asc";
+ if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by id asc";
+  else $sql_command="select * from ".$table." where 1 ".$sql_search." order by id asc";
  $result=mysql_query($sql_command) or die(mysql_error());
  $data_no=mysql_num_rows($result);
  if ($data_no==0) echo('<tr><td colspan="10" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -116,33 +78,20 @@
    $index_row++;
    if ($index_row%2==1) $row_style="rowOdd";
     else $row_style="rowEven";
-   if ($row['prefix']!="") $prefix=$row['prefix'];
-    else $prefix="&nbsp;";
    if ($row['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
-   else if ( preg_match('/[#][0-9]+/',$row['gwlist'])) $gwlist=parse_list($row['gwlist']);
     else $gwlist=parse_gwlist($row['gwlist']);
-   if (strlen($row['description'])>18) $description=substr($row['description'],0,15)."...";
-    else if ($row['description']!="") $description=$row['description'];
-         else $description="&nbsp;";
-   $details_link='<a href="'.$page_name.'?action=details&id='.$row['ruleid'].'"><img src="images/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$row['ruleid'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$row['ruleid'].'" onclick="return confirmDelete(\''.$row['ruleid'].'\')" ><img src="images/trash.gif" border="0"></a>';
+    if ($row['description']!="") $description=$row['description'];
+     //    else $description="&nbsp;";
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="images/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&id='.$row['id'].'" onclick="return confirmDelete(\''.$row['id'].'\')" ><img src="images/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
-  <td class="<?=$row_style?>" rowspan="2" align="center"><?=$row['ruleid']?></td>
-  <td class="<?=$row_style?>"><?=$row['groupid']?></td>
-  <td class="<?=$row_style?>"><?=$prefix?></td>
-  <td class="<?=$row_style?>"><?=$row['priority']?></td>
-  <td class="<?=$row_style?>"><?=$row['routeid']?></td>
+  <td class="<?=$row_style?>"><?=$row['id']?></td>	
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="2"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="2"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="2"><?=$delete_link?></td>
- </tr>
- <tr>
-  <td class="<?=$row_style?>" colspan="6"><?=parse_timerec_main($row['timerec'])?></td>
+  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>
+  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$delete_link?></td>
  </tr>
 <?php
   }

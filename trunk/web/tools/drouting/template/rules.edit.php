@@ -146,11 +146,39 @@
  <tr>
   <td class="dataRecord"><b>Gateway List:</b></td>
   <td class="dataRecord">
-   <input type="text" name="gwlist" id="gwlist" value="<?=$row['gwlist']?>" maxlength="255" readonly class="dataInput">
-   <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
-   <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
-   <input type="button" name="end_group_gwlist" value="End Group" class="formButton" onclick="endGroupGwList('gwlist')"><br>
-  </td>
+ 
+   <select name="gw_list" class="dataSelect" id="gw_list" onChange="optionClick('gw_list')">
+	<?php 
+	if (preg_match("/[#][0-9]+/",$row['gwlist'])) {  $lists=$row['gwlist'];        
+            echo "<option value=\"gw_list\">--Select-- </option>";
+            echo "<option value=\"lists\" selected=\"selected\">Use Gateway List</option>";
+            echo "<option value=\"gws\">Use Gateways</option>"; 
+	} else if (!preg_match("/[#][0-9]+/",$row['gwlist'])) {$gwlist=$row['gwlist'];
+            echo "<option value=\"gw_list\">--Select--</option>"; 
+            echo "<option value=\"lists\">Use Gateway List</option>";
+            echo "<option value=\"gws\" selected=\"selected\">Use Gateways</option>";
+        }
+    
+?>
+   </select>
+
+   <div id='div_gw_list' style="display:block">
+    <div id="div_lists" style="display:<?php if (preg_match("/[#][0-9]+/",$row['gwlist'])) echo("block"); else echo("none") ?>">
+     <input type="text" name="lists" id="lists" value="<?=$lists?>" maxlength="255" readonly class="dataInput">
+     <input type="button" name="clear_list" value="Clear" class="formButton" onclick="clearObject('lists')"><br>
+     <input type="button" name="add_list" value="Set" class="formButton" onclick="addElement('lists')"><?=print_lists()?>&nbsp;
+    </div>
+
+   <div id="div_gws" style="display:<?php if (preg_match("/[#][0-9]+/",$row['gwlist'])) echo("none"); else echo("block") ?>">
+    <input type="text" name="gwlist" id="gwlist" value="<?=$gwlist?>" maxlength="255" readonly class="dataInput">
+    <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
+    <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
+    <input type="button" name="end_group_gwlist" value="End Group" class="formButton" onclick="endGroupGwList('gwlist')"><br>
+   </div>
+
+   </div>
+ </td>
+
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b></td>

@@ -321,10 +321,11 @@ function print_lists()
 
 function parse_list($gwlist_string)
 {
- $string=substr($gwlist_string,-1);	
-  $string_return.=' <a href="lists.php?action=details&id='.$string.'" class="gwList">'.$gwlist_string.'</a>';
+ $string = 0+ substr($gwlist_string,-1);
+ $string_return=' <a href="lists.php?action=details&id='.$string.'" class="gwList">'.$string.'</a>';
  return($string_return);
-}
+ }
+
 
 
 ?>
