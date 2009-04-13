@@ -8,7 +8,7 @@ Description
 The tool is used for provisioning the OpenSIPS drouting module. You can add , delete 
 and edit the GWs/destiantions , the routing rules and the routing groups.
 You can find  the drouting module documentation here : 
-http://www.opensips.org/html/docs/modules/1.4.x/drouting.html
+http://www.opensips.org/html/docs/modules/1.5.x/drouting.html
 
 
 Configuration

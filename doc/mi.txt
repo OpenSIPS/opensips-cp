@@ -15,8 +15,8 @@ on the OpenSIPS servers  configured on the platform.
 This is a form of low–level access to the server management. 
 
 you can find the MI modules documentation here : 
-http://www.opensips.org/html/docs/modules/1.4.x/mi_xmlrpc.html
-http://www.opensips.org/html/docs/modules/1.4.x/mi_fifo.html
+http://www.opensips.org/html/docs/modules/1.5.x/mi_xmlrpc.html
+http://www.opensips.org/html/docs/modules/1.5.x/mi_fifo.html
 
 
 Configuration
