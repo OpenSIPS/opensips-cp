@@ -8,7 +8,7 @@ OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL
 backend. 
 
 
-OpenSIPS Control Panel version 1.1 is compatible with OpenSIPS 1.5.x.
+OpenSIPS Control Panel version 1.2 is compatible with OpenSIPS 1.5.x.
 
 
 OpenSIPS Control Panel currently features 12 modules:
