@@ -26,6 +26,7 @@
  $config->table_gateways = "dr_gateways";
  $config->table_groups = "dr_groups";
  $config->table_rules = "dr_rules";
+ $config->table_lists = "dr_gw_lists";
  
  $talk_to_this_assoc_id = 1 ;
 
