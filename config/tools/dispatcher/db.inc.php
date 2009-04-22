@@ -10,10 +10,10 @@
  $config->db_port = "";
  
  //database connection user
- $config->db_user = "opensips";
+ $config->db_user = "root";
  
  //database connection password
- $config->db_pass = "opensipsrw";
+ $config->db_pass = "mysql";
  
  //database name
  $config->db_name = "opensips";
