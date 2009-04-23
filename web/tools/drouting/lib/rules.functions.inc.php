@@ -25,7 +25,7 @@ function get_gwlist()
  db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select * from ".$config->table_gateways." where 1 order by address asc") or die(mysql_error());
+ $result = mysql_query("select * from ".$config->table_gateways." where 1 order by gwid asc") or die(mysql_error());
  while($row = mysql_fetch_array($result))
  {
   $values[$index][0] = $row['gwid'];
