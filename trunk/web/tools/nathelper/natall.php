@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -59,7 +59,6 @@ if ($action=="toggle"){
 	         print_r($errors);
 	         $status = trim($status);
 	        $toggle_button = "enabled";
-print $toggle_button;
 	}
 } 
  
