@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -21,46 +21,41 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 -->
-<?
 
 
- if (isset($_POST['action'])) $action=$_POST['action'];
- else if (isset($_GET['action'])) $action=$_GET['action'];
-      else $action="";
 
- if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
- else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
+<?php
+if (!isset($toggle_button)) {
+
+	// 	get nat ping status
+
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	// get status from the first one only
+	$comm_type=params($mi_connectors[0]);
+	mi_command("nh_enable_ping" , $errors , $status);
+	print_r($errors);
+	$status = trim($status);
+	
+	if (preg_match('/0/',$status,$matches)){	
+		$toggle_button = "enable";
+	} else
+	if (preg_match('/1/',$status,$matches)) {
+		$toggle_button = "disable";
+	}
+
+}
 ?>
+<div>
+<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>" method="post">
+<?php if  ( $toggle_button == "disable" ) {
 
-<div align="right">
-<form action="<?=$page_name?>?action=toggle_on" method="post">
-        <input type="submit" name="toggle_on" value="Enable Nat Ping" class="formButton" style="background-color: #00ff00 ">
-</form>
+	echo '<h3>The current status is <span style="color:#00ff00"> enabled. </span> To disable NAT Ping push the button: <input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton"></h3>';
 
-<form action="<?=$page_name?>?action=toggle_off" method="post">
-        <input type="submit" name="toggle_off" value="Disable Nat Ping" class="formButton" style="background-color: #ff0000 ">
-</form>
+} else
+ if  ( $toggle_button == "enable" )
+{
+	echo '<h3>The current status is <span style="color:#ff0000"> disabled. </span>To enable NAT Ping push the button: <input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton"></h3>';
+}
+?>
+	</form>
 </div>
-<?
-/*
-/*if (!isset($toggle_button)) {
-
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-
-        // get status from the first one only
-        $comm_type=params($mi_connectors[0]);
-
-        mi_command("nh_enable_ping 1" , $errors , $status);
-        print_r($errors);
-        $status = trim($status);
-        if ($status == "on")
-        $toggle_button = "disable";
-
-        if ($status == "off")
-        $toggle_button = "enable";
-
-
-
-}*/
-
- ?>
