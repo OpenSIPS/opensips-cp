@@ -21,6 +21,5 @@ CREATE TABLE `monitoring_stats` (
   `time` int(11) NOT NULL,
   `value` varchar(64) NOT NULL default '0',
   `box_id` mediumint(8) unsigned NOT NULL default '0'
-  PRIMARY KEY  (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
