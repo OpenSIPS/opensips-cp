@@ -1,6 +1,6 @@
 <?php
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -235,7 +235,7 @@ function write2xmlrpc($command,&$errors,&$status){
 	/* args */
 	$params=$full_command ; 
 
-	if (empty($params[0])) 
+	if (!isset($params[0])) 
 						$params=NULL ;
 
 	$request = xmlrpc_encode_request($my_command, $params);
