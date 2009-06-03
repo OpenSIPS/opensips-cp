@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -23,6 +23,7 @@
 
 require_once("../../../config/session.inc.php");
 require_once("../../../config/tools/dispatcher/db.inc.php");
+require_once("../../../config/db.inc.php");
 require_once("../../../config/tools/dispatcher/local.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['PHP_SELF']);

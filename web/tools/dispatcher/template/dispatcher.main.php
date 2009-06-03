@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -100,11 +100,13 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-db_connect();
-if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by id asc";
-else $sql_command="select * from ".$table." where 1 ".$sql_search." order by id asc";
-$result=mysql_query($sql_command) or die(mysql_error());
-$data_no=mysql_num_rows($result);
+if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
+else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
+$resultset = $link->queryAll($sql_command);
+if(PEAR::isError($resultset)) {
+	die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
+$data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -116,11 +118,18 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$result=mysql_query($sql_command) or die(mysql_error());
+	//$sql_command.=" limit ".$start_limit.", ".$res_no;
+	if ($start_limit==0) $sql_command.=" limit ".$res_no;
+	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
+
+	$resultset = $link->queryAll($sql_command);
+        if(PEAR::isError($resultset)) {
+                die('Failed to issue query, error message : ' . $resultset->getMessage());
+        }
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
-	while ($row=mysql_fetch_array($result))
+	$i=0;
+	while (count($resultset)>$i)
 	{
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
@@ -128,16 +137,16 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['id']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['setid']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['destination']?><?php if($row['match_op']==1) echo " (re)"; else echo " (eq)";?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['flags']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['description']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['setid']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['destination']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['flags']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['description']?></td>
    <? 
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
@@ -146,6 +155,8 @@ else
 	?>  
   </tr>  
 <?php
+
+	$i++;
 	}
 }
 ?>

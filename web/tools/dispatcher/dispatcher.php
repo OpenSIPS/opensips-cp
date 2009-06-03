@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -23,7 +23,8 @@
 
 require("template/header.php");
 require("lib/".$page_id.".main.js");
-require ("../../common/mi_comm.php");
+require("../../common/mi_comm.php");
+include("lib/db_connect.php");
 
 $table=$config->table_dispatcher;
 $current_page="current_page_dispatcher";
@@ -81,21 +82,29 @@ if ($action=="add_verify")
 		$flags = "0";
 
 		if ($errors=="") {
-			$link = db_connect();
-			$result=mysql_query("SELECT * FROM ".$table.
-			" WHERE setid=" .$setid)
-			or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table.
+			" WHERE setid=" .$setid;
+			$resultset = $link->queryAll($sql);
+                        if(PEAR::isError($resultset)) {
+                                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                        }
+ 	
+			if (count($resultset)>0) {
 				$errors="Duplicate rule";
 			} else {
-				mysql_query("INSERT INTO ".$table."
+				$sql = "INSERT INTO ".$table."
 				(setid, destination, flags, description) VALUES 
-				(".$setid.", '".$destination."',".$flags.", '".$description."') ")
-				or die(mysql_error());
-
+				( :setid, :destination, :flags, :description) ";
+				$resultset = $link->prepare($sql);
+				$resultset->bindParam('setid', $setid);
+				$resultset->bindParam('destination',$destination);
+				$resultset->bindParam('flags', $flags);
+				$resultset->bindParam('description', $description);
+				$resultset->execute();
+				$resultset->free();
 				$info="The new record was added";
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -148,18 +157,22 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
-			$link = db_connect();
-			$result=mysql_query("SELECT * FROM ".$table." WHERE setid=" .$setid. " AND id!=".$id)or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table." WHERE setid=" .$setid. " AND id!=".$id;
+			$resultset = $link->queryAll($sql);
+                        if(PEAR::isError($resultset)) {
+                                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                        }
+			if (count($resultset)>0) {
 				$errors="Duplicate rule";
 			} else {
-
-				mysql_query("UPDATE ".$table." SET setid=".$setid.", destination = '".$destination.
-				"', flags= ".$flags.", description ='".$description."' WHERE id=".$id) or die(mysql_error());
-
+				$sql = "UPDATE ".$table." SET setid=".$setid.", destination = '".$destination.
+				"', flags= ".$flags.", description ='".$description."' WHERE id=".$id;
+				$resultset = $link->prepare($sql);
+				$resultset->execute();
+				$resultset->free();
 				$info="The new rule was modified";
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}else{
 
@@ -180,12 +193,10 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		db_connect();
 		$id=$_GET['id'];
 
-		mysql_query("DELETE FROM ".$table." WHERE id=".$id)
-		or die(mysql_error());
-		db_close();
+		$sql = "DELETE FROM ".$table." WHERE id=".$id;
+		$link->exec($sql);
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -235,12 +246,13 @@ if ($action=="dp_act")
 			$sql_query .= " AND description='".$descr . "'";
 		}
 
-		db_connect();
-		$result=mysql_query("SELECT * FROM ".$table.
-		" WHERE 1 " . $sql_query )
-		or die(mysql_error());
-
-		if (mysql_num_rows($result)==0) {
+		$sql = "SELECT * FROM ".$table.
+		" WHERE (1=1) " . $sql_query;
+		$resultset = $link->queryAll($sql);
+                if(PEAR::isError($resultset)) {
+	                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                }
+		if (count($resultset)==0) {
 			$errors="No such Dispatcher rule";
 			$_SESSION['dispatcher_setid']="";
 			$_SESSION['dispatcher_dest']="";
@@ -248,10 +260,10 @@ if ($action=="dp_act")
 
 		}else{
 
-			mysql_query("DELETE FROM ".$table." WHERE 1 " . $sql_query)
-			or die(mysql_error());
+			$sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
+			$link->exec($sql);
 		}
-		db_close();
+		$link->disconnect();
 	}
 }
 ##############

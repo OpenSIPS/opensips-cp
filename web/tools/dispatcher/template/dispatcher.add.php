@@ -1,7 +1,7 @@
 <form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -25,16 +25,15 @@
 $clone=$_GET['clone'];
 
 if($clone =="1"){
-	db_connect();
 	$id=$_GET['id'];
 
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
-	$row=mysql_fetch_array($result);
-	db_close();
-	$setid = $row['setid'];
-	$destination = $row['destination'];
-	$flags =$row['flags'];
-	$description =$row['description'];
+	$sql = "select * from ".$table." where id='".$id."'";
+	$resultset = $link->queryAll($sql);
+	$link->disconnect();
+	$setid = $resultset[0]['setid'];
+	$destination = $resultset[0]['destination'];
+	$flags =$resultset[0]['flags'];
+	$description =$resultset[0]['description'];
 }
 
 ?>
