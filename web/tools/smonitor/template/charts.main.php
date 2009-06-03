@@ -10,23 +10,29 @@
   <td align="center" class="Title">Click a statistic to see its chart</td>
  </tr>
 <?php
-db_connect();
-$result=mysql_query("SELECT DISTINCT name FROM ".$table." WHERE 1 AND box_id=".$box_id." ORDER BY name ASC") or die(mysql_error());
-$data_no=mysql_num_rows($result);
+$sql = "SELECT DISTINCT name FROM ".$table." WHERE (1=1) AND box_id=".$box_id." ORDER BY name ASC";
+$resultset = $link->queryAll($sql);
+if(PEAR::isError($resultset)) {
+         die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
+$data_no=count($resultset);
 if ($data_no==0) echo ('<tr><td class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
  $i=0;
  $sampling_time=get_config_var('sampling_time',$box_id);
- while($row=mysql_fetch_array($result))
+ for($j=0;count($resultset)>$j;$j++)
  {
   $stat_chart=false;
-  $stat=$row['name'];
+  $stat=$resultset[$j]['name'];
   $stat_img="images/variable.gif";
   if ($_SESSION["stat_open"][$i]=="yes") $stat_chart=true;
-  $res=mysql_query("SELECT * FROM ".$table." WHERE name='".$stat."' AND box_id=".$box_id." ORDER BY time ASC LIMIT 1") or die(mysql_error());
-  $r=mysql_fetch_array($res);
-  $from_time=date('j M Y, H:i:s',$r['time']);
+  $res="SELECT * FROM ".$table." WHERE name='".$stat."' AND box_id=".$box_id." ORDER BY time ASC LIMIT 1";
+  $result = $link->queryAll($res); 
+  if(PEAR::isError($result)) {
+          die('Failed to issue query, error message : ' . $result->getMessage());
+  }
+  $from_time=date('j M Y, H:i:s',$result[$j]['time']);
   ?>
    <tr>
     <td class="rowOdd">
@@ -46,7 +52,7 @@ else
   $i++;
  }
 }
-db_close();
+$link->disconnect();
 ?>
  <tr>
   <td colspan="2" class="Title"><img src="images/spacer.gif" width="5" height="5"></td>

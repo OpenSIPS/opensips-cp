@@ -7,7 +7,9 @@
  require("../../common/mi_comm.php");
  require("../../../config/tools/smonitor/local.inc.php");
  require("../../../config/tools/smonitor/db.inc.php");
+ require("../../../config/db.inc.php");
  require("lib/functions.inc.php");
+ include("lib/db_connect.php");
  
  session_start(); 
  
@@ -26,13 +28,24 @@
  
  if ($_GET['var']!=null)
  {
-  db_connect();
   $var_name = $_GET['var'];
-  $result = mysql_query("SELECT * FROM ".$table." WHERE name='".$var_name."'"." AND box_id=".$box_id) or die(mysql_error());
+  $sql = "SELECT * FROM ".$table." WHERE name='".$var_name."'"." AND box_id=".$box_id;
+  $resultset = $link->queryAll($sql);
+  if(PEAR::isError($resultset)) {
+          die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
   //echo "SELECT * FROM ".$table." WHERE name='".$var_name."'"." AND box_id=".$box_id ;
-  if (mysql_num_rows($result)==0) mysql_query("INSERT INTO ".$table." (name,box_id) VALUES ('".$var_name."','".$box_id."') ") or die(mysql_error());
-  else mysql_query("DELETE FROM ".$table." WHERE name='".$var_name."' AND box_id='".$box_id."'") or die(mysql_error());
-  db_close();
+  if (count($resultset)==0){
+	$sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('".$var_name."','','".$box_id."') ";
+print $sql;
+	$resultset = $link->prepare($sql);
+	$resultset->execute();
+	$resultset->free();
+  } else {
+	$sql = "DELETE FROM ".$table." WHERE name='".$var_name."' AND box_id='".$box_id."'";
+	$link->exec($sql);
+	}
+  $link->disconnect();
  }
  
  if ($_GET['module_id']!=null)
