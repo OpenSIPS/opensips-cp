@@ -10,7 +10,6 @@
   <td colspan="2" align="center" class="Title">Click a module to see its statistics</td>
  </tr>
 <?php
- db_connect();
  $var_index=0;
  for($i=0; $i<$_SESSION['modules_no']; $i++)
  {
@@ -28,8 +27,12 @@
    {
     $var_name=$module.":".$vars[0][$k];
     $var_checked=""; $bold_=""; $_bold="";
-    $result=mysql_query("SELECT * FROM ".$table." WHERE name='".$var_name."' AND box_id=".$box_id) or die(mysql_error());
-    if (mysql_num_rows($result)>0) {
+    $sql = "SELECT * FROM ".$table." WHERE name='".$var_name."' AND box_id=".$box_id;
+    $resultset = $link->queryAll($sql);
+    if(PEAR::isError($resultset)) {
+             die('Failed to issue query, error message : ' . $resultset->getMessage());
+    }	
+    if (count($resultset)>0) {
                                     $var_checked="checked"; $bold_="<b>"; $_bold="</b>";
                                    }
     $var_string.='<table width="100%" cellspacing="0" cellpadding="0" border="0">';
@@ -76,7 +79,6 @@
    <?php
   }
  }
- db_close();
 ?>
  <tr>
   <td colspan="2" class="Title"><img src="images/spacer.gif" width="5" height="5"></td>

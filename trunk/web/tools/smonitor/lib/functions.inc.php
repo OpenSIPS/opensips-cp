@@ -7,9 +7,18 @@
 # Database Functions #
 ######################
 //require('../../common/mi_comm.php');
+include("db_connect.php");
 function db_connect()
 {
  global $config;
+
+ if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
+            $config->db_host = $config->db_host_smonitor;
+            $config->db_port = $config->db_port_smonitor;
+            $config->db_user = $config->db_user_smonitor;
+            $config->db_pass = $config->db_pass_smonitor;
+            $config->db_name = $config->db_name_smonitor;
+ }
  
  $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
  
@@ -25,10 +34,6 @@ function db_connect()
                  } 
 }
 
-function db_close()
-{
- mysql_close();
-}
 
 ##########################
 # End Database Functions #
@@ -55,10 +60,14 @@ function get_priv()
 
 function get_config_var($var_name,$box_id)
 {
+include("db_connect.php");
  global $config;
- $result=mysql_query("SELECT * FROM ".$config->table_monitored." WHERE name='".$var_name."' and box_id=".$box_id) or die(mysql_error());
- $row=mysql_fetch_array($result);
- $value=$row['extra'];
+ $sql="SELECT * FROM ".$config->table_monitored." WHERE name='".$var_name."' and box_id=".$box_id;
+ $resultset=$link->queryAll($sql);	
+ if(PEAR::isError($resultset)) {
+          die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+ $value=$resultset[0]['extra'];
  if ($value==null) $value=$config->$var_name;
  return $value;
 }
@@ -168,9 +177,9 @@ function reset_var($stats)
 
 function clean_stats_table()
 {
+ include("db_connect.php");
  global $config;
 
- db_connect();
 
  $global='../../../config/boxes.global.inc.php';
  require ($global);
@@ -190,15 +199,15 @@ function clean_stats_table()
  $last_date -= 60*60*date("H",$current_time);
  $last_date -= 60*date("i",$current_time);
  $last_date -= date("s",$current_time);
- mysql_query("DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id) or die(mysql_error());
+ $sql="DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
 //echo "DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
+ $link->exec($sql);
  $i++; 
  }
 
  }
 
 
- db_close();
 
 }
 
@@ -324,13 +333,22 @@ global $config_type;
 
 function show_graph($stat,$box_id){
 
+global $config;
 
 	$var = $stat;
 	$box_id = $box_id;
 	require("../../../config/tools/smonitor/db.inc.php");
+	require("../../../config/db.inc.php");
 	require("../../../config/tools/smonitor/local.inc.php");
 
-	
+	 if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
+            $config->db_host = $config->db_host_smonitor;
+            $config->db_port = $config->db_port_smonitor;
+            $config->db_user = $config->db_user_smonitor;
+            $config->db_pass = $config->db_pass_smonitor;
+            $config->db_name = $config->db_name_smonitor;
+ 	}
+
 	$link = mysql_connect($config->db_host, $config->db_user, $config->db_pass);
 	mysql_select_db($config->db_name, $link);
 	$chart_size = get_config_var('chart_size',$box_id)+1;

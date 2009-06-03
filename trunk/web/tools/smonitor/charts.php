@@ -4,11 +4,12 @@
  */
  require("../../../config/tools/smonitor/local.inc.php"); 
  require("../../../config/tools/smonitor/db.inc.php"); 
+ require("../../../config/db.inc.php"); 
  require("lib/functions.inc.php");
 
  session_start();  
  require("lib/put_select_boxes.php"); 
- 
+ include("lib/db_connect.php"); 
  
  $box_id=get_box_id($current_box); 
  require("template/header.php");
@@ -24,9 +25,9 @@
  
  if ($_POST['flush']!=null)
  {
-  db_connect();
-  mysql_query("delete from ".$config->table_monitoring." where box_id=".$box_id) or die(mysql_error());
-  db_close();
+  $sql = "delete from ".$config->table_monitoring." where box_id=".$box_id;
+  $link->exec($sql);
+  $link->disconnect();
  }
  
  $expanded=false;

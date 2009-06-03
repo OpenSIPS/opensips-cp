@@ -4,6 +4,7 @@
  */
 
  require_once("../../../config/session.inc.php");
+ require_once("../../../config/db.inc.php");
  require_once("../../../config/tools/smonitor/db.inc.php");
  require_once("../../../config/tools/smonitor/menu.inc.php");
  require_once("../../../config/tools/smonitor/local.inc.php");

@@ -6,8 +6,17 @@
 $var = $_REQUEST['stat'];
 $box_id = $_REQUEST['box_id'];
 require("../../../../config/tools/smonitor/db.inc.php");
+require("../../../../config/db.inc.php");
 require("../../../../config/tools/smonitor/local.inc.php");
 require("functions.inc.php");
+
+ if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
+            $config->db_host = $config->db_host_smonitor;
+            $config->db_port = $config->db_port_smonitor;
+            $config->db_user = $config->db_user_smonitor;
+            $config->db_pass = $config->db_pass_smonitor;
+            $config->db_name = $config->db_name_smonitor;
+ }
 
 $link = mysql_connect($config->db_host, $config->db_user, $config->db_pass);
 mysql_select_db($config->db_name, $link);
