@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -23,8 +23,8 @@
 
 require("template/header.php");
 require("lib/".$page_id.".main.js");
-require ("../../common/mi_comm.php");
-
+require("../../common/mi_comm.php");
+include("lib/db_connect.php");
 $table=$config->table_dialplan;
 
 $current_page="current_page_dialplan";
@@ -115,14 +115,16 @@ if ($action=="add_verify")
 		$match_len = "0";
 
 		if ($errors=="") {
-			$link = db_connect();
 			if(get_magic_quotes_gpc()==0){
 				$match_exp = mysql_real_escape_string($match_exp, $link);
 			}
-			$result=mysql_query("SELECT * FROM ".$table.
-			" WHERE dpid=" .$dpid. " AND match_exp='" .$match_exp. "'")
-			or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table.
+			" WHERE dpid=" .$dpid. " AND match_exp='" .$match_exp. "'";
+			$resultset = $link->query($sql);	
+			if(PEAR::isError($resultset)) {
+			        die('Failed to issue query, error message : ' . $resultset->getMessage());
+			}
+			if ( $resultset->numRows() > 0 ) {
 				$errors="Duplicate rule";
 			} else {
 				for($i = 0; $i<sizeof($config->attrs_cb); $i++)
@@ -138,18 +140,21 @@ if ($action=="add_verify")
 					if($repl_exp!="")
 					$repl_exp=mysql_real_escape_string($repl_exp,	$link);
 				}
-				mysql_query("INSERT INTO ".$table."
+				$sql = "INSERT INTO ".$table."
 				(dpid, pr, match_op, match_exp, match_len, subst_exp, 
 				repl_exp, attrs) VALUES 
 				(".$dpid.", ".$pr.",".$match_op.", '".$match_exp."',".
 				$match_len.",'" .$subst_exp. "','" .$repl_exp. "','" .
-				$attrs. "')")
-
-				or die(mysql_error());
+				$attrs. "')";
+				$resultset=$link->prepare($sql);
+				if(PEAR::isError($resultset)) {
+				        die('Failed to issue query, error message : ' . $resultset->getMessage());
+				}
+				$resultset->execute();
+				$resultset->free();
 
 				$info="The new rule was added";
 			}
-			db_close();
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -181,32 +186,34 @@ if ($action=="add_verify_dp")
 		}
 
 		if ($errors=="") {
-			$link = db_connect();
 
-			$result=mysql_query("SELECT * FROM ".$table.
-			" WHERE dpid=" .$src_dpid)
-			or die(mysql_error());
+			$sql = "SELECT * FROM ".$table.
+			" WHERE dpid=" .$src_dpid;
+			$resultset = $link->queryAll($sql);
 
-			$nb_rows = mysql_num_rows($result);
-
-			if ($nb_rows==0) {
+			if (count($resultset)==0) {
 				$errors="No rules to duplicate";
 			} else {
-				while($row=mysql_fetch_array($result))
+				for ($i=0; $i<count($resultset);$i++)
 				{
-					mysql_query("INSERT INTO ".$table.
+					$sql = "INSERT INTO ".$table.
 					"(dpid, pr, match_op, match_exp, match_len, subst_exp,
 					repl_exp, attrs) VALUES (".$dst_dpid.", ".
-					$row['pr'].", ".$row['match_op'].
-					", '".$row['match_exp']."', ".$row['match_len'].
-					", '" .$row['subst_exp']."', '".$row['repl_exp'].
-					"', '".$row['attrs']."')")
-					or die(mysql_error());
+					$resultset[$i]['pr'].", ".$resultset[$i]['match_op'].
+					", '".$resultset[$i]['match_exp']."', ".$resultset[$i]['match_len'].
+					", '" .$resultset[$i]['subst_exp']."', '".$resultset[$i]['repl_exp'].
+					"', '".$resultset[$i]['attrs']."')";
+					$resultset = $link->prepare($sql);
+					if(PEAR::isError($resultset)) {
+					        die('Failed to issue query, error message : ' . $resultset->getMessage());
+					}
+					$resultset->execute();
+					$resultset->free();
 
 				}
 				$info="The dialplan was cloned";
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}else{
 
@@ -277,17 +284,19 @@ if ($action=="modify")
 		$match_len = "0";
 
 		if ($errors=="") {
-			$link = db_connect();
 			if(get_magic_quotes_gpc()==0){
 
 				$match_exp = mysql_real_escape_string($match_exp, $link);
 			}
 
-			$result=mysql_query("SELECT * FROM ".$table.
+			$sql = "SELECT * FROM ".$table.
 			" WHERE dpid=" .$dpid. " AND match_exp='" .$match_exp. "'".
-			" AND id!=".$id)
-			or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			" AND id!=".$id;
+			$resultset = $link->queryAll($sql);	
+			if(PEAR::isError($resultset)) {
+			        die('Failed to issue query, error message : ' . $resultset->getMessage());
+			}
+			if (count($resultset)>0) {
 				$errors="Duplicate rule";
 			} else {
 
@@ -309,17 +318,21 @@ if ($action=="modify")
 					if($repl_exp!="")
 					$repl_exp	= mysql_real_escape_string($repl_exp,	$link);
 				}
-				mysql_query("UPDATE ".$table." SET dpid=".$dpid.", pr = ".$pr.
+				$sql = "UPDATE ".$table." SET dpid=".$dpid.", pr = ".$pr.
 				", match_op= ".$match_op.", match_exp ='".$match_exp.
 				"', match_len=".$match_len.", subst_exp = '" .$subst_exp.
 				"', repl_exp='" .$repl_exp. "', attrs= '".$attrs."'".
-				" WHERE id=".$id)
-
-				or die(mysql_error());
-
+				" WHERE id=".$id;
+				$resultset = $link->prepare($sql);
+				if(PEAR::isError($resultset)) {
+				        die('Failed to issue query, error message : ' . $resultset->getMessage());
+				}
+				$resultset->execute();
+				$resultset->free();
+		
 				$info="The new rule was modified";
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}else{
 
@@ -340,12 +353,11 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		db_connect();
 		$id=$_GET['id'];
 
-		mysql_query("DELETE FROM ".$table." WHERE id=".$id)
-		or die(mysql_error());
-		db_close();
+		$sql = "DELETE FROM ".$table." WHERE id=".$id;
+		$link->exec($sql);
+		$link->disconnect();
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -375,9 +387,59 @@ if ($action=="dp_act")
 		$errors= "User with Read-Only Rights";
 	}else if($clone=="Clone Dialplan"){
 
-		require("template/".$page_id.".clone_dp.php");
-		require("template/footer.php");
-		exit();
+        $info="";
+        $errors="";
+
+        if(!$_SESSION['read_only']){
+
+                $dpid=$_POST['dialplan_id'];
+               //$dst_dpid=$_POST['dst'];
+
+                if ($dpid=="" ){
+                        $errors = "Empty source Dialplan ID";
+                }/*else if($src_dpid==$dst_dpid){
+                        $errors = "Source the same as destination";
+                }*/
+
+                if ($errors=="") {
+
+                        $sql = "SELECT * FROM ".$table.
+                        " WHERE dpid=" .$dpid;
+                        $resultset = $link->queryAll($sql);
+                        if(PEAR::isError($resulset)) {
+	                        die('Failed to issue query, error message : ' . $resultset->getMessage());
+                        }
+
+                        if (count($resultset)==0) {
+                                $errors="No rules to duplicate";
+                        } else {
+		                require("template/".$page_id.".clone.php");
+                		require("template/footer.php");
+		                exit();
+
+                                        $sql = "INSERT INTO ".$table.
+                                        "(dpid, pr, match_op, match_exp, match_len, subst_exp,
+                                        repl_exp, attrs) VALUES (".$dest_dpid.", ".
+                                        $resultset[0]['pr'].", ".$resultset[0]['match_op'].
+                                        ", '".$resultset[0]['match_exp']."', ".$resultset[0]['match_len'].
+                                        ", '" .$resultset[0]['subst_exp']."', '".$resultset[0]['repl_exp'].
+                                        "', '".$resultset[0]['attrs']."')";
+                                        $result = $link->prepare($sql);
+                                        if(PEAR::isError($result)) {
+                                                die('Failed to issue query, error message: ' . $result->getMessage());
+                                        }
+                                        $result->execute();
+                                        $result->free();
+
+                                $info="The dialplan was cloned";
+                        }
+                        $link->disconnect();
+                }
+        }else{
+
+                $errors= "User with Read-Only Rights";
+        }
+
 
 	}else if($delete=="Delete Dialplan"){
 
@@ -387,21 +449,22 @@ if ($action=="dp_act")
 
 		if($errors=="")
 		{
-			db_connect();
-			$result=mysql_query("SELECT * FROM ".$table.
-			" WHERE dpid=" .$dpid)
-			or die(mysql_error());
-
-			if (mysql_num_rows($result)==0) {
+			$sql = "SELECT * FROM ".$table.
+			" WHERE dpid=" .$dpid;
+			$resultset = $link->queryAll($sql);
+			if(PEAR::isError($resultset)) {
+			        die('Failed to issue query, error message : ' . $resultset->getMessage());
+			}
+			if (count($resultset)==0) {
 				$errors="No Rule with such Dialplan ID";
 				$_SESSION['dialplan_id']="";
 
 			}else{
 
-				mysql_query("DELETE FROM ".$table." WHERE dpid=".$dpid)
-				or die(mysql_error());
+				$sql = "DELETE FROM ".$table." WHERE dpid=".$dpid;
+				$link->exec($sql);
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}
 }
