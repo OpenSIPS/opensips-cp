@@ -7,22 +7,22 @@
   <td class="dataTitle">Detailed view for Gateway #<?=$_GET['id']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Gateway ID:</b> <?=$row['gwid']?></td>
+  <td class="dataRecord"><b>Gateway ID:</b> <?=$resultset[0]['gwid']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Type:</b> <?=get_type($row['type'])?></td>
+  <td class="dataRecord"><b>Type:</b> <?=get_type($resultset[0]['type'])?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Address:</b> <?=$row['address']?></td>
+  <td class="dataRecord"><b>Address:</b> <?=$resultset[0]['address']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Strip:</b> <?=$row['strip']?></td>
+  <td class="dataRecord"><b>Strip:</b> <?=$resultset[0]['strip']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>PRI Prefix:</b> <?=$row['pri_prefix']?></td>
+  <td class="dataRecord"><b>PRI Prefix:</b> <?=$resultset[0]['pri_prefix']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Description:</b> <?=$row['description']?></td>
+  <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">
   <td class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>

@@ -4,6 +4,7 @@
  */
 
  require("template/header.php");
+ include("lib/db_connect.php");
  $table=$config->table_lists;
  $current_page="current_page_lists";
  
@@ -21,10 +22,12 @@
 #################
  if ($action=="details")
  {
-  db_connect();
-  $result=mysql_query("select * from ".$table." where id='".$id."' limit 1") or die(mysql_error());
-  $row=mysql_fetch_array($result);
-  db_close();
+  $sql = "select * from ".$table." where id='".$id."' limit 1";
+  $resultset = $link->queryAll($sql);
+  if(PEAR::isError($resultset)) {
+	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+  $link->disconnect();
   require("template/".$page_id.".details.php");
   require("template/footer.php");
   exit();
@@ -40,9 +43,11 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    db_connect();
-                    mysql_query("update ".$table." set gwlist='".$gwlist."', description='".$description."' where id='".$_GET['id']."' limit 1") or die(mysql_error());
-                    db_close();
+                    $sql = "update ".$table." set gwlist='".$gwlist."', description='".$description."' where id='".$_GET['id']."'";
+		    $resultset = $link->prepare($sql);
+		    $resultset->execute();
+		    $resultset->free();	
+                    $link->disconnect();
                    }
   if ($form_valid) $action="";
    else $action="edit";
@@ -56,10 +61,12 @@
 ##############
  if ($action=="edit")
  {
-  db_connect();
-  $result=mysql_query("select * from ".$table." where id='".$_GET['id']."' limit 1") or die(mysql_error());
-  $row=mysql_fetch_array($result);
-  db_close();
+  $sql = "select * from ".$table." where id='".$_GET['id']."' limit 1";
+  $resultset = $link->queryAll($sql);
+  if(PEAR::isError($resultset)) {
+	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+  $link->disconnect();
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -78,11 +85,17 @@
   if ($form_valid) {
                     $_SESSION['rules_search_gwlist']="";
                     $_SESSION['rules_search_description']="";
-                    db_connect();
-                    mysql_query("insert into ".$table." (gwlist, description) values ('".$gwlist."', '".$description."')") or die(mysql_error());
-                    $result=mysql_query("select * from ".$table." where 1") or die(mysql_error());
-                    $data_no=mysql_num_rows($result);
-                    db_close();
+                    $sql = "insert into ".$table." (gwlist, description) values ('".$gwlist."', '".$description."')";
+		    $resultset = $link->prepare($sql);
+		    $resultset->execute();
+		    $resultset->free();
+                    $sql = "select * from ".$table." where (1=1)";
+                    $resultset = $link->queryAll($sql);
+                    if(PEAR::isError($resultset)) {
+	                    die('Failed to issue query, error message : ' . $resultset->getMessage());
+                    }	
+                    $data_no=count($resultset);
+                    $link->disconnect();
                     $page_no=ceil($data_no/10);
                     $_SESSION[$current_page]=$page_no;
                    }
@@ -113,9 +126,9 @@
 ################
  if ($action=="delete")
  {
-  db_connect();
-  mysql_query("delete from ".$table." where id='".$_GET['id']."' limit 1") or die(mysql_error());
-  db_close();
+  $sql = "delete from ".$table." where id='".$_GET['id']."'";
+  $link->exec($sql);
+  $link->disconnect();
  }
 ##############
 # end delete #
@@ -144,11 +157,11 @@
                                          if ($search_gwlist!="") $sql_search.=" and gwlist like '%".$search_gwlist."%'";
                                          $search_description=$_SESSION['rules_search_description'];
                                          if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
-                                         db_connect();
-                                         mysql_query("delete from ".$table." where 1 ".$sql_search) or die(mysql_error());
-                                         db_close();
+                                         $sql = "delete from ".$table." where (1=1) ".$sql_search;
+                                         $link->exec($sql);
                                         }
        }
+       $link->disconnect();
  }
 ##############
 # end search #

@@ -6,34 +6,39 @@
 function get_groupids()
 {
  global $config;
- db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select distinct groupid from ".$config->table_groups." where 1 order by groupid asc") or die(mysql_error());
- while($row = mysql_fetch_array($result))
+ $sql="select distinct groupid from ".$config->table_groups." where (1=1) order by groupid asc";
+ $result=$link->queryAll($sql);
+ if(PEAR::isError($result)) {
+ 	die('Failed to issue query, error message : ' . $result->getMessage());
+ }
+ for($i=0;count($result)>$i;$i++)
  {
-  $values[$index] = $row['groupid'];
+  $values[$index] = $result[$i]['groupid'];
   $index++;
  }
- db_close();
  return($values);
 }
 
 function get_gwlist()
 {
+ include("db_connect.php");
  global $config;
- db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select * from ".$config->table_gateways." where 1 order by gwid asc") or die(mysql_error());
- while($row = mysql_fetch_array($result))
+ $sql="select * from ".$config->table_gateways." where (1=1) order by gwid asc";
+ $result=$link->queryAll($sql);
+ if(PEAR::isError($result)) {
+ 	die('Failed to issue query, error message : ' . $result->getMessage());
+ }
+ for($i=0;count($result)>$i;$i++)
  {
-  $values[$index][0] = $row['gwid'];
-  $values[$index][1] = $row['address'];
-  $values[$index][2] = $row['description'];
+  $values[$index][0] = $result[$i]['gwid'];
+  $values[$index][1] = $result[$i]['address'];
+  $values[$index][2] = $result[$i]['description'];
   $index++;
  }
- db_close();
  return($values);
 }
 
@@ -284,19 +289,22 @@ function parse_gwlist($gwlist_string)
 
 function get_lists()
 {
+include("db_connect.php");
  global $config;
- db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select * from ".$config->table_lists." where 1 ") or die(mysql_error());
- while($row = mysql_fetch_array($result))
+ $sql="select * from ".$config->table_lists." where (1=1) ";
+ $result=$link->queryAll($sql);
+ if(PEAR::isError($result)) {
+ 	die('Failed to issue query, error message : ' . $result->getMessage());
+ }
+ for($i=0;count($result)>$i;$i++)
  {
-  $values[$index][0] = $row['id'];
-  $values[$index][1] = $row['gwlist'];
-  $values[$index][2] = $row['description'];
+  $values[$index][0] = $result[$i]['id'];
+  $values[$index][1] = $result[$i]['gwlist'];
+  $values[$index][2] = $result[$i]['description'];
   $index++;
  }
- db_close();
  return($values);
 }
 

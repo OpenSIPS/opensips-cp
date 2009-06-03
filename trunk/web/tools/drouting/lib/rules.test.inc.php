@@ -3,7 +3,7 @@
  * $Id$
  */
   extract($_POST);
-if (isset($lists)) $gwlist=$lists;
+if (!empty($lists)) $gwlist=$lists;
   $form_valid=true;
   if ($form_valid)
    if ($groupid=="") {
@@ -149,16 +149,17 @@ if (isset($lists)) $gwlist=$lists;
                            }
                      
                     }
-                    db_connect();
-                    $result=mysql_query("select * from ".$table." where groupid='".$groupid."' and prefix='".$prefix."' and timerec='".$timerec."' and priority='".$priority."' and routeid='".$routeid."' and gwlist='".$gwlist."'") or die(mysql_error());
-                    $data_rows=mysql_num_rows($result);
-                    $rows=mysql_fetch_array($result);
-                    if (($data_rows>0) && ($rows['ruleid']!=$_GET['id']))
+                    $sql="select * from ".$table." where groupid='".$groupid."' and prefix='".$prefix."' and timerec='".$timerec."' and priority='".$priority."' and routeid='".$routeid."' and gwlist='".$gwlist."'";
+		    $result=$link->queryAll($sql);
+		    if(PEAR::isError($result)) {
+                               die('Failed to issue query, error message : ' . $result->getMessage());
+                    }
+                    $data_rows=count($result);
+                    if (($data_rows>0) && ($result[0]['ruleid']!=$_GET['id']))
                     {
                      $form_valid=false;
                      $form_error="- this is already a valid rule -";
                     }
-                    db_close();
                    }
 
 ?>

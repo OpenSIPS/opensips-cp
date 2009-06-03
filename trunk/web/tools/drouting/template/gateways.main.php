@@ -65,11 +65,13 @@
   <td class="dataTitle">Delete</td>
  </tr>
 <?php
- db_connect();
- if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by gwid asc";
-  else $sql_command="select * from ".$table." where 1 ".$sql_search." order by gwid asc";
- $result=mysql_query($sql_command) or die(mysql_error());
- $data_no=mysql_num_rows($result);
+ if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by gwid asc";
+  else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by gwid asc";
+  $resultset = $link->queryAll($sql_command);
+  if(PEAR::isError($resultset)) {
+ 	 die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+ $data_no=count($resultset);
  if ($data_no==0) echo('<tr><td colspan="10" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
@@ -81,33 +83,38 @@
                        $_SESSION[$current_page]=$page;
                       }
   $start_limit=($page-1)*$res_no;
-  $sql_command.=" limit ".$start_limit.", ".$res_no;
-  $result=mysql_query($sql_command) or die(mysql_error());
+  //$sql_command.=" limit ".$start_limit.", ".$res_no;
+ if ($start_limit==0) $sql_command.=" limit ".$res_no;
+ else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
+  $resultset = $link->queryAll($sql_command);
+  if(PEAR::isError($resultset)) {
+  	die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
   require("lib/".$page_id.".main.js");
   $index_row=0;
-  while ($row=mysql_fetch_array($result))
+  for ($i=0;count($resultset)>$i;$i++)
   {
    $index_row++;
    if ($index_row%2==1) $row_style="rowOdd";
     else $row_style="rowEven";
-   if (strlen($row['description'])>23) $description=substr($row['description'],0,20)."...";
-    else if ($row['description']!="") $description=$row['description'];
+   if (strlen($resultset[$i]['description'])>23) $description=substr($resultset[$i]['description'],0,20)."...";
+    else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
-   $data_rows=get_status($row['gwid']);
+   $data_rows=get_status($resultset[$i]['gwid']);
    if ($data_rows==0) $status='<img src="images/inactive.gif" alt="inactive">';
     else $status='<img src="images/active.gif" alt="active"> / '.$data_rows;
-   if ($row['pri_prefix']!="") $pri_prefix=$row['pri_prefix'];
+   if ($resultset[$i]['pri_prefix']!="") $pri_prefix=$resultset[$i]['pri_prefix'];
     else $pri_prefix="&nbsp;";
-   $details_link='<a href="'.$page_name.'?action=details&id='.$row['gwid'].'"><img src="images/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$row['gwid'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$row['gwid'].'" onclick="return confirmDelete(\''.$row['gwid'].'\')"><img src="images/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['gwid'].'"><img src="images/details.gif" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['gwid'].'"><img src="images/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="images/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
-  <td class="<?=$row_style?>"><?=$row['gwid']?></td>
-  <td class="<?=$row_style?>"><?=$row['type']?></td>
-  <td class="<?=$row_style?>"><?=$row['address']?></td>
-  <td class="<?=$row_style?>"><?=$row['strip']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['gwid']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['type']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['address']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['strip']?></td>
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>

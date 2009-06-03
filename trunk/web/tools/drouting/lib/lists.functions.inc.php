@@ -2,38 +2,42 @@
 /*
  * $Id$
  */
-
 function get_groupids()
 {
  global $config;
- db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select distinct groupid from ".$config->table_groups." where 1 order by groupid asc") or die(mysql_error());
- while($row = mysql_fetch_array($result))
+ $sql="select distinct groupid from ".$config->table_groups." where (1=1) order by groupid asc";
+ $resultset = $link->queryAll($sql);
+ if(PEAR::isError($resultset)) {
+	 die('Failed to issue query, error message : ' . $resultset->getMessage());
+ } 
+ for($i=0;count($resultset)>$i;$i++)
  {
-  $values[$index] = $row['groupid'];
+  $values[$index] = $resultset[$i]['groupid'];
   $index++;
  }
- db_close();
  return($values);
 }
 
 function get_gwlist()
 {
+include("db_connect.php");
  global $config;
- db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select * from ".$config->table_gateways." where 1 order by address asc") or die(mysql_error());
- while($row = mysql_fetch_array($result))
+ $sql="select * from ".$config->table_gateways." where (1=1) order by gwid asc";
+ $resultset = $link->queryAll($sql);
+ if(PEAR::isError($resultset)) {
+ 	die('Failed to issue query, error message : ' . $resultset->getMessage());
+ }
+ for($i=0;count($resultset)>$i;$i++)
  {
-  $values[$index][0] = $row['gwid'];
-  $values[$index][1] = $row['address'];
-  $values[$index][2] = $row['description'];
+  $values[$index][0] = $resultset[$i]['gwid'];
+  $values[$index][1] = $resultset[$i]['address'];
+  $values[$index][2] = $resultset[$i]['description'];
   $index++;
  }
- db_close();
  return($values);
 }
 
@@ -285,18 +289,20 @@ function parse_gwlist($gwlist_string)
 function get_lists()
 {
  global $config;
- db_connect();
  $index = 0;
  $values = array();
- $result = mysql_query("select * from ".$config->table_lists." where 1 ") or die(mysql_error());
- while($row = mysql_fetch_array($result))
+ $sql="select * from ".$config->table_lists." where (1=1)";
+ $resultset = $link->queryAll($sql);
+ if(PEAR::isError($resultset)) {
+	 die('Failed to issue query, error message : ' . $resultset->getMessage());
+ }
+ for($i=0;count($resultset)>$i;$i++)
  {
-  $values[$index][0] = $row['id'];
-  $values[$index][1] = $row['gwlist'];
-  $values[$index][2] = $row['description'];
+  $values[$index][0] = $resultset[$i]['id'];
+  $values[$index][1] = $resultset[$i]['gwlist'];
+  $values[$index][2] = $resultset[$i]['description'];
   $index++;
  }
- db_close();
  return($values);
 }
 
