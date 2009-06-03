@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -24,7 +24,9 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../common/mi_comm.php");
+include("lib/db_connect.php");
 $table=$config->table_domains;
+
 
 #################
 # start add new #
@@ -36,15 +38,24 @@ if ($_GET['action']=="add")
 	$domain=$_POST['new_domain'];
 	if (strpos($domain,".")===false) $error="Invalid domain name";
 	if ($error=="") {
-		db_connect();
-		$result=mysql_query("SELECT * FROM ".$table." WHERE domain='".$domain."' ") or die(mysql_error());
-		if (mysql_num_rows($result)>0) $error="Duplicate domain";
-		else {
-			mysql_query("INSERT INTO ".$table." (domain, last_modified) VALUES ('".$domain."', NOW())") or die(mysql_error());
-			$info="The new domain was added";
+		$sql = "SELECT * FROM ".$table." WHERE domain='".$domain."' ";
+		$resultset = $link->query($sql);
+		if(PEAR::isError($resultset)) {
+			    die('Failed to issue query, error message : ' . $resultset->getMessage());
 		}
-		db_close();
+
+		if ( $resultset->numRows() > 0 ) $error="Duplicate domain";
+		else {
+			$sql = 'INSERT INTO '.$table.' (domain, last_modified) VALUES (:domain, NOW())';
+			$resultset = $link->prepare($sql);
+			$resultset->bindParam('domain', $domain);
+
+			$resultset->execute();
+			$resultset->free();
+
+		    }
 	}
+	$link->disconnect();
 }
 ###############
 # end add new #
@@ -61,14 +72,22 @@ if ($_GET['action']=="save")
 	$old_domain=$_POST['old_domain'];
 	if (strpos($domain,".")===false) $error="Invalid domain name";
 	if ($error=="") {
-		db_connect();
-		$result=mysql_query("SELECT * FROM ".$table." WHERE domain='".$domain."' AND domain!='".$old_domain."' ") or die(mysql_error());
-		if (mysql_num_rows($result)>0) $error="Duplicate domain";
+		$sql = "SELECT * FROM ".$table." WHERE domain='".$domain."' AND domain!='".$old_domain."' ";
+		$resultset = $link->query($sql);
+		if(PEAR::isError($resultset)) {
+                            die('Failed to issue query, error message : ' . $resultset->getMessage());
+                }
+		if ( $resultset->numRows() > 0 ) $error="Duplicate domain";
 		else {
-			mysql_query("UPDATE ".$table." SET domain='".$domain."', last_modified=NOW() WHERE domain='".$old_domain."' ") or die(mysql_error());
+			$sql = "UPDATE ".$table." SET domain='".$domain."', last_modified=NOW() WHERE domain='".$old_domain."' ";
 			$info="The domain name was modified";
+
+                        $resultset = $link->prepare($sql);
+
+                        $resultset->execute();
+                        $resultset->free();
 		}
-		db_close();
+	$link->disconnect();
 	}
 }
 ############
@@ -95,10 +114,11 @@ if (($old_domain!="") && ($error!=""))
 ################
 if ($_GET['action']=="delete")
 {
-	db_connect();
-	$del_id=$_GET['domain'];
-	mysql_query("DELETE FROM ".$table." WHERE domain='".$del_id."' LIMIT 1") or die(mysql_error());
-	db_close();
+	$del_id=$_GET['domain'];	
+	//$sql = "DELETE FROM ".$table." WHERE domain='".$del_id."' LIMIT 1";
+	$sql = "DELETE FROM ".$table." WHERE domain='".$del_id."'";
+	$link->exec($sql);	
+	$link->disconnect();
 }
 ##############
 # end delete #
