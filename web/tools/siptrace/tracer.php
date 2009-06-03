@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -23,9 +23,13 @@
  
  require("template/header.php");
  require("lib/".$page_id.".main.js");
+ include("lib/db_connect.php");
  
  require("../../../config/tools/siptrace/local.inc.php");
  require("../../common/mi_comm.php");
+ require("../../../../config/db.inc.php");
+
+ global $config;	
  $table=$config->table_trace;
  $current_page="current_page_tracer";
  

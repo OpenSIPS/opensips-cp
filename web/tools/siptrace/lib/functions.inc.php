@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,6 +28,15 @@
 function db_connect()
 {
  global $config;
+
+ if (!empty($config->db_host_siptrace) && !empty($config->db_user_siptrace) && !empty($config->db_name_siptrace) ) {
+            $config->db_host = $config->db_host_siptrace;
+            $config->db_port = $config->db_port_siptrace;
+            $config->db_user = $config->db_user_siptrace;
+            $config->db_pass = $config->db_pass_siptrace;
+            $config->db_name = $config->db_name_siptrace;
+ }
+
  
  $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
  
