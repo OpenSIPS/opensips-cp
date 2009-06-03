@@ -1,7 +1,7 @@
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -33,11 +33,8 @@ if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=" and ".$cdr_field.'=
 $search_start=$_SESSION['cdrviewer_search_start'];
 $search_end=$_SESSION['cdrviewer_search_end'];
 
-db_connect();
-
-
 $cdr_table = $config->cdr_table;
-$sql  = "select count(*) from ".$cdr_table. " where 1 ";
+$sql  = "select count(*) from ".$cdr_table. " where (1=1) ";
 
 if (($search_start!="")) {
 
@@ -124,11 +121,12 @@ if 	((($sql_search!=""))) {
 </form><br>
 
 <?
+$row=$link->queryAll($sql);
+if(PEAR::isError($row)) {
+	die('Failed to issue query, error message : ' . $row->getMessage());
+}
 
-$result=mysql_query($sql) or die(mysql_error());
-$row=mysql_fetch_row($result) ;
-
-$data_no = $row[0];
+$data_no = $row[0]['count(*)'];
 
 
 if ($data_no==0) {
@@ -153,7 +151,7 @@ else
 
 	$sql = "select * " ;
 
-	$sql.=" from ".$cdr_table . " where 1 ";
+	$sql.=" from ".$cdr_table . " where (1=1) ";
 
 	if (($search_start!="") && ($search_end!="")) {
 
@@ -175,7 +173,7 @@ else
 	$sql .= " order by call_start_time desc " ;
 	$sql.=" LIMIT ".$start_limit.", ".$config->results_per_page;
 
-	$result=mysql_query($sql) or die(mysql_error());
+	$result=$link->queryAll($sql);
 
 	?>
 
@@ -199,7 +197,7 @@ else
 
 
 	$k = 0 ;
-	while($row_d=mysql_fetch_array($result))
+	for($j=0;count($result)>$j;$j++)
 	{
 
 		if ( $k%2 == 0 ) $row_style="rowOdd";
@@ -212,7 +210,7 @@ else
 	   <tr align="center">
 
 	   <? for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
-	   <td class="<?=$row_style?>"><?=$row_d[key($show_field[$i])]?></td>
+	   <td class="<?=$row_style?>"><?=$result[$j][key($show_field[$i])]?></td>
        
 	   <? } ?>
 
@@ -220,7 +218,7 @@ else
 	   <td>
 		<?
 
-		$this_sip_call_id = $row_d[$sip_call_id_field_name];
+		$this_sip_call_id = $result[$j][$sip_call_id_field_name];
 
 		echo('&nbsp;<a href="'.'go_to_siptrace.php'.'?callid='.($this_sip_call_id).'" class="menuItem" onClick="select_dot()" > <b>Trace</b></a>&nbsp;');
 
@@ -232,7 +230,7 @@ else
 $k++ ;
 	}
 }
-db_close();
+$link->disconnect();
 
 ?>
 <tr>

@@ -3,6 +3,7 @@
 
 require("template/header.php");
 require("../../../config/tools/cdrviewer/local.inc.php");
+include("lib/db_connect.php");
 
 $current_page="current_page_cdrviewer";
 
@@ -53,9 +54,8 @@ if ($export == "Export") {
 	$search_end=$_SESSION['cdrviewer_search_end'];
 
 	if (($search_start != "" ) ||  ($search_start != "" ) || ($sql_search!="" ))  {
-		db_connect();
 		cdr_put_to_download($search_start,$search_end,$sql_search,"cdr-temp.csv");
-		db_close();
+		$link->disconnect();
 	}
 	exit();
 }

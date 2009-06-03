@@ -1,9 +1,9 @@
 <?
-
 require("../../../config/tools/siptrace/local.inc.php");
 require("../../../config/tools/siptrace/db.inc.php");
+require("../../../config/db.inc.php");
 require("../siptrace/lib/functions.inc.php");
-
+include("lib/db_connect.php");
 
 session_start();
 get_priv();
@@ -20,29 +20,30 @@ $callid	=	$_GET['callid'];
 
 $sql = "select id from ".$config->table_trace." where callid='".$callid."'";
 
-db_connect();
+$row = $link->queryAll($sql);
+if(PEAR::isError($row)) {
+	die('Failed to issue query, error message : ' . $row->getMessage());
+}
 
-$result=mysql_query($sql) or die(mysql_error());
-
-$row=mysql_fetch_array($result);
-
-$siptraceid = $row[0];
+$siptraceid = $row[0]['id'];
 
 if (!(is_numeric($siptraceid))) {
-	echo('<tr><td colspan="5" class="rowEven" align="center"><br>Sorry , sip trace for this call is unavaillable<br><br></td></tr>');
-	db_close();
+	echo('<tr><td colspan="5" class="rowEven" align="center"><br>Sorry , sip trace for this call is unavailable<br><br></td></tr>');
+	$link->disconnect();
 	exit();
 }
 
 
 $sql = "select distinct callid from (select * from ".$config->table_trace." where id < ".$siptraceid.") as foo" ;
 
+$resultset=$link->queryAll($sql);
+if(PEAR::isError($resultset)) {
+	die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
 
-$result=mysql_query($sql) or die(mysql_error());
+$data_no=count($resultset);
 
-$data_no=mysql_num_rows($result);
-
-db_close();
+$link->disconnect();
 
 
 $page_no = ceil($data_no/$config->results_per_page)  ;
@@ -55,7 +56,4 @@ $_SESSION['tracer_search_traced_user']="";
 
 
 header ('Location: ../siptrace/tracer.php?id='.$siptraceid."&page=".$page_no);
-
-
-
 ?>

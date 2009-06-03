@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -28,9 +28,17 @@
 function db_connect()
 {
 	global $config;
+	
+	if (!empty($config->db_host_cdrviewer) && !empty($config->db_user_cdrviewer) && !empty($config->db_name_cdrviewer) ) {
+		$config->db_host = $config->db_host_cdrviewer;
+		$config->db_port = $config->db_port_cdrviewer;
+		$config->db_user = $config->db_user_cdrviewer;
+		$config->db_pass = $config->db_pass_cdrviewer;
+		$config->db_name = $config->db_name_cdrviewer;
 
+	}
 	$link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
-
+ 
 	if (!$link) {
 		die("Could not connect to MySQL Server: " . mysql_error());
 		exit();
@@ -182,10 +190,13 @@ function cdr_export($start_time,  $end_time ) {
 
 	$sql .= " order by call_start_time desc " ;
 
+	$result =$link->queryAll($sql);
+	if(PEAR::isError($result))
+        	die('Failed to issue query, error message : ' . $result->getMessage());
+	
 
-	$result=mysql_query($sql) or die(mysql_error());
 
-	$num_rows = mysql_num_rows($result);
+	$num_rows = count($result);
 
 	echo $num_rows ;
 
@@ -229,13 +240,13 @@ function cdr_export($start_time,  $end_time ) {
 		fwrite($f , $line , strlen($line));
 
 	}
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	for ($j=0;count($result)>$j;$j++) {
 		$line = "";
 
 		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
 
 
-			$line .= $row[key($export_csv[$i])];
+			$line .= $result[$j][key($export_csv[$i])];
 
 			if  ($i < count($export_csv) - 1 )
 
@@ -264,7 +275,7 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 	$sql = "select * " ;
 
-	$sql.=" from ".$cdr_table . " where 1 ";
+	$sql.=" from ".$cdr_table . " where (1=1) ";
 
 
 	if (($start_time !="")) {
@@ -284,11 +295,14 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	if ($sql_search!="") $sql.=  $sql_search  ;
 
 	$sql .= " order by call_start_time desc " ;
+	
+	$result = $link->queryAll($sql);
+	if(PEAR::isError($result)) {
+        	die('Failed to issue query, error message : ' . $result->getMessage());
+	}
 
 
-	$result=mysql_query($sql) or die(mysql_error());
-
-	$num_rows = mysql_num_rows($result);
+	$num_rows = count($result);
 
 
 	$f = fopen($outfile, "w");
@@ -313,13 +327,13 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 		fwrite($f , $line , strlen($line));
 
 	}
-	while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
+	for ($j=0;count($result)>$j;$j++) {
 		$line = "";
 
 		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
 
 
-			$line .= $row[key($export_csv[$i])];
+			$line .= $result[$j][key($export_csv[$i])];
 
 			if  ($i < count($export_csv) - 1 )
 
