@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -24,10 +24,17 @@
 ######################
 # Database Functions #
 ######################
-
 function db_connect()
 {
  global $config;
+
+ if (!empty($config->db_host_pdt) && !empty($config->db_user_pdt) && !empty($config->db_name_pdt) ) {
+            $config->db_host = $config->db_host_pdt;
+            $config->db_port = $config->db_port_pdt;
+            $config->db_user = $config->db_user_pdt;
+            $config->db_pass = $config->db_pass_pdt;
+            $config->db_name = $config->db_name_pdt;
+ }
  
  $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
  
@@ -116,26 +123,26 @@ function get_proxys_by_assoc_id($my_assoc_id){
 
 function del_pdt_multiple($prefix, $sdomain)
 {
+include("db_connect.php");
 	global $config;
 	global $comm_type ; 
 	global $xmlrpc_host ;
 	global $xmlrpc_port ;
 	global $fifo_file ;
 	global $talk_to_this_assoc_id; 
-	
-	db_connect();
 	if ($config->sdomain) $sql="SELECT domain FROM ".$config->table_pdts." WHERE prefix='".$prefix."' AND sdomain='".$sdomain."' LIMIT 1";
 	 else $sql="SELECT domain FROM ".$config->table_pdts." WHERE prefix='".$prefix."' LIMIT 1";
-	$result=mysql_query($sql) or die(mysql_error());
-	$row=mysql_fetch_array($result);
-	db_close();
-
+	$resultset = $link->queryAll($sql);
+	if(PEAR::isError($resultset)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
+	$link->disconnect();
 
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	
 	if ($config->sdomain) { 
 	
-	$command="pdt_delete ".$sdomain." ".$row['domain'] ;
+	$command="pdt_delete ".$sdomain." ".$resultset[0]['domain'] ;
 
 	
 	for ($i=0;$i<count($mi_connectors);$i++){	
@@ -147,7 +154,7 @@ function del_pdt_multiple($prefix, $sdomain)
 	
 	}else {
 	
-	$command="pdt_delete ".$row['domain'] ;
+	$command="pdt_delete ".$resultset[0]['domain'] ;
 
 
 		for ($i=0;$i<count($mi_connectors);$i++){	
@@ -166,6 +173,7 @@ function del_pdt_multiple($prefix, $sdomain)
 
 function add_pdt_multiple($prefix, $sdomain, $domain)
 {
+include("db_connect.php");
 	global $config;
 	global $comm_type ; 
 	global $xmlrpc_host ;
