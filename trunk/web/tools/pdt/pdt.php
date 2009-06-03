@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -24,6 +24,7 @@
 require("../../common/mi_comm.php");
 require("template/header.php");
 require("../../../config/tools/pdt/local.inc.php");
+include("lib/db_connect.php");
 
 $current_page="current_page_pdt";
 $table=$config->table_pdts;
@@ -62,12 +63,13 @@ if ($action=="modify")
 ##############
 if ($action=="edit")
 {
-	db_connect();
 	if ($config->sdomain) $sql="SELECT * FROM ".$table." WHERE prefix='".$_GET['prefix']."' AND sdomain='".$_GET['sdomain']."' LIMIT 1";
 	else $sql="SELECT * FROM ".$table." WHERE prefix='".$_GET['prefix']."' LIMIT 1";
-	$result=mysql_query($sql) or die(mysql_error());
-	$row_e=mysql_fetch_array($result);
-	db_close();
+	$row_e = $link->queryAll($sql);
+	if(PEAR::isError($row_e)) {
+		die('Failed to issue query, error message : ' . $row_e->getMessage());
+	}
+	$link->disconnect();
 	require("template/".$page_id.".edit.php");
 	require("template/footer.php");
 	exit();
@@ -87,10 +89,13 @@ if ($action=="add_verify")
 		$_SESSION['pdt_search_sdomain']="";
 		$_SESSION['pdt_search_domain']="";
 		add_pdt_multiple($config->start_prefix.$prefix, $sdomain, $domain);
-		db_connect();
-		$result=mysql_query("SELECT * FROM ".$table." WHERE 1") or die(mysql_error());
-		$data_no=mysql_num_rows($result);
-		db_close();
+		$sql = "SELECT * FROM ".$table." WHERE (1=1)";
+		$resultset = $link->queryAll($sql);
+		if(PEAR::isError($resultset)) {
+			die('Failed to issue query, error message : ' . $resultset->getMessage());
+		}	
+		$data_no=count($resultset);
+		$link->disconnect;
 		$page_no=ceil($data_no/10);
 		$_SESSION[$current_page]=$page_no;
 	}

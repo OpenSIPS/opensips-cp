@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -41,15 +41,20 @@ if ($search_domain!="") {
 if ($config->sdomain) {
 	$search_sdomain=$_SESSION['pdt_search_sdomain'];
 	if ($search_sdomain!="") $sql_search.=" AND sdomain='".$search_sdomain."'";
-	db_connect();
-	$result=mysql_query("SELECT * FROM ".$config->table_domains." WHERE 1 ORDER BY domain ASC") or die(mysql_error());
+	$sql = "SELECT * FROM ".$config->table_domains." WHERE (1=1) ORDER BY domain ASC";
+	$resultset = $link->queryAll($sql);
 	$sdomain_input='<select name="search_sdomain" class="searchInput">';
 	$sdomain_input.='<option value=""></option>';
-	while($row=mysql_fetch_array($result))
-	if ($row['domain']==$search_sdomain) $sdomain_input.='<option value="'.$row['domain'].'" selected>'.$row['domain'].'</option>';
-	else $sdomain_input.='<option value="'.$row['domain'].'">'.$row['domain'].'</option>';
-	$sdomain_input.='</select>';
-	db_close();
+	for($i=0;count($resultset)>$i;$i++)
+	{
+		if ($resultset[$i]['domain']==$search_sdomain) $sdomain_input.='<option value="'.$resultset[$i]['domain'].'" selected>'.$resultset[$i]['domain'].'</option>';
+		else $sdomain_input.='<option value="'.$resultset[$i]['domain'].'">'.$resultset[$i]['domain'].'</option>';
+
+	}
+		$sdomain_input.='</select>';
+
+		$link->disconnect();
+	
 }
 ?>
 <table width="300" cellspacing="2" cellpadding="2" border="0">
@@ -99,11 +104,13 @@ if ($config->sdomain) echo('<td align="center" class="pdtTitle">source Domain</t
   <td align="center" class="pdtTitle">Delete</td>
  </tr>
 <?php
-db_connect();
-if ($sql_search=="") $sql_command="SELECT * FROM ".$table." WHERE 1 ORDER BY prefix ASC";
-else $sql_command="SELECT * FROM ".$table." WHERE 1 ".$sql_search." ORDER BY prefix ASC";
-$result=mysql_query($sql_command) or die(mysql_error());
-$data_no=mysql_num_rows($result);
+if ($sql_search=="") $sql_command="SELECT * FROM ".$table." WHERE (1=1) ORDER BY prefix ASC";
+else $sql_command="SELECT * FROM ".$table." WHERE (1=1) ".$sql_search." ORDER BY prefix ASC";
+$resultset=$link->queryAll($sql_command);
+if(PEAR::isError($resultset)) {
+	die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
+$data_no=count($resultset);
 if ($data_no==0) echo('<tr><td class="rowEven" colspan="5" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -114,33 +121,37 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*10;
-	$sql_command.=" LIMIT ".$start_limit.", 10";
-	$result=mysql_query($sql_command) or die(mysql_error());
+	if ($start_limit==0) $sql_command.=" LIMIT 10";
+	else $sql_command.=" LIMIT 10 OFFSET ".$start_limit;
+	$resultset = $link->queryAll($sql_command);
+	if(PEAR::isError($resultset)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
 	$index_row=0;
-	while($row=mysql_fetch_array($result))
-	{
+	for ($i=0;count($resultset)>$i;$i++)
+	{	
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
-		if ($config->sdomain) $edit_link='<a href="'.$page_name.'?action=edit&prefix='.$row['prefix'].'&sdomain='.$row['sdomain'].'"><img src="images/edit.gif" border="0"></a>';
-		else $edit_link='<a href="'.$page_name.'?action=edit&prefix='.$row['prefix'].'"><img src="images/edit.gif" border="0"></a>';
-		if ($config->sdomain) $delete_link='<a href="'.$page_name.'?action=delete&prefix='.$row['prefix'].'&sdomain='.$row['sdomain'].'" onclick="return confirmDelete(\''.$config->start_string.$row['prefix'].'@'.$row['sdomain'].'\')" ><img src="images/trash.gif" border="0"></a>';
-		else $delete_link='<a href="'.$page_name.'?action=delete&prefix='.$row['prefix'].'" onclick="return confirmDelete(\''.$config->start_string.$row['prefix'].'\')" ><img src="images/trash.gif" border="0"></a>';
+		if ($config->sdomain) $edit_link='<a href="'.$page_name.'?action=edit&prefix='.$resultset[$i]['prefix'].'&sdomain='.$resultset[$i]['sdomain'].'"><img src="images/edit.gif" border="0"></a>';
+		else $edit_link='<a href="'.$page_name.'?action=edit&prefix='.$resultset[$i]['prefix'].'"><img src="images/edit.gif" border="0"></a>';
+		if ($config->sdomain) $delete_link='<a href="'.$page_name.'?action=delete&prefix='.$resultset[$i]['prefix'].'&sdomain='.$resultset[$i]['sdomain'].'" onclick="return confirmDelete(\''.$config->start_string.$resultset[$i]['prefix'].'@'.$resultset[$i]['sdomain'].'\')" ><img src="images/trash.gif" border="0"></a>';
+		else $delete_link='<a href="'.$page_name.'?action=delete&prefix='.$resultset[$i]['prefix'].'" onclick="return confirmDelete(\''.$config->start_string.$resultset[$i]['prefix'].'\')" ><img src="images/trash.gif" border="0"></a>';
 		if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
   ?>
   <tr>
-   <td class="<?=$row_style?>"><?=$config->start_string?><?=$row['prefix']?></td>
+   <td class="<?=$row_style?>"><?=$config->start_string?><?=$resultset[$i]['prefix']?></td>
 <?php
-if ($config->sdomain) echo('<td class="'.$row_style.'">'.$row['sdomain'].'</td>');
+if ($config->sdomain) echo('<td class="'.$row_style.'">'.$resultset[$i]['sdomain'].'</td>');
 ?>
-   <td class="<?=$row_style?>"><?=$row['domain']?></td>
+   <td class="<?=$row_style?>"><?=$resultset[$i]['domain']?></td>
    <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
    <td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
   </tr>
   <?php
 	}
 }
-db_close();
+$link->disconnect();
 ?>
  <tr>
   <td colspan="5" class="pdtTitle">

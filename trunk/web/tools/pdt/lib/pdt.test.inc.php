@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -44,16 +44,16 @@
                    $form_error="- <b>Prefix</b> field must be a positive number -";
                   }
   if ($form_valid) {
-                    db_connect();
                     if ($config->sdomain) $sql="SELECT * FROM ".$table." WHERE prefix='".$config->start_prefix.$prefix."' and sdomain='".$sdomain."'";
                      else $sql="SELECT * FROM ".$table." WHERE prefix='".$config->start_prefix.$prefix."'";
-                    $result=mysql_query($sql) or die(mysql_error());
-                    $data_rows=mysql_num_rows($result);
-                    $rows=mysql_fetch_array($result);
-                    if (($config->sdomain) && ($data_rows>0) && (($rows['prefix']!=$old_prefix) || ($rows['sdomain']!=$old_sdomain))) $form_valid=false;
-                    if ((!$config->sdomain) && ($data_rows>0) && ($rows['prefix']!=$old_prefix)) $form_valid=false;
+		    $resultset = $link->queryAll($sql); 	
+	   	    if(PEAR::isError($resultset)) {
+                             die('Failed to issue query, error message : ' . $resultset->getMessage());
+                    }
+                    $data_rows=count($resultset);
+                    if (($config->sdomain) && ($data_rows>0) && (($resultset[0]['prefix']!=$old_prefix) || ($resultset[0]['sdomain']!=$old_sdomain))) $form_valid=false;
+                    if ((!$config->sdomain) && ($data_rows>0) && ($resultset[0]['prefix']!=$old_prefix)) $form_valid=false;
                     if (!$form_valid) $form_error="- this is already a valid record -";
-                    db_close();
                    }
 
 ?>

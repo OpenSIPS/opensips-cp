@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -25,20 +25,25 @@
 <?php
 if ($config->sdomain) {
 	$xtra="&sdomain=".$_GET['sdomain'];
-	db_connect();
-	$result=mysql_query("SELECT * FROM ".$config->table_domains." WHERE 1 ORDER BY domain ASC") or die(mysql_error());
+	$sql = "SELECT * FROM ".$config->table_domains." WHERE (1=1) ORDER BY domain ASC";
+	$resultset = $link->queryAll($sql);
+	if(PEAR::isError($resultset)) {
+		die('Failed to issue query, error message : ' . $resultset->getMessage());
+        }
 	$sdomain_input='<select name="sdomain" class="newPdt">';
-	while($row=mysql_fetch_array($result))
-	if ($row['domain']==$row_e['sdomain']) $sdomain_input.='<option value="'.$row['domain'].'" selected>'.$row['domain'].'</option>';
-	else $sdomain_input.='<option value="'.$row['domain'].'">'.$row['domain'].'</option>';
+	for($i=0;count($resultset)>$i;$i++)
+	{
+	if ($resultset[$i]['domain']==$row_e[0]['sdomain']) $sdomain_input.='<option value="'.$resultset[$i]['domain'].'" selected>'.$resultset[$i]['domain'].'</option>';
+	else $sdomain_input.='<option value="'.$resultset[$i]['domain'].'">'.$resultset[$i]['domain'].'</option>';
+	}
 	$sdomain_input.='</select>';
-	db_close();
+	$link->disconnect();
 }
 else $xtra="";
 ?>
 <form action="<?=$page_name?>?action=modify&prefix=<?=$_GET['prefix']?><?=$xtra?>" method="post">
-<input type="hidden" name="old_prefix" value="<?=$row_e['prefix']?>">
-<input type="hidden" name="old_sdomain" value="<?=$row_e['sdomain']?>">
+<input type="hidden" name="old_prefix" value="<?=$row_e[0]['prefix']?>">
+<input type="hidden" name="old_sdomain" value="<?=$row_e[0]['sdomain']?>">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="pdtTitle">Edit Prefix 2 Domain</td>
@@ -49,10 +54,11 @@ if (isset($form_error)) {
 	echo('  <td class="rowOdd" colspan="2"><div class="formError">'.$form_error.'</div></td>');
 	echo(' </tr>');
 }
+print $resultset[0]['prefix'];
 ?>
  <tr>
   <td class="rowOdd"><b>Prefix:</b></td>
-  <td class="rowOdd" width="250"><?=$config->start_string.$config->start_prefix?><input type="text" name="prefix" value="<?=substr($row_e['prefix'],strlen($config->start_prefix))?>" maxlength="30" class="newPdt"></td>
+  <td class="rowOdd" width="250"><?=$config->start_string.$config->start_prefix?><input type="text" name="prefix" value="<?php echo substr($row_e[0]['prefix'],strlen($config->start_prefix))?>" maxlength="30" class="newPdt"></td>
  </tr>
 <?php
 if ($config->sdomain)
@@ -67,7 +73,7 @@ if ($config->sdomain)
 ?>
  <tr>
   <td class="rowOdd"><b>to Domain:</b></td>
-  <td class="rowOdd"><input type="text" name="domain" value="<?=$row_e['domain']?>" maxlength="255" class="newPdt"></td>
+  <td class="rowOdd"><input type="text" name="domain" value="<?=$row_e[0]['domain']?>" maxlength="255" class="newPdt"></td>
  </tr>
  <tr>
   <td class="rowOdd" colspan="2" align="center"><input type="submit" name="edit" value="Save" class="Button"></td>

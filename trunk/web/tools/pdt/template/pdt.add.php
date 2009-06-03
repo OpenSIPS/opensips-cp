@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -24,14 +24,22 @@
 
 <?php
 if ($config->sdomain) {
-	db_connect();
-	$result=mysql_query("SELECT * FROM ".$config->table_domains." WHERE 1 ORDER BY domain ASC") or die(mysql_error());
+	$sql = "SELECT * FROM ".$config->table_domains." WHERE (1=1) ORDER BY domain ASC";
+	$resultset = $link->queryAll($sql);
+	if(PEAR::isError($resultset)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+        }
 	$sdomain_input='<select name="sdomain" class="newPdt">';
-	while($row=mysql_fetch_array($result))
-	if ($row['domain']==$sdomain) $sdomain_input.='<option value="'.$row['domain'].'" selected>'.$row['domain'].'</option>';
-	else $sdomain_input.='<option value="'.$row['domain'].'">'.$row['domain'].'</option>';
+	
+	$i=0;
+	while(count($resultset)>$i)
+	{
+		$i++;
+		if ($resultset[$i]['domain']==$sdomain) $sdomain_input.='<option value="'.$resultset[$i]['domain'].'" selected>'.$resultset[$i]['domain'].'</option>';
+		else $sdomain_input.='<option value="'.$resultset[$i]['domain'].'">'.$resultset[$i]['domain'].'</option>';
+	}
 	$sdomain_input.='</select>';
-	db_close();
+	$link->disconnect;
 }
 ?>
 <form action="<?=$page_name?>?action=add_verify" method="post">
