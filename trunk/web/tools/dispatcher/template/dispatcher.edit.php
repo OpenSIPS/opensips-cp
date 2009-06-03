@@ -2,7 +2,7 @@
 <table width="400" cellspacing="2" cellpadding="2" border="0">
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,13 +28,12 @@
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-	db_connect();
 	$id=$_GET['id'];
 	
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
+	$sql = "select * from ".$table." where id='".$id."'";
+	$resultset = $link->queryAll($sql);
     $index_row=0;
-    $row=mysql_fetch_array($result);
-	db_close();
+	$link->disconnect();
 
 	
 /*	if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
@@ -64,22 +63,22 @@
 ?>
  <tr>
   <td class="dataRecord"><b>Setid:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="setid" value="<?=$row['setid']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="setid" value="<?=$resultset[0]['setid']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
   <td class="dataRecord"><b>Destination</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="destination" value="<?=$row['destination']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="destination" value="<?=$resultset[0]['destination']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
 <tr>
   <td class="dataRecord"><b>Flags:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="flags" value="<?=$row['flags']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="flags" value="<?=$resultset[0]['flags']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="description" value="<?=$row['description']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 
