@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id$
+ * $Id: db.inc.php 40 2009-04-13 14:59:22Z iulia_bublea $
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -21,21 +21,24 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ //database driver mysql or pgsql
+ $config->db_driver = "mysql";	
+
  //database host
- $config->db_host_domains = "";
+ $config->db_host = "localhost";
  
  //database port - leave empty for default
- $config->db_port_domains = "";
+ $config->db_port = "";
  
  //database connection user
- $config->db_user_domains = "";
+ $config->db_user = "root";
  
  //database connection password
- $config->db_pass_domains = "";
+ $config->db_pass = "mysql";
  
  //database name
- $config->db_name_domains = "";
- 
- if ($config->db_port_domains != "") $config->db_host_domains = $config->db_host_domains . ":" . $config->db_port_domains;
+ $config->db_name = "opensips";
+
+ if (!empty($config->db_port) ) $config->db_host = $config->db_host . ":" . $config->db_port;
  
 ?>
