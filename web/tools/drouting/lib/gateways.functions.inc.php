@@ -5,11 +5,19 @@
 
 function get_status($id)
 {
+ include("db_connect.php");
+ require_once("../../../../config/db.inc.php");
  global $config;
- db_connect();
- $result = mysql_query("select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'") or die(mysql_error());
- $data_no = mysql_num_rows($result);
- db_close();
+ if ($config->db_driver == "mysql") 
+ 	$sql="select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+ else if ($config->db_driver == "pgsql")
+	 $sql="select ruleid from ".$config->table_rules." where gwlist ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+
+ $result=$link->queryAll($sql);
+ if(PEAR::isError($result)) {
+	 die('Failed to issue query, error message : ' . $result->getMessage());
+ }
+ $data_no = count($result);
  return($data_no);
 }
 
@@ -29,9 +37,9 @@ function get_types($name, $set)
  if ($name=="search_type") echo('<option value="">- all types -</option>');
  for ($i=0; $i<sizeof($values); $i++)
  {
-  if ($set==$values[$i]) $xtra = "selected";
-   else $xtra = "";
-  if($values[$i]!="")
+  if ($set==$values[$i]) $xtra = 'selected';
+   else $xtra ='';
+  if(!empty($values[$i]))
 	echo('<option value="'.$values[$i].'" '.$xtra.'>'.$values[$i].' - '.$content[$i].'</option>');
  }
  echo('</select>');

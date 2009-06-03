@@ -10,8 +10,12 @@
                           $id=$search_gwlist;
                           $id=str_replace("*",".*",$id);
                           $id=str_replace("%",".*",$id);
+			if ( $config->db_driver == "mysql" )
                           $sql_search.=" and gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+			else if ( $config->db_driver == "pgsql" )
+                          $sql_search.=" and gwlist ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
                          }
+
  $search_description=$_SESSION['rules_search_description'];
  if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
 ?>
@@ -53,11 +57,13 @@
   <td class="dataTitle">Delete</td>
  </tr>
 <?php
- db_connect();
- if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by id asc";
-  else $sql_command="select * from ".$table." where 1 ".$sql_search." order by id asc";
- $result=mysql_query($sql_command) or die(mysql_error());
- $data_no=mysql_num_rows($result);
+ if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc ";
+  else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc ";
+ $resultset=$link->queryAll($sql_command);
+ if(PEAR::isError($resultset)) {
+         die('Failed to issue query, error message : ' . $resultset->getMessage());
+ }
+ $data_no=count($resultset);
  if ($data_no==0) echo('<tr><td colspan="10" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
@@ -69,25 +75,29 @@
                        $_SESSION[$current_page]=$page;
                       }
   $start_limit=($page-1)*$res_no;
-  $sql_command.=" limit ".$start_limit.", ".$res_no;
-  $result=mysql_query($sql_command) or die(mysql_error());
+  if ($start_limit==0) $sql_command.=" limit ".$res_no;
+  else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
+  $resultset=$link->queryAll($sql_command);
+  if(PEAR::isError($resultset)) {
+          die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
   require("lib/".$page_id.".main.js");
   $index_row=0;
-  while ($row=mysql_fetch_array($result))
+  for ($i=0;count($resultset)>$i;$i++)
   {
    $index_row++;
    if ($index_row%2==1) $row_style="rowOdd";
     else $row_style="rowEven";
-   if ($row['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
-    else $gwlist=parse_gwlist($row['gwlist']);
-    if ($row['description']!="") $description=$row['description'];
+   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
+    else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
+    if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
      //    else $description="&nbsp;";
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$row['id'].'" onclick="return confirmDelete(\''.$row['id'].'\')" ><img src="images/trash.gif" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'" onclick="return confirmDelete(\''.$resultset[$i]['id'].'\')" ><img src="images/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
-  <td class="<?=$row_style?>"><?=$row['id']?></td>	
+  <td class="<?=$row_style?>"><?=$resultset[$i]['id']?></td>	
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>

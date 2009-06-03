@@ -17,27 +17,27 @@
  <tr>
   <td class="dataRecord"><b>Group ID:</b></td>
   <td class="dataRecord">
-   <input type="text" name="groupid" id="groupid" value="<?=$row['groupid']?>" maxlength="64" readonly class="dataInput">
+   <input type="text" name="groupid" id="groupid" value="<?=$resultset[0]['groupid']?>" maxlength="64" readonly class="dataInput">
    <input type="button" name="clear_groupid" value="Clear" class="formButton" onclick="clearObject('groupid')"><br>
    <input type="button" name="add_groupid" value="Add" class="formButton" onclick="addElementToObject('groupid')"><?=print_groupids()?>
   </td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Prefix:</b></td>
-  <td class="dataRecord"><input type="text" name="prefix" value="<?=$row['prefix']?>" maxlength="64" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="prefix" value="<?=$resultset[0]['prefix']?>" maxlength="64" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Time Recurrence:</b><br><br><center><img src="images/info.gif" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
   <td class="dataRecord">
    
-   <?=parse_timerec($row['timerec'],0)?><hr>
+   <?=parse_timerec($resultset[0]['timerec'],0)?><hr>
    
    <select name="time_recurrence" class="dataSelect" id="time_recurrence" onChange="optionChange('time_recurrence')">
-    <option value="0" <?php if ($row['timerec']=="") echo("selected") ?>>Time Recurrence Disabled</option>
-    <option value="1" <?php if ($row['timerec']!="") echo("selected") ?>>Time Recurrence Enabled</option>
+    <option value="0" <?php if ($resultset[0]['timerec']=="") echo("selected") ?>>Time Recurrence Disabled</option>
+    <option value="1" <?php if ($resultset[0]['timerec']!="") echo("selected") ?>>Time Recurrence Enabled</option>
    </select>
   
-  <div id="div_time_recurrence" style="display:<?php if ($row['timerec']=="") echo("none"); else echo("block") ?>">
+  <div id="div_time_recurrence" style="display:<?php if ($resultset[0]['timerec']=="") echo("none"); else echo("block") ?>">
   
    <hr>
    <b>&nbsp;&middot;&nbsp;Start of interval:</b><br>
@@ -137,11 +137,11 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Priority:</b></td>
-  <td class="dataRecord"><input type="text" name="priority" value="<?=$row['priority']?>" maxlength="11" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="priority" value="<?=$resultset[0]['priority']?>" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Route ID:</b></td>
-  <td class="dataRecord"><input type="text" name="routeid" value="<?=$row['routeid']?>" maxlength="11" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="routeid" value="<?=$resultset[0]['routeid']?>" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Gateway List:</b></td>
@@ -149,11 +149,11 @@
  
    <select name="gw_list" class="dataSelect" id="gw_list" onChange="optionClick('gw_list')">
 	<?php 
-	if (preg_match("/[#][0-9]+/",$row['gwlist'])) {  $lists=$row['gwlist'];        
+	if (preg_match("/[#][0-9]+/",$resultset[0]['gwlist'])) {  $lists=$resultset[0]['gwlist'];        
             echo "<option value=\"gw_list\">--Select-- </option>";
             echo "<option value=\"lists\" selected=\"selected\">Use Gateway List</option>";
             echo "<option value=\"gws\">Use Gateways</option>"; 
-	} else if (!preg_match("/[#][0-9]+/",$row['gwlist'])) {$gwlist=$row['gwlist'];
+	} else if (!preg_match("/[#][0-9]+/",$resultset[0]['gwlist'])) {$gwlist=$resultset[0]['gwlist'];
             echo "<option value=\"gw_list\">--Select--</option>"; 
             echo "<option value=\"lists\">Use Gateway List</option>";
             echo "<option value=\"gws\" selected=\"selected\">Use Gateways</option>";
@@ -163,13 +163,13 @@
    </select>
 
    <div id='div_gw_list' style="display:block">
-    <div id="div_lists" style="display:<?php if (preg_match("/[#][0-9]+/",$row['gwlist'])) echo("block"); else echo("none") ?>">
+    <div id="div_lists" style="display:<?php if (preg_match("/[#][0-9]+/",$resultset[0]['gwlist'])) echo("block"); else echo("none") ?>">
      <input type="text" name="lists" id="lists" value="<?=$lists?>" maxlength="255" readonly class="dataInput">
      <input type="button" name="clear_list" value="Clear" class="formButton" onclick="clearObject('lists')"><br>
      <input type="button" name="add_list" value="Set" class="formButton" onclick="addElement('lists')"><?=print_lists()?>&nbsp;
     </div>
 
-   <div id="div_gws" style="display:<?php if (preg_match("/[#][0-9]+/",$row['gwlist'])) echo("none"); else echo("block") ?>">
+   <div id="div_gws" style="display:<?php if (preg_match("/[#][0-9]+/",$resultset[0]['gwlist'])) echo("none"); else echo("block") ?>">
     <input type="text" name="gwlist" id="gwlist" value="<?=$gwlist?>" maxlength="255" readonly class="dataInput">
     <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
     <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
@@ -182,7 +182,7 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?=$row['description']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Save" class="formButton"></td>

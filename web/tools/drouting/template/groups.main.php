@@ -66,11 +66,13 @@
   <td class="dataTitle">Delete</td>
  </tr>
 <?php
- db_connect();
- if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by username, domain asc";
-  else $sql_command="select * from ".$table." where 1 ".$sql_search." order by username, domain asc";
- $result=mysql_query($sql_command) or die(mysql_error());
- $data_no=mysql_num_rows($result);
+ if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by username, domain asc";
+  else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by username, domain asc";
+ $resultset = $link->queryAll($sql_command);
+ if(PEAR::isError($resultset)) {
+         die('Failed to issue query, error message : ' . $resultset->getMessage());
+ }
+ $data_no=count($resultset);
  if ($data_no==0) echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
@@ -82,28 +84,32 @@
                        $_SESSION[$current_page]=$page;
                       }
   $start_limit=($page-1)*$res_no;
-  $sql_command.=" limit ".$start_limit.", ".$res_no;
-  $result=mysql_query($sql_command) or die(mysql_error());
+  if ($start_limit==0) $sql_command.=" limit ".$res_no;
+  else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
+  $resultset = $link->queryAll($sql_command);
+  if(PEAR::isError($resultset)) {
+          die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
   require("lib/".$page_id.".main.js");
   $index_row=0;
-  while ($row=mysql_fetch_array($result))
+  for ($i=0;count($resultset)>$i;$i++)
   {
    $index_row++;
    if ($index_row%2==1) $row_style="rowOdd";
     else $row_style="rowEven";
-   if (strlen($row['description'])>23) $description=substr($row['description'],0,20)."...";
-    else if ($row['description']!="") $description=$row['description'];
+   if (strlen($resultset[$i]['description'])>23) $description=substr($resultset[$i]['description'],0,20)."...";
+    else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
-   $record_id=$row['username']."@".$row['domain'];
+   $record_id=$resultset[$i]['username']."@".$resultset[$i]['domain'];
    $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="images/details.gif" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="images/edit.gif" border="0"></a>';
    $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="images/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
-  <td class="<?=$row_style?>"><?=$row['username']?></td>
-  <td class="<?=$row_style?>"><?=$row['domain']?></td>
-  <td class="<?=$row_style?>"><?=$row['groupid']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['username']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['domain']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['groupid']?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
   <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>

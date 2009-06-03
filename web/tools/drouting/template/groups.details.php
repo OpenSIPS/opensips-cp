@@ -7,16 +7,16 @@
   <td class="dataTitle">Detailed view for '<?=$_GET['id']?>'</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Username:</b> <?=$row['username']?></td>
+  <td class="dataRecord"><b>Username:</b> <?=$resultset[0]['username']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Domain:</b> <?=$row['domain']?></td>
+  <td class="dataRecord"><b>Domain:</b> <?=$resultset[0]['domain']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Group ID:</b> <?=$row['groupid']?></td>
+  <td class="dataRecord"><b>Group ID:</b> <?=$resultset[0]['groupid']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Description:</b> <?=$row['description']?></td>
+  <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">
   <td class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>

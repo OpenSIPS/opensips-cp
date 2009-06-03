@@ -4,6 +4,8 @@
  */
  
  require("template/header.php");
+ include("lib/db_connect.php");
+ require("../../../config/db.inc.php");
  $table=$config->table_gateways;
  $current_page="current_page_gateways";
  
@@ -19,10 +21,12 @@
 #################
  if ($action=="details")
  {
-  db_connect();
-  $result=mysql_query("select * from ".$table." where gwid='".$_GET['id']."' limit 1") or die(mysql_error());
-  $row=mysql_fetch_array($result);
-  db_close();
+  $sql = "select * from ".$table." where gwid='".$_GET['id']."'";
+  $resultset = $link->queryAll($sql);
+  if(PEAR::isError($resultset)) {
+  	die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+  $link->disconnect();
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".details.php");
   require("template/footer.php");
@@ -39,9 +43,11 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    db_connect();
-                    mysql_query("update ".$table." set type='".$type."', address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', description='".$description."' where gwid='".$_GET['id']."' limit 1") or die(mysql_error());
-                    db_close();
+                $sql = "update ".$table." set type='".$type."', address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', description='".$description."' where gwid='".$_GET['id']."'";
+		$resultset = $link->prepare($sql);
+		$resultset->execute();
+		$resultset->free();		
+                $link->disconnect();
                    }
   if ($form_valid) $action="";
    else $action="edit";
@@ -55,10 +61,12 @@
 ##############
  if ($action=="edit")
  {
-  db_connect();
-  $result=mysql_query("select * from ".$table." where gwid='".$_GET['id']."' limit 1") or die(mysql_error());
-  $row=mysql_fetch_array($result);
-  db_close();
+  $sql = "select * from ".$table." where gwid='".$_GET['id']."' limit 1";
+  $resultset = $link->queryAll($sql);
+  if(PEAR::isError($resultset)) {
+  	die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+  $link->disconnect();
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -79,11 +87,18 @@
                     $_SESSION['gateways_search_address']="";
                     $_SESSION['gateways_search_pri_prefix']="";
                     $_SESSION['gateways_search_description']="";
-                    db_connect();
-                    mysql_query("insert into ".$table." (type, address, strip, pri_prefix, description) values ('".$type."', '".$address."', '".$strip."', '".$pri_prefix."', '".$description."')") or die(mysql_error());
-                    $result=mysql_query("select * from ".$table." where 1") or die(mysql_error());
-                    $data_no=mysql_num_rows($result);
-                    db_close();
+                    $sql = "insert into ".$table." (type, address, strip, pri_prefix, description) values ('".$type."', '".$address."', '".$strip."', '".$pri_prefix."', '".$description."')";
+		    $resultset = $link->prepare($sql);
+		    $resultset->execute();
+		    $resultset->free();			
+
+                    $sql = "select * from ".$table." where (1=1)";
+                    $resultset = $link->queryAll($sql);
+                    if(PEAR::isError($resultset)) {
+                             die('Failed to issue query, error message : ' . $resultset->getMessage());
+                    }	
+                    $data_no=count($resultset);
+                    $link->disconnect();
                     $page_no=ceil($data_no/10);
                     $_SESSION[$current_page]=$page_no;
                    }
@@ -115,13 +130,22 @@
 ################
  if ($action=="delete")
  {
-  db_connect();
   $del_id=$_GET['id'];
-  mysql_query("delete from ".$table." where gwid='".$del_id."' limit 1") or die(mysql_error());
-  $result=mysql_query("select * from ".$config->table_rules." where gwlist regexp '(^".$del_id."$)|(^".$del_id."[,;|])|([,;|]".$del_id."[,;|])|([,;|]".$del_id."$)'") or die(mysql_error());
-  while($row=mysql_fetch_array($result))
+  $sql = "delete from ".$table." where gwid='".$del_id."'";
+  $link->exec($sql);	
+
+ if ($config->db_driver == "mysql")
+	  $sql = "select * from ".$config->table_rules." where gwlist regexp '(^".$del_id."$)|(^".$del_id."[,;|])|([,;|]".$del_id."[,;|])|([,;|]".$del_id."$)'";
+ else if ($config->db_driver == "pgsql")
+	  $sql = "select * from ".$config->table_rules." where gwlist ~* '(^".$del_id."$)|(^".$del_id."[,;|])|([,;|]".$del_id."[,;|])|([,;|]".$del_id."$)'";
+
+  $resultset = $link->queryAll($sql);
+  if(PEAR::isError($resultset)) {
+ 	 die('Failed to issue query, error message : ' . $resultset->getMessage());
+  }
+  for($i=0;count($resultset)>$i;$i++)
   {
-   $list=$row['gwlist'];
+   $list=$resultset[$i]['gwlist'];
    // first gw
    if ($list==$del_id) $list="";
    if (strpos($list,$del_id.",")==0) $list=str_replace($del_id.",", "", $list);
@@ -134,9 +158,17 @@
    //last gw
    $list=str_replace(",".$del_id, "" ,$list);
    $list=str_replace(";".$del_id, "" ,$list);
-   if ($list!=$row['gwlist']) mysql_query("update ".$config->table_rules." set gwlist='".$list."' where ruleid='".$row['ruleid']."' limit 1") or die(mysql_error());
+   if ($list!=$resultset[$i]['gwlist']) 
+	{
+	 $sql = "update ".$config->table_rules." set gwlist='".$list."' where ruleid='".$resultset[$i]['ruleid']."' limit 1";
+         $resultset_ = $link->queryAll($sql);
+         if(PEAR::isError($resultset_)) {
+	         die('Failed to issue query, error message : ' . $resultset_->getMessage());
+         }
+
+	}
   }
-  db_close();
+  $link->disconnect();
  }
 ##############
 # end delete #

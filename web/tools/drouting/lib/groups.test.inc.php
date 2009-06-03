@@ -31,17 +31,18 @@
                     $form_error="- <b>Group ID</b> field must be a positive number -";
                    }
   if ($form_valid) {
-                    db_connect();
-                    $result=mysql_query("select * from ".$table." where username='".$username."' and domain='".$domain."'") or die(mysql_error());
-                    $data_rows=mysql_num_rows($result);
-                    $rows=mysql_fetch_array($result);
-                    if (($data_rows>0) && (($rows['username']!=$id_username) || ($rows['domain']!=$id_domain)))
+                    $sql="select * from ".$table." where username='".$username."' and domain='".$domain."'";
+		    $resultset = $link->queryAll($sql);
+                    if(PEAR::isError($resultset)) {
+                    	die('Failed to issue query, error message : ' . $resultset->getMessage());
+                    }
+                    $data_rows=count($resultset);
+                    if (($data_rows>0) && (($resultset[0]['username']!=$id_username) || ($resultset[0]['domain']!=$id_domain)))
                     {
                      $form_valid=false;
                      $new_id=$username."@".$domain;
                      $form_error="- <b>".$new_id."</b> is already a valid user -";
                     }
-                    db_close();
                    }
 
 ?>

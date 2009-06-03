@@ -16,23 +16,23 @@
 ?>
  <tr>
   <td class="dataRecord"><b>Type:</b></td>
-  <td class="dataRecord" width="275"><?=get_types("type",$row['type'])?></td>
+  <td class="dataRecord" width="275"><?=get_types("type",$resultset[0]['type'])?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Address:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="address" value="<?=$row['address']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="address" value="<?=$resultset[0]['address']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Strip:</b></td>
-  <td class="dataRecord"><input type="text" name="strip" value="<?=$row['strip']?>" maxlength="11" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="strip" value="<?=$resultset[0]['strip']?>" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>PRI Prefix:</b></td>
-  <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$row['pri_prefix']?>" maxlength="16" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$resultset[0]['pri_prefix']?>" maxlength="16" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?=$row['description']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Save" class="formButton"></td>

@@ -1,10 +1,11 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  */
 
  require_once("../../../config/session.inc.php");
  require_once("../../../config/tools/drouting/db.inc.php");
+ require_once("../../../config/db.inc.php");
  require_once("../../../config/tools/drouting/menu.inc.php");
  require_once("../../../config/tools/drouting/local.inc.php");
  require_once("lib/functions.inc.php");

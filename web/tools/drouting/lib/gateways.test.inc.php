@@ -2,7 +2,7 @@
 /*
  * $Id$
  */
-
+include("db_connect.php");
   extract($_POST);
   $form_valid=true;
   if ($form_valid)
@@ -26,16 +26,17 @@
                   $form_error="- <b>Strip</b> field must be a positive number -";
                  }
   if ($form_valid) {
-                    db_connect();
-                    $result=mysql_query("select * from ".$table." where address='".$address."' and type='".$type."' and strip='".$strip."' and pri_prefix='".$pri_prefix."'") or die(mysql_error());
-                    $data_rows=mysql_num_rows($result);
-                    $rows=mysql_fetch_array($result);
-                    if (($data_rows>0) && ($rows['gwid']!=$_GET['id']))
+                    $sql="select * from ".$table." where address='".$address."' and type='".$type."' and strip='".$strip."' and pri_prefix='".$pri_prefix."'";
+                    $result=$link->queryAll($sql);
+		    if(PEAR::isError($result)) {
+                    	die('Failed to issue query, error message : ' . $result->getMessage());
+                    }
+		    $data_rows=count($result); 	
+                    if (($data_rows>0) && ($result[0]['gwid']!=$_GET['id']))
                     {
                      $form_valid=false;
                      $form_error="- this is already a valid gateway -";
                     }
-                    db_close();
                    }
 
 ?>
