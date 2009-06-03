@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -22,20 +22,20 @@
  */
 
  //database host
- $config->db_host = "localhost";
+ $config->db_host_cdrviewer = "";
  
  //database port - leave empty for default
- $config->db_port = "";
+ $config->db_port_cdrviewer = "";
  
  //database connection user
- $config->db_user = "root";
+ $config->db_user_cdrviewer = "";
  
  //database connection password
- $config->db_pass = "mysql";
+ $config->db_pass_cdrviewer = "";
  
  //database name
- $config->db_name = "opensips";
+ $config->db_name_cdrviewer = "";
  
- if ($config->db_port != "") $config->db_host = $config->db_host . ":" . $config->db_port;
+ if ($config->db_port_cdrviewer != "") $config->db_host_cdrviewer = $config->db_host_cdrviewer . ":" . $config->db_port_cdrviewer;
  
 ?>
