@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,7 +28,6 @@
 
 
 <? 
-
 if (!isset($toggle_button)) {
 
 	// 	get siptrace status
@@ -142,16 +141,17 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
   <td class="Title" align="center" width="45">Call</td>
  </tr>
 <?php
-db_connect();
 
 
 
 if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
-	$sql="delete from ".$table." where 1 ".$sql_search;
-
-	$result=mysql_query($sql) or die(mysql_error());
-
+	$sql="delete from ".$table." where (1=1) ".$sql_search;
+	
+	$resultset = $link->exec($sql);
+	if(PEAR::isError($resultset)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
 
 	unset($_SESSION['delete']);
 
@@ -161,15 +161,38 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
 
 if ($_SESSION['grouped_results']) {
-	if ($sql_search=="") $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id ASC";
-	else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id ASC";
+
+	if ($config->db_driver == "mysql") {
+
+		if ($sql_search=="") 
+
+			$sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id ASC";
+
+		else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id ASC";
+
+	} else if ($config->db_driver = "pgsql") {
+
+		if ($sql_search=="") 
+
+			$sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY callid ASC";
+
+		else $sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid ASC";
+
+		}
+			
+} else {
+
+	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE (1=1) ORDER BY id ASC";
+
+	else $sql="SELECT id FROM ".$table." WHERE (1=1)".$sql_search." ORDER BY id ASC";
+
 }
-else {
-	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE 1 ORDER BY id ASC";
-	else $sql="SELECT id FROM ".$table." WHERE 1".$sql_search." ORDER BY id ASC";
+
+$resultset = $link->queryAll($sql);
+if(PEAR::isError($resultset)) {
+     	die('Failed to issue query, error message : ' . $resultset->getMessage());
 }
-$result=mysql_query($sql) or die(mysql_error());
-$data_no=mysql_num_rows($result);
+$data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -180,32 +203,41 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$config->results_per_page;
-	$sql.=" LIMIT ".$start_limit.", ".$config->results_per_page;
-	$result=mysql_query($sql) or die(mysql_error());
-	while($row=mysql_fetch_array($result))
+	//$sql.=" LIMIT ".$start_limit.", ".$config->results_per_page;
+        if ($start_limit==0) $sql_command.=" limit ".$config->results_per_page;
+        else $sql_command.=" limit ".$config->results_per_page." OFFSET " . $start_limit;
+	$resultset = $link->queryAll($sql);
+	if(PEAR::isError($resultset)) {
+     		die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
+	for($i=0; count($resultset)>$i;$i++)
 	{
-		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$row['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
-		else $sql_="SELECT * FROM ".$table." WHERE id='".$row['id']."'".$sql_search." ORDER BY id LIMIT 1";
-		$result_=mysql_query($sql_) or die(mysql_error());
-		$row_=mysql_fetch_array($result_);
-		{
-			if (($row_['fromip']!="127.0.0.1") && ($row_['fromip']!="255.255.255.255")) $trace_text="from ".$row_['fromip'];
-			else $trace_text="to ".get_ip($row_['toip']);
-			$details_msg='<a href="details.php?traceid='.$row_['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$row_['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
-			$matched_trace_id=$row_['id'];
+		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
+		else $sql_="SELECT * FROM ".$table." WHERE id='".$resultset[$i]['id']."'".$sql_search." ORDER BY id LIMIT 1";
+		$resultset_ = $link->queryAll($sql_);
+		if(PEAR::isError($resultset_)) {
+		     	die('Failed to issue query, error message : ' . $resultset_->getMessage());
+		}
+			if (($resultset_[0]['fromip']!="127.0.0.1") && ($resultset_[0]['fromip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['fromip'];
+			else $trace_text="to ".get_ip($resultset_[0]['toip']);
+			$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
+			$matched_trace_id=$resultset_[0]['id'];
    ?>
    <tr>
-   <td class="rowOdd"><?=$row_['time_stamp']?></td>
-   <td class="rowOdd"><?=$row_['method']?></td>
+   <td class="rowOdd"><?=$resultset_[0]['time_stamp']?></td>
+   <td class="rowOdd"><?=$resultset_[0]['method']?></td>
    <td class="rowOdd"><?=$trace_text?></td>
    <td class="rowOdd" align="center"><?=$details_msg?></td>
-   <td class="rowOdd" align="center"><a href="<?=$page_name.'?id='.$row_['id']?>" class="traceLink"><img src="images/details.gif" border="0"></a></td>
+   <td class="rowOdd" align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="images/details.gif" border="0"></a></td>
    </tr>
    <?php
-   if (in_array($row_['id'],$_SESSION['detailed_callid']))
+   if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
    {
-   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$row_['callid']."' ORDER BY id ASC";
-   	$result_d=mysql_query($sql_d) or die(mysql_error());
+   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$resultset_[0]['callid']."' ORDER BY id ASC";
+	$resultset_d = $link->queryAll($sql_d);
+	if(PEAR::isError($resultset_d)) {
+	     	die('Failed to issue query, error message : ' . $resultset_d->getMessage());
+	}
     ?>
     <tr><td colspan="5" class="rowOdd">
     <table width="480" cellspacing="1" cellpadding="1" border="0" align="right">
@@ -224,26 +256,26 @@ else
 
      $seq = 0 ;
 
-     while($row_d=mysql_fetch_array($result_d))
+    for ($j=0;count($resultset_d)>$j;$j++)
 
      {
 
-     	if ($row_d['id']==$matched_trace_id) $row_style="rowOdd";
+     	if ($resultset_d[$j]['id']==$matched_trace_id) $row_style="rowOdd";
 
      	else $row_style="rowEven";
 
 
-     	$direction = $row_d['direction'] ;
+     	$direction = $resultset_d[$j]['direction'] ;
 
-     	$method = $row_d['method'];
+     	$method = $resultset_d[$j]['method'];
 
-     	$to_ip=$row_d['toip'];
+     	$to_ip=$resultset_d[$j]['toip'];
 
-     	$from_ip=$row_d['fromip'];
+     	$from_ip=$resultset_d[$j]['fromip'];
 
      	// a request has no status
      	// a reply has status
-     	$status = trim($row_d['status']);
+     	$status = trim($resultset_d[$j]['status']);
 
      	$a = explode (":",$to_ip)  ;
      	$b = explode (":",$from_ip);
@@ -372,14 +404,14 @@ else
      		//			$path='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$from_ip.'\') onmouseout=if(t1)t1.Hide(event) >';
 
      		/*
-     		if (($row_d['direction']=="in") ) {
+     		if (($resultset_d[$j]['direction']=="in") ) {
 
      		$path.=' <img src="images/arrow_right.png" alt="to"> ';
 
      		}
 
 
-     		if (($row_d['direction']=="out") ) {
+     		if (($resultset_d[$j]['direction']=="out") ) {
 
      		$path.=' <img src="images/arrow_left.png" alt="to"> ';
      		}
@@ -411,9 +443,9 @@ else
      	} else {
 
 
-     		if ($row_d['status']=="") $status="&nbsp;";
+     		if ($resultset_d[$j]['status']=="") $status="&nbsp;";
 
-     		else $status=$row_d['status'];
+     		else $status=$resultset_d[$j]['status'];
 
 
      		if ($left=="proxy")	 {
@@ -428,27 +460,27 @@ else
      		}
 
 
-     		if (($row_d['direction']=="in") && ($right=="proxy") &&  ($left=="caller")  ) {
+     		if (($resultset_d[$j]['direction']=="in") && ($right=="proxy") &&  ($left=="caller")  ) {
 
      			$path.=' <img src="images/arrow_right.png" alt="to"> ';
 
      		}
 
-     		if (($row_d['direction']=="out")  && ($right=="proxy") && ($left=="caller") )  {
+     		if (($resultset_d[$j]['direction']=="out")  && ($right=="proxy") && ($left=="caller") )  {
 
      			$path.=' <img src="images/arrow_left.png" alt="to"> ';
      		}
 
 
 
-     		if (($row_d['direction']=="in") && ($left=="proxy") && ($right=="callee")) {
+     		if (($resultset_d[$j]['direction']=="in") && ($left=="proxy") && ($right=="callee")) {
 
      			$path.=' <img src="images/arrow_left.png" alt="to"> ';
      		}
 
 
 
-     		if (($row_d['direction']=="out")  && ($left=="proxy") && ($right=="callee") )  {
+     		if (($resultset_d[$j]['direction']=="out")  && ($left=="proxy") && ($right=="callee") )  {
 
      			$path.=' <img src="images/arrow_right.png" alt="to" > ';
      		}
@@ -469,11 +501,11 @@ else
 
 
 
-     	$details='<a href="details.php?traceid='.$row_d['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$row_d['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
+     	$details='<a href="details.php?traceid='.$resultset_d[$j]['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_d[$j]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
       ?>
       <tr align="center">
-       <td class="<?=$row_style?>"><?=$row_d['time_stamp']?></td>
-       <td class="<?=$row_style?>"><?=$row_d['method']?></td>
+       <td class="<?=$row_style?>"><?=$resultset_d[$j]['time_stamp']?></td>
+       <td class="<?=$row_style?>"><?=$resultset_d[$j]['method']?></td>
        <td class="<?=$row_style?>"><?=$status?></td>
        <td class="<?=$row_style?>"><?=$path?></td> 
        <td class="<?=$row_style?>"><?=$details?></td>
@@ -503,8 +535,7 @@ else
 		}
 
 	}
-}
-db_close();
+
 ?>
  <tr>
   <td colspan="5" class="Title">
