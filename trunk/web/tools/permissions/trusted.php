@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -24,6 +24,7 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../common/mi_comm.php");
+include("lib/db_connect.php");
 
 $table=$config->table_trusted;
 $current_page="current_page_trusted";
@@ -78,21 +79,30 @@ if ($action=="add_verify")
 		$flags = "0";
 
 		if ($errors=="") {
-			$link = db_connect();
-			/*$result=mysql_query("SELECT * FROM ".$table.
-			" WHERE src_ip=" .$src_ip)
-			or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table.
+			" WHERE src_ip='" .$src_ip."'";
+			$resultset = $link->queryAll($sql);
+                        if(PEAR::isError($resultset)) {
+                                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                        }
+
+			if (count($resultset)>0) {
 				$errors="Duplicate rule";
-			} else {*/
-				mysql_query("INSERT INTO ".$table."
+			} else {
+				$sql = 'INSERT INTO '.$table.'
 				(src_ip, proto, from_pattern, tag) VALUES 
-				('".$src_ip."', '".$proto."','".$from_pattern."', '".$tag."') ")
-				or die(mysql_error());
+				(:src_ip, :proto, :from_pattern, :tag)';
+				$resultset = $link->prepare($sql);
+				$resultset->bindParam('src_ip', $src_ip);
+				$resultset->bindParam('proto', $proto);
+				$resultset->bindParam('from_pattern', $from_pattern);
+				$resultset->bindParam('tag', $tag);
+				$resultset->execute();
+				$resultset->free();
 
 				$info="The new record was added";
-			//}
-			db_close();
+			}
+			$link->disconnect();
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -145,18 +155,24 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
-			$link = db_connect();
-			$result=mysql_query("SELECT * FROM ".$table." WHERE src_ip='" .$src_ip. "' AND proto='" . $proto. "' AND id!=".$id)or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table." WHERE src_ip='" .$src_ip. "' AND proto='" . $proto. "' AND id!=".$id;
+	                if(PEAR::isError($resultset)) {
+                                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                        }
+	
+			if (count($resultset)>0) {
 				$errors="Duplicate rule";
 			} else {
 
-				mysql_query("UPDATE ".$table." SET src_ip='".$src_ip."', proto = '".$proto.
-				"', from_pattern= '".$from_pattern."', tag ='".$tag."' WHERE id=".$id) or die(mysql_error());
+				$sql = "UPDATE ".$table." SET src_ip='".$src_ip."', proto = '".$proto.
+				"', from_pattern= '".$from_pattern."', tag ='".$tag."' WHERE id=".$id;
+				$resultset = $link->prepare($sql);
+				$resultset->execute();
+				$resultset->free();
 
 				$info="The new rule was modified";
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}else{
 
@@ -177,12 +193,11 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		db_connect();
 		$id=$_GET['id'];
 
-		mysql_query("DELETE FROM ".$table." WHERE id=".$id)
-		or die(mysql_error());
-		db_close();
+		$sql = "DELETE FROM ".$table." WHERE id=".$id;
+		$link->exec($sql);
+		$link->disconnect();
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -223,21 +238,19 @@ if ($action=="dp_act")
 			$proto = $_POST['trusted_proto'];
 			$sql_query .= " AND proto like '%" . $proto . "%'"; 
 		}
-		db_connect();
-		$result=mysql_query("SELECT * FROM ".$table.
-		" WHERE 1 " .$sql_query)
-		or die(mysql_error());
-		if (mysql_num_rows($result)==0) {
+		$sql = "SELECT * FROM ".$table.
+		" WHERE (1=1) " .$sql_query;
+		$resultset = $link->queryAll($sql);
+		if (count($resultset)==0) {
 			$errors="No such rule";
 			$_SESSION['trusted_src']="";
 			$_SESSION['trusted_proto']="";
 
 		}else{
-			print "DELETE FROM ".$table." WHERE 1 ".$sql_query;
-			mysql_query("DELETE FROM ".$table." WHERE 1 ".$sql_query)
-			or die(mysql_error());
+			$sql = "DELETE FROM ".$table." WHERE (1=1) ".$sql_query;
+			$link->exec($sql);
 		}
-		db_close();
+		$link->disconnect();
 	
 	}
 	
