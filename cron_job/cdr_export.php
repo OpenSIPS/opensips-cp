@@ -1,8 +1,10 @@
 <?
 $opensips_path="/var/www/opensips-cp/";
 require($opensips_path."config/tools/cdrviewer/db.inc.php");
+require($opensips_path."config/db.inc.php");
 require($opensips_path."config/tools/cdrviewer/local.inc.php");
 require($opensips_path."web/tools/cdrviewer/lib/functions.inc.php");
+require($opensips_path."web/tools/cdrviewer/lib/db_connect.php");
 
 error_reporting(E_ALL & ~E_NOTICE );
 
@@ -81,7 +83,6 @@ $end_time_hour = $argv[4] ;
 
 
 
-db_connect();
 
 $nr_args = count($argv) ;
 
@@ -172,7 +173,5 @@ if ($nr_args == 2 ){
 		echo "Did not write new timestamp file \n" ;
 	}
 }
-
-db_close();
 
 ?>
