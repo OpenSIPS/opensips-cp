@@ -1,7 +1,7 @@
 <form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -25,19 +25,22 @@
 $clone=$_GET['clone'];
 
 if($clone =="1"){
-	db_connect();
+
 	$id=$_GET['id'];
 
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
-	$row=mysql_fetch_array($result);
-	db_close();
-	$dpid = $row['dpid'];
-	$pr = $row['pr'];
-	$match_exp =$row['match_exp'];
-	$match_len =$row['match_len'];
-	$subst_exp =$row['subst_exp'];
-	$repl_exp  =$row['repl_exp'];
-	$attrs = $row['attrs'];
+	$sql = "select * from ".$table." where id='".$id."'";
+	$resultset = $link->queryAll($sql);
+	if(PEAR::isError($resultset)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
+	$link->disconnect;
+	$dpid = $resultset[0]['dpid'];
+	$pr = $resultset[0]['pr'];
+	$match_exp =$resultset[0]['match_exp'];
+	$match_len =$resultset[0]['match_len'];
+	$subst_exp =$resultset[0]['subst_exp'];
+	$repl_exp  =$resultset[0]['repl_exp'];
+	$attrs = $resultset[0]['attrs'];
 }
 
 if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {

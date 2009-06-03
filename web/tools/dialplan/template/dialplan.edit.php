@@ -2,7 +2,7 @@
 <table width="400" cellspacing="2" cellpadding="2" border="0">
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,16 +28,17 @@
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-	db_connect();
 	$id=$_GET['id'];
 	
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
-    $index_row=0;
-    $row=mysql_fetch_array($result);
-	db_close();
+	$sql = "select * from ".$table." where id='".$id."'";
+	$resultset = $link->queryAll($sql);
+	if(PEAR::isError($resultset)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
+	$index_row=0;
 
 	$match_op_sel ='<select name="match_op" id="match_op" size="1" class="dataSelect">';
-	if($row['match_op']==1) {
+	if($resultset[0]['match_op']==1) {
 		$match_op_sel.='<option value="1" selected>REGEX</option>';
 		$match_op_sel.= '<option value="0" >EQUAL</option>';
 	} else {
@@ -55,7 +56,7 @@
 
 	  	$check_boxes.='<input type="checkbox" name="'.$config->attrs_cb[$i][0];
   		$check_boxes.='" value="'.$config->attrs_cb[$i][1];
-		if(stristr($row['attrs'],$config->attrs_cb[$i][0])) {
+		if(stristr($resultset[0]['attrs'],$config->attrs_cb[$i][0])) {
 			$check_boxes.='" checked>';
 		} else {
 			$check_boxes.='">';
@@ -73,12 +74,12 @@
 ?>
  <tr>
   <td class="dataRecord"><b>Dialplan ID:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="dpid" value="<?=$row['dpid']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="dpid" value="<?=$resultset[0]['dpid']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
   <td class="dataRecord"><b>Rule Priority:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="pr" value="<?=$row['pr']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="pr" value="<?=$resultset[0]['pr']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
 <tr>
@@ -89,25 +90,25 @@
 
 <tr>
   <td class="dataRecord"><b>Matching Regular Expression:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="match_exp" value="<?=$row['match_exp']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="match_exp" value="<?=$resultset[0]['match_exp']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Matching String Length:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="match_exp_len" 
-  	value="<?=$row['match_len']?>" maxlength="128" class="dataInput"></td>
+  	value="<?=$resultset[0]['match_len']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 <tr>
   <td class="dataRecord"><b>Substitution Regular Expression:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="subst_exp" 
-  	value="<?=$row['subst_exp']?>" maxlength="128" class="dataInput"></td>
+  	value="<?=$resultset[0]['subst_exp']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 <tr>
   <td class="dataRecord"><b>Replacement Expression:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="repl_exp" 
-  	value="<?=$row['repl_exp']?>" maxlength="128" class="dataInput"></td>
+  	value="<?=$resultset[0]['repl_exp']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
@@ -117,7 +118,7 @@
 	<? } else if ($dialplan_attributes_mode == 1 ) {  ?>	
 
 	  <td class="dataRecord" width="275"><input type="text" name="attrs" 
-  	value="<?=$row['attrs']?>" maxlength="128" class="dataInput"></td>
+  	value="<?=$resultset['attrs']?>" maxlength="128" class="dataInput"></td>
 
 	<? } ?>
   </td>
