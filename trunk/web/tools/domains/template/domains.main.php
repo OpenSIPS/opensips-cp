@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -20,7 +20,6 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
 if ($form_domain!=null) {
 	$form_action="save";
 	$form_title="Edit Domain Name";
@@ -74,13 +73,18 @@ if ($info!="") echo('<tr><td class="rowOdd" align="center"><div class="formInfo"
   <td align="center" class="domainTitle">Delete</td>
  </tr>
 <?php
-db_connect();
+//include("lib/db_connect.php");
 $index_row=0;
-$result=mysql_query("SELECT * FROM ".$table." WHERE 1 ORDER BY domain ASC") or die(mysql_error());
-$data_no=mysql_num_rows($result);
+$sql='SELECT * FROM '.$table.' WHERE (1=1) ORDER BY domain ASC';
+$resultset = $link->query($sql);
+if(PEAR::isError($resultset)) {
+	die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
+$data_no = $resultset->numRows();
+
 if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
-while($row=mysql_fetch_array($result))
+while($row = $resultset->fetchRow())
 {
 	$index_row++;
 	if ($index_row%2==1) $row_style="rowOdd";
@@ -97,7 +101,7 @@ while($row=mysql_fetch_array($result))
   </tr>
   <?php
 }
-db_close();
+$link->disconnect();
 ?>
  <tr>
   <td colspan="4" class="domainTitle"><img src="images/spacer.gif" width="5" height="5"></td>
