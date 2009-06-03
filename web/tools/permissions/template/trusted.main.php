@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -96,11 +96,13 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-db_connect();
-if ($sql_search=="") $sql_command="select * from ".$table." where 1";
-else $sql_command="select * from ".$table." where 1 ".$sql_search;
-$result=mysql_query($sql_command) or die(mysql_error());
-$data_no=mysql_num_rows($result);
+if ($sql_search=="") $sql_command="select * from ".$table." where (1=1)";
+else $sql_command="select * from ".$table." where (1=1) ".$sql_search;
+$resultset = $link->query($sql_command);
+if(PEAR::isError($resultset)) {
+	die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
+$data_no=$resultset->numRows();
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -112,11 +114,13 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$result=mysql_query($sql_command) or die(mysql_error());
+	//$sql_command.=" limit ".$start_limit.", ".$res_no;
+        if ($start_limit==0) $sql_command.=" limit ".$res_no;
+        else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
+	$resultset = $link->queryAll($sql_command);
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
-	while ($row=mysql_fetch_array($result))
+	for ($i=0;count($resultset)>$i;$i++)
 	{
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
@@ -124,16 +128,16 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['id']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['src_ip']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['proto']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['from_pattern']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['tag']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['id']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['src_ip']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['proto']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['from_pattern']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['tag']?></td>
    <? 
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>

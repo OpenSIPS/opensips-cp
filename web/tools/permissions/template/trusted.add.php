@@ -1,7 +1,7 @@
 <form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -25,16 +25,18 @@
 $clone=$_GET['clone'];
 
 if($add_verify =="1"){
-	db_connect();
 	$id=$_GET['id'];
 
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
-	$row=mysql_fetch_array($result);
-	db_close();
-	$src_ip = $row['src_ip'];
-	$proto = $row['proto'];
-	$from_pattern =$row['from_pattern'];
-	$tag =$row['tag'];
+	$sql = "select * from ".$table." where id='".$id."'";
+	$resultset = $link->queryAll($sql);
+        if(PEAR::isError($resultset)) {
+		die('Failed to issue query, error message : ' . $resultset->getMessage());	
+	}
+	
+	$src_ip = $resultset[0]['src_ip'];
+	$proto = $resultset[0]['proto'];
+	$from_pattern =$resultset[0]['from_pattern'];
+	$tag =$resultset[0]['tag'];
 }
 
 ?>

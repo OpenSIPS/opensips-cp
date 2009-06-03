@@ -2,7 +2,7 @@
 <table width="400" cellspacing="2" cellpadding="2" border="0">
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,14 +28,12 @@
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-	db_connect();
 	$id=$_GET['id'];
 	
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
-    $index_row=0;
-    $row=mysql_fetch_array($result);
-	db_close();
-
+	$sql = "select * from ".$table." where id='".$id."'";
+	$index_row=0;
+	$resultset = $link->queryAll($sql);
+$link->disconnect();
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -45,22 +43,22 @@
 ?>
  <tr>
   <td class="dataRecord"><b>Source IP:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="src_ip" value="<?=$row['src_ip']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="src_ip" value="<?=$resultset[0]['src_ip']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
   <td class="dataRecord"><b>Protocol:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="proto" value="<?=$row['proto']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="proto" value="<?=$resultset[0]['proto']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
 <tr>
   <td class="dataRecord"><b>From pattern:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="from_pattern" value="<?=$row['from_pattern']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="from_pattern" value="<?=$resultset[0]['from_pattern']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Tag:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="tag" value="<?=$row['tag']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="tag" value="<?=$resultset[0]['tag']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 
