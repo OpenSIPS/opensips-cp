@@ -202,7 +202,7 @@ function xml_do_call($xmlrpc_host,$xmlrpc_port,$request,&$errors,&$status) {
     if (!$fp) {
     echo "sorry -- cannot connect to xmlrpc server" . "<BR>";
     echo  $errno ." - ". $errstr ;
-    exit;
+    return;
     }
 
    $query = "POST /RPC2 HTTP/1.0\nUser_Agent: opensips-cp\nHost: ".$xmlrpc_host."\nContent-Type: text/xml\nContent-Length: ".strlen($request)."\n\n".$request."\n";
@@ -242,18 +242,19 @@ function write2xmlrpc($command,&$errors,&$status){
 	$request = xmlrpc_encode_request($my_command, $params);
 
 	$response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
-
 	$xml=(substr($response,strpos($response,"\r\n\r\n")+4));
 
-	$str=xmlrpc_decode($xml);
+	//$str=xmlrpc_decode($xml);
+
+//preg_match_all('/\<string\>(.*\s+)+\<\/string\>/',$xml,$matches);
+//print_r($matches);
 
 	for ($j=0;$j<count($matches[0]);$j++){
 		$temp = substr($matches[0][$j],8);
 		$str = substr($temp,0,-9);		
 	}
 
-	$status = $str ; 
-
+	$status = $str ;
 	if (is_array($str)) {
 
 		$errors[] = "write2xmlrpc(): some error occured \n" . "ErrorCode: " . $str['faultCode'] ."\n".$str['faultString']."\n" ;; 
