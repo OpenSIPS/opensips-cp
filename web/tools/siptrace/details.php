@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -24,11 +24,14 @@
 require_once("../../../config/tools/siptrace/db.inc.php");
 require_once("../../../config/tools/siptrace/local.inc.php");
 require_once("lib/functions.inc.php");
+require_once("lib/db_connect.php");
 $table=$config->table_trace;
-db_connect();
-$result=mysql_query("SELECT * FROM ".$table." WHERE id='".$_GET['traceid']."'") or die(mysql_error());
-$row=mysql_fetch_array($result);
-$message=htmlspecialchars(trim($row['msg']));
+$sql = "SELECT * FROM ".$table." WHERE id='".$_GET['traceid']."'";
+$row = $link->queryAll($sql);
+if(PEAR::isError($row)) {
+	die('Failed to issue query, error message : ' . $row->getMessage());
+}
+$message=htmlspecialchars(trim($row[0]['msg']));
 // from highlight
 $message=str_replace("From:","<span style='background-color:".$config->from_bgcolor."'><font color='".$config->from_color."'>From:",$message);
 $message=substr_replace($message,"</font></span>\n",strpos($message,"\n",strpos($message,"From:")),1);
