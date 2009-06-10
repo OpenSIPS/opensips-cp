@@ -52,8 +52,26 @@ A must-have option to be set into your php.ini :
 
 short_open_tag = On ;  
 
+4. MDB2 package needs to be installed with the 2 drivers (mysql and postgresql)
+pear install MDB2
+pear install MDB2#mysql
+pear install MDB2#pgsql
+pear install log
 
-MySQL server 
+
+
+PostgreSQL
+------------
+
+1. in /etc/postgresql/8.3/main/postgresql.conf set:
+regex_flavour = extended
+
+2. in /etc/postgresql/8.3/main/pg_hba.conf search for the line starting with:
+#IPv4 local connections
+set the ident parameter  to trust
+
+
+Database server 
 ------------
 
 The OpenSIPS Control Panel can connect to a remote database server, 
@@ -62,7 +80,7 @@ machine in the network.
 
 
 
-* MySQL v4.1+ must be installed . If you plan to use the the cdrviewer tool you will need Mysql 5. 
+* MySQL v4.1+ and PostgreSQL 8.3+ must be installed . If you plan to use the the cdrviewer tool you will need Mysql 5. 
 The cdrviewer tool uses a mysql stored procedure, and there is no stored procedures support into Mysql 4.
 
 
@@ -76,35 +94,48 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 
     Follow these steps:	
      
-	1 . install the cdr table schema cdrs.sql 
-	(opensips-cp/web/tools/cdrviewer/cdrs.sql)
-	mysql -Dopensips -p < cdrs.sql 
-
+	1 . install the cdr table schema cdrs.mysql/cdrs.pgsl 
+	(opensips-cp/web/tools/cdrviewer/cdrs.mysql)
+	mysql -Dopensips -p < cdrs.mysql 
+		or 
+	psql -h host_name -U postgres_username -d opensips < cdrs.pgsql
+	
 	2. add a new column in the acc table (cdr_id) : 
 	mysql>ALTER TABLE acc ADD COLUMN cdr_id varchar(32) AFTER  time;
+	opensips=#ALTER TABLE acc ADD COLUMN cdr_id text;
 
-	2. install opensips_cdrs_1_5.sql , a mysql stored procedure that generates cdr records
+	2. * for mysql install opensips_cdrs_1_6.mysql , a mysql stored procedure that generates cdr records
 	from the acc table :  
 	
-	mysql -Dopensips -p < opensips_cdrs_1_5.sql     
+	mysql -Dopensips -p < opensips_cdrs_1_6.mysql
+
+ 	  * for postgres install opensips_cdrs_1_6.postgres, a postgresql procedure that generates cdr records 
+	from the acc table:      
 	
-	3. edit the cron_job/generate-cdrs.sh file and change the mysql connection data
+
+	3. *for mysql edit the cron_job/generate-cdrs_mysql.sh file and change the mysql connection data
+	(hostname,username,password and database)
+	3. *for postgresql edit the cron_job/generate-cdrs_pgsql.sh file and change the pgsql connection data
 	(hostname,username,password and database)
 	
 	4. you will need to call this procedure from cron at an arbitrary interval.
 	Here's a cron entry for a 3 minutes interval:
 	
-	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs.sh
-		
+	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs_mysql.sh
+		or
+
+	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs_pgsql.sh
 	
     * For the smonitor module : you must add two tables to the OpenSIPS database .
 
     Follow these steps:	
     
-	1. Install the monitored_stats.sql and monitoring_stats.sql tables. 
+	1. Install the monitored_stats and monitoring_stats tables. 
 	You will find them in :
 		
-	opensips-cp/web/tools/cdrviewer/tables.sql	
+	opensips-cp/web/tools/cdrviewer/tables.mysql
+		or 	
+	opensips-cp/web/tools/cdrviewer/tables.pgsql
 	This is where the smonitor tool of the panel stores data.
 	
 	    
