@@ -3,7 +3,7 @@
  * $Id$
  */
   extract($_POST);
-if (isset($lists)) $gwlist=$lists;
+if (!empty($lists)) $gwlist=$lists;
   $form_valid=true;
   if ($form_valid)
    if ($groupid=="") {
