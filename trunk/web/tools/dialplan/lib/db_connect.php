@@ -1,7 +1,10 @@
 <?php
+require_once("../../../config/tools/dialplan/db.inc.php");
+require_once("../../../config/db.inc.php");
 require_once("MDB2.php");
+
         global $config;
-        if (!empty($config->db_host_dialplan) && !empty($config->db_user_dialplan) && !empty($config->db_name_dialplan) ) {
+        if (isset($config->db_host_dialplan) && isset($config->db_user_dialplan) && isset($config->db_name_dialplan) ) {
                 $config->db_host = $config->db_host_dialplan;
                 $config->db_port = $config->db_port_dialplan;
                 $config->db_user = $config->db_user_dialplan;

@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -91,11 +91,14 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-db_connect();
-if ($sql_search=="") $sql_command="select * from ".$table." where 1 order by dpid, pr, match_op, match_exp asc";
-else $sql_command="select * from ".$table." where 1 ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-$result=mysql_query($sql_command) or die(mysql_error());
-$data_no=mysql_num_rows($result);
+if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
+else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+$row = $link->queryAll($sql_command);
+ if(PEAR::isError($row)) {
+         die('Failed to issue query, error message : ' . $row->getMessage());
+ }
+
+$data_no=count($row);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -107,35 +110,42 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$result=mysql_query($sql_command) or die(mysql_error());
+	//$sql_command.=" limit ".$start_limit.", ".$res_no;
+
+	if ($start_limit==0) $sql_command.=" limit ".$res_no;
+	else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
+	$row = $link->queryAll($sql_command);
+	if(PEAR::isError($row)) {
+        	ie('Failed to issue query, error message : ' . $row->getMessage());
+	 }
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
-	while ($row=mysql_fetch_array($result))
+	for ($i=0;count($row)>$i;$i++)
+
 	{
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
-		if (strlen($row['attrs'])>23) $attrs=substr($row['attrs'],0,20)."...";
-		else if ($row['attrs']!="") $attrs=$row['attrs'];
+		if (strlen($row[$i]['attrs'])>23) $attrs=substr($row[$i]['attrs'],0,20)."...";
+		else if ($row[$i]['attrs']!="") $attrs=$row[$i]['attrs'];
 		else $attrs="&nbsp;";
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
-			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row['id'].'"><img src="images/clone.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row[$i]['id'].'"><img src="images/clone.gif" border="0"></a>';
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['dpid']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['pr']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['match_op']?><?php if($row['match_op']==1) echo " (re)"; else echo " (eq)";?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['match_exp']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['match_len']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['subst_exp']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row['repl_exp']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['dpid']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['pr']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_op']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_exp']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_len']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['subst_exp']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['repl_exp']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$attrs?></td>
    <? 
    if(!$_SESSION['read_only']){

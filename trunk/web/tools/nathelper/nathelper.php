@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -24,6 +24,7 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../common/mi_comm.php");
+include("lib/db_connect.php");
 
 $table=$config->table_nathelper;
 $current_page="current_page_nathelper";
@@ -76,20 +77,25 @@ if ($action=="add_verify")
 		}
 
 		if ($errors=="") {
-			$link = db_connect();
-			$result=mysql_query("SELECT * FROM ".$table." WHERE set_id=" .$set_id . " AND rtpproxy_sock='".$rtpproxy_sock."'")
-			or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table." WHERE set_id=" .$set_id . " AND rtpproxy_sock='".$rtpproxy_sock."'";
+			$row = $link->queryAll($sql);
+			if(PEAR::isError($row)) {
+			         die('Failed to issue query, error message : ' . $row->getMessage());
+			}
+			if (count($row)>0) {
 				$errors="Duplicate rule";
 			} else {
-				mysql_query("INSERT INTO ".$table."
+				$sql_command = "INSERT INTO ".$table."
 				(set_id, rtpproxy_sock) VALUES 
-				(".$set_id.", '".$rtpproxy_sock."') ")
-				or die(mysql_error());
+				(".$set_id.", '".$rtpproxy_sock."') ";
+	                         $result = $link->prepare($sql_command);
+                                 $result->bindParam('domain', $domain);
+                                 $result->execute();
+                                 $result->free();
 
 				$info="The new record was added";
 			}
-			db_close();
+			$link->disconnect();	
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -139,18 +145,26 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
-			$link = db_connect();
-			$result=mysql_query("SELECT * FROM ".$table." WHERE set_id=" .$set_id. " AND rtpproxy_sock='".$rtpproxy_sock."' AND id!=".$id)or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
+			$sql = "SELECT * FROM ".$table." WHERE set_id=" .$set_id. " AND rtpproxy_sock='".$rtpproxy_sock."' AND id!=".$id;
+                        $row = $link->queryAll($sql);
+                        if(PEAR::isError($row)) {
+                                 die('Failed to issue query, error message : ' . $row->getMessage());
+                        }
+
+			if (count($row)>0) {
 				$errors="Duplicate rule";
 			} else {
 
-				mysql_query("UPDATE ".$table." SET set_id=".$set_id.", rtpproxy_sock = '".$rtpproxy_sock.
-				"' WHERE id=".$id) or die(mysql_error());
+				$sql_command = "UPDATE ".$table." SET set_id=".$set_id.", rtpproxy_sock = '".$rtpproxy_sock.
+				"' WHERE id=".$id;
+                                 $result = $link->prepare($sql_command);
+                                 $result->bindParam('domain', $domain);
+                                 $result->execute();
+                                 $result->free();
 
 				$info="The new rule was modified";
 			}
-			db_close();
+			$link->disconnect();
 		}
 	}else{
 
@@ -171,11 +185,10 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		db_connect();
 		$id=$_GET['id'];
-		mysql_query("DELETE FROM ".$table." WHERE id=".$id)
-		or die(mysql_error());
-		db_close();
+		$sql = "DELETE FROM ".$table." WHERE id=".$id;
+	        $link->exec($sql);
+		$link->disconnect();
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -218,21 +231,23 @@ $query="";
 		if ($set_id!=""){
 			$query .=" AND set_id=".$set_id;
 		}
-			db_connect();
-			$result=mysql_query("SELECT * FROM ".$table.
-			" WHERE 1 ". $query)
-			or die(mysql_error());
+			$sql = "SELECT * FROM ".$table.
+			" WHERE 1 ". $query;
+	                $row = $link->queryAll($sql);
+                        if(PEAR::isError($row)) {
+                                 die('Failed to issue query, error message : ' . $row->getMessage());
+                        }
 
-			if (mysql_num_rows($result)==0) {
+			if (count($row)==0) {
 				$errors="No Rule with such RTPproxy Sock ID";
 				$_SESSION['nathelper_setid']="";
 				$_SESSION['nathelper_sock']="";
 
 			}else{
-				mysql_query("DELETE FROM ".$table." WHERE 1 " .$query)
-				or die(mysql_error());
+				$sql = "DELETE FROM ".$table." WHERE 1 " .$query;
+		                $link->exec($sql);				
 			}
-			db_close();
+			$link->disconnect();
 		print $result;
 	}
 }

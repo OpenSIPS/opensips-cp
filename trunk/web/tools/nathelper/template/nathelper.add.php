@@ -1,7 +1,7 @@
 <form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -25,14 +25,15 @@
 $clone=$_GET['clone'];
 
 if($clone =="1"){
-	db_connect();
 	$id=$_GET['id'];
 
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
-	$row=mysql_fetch_array($result);
-	db_close();
-	$rtpproxy_sock = $row['rtpproxy_sock'];
-	$set_id = $row['set_id'];
+	$sql = "select * from ".$table." where id='".$id."'";
+	$row = $link->queryAll($sql);
+	if(PEAR::isError($row)) {
+        	 die('Failed to issue query, error message : ' . $row->getMessage());
+	}
+	$rtpproxy_sock = $row[0]['rtpproxy_sock'];
+	$set_id = $row[0]['set_id'];
 }
 
 ?>
