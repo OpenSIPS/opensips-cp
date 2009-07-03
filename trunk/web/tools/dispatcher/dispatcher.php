@@ -82,7 +82,7 @@ if ($action=="add_verify")
 		$flags = "0";
 
 		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table.
+		/*	$sql = "SELECT * FROM ".$table.
 			" WHERE setid=" .$setid;
 			$resultset = $link->queryAll($sql);
                         if(PEAR::isError($resultset)) {
@@ -91,7 +91,7 @@ if ($action=="add_verify")
  	
 			if (count($resultset)>0) {
 				$errors="Duplicate rule";
-			} else {
+			} else {*/
 				$sql = "INSERT INTO ".$table."
 				(setid, destination, flags, description) VALUES 
 				( :setid, :destination, :flags, :description) ";
@@ -103,7 +103,7 @@ if ($action=="add_verify")
 				$resultset->execute();
 				$resultset->free();
 				$info="The new record was added";
-			}
+			//}
 			$link->disconnect();
 		}
 	}else{
