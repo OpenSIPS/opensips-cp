@@ -9,17 +9,9 @@ require("../../../../config/tools/smonitor/db.inc.php");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/smonitor/local.inc.php");
 require("functions.inc.php");
+require("db_connect.php");
+global $config;
 
- if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
-            $config->db_host = $config->db_host_smonitor;
-            $config->db_port = $config->db_port_smonitor;
-            $config->db_user = $config->db_user_smonitor;
-            $config->db_pass = $config->db_pass_smonitor;
-            $config->db_name = $config->db_name_smonitor;
- }
-
-$link = mysql_connect($config->db_host, $config->db_user, $config->db_pass);
-mysql_select_db($config->db_name, $link);
 $chart_size = get_config_var('chart_size',$box_id)+1;
 
 $chart[ 'chart_data' ] [0] [0] = "";
@@ -32,7 +24,11 @@ for($k=1; $k<=$chart_size; $k++)
 }
 
 $index = $chart_size;
-$result = mysql_query("SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0, ".$index);
+$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0 OFFSET ".$index;
+$row = $link->queryAll($sql);
+if(PEAR::isError($row) {
+        die('Failed to issue query, error message : ' . $row->getMessage());
+}
 
 
 $normal_chart = false ;
@@ -40,14 +36,15 @@ if (in_array($var , $gauge_arr ))  $normal_chart = true ;
 		
 if ($normal_chart) {
 
-while($row = mysql_fetch_array($result))
+
+for($i=0;count($row)>$i;$i++)
 {
- if ($row['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row['value'];
+ if ($row[$i]['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row[$i]['value'];
   else $chart[ 'chart_data' ] [1] [$index] = 0;
- $chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row['time']);
- if ($index==$chart_size) {$axis_min = $row['value']; $axis_max = $row['value'];}
- if ($row['value']>$axis_max) $axis_max = $row['value'];
- if ($row['value']<$axis_min) $axis_min = $row['value'];
+ $chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row[$i]['time']);
+ if ($index==$chart_size) {$axis_min = $row[$i]['value']; $axis_max = $row[$i]['value'];}
+ if ($row[$i]['value']>$axis_max) $axis_max = $row[$i]['value'];
+ if ($row[$i]['value']<$axis_min) $axis_min = $row[$i]['value'];
  $index--;
 }
 

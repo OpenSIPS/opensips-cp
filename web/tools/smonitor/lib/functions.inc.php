@@ -8,38 +8,8 @@
 ######################
 //require('../../common/mi_comm.php');
 include("db_connect.php");
-function db_connect()
-{
- global $config;
-
- if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
-            $config->db_host = $config->db_host_smonitor;
-            $config->db_port = $config->db_port_smonitor;
-            $config->db_user = $config->db_user_smonitor;
-            $config->db_pass = $config->db_pass_smonitor;
-            $config->db_name = $config->db_name_smonitor;
- }
- 
- $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
- 
- if (!$link) {
-              die("Could not connect to MySQL Server: " . mysql_error());
-              exit();
-             }
- 
- $selected = @mysql_select_db($config->db_name, $link);
- if (!$selected) {
-                  die("Could not select '$config->db_name' database." . mysql_error());
-                  exit();
-                 } 
-}
-
-
-##########################
-# End Database Functions #
-##########################
-
-
+require_once("../../../config/db.inc.php");
+require_once("../../../config/tools/smonitor/db.inc.php");
 #################
 # FIFO Function #
 #################
@@ -341,16 +311,6 @@ global $config;
 	require("../../../config/db.inc.php");
 	require("../../../config/tools/smonitor/local.inc.php");
 
-	 if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
-            $config->db_host = $config->db_host_smonitor;
-            $config->db_port = $config->db_port_smonitor;
-            $config->db_user = $config->db_user_smonitor;
-            $config->db_pass = $config->db_pass_smonitor;
-            $config->db_name = $config->db_name_smonitor;
- 	}
-
-	$link = mysql_connect($config->db_host, $config->db_user, $config->db_pass);
-	mysql_select_db($config->db_name, $link);
 	$chart_size = get_config_var('chart_size',$box_id)+1;
 	
 	$chart[ 'chart_data' ] [0] [0] = "";
@@ -363,36 +323,42 @@ global $config;
 	}
 	
 	$index = $chart_size;
-	$result = mysql_query("SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0, ".$index);
-	
-	
+	$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0, ".$index;
+	$row=$link->queryAll($sql);
+	if(PEAR::isError($row)) {
+        	die('Failed to issue query, error message : ' . $row->getMessage());
+	}	
+
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
 			
 	if ($normal_chart) {
 	
-	while($row = mysql_fetch_array($result))
+	for($i=0;count($row)>$i;$i++)
 	{
-		if ($row['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row['value'];
+		if ($row[$i]['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row[$i]['value'];
 		else $chart[ 'chart_data' ] [1] [$index] = 0;
-		$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row['time']);
-		if ($index==$chart_size) {$axis_min = $row['value']; $axis_max = $row['value'];}
-		if ($row['value']>$axis_max) $axis_max = $row['value'];
-		if ($row['value']<$axis_min) $axis_min = $row['value'];
+		$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row[$i]['time']);
+		if ($index==$chart_size) {$axis_min = $row[$i]['value']; $axis_max = $row[$i]['value'];}
+		if ($row[$i]['value']>$axis_max) $axis_max = $row[$i]['value'];
+		if ($row[$i]['value']<$axis_min) $axis_min = $row[$i]['value'];
 		$index--;
 	}
 	
 	} else {
 	
 		$prev_field_val =  ""; 		
-		$row = mysql_fetch_array($result) ; 
-		$prev_field_val = $row['value'];
+		$result = $link->queryAll($sql) ;
+	        if(PEAR::isError($result)) {
+        	        die('Failed to issue query, error message : ' . $result->getMessage());
+        	} 
+		$prev_field_val = $result[0]['value'];
 	
 	
-	while($row = mysql_fetch_array($result))
+	for($i=0;count($result)>$i;$i++)
 	{
 	
-		$plot_val = $prev_field_val - $row['value']  ;
+		$plot_val = $prev_field_val - $result[$i]['value']  ;
 		
 		if ($plot_val < 0 )  $plot_val = 0 ; 
 		
@@ -403,7 +369,7 @@ global $config;
 		
 				$chart[ 'chart_data' ] [1] [$index] = 0;
 				
-		$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row['time']);
+		$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$result[$i]['time']);
 		
 		if ($index==$chart_size) {
 		
@@ -419,7 +385,7 @@ global $config;
 		
 		$index--;
 		
-		$prev_field_val=$row['value'];
+		$prev_field_val=$result[$i]['value'];
 		
 	}
 	

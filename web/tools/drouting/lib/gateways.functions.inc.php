@@ -6,7 +6,7 @@
 function get_status($id)
 {
  include("db_connect.php");
- require_once("../../../../config/db.inc.php");
+ require_once("../../../config/db.inc.php");
  global $config;
  if ($config->db_driver == "mysql") 
  	$sql="select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";

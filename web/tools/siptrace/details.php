@@ -24,7 +24,7 @@
 require_once("../../../config/tools/siptrace/db.inc.php");
 require_once("../../../config/tools/siptrace/local.inc.php");
 require_once("lib/functions.inc.php");
-require_once("lib/db_connect.php");
+include("lib/db_connect.php");
 $table=$config->table_trace;
 $sql = "SELECT * FROM ".$table." WHERE id='".$_GET['traceid']."'";
 $row = $link->queryAll($sql);

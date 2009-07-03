@@ -37,7 +37,6 @@
   //echo "SELECT * FROM ".$table." WHERE name='".$var_name."'"." AND box_id=".$box_id ;
   if (count($resultset)==0){
 	$sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('".$var_name."','','".$box_id."') ";
-print $sql;
 	$resultset = $link->prepare($sql);
 	$resultset->execute();
 	$resultset->free();
