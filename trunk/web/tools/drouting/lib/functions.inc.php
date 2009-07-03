@@ -3,45 +3,6 @@
  * $Id$
  */
  
-######################
-# Database Functions #
-######################
-
-function db_connect()
-{
- global $config;
-
- if (!empty($config->db_host_drouting) && !empty($config->db_user_drouting) && !empty($config->db_name_drouting) ) {
-                $config->db_host = $config->db_host_drouting;
-                $config->db_port = $config->db_port_drouting;
-                $config->db_user = $config->db_user_drouting;
-                $config->db_pass = $config->db_pass_drouting;
-                $config->db_name = $config->db_name_drouting;
- }
- 
- $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
-
- if (!$link) {
-              die("Could not connect to MySQL Server: " . mysql_error());
-              exit();
-             }
-
- $selected = @mysql_select_db($config->db_name, $link);
- if (!$selected) {
-                  die("Could not select '$config->db_name' database." . mysql_error());
-                  exit();
-                 } 
-}
-
-function db_close()
-{
- mysql_close();
-}
-
-##########################
-# End Database Functions #
-##########################
-
 
 function get_priv()
 {

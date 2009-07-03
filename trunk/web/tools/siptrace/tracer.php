@@ -27,7 +27,7 @@
  
  require("../../../config/tools/siptrace/local.inc.php");
  require("../../common/mi_comm.php");
- require("../../../../config/db.inc.php");
+ require("../../../config/db.inc.php");
 
  global $config;	
  $table=$config->table_trace;

@@ -1,7 +1,9 @@
 <?php
-require_once("MDB2.php");
+require_once("../../../config/tools/drouting/db.inc.php");
+require_once("../../../config/db.inc.php");
+	require_once("MDB2.php");
         global $config;
-        if (!empty($config->db_host_drouting) && !empty($config->db_user_drouting) && !empty($config->db_name_drouting) ) {
+        if (isset($config->db_host_drouting) && isset($config->db_user_drouting) && isset($config->db_name_drouting) ) {
                 $config->db_host = $config->db_host_drouting;
                 $config->db_port = $config->db_port_drouting;
                 $config->db_user = $config->db_user_drouting;

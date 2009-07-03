@@ -2,8 +2,9 @@
 require_once("MDB2.php");
 require_once("../../../config/tools/smonitor/db.inc.php");
 require_once("../../../config/db.inc.php");
+
         global $config;
-        if (!empty($config->db_host_smonitor) && !empty($config->db_user_smonitor) && !empty($config->db_name_smonitor) ) {
+        if (isset($config->db_host_smonitor) && isset($config->db_user_smonitor) && isset($config->db_name_smonitor) ) {
                 $config->db_host = $config->db_host_smonitor;
                 $config->db_port = $config->db_port_smonitor;
                 $config->db_user = $config->db_user_smonitor;

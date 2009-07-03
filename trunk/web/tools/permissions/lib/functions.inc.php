@@ -21,45 +21,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-######################
-# Database Functions #
-######################
-
-function db_connect()
-{
-	global $config;
-
-        if (!empty($config->db_host_permissions) && !empty($config->db_user_permissions) && !empty($config->db_name_permissions) ) {
-                $config->db_host = $config->db_host_permissions;
-                $config->db_port = $config->db_port_permissions;
-                $config->db_user = $config->db_user_permissions;
-                $config->db_pass = $config->db_pass_permissions;
-                $config->db_name = $config->db_name_permissions;
-        }
-
-	$link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
-
-	if (!$link) {
-		die("Could not connect to MySQL Server: " . mysql_error());
-		exit();
-	}
-	$selected = @mysql_select_db($config->db_name, $link);
-	if (!$selected) {
-		die("Could not select '$config->db_name' database." . mysql_error());
-		exit();
-	}
-	return $link;
-}
-
-function db_close()
-{
-	mysql_close();
-}
-
-##########################
-# End Database Functions #
-##########################
-
 
 function get_priv()
 {

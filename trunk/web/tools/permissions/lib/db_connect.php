@@ -1,7 +1,10 @@
 <?php
+require_once("../../../config/tools/permissions/db.inc.php");
+require_once("../../../config/db.inc.php");
 require_once("MDB2.php");
+
         global $config;
-        if (!empty($config->db_host_permissions) && !empty($config->db_user_permissions) && !empty($config->db_name_permissions) ) {
+        if (isset($config->db_host_permissions) && isset($config->db_user_permissions) && isset($config->db_name_permissions) ) {
                 $config->db_host = $config->db_host_permissions;
                 $config->db_port = $config->db_port_permissions;
                 $config->db_user = $config->db_user_permissions;

@@ -21,47 +21,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-######################
-# Database Functions #
-######################
-
-function db_connect()
-{
- global $config;
-
- if (!empty($config->db_host_siptrace) && !empty($config->db_user_siptrace) && !empty($config->db_name_siptrace) ) {
-            $config->db_host = $config->db_host_siptrace;
-            $config->db_port = $config->db_port_siptrace;
-            $config->db_user = $config->db_user_siptrace;
-            $config->db_pass = $config->db_pass_siptrace;
-            $config->db_name = $config->db_name_siptrace;
- }
-
- 
- $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
- 
- if (!$link) {
-              die("Could not connect to MySQL Server: " . mysql_error());
-              exit();
-             }
- 
- $selected = @mysql_select_db($config->db_name, $link);
- if (!$selected) {
-                  die("Could not select '$config->db_name' database." . mysql_error());
-                  exit();
-                 } 
-}
-
-function db_close()
-{
- mysql_close();
-}
-
-##########################
-# End Database Functions #
-##########################
-
-
 function params($box_val){
 
     global $xmlrpc_host; 
