@@ -2,7 +2,7 @@
 <table width="400" cellspacing="2" cellpadding="2" border="0">
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,13 +28,14 @@
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-	db_connect();
 	$id=$_GET['id'];
 	
-	$result=mysql_query("select * from ".$table." where id='".$id."'") or die(mysql_error());
+	$sql = "select * from ".$table." where id='".$id."'";
+	$row = $link->queryAll($sql);
+	if(PEAR::isError($row)) {
+        	 die('Failed to issue query, error message : ' . $row->getMessage());
+	}
 	$index_row=0;
-	$row=mysql_fetch_array($result);
-	db_close();
 
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
@@ -45,12 +46,12 @@
 ?>
  <tr>
   <td class="dataRecord"><b>RTPproxy Sock:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="rtpproxy_sock" value="<?=$row['rtpproxy_sock']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="rtpproxy_sock" value="<?=$row[0]['rtpproxy_sock']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
   <td class="dataRecord"><b>Setid</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="set_id" value="<?=$row['set_id']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="set_id" value="<?=$row[0]['set_id']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
  <tr>
