@@ -94,7 +94,7 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 
     Follow these steps:	
      
-	1 . install the cdr table schema cdrs.mysql/cdrs.pgsl 
+	1 . install the cdr table schema cdrs.mysql/cdrs.pgsql 
 	(opensips-cp/web/tools/cdrviewer/cdrs.mysql)
 	mysql -Dopensips -p < cdrs.mysql 
 		or 
@@ -157,8 +157,8 @@ Configuration files are split in:
 	1) global(config/db.inc.php) 
 	2) local(config/tools/module_name/db.inc.php)	
 
-NOTE: If all modules pull out data from the same database, there should be used only the global config file and the local config files should be left as they are defined as default. 
-      If modules draw out data from different databases, in the local config files should be defined host, database name, port(if necessary) user, password.
+NOTE: If all modules pull out data from the same database, there should be used only the global config file and the local config files should be left as they are defined by default. 
+      If modules draw out data from different databases, in the local config files all the fields should be left uncommented ( host, database name, port(if necessary) user, password ).
 
 The 2 types of files (global and local) are almost identical, the exception is that in the global file there is a parameter that defines the database driver:
  $config->db_driver = "mysql"; (or pgsql)

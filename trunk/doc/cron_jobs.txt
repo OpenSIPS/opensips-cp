@@ -12,7 +12,7 @@ There are 4 cron jobs in opensips-cp/cron_job :
 * cdr_export.php 
 * get_opensips_stats.php
 * clean_statistics.php
-* generate-cdrs.sh
+* generate-cdrs_mysql.sh (or generate-cdrs_pgsql.sh)
 
 
 
@@ -54,8 +54,8 @@ It uses configuration data from smonitor tool config files
 
 
 
-generate-cdrs.sh
+generate-cdrs_mysql.sh (or generate-cdrs_pgsql.sh)
 ----------------
 
 This script calls the stored procedure that generates CDRs.
-You must edit the script and change the mysql connection data accordingly.
+You must edit the script and change the mysql/postgres connection data accordingly.
