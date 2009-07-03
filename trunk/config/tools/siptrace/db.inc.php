@@ -22,20 +22,20 @@
  */
 
  //database host
- $config->db_host_siptrace = "";
+ //$config->db_host_siptrace = "localhost";
  
  //database port - leave empty for default
- $config->db_port_siptrace = "";
+ //$config->db_port_siptrace = "";
  
  //database connection user
- $config->db_user_siptrace = "root";
+ //$config->db_user_siptrace = "root";
  
  //database connection password
- $config->db_pass_siptrace = "";
+ //$config->db_pass_siptrace = "mysql";
  
  //database name
- $config->db_name_siptrace = "";
+ //$config->db_name_siptrace = "opensips";
  
- if ($config->db_port_siptrace != "") $config->db_host_siptrace = $config->db_host_siptrace . ":" . $config->db_port_siptrace;
+ //if ($config->db_port_siptrace != "") $config->db_host_siptrace = $config->db_host_siptrace . ":" . $config->db_port_siptrace;
  
 ?>

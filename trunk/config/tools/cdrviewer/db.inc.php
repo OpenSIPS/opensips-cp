@@ -22,20 +22,20 @@
  */
 
  //database host
- $config->db_host_cdrviewer = "";
+ //$config->db_host_cdrviewer = "localhost";
  
  //database port - leave empty for default
- $config->db_port_cdrviewer = "";
+ //$config->db_port_cdrviewer = "";
  
  //database connection user
- $config->db_user_cdrviewer = "";
+ //$config->db_user_cdrviewer = "root";
  
  //database connection password
- $config->db_pass_cdrviewer = "";
+ //$config->db_pass_cdrviewer = "mysql";
  
  //database name
- $config->db_name_cdrviewer = "";
+ //$config->db_name_cdrviewer = "opensips";
  
- if ($config->db_port_cdrviewer != "") $config->db_host_cdrviewer = $config->db_host_cdrviewer . ":" . $config->db_port_cdrviewer;
+ //if ($config->db_port_cdrviewer != "") $config->db_host_cdrviewer = $config->db_host_cdrviewer . ":" . $config->db_port_cdrviewer;
  
 ?>
