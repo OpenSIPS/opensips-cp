@@ -141,49 +141,69 @@ $boxes[$box_id]['assoc_id']=1;
 
 Don't forget to increment the $box_id variable as you add boxes to this array.
 
+db.inc.php
+-----------
 
+
+The global configuration file helds global parameters for database connections to mysql or postgres. 
+These parameters cover up all modules, unless one of themodules needs to use some other database.
+The file is found in config directory and it is called db.inc.php The structure of the file is 
+somewhat identical with the one of the local configuation files. The exception is that the global 
+configuration file also specifies a parameter for the database driver, as shown bellow:
+
+//database driver mysql or pgsql
+$config->db_driver = "mysql";
+
+//database host
+$config->db_host = "localhost";
+
+//database port - leave empty for default
+$config->db_port = "";
+
+//database connection user
+$config->db_user = "root";
+
+//database connection password
+$config->db_pass = "mysql";
+
+//database name
+$config->db_name = "opensips"; 
 
 2. Local Configuration Files Description
 -----------------------------------------------------
 
 
+The local configuration files contain database layer connection data and other attributes that 
+are specific to each tool. If the same database is being used for each module, then there 
+should be used the global config file and the local one should be left as it is by default. 
+If one module needs a different configuration, just uncomment the parameters and set them as needed:
 
-The local configuration files contain  database layer connection data  
-and  other attributes that are specific to each tool. 
+These files are :
 
-These files are : 
+    * opensips-cp/config/tools/toolname/db.inc.php 
 
-* opensips-cp/config/tools/_tool_name_/db.inc.php 
+The variables in this file are somewhat self explanatory.You must set up the mysql connection data 
+through this file.
 
-The variables in this file are somewhat self 
-explanatory.You must set up the mysql connection data through this file. 
-
-All db.inc.php files look the same , like this : 
+All db.inc.php files look the same , like this :
 
 //database host
- $config->db_host = "localhost";
+$config->db_host = "localhost";
 
- //database port - leave empty for default
- $config->db_port = "";
+//database port - leave empty for default $config->db_port = "";
 
- //database connection user
- $config->db_user = "root";
+//database connection user
+$config->db_user = "root";
 
- //database connection password
- $config->db_pass = "mysql";
+//database connection password
+$config->db_pass = "mysql";
 
- //database name
- $config->db_name = "opensips";
+//database name
+$config->db_name = "opensips";
 
+Not all the tools require access to the database but every tool that uses the database has its own 
+database configuration file.
 
-Not all the tools require access to the database but every tool that uses the 
-database has its own database configuration file.  
+    * opensips-cp/config/tools/toolname/local.inc.php 
 
-
-
-* opensips-cp/config/tools/_tool_name_/local.inc.php
-
-The tools have also a `local` configuration file where configuration variables
-specific for each tool are kept.
-
-More information on each tool is found in doc/_tool_name_.txt
+Documentation for each module can be found by following the specific link.
