@@ -1,6 +1,10 @@
 <?php
+require_once("../../../config/tools/domains/db.inc.php");
+require_once("../../../config/db.inc.php");
+	require_once("MDB2.php");
+
         global $config;
-        if (!empty($config->db_host_domains) && !empty($config->db_user_domains) && !empty($config->db_name_domains) ) {
+        if (isset($config->db_host_domains) && isset($config->db_user_domains) && isset($config->db_name_domains) ) {
                 $config->db_host = $config->db_host_domains;
                 $config->db_port = $config->db_port_domains;
                 $config->db_user = $config->db_user_domains;

@@ -1,9 +1,9 @@
 <?
-
-
 require("template/header.php");
 require("../../../config/tools/cdrviewer/local.inc.php");
 include("lib/db_connect.php");
+
+global $config;
 
 $current_page="current_page_cdrviewer";
 
