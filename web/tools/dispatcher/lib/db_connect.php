@@ -1,7 +1,10 @@
 <?php
+require_once("../../../config/tools/dispatcher/db.inc.php");
+require_once("../../../config/db.inc.php");
 require_once("MDB2.php");
+
         global $config;
-        if (!empty($config->db_host_dispatcher) && !empty($config->db_user_dispatcher) && !empty($config->db_name_dispatcher) ) {
+        if (isset($config->db_host_dispatcher) && isset($config->db_user_dispatcher) && isset($config->db_name_dispatcher) ) {
                 $config->db_host = $config->db_host_dispatcher;
                 $config->db_port = $config->db_port_dispatcher;
                 $config->db_user = $config->db_user_dispatcher;

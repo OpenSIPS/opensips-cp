@@ -1,7 +1,10 @@
 <?php
+require_once("../../../config/tools/siptrace/db.inc.php");
+require_once("../../../config/db.inc.php");
 require_once("MDB2.php");
+
         global $config;
-        if (!empty($config->db_host_siptrace) && !empty($config->db_user_siptrace) && !empty($config->db_name_siptrace) ) {
+        if (isset($config->db_host_siptrace) && isset($config->db_user_siptrace) && isset($config->db_name_siptrace) ) {
                 $config->db_host = $config->db_host_siptrace;
                 $config->db_port = $config->db_port_siptrace;
                 $config->db_user = $config->db_user_siptrace;
