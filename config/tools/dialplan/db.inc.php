@@ -22,20 +22,20 @@
  */
 
  //database host
- $config->db_host_dialplan = "";
+ //$config->db_host_dialplan = "localhost";
  
  //database port - leave empty for default
- $config->db_port_dialplan = "";
+ //$config->db_port_dialplan = "";
  
  //database connection user
- $config->db_user_dialplan = "";
+ //$config->db_user_dialplan = "root";
  
  //database connection password
- $config->db_pass_dialplan = "";
+ //$config->db_pass_dialplan = "mysql";
  
  //database name
- $config->db_name_dialplan = "";
+ //$config->db_name_dialplan = "opensips";
  
- if ($config->db_port_dialplan != "") $config->db_host_dialplan = $config->db_host_dialplan . ":" . $config->db_port_dialplan;
+ //if ($config->db_port_dialplan != "") $config->db_host_dialplan = $config->db_host_dialplan . ":" . $config->db_port_dialplan;
  
 ?>

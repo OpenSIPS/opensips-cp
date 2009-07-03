@@ -22,20 +22,20 @@
  */
 
  //database host
- $config->db_host_pdt = "";
+ //$config->db_host_pdt = "localhost";
  
  //database port - leave empty for default
- $config->db_port_pdt = "";
+ //$config->db_port_pdt = "";
  
  //database connection user
- $config->db_user_pdt = "";
+ //$config->db_user_pdt = "root";
  
  //database connection password
- $config->db_pass_pdt = "";
+ //$config->db_pass_pdt = "mysql";
  
  //database name
- $config->db_name_pdt = "";
+ //$config->db_name_pdt = "opensips";
  
- if ($config->db_port_pdt != "") $config->db_host_pdt = $config->db_host_pdt . ":" . $config->db_port_pdt;
+ //if ($config->db_port_pdt != "") $config->db_host_pdt = $config->db_host_pdt . ":" . $config->db_port_pdt;
  
 ?>
