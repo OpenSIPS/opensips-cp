@@ -160,7 +160,7 @@
     </div>
 
    <div id="div_gws" style="display:none">
-    <input type="text" name="gwlist" id="gwlist" value="<?=$gwlist?>" maxlength="255" readonly class="dataInput">
+    <input type="text" name="gwlist" id="gwlist" value="<?php echo $gwlist;?>" maxlength="255" readonly class="dataInput">
     <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
     <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
     <input type="button" name="end_group_gwlist" value="End Group" class="formButton" onclick="endGroupGwList('gwlist')"><br>
