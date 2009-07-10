@@ -232,7 +232,7 @@ $query="";
 			$query .=" AND set_id=".$set_id;
 		}
 			$sql = "SELECT * FROM ".$table.
-			" WHERE 1 ". $query;
+			" WHERE (1=1) ". $query;
 	                $row = $link->queryAll($sql);
                         if(PEAR::isError($row)) {
                                  die('Failed to issue query, error message : ' . $row->getMessage());
@@ -244,7 +244,7 @@ $query="";
 				$_SESSION['nathelper_sock']="";
 
 			}else{
-				$sql = "DELETE FROM ".$table." WHERE 1 " .$query;
+				$sql = "DELETE FROM ".$table." WHERE (1=1) " .$query;
 		                $link->exec($sql);				
 			}
 			$link->disconnect();

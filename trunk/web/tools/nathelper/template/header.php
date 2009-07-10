@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -29,6 +29,7 @@
  require_once("lib/functions.inc.php");
  $page_name = basename($_SERVER['PHP_SELF']);
  $page_id = substr($page_name, 0, strlen($page_name) - 4);
+ $back_link = '<a href="'.$page_name.'" class="backLink">Go Main</a>';
  $no_result = "No Data Found.";
 ?>
 
