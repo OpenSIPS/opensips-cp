@@ -310,6 +310,7 @@ global $config;
 	require("../../../config/tools/smonitor/db.inc.php");
 	require("../../../config/db.inc.php");
 	require("../../../config/tools/smonitor/local.inc.php");
+	require("db_connect.php");
 
 	$chart_size = get_config_var('chart_size',$box_id)+1;
 	
