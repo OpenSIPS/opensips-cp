@@ -35,7 +35,7 @@ foreach ($boxes as $ar){
 			if(PEAR::isError($resultset))
 		                die('Failed to issue query, error message : ' . $resultset->getMessage());
  			echo "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=".$box_id." ORDER BY name ASC\n";			
- 			for ($i=0;$count($resultset)>$i;$i++)
+ 			for ($i=0;count($resultset)>$i;$i++)
  				{
   					$var_name=$resultset[$i]['name'];
   					preg_match("/".$var_name." = ([0-9]*)/i", $stats, $regs);
