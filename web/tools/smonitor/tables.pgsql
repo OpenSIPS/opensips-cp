@@ -17,7 +17,7 @@ SET CLIENT_ENCODING TO 'latin1' ;
 
 DROP TABLE IF EXISTS monitoring_stats;
 CREATE TABLE monitoring_stats (
-  name text PRIMARY KEY NOT NULL,
+  name text NOT NULL,
   time integer NOT NULL,
   value text NOT NULL default '0',
   box_id integer NOT NULL default '0'
