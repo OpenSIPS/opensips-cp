@@ -26,7 +26,7 @@ for($k=1; $k<=$chart_size; $k++)
 $index = $chart_size;
 $sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0 OFFSET ".$index;
 $row = $link->queryAll($sql);
-if(PEAR::isError($row) {
+if(PEAR::isError($row)) {
         die('Failed to issue query, error message : ' . $row->getMessage());
 }
 
@@ -51,14 +51,13 @@ for($i=0;count($row)>$i;$i++)
 } else {
 
 $prev_field_val =  ""; 		
-$row = mysql_fetch_array($result) ; 
-$prev_field_val = $row['value'];
+$prev_field_val = $row[0]['value'];
 
 
-while($row = mysql_fetch_array($result))
+for($i=1;count($row)>$i;$i++)
 {
 
- $plot_val = $prev_field_val - $row['value']  ;
+ $plot_val = $prev_field_val - $row[$i]['value']  ;
 
  if ($plot_val < 0 )  $plot_val = 0 ; 
  
@@ -69,7 +68,7 @@ while($row = mysql_fetch_array($result))
   
   		$chart[ 'chart_data' ] [1] [$index] = 0;
    		
-  $chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row['time']);
+  $chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row[$i]['time']);
  
 if ($index==$chart_size) {
 
@@ -85,7 +84,7 @@ if ($index==$chart_size) {
 
  $index--;
 
-$prev_field_val=$row['value'];
+$prev_field_val=$row[$i]['value'];
 
 }
 
