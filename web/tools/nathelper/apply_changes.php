@@ -33,7 +33,7 @@
 <BODY>
 <?php
 
-require("../../../config/tools/loadbalancer/local.inc.php");
+require("../../../config/tools/nathelper/local.inc.php");
 require("../../common/mi_comm.php");
 require("lib/functions.inc.php");
 
@@ -47,7 +47,7 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 if($errors)
 echo('get proxys error');
 
-$command="lb_reload";
+$command="nh_reload_rtpp";
 
 for ($i=0;$i<count($mi_connectors);$i++){
 
