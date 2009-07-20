@@ -68,8 +68,23 @@ if ($action=="add_verify")
 	$errors="";
 
 	if(!$_SESSION['read_only']){
-
-				
+                $temp = split(";",$_POST['resources']);
+		print $temp[count($temp)+1];
+		if (empty($temp[count($temp)+1])) pop($temp[count($temp)+1]); 
+                for($i=0;count($temp)>$i;$i++) {
+                        preg_match('/(\s*[a-zA-Z0-9]+=\d+\s*)*/',$temp[$i],$matches);
+                        if (!empty($matches[0])) $match[]=$matches[0];
+                }
+                if (count($match)!=count($temp)) {
+                        while(1) {
+                                $errors = "Data format is incorrect!. Should be name1=value1;name2=value2...";
+                                if($errors)
+                                echo('!!! ');echo($errors);
+                                require("template/footer.php");
+                                exit();
+                                }
+                }
+		
 
 		if ($_POST['probe_mode'] == "No probing") $probe_mode = 0;
 		else if ($_POST['probe_mode'] == "Probing only when the destination is in disabled mode") $probe_mode=1;
@@ -129,15 +144,20 @@ if ($action=="modify")
 		$dst_uri=$_POST['dst_uri'];
 		$resources=$_POST['resources'];
 		$temp = split(";",$resources);
-		//print_r($temp);
 		for($i=0;count($temp)>$i;$i++) {
-		//	print preg_match_all('/[a-zA-Z0-9]+=\d+/',$temp[$i],$matches);
-			if (preg_match('/[a-zA-Z0-9]+=\d+/',$temp[$i],$matches)==0) {
-				$errors = "Data format is incorrect!. Should be name1=value1;name2=value2...";
-			}
-			break;
+			preg_match('/(\s*[a-zA-Z0-9]+=\d+\s*)*/',$temp[$i],$matches); //print_r($matches);
+			if (!empty($matches[0])) $match[]=$matches[0];
 		}
-		
+		if (count($match)!=count($temp)) { 
+			while(1) {
+				$errors = "Data format is incorrect!. Should be name1=value1;name2=value2...";
+				if($errors)
+				echo('!!! ');echo($errors);
+				require("template/footer.php");
+				exit();
+				}
+		}
+
 		if ($_POST['probe_mode'] == "No probing") $probe_mode = 0;
 		else if ($_POST['probe_mode'] == "Probing only when the destination is in disabled mode") $probe_mode=1;
 		else $probe_mode=2;
