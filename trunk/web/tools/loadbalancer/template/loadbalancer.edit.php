@@ -36,7 +36,9 @@
         	 die('Failed to issue query, error message : ' . $row->getMessage());
 	}
 	$index_row=0;
-
+if ($row[0]['probe_mode']==0) $probe = "No probing";
+else if ($row[0]['probe_mode']==1) $probe = "Probing only when the destination is in disabled mode";
+else $probe = "Probing all the time";
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -62,7 +64,7 @@
 
  <tr>
   <td class="dataRecord"><b>Probe Mode:</b></td>
-  <td class="dataRecord" width="275"><?=get_types("probe_mode",$result[$i]['probe_mode'])?></td>
+  <td class="dataRecord" width="275"><?=get_types("probe_mode",$probe)?></td>
  </tr>
 
  <tr>

@@ -30,17 +30,17 @@ function get_types($name, $set)
   $buffer = fgets($handle, 4096);
   $pos = strpos($buffer, " ");
   //$values[] = trim(substr($buffer, 0, $pos));
-  $values[] = $buffer;
+  $values[] = trim($buffer);
   //$content[] = trim(substr($buffer, $pos, strlen($buffer)));
  }
  fclose($handle);
  echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect">');
- //if ($name=="search_type") echo('<option value="">- all types -</option>');
+ if ($name=="search_type") echo('<option value="">- all types -</option>');
  for ($i=0; $i<sizeof($values)-1; $i++)
  {
   if ($set == $values[$i]) $xtra = 'selected';
    else $xtra ='';
- // if(!empty($values[$i]))
+  if(!empty($values[$i]))
         echo('<option value="'.$values[$i].'" '.$xtra.'>'.$values[$i].'</option>');
  }
  echo('</select>');
