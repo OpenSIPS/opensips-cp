@@ -31,7 +31,7 @@
                 mi_command('lb_list',$errors,$status);
                 print_r($errors);
                 $status = trim($status);
-		preg_match_all('/Destination\:\:\s+sip\:[a-zA-Z0-9.]+\s+id=\d+\s+group=\d+\s+enabled=(yes|no)\s+auto-re=(on|off)(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*/',$status,$matches);
+		preg_match_all('/Destination\:\:\s+sip\:[a-zA-Z0-9.:]+\s+id=\d+\s+group=\d+\s+enabled=(yes|no)\s+auto-re=(on|off)(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*/',$status,$matches);
 }
 ?>
 </form>
@@ -39,7 +39,7 @@
 <table width="85%" cellspacing="2" cellpadding="2" border="0">
  
  <tr height="10">
-  <td colspan="3" class="searchRecord" align="right"><input type="submit" name="refresh" value="Refresh RTP Proxy" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
+  <td colspan="3" class="searchRecord" align="right"><input type="submit" name="refresh" value="Refresh from Cache" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
  </tr>
  <tr height="10">
   <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
