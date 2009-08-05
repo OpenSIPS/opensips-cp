@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -83,8 +83,10 @@
 </table>
 </form>
 <?php
+ if (isset($_GET['err'])) {
  if ($_GET['err']==1) echo('<div class="loginError">'.$login_err.'</div>');
  if ($_GET['err']==2) echo('<div class="loginError">'.$session_err.'</div>');
+ }
 ?>
 </center>
 </body>
