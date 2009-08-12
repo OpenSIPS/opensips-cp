@@ -34,7 +34,7 @@
 if ($action=="toggle"){
 
 	$toggle_button= $_GET['toggle_button'];
-//	$id = $_GET['id'];
+	$id = $_GET['id'];
 	if ($toggle_button=="enabled") {
 
         $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
@@ -62,32 +62,6 @@ if ($action=="toggle"){
 	}
 } 
  
-################
-# start show #
-################
-if ($action=="refresh") {
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-for ($i=0;$i<count($mi_connectors);$i++){	
-
-		$comm_type=params($mi_connectors[$i]);	
-		mi_command('lb_reload',$errors,$status);
-                print_r($errors);
-                $status = trim($status);
-                preg_match_all('/.[\:][\:]\s+[a-z\=0-9]+/',$status,$matches);
-
-//print $result;
-
-	}
-
-
-}
-print_r($result);
-
-##############
-# end show#
-##############
- 
-   
  require("template/".$page_id.".main.php");
  require("template/footer.php");
  exit();
