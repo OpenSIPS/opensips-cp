@@ -70,12 +70,13 @@ if ($action=="add_verify")
 	if(!$_SESSION['read_only']){
                 $temp = split(";",$_POST['resources']);
 		print $temp[count($temp)+1];
-		if (empty($temp[count($temp)+1])) pop($temp[count($temp)+1]); 
-                for($i=0;count($temp)>$i;$i++) {
+		if (empty($temp[count($temp)+1])) $length=count($temp)-1;//pop($temp[count($temp)+1]); 
+		else $length=count($temp);
+                for($i=0;$length>$i;$i++) {
                         preg_match('/(\s*[a-zA-Z0-9]+=\d+\s*)*/',$temp[$i],$matches);
                         if (!empty($matches[0])) $match[]=$matches[0];
                 }
-                if (count($match)!=count($temp)) {
+                if (count($match)!=$length) {
                         while(1) {
                                 $errors = "Data format is incorrect!. Should be name1=value1;name2=value2...";
                                 if($errors)
