@@ -66,6 +66,10 @@ if ($action=="add_verify")
 {
 	$info="";
 	$errors="";
+    $group_id=$_POST['group_id'];
+    $dst_uri=$_POST['dst_uri'];
+    $resources=$_POST['resources'];
+    $description=$_POST['description'];
 
 	if(!$_SESSION['read_only']){
                 $temp = split(";",$_POST['resources']);
