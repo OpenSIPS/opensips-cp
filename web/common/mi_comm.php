@@ -244,10 +244,7 @@ function write2xmlrpc($command,&$errors,&$status){
 	$response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
 	$xml=(substr($response,strpos($response,"\r\n\r\n")+4));
 
-	//$str=xmlrpc_decode($xml);
-
-//preg_match_all('/\<string\>(.*\s+)+\<\/string\>/',$xml,$matches);
-//print_r($matches);
+	preg_match_all('/\<string\>(.*\s+)+\<\/string\>/',$xml,$matches);
 
 	for ($j=0;$j<count($matches[0]);$j++){
 		$temp = substr($matches[0][$j],8);

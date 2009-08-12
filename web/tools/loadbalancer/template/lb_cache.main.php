@@ -28,7 +28,7 @@
 	for ($i=0;$i<count($mi_connectors);$i++){
 
                 $comm_type=params($mi_connectors[$i]);
-                mi_command('lb_list',$errors,$status);
+                $status = mi_command('lb_list',$errors,$code);
                 print_r($errors);
                 $status = trim($status);
 		preg_match_all('/Destination\:\:\s+sip\:[a-zA-Z0-9.:]+\s+id=\d+\s+group=\d+\s+enabled=(yes|no)\s+auto-re=(on|off)(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*/',$status,$matches);
