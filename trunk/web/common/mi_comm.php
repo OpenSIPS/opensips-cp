@@ -97,9 +97,9 @@ function write2fifo_new($command, &$errors, &$status){
          }else {
 
 		        $cmd=trim(substr($command,0,$pos));
-	     		  $arg=trim(substr($command,$pos,strlen($command)));
+	    	        $arg=trim(substr($command,$pos,strlen($command)));
 
-				  $command_args=array();	
+			  $command_args=array();	
 		    	  $command_args=explode(" ",$arg);	
 
 
@@ -191,7 +191,6 @@ function write2fifo_new($command, &$errors, &$status){
 	$rd=fread($fp, 8192);
 	fclose($fp);
 	@unlink($config->reply_fifo_path);
-	
 	return $rd;
 }
 
@@ -210,14 +209,24 @@ function xml_do_call($xmlrpc_host,$xmlrpc_port,$request,&$errors,&$status) {
      $errors[] = "Write error"; return -1;
    }
 
-   $contents = '';
-   while (!feof($fp)) {
-       $contents .= fgets($fp);
-   }
-    
-   fclose($fp);
+   stream_set_timeout($fp, 5);
+   $status=fgetS($fp, 256);
+   $info = stream_get_meta_data($fp);
 
-   return $contents;
+   if ($info['timed_out']) {
+	   fclose($fp);
+	   $errors[]= 'Read from XMLRPC to SIP server timed out'; return;
+   }
+
+   if (!$status) {
+   	   fclose($fp);
+           $errors[]="sorry -- reply xmlrpc reading error"; return;
+   }
+
+   $rd=fread($fp, 8192);
+   fclose($fp);
+   return $rd;
+
 }
 
 
