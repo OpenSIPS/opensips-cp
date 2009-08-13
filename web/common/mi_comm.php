@@ -209,23 +209,15 @@ function xml_do_call($xmlrpc_host,$xmlrpc_port,$request,&$errors,&$status) {
      $errors[] = "Write error"; return -1;
    }
 
-   stream_set_timeout($fp, 5);
-   $status=fgetS($fp, 256);
-   $info = stream_get_meta_data($fp);
 
-   if ($info['timed_out']) {
-	   fclose($fp);
-	   $errors[]= 'Read from XMLRPC to SIP server timed out'; return;
+   $contents = '';
+
+   while (!feof($fp)) { 	    
+     $contents .= fgets($fp);
    }
 
-   if (!$status) {
-   	   fclose($fp);
-           $errors[]="sorry -- reply xmlrpc reading error"; return;
-   }
-
-   $rd=fread($fp, 8192);
    fclose($fp);
-   return $rd;
+   return $contents;
 
 }
 
@@ -252,7 +244,9 @@ function write2xmlrpc($command,&$errors,&$status){
 
 	$response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
 	$xml=(substr($response,strpos($response,"\r\n\r\n")+4));
-
+	preg_match('/HTTP\/1.1\s+\d+\s+[A-Za-z]+\s+/',$response,$match);
+	$status = substr($match[0],9);
+	//print_r($status);
 	preg_match_all('/\<string\>(.*\s+)+\<\/string\>/',$xml,$matches);
 
 	for ($j=0;$j<count($matches[0]);$j++){
@@ -260,7 +254,6 @@ function write2xmlrpc($command,&$errors,&$status){
 		$str = substr($temp,0,-9);		
 	}
 
-	$status = $str ;
 	if (is_array($str)) {
 
 		$errors[] = "write2xmlrpc(): some error occured \n" . "ErrorCode: " . $str['faultCode'] ."\n".$str['faultString']."\n" ;; 
