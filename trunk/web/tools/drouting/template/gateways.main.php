@@ -9,10 +9,9 @@
  if ($search_type!="") $sql_search.=" and type='".$search_type."'";
  $search_address=$_SESSION['gateways_search_address'];
  if ($search_address!="") {
-                           $pos=strpos($search_address,"*");
-                           if ($pos===false) $sql_search.=" and address='".$search_address."'";
-                            else $sql_search.=" and address like '".str_replace("*","%",$search_address)."'";
-                          }
+                           //$pos=strpos($search_address,"*");
+	 $sql_search.=" and address like '%" . $search_address . "%' ";
+ } else $sql_search .=" and address like '%' "; 
  $search_pri_prefix=$_SESSION['gateways_search_pri_prefix'];
  if ($search_pri_prefix!="") $sql_search.=" and pri_prefix='".$search_pri_prefix."'";
  $search_description=$_SESSION['gateways_search_description'];
