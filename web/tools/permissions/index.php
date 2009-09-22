@@ -26,6 +26,6 @@
  require("../../../config/db.inc.php");
  session_start();
  get_priv();
- header("Location: trusted.php");
+ header("Location: address.php");
  
 ?>
