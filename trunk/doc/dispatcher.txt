@@ -10,7 +10,7 @@ It shows a table with OpenSIPS dispatcher rules, offering the
 ability to  add, edit and delete rules.
 
 You can find  the dialplan module documentation here : 
-http://www.opensips.org/html/docs/modules/1.5.x/dispatcher.html
+http://www.opensips.org/html/docs/modules/1.6.x/dispatcher.html
 
 Configuration
 -------------------
