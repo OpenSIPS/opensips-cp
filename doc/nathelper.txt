@@ -9,7 +9,7 @@ The DB List tag is for usual DB transactions: adding, deleting, searching,
 showing the whole content of the table. Cache List tab si for refreshing
 the data, from DB to chache. Nat Ping tag allows the enabling or disabling of nat ping.
 You can find the nathelper module documentation here:
-http://www.opensips.org/html/docs/modules/1.5.x/nathelper.html
+http://www.opensips.org/html/docs/modules/1.6.x/nathelper.html
 
 
 Configuration
@@ -19,7 +19,7 @@ Configuration
 * Database layer configuration file :
 opensips-cp/config/tools/nathelper/db.inc.php
 
-Mysql connection data is set through this file.
+Database connection data is set through this file.
 
 Attributes  set in this file :
 
