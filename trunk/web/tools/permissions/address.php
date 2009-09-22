@@ -225,14 +225,17 @@ if ($action=="dp_act")
 
 	$_SESSION['address_src']=$_POST['address_src'];
 	$_SESSION['address_proto']=$_POST['address_proto'];
+	$_SESSION['address_port']=$_POST['address_port'];
 	$_SESSION[$current_page]=1;
 	extract($_POST);
 	if ($show_all=="Show All") {
 		$_SESSION['address_src']="";
 		$_SESSION['address_proto']="";
+		$_SESSION['address_port']="";
 	} else if($search=="Search"){
 		$_SESSION['address_src']=$_POST['address_src'];
 		$_SESSION['address_proto']=$_POST['address_proto'];
+		$_SESSION['address_port']=$_POST['address_port'];
 	} else if($_SESSION['read_only']){
 
 		$errors= "User with Read-Only Rights";
@@ -247,6 +250,10 @@ if ($action=="dp_act")
 			$proto = $_POST['address_proto'];
 			$sql_query .= " AND proto like '%" . $proto . "%'"; 
 		}
+		if ( $_POST['address_port'] != "" ) {
+			$proto = $_POST['address_port'];
+			$sql_query .= " AND port like '%" . $port . "%'"; 
+		}
 		$sql = "SELECT * FROM ".$table.
 		" WHERE (1=1) " .$sql_query;
 		$resultset = $link->queryAll($sql);
@@ -254,6 +261,7 @@ if ($action=="dp_act")
 			$errors="No such rule";
 			$_SESSION['address_src']="";
 			$_SESSION['address_proto']="";
+			$_SESSION['address_port']="";
 
 		}else{
 			$sql = "DELETE FROM ".$table." WHERE (1=1) ".$sql_query;
