@@ -22,7 +22,6 @@ foreach ($boxes as $ar){
 	if ($ar['smonitor']['charts']==1)
 	{
 		$time=time();
-		db_connect();
 		$sampling_time=get_config_var('sampling_time',$box_id);
 
 		if (date("i",$time) % $sampling_time == 0)
