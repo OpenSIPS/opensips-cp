@@ -16,7 +16,6 @@ CREATE TABLE `monitored_stats` (
 -- 
 
 DROP TABLE IF EXISTS `monitoring_stats`;
-DROP TABLE IF EXISTS `monitoring_stats`;
 CREATE TABLE `monitoring_stats` (
   `name` varchar(64) NOT NULL,
   `time` int(11) NOT NULL,
