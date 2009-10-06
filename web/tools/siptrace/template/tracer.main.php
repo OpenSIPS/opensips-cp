@@ -166,25 +166,25 @@ if ($_SESSION['grouped_results']) {
 
 		if ($sql_search=="") 
 
-			$sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id ASC";
+			$sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id DESC";
 
-		else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id ASC";
+		else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
 
 	} else if ($config->db_driver = "pgsql") {
 
 		if ($sql_search=="") 
 
-			$sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY callid ASC";
+			$sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY callid DESC";
 
-		else $sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid ASC";
+		else $sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
 
 		}
 			
 } else {
 
-	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE (1=1) ORDER BY id ASC";
+	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE (1=1) ORDER BY id DESC";
 
-	else $sql="SELECT id FROM ".$table." WHERE (1=1)".$sql_search." ORDER BY id ASC";
+	else $sql="SELECT id FROM ".$table." WHERE (1=1)".$sql_search." ORDER BY id DESC";
 
 }
 
@@ -212,7 +212,7 @@ else
 	}
 	for($i=0; count($resultset)>$i;$i++)
 	{
-		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
+		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id DESC LIMIT 1";
 		else $sql_="SELECT * FROM ".$table." WHERE id='".$resultset[$i]['id']."'".$sql_search." ORDER BY id LIMIT 1";
 		$resultset_ = $link->queryAll($sql_);
 		if(PEAR::isError($resultset_)) {
@@ -233,7 +233,7 @@ else
    <?php
    if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
    {
-   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$resultset_[0]['callid']."' ORDER BY id ASC";
+   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$resultset_[0]['callid']."' ORDER BY id DESC";
 	$resultset_d = $link->queryAll($sql_d);
 	if(PEAR::isError($resultset_d)) {
 	     	die('Failed to issue query, error message : ' . $resultset_d->getMessage());
