@@ -7,7 +7,7 @@ Description
 ---------------
 
 The permissions tool is used for determining if a call has appropriate permission
-to be established. For the time being, just the address table is available. This tool allows deleting, searching and adding database transactions, and it also lists the whole trusted table content.
+to be established. For the time being, just the address table is available. This tool allows deleting, searching and adding database transactions, and it also lists the whole address table content.
 
 The permissions module documentation can be found at the following link: 
 http://www.opensips.org/html/docs/modules/1.6.x/permissions.html
@@ -45,7 +45,7 @@ Usage and Features
 The user can list, add, edit and delete permissions. 
 The following is an explanation of the actions performed by the buttons on the page:
 
-"Search": Searches through the adress rules, displaying only the rules that have the Source IP and Protocol submited by the user.
+"Search": Searches through the address rules, displaying only the rules that have the Source IP and Protocol submited by the user.
 "Show all": Shows all the address rules.
 "Delete Trusted": Deletes all entries with a certain Source IP and Protocol.  
 "Add New": Inserts a form to add new address rule. 

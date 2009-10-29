@@ -100,10 +100,6 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 		or 
 	psql -h host_name -U postgres_username -d opensips < cdrs.pgsql
 	
-	2. add a new column in the acc table (cdr_id) : 
-	mysql>ALTER TABLE acc ADD COLUMN cdr_id int(11) NOT NULL DEFAULT 0 AFTER  time;
-	opensips=#ALTER TABLE acc ADD COLUMN cdr_id integer NOT NULL DEFAULT 0;
-
 	2. * for mysql install opensips_cdrs_1_6.mysql , a mysql stored procedure that generates cdr records
 	from the acc table :  
 	
@@ -115,7 +111,7 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 
 	3. *for mysql edit the cron_job/generate-cdrs_mysql.sh file and change the mysql connection data
 	(hostname,username,password and database)
-	3. *for postgresql edit the cron_job/generate-cdrs_pgsql.sh file and change the pgsql connection data
+	   *for postgresql edit the cron_job/generate-cdrs_pgsql.sh file and change the pgsql connection data
 	(hostname,username,password and database)
 	
 	4. you will need to call this procedure from cron at an arbitrary interval.
