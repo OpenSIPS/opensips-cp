@@ -3,7 +3,7 @@
  * $Id$
  */ 
 
- $config->results_per_page = 10;
+ $config->results_per_page = 20;
  $config->results_page_range = 5;
  
 ###############################################################################
