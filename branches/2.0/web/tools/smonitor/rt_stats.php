@@ -8,6 +8,7 @@
  require("../../../config/tools/smonitor/local.inc.php");
  require("../../../config/tools/smonitor/db.inc.php");
  require("lib/functions.inc.php");
+ require("../../../config/db.inc.php");
  
  session_start(); 
  

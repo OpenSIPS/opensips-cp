@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -24,6 +24,7 @@
 require("../../common/mi_comm.php");
 require("template/header.php");
 require("../../../config/tools/pdt/local.inc.php");
+require("../../../config/db.inc.php");
 
 $current_page="current_page_pdt";
 $table=$config->table_pdts;

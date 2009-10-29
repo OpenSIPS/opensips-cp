@@ -3,6 +3,7 @@
 
 require("template/header.php");
 require("../../../config/tools/cdrviewer/local.inc.php");
+require("../../../config/db.inc.php");
 
 $current_page="current_page_cdrviewer";
 

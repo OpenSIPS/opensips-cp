@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -25,6 +25,8 @@
  require("lib/".$page_id.".main.js");
  require("../../../config/tools/nathelper/local.inc.php");
  require("../../common/mi_comm.php");
+ require("../../../config/db.inc.php");
+
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];
       else $action="";
