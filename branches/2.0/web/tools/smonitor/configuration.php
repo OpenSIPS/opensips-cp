@@ -3,8 +3,8 @@
  * $Id$
  */
 
- require("../../../config/tools/smonitor/local.inc.php");
  require("../../../config/db.inc.php");
+ require("../../../config/tools/smonitor/local.inc.php");
  require("lib/functions.inc.php");
  
  session_start(); 

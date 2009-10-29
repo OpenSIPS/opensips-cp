@@ -1,0 +1,67 @@
+/*
+ * $Id$
+ */ 
+
+body, table {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.loginTitle {
+	font-size: 16px;
+	font-weight: bold;
+}
+.loginInput {
+	border: #999999 1px solid;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	margin: 1px;
+	font-size: 12px;
+	color: #000000;
+	width: 170px;
+}
+.loginError {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ff0000;
+}
+
+
+.headerTitle {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+}
+a.headerLogout {
+	font-size: 12px;
+	font-weight: bold;
+	color: #ffffff;
+	text-decoration: none;	
+}
+a.headerLogout:hover {
+	font-size: 12px;
+	font-weight: bold;
+	color: #c0c0c0;
+	text-decoration: none;
+}
+
+a.menuItem {
+	font-size: 14px;
+	font-weight: bold;
+	color: #c0c0c0;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	font-size: 14px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+.copyright {
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000;
+}
