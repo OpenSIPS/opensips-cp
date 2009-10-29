@@ -95,7 +95,7 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
     Follow these steps:	
      
 	1 . install the cdr table schema cdrs.mysql/cdrs.pgsql 
-	(opensips-cp/web/tools/cdrviewer/cdrs.mysql)
+	(opensips-cp/config/tools/cdrviewer/cdrs.mysql)
 	mysql -Dopensips -p < cdrs.mysql 
 		or 
 	psql -h host_name -U postgres_username -d opensips < cdrs.pgsql
@@ -105,7 +105,7 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 	
 	mysql -Dopensips -p < opensips_cdrs_1_6.mysql
 
- 	  * for postgres install opensips_cdrs_1_6.postgres, a postgresql procedure that generates cdr records 
+ 	  * for postgres install opensips_cdrs_1_6.pgsql, a postgresql procedure that generates cdr records 
 	from the acc table:      
 	
 
@@ -129,9 +129,9 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 	1. Install the monitored_stats and monitoring_stats tables. 
 	You will find them in :
 		
-	opensips-cp/web/tools/cdrviewer/tables.mysql
+	opensips-cp/config/tools/cdrviewer/tables.mysql
 		or 	
-	opensips-cp/web/tools/cdrviewer/tables.pgsql
+	opensips-cp/config/tools/cdrviewer/tables.pgsql
 	This is where the smonitor tool of the panel stores data.
 	
 	    
