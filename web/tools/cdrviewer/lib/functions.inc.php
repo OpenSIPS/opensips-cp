@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -28,6 +28,14 @@
 function db_connect()
 {
 	global $config;
+
+        if (isset($config->db_host_cdrviewer) && isset($config->db_user_cdrviewer) && isset($config->db_name_cdrviewer) ) {
+                $config->db_host = $config->db_host_cdrviewer;
+                $config->db_port = $config->db_port_cdrviewer;
+                $config->db_user = $config->db_user_cdrviewer;
+                $config->db_pass = $config->db_pass_cdrviewer;
+                $config->db_name = $config->db_name_cdrviewer;
+        }
 
 	$link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
 

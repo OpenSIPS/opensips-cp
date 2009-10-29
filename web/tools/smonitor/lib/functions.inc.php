@@ -10,6 +10,14 @@
 function db_connect()
 {
  global $config;
+
+ if (isset($config->db_host_smonitor) && isset($config->db_user_smonitor) && isset($config->db_name_smonitor) ) {
+	 $config->db_host = $config->db_host_smonitor;
+         $config->db_port = $config->db_port_smonitor;
+         $config->db_user = $config->db_user_smonitor;
+         $config->db_pass = $config->db_pass_smonitor;
+         $config->db_name = $config->db_name_smonitor;
+ }
  
  $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
  
