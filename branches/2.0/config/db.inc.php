@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id$
+ * $Id: db.inc.php 40 2009-04-13 14:59:22Z iulia_bublea $
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -22,20 +22,20 @@
  */
 
  //database host
- //$config->db_host_dialplan = "localhost";
+ $config->db_host = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_dialplan = "";
+ $config->db_port = "";
  
  //database connection user
- //$config->db_user_dialplan = "root";
+ $config->db_user = "root";
  
  //database connection password
- //$config->db_pass_dialplan = "mysql";
+ $config->db_pass = "";
  
  //database name
- //$config->db_name_dialplan = "opensips";
- 
- //if ($config->db_port_dialplan != "") $config->db_host_dialplan = $config->db_host_dialplan . ":" . $config->db_port_dialplan;
+ $config->db_name = "opensips";
+
+ if (!empty($config->db_port) ) $config->db_host = $config->db_host . ":" . $config->db_port;
  
 ?>

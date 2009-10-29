@@ -10,6 +10,14 @@
 function db_connect()
 {
  global $config;
+
+ if (isset($config->db_host_drouting) && isset($config->db_user_drouting) && isset($config->db_name_drouting) ) {
+	$config->db_host = $config->db_host_drouting;
+        $config->db_port = $config->db_port_drouting;
+        $config->db_user = $config->db_user_drouting;
+        $config->db_pass = $config->db_pass_drouting;
+        $config->db_name = $config->db_name_drouting;
+ }
  
  $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
 
