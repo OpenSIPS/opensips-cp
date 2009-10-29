@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -161,12 +161,12 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
 
 if ($_SESSION['grouped_results']) {
-	if ($sql_search=="") $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id ASC";
-	else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id ASC";
+	if ($sql_search=="") $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id DESC";
+	else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
 }
 else {
-	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE 1 ORDER BY id ASC";
-	else $sql="SELECT id FROM ".$table." WHERE 1".$sql_search." ORDER BY id ASC";
+	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE 1 ORDER BY id DESC";
+	else $sql="SELECT id FROM ".$table." WHERE 1".$sql_search." ORDER BY id DESC";
 }
 $result=mysql_query($sql) or die(mysql_error());
 $data_no=mysql_num_rows($result);
@@ -184,7 +184,7 @@ else
 	$result=mysql_query($sql) or die(mysql_error());
 	while($row=mysql_fetch_array($result))
 	{
-		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$row['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
+		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$row['callid']."'".$sql_search." ORDER BY id DESC LIMIT 1";
 		else $sql_="SELECT * FROM ".$table." WHERE id='".$row['id']."'".$sql_search." ORDER BY id LIMIT 1";
 		$result_=mysql_query($sql_) or die(mysql_error());
 		$row_=mysql_fetch_array($result_);
@@ -204,7 +204,7 @@ else
    <?php
    if (in_array($row_['id'],$_SESSION['detailed_callid']))
    {
-   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$row_['callid']."' ORDER BY id ASC";
+   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$row_['callid']."' ORDER BY id DESC";
    	$result_d=mysql_query($sql_d) or die(mysql_error());
     ?>
     <tr><td colspan="5" class="rowOdd">
