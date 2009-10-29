@@ -1,6 +1,7 @@
 <?
 
 require("../../../config/tools/siptrace/local.inc.php");
+require("../../../config/db.inc.php");
 require("../../../config/tools/siptrace/db.inc.php");
 require("../siptrace/lib/functions.inc.php");
 

@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id:$
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -22,6 +22,7 @@
 */
 
 require_once("../../../config/session.inc.php");
+require_once("../../../config/db.inc.php");
 require_once("../../../config/tools/siptrace/db.inc.php");
 require_once("../../../config/tools/siptrace/local.inc.php");
 require_once("lib/functions.inc.php");
