@@ -242,9 +242,20 @@ function write2xmlrpc($command,&$errors,&$status){
 
 	$response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
 
-	$xml=(substr($response,strpos($response,"\r\n\r\n")+4));
+        $xml=(substr($response,strpos($response,"\r\n\r\n")+4));
 
-	$str=xmlrpc_decode($xml);
+        preg_match('/HTTP\/1.1\s+\d+\s+[A-Za-z]+\s+/',$response,$match);
+
+        //$status = substr($match[0],9);
+
+        //print_r($status);
+
+        preg_match_all('/\<string\>(.*\s+)+\<\/string\>/',$xml,$matches);
+
+        for ($j=0;$j<count($matches[0]);$j++){
+                $temp = substr($matches[0][$j],8);
+                $str = substr($temp,0,-9);
+        }
 
 	$status = $str ; 
 
