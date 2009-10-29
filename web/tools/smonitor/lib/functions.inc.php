@@ -9,6 +9,7 @@
 //require('../../common/mi_comm.php');
 function db_connect()
 {
+
  global $config;
 
  if (isset($config->db_host_smonitor) && isset($config->db_user_smonitor) && isset($config->db_name_smonitor) ) {
@@ -20,7 +21,6 @@ function db_connect()
  }
  
  $link = @mysql_connect($config->db_host, $config->db_user, $config->db_pass);
- 
  if (!$link) {
               die("Could not connect to MySQL Server: " . mysql_error());
               exit();
@@ -335,6 +335,7 @@ function show_graph($stat,$box_id){
 
 	$var = $stat;
 	$box_id = $box_id;
+	require("../../../config/db.inc.php");
 	require("../../../config/tools/smonitor/db.inc.php");
 	require("../../../config/tools/smonitor/local.inc.php");
 
