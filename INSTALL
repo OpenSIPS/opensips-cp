@@ -77,11 +77,8 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
     Follow these steps:	
      
 	1 . install the cdr table schema cdrs.sql 
-	(opensips-cp/web/tools/cdrviewer/cdrs.sql)
+	(opensips-cp/config/tools/cdrviewer/cdrs.sql)
 	mysql -Dopensips -p < cdrs.sql 
-
-	2. add a new column in the acc table (cdr_id) : 
-	mysql>ALTER TABLE acc ADD COLUMN cdr_id varchar(32) AFTER  time;
 
 	2. install opensips_cdrs_1_5.sql , a mysql stored procedure that generates cdr records
 	from the acc table :  
@@ -104,7 +101,7 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 	1. Install the monitored_stats.sql and monitoring_stats.sql tables. 
 	You will find them in :
 		
-	opensips-cp/web/tools/cdrviewer/tables.sql	
+	opensips-cp/config/tools/cdrviewer/tables.sql	
 	This is where the smonitor tool of the panel stores data.
 	
 	    
@@ -118,4 +115,14 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 	
 	The cron jobs do not need to run as root, you might want to change the user.
 	
-	
+Configuration files
+-------------------
+
+Configuration files are split in:
+        1) global(config/db.inc.php)
+        2) local(config/tools/module_name/db.inc.php)
+
+NOTE: If all modules pull out data from the same database, there should be used only the global config file and the local config files should be left as they are defined by default.
+      If modules draw out data from different databases, in the local config files all the fields should be left uncommented ( host, database name, port(if necessary) user, password ).
+
+The 2 types of files (global and local) are identical.	
