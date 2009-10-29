@@ -31,7 +31,7 @@
  $config->db_user = "root";
  
  //database connection password
- $config->db_pass = "";
+ $config->db_pass = "mysql";
  
  //database name
  $config->db_name = "opensips";
