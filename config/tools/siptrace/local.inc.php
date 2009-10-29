@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
  
- $config->results_per_page = 10;
+ $config->results_per_page = 20;
  $config->results_page_range = 10;
  
  // highlighting 

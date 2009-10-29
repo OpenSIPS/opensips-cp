@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id:$
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -27,7 +27,7 @@
  
  //database tables
  $config->table_dialplan = "dialplan";
- $config->results_per_page = 3;
+ $config->results_per_page = 20;
  $config->results_page_range = 5;
 
  $config->reply_fifo_filename="webfifo_".rand();
