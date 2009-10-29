@@ -1,5 +1,5 @@
 <!--
- * $Id:$
+ * $Id$
 -->
 
 <form action="<?=$page_name?>?action=add_verify" method="post">

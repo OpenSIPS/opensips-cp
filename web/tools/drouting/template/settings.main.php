@@ -1,5 +1,5 @@
 <!--
- * $Id:$
+ * $Id$
  -->
 
 <form action="<?=$page_name?>?action=gw_types" method="post">
