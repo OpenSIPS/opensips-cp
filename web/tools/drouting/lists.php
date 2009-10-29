@@ -4,6 +4,8 @@
  */
 
  require("template/header.php");
+ require("../../../config/db.inc.php");
+
  $table=$config->table_lists;
  $current_page="current_page_lists";
  
