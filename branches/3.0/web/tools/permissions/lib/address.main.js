@@ -1,6 +1,6 @@
 <script language="JavaScript">
 //
-// $Id$
+// $Id: trusted.main.js 133 2009-10-29 18:05:56Z iulia_bublea $
 //
   
 function confirmDelete()
