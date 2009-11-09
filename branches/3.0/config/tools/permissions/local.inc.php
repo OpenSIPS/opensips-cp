@@ -9,7 +9,7 @@
 ###############################################################################
 
  //database tables
- $config->table_trusted = "trusted";
+ $config->table_address = "address";
  
  $talk_to_this_assoc_id = 1 ;
 
