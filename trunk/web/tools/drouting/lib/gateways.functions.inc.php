@@ -9,9 +9,9 @@ function get_status($id)
  require_once("../../../config/db.inc.php");
  global $config;
  if ($config->db_driver == "mysql") 
- 	$sql="select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+ 	$sql="select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)|(^#".$id."$)'";
  else if ($config->db_driver == "pgsql")
-	 $sql="select ruleid from ".$config->table_rules." where gwlist ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+	 $sql="select ruleid from ".$config->table_rules." where gwlist ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)|(^#".$id."$)'";
 
  $result=$link->queryAll($sql);
  if(PEAR::isError($result)) {
