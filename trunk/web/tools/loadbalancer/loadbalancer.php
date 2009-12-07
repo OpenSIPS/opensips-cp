@@ -148,6 +148,7 @@ if ($action=="modify")
 		$group_id=$_POST['group_id'];
 		$dst_uri=$_POST['dst_uri'];
 		$resources=$_POST['resources'];
+                $id=$_GET['id'];
 		$temp = split(";",$resources);
 		for($i=0;count($temp)>$i;$i++) {
 			preg_match('/(\s*[a-zA-Z0-9]+=\d+\s*)*/',$temp[$i],$matches); //print_r($matches);
