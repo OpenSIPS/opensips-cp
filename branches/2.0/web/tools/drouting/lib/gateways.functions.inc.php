@@ -7,7 +7,7 @@ function get_status($id)
 {
  global $config;
  db_connect();
- $result = mysql_query("select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'") or die(mysql_error());
+ $result = mysql_query("select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)|(^#".$id."$)'") or die(mysql_error());
  $data_no = mysql_num_rows($result);
  db_close();
  return($data_no);
