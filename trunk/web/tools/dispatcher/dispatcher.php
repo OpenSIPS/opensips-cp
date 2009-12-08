@@ -155,6 +155,11 @@ if ($action=="modify")
 		$destination=$_POST['destination'];
 		$flags = $_POST['flags'];
 		$description= $_POST['description'];
+                if (!empty($_POST['description'])) {
+                        $description= $_POST['description'];
+                } else {
+                        $description="";
+                }
 
 		if ($setid=="" || $destination=="" || $flags=="" || $description==""){
 			$errors = "Invalid data, the entry was not modified in the database";
@@ -173,7 +178,7 @@ if ($action=="modify")
 				$resultset = $link->prepare($sql);
 				$resultset->execute();
 				$resultset->free();
-				$info="The new rule was modified";
+				$info="The rule was modified";
 			}
 			$link->disconnect();
 		}
