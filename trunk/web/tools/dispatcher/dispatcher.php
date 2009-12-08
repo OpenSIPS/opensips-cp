@@ -75,6 +75,13 @@ if ($action=="add_verify")
 		$flags = $_POST['flags'];
 		$description= $_POST['description'];
 
+                if (!empty($_POST['description'])) {
+                        $description= $_POST['description'];
+                } else {
+                        $description=NULL;
+                }
+
+
 		if($setid=="")
 		$setid = "0";
 
@@ -92,17 +99,13 @@ if ($action=="add_verify")
 			if (count($resultset)>0) {
 				$errors="Duplicate rule";
 			} else {*/
-				$sql = "INSERT INTO ".$table."
-				(setid, destination, flags, description) VALUES 
-				( :setid, :destination, :flags, :description) ";
-				$resultset = $link->prepare($sql);
-				$resultset->bindParam('setid', $setid);
-				$resultset->bindParam('destination',$destination);
-				$resultset->bindParam('flags', $flags);
-				$resultset->bindParam('description', $description);
-				$resultset->execute();
-				$resultset->free();
-				$info="The new record was added";
+                                $sql = "INSERT INTO ".$table."
+                                (setid, destination, flags, description) VALUES
+                                (". $setid .",'". $destination ."',". $flags .",'". $description."') ";
+                                $resultset = $link->prepare($sql);
+                                $resultset->execute();
+                                $resultset->free();
+                                $info="The new record was added";
 			//}
 			$link->disconnect();
 		}
