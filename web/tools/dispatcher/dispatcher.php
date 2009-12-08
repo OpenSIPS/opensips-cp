@@ -74,6 +74,12 @@ if ($action=="add_verify")
 		$destination=$_POST['destination'];
 		$flags = $_POST['flags'];
 		$description= $_POST['description'];
+                if (!empty($_POST['description'])) {
+                        $description= $_POST['description'];
+                } else {
+                        $description=NULL;
+                }
+
 
 		if($setid=="")
 		$setid = "0";
@@ -145,6 +151,12 @@ if ($action=="modify")
 		$flags = $_POST['flags'];
 		$description= $_POST['description'];
 
+                if (!empty($_POST['description'])) {
+                        $description= $_POST['description'];
+                } else {
+                        $description=NULL;
+                }
+
 		if ($setid=="" || $destination=="" || $flags=="" || $description==""){
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
@@ -158,7 +170,7 @@ if ($action=="modify")
 				mysql_query("UPDATE ".$table." SET setid=".$setid.", destination = '".$destination.
 				"', flags= ".$flags.", description ='".$description."' WHERE id=".$id) or die(mysql_error());
 
-				$info="The new rule was modified";
+				$info="The rule was modified";
 			}
 			db_close();
 		}
