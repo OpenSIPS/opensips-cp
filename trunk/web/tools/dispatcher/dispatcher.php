@@ -161,7 +161,7 @@ if ($action=="modify")
                         $description="";
                 }
 
-		if ($setid=="" || $destination=="" || $flags=="" || $description==""){
+		if ($setid=="" || $destination=="" || $flags=="" ){
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
