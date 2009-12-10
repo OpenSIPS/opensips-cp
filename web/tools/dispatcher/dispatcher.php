@@ -163,15 +163,11 @@ if ($action=="modify")
 		if ($errors=="") {
 			$link = db_connect();
 			$result=mysql_query("SELECT * FROM ".$table." WHERE setid=" .$setid. " AND id!=".$id)or die(mysql_error());
-			if (mysql_num_rows($result)>0) {
-				$errors="Duplicate rule";
-			} else {
 
 				mysql_query("UPDATE ".$table." SET setid=".$setid.", destination = '".$destination.
 				"', flags= ".$flags.", description ='".$description."' WHERE id=".$id) or die(mysql_error());
 
 				$info="The rule was modified";
-			}
 			db_close();
 		}
 	}else{
