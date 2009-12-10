@@ -170,16 +170,12 @@ if ($action=="modify")
                         if(PEAR::isError($resultset)) {
                                 die('Failed to issue query, error message : ' . $resultset->getMessage());
                         }
-			if (count($resultset)>0) {
-				$errors="Duplicate rule";
-			} else {
 				$sql = "UPDATE ".$table." SET setid=".$setid.", destination = '".$destination.
 				"', flags= ".$flags.", description ='".$description."' WHERE id=".$id;
 				$resultset = $link->prepare($sql);
 				$resultset->execute();
 				$resultset->free();
 				$info="The rule was modified";
-			}
 			$link->disconnect();
 		}
 	}else{
