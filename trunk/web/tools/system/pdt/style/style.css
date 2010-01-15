@@ -1,0 +1,135 @@
+/*
+ * $Id: style.css 40 2009-04-13 14:59:22Z iulia_bublea $
+ */ 
+
+body, table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.menuItem {
+	font-size: 12px;
+	font-weight: bold;
+}
+a.menuItem {
+	color: #000000;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	color: #ff0000;
+	text-decoration: none;
+}
+.menuItemSelect {
+	font-size: 14px;
+	font-weight: bold;
+}
+a.menuItemSelect {
+	color: #ff0000;
+	text-decoration: none;
+}
+a.menuItemSelect:hover {
+	color: #ff0000;
+	text-decoration: none;
+}
+
+.searchTitle {
+	border: #999999 1px solid;
+	background-color: #99ccff;
+	font-size: 11px;
+	font-weight: bold;
+}
+.searchRecord {
+	border: #cccccc 1px solid;
+	background-color: #eeeeee;
+	font-size: 10px;
+}
+.searchInput {
+	border: #999999 1px solid;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	margin: 1px;
+	font-size: 10px;
+	color: #000000;
+	width: 150px;
+}
+.searchButton {
+	border: #aaaaaa 2px outset;
+	background-color: #dddddd;
+	font-size: 9px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.pdtTitle {
+	border: #999999 1px solid;
+	background-color: #99ccff;
+	font-weight: bold;
+}
+.pageActive {
+	border: #999999 1px solid;
+	padding-left: 2px;
+	padding-right: 2px;
+	font-size: 10px;
+	font-weight: bold;
+	color: #000090;
+}
+a.pageList {
+	font-size: 10px;
+	color: #000090;
+	text-decoration: none;
+}
+a.pageList:hover {
+	font-size: 10px;
+	color: #ff0000;
+	text-decoration: none;
+}
+
+.newPdt {
+	border: #999999 1px solid;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	margin: 1px;
+	font-size: 12px;
+	color: #000000;
+	width: 200px;
+}
+.formInfo {
+	font-style: italic;
+	color: #0000ff;
+}
+.formError {
+	font-style: italic;
+	color: #ff0000;
+}
+.Button {
+	border: #aaaaaa 2px outset;
+	background-color: #dddddd;
+	font-size: 9px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.rowOdd {
+	border: #cccccc 1px solid;
+	background-color: #eeeeee;
+	font-size: 11px;
+}
+.rowEven {
+	border: #cccccc 1px solid;
+	background-color: #eeeecc;
+	font-size: 11px;
+}
+
+a.backLink {
+	font-size: 10px;
+	color: #000090;
+	text-decoration: none;
+}
+a.backLink:hover {
+	font-size: 10px;
+	color: #000090;
+	text-decoration: underline;
+}

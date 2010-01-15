@@ -1,0 +1,76 @@
+/*
+ * $Id: style.css 40 2009-04-13 14:59:22Z iulia_bublea $
+ */ 
+
+body, table {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.menuItem {
+	font-size: 12px;
+	font-weight: bold;
+}
+a.menuItem {
+	color: #000000;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	color: #ff0000;
+	text-decoration: none;
+}
+.menuItemSelect {
+	font-size: 14px;
+	font-weight: bold;
+}
+a.menuItemSelect {
+	color: #ff0000;
+	text-decoration: none;
+}
+a.menuItemSelect:hover {
+	color: #ff0000;
+	text-decoration: none;
+}
+
+.fifoTitle {
+	border: #999999 1px solid;
+	background-color: #99ccff;
+	font-weight: bold;
+}
+
+.formInput {
+	border: #999999 1px solid;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	margin: 1px;
+	font-size: 11px;
+	color: #000000;
+}
+.formInfo {
+	font-style: italic;
+	color: #0000ff;
+}
+.formError {
+	font-style: italic;
+	color: #ff0000;
+}
+.Button {
+	border: #aaaaaa 2px outset;
+	background-color: #dddddd;
+	font-size: 9px;
+	font-weight: bold;
+	color: #000000;
+}
+
+.rowOdd {
+	border: #cccccc 1px solid;
+	background-color: #eeeeee;
+	font-size: 11px;
+}
+.rowEven {
+	border: #cccccc 1px solid;
+	background-color: #eeeecc;
+	font-size: 11px;
+}
