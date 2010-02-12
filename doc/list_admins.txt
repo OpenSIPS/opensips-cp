@@ -30,21 +30,6 @@ opensips-cp/config/tools/admin/list_admins/local.inc.php
 
 Attributes like database table name, fields to be displayed, results per page 
 and variables which control the way the tool displays information from database. 
-The following variables present in this file may be subject to change more often:
-$config->passwd_mode. 
-
-$config->passwd_mode
-===========
-
-This array controls the way the admin password is going to be saved in the
-database.
-- by setting
-$config->passwd_mode=0
-the password will be saved in a text mode
-- by setting
-$config->passwd_mode=1
-the password will be saved in a chyphered way (password field will be empty and
-ha1 will be calculated)
 
 
 Usage and Features
