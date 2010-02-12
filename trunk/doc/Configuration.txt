@@ -155,7 +155,7 @@ This array has 2 values that will remain unchanged: read-only and read-write.
 
 $config->permissions = array("read-only","read-write");
 
-$config->passwd_mode= 0/1
+$config->admin_passwd_mode= 0/1
 
 This array controls the way the admin password is going to be saved in the database.
 Value 0 means the password will be saved as plain text string (text mode)
