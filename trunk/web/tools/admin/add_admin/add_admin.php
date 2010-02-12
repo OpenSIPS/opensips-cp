@@ -23,7 +23,6 @@
 
 require("template/header.php");
 require("lib/".$page_id.".main.js");
-require ("../../../common/mi_comm.php");
 include("lib/db_connect.php");
 require_once("lib/functions.inc.php");
 require("../../../../config/tools/admin/add_admin/local.inc.php");

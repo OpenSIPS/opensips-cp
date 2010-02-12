@@ -66,27 +66,6 @@ function get_priv() {
 }
 
 
-function get_proxys_by_assoc_id($my_assoc_id){
-
-	$global="../../../../config/boxes.global.inc.php";
-	require($global);
-
-	$mi_connectors=array();
-
-	for ($i=0;$i<count($boxes);$i++){
-
-		if ($boxes[$i]['assoc_id']==$my_assoc_id){
-
-			$mi_connectors[]=$boxes[$i]['mi']['conn'];
-
-		}
-
-	}
-
-	return $mi_connectors;
-}
-
-
 function params($box_val){
 
 	global $xmlrpc_host;
