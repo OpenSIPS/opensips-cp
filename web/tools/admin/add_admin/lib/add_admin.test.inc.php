@@ -42,9 +42,9 @@
  }	
  
   if ($form_valid) {
-		if ($config->passwd_mode==1) {
+		if ($config->admin_passwd_mode==0) {
   		     $ha1  = "";
-	        } else if ($config->passwd_mode==0) {
+	        } else if ($config->admin_passwd_mode==1) {
        	 	     $ha1 = md5($uname.":".$add_passwd);
  	        } else {
 	  	   $form_valid = false;

@@ -81,12 +81,12 @@ if ($action=="modify")
 			$resultset->free();
 			print "Admin's info was modified, but password remained the same!\n";
 		} else if (($_POST['listpasswd']!="") && ($_POST['conf_passwd']!="")) {
-	              if ($config->passwd_mode==1) {
-	                     $ha1  = '';
-	  		     $listpasswd = $_POST['listpasswd'];	
-        	        } else if ($config->passwd_mode==0) {
-                	     $ha1 = md5($listuname.":".$_POST['listpasswd']);
-   	  		     $listpasswd = '';	
+			if ($config->admin_passwd_mode==0) {
+				$ha1  = '';
+				$listpasswd = $_POST['listpasswd'];	
+			} else if ($config->admin_passwd_mode==1) {
+				$ha1 = md5($listuname.":".$_POST['listpasswd']);
+				$listpasswd = '';	
 			}
 
 			$sql = 'UPDATE '.$table.' SET username="'.$listuname.'", first_name="'.$listfname.'", last_name = "'.$listlname.
