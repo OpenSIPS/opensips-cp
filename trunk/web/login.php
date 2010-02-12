@@ -23,7 +23,7 @@
 
  session_start();
  include("db_connect.php"); 
- require("../config/tools/admin/add_admin/local.inc.php");
+ require("../config/globals.php");
  global $config;	
  $super_admin=0;
 
