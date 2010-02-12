@@ -19,7 +19,7 @@ $config->table_aliases = array("DBaliases"=>"dbaliases");
 $config->permissions = array("read-only","read-write");
 
 // Password can be saved in plain text mode by setting 
-// $config->admin_passwd_mode to 1 or chyphered mode, by setting it to 0
-$config->admin_passwd_mode=1;
+// $config->admin_passwd_mode to 0 or chyphered mode, by setting it to 1
+$config->admin_passwd_mode=0;
 
 ?>
