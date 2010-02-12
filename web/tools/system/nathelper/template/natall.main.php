@@ -22,20 +22,22 @@
  */
 -->
 
-<form action="<?=$page_name?>?action=refresh" method="post">
+
 <?
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	for ($i=0;$i<count($mi_connectors);$i++){
-
+				//echo "here again";
                 $comm_type=params($mi_connectors[$i]);
-                mi_command('nh_show_rtpp',$errors,$status);
+                $message = mi_command('nh_show_rtpp',$errors,$status);
                 print_r($errors);
-                $status = trim($status);
+				
+                $message = trim($message);
                 //preg_match_all('/[0-9a-z\:\_a-z0-9\:0-9]+[\:][\:]\s+[a-z\=0-9]+/',$status,$matches);
-                preg_match_all('/.+[\:][\:]\s+[a-z\=0-9]+/',$status,$matches);
+                preg_match_all('/.+[\:][\:]\s+[a-z\=0-9]+/',$message,$matches);
+				
 }
 ?>
-</form>
+
 <form action="<?=$page_name?>?action=refresh" method="post">
 <table width="85%" cellspacing="2" cellpadding="2" border="0">
  
@@ -111,6 +113,6 @@ else {
 ?>
 
  <tr>
- <td colspan="6" class="nathelperTitle" align="right">Total Records: <?php print count($matches[0])?>&nbsp;</td>
+ <td colspan="6" class="nathelperTitle" align="right">Total Records: <?php print count($matches)?>&nbsp;</td>
  <tr>
 </table>

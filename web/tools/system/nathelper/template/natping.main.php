@@ -32,15 +32,16 @@ if (!isset($toggle_button)) {
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// get status from the first one only
 	$comm_type=params($mi_connectors[0]);
-	mi_command("nh_enable_ping" , $errors , $status);
+	$message = mi_command("nh_enable_ping" , $errors , $status);
 	print_r($errors);
-	$status = trim($status);
-	
-	if (preg_match('/0/',$status,$matches)){	
-		$toggle_button = "enable";
+	$message = trim($message);
+	//echo $status;
+	if (preg_match('/0/',$message,$matches)){	
+		$toggle_button = "Enable";
+		echo "ping is disabled";
 	} else
-	if (preg_match('/1/',$status,$matches)) {
-		$toggle_button = "disable";
+	if (preg_match('/1/',$message,$matches)) {
+		$toggle_button = "Disable";
 	}
 
 }
@@ -48,12 +49,12 @@ if (!isset($toggle_button)) {
 <div>
 <?php if(!$_SESSION['read_only']){ ?>
 <form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>" method="post">
-<?php if  ( $toggle_button == "disable" ) {
+<?php if  ( $toggle_button == "Disable" ) {
 
 	echo '<h3>The current status is <span style="color:#00ff00"> enabled. </span> To disable NAT Ping push the button: <input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton"></h3>';
 
 } else
- if  ( $toggle_button == "enable" )
+ if  ( $toggle_button == "Enable" )
 {
 	echo '<h3>The current status is <span style="color:#ff0000"> disabled. </span>To enable NAT Ping push the button: <input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton"></h3>';
 
