@@ -70,10 +70,10 @@ if ($action=="add_verify")
   if(!$_SESSION['read_only']){
 	  require("lib/".$page_id.".test.inc.php");
 	  if ($form_valid) {
-                if ($config->passwd_mode==1) {
+                if ($config->admin_passwd_mode==0) {
                 	$ha1  = '';
                         $add_passwd = $_POST['add_passwd'];
-                } else if ($config->passwd_mode==0) {
+                } else if ($config->admin_passwd_mode==1) {
                         $ha1 = md5($add_uname.":".$_POST['add_passwd']);
                         $add_passwd = '';
                 }
