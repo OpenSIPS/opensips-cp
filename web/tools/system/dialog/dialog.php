@@ -68,7 +68,19 @@ if ($action=="delete")
 	                mi_command("dlg_end_dlg ".$h_entry." ".$h_id,$errors,$status);
         	        print_r($errors);
                 	$status = trim($status);
-		}
+					//echo $status;
+			}
+		// and refresh the list 
+		sleep(1);
+		
+		echo '<script language="javascript">';
+		echo 'refreshDlg();';
+		echo '</script>';
+
+		//echo 'mata';
+
+
+		
 	}else{
 
 		$errors= "User with Read-Only Rights";

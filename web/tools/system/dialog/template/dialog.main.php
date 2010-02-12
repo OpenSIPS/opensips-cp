@@ -21,22 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 -->
-<form action="<?=$page_name?>?action=refresh" method="post">
+<form name="refreshform" action="<?=$page_name?>?action=refresh" method="post">
 <?php
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-        for ($i=0;$i<count($mi_connectors);$i++){
-	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-                // get status from the first one only
-                $comm_type=params($mi_connectors[0]);
-                $message=mi_command("dlg_list" , $errors , $status);
-                print_r($errors);
-                $status = trim($status);
-}
+		
+        
 //print_r($message);
 ?>
-</form>
 
-<form action="<?=$page_name?>?action=refresh" method="post">
 <table width="85%" cellspacing="2" cellpadding="2" border="0">
 
  <tr height="10">
@@ -49,176 +40,125 @@
 </form>
 <br>
 
-<form action="<?=$page_name?>?action=dp_act" method="post">
-<?php
-
-/*$sql_search="";
-$search_from_uri=$_SESSION['from_uri'];
-$search_to_uri=$_SESSION['to_uri'];
-$search_state=$_SESSION['state'];
-if ( $search_from_uri!="" ) {
-	$sql_search.=" and from_uri like '%".$search_from_uri."%'";
-} else {
-	$sql_search.=" and from_uri like '%'";		
+<?php 
+//if ($action == "refresh") {
+$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+        for ($i=0;$i<count($mi_connectors);$i++){
+	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+                // get status from the first one only
+                $comm_type=params($mi_connectors[0]);
+                $message=mi_command("dlg_list" , $errors , $status);
+                print_r($errors);
+				//print_r($message);
+                $status = trim($status);
 }
 
-if ( $search_to_uri!="" ) {
-	$sql_search.=" and to_uri like '%".$search_to_uri."%'";
-} else {
-	$sql_search.=" and to_uri like '%'";		
-}
 
-if ( $search_state!="" ) {
-	$sql_search.=" and state like '%".$search_state."%'";
-} else {
-	$sql_search.=" and state like '%'";		
-}
-*/
-require("lib/".$page_id.".main.js");
-
-if(!$_SESSION['read_only']){
-	$colspan = 7;
-}else{
-	$colspan = 6;
-}
-/*<table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="dialogTitle"></td>
- </tr>
-  <tr>
-  <td class="searchRecord" align="center">From URI :</td>
-  <td class="searchRecord" width="200"><input type="text" name="from_uri" 
-  value="<?=$search_from_uri?>" maxlength="16" class="searchInput"></td>
- </tr>
-  <tr>
-  <td class="searchRecord" align="center">To URI :</td>
-  <td class="searchRecord" width="200"><input type="text" name="to_uri" 
-  value="<?=$search_to_uri?>" maxlength="16" class="searchInput"></td>
- </tr>
-  <tr>
-  <td class="searchRecord" align="center">State :</td>
-  <td class="searchRecord" width="200"><input type="text" name="state" 
-  value="<?=$search_state?>" maxlength="16" class="searchInput"></td>
- </tr>
-  <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
-  <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-  <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
- </tr>
-
- <tr height="10">
-  <td colspan="2" class="dialogTitle"><img src="images/spacer.gif" width="5" height="5"></td>
- </tr>
-</table>
-*/
-?>
-</form>
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td class="dialogTitle">Call ID</td>
-  <td class="dialogTitle">From URI</td>
-  <td class="dialogTitle">To URI</td>
-  <td class="dialogTitle">Start Time</td>
-  <td class="dialogTitle">State</td>
-  <?
+echo '<table width="95%" cellspacing="2" cellpadding="2" border="0">';
+echo '<tr align="center">';
+echo '<td class="dialogTitle">Call ID</td>';
+echo '<td class="dialogTitle">From URI</td>';
+echo '<td class="dialogTitle">To URI</td>';
+echo '<td class="dialogTitle">Start Time</td>';
+echo '<td class="dialogTitle">State</td>';
+  
   unset($entry);	
   if(!$_SESSION['read_only']){
 
   	echo('<td class="dialogTitle">Stop Call</td>');
   }
-  ?>
- </tr>
-<?php
+  
+ echo '</tr>';
+
 $data_no=count($message);
 if ($data_no==0) echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else {
 
-	//hash
-        preg_match_all('/hash=\d+:\d+\s+/',$message,$hash);
-        preg_match_all('/timestart::\s+\d+\s+/',$message,$timestart);
-        preg_match_all('/state::\s+\d+\s+/',$message,$st);
-        preg_match_all('/callid::\s+[0-9a-zA-z-]+\@[0-9a-z.]+[a-z]*\s+/',$message,$callid);
-        preg_match_all('/to_uri::\s+sip\:[a-z0-9.]+@[0-9a-z.]+[a-z]*\:[0-9]+\s+/',$message,$to_uri);
-        preg_match_all('/from_uri::\s+sip\:[a-z0-9.]+@[0-9a-z.]+[a-z]*\:[0-9]+\s+/',$message,$from_uri);
-
-        for($i=0;$i<count($hash[0]);$i++) {
-                $temp1=explode("=",$hash[0][$i]);
-		$temp2=explode(":",$temp1[1]);
-		$entry[$i]['h_id']=$temp2[1];
-		$entry[$i]['h_entry']=$temp2[0];
-
+	
+		$temp = explode ("dialog:: ",$message);
+		$recno = count($temp);
+		for ($i=1;$i<$recno;$i++) {
+			preg_match_all('/hash=\d+:\d+\s+/',$temp[$i],$hash);	
+			$temp[$i] = substr($temp[$i],strlen($hash[0][0]),strlen($temp[$i]));
+			$temptemp = explode ("\n",$temp[$i]);
+			
+			for ($j=0;$j<count($temptemp);$j++){
+				$tmp = explode (":: ",$temptemp[$j]);
+				$res[$tmp[0]]=$tmp[1];
+			}
+			
+			
+		//unset($temp);
+		unset($temptemp);
+        //get h_id & h_entry
+		
+		$hashtemp = explode ("=",$hash[0][0]);
+		$hashie = explode(":",$hashtemp[1]);
+		$entry[$i]['h_entry'] = $hashie[0];
+		$entry[$i]['h_id'] = $hashie[1];
+		
 		if(!$_SESSION['read_only']){
 			$delete_link='<a href="'.$page_name.'?action=delete&h_id='.$entry[$i]['h_id'].'&h_entry='.$entry[$i]['h_entry'].'" onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 		}
 
-?>
- <tr>
-<?php
-//	   $details='<a href="details.php?callid='.$result[$i]['callid'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?callid='.$result[$i]['callid'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
+echo '<tr>';
 
-        //state
-//        for($i=0;$i<count($st[0]);$i++) {
-                $temp=explode("::",$st[0][$i]);
-                if ($temp[1]==1) $entry[$i]['state']="Unconfirmed Call";
-                else if ($temp[1]==2) $entry[$i]['state']="Early Call";
-                else if ($temp[1]==3) $entry[$i]['state']="Confirmed Not Acknoledged Call";
-                else if ($temp[1]==4) $entry[$i]['state']="Confirmed Call";
-                else if ($temp[1]==5) $entry[$i]['state']="Deleted Call";
-//        }
+				
+                if ($res['state']==1) $entry[$i]['state']="Unconfirmed Call";
+                else if ($res['state']==2) $entry[$i]['state']="Early Call";
+                else if ($res['state']==3) $entry[$i]['state']="Confirmed Not Acknoledged Call";
+                else if ($res['state']==4) $entry[$i]['state']="Confirmed Call";
+                else if ($res['state']==5) $entry[$i]['state']="Deleted Call";
+				
 
-        //timestart
-//        for($i=0;$i<count($timestart[0]);$i++) {
-        	$temp1=explode("::",$timestart[0][$i]);
-		$temp2=getdate($temp1[1]);
-		$entry[$i]['start_time']=$temp2['mday']."-".$temp2['mon']."-".$temp2['year']." ".$temp2['hours'].":".$temp2['minutes'].":".$temp2['seconds'];
-//	}
+        //timestart 
+		
+		$entry[$i]['start_time'] = date("Y-m-d H:i:s",$res['timestart']);
 
         //toURI
-//        for($i=0;$i<count($to_uri[0]);$i++) {
-        	$temp=explode("::",$to_uri[0][$i]);
-		$entry[$i]['toURI']=$temp[1];
-//	}
+        	
+		$entry[$i]['toURI']=$res['to_uri'];
 
         //fromURI
- //       for($i=0;$i<count($from_uri[0]);$i++) {
-	        $temp=explode("::",$from_uri[0][$i]);
-		$entry[$i]['fromURI']=$temp[1];
-//	}
+ 	       
+		$entry[$i]['fromURI']=$res['from_uri'];
 
         //callID
-//       for($i=0;$i<count($callid[0]);$i++) {
-	        $temp=explode("::",$callid[0][$i]);
-		$entry[$i]['callID']=$temp[1];
-//	}
 
+		$entry[$i]['callID']=$res['callid'];
+
+		unset($res);
 
  if ($i%2==1) $row_style="rowOdd";
  else $row_style="rowEven";
 
-?>
-  <td class="<?=$row_style?>">&nbsp;<?php print $entry[$i]['callID']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $entry[$i]['fromURI']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $entry[$i]['toURI']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $entry[$i]['start_time'];?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $entry[$i]['state']?></td>
-   <? 
+
+  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["callID"]."</td>";
+  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["fromURI"]."</td>";
+  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["toURI"]."</td>";
+  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["start_time"]."</td>";
+  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
+  
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
    }
-	?>  
-  </tr>  
-<?php
+	
+  echo '</tr>';
 	}
 }
 unset($entry);
-?>
-     <tr height="10">	
-      <td colspan="6" class="dialogTitle" align="right">Total Records: <?php print count($st[0])?>&nbsp;</td>
-     </tr>
-    </table>
-  </td>
+	$recno--;
+    echo '<tr height="10">';
+    echo "<td colspan='6' class='dialogTitle' align='right'>Total Records:".$recno." &nbsp;</td>";
+    echo '</tr>';
+    echo '</table>';
+//}
+//else echo "caca";
+ ?>
+	</td>
  </tr>
 </table>
+
 <br>
 
 
