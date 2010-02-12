@@ -30,11 +30,4 @@
  //database tables
  $config->table_list_admins = "ocp_admin_privileges";
 
- $config->reply_fifo_filename="webfifo_".rand();
- $config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
- $talk_to_this_assoc_id = 1 ;
-
- //Password can be saved in plain text mode by setting $config->passwd_mode to 1 or chyphered mode, by setting it to 0
- $config->passwd_mode=0;
-
 ?>

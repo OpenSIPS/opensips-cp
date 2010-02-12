@@ -28,7 +28,4 @@
  //database tables
  $config->table_addadmin = "ocp_admin_privileges";
 
- //Password can be saved in plain text mode by setting $config->passwd_mode to 1 or chyphered mode, by setting it to 0
- $config->passwd_mode=0;
-
 ?>
