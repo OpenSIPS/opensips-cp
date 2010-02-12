@@ -41,13 +41,13 @@ if ($action=="toggle"){
 $toggle_button=	$_GET['toggle_button'];
 
 
-if ($toggle_button=="enable") {	
+if ($toggle_button=="Enable") {	
 	$nat_ping	= "1" ;
-	$toggle_button = "disable";
+	$toggle_button = "Disable";
 } else
-if ($toggle_button=="disable") {
+if ($toggle_button=="Disable") {
         $nat_ping       = "0" ;
-        $toggle_button = "enable";
+        $toggle_button = "Enable";
 }
 
 $command="nh_enable_ping"." ".$nat_ping;

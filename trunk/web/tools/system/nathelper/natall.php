@@ -66,15 +66,7 @@ if ($action=="toggle"){
 # start show #
 ################
 if ($action=="refresh") {
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-for ($i=0;$i<count($mi_connectors);$i++){	
 
-		$comm_type=params($mi_connectors[$i]);	
-		mi_command('nh_show_rtpp',$errors,$status);
-                print_r($errors);
-                $status = trim($status);
-                preg_match_all('/.[\:][\:]\s+[a-z\=0-9]+/',$status,$matches);
-	}
 }
 
 ##############
