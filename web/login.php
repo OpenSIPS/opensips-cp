@@ -44,7 +44,7 @@
 
 $login_ok = false;
 
-//if ($config->passwd_mode==1) {
+if ($config->admin_passwd_mode==0) {
     $ha1  = '';
     $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND password='".$password."' AND ha1='".$ha1."'";
     $resultset1 = $link->queryAll($sql);
@@ -53,7 +53,7 @@ $login_ok = false;
         die('Failed to issue query, error message : ' . $resultset1->getMessage());
     }
 
-//} else if ($config->passwd_mode==0) {
+} else if ($config->admin_passwd_mode==1) {
     $ha1 = md5($name.":".$password);
     $password='';
 
@@ -63,7 +63,7 @@ $login_ok = false;
     if(PEAR::isError($resultset2)) {
         die('Failed to issue query, error message : ' . $resultset2->getMessage());
     }
-//}
+}
 
 if ((count($resultset1)==0) && (count($resultset2)==0)) {
     $log = "[NOK] [".date("d-m-Y")." ".date("H:i:s")."] '$name' / '$password' from '".$_SERVER['REMOTE_ADDR']."'\n";
