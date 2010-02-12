@@ -30,6 +30,6 @@
  
  $page_title = "OpenSIPS Control Panel";
  $header_title = ".: OpenSIPS Control Panel";
- $copyright = "Copyright &copy; 2004 - 2009 Voice System";
+ $copyright = "Copyright &copy; 2004 - 2010 Voice System";
 
 ?>
