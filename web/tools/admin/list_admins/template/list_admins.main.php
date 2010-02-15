@@ -132,7 +132,7 @@ else
 			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/Delete-icon.png" border="0"></a>';
 		}
 ?>
- <tr>
+ <tr align = "center">
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['first_name'].' '.$resultset[$i]['last_name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $edit_tools_link?></td>

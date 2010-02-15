@@ -66,7 +66,7 @@ if ($action=="modify")
 {
   if(!$_SESSION['read_only']){
 	  $id = $_GET['id'];
-          require("lib/".$page_id.".test.inc.php");
+          require("lib/".$page_id.".inc.php");
 	  $listuname = $_POST['listuname'];	
 	  $listfname = $_POST['listfname'];	
 	  $listlname = $_POST['listlname'];	
