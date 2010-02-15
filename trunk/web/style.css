@@ -20,7 +20,7 @@ body, table {
 	margin: 1px;
 	font-size: 12px;
 	color: #000000;
-	width: 170px;
+	width: 160px;
 }
 .loginError {
 	font-size: 14px;
@@ -68,6 +68,38 @@ a.menuItem:focus, a.menuItem:active {
 	outline:none;
 }
 
+a.submenuItem {
+		font-size: 13px;
+		font-weight: bold;
+		color: #0969b5;
+		margin-left : 10px;
+		
+		background: url(images/bullet_default.png) no-repeat center left; /*custom bullet list image*/
+		#display: block;
+		#height: 5px;
+		padding: 10px 0;
+		padding-left: 15px; /*link text is indented 19px*/
+		text-decoration: none;
+        text-indent: left;
+}
+a.submenuItem:hover {
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	background: url(images/bullet_active.png) no-repeat center left; /*custom bullet list image*/
+	text-decoration: none; 
+}
+
+a.submenuItem:focus, a.submenuItem:active {
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;  
+	background: url(images/bullet_active.png) no-repeat center left; /*custom bullet list image*/
+	
+	text-decoration: none; 
+	outline:none;
+}
+
 
 .copyright {
 	font-size: 10px;
@@ -76,8 +108,8 @@ a.menuItem:focus, a.menuItem:active {
 }
 
 #masterdiv {
-        width:350px;
-        padding:10px;
+        width:160px;
+        #padding:10px;
         margin:1px;
         list-style:none;
 }
@@ -89,26 +121,37 @@ a.menuItem:focus, a.menuItem:active {
         color: white;
         font-family: System, serif;
         font-size: 17px;
-        background:  url(images/menu.png);
-        width: 350px;
+        background:  url(images/menu_default.png)  no-repeat center left;
+		-moz-border-radius-bottomleft: 10px;
+        width: 160px;
         height: 32px;
-        margin: 5px;
+        margin: 3px;
         cursor:pointer;
 }
 
 
 
 #menuadmin:hover {
-        background:  url(images/menu.png) 0 -32px;
-        padding: 0px 0 0 0px;
+        background:  url(images/menu_active.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 0px 0 0 0px;
+}
+
+#menuadmin:active {
+        background:  url(images/menu_active.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 0px 0 0 0px;
 }
 
 #menuadmin:visited {
 color: #FFF;
         display: block;
-        background:  url(images/menu.png);
-        padding: 8px 0 0 32px;
+        background:  url(images/menu_default.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 8px 0 0 32px;
 }
+
+
 
 
 #menuusers {
@@ -118,8 +161,9 @@ color: #FFF;
         color: white;
         font-family: System, serif;
         font-size: 17px;
-        background:  url(images/menu.png);
-        width: 350px;
+        background:  url(images/menu_default.png)  no-repeat center left;
+		-moz-border-radius-bottomleft: 10px;
+        width: 160px;
         height: 32px;
         margin: 5px;
         cursor:pointer;
@@ -128,15 +172,23 @@ color: #FFF;
 
 
 #menuusers:hover {
-        background:  url(images/menu.png) 0 -32px;
-        padding: 0px 0 0 0px;
+        background:  url(images/menu_active.png) ;
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 0px 0 0 0px;
+}
+
+#menuusers:active {
+        background:  url(images/menu_active.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 0px 0 0 0px;
 }
 
 #menuusers:visited {
 	color: #FFF;
         display: block;
-        background:  url(images/menu.png);
-        padding: 8px 0 0 32px;
+        background:  url(images/menu_default.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 8px 0 0 32px;
 }
 
 
@@ -147,8 +199,9 @@ color: #FFF;
         color: white;
         font-family: System, serif;
         font-size: 17px;
-        background:  url(images/menu.png);
-        width: 350px;
+        background:  url(images/menu_default.png)  no-repeat center left;
+		-moz-border-radius-bottomleft: 10px;
+        width: 160px;
         height: 32px;
         margin: 5px;
         cursor:pointer;
@@ -157,29 +210,35 @@ color: #FFF;
 
 
 #menusystem:hover {
-        background:  url(images/menu.png) 0 -32px;
-        padding: 0px 0 0 0px;
+        background:  url(images/menu_active.png) ;
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 0px 0 0 0px;
 }
 
 #menusystem:active {
-        background:  url(images/menu.png) 0 -32px;
-        padding: 0px 0 0 0px;
+        background:  url(images/menu_active.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 0px 0 0 0px;
 }
 
 #menusystem:visited {
-color: #FFF;
+		color: #FFF;
         display: block;
-        background:  url(images/menu.png);
-        padding: 8px 0 0 32px;
+        background:  url(images/menu_default.png);
+		-moz-border-radius-bottomleft: 10px;
+        #padding: 8px 0 0 32px;
 }
 
-span.submenu {
+.submenu {
+		
+		-moz-border-radius-bottomright: 10px;
+		-moz-border-radius-bottomleft: 10px;
         max-height;
-        margin: 7px;
+        margin-left: 14px;
        #max-width;
-	 width:auto;
-        text-indent: left;
-	 padding-left:10px;
+		width:auto;
+		#padding-left: 10px;
+	    width: 150px;
         font-size: 10px;
         font-family: System, sans-serif;
         line-height: 0.5;
@@ -188,3 +247,4 @@ span.submenu {
         clear: center;
         cursor: pointer;
 }
+

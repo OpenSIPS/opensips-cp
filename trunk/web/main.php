@@ -78,7 +78,7 @@
 
  <frame noresize scrolling="no" src="header.php" name="main_header">
 
- <frameset border="0" frameborder="0" framespacing="0" cols="175,*">
+ <frameset border="0" frameborder="0" framespacing="0" cols="180,*">
   <frame noresize scrolling="no" src="menu.php" name="main_menu">
   <frame noresize scrolling="auto" src="<?=$main_body?>" name="main_body">
  </frameset>
