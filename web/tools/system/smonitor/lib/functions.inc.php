@@ -8,8 +8,8 @@
 ######################
 //require('../../common/mi_comm.php');
 include("db_connect.php");
-require_once("/var/www/opensips-cp/trunk/config/db.inc.php");
-require_once("/var/www/opensips-cp/trunk/config/tools/system/smonitor/db.inc.php");
+require_once("../../../../config/db.inc.php");
+require_once("../../../../config/tools/system/smonitor/db.inc.php");
 #################
 # FIFO Function #
 #################

@@ -1,7 +1,7 @@
 <?php
 require_once("MDB2.php");
-require_once("/var/www/opensips-cp/trunk/config/db.inc.php");
-require_once("/var/www/opensips-cp/trunk/config/tools/system/smonitor/db.inc.php");
+require_once("../../../../config/db.inc.php");
+require_once("../../../../config/tools/system/smonitor/db.inc.php");
 
         global $config;
         if (isset($config->db_host_smonitor) && isset($config->db_user_smonitor) && isset($config->db_name_smonitor) ) {
