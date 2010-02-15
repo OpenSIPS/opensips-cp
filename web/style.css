@@ -134,13 +134,13 @@ a.submenuItem:focus, a.submenuItem:active {
 #menuadmin:hover {
         background:  url(images/menu_active.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 0px 0 0 0px;
+        
 }
 
 #menuadmin:active {
         background:  url(images/menu_active.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 0px 0 0 0px;
+       
 }
 
 #menuadmin:visited {
@@ -148,7 +148,7 @@ color: #FFF;
         display: block;
         background:  url(images/menu_default.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 8px 0 0 32px;
+        
 }
 
 
@@ -165,7 +165,7 @@ color: #FFF;
 		-moz-border-radius-bottomleft: 10px;
         width: 160px;
         height: 32px;
-        margin: 5px;
+        margin: 3px;
         cursor:pointer;
 }
 
@@ -174,13 +174,13 @@ color: #FFF;
 #menuusers:hover {
         background:  url(images/menu_active.png) ;
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 0px 0 0 0px;
+       
 }
 
 #menuusers:active {
         background:  url(images/menu_active.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 0px 0 0 0px;
+        
 }
 
 #menuusers:visited {
@@ -188,7 +188,7 @@ color: #FFF;
         display: block;
         background:  url(images/menu_default.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 8px 0 0 32px;
+        
 }
 
 
@@ -203,7 +203,7 @@ color: #FFF;
 		-moz-border-radius-bottomleft: 10px;
         width: 160px;
         height: 32px;
-        margin: 5px;
+        margin: 3px;
         cursor:pointer;
 }
 
@@ -212,13 +212,13 @@ color: #FFF;
 #menusystem:hover {
         background:  url(images/menu_active.png) ;
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 0px 0 0 0px;
+        
 }
 
 #menusystem:active {
         background:  url(images/menu_active.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 0px 0 0 0px;
+        
 }
 
 #menusystem:visited {
@@ -226,7 +226,7 @@ color: #FFF;
         display: block;
         background:  url(images/menu_default.png);
 		-moz-border-radius-bottomleft: 10px;
-        #padding: 8px 0 0 32px;
+       
 }
 
 .submenu {
