@@ -177,8 +177,9 @@ span.submenu {
         max-height;
         margin: 7px;
        #max-width;
-	width:auto;
+	 width:auto;
         text-indent: left;
+	 padding-left:10px;
         font-size: 10px;
         font-family: System, sans-serif;
         line-height: 0.5;
