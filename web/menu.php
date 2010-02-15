@@ -20,8 +20,8 @@ include("menu.js");
 <!-- Keep all menus within masterdiv-->
 <div id="masterdiv">
 	<div id="menuadmin" class="menu" onclick="SwitchMenu('admin')">Admin</div>
-	<span class="submenu" id="admin">
-        <table cellspacing="3" cellpadding="0" border="0" id="tbl_menu" >
+	<span id="admin" class="submenu" >
+        <table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
         <?php
 	 $menu_link_text=array();
          if ($handle=opendir('tools/admin/'))
@@ -44,7 +44,7 @@ include("menu.js");
 	?>
             <tr height="20" >
 
-		<td onClick="top.frames['main_body'].location.href='tools/admin/<?php print $key?>index.php';">&bull;<a class="menuItem" href="tools/admin/<?php print $key?>index.php"><?=$val?></a></td>
+		<td onClick="top.frames['main_body'].location.href='tools/admin/<?php print $key?>index.php';"><a class="submenuItem" href="tools/admin/<?php print $key?>index.php"><?=$val?></a></td>
             </tr>
 	<?php
                 $k++;
@@ -58,7 +58,7 @@ include("menu.js");
 
 	<div id="menuusers" class="menu" onclick="SwitchMenu('users')">Users</div>
 	<span class="submenu" id="users">
-        <table cellspacing="3" cellpadding="0" border="0" id="tbl_menu" >
+        <table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
         <?php
 	 $menu_link_text=array();
          if ($handle=opendir('tools/users/'))
@@ -78,7 +78,7 @@ include("menu.js");
           {
            ?>
             <tr height="20" id="<?=$key?>" >
-		<td onClick="top.frames['main_body'].location.href='tools/users/<?php print $key?>index.php';">&bull;<a class="menuItem" href="tools/users/<?php print $key?>/index.php"><?=$val?></a></td>
+		<td onClick="top.frames['main_body'].location.href='tools/users/<?php print $key?>index.php';"><a class="submenuItem" href="tools/users/<?php print $key?>/index.php"><?=$val?></a></td>
             </tr>
            <?php
                 $k++;
@@ -92,7 +92,7 @@ include("menu.js");
 
 	<div id="menusystem" class="menu" onclick="SwitchMenu('system')">System</div>
 	<span class="submenu" id="system">
-	<table cellspacing="3" cellpadding="0" border="0" id="tbl_menu" >
+	<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
 	<?php
 	 $i=0;
 	 $menu_link_text=array();
@@ -114,7 +114,7 @@ include("menu.js");
 	  {
 	   ?>
 	    <tr height="20" id="<?=$key?>">
-		<td onClick="top.frames['main_body'].location.href='tools/system/<?php print $key?>index.php';">&bull;<a class="menuItem" href="tools/system/<?php print $key?>index.php"><?=$val?></a></td>
+		<td onClick="top.frames['main_body'].location.href='tools/system/<?php print $key?>index.php';"><a class="submenuItem" href="tools/system/<?php print $key?>index.php"><?=$val?></a></td>
 	    </tr>
 	   <?php
         	$k++;
