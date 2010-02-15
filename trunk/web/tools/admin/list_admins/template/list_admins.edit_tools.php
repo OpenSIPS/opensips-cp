@@ -51,33 +51,39 @@ $permissions=array();
         	die('Failed to issue query, error message : ' . $resultset->getMessage());
 	}
         $modules=get_modules();
+	
 	foreach($modules['Admin'] as $key=>$value) {
-		$all_tools[$key] = $value; 
+		$all_tools[$key] = $key; 
 	}
 	foreach($modules['Users'] as $key=>$value) {
-		$all_tools[$key] = $value; 
+		$all_tools[$key] = $key; 
 	}
 	foreach($modules['System'] as $key=>$value) {
-		$all_tools[$key] = $value; 
+		$all_tools[$key] = $key; 
 	}
 	if($resultset[0]['available_tools']!="all") {
 		$available_tabs=explode(",",$resultset[0]['available_tools']);
+		
 	} else {
 		$available_tabs=$all_tools;
 	}
+	
 	if ($resultset[0]['permissions']!="all") {
 		$perms=explode(",",$resultset[0]['permissions']);
 		$i=0;
 		foreach($available_tabs as $key=>$value) {
-			$avail_tabs_perms[$value]=$perms[$i];
+			$avail_tabs_perms[$key]=$perms[$i];
 			$i++;
 		}
+		
+				
 	} else {
 		foreach($available_tabs as $key=>$value) {
 			$avail_tabs_perms[$key]='read-write';
 		}
 	}
 	$i=0;
+	
         foreach ($modules as $key => $value) {
   ?>
   	<table width="400" cellspacing="2" cellpadding="2" border="0">
@@ -86,6 +92,7 @@ $permissions=array();
 	   </tr>
 	
 	<?php
+	
 	foreach ($value as $k=>$v) {
 	$i++;
 	?>
@@ -98,18 +105,20 @@ if ($_SESSION['read_only']) {
 	$disabled='';
 }
 			if(($resultset[0]['available_tools']=="all") || (in_array($k,$available_tabs))) { 
+			
 			?>
                 		<td class="dataRecord" width="25"><input type="checkbox" name="state[<?php print $k;?>]" onClick="toggle(this,'<?='foo'.$i;?>');" checked class="dataInput" id="<?=$k?>" <?php print $disabled; ?>> </td>
 				<td class="dataRecord" width="25" >
 				
 			<?php
-				foreach($avail_tabs_perms as $keys=>$values) {
+				foreach($available_tabs as $keys=>$values) {
 			?>
 			<?php
-					if ($keys==$k) {
+					if ($k==$values) {
+					
 					?>
 						<span id="<?='foo'.$i;?>" style="visibility:visible">
-						<?php permission($values,$k,$disabled);?>
+						<?php permission($avail_tabs_perms[$keys],$k,$disabled);?>
 						</span>
 					<?php
 					}
