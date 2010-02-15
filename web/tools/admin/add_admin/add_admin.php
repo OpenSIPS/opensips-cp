@@ -27,6 +27,7 @@ include("lib/db_connect.php");
 require_once("lib/functions.inc.php");
 require("../../../../config/tools/admin/add_admin/local.inc.php");
 require("../../../../config/tools/system/domains/local.inc.php");
+require("../../../../config/globals.php");
 $table=$config->table_addadmin;
 
 $current_page="current_page_add_admin";
