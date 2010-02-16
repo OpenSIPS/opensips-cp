@@ -23,8 +23,8 @@
 
 require("template/header.php");
 require("lib/".$page_id.".main.js");
-require ("../../../common/mi_comm.php");
 require("../../../../config/globals.php");
+require("../../../../config/tools/users/alias_management/local.inc.php");
 include("lib/db_connect.php");
 foreach ($config->table_aliases as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
@@ -60,27 +60,19 @@ if ($action=="add")
 #################
 
 ####################
-# start add verify #
+# the form comes already verified here  #
 ####################
-if ($action=="add_verify")
+if ($action=="add_verified")
 {
-        $info="";
-        $errors="";
-
         if(!$_SESSION['read_only']){
-	        require("lib/".$page_id.".test.inc.php");
+				
                 $alias_username = $_POST['alias_username'];
                 $alias_domain = $_POST['alias_domain'];
                 $alias_type = $_POST['alias_type'];
                 $username = $_POST['username'];
                 $domain = $_POST['domain'];
-if ($form_valid) {
-               // if($alias_username == "" || $alias_domain == "" || $domain == "" || $username == "") {
-                //	$errors = "Please, complete all fields!";
-		//	exit();
-		//}
 
-                if ($errors=="") {
+                
 				for($i=0; $i<count($options);$i++){
 					if ($alias_type == $options[$i]['label']) 
 						$table = $options[$i]['value']; 
@@ -94,20 +86,16 @@ if ($form_valid) {
                                 $info="The new record was added";
                         //}
                         $link->disconnect();
-                }
-}
-          if ($form_valid) {
-                print "New Alias added!";
-                $action="add";
-          } else {
-                print $form_error;
-                $action="add_verify";
-          }
+                  print "New Alias added!";
+		}
+        
+              
+       
+				
 
-        }else{
-                $errors= "User with Read-Only Rights";
-        }
-
+				
+        else
+			print "User with Read-Only Rights";
 }
 
 
