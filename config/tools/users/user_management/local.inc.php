@@ -34,6 +34,10 @@
 
  $talk_to_this_assoc_id = 1 ;
 
- //Password can be saved in plain text mode by setting $config->passwd_mode to 1 or chyphered mode, by setting it to 0
- $config->passwd_mode=0;
+// the array containing the alias tables
+ $config->table_aliases = array("DBaliases"=>"dbaliases");
+
+
+ //Password can be saved in plain text mode by setting $config->passwd_mode to 0 or chyphered mode, by setting it to 1
+ $config->passwd_mode=1;
 ?>
