@@ -8,7 +8,6 @@
 // attribute/value pair, complete the list with identical elements
 // separated by comma.
 
-$config->table_aliases = array("DBaliases"=>"dbaliases");
 
 
 // The permissions parameter is also used by more the one module,
@@ -20,6 +19,6 @@ $config->permissions = array("read-only","read-write");
 
 // Password can be saved in plain text mode by setting 
 // $config->admin_passwd_mode to 0 or chyphered mode, by setting it to 1
-$config->admin_passwd_mode=0;
+$config->admin_passwd_mode=1;
 
 ?>
