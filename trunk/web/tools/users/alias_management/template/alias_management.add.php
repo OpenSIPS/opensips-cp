@@ -1,4 +1,4 @@
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
+<form id="addnewalias" action="<?=$page_name?>?action=add_verified&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
 * $Id: alias_management.add.php 55 2009-06-03 13:45:11Z iulia_bublea $
@@ -56,8 +56,7 @@ if($clone =="1"){
 
  <tr>
   <td class="dataRecord"><b>Alias Username:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="alias_username" 
-  value="<?=$alias_username?>"maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="text" name="alias_username"  value="<?=$alias_username?>"maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
@@ -71,7 +70,7 @@ if($clone =="1"){
  </tr>
   
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
+  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
  </tr>
  <tr height="10">
   <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
