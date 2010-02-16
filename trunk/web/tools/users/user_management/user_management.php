@@ -82,11 +82,11 @@ if ($action=="modify")
 		if ($uname=="" || $domain=="" || $email==""){
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
-               if ($config->passwd_mode==1) {
+               if ($config->passwd_mode==0) {
                      $ha1  = "";
                      $ha1b = "";
 		     $passwd = $_POST['passwd'];
-               } else if ($config->passwd_mode==0) {
+               } else if ($config->passwd_mode==1) {
                      $ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
                      $ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
 		     $passwd = "";
@@ -213,7 +213,7 @@ if ($action=="add_verify")
   if(!$_SESSION['read_only']){
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
-                if ($config->passwd_mode==0) $passwd="";
+                if ($config->passwd_mode==1) $passwd="";
                 $sql = 'INSERT INTO '.$table.' (last_name, first_name, username,domain,password,email_address,ha1,ha1b,datetime_created) VALUES '.
                 ' (\''.$lname.'\',\''.$fname.'\',\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
                 $email.'\',\''.$ha1.'\',\''.$ha1b.'\', NOW())';

@@ -43,7 +43,7 @@
  <tr>
   <td class="listRecord" align="center">Alias Username:</td>
   <td class="listRecord" width="200"><input type="text" name="alias"
-  value="<?=$alias?>" class="searchInput" maxlength=5></td>
+  value="" class="searchInput" maxlength=5></td>
  </tr>
  <tr>
   <td class="listRecord" align="center">Alias Type:</td>
@@ -52,12 +52,12 @@
  <tr>
   <td class="listRecord" align="center">Password:</td>
   <td class="listRecord" width="200"><input type="password" name="passwd"
-  value="<?=$passwd?>"></td>
+  value=""></td>
  </tr>
  <tr>
   <td class="listRecord" align="center">Confirm Password:</td>
   <td class="listRecord" width="200"><input type="password" name="confirm_passwd"
-  value="<?=$confirm_passwd?>" ></td>
+  value="" ></td>
  </tr>
  <tr>
   <td colspan="2" class="listRecord" align="center">

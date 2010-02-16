@@ -55,10 +55,10 @@
   }
   
   if ($form_valid) {
-	       if ($config->passwd_mode==1) {
+	       if ($config->passwd_mode==0) {
   		     $ha1  = "";
 	             $ha1b = "";	 	
-	       } else if ($config->passwd_mode==0) {
+	       } else if ($config->passwd_mode==1) {
         	     $ha1 = md5($uname.":".$domain.":".$passwd);
 	             $ha1b = md5($uname."@".$domain.":".$domain.":".$passwd);
        	       } else {
