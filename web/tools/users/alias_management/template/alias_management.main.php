@@ -39,7 +39,7 @@ if($search_atype !='ANY') {
 	}	
 } 
 
-require("lib/".$page_id.".main.js");
+//require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
         $colspan = 8;
@@ -107,7 +107,8 @@ echo('<td class="aliasTitle">Edit</td>
 </tr>
 
 <?php
-if (($search_atype=='ANY') || ($search_atype=='')) {	
+if (($search_atype=='ANY') || ($search_atype=='')) {
+		
 	for($k=0;$k<count($options);$k++){
 		$table = $options[$k]['value'];
 		if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
@@ -134,7 +135,7 @@ else {
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
-        require("lib/".$page_id.".main.js");
+        //require("lib/".$page_id.".main.js");
         $index_row=0;
         $i=0;
         while (count($resultset)>$i)
@@ -201,6 +202,7 @@ else {
     </table>
 <?php 
 } else {
+
 if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
 else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
 $resultset = $link->queryAll($sql_command);
@@ -226,7 +228,7 @@ else
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
-        require("lib/".$page_id.".main.js");
+        //require("lib/".$page_id.".main.js");
         $index_row=0;
         $i=0;
         while (count($resultset)>$i)
