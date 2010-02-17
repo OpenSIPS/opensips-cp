@@ -157,6 +157,32 @@ function Form_Validator(alias_format){
 				return false;
 			}
 		}
+		
+		if (result == "alias_username_exists") {
+			var agree=confirm("The Alias Username already exists. Do you want to continue?");
+			if (agree)	return true;
+			else {
+				document.getElementById('addnewalias').alias_username.focus();
+				return false;
+			}
+		}
+		
+		if (result == "alias_username_format_exists") {
+			var agree=confirm("The Alias Username does not match the alias username format. Do you want to continue?");
+			if (agree)	{
+				var agree2=confirm("The Alias Username already exists. Do you want to continue?");
+				if (agree2)
+					return true;
+				else {
+					document.getElementById('addnewalias').alias_username.focus();
+					return false;
+				}
+			}
+			else {
+				document.getElementById('addnewalias').alias_username.focus();
+				return false;
+			}
+		}
 
 		
 	return true;
