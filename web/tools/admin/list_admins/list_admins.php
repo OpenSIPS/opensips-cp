@@ -27,6 +27,7 @@ require("../../../../config/tools/admin/list_admins/db.inc.php");
 require("../../../../config/tools/admin/list_admins/local.inc.php");
 require("../../../../config/db.inc.php");
 include("lib/db_connect.php");
+require("../../../../config/globals.php");
 
 $table=$config->table_list_admins;
 $current_page="current_page_list_admins";
@@ -81,15 +82,16 @@ if ($action=="modify")
 			print "Admin's info was modified, but password remained the same!\n";
 		} else if (($_POST['listpasswd']!="") && ($_POST['conf_passwd']!="")) {
 			if ($config->admin_passwd_mode==0) {
-				$ha1  = '';
+				$ha1  = "";
 				$listpasswd = $_POST['listpasswd'];	
 			} else if ($config->admin_passwd_mode==1) {
+				echo "Admin passwd mode este : ".$config->admin_passwd_mode==1;
 				$ha1 = md5($listuname.":".$_POST['listpasswd']);
 				$listpasswd = '';	
 			}
 
 			$sql = 'UPDATE '.$table.' SET username="'.$listuname.'", first_name="'.$listfname.'", last_name = "'.$listlname.
-				'", password="'.$listpasswd.'", ha1="'.$ha1.'" WHERE id='.$id;
+				'", password="'.$listpasswd.'", ha1="'.addslashes($ha1).'" WHERE id='.$id;
 			$resultset = $link->prepare($sql);
 			$resultset->execute();
 			$resultset->free();
