@@ -214,7 +214,7 @@ else
 	}
 	for($i=0; count($resultset)>$i;$i++)
 	{
-		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id DESC LIMIT 1";
+		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
 		else $sql_="SELECT * FROM ".$table." WHERE id='".$resultset[$i]['id']."'".$sql_search." ORDER BY id LIMIT 1";
 		$resultset_ = $link->queryAll($sql_);
 		if(PEAR::isError($resultset_)) {
@@ -235,7 +235,7 @@ else
    <?php
    if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
    {
-   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$resultset_[0]['callid']."' ORDER BY id DESC";
+   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$resultset_[0]['callid']."' ORDER BY id ASC";
 	$resultset_d = $link->queryAll($sql_d);
 	if(PEAR::isError($resultset_d)) {
 	     	die('Failed to issue query, error message : ' . $resultset_d->getMessage());
