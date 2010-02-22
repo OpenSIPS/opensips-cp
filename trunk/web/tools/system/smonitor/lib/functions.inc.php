@@ -175,38 +175,26 @@ function reset_var($stats)
  return;
 }
 
-function clean_stats_table()
-{
- include("db_connect.php");
- global $config;
-
-
- $global='../../../../config/boxes.global.inc.php';
- require ($global);
-
- foreach ($boxes as $ar=>$label) {
-
- $box_id=$ar;
-
- if ($ar['smonitor']['charts']==1){
-    
- $chart_history=get_config_var('chart_history',$box_id);
- if ($chart_history=="auto") $chart_history=3;
- $last_date=$current_time=time();
- $last_date -= 24*60*60*($chart_history-1);
- $last_date -= 60*60*date("H",$current_time);
- $last_date -= 60*date("i",$current_time);
- $last_date -= date("s",$current_time);
- $sql="DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
-//echo "DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
- $link->exec($sql);
- $i++; 
- }
-
- }
-
-
-
+function clean_stats_table(){
+	include("db_connect.php");
+	global $config;
+	$global='../../../config/boxes.global.inc.php';
+	require ($global);
+	for($box_id=0 ; $box_id<sizeof($boxes) ; $box_id++ ) {
+		if ($boxes[$box_id]['smonitor']['charts']==1){
+			$chart_history=get_config_var('chart_history',$box_id);
+			if ($chart_history=="auto") $chart_history=3;
+			$last_date=$current_time=time();
+			$last_date -= 24*60*60*($chart_history-1);
+			$last_date -= 60*60*date("H",$current_time);
+			$last_date -= 60*date("i",$current_time);
+			$last_date -= date("s",$current_time);
+			$sql="DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
+			//echo "DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
+			$link->exec($sql);
+			$i++;
+		}
+	}
 }
 
 
