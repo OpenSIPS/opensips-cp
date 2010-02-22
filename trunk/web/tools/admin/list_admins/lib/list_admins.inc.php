@@ -28,14 +28,8 @@
 		$form_error="- <b>Passwords do not match!<b> -";
 	}
   
-       if ($config->passwd_mode==0) {
-  	     $ha1  = "";
-             $ha1b = "";	 	
-       } else if ($config->passwd_mode==1) {
-             $ha1 = md5($listuname.":".$domain.":".$listpasswd);
-             $ha1b = md5($listuname."@".$domain.":".$domain.":".$listpasswd);
-       } else {
-	     $form_valid = false;
+       if (!isset($config->admin_passwd_mode)) {
+  	      $form_valid = false;
              $form_error = "- <b> Unknow value for password mode!<b> -";
        }
 
