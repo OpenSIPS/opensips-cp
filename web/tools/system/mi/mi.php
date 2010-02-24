@@ -75,7 +75,7 @@ if ($_GET['action']=="execute")
 		$_SESSION['mi_time'][]=date("H:i:s");
 		$_SESSION['mi_command'][]=$command." ".$arguments;
 		$_SESSION['mi_box'][]=$current_box ;
-		if ($errors) $_SESSION['mi_response'][]=$errors[0];
+		if (count($errors)>0) $_SESSION['mi_response'][]=$errors[0];
 		else {
 			if (substr($status,0,1)!="2") $_SESSION['mi_response'][]=$status;
 			else {
