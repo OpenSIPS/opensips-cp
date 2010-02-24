@@ -178,7 +178,7 @@ function reset_var($stats)
 function clean_stats_table(){
 	include("db_connect.php");
 	global $config;
-	$global='../../../config/boxes.global.inc.php';
+	$global='../../../../config/boxes.global.inc.php';
 	require ($global);
 	for($box_id=0 ; $box_id<sizeof($boxes) ; $box_id++ ) {
 		if ($boxes[$box_id]['smonitor']['charts']==1){
