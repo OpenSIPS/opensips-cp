@@ -1,13 +1,12 @@
 <?php
-
-$opensips_path="/var/www/opensips-cp/trunk/";
-require($opensips_path."config/tools/smonitor/db.inc.php");
-require($opensips_path."config/db.inc.php");
-require($opensips_path."config/tools/smonitor/local.inc.php");
-require($opensips_path."web/tools/smonitor/lib/functions.inc.php");
-require($opensips_path."web/common/mi_comm.php");
-require($opensips_path."config/boxes.global.inc.php");
-require($opensips_path."web/tools/smonitor/lib/db_connect.php");
+$path_to_smonitor="/var/www/pmwiki/opensips-cp/web/tools/system/smonitor";
+chdir($path_to_smonitor);
+require("../../../../config/db.inc.php");
+require("../../../../config/tools/system/smonitor/local.inc.php");
+require("lib/functions.inc.php");
+require("../../../../web/common/mi_comm.php");
+require("../../../../config/boxes.global.inc.php");
+require("lib/db_connect.php");
 
 
 $box_id=0;
@@ -33,7 +32,6 @@ foreach ($boxes as $ar){
 			$resultset = $link->queryAll($sql);
 			if(PEAR::isError($resultset))
 		                die('Failed to issue query, error message : ' . $resultset->getMessage());
- 			echo "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=".$box_id." ORDER BY name ASC\n";			
  			for ($i=0;count($resultset)>$i;$i++)
  				{
   					$var_name=$resultset[$i]['name'];
@@ -44,10 +42,8 @@ foreach ($boxes as $ar){
 				$result = $link->prepare($sql);
 				$result->execute();
 				$result->free();
- 				echo "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$var_name."','".$var_value."','".$time."',".$box_id.")\n";
  				}
 
- 		echo("* ");
 	}
 	
 	}
