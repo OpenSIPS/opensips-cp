@@ -32,7 +32,8 @@ else
   if(PEAR::isError($result)) {
           die('Failed to issue query, error message : ' . $result->getMessage());
   }
-  $from_time=date('j M Y, H:i:s',$result[$j]['time']);
+  $from_time=date('j M Y, H:i:s',$result[0]['time']);
+  echo $result['time'];
   ?>
    <tr>
     <td class="rowOdd">
