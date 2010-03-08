@@ -271,7 +271,10 @@ function mi_command($command,&$errors,&$status){
     global $comm_type ; 
     global $xmlrpc_host ; 
     global $xmlrpc_port ; 
-    global $fifo_file ; 
+    global $fifo_file ;
+
+	$config->reply_fifo_filename="webfifo_".rand();
+	$config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
 
     $buf="";
     if (strtolower($comm_type)=="fifo"){
