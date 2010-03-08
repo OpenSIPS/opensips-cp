@@ -1,6 +1,6 @@
 <!--
  /*
- * $Id: tracer.main.php 113 2009-10-06 08:50:13Z iulia_bublea $
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 

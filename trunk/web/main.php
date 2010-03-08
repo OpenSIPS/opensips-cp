@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: main.php 40 2009-04-13 14:59:22Z iulia_bublea $
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 

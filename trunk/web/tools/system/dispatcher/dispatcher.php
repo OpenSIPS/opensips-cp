@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id: dispatcher.php 78 2009-07-03 14:01:23Z iulia_bublea $
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for

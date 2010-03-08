@@ -1,6 +1,6 @@
 <?php
  /*
- * $Id: mi_comm.php 101 2009-08-13 17:37:25Z iulia_bublea $
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 

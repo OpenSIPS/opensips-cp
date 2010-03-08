@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id: dialplan.php 54 2009-06-03 13:44:08Z iulia_bublea $
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
