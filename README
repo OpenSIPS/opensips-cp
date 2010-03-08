@@ -4,11 +4,11 @@ This is OpenSIPS Control Panel (OCP), a web application for the
 system provisioning of OpenSIPS SIP server (www.opensips.org)
 
 
-OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL 
+OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL/PGSQL using an abstract layer for interfacing with the DB (Pear MDB2) 
 backend. 
 
 
-OpenSIPS Control Panel version 3.0 is compatible with OpenSIPS 1.6.x.
+OpenSIPS Control Panel version 4.0 is compatible with OpenSIPS 1.6.x.
 
 
 OpenSIPS Control Panel currently features 3 main categories:
@@ -49,9 +49,9 @@ OpenSIPS Control Panel currently features 3 main categories:
 
 	pdt  -  tool provisions (add, delete, edit) the prefix-to-domain mappings used by the PDT module
 
-	siptrace   -  this an interface with the siptrace engine of OpenSIPS
+	siptrace   -  this is an interface with the siptrace engine of OpenSIPS
 
-	smonitor - tool to monitor the internals of OpenSIPS . It shows nice graphs.
+	smonitor - tool for monitoring the internals of OpenSIPS . It shows nice graphs.
 
 
 
