@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id: loadbalancer.php 79 2009-07-10 09:37:43Z iulia_bublea $
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for

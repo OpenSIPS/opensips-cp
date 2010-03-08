@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id: apply_changes.php 87 2009-07-16 16:05:29Z iulia_bublea $
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for

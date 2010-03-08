@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id: header.php 60 2009-06-03 13:52:07Z iulia_bublea $
+* $Id$
 * Copyright (C) 2008 Voice Sistem SRL
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for

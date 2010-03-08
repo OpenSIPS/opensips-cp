@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id: natall.php 46 2009-04-27 16:22:04Z iulia_bublea $
+ * $Id$
  * Copyright (C) 2008 Voice Sistem SRL
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
