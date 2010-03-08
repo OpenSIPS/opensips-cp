@@ -110,7 +110,7 @@ a.submenuItem:focus, a.submenuItem:active {
 #masterdiv {
         width:160px;
         #padding:10px;
-        margin:1px;
+        #margin:1px;
         list-style:none;
 }
 

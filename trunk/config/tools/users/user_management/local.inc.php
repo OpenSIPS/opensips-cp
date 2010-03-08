@@ -39,5 +39,5 @@
 
 
  //Password can be saved in plain text mode by setting $config->passwd_mode to 0 or chyphered mode, by setting it to 1
- $config->passwd_mode=1;
+ $config->passwd_mode=0;
 ?>
