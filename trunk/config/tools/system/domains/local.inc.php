@@ -26,11 +26,8 @@
  //database tables
  $config->table_domains = "domain";
 
- // whats the id of the `system` ?  
+ // system to talk to via MI ?  
  $talk_to_this_assoc_id = 1 ;
-
- $config->reply_fifo_filename="webfifo_".rand();
- $config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
 
  
 ?>
