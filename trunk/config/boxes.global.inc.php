@@ -22,6 +22,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+/*==================== DEFINITION OF BOXES (servers) ========================*/
+// each server is a box
+
 $box_id=0;
 
 // mi host:port pair || fifo_file
@@ -36,7 +39,7 @@ $boxes[$box_id]['monit']['has_ssl']=1;
 
 
 // description (appears in mi , monit )
-$boxes[$box_id]['desc']="Primary SIP server";
+$boxes[$box_id]['desc']="SIP server";
 
  
 $boxes[$box_id]['assoc_id']=1;
@@ -46,7 +49,7 @@ $boxes[$box_id]['assoc_id']=1;
 $boxes[$box_id]['smonitor']['charts']=1;
 
 
-/*==============================================================
+/*---------------------------------------------------------------------------
 $box_id=1;
 
 // mi host:port pair || fifo_file 
@@ -61,14 +64,42 @@ $boxes[$box_id]['monit']['has_ssl']=1;
 
 
 // description (appears in mi , monit )
-$boxes[$box_id]['desc']="Secondary SIP server";
+$boxes[$box_id]['desc']="Presence server";
 
 
-$boxes[$box_id]['assoc_id']=1;
+$boxes[$box_id]['assoc_id']=2;
 
 // enable local smonitor charts on this box : 0=disabled 1=enabled
 // (cron)
 $boxes[$box_id]['smonitor']['charts']=1;
 */
+
+
+
+/*======================== DEFINITION OF SYSTEMS ========================*/
+// each system is a set of servers with the same
+// functionality on the platform (like sets of
+// SIP servers, sets of Load-Balancers, sets of
+// Presence agents, etc)
+
+$_system_id=0;
+$systems[$_system_id]['name']="SIP Servers";
+$systems[$_system_id]['desc']="OpenSIPS SIP server cluster";
+//boxes with this assoc_id are assigned to this system
+$systems[$_system_id]['assoc_id']=1;
+// 1= sip proxies pair , 2 = databases , 3 = media servers , etc..
+$systems[$_system_id]['system_type_id']=1;
+
+
+/*---------------------------------------------------------------------------
+$_system_id=1;
+$systems[$_system_id]['name']="Presence Servers";
+$systems[$_system_id]['desc']="OpenSIPS Presence server cluster";
+//boxes with this assoc_id are assigned to this system
+$systems[$_system_id]['assoc_id']=2;
+// 1= sip proxies pair , 2 = databases , 3 = media servers , etc..
+$systems[$_system_id]['system_type_id']=5;
+*/
+
 
 ?>

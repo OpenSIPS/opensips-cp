@@ -28,7 +28,8 @@
  $config->results_per_page = 20;
  $config->results_page_range = 10;
 
- $config->profile_list = array("unu" , "doi");
+ //$config->profile_list = array("caller_profile" , "pstn");
+ $config->profile_list = array();
 
  // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;
