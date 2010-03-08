@@ -30,8 +30,7 @@
 
  $config->profile_list = array("unu" , "doi");
 
- $config->reply_fifo_filename="webfifo_".rand();
- $config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
+ // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;
 
 ?>

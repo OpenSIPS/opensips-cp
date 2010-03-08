@@ -30,8 +30,6 @@
  $config->results_per_page = 20;
  $config->results_page_range = 5;
 
- $config->reply_fifo_filename="webfifo_".rand();
- $config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
  $config->attrs_cb=array(
 					// name , description
 					array("a","Descr a"),
