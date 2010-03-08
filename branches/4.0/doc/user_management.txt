@@ -1,0 +1,55 @@
+
+User Management Tool
+----------------------
+
+Description
+----------------
+This feature allows adding new users, listing and changes to users' settings.
+
+Configuration
+-------------------
+* Database layer configuration file: 
+
+opensips-cp/config/tools/users/user_management/db.inc.php  
+
+- The variables in this file are somewhat self explanatory.You must set 
+up the db connection data through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration file :  
+opensips-cp/config/tools/users/user_management/local.inc.php
+
+Attributes like database table name, fields to be displayed, results per page 
+and variables which control the way the tool displays information from database. 
+The following variables present in this file may be subject to change more often:
+$config->passwd_mode. 
+
+$config->passwd_mode
+===========
+
+This array controls the way the admin password is going to be saved in the
+database.
+- by setting
+$config->passwd_mode=0
+the password will be saved in a text mode
+- by setting
+$config->passwd_mode=1
+the password will be saved in a chyphered way (password field will be empty and
+ha1 will be calculated)
+
+
+Usage and Features
+---------------------------
+
+You can search by username, domain, first name, last name and email or show all records 
+that are in the table.
+For each user  you can edit personal info or you can 
+delete a certain admin  

@@ -1,0 +1,213 @@
+OpenSIPS Control Panel (OCP) Installation Guide 
+-----------------------------------------------
+
+
+OCP was tested and developed mostly on Debian Linux , but of course it works
+with other Linux distros as well. Some of the paths and commands in this INSTALL 
+guide might be debian specific.   
+
+
+
+You will need apache , php and a mysql/postgres server for OCP to work.
+
+Apache
+------
+
+1. You need to add this entry in your httpd.conf (or apache.conf) :
+
+Alias /cp /var/www/opensips-cp/web
+
+
+
+If you want to use another webserver , note the OCP has been tested only 
+on apache and lighthttpd.
+
+
+2. Make ocp's access.log file writeable by apache :
+
+chown www-data.www-data /var/www/opensips-cp/config/access.log
+
+You might be not running debian, so check out the user and the group apache is
+running on (www-data is debian specific,httpd for other distros like centos).
+
+
+
+
+PHP 
+---
+
+
+You must have PHP installed end enabled in the web server.
+The MySQL support  and  XMLRPC support in PHP must be enabled. 
+
+1. php-mysql package must be installed and the mysql module loaded in php.ini
+You must have this line into your php.ini:
+extension=mysql.so
+
+2. php-xmlrpc package must be installed and the xmlrpc module loaded in php.ini.
+You must have this line into your php.ini:
+extension=xmlrpc.so
+
+A must-have option to be set into your php.ini :
+
+short_open_tag = On ;  
+
+4. MDB2 package needs to be installed with the 2 drivers (mysql and postgresql)
+pear install MDB2
+pear install MDB2#mysql
+pear install MDB2#pgsql
+pear install log
+
+
+
+PostgreSQL
+------------
+
+1. in /etc/postgresql/8.3/main/postgresql.conf set:
+regex_flavour = extended
+
+2. in /etc/postgresql/8.3/main/pg_hba.conf search for the line starting with:
+#IPv4 local connections
+set the ident parameter  to trust
+
+
+Database server 
+------------
+
+The OpenSIPS Control Panel can connect to a remote database server, 
+so the MySQL server can be used from the SIP Server machine or another 
+machine in the network.
+
+
+
+* MySQL v4.1+ and PostgreSQL 8.3+ must be installed . If you plan to use the the cdrviewer tool you will need Mysql 5. 
+The cdrviewer tool uses a mysql stored procedure, and there is no stored procedures support into Mysql 4.
+
+
+* You will need the opensips database schema from the opensips distribution. (www.opensips.org) 
+(OCP is made for it)
+
+
+* Additional steps:
+
+    * For the admin tool you must add a table.
+
+    Follow these steps:
+	
+	1. install the ocp_admin_privileges table schema ocp_admin_privileges.mysql/ocp_admin_privileges.pgsql
+	(config/tools/admin/add_admin/ocp_admin_privileges.mysql)
+        mysql -Dopensips -p < ocp_admin_privileges.mysql
+                or
+        psql -h host_name -U postgres_username -d opensips < ocp_admin_privileges.pgsql
+	
+	2. For being able to login create an admin account with the following username and password: admin/admin. Add it into the database:
+	INSERT INTO ocp_admin_privileges (username,password,MD5(ha1),available_tools,permissions) values ('admin','admin','admin:admin','all','all');		
+
+    * For the cdrviewer tool you must add a table and a stored procedure to the OpenSIPS database.
+
+    Follow these steps:	
+     
+	1 . install the cdr table schema cdrs.mysql/cdrs.pgsql 
+	(opensips-cp/config/tools/system/cdrviewer/cdrs.mysql)
+	mysql -Dopensips -p < cdrs.mysql 
+		or 
+	psql -h host_name -U postgres_username -d opensips < cdrs.pgsql
+	
+	2. add a new column in the acc table (cdr_id) : 
+	mysql>ALTER TABLE acc ADD COLUMN cdr_id int(11) NOT NULL DEFAULT 0 AFTER  time;
+	opensips=#ALTER TABLE acc ADD COLUMN cdr_id integer NOT NULL DEFAULT 0;
+
+	2. * for mysql install opensips_cdrs_1_6.mysql , a mysql stored procedure that generates cdr records
+	from the acc table :  
+	
+	mysql -Dopensips -p < opensips_cdrs_1_6.mysql
+
+ 	  * for postgres install opensips_cdrs_1_6.postgres, a postgresql procedure that generates cdr records 
+	from the acc table:      
+	
+
+	3. *for mysql edit the cron_job/generate-cdrs_mysql.sh file and change the mysql connection data
+	(hostname,username,password and database)
+	3. *for postgresql edit the cron_job/generate-cdrs_pgsql.sh file and change the pgsql connection data
+	(hostname,username,password and database)
+	
+	4. you will need to call this procedure from cron at an arbitrary interval.
+	Here's a cron entry for a 3 minutes interval:
+	
+	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs_mysql.sh
+		or
+
+	*/3 * * * * root /var/www/opensips-cp/cron_job/generate-cdrs_pgsql.sh
+	
+    * For the smonitor module : you must add two tables to the OpenSIPS database .
+
+    Follow these steps:	
+    
+	1. Install the monitored_stats and monitoring_stats tables. 
+	You will find them in :
+		
+	opensips-cp/config/tools/system/cdrviewer/tables.mysql
+		or 	
+	opensips-cp/config/tools/system/cdrviewer/tables.pgsql
+	This is where the smonitor tool of the panel stores data.
+	
+	    
+	2. Add a cron job that collects data from the opensips machine(s).
+	
+	Here's a cron job that collects data at 1 minute interval:
+	(This interval is not arbitrary , it must be set at 1 minute , so is the smonitor tool designed )
+	
+	* * * * *   root   php /var/www/opensips-cp/cron_job/get_opensips_stats.php > /dev/null
+	
+	
+	The cron jobs do not need to run as root, you might want to change the user.
+
+    * For the add_user module : you must add one table to the OpenSIPS database .
+
+    Follow these steps:
+
+        1. Install the table.mysql or table.pgsql.
+        You will find them them :
+
+        opensips-cp/config/tools/admin/add_admin/table.mysql
+                or
+        opensips-cp/config/tools/admin/add_admin/table.pgsql
+        This is where the admins are being stored data.
+        
+	mysql -Dopensips -p < table.mysql
+                or
+        psql -h host_name -U postgres_username -d opensips < table.pgsql
+
+
+Configuration files
+-------------------
+
+*DB Configuration files are split in:
+	1) global(config/db.inc.php) 
+	2) local(config/tools/(admin|users|system)/module_name/db.inc.php)	
+
+NOTE: If all modules pull out data from the same database, there should be used only the global config file and the local config files should be left as they are defined by default. 
+      If modules draw out data from different databases, in the local config files all the fields should be left uncommented ( host, database name, port(if necessary) user, password ).
+
+The 2 types of files (global and local) are almost identical, the exception is that in the global file there is a parameter that defines the database driver:
+ $config->db_driver = "mysql"; (or pgsql)
+
+*Configuration files:
+	1) globals.php (config/globals.php)
+
+	1)The globals.php file is used for parameters that are being accessed in more then one module.
+		*$config->table_aliases
+		Parameter used for the aliases tables in case there are more than the standard dbaliases table. The defined array has as key the
+		label and as value the table name.For defining more than one attribute/value pair, complete the list with identical elements
+		separated by comma.
+
+		$config->table_aliases = array("DBaliases"=>"dbaliases");
+	
+
+		*$config->permissions
+		The permissions parameter is used by all modules, when setting the modules permissions for a certain admin.
+		This array has 2 values that will remain unchanged: read-only and read-write.
+
+		$config->permissions = array("read-only","read-write");
+
+ 
