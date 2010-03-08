@@ -1,10 +1,14 @@
 <?
-$opensips_path="/var/www/opensips-cp/";
-require($opensips_path."config/tools/cdrviewer/db.inc.php");
-require($opensips_path."config/db.inc.php");
-require($opensips_path."config/tools/cdrviewer/local.inc.php");
-require($opensips_path."web/tools/cdrviewer/lib/functions.inc.php");
-require($opensips_path."web/tools/cdrviewer/lib/db_connect.php");
+
+$path_to_cdrviewer="/var/www/pmwiki/opensips-cp/web/tools/system/cdrviewer";
+chdir($path_to_smonitor);
+require("../../../../config/db.inc.php");
+require("../../../../config/tools/system/cdrviewer/local.inc.php");
+require("../../../../config/tools/system/cdrviewer/db.inc.php");
+require("lib/functions.inc.php");
+require("lib/db_connect.php");
+
+
 
 error_reporting(E_ALL & ~E_NOTICE );
 
