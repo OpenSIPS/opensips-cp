@@ -101,7 +101,7 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
         psql -h host_name -U postgres_username -d opensips < ocp_admin_privileges.pgsql
 	
 	2. For being able to login create an admin account with the following username and password: admin/admin. Add it into the database:
-	INSERT INTO ocp_admin_privileges (username,password,MD5(ha1),available_tools,permissions) values ('admin','admin','admin:admin','all','all');		
+	INSERT INTO ocp_admin_privileges (username,password,ha1,available_tools,permissions) values ('admin','admin',md5('admin:admin'),'all','all');		
 
     * For the cdrviewer tool you must add a table and a stored procedure to the OpenSIPS database.
 
