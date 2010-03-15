@@ -46,7 +46,7 @@ $login_ok = false;
 
 if ($config->admin_passwd_mode==0) {
     $ha1  = '';
-    $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND password='".$password."' AND ha1='".$ha1."'";
+    $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND password='".$password."'";
     $resultset1 = $link->queryAll($sql);
 
     if(PEAR::isError($resultset1)) {
@@ -57,7 +57,7 @@ if ($config->admin_passwd_mode==0) {
     $ha1 = md5($name.":".$password);
     $password='';
 
-    $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND password='".$password."' AND ha1='".$ha1."'";
+    $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND ha1='".$ha1."'";
     $resultset2 = $link->queryAll($sql);
 
     if(PEAR::isError($resultset2)) {
