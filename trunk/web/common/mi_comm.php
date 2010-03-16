@@ -22,70 +22,16 @@
  */
 
 
-function write2fifo($fifo_cmd, &$errors, &$status){
-
-	global $config;
-
-	/* check fifo file */
-	if (!file_exists($config->fifo_server)) {
-		$errors[]="No FIFO file to SIP Server"; return;
-	}
-
-	/* open fifo now */
-	$fifo_handle=fopen($config->fifo_server, "w");
-	if (!$fifo_handle) {
-		$errors[]="sorry -- cannot open write fifo";	return;
-	}
-
-	/* create fifo for replies */
-	@system("mkfifo -m 666 ".$config->reply_fifo_path);
-
-	/* add command separator */
-	$fifo_cmd=$fifo_cmd."\n";
-//	$fifo_cmd=$fifo_cmd."\n";
-	/* write fifo command */
-	if (fwrite($fifo_handle, $fifo_cmd)==-1) {
-		@unlink($config->reply_fifo_path);
-		@fclose($fifo_handle);
-		$errors[]="sorry -- fifo writing error"; return;
-	}
-	@fclose($fifo_handle);
-
-	/* read output now */
-	@$fp = fopen($config->reply_fifo_path, "r");
-	if (!$fp) {
-		@unlink($config->reply_fifo_path);
-		$errors[]="sorry -- reply fifo opening error"; return;
-	}
-
-	stream_set_timeout($fp, 5);
-	$status=fgetS($fp, 256);
-	$info = stream_get_meta_data($fp);
-	
-	if ($info['timed_out']) {
-		fclose($fp);
-		$errors[]= 'Read from FIFO file to SIP server timed out'; return;
-	}
-	
-	if (!$status) {
-		fclose($fp);
-	   @unlink($config->reply_fifo_path);
-		$errors[]="sorry -- reply fifo reading error"; return;
-	}
-	
-	$rd=fread($fp, 8192);
-	fclose($fp);
-	@unlink($config->reply_fifo_path);
-	
-	return $rd;
-}
-
-
-
-function write2fifo_new($command, &$errors, &$status){
+function write2fifo($command, &$errors, &$status){
 
 	global $config;
 	global $fifo_file ; 	
+
+
+	$reply_fifo_filename="webfifo_".rand();
+	$reply_fifo_path="/tmp/".$reply_fifo_filename;
+
+
 
       $pos=strpos($command," ");
    
@@ -124,7 +70,7 @@ function write2fifo_new($command, &$errors, &$status){
 					 	 			
 				 	 	 }	  
 						
-						$fifo_cmd=":".$cmd.":".$config->reply_fifo_filename."\n";
+						$fifo_cmd=":".$cmd.":".$reply_fifo_filename."\n";
 
 			} else {
 					/* command with args */
@@ -133,7 +79,7 @@ function write2fifo_new($command, &$errors, &$status){
 		}
 		
 		
-			$fifo_cmd=":".$cmd.":".$config->reply_fifo_filename."\n".$arg_list;
+			$fifo_cmd=":".$cmd.":".$reply_fifo_filename."\n".$arg_list;
 
 		}
 
@@ -150,7 +96,7 @@ function write2fifo_new($command, &$errors, &$status){
 	}
 
 	/* create fifo for replies */
-	@system("mkfifo -m 666 ".$config->reply_fifo_path);
+	@system("mkfifo -m 666 ".$reply_fifo_path);
 
 	/* add command separator */
 	$fifo_cmd=$fifo_cmd."\n";
@@ -158,7 +104,7 @@ function write2fifo_new($command, &$errors, &$status){
 	/* write fifo command */
 
 	if (fwrite($fifo_handle, $fifo_cmd)==-1) {
-		@unlink($config->reply_fifo_path);
+		@unlink($reply_fifo_path);
 		@fclose($fifo_handle);
 		$errors[]="sorry -- fifo writing error"; return;
 	}
@@ -167,9 +113,9 @@ function write2fifo_new($command, &$errors, &$status){
 
 	/* read output now */
 
-	@$fp = fopen($config->reply_fifo_path, "r");
+	@$fp = fopen($reply_fifo_path, "r");
 	if (!$fp) {
-		@unlink($config->reply_fifo_path);
+		@unlink($reply_fifo_path);
 		$errors[]="sorry -- reply fifo opening error"; return;
 	}
 
@@ -184,13 +130,13 @@ function write2fifo_new($command, &$errors, &$status){
 	
 	if (!$status) {
 		fclose($fp);
-	   @unlink($config->reply_fifo_path);
+	   @unlink($reply_fifo_path);
 		$errors[]="sorry -- reply fifo reading error"; return;
 	}
 	
 	$rd=fread($fp, 8192);
 	fclose($fp);
-	@unlink($config->reply_fifo_path);
+	@unlink($reply_fifo_path);
 	return $rd;
 }
 
@@ -273,13 +219,11 @@ function mi_command($command,&$errors,&$status){
     global $xmlrpc_port ; 
     global $fifo_file ;
 
-	$config->reply_fifo_filename="webfifo_".rand();
-	$config->reply_fifo_path="/tmp/".$config->reply_fifo_filename;
 
     $buf="";
     if (strtolower($comm_type)=="fifo"){
     
-    $buf=write2fifo_new($command, $errors, $status);
+    $buf=write2fifo($command, $errors, $status);
     }
 
     if (strtolower($comm_type)=="xmlrpc"){
