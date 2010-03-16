@@ -49,7 +49,7 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 $comm_type=params($mi_connectors[0]);
                 $message=mi_command("dlg_list" , $errors , $status);
                 print_r($errors);
-				//print_r($message);
+			//	print_r($message);
                 $status = trim($status);
 }
 
@@ -84,13 +84,14 @@ else {
 			
 			for ($j=0;$j<count($temptemp);$j++){
 				$tmp = explode (":: ",$temptemp[$j]);
-				$res[$tmp[0]]=$tmp[1];
+				$res[trim($tmp[0])]=$tmp[1];
 			}
 			
 			
 		//unset($temp);
 		unset($temptemp);
         //get h_id & h_entry
+
 		
 		$hashtemp = explode ("=",$hash[0][0]);
 		$hashie = explode(":",$hashtemp[1]);
@@ -116,9 +117,10 @@ echo '<tr>';
 		$entry[$i]['start_time'] = date("Y-m-d H:i:s",$res['timestart']);
 
         //toURI
-        	
+
 		$entry[$i]['toURI']=$res['to_uri'];
 
+		
         //fromURI
  	       
 		$entry[$i]['fromURI']=$res['from_uri'];
