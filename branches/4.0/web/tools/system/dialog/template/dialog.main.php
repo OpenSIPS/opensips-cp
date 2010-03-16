@@ -84,7 +84,7 @@ else {
 			
 			for ($j=0;$j<count($temptemp);$j++){
 				$tmp = explode (":: ",$temptemp[$j]);
-				$res[$tmp[0]]=$tmp[1];
+				$res[trim($tmp[0])]=$tmp[1];
 			}
 			
 			
