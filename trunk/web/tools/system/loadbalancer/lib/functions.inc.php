@@ -23,7 +23,7 @@
 
 function get_types($name, $set)
 {
- $filename = "../../../../config/system/tools/loadbalancer/lb_types.txt";
+ $filename = "../../../../config/tools/system/loadbalancer/lb_types.txt";
  $handle = fopen($filename, "r");
  while (!feof($handle))
  {
