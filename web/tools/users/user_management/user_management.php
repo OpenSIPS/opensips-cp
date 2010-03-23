@@ -214,9 +214,9 @@ if ($action=="add_verify")
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
                 if ($config->passwd_mode==1) $passwd="";
-                $sql = 'INSERT INTO '.$table.' (last_name, first_name, username,domain,password,email_address,ha1,ha1b,datetime_created) VALUES '.
-                ' (\''.$lname.'\',\''.$fname.'\',\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
-                $email.'\',\''.$ha1.'\',\''.$ha1b.'\', NOW())';
+                $sql = 'INSERT INTO '.$table.' (username,domain,password,email_address,ha1,ha1b) VALUES '.
+                ' (\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
+                $email.'\',\''.$ha1.'\',\''.$ha1b.'\')';
 
                 $resultset = $link->prepare($sql);
 
