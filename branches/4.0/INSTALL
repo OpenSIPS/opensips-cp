@@ -113,10 +113,6 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 		or 
 	psql -h host_name -U postgres_username -d opensips < cdrs.pgsql
 	
-	2. add a new column in the acc table (cdr_id) : 
-	mysql>ALTER TABLE acc ADD COLUMN cdr_id int(11) NOT NULL DEFAULT 0 AFTER  time;
-	opensips=#ALTER TABLE acc ADD COLUMN cdr_id integer NOT NULL DEFAULT 0;
-
 	2. * for mysql install opensips_cdrs_1_6.mysql , a mysql stored procedure that generates cdr records
 	from the acc table :  
 	
