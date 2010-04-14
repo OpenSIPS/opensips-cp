@@ -42,7 +42,8 @@ function get_groupids()
 
 function get_gwlist()
 {
- include("db_connect.php");
+ //include("db_connect.php");
+ global $link;
  global $config;
  $index = 0;
  $values = array();
@@ -308,7 +309,8 @@ function parse_gwlist($gwlist_string)
 
 function get_lists()
 {
-include("db_connect.php");
+//include("db_connect.php");
+ global $link;
  global $config;
  $index = 0;
  $values = array();

@@ -46,7 +46,6 @@
   if(PEAR::isError($resultset)) {
 	  die('Failed to issue query, error message : ' . $resultset->getMessage());
   }
-  $link->disconnect();
   require("template/".$page_id.".details.php");
   require("template/footer.php");
   exit();
@@ -66,7 +65,6 @@
  		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
-                    $link->disconnect();
                    }
   if ($form_valid) $action="";
    else $action="edit";
@@ -85,7 +83,6 @@
   if(PEAR::isError($resultset)) {
 	  die('Failed to issue query, error message : ' . $resultset->getMessage());
   }  
-  $link->disconnect();
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -118,7 +115,6 @@
 	                    die('Failed to issue query, error message : ' . $resultset->getMessage());
                     }
                     $data_no=count($resultset);
-                    $link->disconnect();
                     $page_no=ceil($data_no/10);
                     $_SESSION[$current_page]=$page_no;
                    }
@@ -155,7 +151,6 @@
  {
   $sql = "delete from ".$table." where ruleid='".$_GET['id']."'";
   $link->exec($sql);
-  $link->disconnect();
  }
 ##############
 # end delete #
@@ -206,7 +201,6 @@
                                          if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
                                          $sql = "delete from ".$table." where (1=1) ".$sql_search;
 					 $link->exec($sql);
-					 $link->disconnect();
                                         }
        }
  }
