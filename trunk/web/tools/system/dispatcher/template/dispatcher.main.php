@@ -68,16 +68,16 @@ if(!$_SESSION['read_only']){
   <tr>
   <td class="searchRecord" align="center">Setid:</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_setid" 
-  value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
+  value="<?=$search_setid?>" class="searchInput"></td>
  <tr>
  <td class="searchRecord" align="center">Destination:</td>
  <td class="searchRecord" width="200"><input type="text" name="dispatcher_dest" 
- value="<?=$search_dest?>" maxlength="16" class="searchInput"></td>
+ value="<?=$search_dest?>" class="searchInput"></td>
 </tr>
   <tr>
   <td class="searchRecord" align="center">Description:</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_descr" 
-  value="<?=$search_descr?>" maxlength="16" class="searchInput"></td>
+  value="<?=$search_descr?>" class="searchInput"></td>
  </tr>
  </tr>
   <tr height="10">
