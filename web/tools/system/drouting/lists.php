@@ -85,7 +85,7 @@
   if(PEAR::isError($resultset)) {
 	  die('Failed to issue query, error message : ' . $resultset->getMessage());
   }
-  $link->disconnect();
+//  $link->disconnect();
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
