@@ -27,8 +27,16 @@ require ("../../../common/mi_comm.php");
 
 $current_page="current_page_dialog";
 
-if (isset($_POST['action'])) $action=$_POST['action'];
-else if (isset($_GET['action'])) $action=$_GET['action'];
+if (isset($_POST['action'])) {
+	extract($_POST);
+	$action=$_POST['action'];
+	$profile=$_POST['profile'];
+}
+else if (isset($_GET['action'])) {
+	$action=$_GET['action'];
+	extract($_POST);
+	$profile=$_POST['profile'];
+}
 else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
