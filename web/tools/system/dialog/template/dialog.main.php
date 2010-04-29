@@ -47,9 +47,9 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 // get status from the first one only
                 $comm_type=params($mi_connectors[0]);
-                $message=mi_command("dlg_list" , $errors , $status);
+				$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
+                $message=mi_command($comm , $errors , $status);
                 print_r($errors);
-			//	print_r($message);
                 $status = trim($status);
 }
 
@@ -70,9 +70,22 @@ echo '<td class="dialogTitle">State</td>';
   
  echo '</tr>';
 
-$data_no=count($message);
+$tempmess = explode("dlg_counter:: ",$message);
+$pos = strpos($message, "\n",0);
+$data_no = substr($message,14,$pos-14);
+$message = substr($message,$pos);
 if ($data_no==0) echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else {
+		// here goes the paging stuff
+		$page=$_SESSION[$current_page];
+		$page_no=ceil($data_no/$config->results_per_page);
+		if ($page>$page_no) {
+			$page=$page_no;
+			$_SESSION[$current_page]=$page;
+		}
+		$start_limit=($page-1)*$config->results_per_page;
+
+		//here ends the paging stuff
 
 	
 		$temp = explode ("dialog:: ",$message);
@@ -149,14 +162,46 @@ echo '<tr>';
 	}
 }
 unset($entry);
-	$recno--;
-    echo '<tr height="10">';
-    echo "<td colspan='6' class='dialogTitle' align='right'>Total Records:".$recno." &nbsp;</td>";
-    echo '</tr>';
-    echo '</table>';
-//}
-//else echo "caca";
- ?>
+   // echo '<tr height="10">';
+   // echo "<td colspan='6' class='dialogTitle' align='right'>Total Records:".$recno." &nbsp;</td>";
+   // echo '</tr>';
+   // echo '</table>';
+?>
+
+
+
+<tr>
+<td colspan="6" class="dialogTitle">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+     <tr>
+      <td align="left">
+       &nbsp;Page:
+       <?php
+       if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
+       else {
+        $max_pages = $config->results_page_range;
+        // start page
+        if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
+        else $start_page = $page - ($page % $max_pages) + 1;
+        // end page
+        $end_page = $start_page + $max_pages - 1;
+        if ($end_page > $page_no) $end_page = $page_no;
+        // back block
+        if ($start_page!=1) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
+        // current pages
+        for($i=$start_page;$i<=$end_page;$i++)
+        if ($i==$page) echo('<font class="pageActive">'.$i.'</font>&nbsp;');
+        else echo('<a href="'.$page_name.'?page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
+        // next block
+        if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
+       }
+       ?>
+      </td>
+      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+     </tr>
+    </table>
+  </td>
+ </tr>
 	</td>
  </tr>
 </table>
