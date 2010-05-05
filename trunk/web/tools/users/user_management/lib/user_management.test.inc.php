@@ -103,7 +103,7 @@
                    }
 
  if ($form_valid) {
-                   $sql = 'select * from '.$alias_type.' where alias_username="'.$alias.'" and alias_domain="'.$domain.'"';
+                   $sql = "select * from ".$alias_type." where alias_username='".$alias."' and alias_domain='".$domain."'";
                    $resultset = $link->queryAll($sql);
                    if(PEAR::isError($resultset)) {
                        die('Failed to issue query, error message : ' . $resultset->getMessage());
