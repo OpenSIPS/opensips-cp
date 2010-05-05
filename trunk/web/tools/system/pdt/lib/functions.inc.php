@@ -95,7 +95,7 @@ return $comm_type;
 
 function get_proxys_by_assoc_id($my_assoc_id){
 
-	$global= '../../../config/boxes.global.inc.php';
+	$global= '../../../../config/boxes.global.inc.php';
 	require($global);
 	 
 	$mi_connectors=array();
