@@ -28,14 +28,15 @@ require ("../../../common/mi_comm.php");
 $current_page="current_page_dialog";
 
 if (isset($_POST['action'])) {
-	extract($_POST);
-	$action=$_POST['action'];
-	$profile=$_POST['profile'];
+        $action=$_POST['action'];
+        extract($_POST);
+        $profile = $_POST['profile'];
+
 }
 else if (isset($_GET['action'])) {
-	$action=$_GET['action'];
-	extract($_POST);
-	$profile=$_POST['profile'];
+        $action=$_GET['action'];
+        extract($_POST);
+        $profile = $_POST['profile'];
 }
 else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
@@ -44,20 +45,29 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 ################
 # start load   #
 ################
-if ($action=="load") {
-	extract($_POST);
-	$profile = $_POST['profile'];
+if (isset($_POST['dialogs'])){
+if ($action=="profile_list") {
+        extract($_POST);
+        $profile = $_POST['profile'];
+	if (isset($_POST['profile_param']))
+		$profile_param = $_POST['profile_param'];
+	else 
+		$profile_param = "";
         $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         for ($i=0;$i<count($mi_connectors);$i++){
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 // get status from the first one only
                 $comm_type=params($mi_connectors[0]);
-                $message=mi_command("profile_list_dlgs $profile" , $errors , $status);
+		if ($profile_param == "")
+	                $message=mi_command("profile_list_dlgs $profile" , $errors , $status);
+		else
+			$message=mi_command("profile_list_dlgs $profile $profile_param" , $errors , $status);
                 print_r($errors);
-                $status = trim($status);
-	}
+		$status = trim($status);
+        }
 $_SESSION['message']=$message;
 
+}
 }
 
 ##############
