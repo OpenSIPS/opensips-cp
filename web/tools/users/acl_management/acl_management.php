@@ -206,22 +206,28 @@ if ($action=="dp_act")
 
         }else if($delete=="Delete ACL"){
                 $sql_query = "";
-                if( $_POST['acl_username'] != " " ) {
+                if( $_POST['acl_username'] != "" ) {
                         $acl_username = $_POST['acl_username'];
-                        $sql_query .= " AND acl_username like '%".$acl_username."%'";
+                        $sql_query .= " AND username like '%".$acl_username."%'";
                 }
-                if( ($_POST['acl_domain'] == "ANY") ||($_POST['acl_domain'] == " ") ) {
+                if( ($_POST['acl_domain'] == "ANY") ||($_POST['acl_domain'] == "") ) {
 			$sql_query .= " AND acl_domain like '%'";
 	        } else {
 			$acl_domain = $_POST['acl_domain'];
-                        $sql_query .= " AND acl_domain like '%".$acl_domain . "%'";
+                        $sql_query .= " AND domain like '%".$acl_domain . "%'";
 		}
 
+				if ($_POST['acl_grp']=="ANY"){
+					$sql_query .= " AND grp like '%'";
+				}
+				else{
+					$acl_grp = $_POST['acl_grp'];
+					$sql_query .= "AND grp ='".$acl_grp."'";
+				}
                 if($_POST['acl_grp'] != "ANY" ) {
 
 	                $sql = "SELECT * FROM ".$table.
         	        " WHERE (1=1) " . $sql_query;
-					echo $sql;
                 	$resultset = $link->queryAll($sql);
 	                if(PEAR::isError($resultset)) {
         	                die('Failed to issue query, error message : ' . $resultset->getMessage());
@@ -230,6 +236,7 @@ if ($action=="dp_act")
         	                $errors="No such ACL";
                 	        $_SESSION['acl_username']="";
                         	$_SESSION['acl_domain']="";
+							$_SESSION['acl_grp']="";
 
 	                }else{
 
@@ -238,11 +245,10 @@ if ($action=="dp_act")
                 	}		
 		} else {
 //			for($i=0;$i<count($options);$i++){
-	                        $sql = "SELECT * FROM ".$table.
-        	                " WHERE (1=1) " . $sql_query;
+	                        $sql = "SELECT * FROM ".$table." WHERE (1=1) ".$sql_query;
                 	        $resultset = $link->queryAll($sql);
                         	if(PEAR::isError($resultset)) {
-                                	die('yyFailed to issue query, error message : ' . $resultset->getMessage());
+                                	die('Failed to issue query, error message : '.$resultset->getMessage());
                         	}
 	                        if (count($resultset)==0) {
         	                        $errors="No such ACL";

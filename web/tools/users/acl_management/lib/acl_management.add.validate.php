@@ -83,7 +83,7 @@ exit();
 
   
 
-  if ($acl_grp=="") {
+  if ($acl_grp==""|| $acl_grp=="ANY") {
                       $form_error="group";
 					  echo $form_error;
 					  exit();

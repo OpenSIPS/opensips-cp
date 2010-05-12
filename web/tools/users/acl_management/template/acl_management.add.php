@@ -33,8 +33,8 @@
 ?>
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="username" 
-  value="<?=$username?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input  type="text" name="username" value="<?=$username?>" maxlength="128" class="dataInput" >
+  </td>
  </tr>
 
  <tr>

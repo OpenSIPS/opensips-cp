@@ -7,7 +7,7 @@ function confirmDelete(id)
   else return false;
 }
 
-function confirmDeleteUser()
+function confirmDeleteACL()
 {
  var agree=confirm("Are you sure you want to delete this ACL?");
  if (agree)     return true;
@@ -115,8 +115,8 @@ function Form_Validator(){
 		}
 		
 		if (result == "group") {
-			if (document.getElementById('addnewacl').acl_grp.value == ""){
-				alert("Please enter a value for the \"group\" field.");
+			if (document.getElementById('addnewacl').acl_grp.value == "ANY"){
+				alert("Please choose a value for the \"group\" field.");
 				document.getElementById('addnewacl').acl_grp.focus();
 				return false;
 			}
@@ -125,6 +125,8 @@ function Form_Validator(){
 				document.getElementById('addnewacl').acl_grp.focus();
 				return false;
 			}
+
+
 		}
 		
 		
