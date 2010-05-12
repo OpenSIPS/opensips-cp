@@ -51,15 +51,15 @@ if(!$_SESSION['read_only']){
 </tr>
 <tr>
 <td class="searchRecord" align="center">Username:</td>
-<td class="searchRecord" width="200"><input type="text" name="alias_username"
+<td class="searchRecord" width="200"><input type="text" name="acl_username"
 value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 <tr>
 <td class="searchRecord" align="center">Domain:</td>
-<td class="searchRecord" width="200"> <input type="text" name="acl_domain" value="<?=$search_adomain?>" maxlength="16" class="searchInput"</td>
+<td class="searchRecord" width="200"> <?php print_domains("acl_domain",$search_adomain)?></td>
 </tr>
 <tr>
 <td class="searchRecord" align="center">Group:</td>
-<td class="searchRecord" width="200"> <input type="text" name="acl_grp" value="<?=$search_agrp?>" maxlength="16" class="searchInput"</td>
+<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp)?></td>
 </tr>
 </tr>
 <tr height="10">
