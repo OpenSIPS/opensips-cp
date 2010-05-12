@@ -41,6 +41,10 @@ if(!$_SESSION['read_only']){
 	$colspan = 2;
 }
 
+if (file_exists("../acl_management")){
+$colspan++;
+}
+
 if ( $users == "online_usr" ) {
 	$checkedAll="";
 	$checkedOnline="checked";
@@ -109,11 +113,15 @@ if ( $users == "online_usr" ) {
   <td class="listTitle">Username</td>
   <td class="listTitle">Email Address</td>
   <?
+  if (file_exists("../acl_management")) {
+  	echo('<td class="listTitle">Group</td>');
+  }
   if(!$_SESSION['read_only']){
 
   	echo('<td class="listTitle">Edit</td>
   		<td class="listTitle">Delete</td>');
   }
+
   ?>
  </tr>
 <?php
@@ -160,6 +168,11 @@ else
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
+		if (file_exists("../acl_management")) {
+			$group_link = '<a href="../../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
+			
+		 }
+
 		if(!$_SESSION['read_only']){
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="images/edit.png" border="0"></a>';
@@ -170,6 +183,9 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['email_address']?></td>
    <? 
+   if (file_exists("../acl_management")){
+   		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
+   }
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
 			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
