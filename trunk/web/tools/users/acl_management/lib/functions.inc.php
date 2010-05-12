@@ -115,6 +115,28 @@ function print_domains($type,$value)
 	<?php
 }
 
+function print_groups($type,$value){
+	require("../../../../config/tools/users/acl_management/local.inc.php");
+	?>
+	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 175px" class="dataSelect">
+	<?php
+		           if ($value!=NULL) 
+		        	      echo('<option value="'.$value. '" selected > '.$value.'</option>');
+		           else
+				   		 echo('<option value="ANY" selected >ANY</option>');
+	foreach ($config->grps as $grp){
+	
+					if (strcmp($grp,$value)==0) 
+						continue;
+					else
+						echo("<option value=".$grp."> ".$grp."</option>");						
+
+	 }
+	 ?>
+	 </select>
+	 <?php
+}
+
 function print_aliasType($value)
 {
         global $config;
