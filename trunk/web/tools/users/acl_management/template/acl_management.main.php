@@ -68,14 +68,14 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
 </tr>
 <?
-/*if(!$_SESSION['read_only']){
+if(!$_SESSION['read_only']){
 echo('<tr height="10">
 <td colspan="2" class="searchRecord" align="center">
-<input type="submit" class="formButton" name="delete" value="Delete Alias" onclick="return confirmDeleteAlias()">
+<input type="submit" class="formButton" name="delete" value="Delete ACL" onclick="return confirmDeleteACL()">
 </td>
 </tr>');
 
-}*/
+}
 ?>
 
  <tr height="10">

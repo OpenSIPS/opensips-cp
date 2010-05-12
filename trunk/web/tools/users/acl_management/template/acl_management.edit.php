@@ -44,17 +44,17 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="username" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input readonly type="text" name="username" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
-  <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain']);?>
+  <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain']);?></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Group</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="acl_grp" value="<?=$resultset[0]['grp']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><?php print_groups("acl_grp",$resultset[0]['grp']);?></td>
   </tr>
 
  <tr>
