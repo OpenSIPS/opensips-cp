@@ -68,6 +68,22 @@ function get_priv() {
 
 function get_proxys_by_assoc_id($my_assoc_id){
 
+        $global="../../../../config/tools/system/dispatcher/local.inc.php";
+        require($global);
+
+        $mi_connectors=array();
+
+
+
+        $mi_connectors[]=$box[1]['mi']['conn'];
+
+
+        return $mi_connectors;
+}
+
+
+function get_all_proxys_by_assoc_id($my_assoc_id){
+
 	$global="../../../../config/boxes.global.inc.php";
 	require($global);
 

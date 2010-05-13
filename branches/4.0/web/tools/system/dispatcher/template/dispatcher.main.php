@@ -110,16 +110,6 @@ if(!$_SESSION['read_only']){
 </form>
 </td>
 <td align="left">
-<?
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-        for ($i=0;$i<count($mi_connectors);$i++){
-
-                $comm_type=params($mi_connectors[$i]);
-                $status = mi_command('ds_reload',$errors,$code);
-                print_r($errors);
-                $status = trim($status);
-}
-?>
 <form action="<?=$page_name?>?action=refresh" method="post">
   <input type="submit" name="refresh" value="Refresh" class="searchButton">
   <img src="images/spacer.gif" width="5" height="5">
