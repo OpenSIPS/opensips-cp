@@ -33,11 +33,11 @@
   </tr>
   <tr height="10"> </tr>
  <tr height="10">
-        <td align="center" colspan="2"><input type="checkbox" name="sizes"> List number of dialogs in the selected profile</td>
+        <td align="center" colspan="2"><input type="checkbox" name="sizes" checked> List number of dialogs in the selected profile</td>
  </tr>
- <tr height="10">
+ <!--tr height="10">
         <td align="center" colspan="2"><input type="checkbox" name="dialogs"> List the dialogs in the selected profile</td>
- </tr>
+ </tr-->
   <tr align="center" colspan="2" class="searchRecord" align="center">
          <td align="center" colspan="2"><input type="submit" name="submit" value="Submit" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
   </tr>
@@ -57,6 +57,8 @@ if (isset($_POST['sizes'])) {
                 	$profile_param = $_POST['profile_param'];
         	else
 		        $profile_param = "";
+
+		$profile = $_POST['profile'];
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 for ($i=0;$i<count($mi_connectors);$i++){
                         // get status from the first one only
