@@ -282,7 +282,7 @@ if ($action=="change_state") {
 	$group = $_GET['group'];
 	$address = $_GET['address'];
 
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
 	for ($i=0;$i<count($mi_connectors);$i++){
 
         	$comm_type=params($mi_connectors[$i]);

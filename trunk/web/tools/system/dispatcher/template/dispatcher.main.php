@@ -68,16 +68,16 @@ if(!$_SESSION['read_only']){
   <tr>
   <td class="searchRecord" align="center">Setid:</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_setid" 
-  value="<?=$search_setid?>" class="searchInput"></td>
+  value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
  <tr>
  <td class="searchRecord" align="center">Destination:</td>
  <td class="searchRecord" width="200"><input type="text" name="dispatcher_dest" 
- value="<?=$search_dest?>" class="searchInput"></td>
+ value="<?=$search_dest?>" maxlength="16" class="searchInput"></td>
 </tr>
   <tr>
   <td class="searchRecord" align="center">Description:</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_descr" 
-  value="<?=$search_descr?>" class="searchInput"></td>
+  value="<?=$search_descr?>" maxlength="16" class="searchInput"></td>
  </tr>
  </tr>
   <tr height="10">
@@ -110,16 +110,6 @@ if(!$_SESSION['read_only']){
 </form>
 </td>
 <td align="left">
-<?
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-        for ($i=0;$i<count($mi_connectors);$i++){
-
-                $comm_type=params($mi_connectors[$i]);
-                $status = mi_command('ds_reload',$errors,$code);
-                print_r($errors);
-                $status = trim($status);
-}
-?>
 <form action="<?=$page_name?>?action=refresh" method="post">
   <input type="submit" name="refresh" value="Refresh" class="searchButton">
   <img src="images/spacer.gif" width="5" height="5">
