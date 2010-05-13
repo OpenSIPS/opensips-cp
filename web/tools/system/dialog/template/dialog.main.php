@@ -31,8 +31,8 @@
 <table width="85%" cellspacing="2" cellpadding="2" border="0">
 
  <tr height="10">
-  <td colspan="3" class="searchRecord" align="right"><input type="submit" name="refresh" value="Refresh Dialog List" class="searchButton">&
-nbsp;&nbsp;&nbsp;</td>
+  <td colspan="3" class="searchRecord" align="right">
+	<input type="submit" name="refresh" value="Refresh Dialog List" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
  </tr>
  <tr height="10">
   <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
