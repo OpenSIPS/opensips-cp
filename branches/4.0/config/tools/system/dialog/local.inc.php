@@ -29,7 +29,9 @@
  $config->results_page_range = 10;
 
  //$config->profile_list = array("caller_profile" , "pstn");
- $config->profile_list = array();
+ $config->profile_list = array("proxyIP");
+
+ $box[1]['mi']['conn']="10.5.7.16:8080";; 
 
  // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;
