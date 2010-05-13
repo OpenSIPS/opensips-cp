@@ -32,6 +32,8 @@
  // system to talk with for MI part 
  $talk_to_this_assoc_id = 1 ;
 
+ $box[1]['mi']['conn']="10.5.7.16:8080";
+
  //status
  $config->status = array('A'=>'Active','I'=>'Inactive','P'=>'Probing');
 ?>
