@@ -66,20 +66,15 @@ function get_priv() {
 
 function get_proxys_by_assoc_id($my_assoc_id){
 
-	$global="../../../../config/boxes.global.inc.php";
+	$global="../../../../config/tools/system/dialog/local.inc.php";
 	require($global);
 
 	$mi_connectors=array();
 
-	for ($i=0;$i<count($boxes);$i++){
 
-		if ($boxes[$i]['assoc_id']==$my_assoc_id){
 
-			$mi_connectors[]=$boxes[$i]['mi']['conn'];
+	$mi_connectors[]=$box[1]['mi']['conn'];
 
-		}
-
-	}
 
 	return $mi_connectors;
 }

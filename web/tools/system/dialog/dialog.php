@@ -44,7 +44,7 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 for ($i=0;$i<count($mi_connectors);$i++){
 
                 $comm_type=params($mi_connectors[$i]);
-				$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
+                $comm = "dlg_list ".$start_limit." ".$config->results_per_page;
                 $message=mi_command($comm,$errors,$status);
                 print_r($errors);
                 $status = trim($status);
