@@ -183,7 +183,8 @@ if ($action=="dp_act")
 		if (isset($_GET['fromusrmgmt'])) {
 		
 			$fromusrmgmt=$_GET['fromusrmgmt'];
-
+			
+			$_SESSION['fromusrmgmt']=1;
 			$_SESSION['acl_username']=$_GET['username'];
 	        $_SESSION['acl_domain']=$_GET['domain'];
 		}
