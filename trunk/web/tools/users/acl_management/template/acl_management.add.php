@@ -29,17 +29,21 @@
  <tr align="center">
   <td colspan="2" class="aliasTitle">New ACL</td>
  </tr>
-<?php
-?>
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input  type="text" name="username" value="<?=$username?>" maxlength="128" class="dataInput" >
+  <td class="dataRecord" width="275"><input  type="text" name="username" value="<?php if ($_SESSION['fromusrmgmt'])
+		echo $_SESSION['acl_username'];?>" maxlength="128" class="dataInput" >
   </td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
-  <td class="dataRecord" width="275"><?php print_domains("domain",'')?></td>
+  <td class="dataRecord" width="275"><?php 
+  	if ($_SESSION['fromusrmgmt'])
+  		print_domains("domain",$_SESSION['acl_domain']);
+	else 
+		print_domains("domain",'');
+	?></td>
  </tr>
 
  <tr>
