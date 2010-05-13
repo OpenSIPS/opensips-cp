@@ -45,13 +45,20 @@ if($clone =="1"){
 ?>
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="username" 
+  <td class="dataRecord" width="275"><input <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly ";?> type="text" name="username" 
   value="<?=$username?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
   <td class="dataRecord" width="275"><?php print_domains("domain",'')?></td>
+  <?php if (isset($_SESSION['fromusrmgmt'])) 
+  			if ($_SESSION['fromusrmgmt']){ 
+				echo "<script>\n";
+				echo "setReadonly('domain');\n";
+				echo "</script>\n";
+			}
+  ?>
  </tr>
 
  <tr>

@@ -25,10 +25,13 @@
 
 <?php
 $sql_search="";
-$search_ausername=$_SESSION['alias_username'];
+$search_ausername=$_SESSION['username'];
+$search_aaliasusername=$_SESSION['alias_username'];
 $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
-if($search_ausername !="") $sql_search.=" and alias_username like '%" . $search_ausername."%'";
+if($search_ausername !="") $sql_search.=" and username like '%" . $search_ausername."%'";
+else $sql_search.=" and username like '%'";
+if($search_aaliasusername !="") $sql_search.=" and alias_username like '%" . $search_aaliasusername."%'";
 else $sql_search.=" and alias_username like '%'";
 if(($search_adomain == 'ANY') || ($search_adomain == "")) $sql_search.=" and alias_domain like '%'";
 else $sql_search.=" and alias_domain='".$search_adomain."'";
@@ -54,12 +57,18 @@ if(!$_SESSION['read_only']){
 <td colspan="2" height="10" class="aliasTitle"></td>
 </tr>
 <tr>
-<td class="searchRecord" align="center">Alias Username:</td>
-<td class="searchRecord" width="200"><input type="text" name="alias_username"
+<td class="searchRecord" align="center">Username:</td>
+<td class="searchRecord" width="200"><input type="text" name="username"
 value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 <tr>
+
+<tr>
+<td class="searchRecord" align="center">Alias Username:</td>
+<td class="searchRecord" width="200"><input type="text" name="alias_username"
+value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
+<tr>
 <td class="searchRecord" align="center">Alias Domain:</td>
-<td class="searchRecord" width="200"><?php print_domains("alias_domain","ANY");?> 
+<td class="searchRecord" width="200"><?php if ($search_adomain!="") print_domains("alias_domain",$search_adomain); else print_domains("alias_domain","ANY");?> 
 </tr>
 <tr>
 <td class="searchRecord" align="center">Alias Type:</td>

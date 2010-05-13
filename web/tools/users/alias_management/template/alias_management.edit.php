@@ -42,12 +42,16 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="username" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input readonly type="text" name="username" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
   <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain']);?>
+  <script>
+  	setReadonly('domain');
+  </script>
+
  </tr>
 
  <tr>

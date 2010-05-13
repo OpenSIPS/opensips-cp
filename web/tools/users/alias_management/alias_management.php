@@ -180,15 +180,29 @@ if ($action=="modify")
 ################
 if ($action=="dp_act")
 {
+
+
+		if (isset($_GET['fromusrmgmt'])) {
+
+		    $fromusrmgmt=$_GET['fromusrmgmt'];
+			$_SESSION['fromusrmgmt']=1;
+			$_SESSION['username']=$_GET['username'];
+			$_SESSION['alias_domain']=$_GET['domain'];
+		}
+
         $_SESSION['alias_id']=$_POST['alias_id'];
 
         $_SESSION[$current_page]=1;
         extract($_POST);
         if ($show_all=="Show All") {
+			if (isset($_SESSION['fromusrmgmt']))
+				$_SESSION['fromusrmgmt']=0;
+				$_SESSION['username']="";
                 $_SESSION['alias_username']="";
                 $_SESSION['alias_domain']="";
                 $_SESSION['alias_type']="";
         } else if($search=="Search"){
+				$_SESSION['username']=$_POST['username'];
                 $_SESSION['alias_username']=$_POST['alias_username'];
                 $_SESSION['alias_domain']=$_POST['alias_domain'];
                 $_SESSION['alias_type']=$_POST['alias_type'];
