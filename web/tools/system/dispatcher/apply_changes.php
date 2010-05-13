@@ -42,7 +42,7 @@ $xmlrpc_port="";
 $fifo_file="";
 $comm_type="";
 
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 if($errors)
 echo('get proxys error');
