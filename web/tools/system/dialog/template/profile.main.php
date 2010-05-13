@@ -35,9 +35,9 @@
  <tr height="10">
         <td align="center" colspan="2"><input type="checkbox" name="sizes" checked> List number of dialogs in the selected profile</td>
  </tr>
- <!--tr height="10">
+ <tr height="10">
         <td align="center" colspan="2"><input type="checkbox" name="dialogs"> List the dialogs in the selected profile</td>
- </tr-->
+ </tr>
   <tr align="center" colspan="2" class="searchRecord" align="center">
          <td align="center" colspan="2"><input type="submit" name="submit" value="Submit" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
   </tr>
