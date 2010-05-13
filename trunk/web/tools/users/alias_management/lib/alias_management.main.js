@@ -3,6 +3,26 @@
 // $Id: alias_management.main.js 40 2009-04-13 14:59:22Z iulia_bublea $
 //
   
+function setReadonly( selectElementId ){
+	var selectElement = document.getElementById(selectElementId);
+	if (selectElement){		
+		var parent = selectElement.parentElement;
+		var textValue = selectElement.options[selectElement.options.selectedIndex].innerText;
+		if (!parent){
+			parent=selectElement.parentNode;
+			textValue = selectElement.options[selectElement.options.selectedIndex].text;
+		}
+		var input = document.createElement("input");
+		input.setAttribute("id",selectElement.id);
+		input.setAttribute("type","text");
+		input.setAttribute("value",textValue);
+		input.style.background="#cccccc";
+		input.readOnly = true;
+		parent.appendChild(input);
+	}
+	selectElement.style.display="none";
+}
+
 function confirmDelete(id)
 {
  var agree=confirm("Are you sure you want to delete this Alias?");

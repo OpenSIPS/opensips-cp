@@ -42,9 +42,12 @@ if(!$_SESSION['read_only']){
 }
 
 if (file_exists("../acl_management")){
-$colspan++;
+	$colspan++;
 }
 
+if (file_exists("../alias_management")){
+	$colspan++;
+}
 if ( $users == "online_usr" ) {
 	$checkedAll="";
 	$checkedOnline="checked";
@@ -113,9 +116,15 @@ if ( $users == "online_usr" ) {
   <td class="listTitle">Username</td>
   <td class="listTitle">Email Address</td>
   <?
+
+	if (file_exists("../alias_management")) {
+		echo('<td class="listTitle">Alias</td>');
+	}
+
   if (file_exists("../acl_management")) {
   	echo('<td class="listTitle">Group</td>');
   }
+
   if(!$_SESSION['read_only']){
 
   	echo('<td class="listTitle">Edit</td>
@@ -172,6 +181,10 @@ else
 			$group_link = '<a href="../../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
 			
 		 }
+		 if (file_exists("../alias_management")) {
+		             $alias_link = '<a href="../../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
+
+		}
 
 		if(!$_SESSION['read_only']){
 
@@ -183,6 +196,10 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['email_address']?></td>
    <? 
+	if (file_exists("../alias_management")){
+	        echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
+	}
+
    if (file_exists("../acl_management")){
    		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
    }

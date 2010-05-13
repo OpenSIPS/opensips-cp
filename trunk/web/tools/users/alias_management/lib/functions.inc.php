@@ -95,7 +95,7 @@ function print_domains($type,$value)
         $end_index = sizeof($options);
 
 ?>
-	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 175px" class="dataSelect">
+	<select <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly "; ?> name=<?=$type?> id=<?=$type?> size="1" style="width: 175px" class="dataSelect">
 	 <?php
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
