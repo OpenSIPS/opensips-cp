@@ -20,25 +20,21 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
- $config->results_per_page = 25;
- $config->results_page_range = 10;
- 
- // highlighting 
- $config->from_color="black";	   $config->from_bgcolor="yellow";
- $config->to_color="white";      $config->to_bgcolor="blue";
- $config->callid_color="black";  $config->callid_bgcolor="orange";
- $config->cseq_color="white";	   $config->cseq_bgcolor="navy";
- $config->regexp_color="navy";   $config->regexp_bgcolor="red";
 
 ###############################################################################
-  
- //database tables
- $config->table_trace = "sip_trace";
+# Attention : advanced options !!
+
  
- $talk_to_this_assoc_id = 1 ; 
- 
- // sip proxy - ip:port
- $proxy_list=array("udp:78.46.64.50:5060","tcp:78.46.64.50:5060");
- 
+ $config->results_per_page = 20;
+ $config->results_page_range = 10;
+
+ $config->custom_table = "n2h_masq";
+
+ $config->custom_table_columns = array ("Id" => "id","Original Contact" => "orig_uri","Masq Contact" => "masq_uri","Source IP" => "dst_uri","Timeout" => "timeout");
+
+ $config->custom_table_primary_key = "id";
+
+ // what system to talk to for MI functions
+ $talk_to_this_assoc_id = 1 ;
+
 ?>
