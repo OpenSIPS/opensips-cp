@@ -49,7 +49,7 @@
     if (sizeof($result)!=sizeof($value)) $gw_error="duplicate Gateway Types"; 
    }
   if ($gw_error=="") {
-                      $filename="../../../config/tools/drouting/gw_types.txt";
+                      $filename="../../../../config/tools/system/drouting/gw_types.txt";
                       $handle=fopen($filename,"w");
                       fwrite($handle,$data);
                       fclose($handle);
@@ -76,7 +76,7 @@
     if (sizeof($result)!=sizeof($value)) $groups_error="duplicate Group ID"; 
    }
   if ($groups_error=="") {
-   $filename="../../../config/tools/drouting/group_ids.txt";
+   $filename="../../../../config/tools/system/drouting/group_ids.txt";
    $handle=fopen($filename,"w");
    fwrite($handle,$data);
    fclose($handle);
