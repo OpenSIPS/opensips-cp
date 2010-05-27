@@ -54,11 +54,12 @@ function get_types($name, $set)
  fclose($handle);
  echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect">');
  if ($name=="search_type") echo('<option value="">- all types -</option>');
- for ($i=0; $i<sizeof($values); $i++)
+ 
+ for ($i=0; $i<count($values); $i++)
  {
   if ($set==$values[$i]) $xtra = 'selected';
    else $xtra ='';
-  if(!empty($values[$i]))
+  if($values[$i]!=NULL)
 	echo('<option value="'.$values[$i].'" '.$xtra.'>'.$values[$i].' - '.$content[$i].'</option>');
  }
  echo('</select>');
