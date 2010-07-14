@@ -37,6 +37,14 @@ a.menuItemSelect:hover {
         border: #999999 1px solid;
         background-color: #99ccff;
         font-weight: bold;
+		width: 70px;
+}
+
+.listContactTitle {
+        border: #999999 1px solid;
+		background-color: #99ccff;
+		font-weight: bold;
+		width: 70px;
 }
 
 .newDPID {
@@ -64,6 +72,15 @@ a.menuItemSelect:hover {
 	font-weight: bold;
 	color: #000000;
 }
+
+.delconButton {
+    border: #aaaaaa 2px outset;
+    background-color: #dddddd;
+	font-size: 9px;
+	font-weight: bold;
+	color: #000000;
+}
+
 .dataRecord {
 	border: #cccccc 1px solid;
 	background-color: #eeeeee;

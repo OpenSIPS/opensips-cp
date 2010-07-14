@@ -36,9 +36,9 @@ if($search_email !="") $sql_search.=" and s.email_address like '".$search_email.
 else $sql_search.=" and s.email_address like '%'";
 require("lib/".$page_id.".main.js");
 if(!$_SESSION['read_only']){
-	$colspan = 4;
+	$colspan = 5;
 }else{
-	$colspan = 2;
+	$colspan = 3;
 }
 
 if (file_exists("../acl_management")){
@@ -115,8 +115,10 @@ if ( $users == "online_usr" ) {
  <tr align="center">
   <td class="listTitle">Username</td>
   <td class="listTitle">Email Address</td>
+  
   <?
-
+    echo ('<td class="listTitle">Contacts</td>');
+	
 	if (file_exists("../alias_management")) {
 		echo('<td class="listTitle">Alias</td>');
 	}
@@ -124,12 +126,14 @@ if ( $users == "online_usr" ) {
   if (file_exists("../acl_management")) {
   	echo('<td class="listTitle">Group</td>');
   }
+	
 
   if(!$_SESSION['read_only']){
 
   	echo('<td class="listTitle">Edit</td>
   		<td class="listTitle">Delete</td>');
   }
+
 
   ?>
  </tr>
@@ -186,6 +190,10 @@ else
 
 		}
 
+//		$contacts_link = '<a href="'.$page_name.'?action=showcontacts&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/contacts.png" border="0"></a>';
+		
+//		$contacts_link = "<a href='#' onclick="newwindow('".$resultset[$i]['username']."')"><img src='images/contacts.png' border='0'></a>";
+
 		if(!$_SESSION['read_only']){
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="images/edit.png" border="0"></a>';
@@ -195,7 +203,12 @@ else
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['email_address']?></td>
+  <td class="<?=$row_style?>" align="center">&nbsp;<a href="javascript:showContacts('<?=$resultset[$i]['username']?>','<?=$resultset[$i]['domain']?>',300,155)"><img src="images/contacts.png" border="0"></a> </td>
+
    <? 
+
+	
+
 	if (file_exists("../alias_management")){
 	        echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
 	}
@@ -203,6 +216,8 @@ else
    if (file_exists("../acl_management")){
    		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
    }
+
+
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
 			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');

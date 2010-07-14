@@ -123,7 +123,28 @@ if ($action=="modify")
 # end modify 	#
 #################
 
+#####################
+# show contacts     #
+#####################
 
+if ($action=="showcontacts")
+{
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	for ($i=0;$i<count($mi_connectors);$i++){
+
+          $comm_type=params($mi_connectors[$i]);
+          $comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
+          $message=mi_command($comm,$errors,$status);
+		  print_r($message);
+          print_r($errors);
+          $status = trim($status);
+     }
+
+}
+
+#####################
+# end show contacts #
+#####################
 
 ################
 # start delete #
