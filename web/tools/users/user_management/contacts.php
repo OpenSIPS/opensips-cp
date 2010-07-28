@@ -65,13 +65,18 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	$comm_type=params($mi_connectors[$i]);
     $comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
     $message=mi_command($comm,$errors,$status);
-    print_r($errors);
+//    print_r($errors);
     $status = trim($status);
 }
 unset($contact);
 if ($message == NULL) 
 	echo "The user is not registered!";
 else{
+	$stupidtags = array("&lt;","&gt;");
+    $goodtags = array("<",">");
+
+	$message=str_replace($stupidtags,$goodtags,$message);
+
 	$temp=explode(";",$message);
 	preg_match_all('/Contact:: <.+?>/', $message, $mcontact);
 	for ($i=0;$i<count($mcontact[0]);$i++){
