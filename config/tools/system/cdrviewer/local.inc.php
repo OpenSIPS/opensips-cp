@@ -42,11 +42,11 @@
  
  
  // what fields to show  
- $show_field[0]['caller_id'] = "Caller" ; 
- $show_field[1]['callee_id'] = "Callee" ; 
- $show_field[2]['call_start_time'] = "Call Start Time";
- $show_field[3]['duration'] = "Duration"; 
- $show_field[4]['leg_type'] = "Leg Type"; 
+ $show_field[0]['sip_call_id'] = "Sip Call ID" ; 
+ $show_field[1]['sip_from_tag'] = "Sip From Tag" ; 
+ $show_field[2]['sip_to_tag'] = "Sip To Tag";
+ $show_field[3]['call_start_time'] = "Call Start Time";
+ $show_field[4]['duration'] = "Duration"; 
  
  
 /*  
