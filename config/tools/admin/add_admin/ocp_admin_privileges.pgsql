@@ -1,6 +1,6 @@
 CREATE SEQUENCE admin_id_seq;
 CREATE TABLE ocp_admin_privileges (
-  id int(10) integer Primary KEY DEFAULT nextval(admin_id_seq),
+  id integer Primary KEY DEFAULT nextval('admin_id_seq'),
   first_name text NOT NULL default '',
   last_name text NOT NULL default '',
   username text NOT NULL default '',
