@@ -198,7 +198,10 @@
 
    </div>
  </td>
-
+ </tr>
+ <tr>
+  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=$resultset[0]['attrs']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b></td>

@@ -85,6 +85,10 @@
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
+  <td class="searchRecord">Attributes :</td>
+  <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$_SESSION['rules_search_attrs']?>" maxlength="128" class="searchInput"></td>
+ </tr>
+ <tr>
   <td class="searchRecord">Description :</td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['rules_search_description']?>" maxlength="128" class="searchInput"></td>
  </tr>
@@ -113,6 +117,7 @@
   <td class="dataTitle">Priority</td>
   <td class="dataTitle">Route ID</td>
   <td class="dataTitle">GW List</td>  
+  <td class="dataTitle">Attributes</td>
   <td class="dataTitle">Description</td>
   <td class="dataTitle">Details</td>
   <td class="dataTitle">Edit</td>
@@ -123,7 +128,7 @@
   else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by ruleid asc";
  $resultset = $link->queryAll($sql_command);
  $data_no=count($resultset);
- if ($data_no==0) echo('<tr><td colspan="10" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=$config->results_per_page;
@@ -153,6 +158,8 @@
    if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
    else if ( preg_match('/[#][0-9]+/',$resultset[$i]['gwlist'])) $gwlist=parse_list($resultset[$i]['gwlist']);
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
+   if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
+    else $attrs="&nbsp;";
    if (strlen($resultset[$i]['description'])>18) $description=substr($resultset[$i]['description'],0,15)."...";
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
@@ -168,6 +175,7 @@
   <td class="<?=$row_style?>"><?=$resultset[$i]['priority']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['routeid']?></td>
   <td class="<?=$row_style?>"><?=$gwlist?></td>
+  <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>" align="center" rowspan="2"><?=$details_link?></td>
   <td class="<?=$row_style?>" align="center" rowspan="2"><?=$edit_link?></td>
@@ -181,7 +189,7 @@
  }
 ?>
  <tr>
-  <td colspan="10" class="dataTitle">
+  <td colspan="11" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">

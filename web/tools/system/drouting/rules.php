@@ -61,7 +61,7 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    $sql = "update ".$table." set groupid='".$groupid."', prefix='".$prefix."', timerec='".$timerec."', priority='".$priority."', routeid='".$routeid."', gwlist='".$gwlist."', description='".$description."' where ruleid='".$_GET['id']."'";
+                    $sql = "update ".$table." set groupid='".$groupid."', prefix='".$prefix."', timerec='".$timerec."', priority='".$priority."', routeid='".$routeid."', gwlist='".$gwlist."', attrs='".$attrs."',description='".$description."' where ruleid='".$_GET['id']."'";
  		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
@@ -104,8 +104,9 @@
                     $_SESSION['rules_search_priority']="";
                     $_SESSION['rules_search_routeid']="";
                     $_SESSION['rules_search_gwlist']="";
+		    $_SESSION['rules_search_attrs']="";
                     $_SESSION['rules_search_description']="";
-                    $sql = "insert into ".$table." (groupid, prefix, timerec, priority, routeid, gwlist, description) values ('".$groupid."', '".$prefix."', '".$timerec."', '".$priority."', '".$routeid."', '".$gwlist."', '".$description."')";
+                    $sql = "insert into ".$table." (groupid, prefix, timerec, priority, routeid, gwlist, attrs, description) values ('".$groupid."', '".$prefix."', '".$timerec."', '".$priority."', '".$routeid."', '".$gwlist."', '".$attrs."', '".$description."')";
 		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
@@ -168,6 +169,7 @@
                                        $_SESSION['rules_search_priority']="";
                                        $_SESSION['rules_search_routeid']="";
                                        $_SESSION['rules_search_gwlist']="";
+				       $_SESSION['rules_search_attrs']="";
                                        $_SESSION['rules_search_description']="";
                                        $sql_search="";
                                       }
@@ -179,6 +181,7 @@
                                 $_SESSION['rules_search_priority']=$search_priority;
                                 $_SESSION['rules_search_routeid']=$search_routeid;
                                 $_SESSION['rules_search_gwlist']=$search_gwlist;
+				$_SESSION['rules_search_attrs']=$search_attrs;
                                 $_SESSION['rules_search_description']=$search_description;
                                }
         if ($delete=="Delete Matching") {
@@ -198,6 +201,8 @@
                                          $search_gwlist=$_SESSION['rules_search_gwlist'];
                                          if ($search_gwlist!="") $sql_search.=" and gwlist like '%".$search_gwlist."%'";
                                          $search_description=$_SESSION['rules_search_description'];
+					 if ($search_attrs!="") $sql_search.=" and attrs like '%".$search_attrs."%'";
+                                         $search_attrs=$_SESSION['rules_search_attrs'];
                                          if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
                                          $sql = "delete from ".$table." where (1=1) ".$sql_search;
 					 $link->exec($sql);

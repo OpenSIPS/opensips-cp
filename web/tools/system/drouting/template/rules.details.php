@@ -58,6 +58,9 @@
   <td class="dataRecord"><b>Gateway List:</b> <?=$gwlist?></td>
  </tr>
  <tr>
+  <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
+ </tr>
+ <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">

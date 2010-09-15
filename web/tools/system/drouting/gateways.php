@@ -61,7 +61,7 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                $sql = "update ".$table." set type='".$type."', address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', description='".$description."' where gwid='".$_GET['id']."'";
+                $sql = "update ".$table." set type='".$type."', attrs='".$attrs."',address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', description='".$description."' where gwid='".$_GET['id']."'";
 		$resultset = $link->prepare($sql);
 		$resultset->execute();
 		$resultset->free();		
@@ -105,7 +105,8 @@
                     $_SESSION['gateways_search_address']="";
                     $_SESSION['gateways_search_pri_prefix']="";
                     $_SESSION['gateways_search_description']="";
-                    $sql = "insert into ".$table." (type, address, strip, pri_prefix, description) values ('".$type."', '".$address."', '".$strip."', '".$pri_prefix."', '".$description."')";
+		    $_SESSION['gateways_search_attrs']="";
+                    $sql = "insert into ".$table." (type, address,attrs, strip, pri_prefix, description) values ('".$type."', '".$address."','".$attrs."', '".$strip."', '".$pri_prefix."', '".$description."')";
 		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();			
@@ -204,12 +205,14 @@
                               $_SESSION['gateways_search_address']="";
                               $_SESSION['gateways_search_pri_prefix']="";
                               $_SESSION['gateways_search_description']="";
+			      $_SESSION['gateways_search_attrs']="";
                              }
    else {
          $_SESSION['gateways_search_type']=$search_type;
          $_SESSION['gateways_search_address']=$search_address;
          $_SESSION['gateways_search_pri_prefix']=$search_pri_prefix;
          $_SESSION['gateways_search_description']=$search_description;
+	 $_SESSION['gateways_search_attrs']=$search_attrs;
         }
  }
 ##############

@@ -50,9 +50,15 @@
   <td class="dataRecord"><b>PRI Prefix:</b></td>
   <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$resultset[0]['pri_prefix']?>" maxlength="16" class="dataInput"></td>
  </tr>
+
+ <tr>
+  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<? echo htmlspecialchars($resultset[0]['attrs']);?>" maxlength="16" class="dataInput"></td>
+ </tr>
+
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="description" value="<? echo htmlspecialchars($resultset[0]['description']);?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Save" class="formButton"></td>
