@@ -50,6 +50,12 @@
   <td class="dataRecord"><b>PRI Prefix:</b></td>
   <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$pri_prefix?>" maxlength="16" class="dataInput"></td>
  </tr>
+
+ <tr>
+  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="16" class="dataInput"></td>
+ </tr>
+
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
   <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" maxlength="128" class="dataInput"></td>

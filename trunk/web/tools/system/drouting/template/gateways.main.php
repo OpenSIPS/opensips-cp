@@ -27,15 +27,27 @@
  $sql_search="";
  $search_type=$_SESSION['gateways_search_type'];
  if ($search_type!="") $sql_search.=" and type='".$search_type."'";
- $search_address=$_SESSION['gateways_search_address'];
+	 $search_address=$_SESSION['gateways_search_address'];
  if ($search_address!="") {
-                           //$pos=strpos($search_address,"*");
 	 $sql_search.=" and address like '%" . $search_address . "%' ";
- } else $sql_search .=" and address like '%' "; 
+ } else 
+	$sql_search .=" and address like '%' "; 
+ 
  $search_pri_prefix=$_SESSION['gateways_search_pri_prefix'];
- if ($search_pri_prefix!="") $sql_search.=" and pri_prefix='".$search_pri_prefix."'";
+ 
+ if ($search_pri_prefix!="") 
+	$sql_search.=" and pri_prefix='".$search_pri_prefix."'";
+
  $search_description=$_SESSION['gateways_search_description'];
- if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
+
+ if ($search_description!="") 
+	$sql_search.=" and description like '%".$search_description."%'";
+
+ $search_attrs=$_SESSION['gateways_search_attrs'];
+
+ if ($search_attrs!="")
+        $sql_search.=" and attrs like '%".$search_attrs."%'";
+
 ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -53,6 +65,13 @@
   <td class="searchRecord">PRI Prefix :</td>
   <td class="searchRecord" width="200"><input type="text" name="search_pri_prefix" value="<?=$search_pri_prefix?>" maxlength="16" class="searchInput"></td>
  </tr>
+
+ <tr>
+  <td class="searchRecord">Attributes :</td>
+  <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="16" class="searchInput"></td>
+ </tr>
+ <tr>
+
  <tr>
   <td class="searchRecord">Description :</td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$search_description?>" maxlength="128" class="searchInput"></td>
@@ -77,6 +96,7 @@
   <td class="dataTitle">Address</td>
   <td class="dataTitle">Strip</td>
   <td class="dataTitle">PRI Prefix</td>
+  <td class="dataTitle">Attributes</td>
   <td class="dataTitle">Description</td>
   <td class="dataTitle">Status</td>
   <td class="dataTitle">Details</td>
@@ -91,7 +111,7 @@
  	 die('Failed to issue query, error message : ' . $resultset->getMessage());
   }
  $data_no=count($resultset);
- if ($data_no==0) echo('<tr><td colspan="10" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=$config->results_per_page;
@@ -124,6 +144,9 @@
     else $status='<img src="images/active.gif" alt="active"> / '.$data_rows;
    if ($resultset[$i]['pri_prefix']!="") $pri_prefix=$resultset[$i]['pri_prefix'];
     else $pri_prefix="&nbsp;";
+
+   if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
+    else $attrs="&nbsp;";
    $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['gwid'].'"><img src="images/details.gif" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['gwid'].'"><img src="images/edit.gif" border="0"></a>';
    $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="images/trash.gif" border="0"></a>';
@@ -135,6 +158,7 @@
   <td class="<?=$row_style?>"><?=$resultset[$i]['address']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['strip']?></td>
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>
+  <td class="<?=$row_style?>"><?=$attrs?> </td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
   <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
@@ -146,7 +170,7 @@
  }
 ?>
  <tr>
-  <td colspan="10" class="dataTitle">
+  <td colspan="11" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">

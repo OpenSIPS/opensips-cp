@@ -42,6 +42,10 @@
   <td class="dataRecord"><b>PRI Prefix:</b> <?=$resultset[0]['pri_prefix']?></td>
  </tr>
  <tr>
+ <tr>
+  <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
+ </tr>
+ <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">
