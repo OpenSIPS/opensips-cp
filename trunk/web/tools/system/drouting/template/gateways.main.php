@@ -63,12 +63,12 @@
  </tr>
  <tr>
   <td class="searchRecord">PRI Prefix :</td>
-  <td class="searchRecord" width="200"><input type="text" name="search_pri_prefix" value="<?=$search_pri_prefix?>" maxlength="16" class="searchInput"></td>
+  <td class="searchRecord" width="200"><input type="text" name="search_pri_prefix" value="<?=$search_pri_prefix?>" maxlength="128" class="searchInput"></td>
  </tr>
 
  <tr>
   <td class="searchRecord">Attributes :</td>
-  <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="16" class="searchInput"></td>
+  <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
 
