@@ -53,7 +53,7 @@
 
  <tr>
   <td class="dataRecord"><b>Attributes:</b></td>
-  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="16" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
