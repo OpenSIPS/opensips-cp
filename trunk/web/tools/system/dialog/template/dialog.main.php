@@ -113,7 +113,11 @@ else {
         $entry[$i]['h_id'] = $hashie[1];
 
  if(!$_SESSION['read_only']){
+	if ($res['state']==3 || $res['state']==4)
             $delete_link='<a href="'.$page_name.'?action=delete&h_id='.$entry[$i]['h_id'].'&h_entry='.$entry[$i]['h_entry'].'" onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+
+	else
+		$delete_link = "n/a";
         }
 
 echo '<tr>';
