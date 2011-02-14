@@ -43,7 +43,7 @@ for($k=1; $k<=$chart_size; $k++)
 }
 
 $index = $chart_size;
-$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0 OFFSET ".$index;
+$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT ".$index;
 $row = $link->queryAll($sql);
 if(PEAR::isError($row)) {
         die('Failed to issue query, error message : ' . $row->getMessage());

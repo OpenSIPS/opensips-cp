@@ -359,7 +359,7 @@ global $config;
 	}
 	
 	$index = $chart_size;
-	$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT 0, ".$index;
+	$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT ".$index;
 	$row=$link->queryAll($sql);
 	if(PEAR::isError($row)) {
         	die('Failed to issue query, error message : ' . $row->getMessage());
