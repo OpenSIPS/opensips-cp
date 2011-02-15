@@ -263,6 +263,7 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	global $config ;
 	global $export_csv;
 	global $cdr_set_field_names;
+	global $link;
 
 	$cdr_table = $config->cdr_table ;
 
