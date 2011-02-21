@@ -50,11 +50,6 @@ if (!empty($lists)) $gwlist=$lists;
                       $form_error="- invalid <b>Route ID</b> field -";
                      }
   if ($form_valid)
-   if (!is_numeric($routeid)) {
-                               $form_valid=false;
-                               $form_error="- <b>Route ID</b> field must be numeric -";
-                              }
-  if ($form_valid)
    if ($routeid<0) {
                     $form_valid=false;
                     $form_error="- <b>Route ID</b> field must be a positive number -";
