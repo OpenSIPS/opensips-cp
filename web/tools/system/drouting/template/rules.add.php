@@ -159,7 +159,7 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Route ID:</b></td>
-  <td class="dataRecord"><input type="text" name="routeid" value="<?=$routeid?>" maxlength="11" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="routeid" value="" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Gateway List:</b></td>

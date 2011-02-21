@@ -45,7 +45,7 @@ if (!empty($lists)) $gwlist=$lists;
                      $form_error="- <b>Priority</b> field must be a positive number -";
                     }
   if ($form_valid)
-   if ($routeid=="") {
+   if (strpos($routeid," ")!== false) {
                       $form_valid=false;
                       $form_error="- invalid <b>Route ID</b> field -";
                      }
