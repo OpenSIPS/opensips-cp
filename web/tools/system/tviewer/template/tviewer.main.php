@@ -126,7 +126,7 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<img src="images/edit.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i][$config->custom_table_primary_key].'"><img src="images/edit.gif" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i][$config->custom_table_primary_key].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 		}
 ?>
