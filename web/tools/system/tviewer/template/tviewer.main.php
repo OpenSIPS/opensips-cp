@@ -30,12 +30,6 @@ foreach ($config->custom_table_columns as $key => $value){
 		if ($_SESSION[$value] !="")
 			$sql_search.=" and ".$value." like '%".$_SESSION[$value]."%'";
 }
-//$search_setid=$_SESSION['tviewer_setid'];
-//$search_dest=$_SESSION['tviewer_dest'];
-//$search_descr=$_SESSION['tviewer_descr'];
-//if($search_setid !="") $sql_search.=" and setid=" . $search_setid;
-//if($search_dest !="") $sql_search.=" and destination like '%".$search_dest."%'";
-//if($search_descr !="") $sql_search.=" and description like '%".$search_descr."%'";
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
@@ -125,7 +119,6 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i][$config->custom_table_primary_key].'"><img src="images/edit.gif" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i][$config->custom_table_primary_key].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 		}

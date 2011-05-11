@@ -35,6 +35,17 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+#################
+# no action     #
+#################
+//i don't know why I do this ... but it works ... so ... who cares ?
+if ($action==""){
+	unset($_GET);
+	unset($_POST);
+	foreach ($config->custom_table_columns as $key => $value)
+	        unset($_SESSION[$value]);
+
+}
 
 #################
 # start add new #
@@ -153,6 +164,11 @@ if ($action=="modify")
 		$errors= "User with Read-Only Rights";
 	}
 
+	foreach ($config->custom_table_columns as $key => $value)
+		unset($_SESSION[$value]); 
+	unset($_POST);
+	unset($_GET);
+
 }
 #################
 # end modify	#
@@ -186,7 +202,6 @@ if ($action=="delete")
 ################
 if ($action=="dp_act")
 {
-
 	$_SESSION['dispatcher_id']=$_POST['dispatcher_id'];
 
 	$_SESSION[$current_page]=1;
@@ -197,8 +212,8 @@ if ($action=="dp_act")
 		}
 	} else if($search=="Search"){
 		foreach ($config->custom_table_columns as $key => $value){
-                        $_SESSION[$value]=$_POST[$value];
-                }
+        	$_SESSION[$value]=$_POST[$value];
+        }
 	} else if($_SESSION['read_only']){
 
 		$errors= "User with Read-Only Rights";
