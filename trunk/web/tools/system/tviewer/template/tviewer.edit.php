@@ -35,7 +35,6 @@
     $index_row=0;
 	$link->disconnect();
 
-	
 
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
