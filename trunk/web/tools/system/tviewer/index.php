@@ -1,7 +1,7 @@
 <?php
 /*
  * $Id: index.php 133 2009-10-29 18:05:56Z iulia_bublea $
- * Copyright (C) 2008 Voice Sistem SRL
+ * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
  * OpenSIPS SIP server.
