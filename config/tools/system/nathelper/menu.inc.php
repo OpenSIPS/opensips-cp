@@ -1,7 +1,7 @@
 <?php
 /*
  * $Id$
- * Copyright (C) 20080-2010 Voice Sistem SRL
+ * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
  * OpenSIPS SIP server.
