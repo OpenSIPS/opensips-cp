@@ -30,9 +30,9 @@ if (document.getElementById(object_name).value=="") document.getElementById(obje
         var new_value=document.getElementById(object_name+"_value").value;
         var index=0;
         while (index<value_array.length)
-         if (value_array[index]==new_value) {
+         if (value_array[index]==new_value && object_name!="gwlist" ) {
                                              if (object_name=="groupid") alert("Error: Duplicate Group ID value: '"+new_value+"'");
-                                             if (object_name=="gwlist") alert("Error: Duplicate Gateway Address value: '#"+new_value+"'");
+                                             //if (object_name=="gwlist") alert("Error: Duplicate Gateway Address value: '#"+new_value+"'");
                                              return false;
                                             }
           else index+=1;
