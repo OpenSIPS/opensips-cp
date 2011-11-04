@@ -22,25 +22,50 @@
 */
 
 
-function get_priv()
-{
-	if ($_SESSION['user_tabs']=="*") $_SESSION['read_only'] = false;
-	else {
-		$available_tabs = explode(",", $_SESSION['user_tabs']);
-		$available_priv = explode(",", $_SESSION['user_priv']);
+function get_priv() {
 
-		$key = array_search("dispatcher", $available_tabs);
+        $modules = get_modules();
 
+        foreach($modules['Admin'] as $key=>$value) {
+                $all_tools[$key] = $value;
+        }
+        foreach($modules['Users'] as $key=>$value) {
+                $all_tools[$key] = $value;
+        }
+        foreach($modules['System'] as $key=>$value) {
+                $all_tools[$key] = $value;
+        }
 
-		if ($available_priv[$key]=="read-only"){
-			$_SESSION['read_only'] = true;
-		}
-		if ($available_priv[$key]=="read-write"){
-			$_SESSION['read_only'] = false;
-		}
-	}
-	return;
+        if($_SESSION['user_tabs']=="*") {
+                foreach ($all_tools as $lable=>$val) {
+                        $available_tabs[]=$lable;
+                }
+        } else {
+                $available_tabs=explode(",",$_SESSION['user_tabs']);
+        }
+
+        if ($_SESSION['user_priv']=="*") {
+                $_SESSION['read_only'] = false;
+                $_SESSION['permission'] = "Read-Write";
+        } else {
+                $available_privs=explode(",",$_SESSION['user_priv']);
+                if( ($key = array_search("dialog", $available_tabs))!==false) {
+                        if ($available_privs[$key]=="read-only"){
+                                $_SESSION['read_only'] = true;
+                                $_SESSION['permission'] = "Read-Only";
+                        }
+                        if ($available_privs[$key]=="read-write"){
+                                $_SESSION['read_only'] = false;
+                                $_SESSION['permission'] = "Read-Write";
+                        }
+
+                }
+        }
+
+        return;
+
 }
+
 
 function get_proxys_by_assoc_id($my_assoc_id){
 
@@ -90,6 +115,45 @@ function params($box_val){
 	return $comm_type;
 }
 
+function get_modules() {
+         $modules=array();
+         $mod = array();
+         if ($handle=opendir('../../../tools/admin/'))
+         {
+          while (false!==($file=readdir($handle)))
+           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
+           {
+            $modules[$file]=trim(file_get_contents("../../../tools/admin/".$file."/tool.name"));
+           }
+         closedir($handle);
+         $mod['Admin'] = $modules;
+        }
+
+         $modules=array();
+         if ($handle=opendir('../../../tools/users/'))
+         {
+          while (false!==($file=readdir($handle)))
+           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
+           {
+            $modules[$file]=trim(file_get_contents("../../../tools/users/".$file."/tool.name"));
+           }
+          closedir($handle);
+          $mod['Users'] = $modules;
+         }
+
+         $modules=array();
+         if ($handle=opendir('../../../tools/system/'))
+         {
+          while (false!==($file=readdir($handle)))
+           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
+           {
+            $modules[$file]=trim(file_get_contents("../../../tools/system/".$file."/tool.name"));
+           }
+          closedir($handle);
+          $mod['System'] = $modules;
+          }
+     return $mod;
+}
 
 
 ?>
