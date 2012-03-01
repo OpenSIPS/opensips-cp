@@ -92,19 +92,12 @@ if ($action=="add_verify")
 			if (count($resultset)>0) {
 				$errors="Duplicate rule";
 			} else {
-				$sql = 'INSERT INTO '.$table.'
-				(grp, ip, mask, port, proto, pattern, context_info) VALUES 
-				(:grp, :src_ip, :mask, :port, :proto, :from_pattern, :context_info)';
-				$resultset = $link->prepare($sql);
-				$resultset->bindParam('grp', $grp);
-				$resultset->bindParam('src_ip', $src_ip);
-				$resultset->bindParam('mask', $mask);
-				$resultset->bindParam('port', $port);
-				$resultset->bindParam('proto', $proto);
-				$resultset->bindParam('from_pattern', $from_pattern);
-				$resultset->bindParam('context_info', $context_info);
-				$resultset->execute();
-				$resultset->free();
+				$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
+				('".$grp."','".$src_ip."','".$mask."','".$port."','".$proto."','".$from_pattern."','".$context_info."')";
+				$resultset = $link->exec($sql);
+				if(PEAR::isError($resultset)) {
+	                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                }
 				$info="The new record was added";
 			}
 			$link->disconnect();
@@ -164,7 +157,7 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE ip='" .$src_ip. "' AND proto='" . $proto. "' AND id!=".$id;
+			$sql = "SELECT * FROM ".$table." WHERE ip_addr='" .$src_ip. "' AND proto='" . $proto. "' AND id!=".$id;
 	                if(PEAR::isError($resultset)) {
                                 die('Failed to issue query, error message : ' . $resultset->getMessage());
                         }
