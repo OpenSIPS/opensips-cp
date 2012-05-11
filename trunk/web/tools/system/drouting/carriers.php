@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id$
+ * $Id: lists.php 287 2011-10-17 09:41:35Z untiptun $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -24,7 +24,8 @@
 
  require("template/header.php");
  include("lib/db_connect.php");
- $table=$config->table_lists;
+ require ("../../../common/mi_comm.php");
+ $table=$config->table_carriers;
  $current_page="current_page_lists";
  
  if (isset($_POST['action'])) $action=$_POST['action'];
@@ -41,12 +42,35 @@
 #################
  if ($action=="details")
  {
-  $sql = "select * from ".$table." where id='".$id."' limit 1";
+  $sql = "select * from ".$table." where carrierid='".$_GET['carrierid']."' limit 1";
   $resultset = $link->queryAll($sql);
+
   if(PEAR::isError($resultset)) {
 	  die('Failed to issue query, error message : ' . $resultset->getMessage());
   }
   $link->disconnect();
+
+  $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,1)) ? "Yes" : "No";
+  $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2)) ? "Yes" : "No";
+  $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,3)) ? "Yes" : "No";
+
+  $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+  $command="dr_carrier_status ".$_GET['carrierid'];
+
+    for ($i=0;$i<count($mi_connectors);$i++){
+        $comm_type=params($mi_connectors[$i]);
+        $message=mi_command($command, $errors, $status);
+    }
+
+
+    $message = explode("\n",trim($message));
+    for ($i=0;$i<count($message);$i++){
+        preg_match('/(?:Enabled=)?([^ ]+)$/',$message[$i],$matchStatus);
+	
+		$resultset[0]['status'] = ($matchStatus[1]=="yes") ? "Active" : "Inactive";
+		
+    }
+
   require("template/".$page_id.".details.php");
   require("template/footer.php");
   exit();
@@ -55,6 +79,46 @@
 # end details #
 ###############
 
+
+#########################
+# start enable carrier  #
+#########################
+if ($action=="enablecar"){
+    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+    $command="dr_carrier_status ".$_GET['carrierid']." 1";
+
+    for ($i=0;$i<count($mi_connectors);$i++){
+        $comm_type=params($mi_connectors[$i]);
+        $message=mi_command($command, $errors, $status);
+    }
+
+    if (trim($status)!="200 OK")
+        echo "Error while enabling carrier ".$_GET['gwid'];
+}
+##################
+# end enable gw  #
+##################
+
+
+#######################
+# start disable gw    #
+#######################
+if ($action=="disablecar"){
+    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+    $command="dr_carrier_status ".$_GET['carrierid']." 0";
+
+    for ($i=0;$i<count($mi_connectors);$i++){
+        $comm_type=params($mi_connectors[$i]);
+        $message=mi_command($command, $errors, $status);
+    }
+    if (trim($status)!="200 OK")
+        echo "Error while disabling carrier ".$_GET['carrierid'];
+}
+##################
+# end disable gw  #
+##################
+
+
 ################
 # start modify #
 ################
@@ -62,7 +126,10 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    $sql = "update ".$table." set gwlist='".$gwlist."', description='".$description."' where id='".$_GET['id']."'";
+			$flags = bindec($useweights.$useonlyfirst.$enabled);
+		
+
+            $sql = "update ".$table." set gwlist='".$gwlist."', flags='".$flags."', description='".$description."' where carrierid='".$_GET['carrierid']."'";
 		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
@@ -80,12 +147,25 @@
 ##############
  if ($action=="edit")
  {
-  $sql = "select * from ".$table." where id='".$_GET['id']."' limit 1";
+  $sql = "select * from ".$table." where carrierid='".$_GET['carrierid']."' limit 1";
   $resultset = $link->queryAll($sql);
   if(PEAR::isError($resultset)) {
 	  die('Failed to issue query, error message : ' . $resultset->getMessage());
   }
 //  $link->disconnect();
+  
+  if (is_numeric((int)$resultset[$i]['flags'])) {
+        $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,1));
+        $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2));
+        $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,3));
+		//print_r($resultset[0]);
+    }
+    else{
+        $resultset[0]['useweights'] = "error";
+        $resultset[0]['useonlyfirst'] = "error";
+        $resultset[0]['enabled'] = "error";
+    }
+  
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -102,18 +182,24 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    $_SESSION['rules_search_gwlist']="";
+  					$flags = bindec($useweights.$useonlyfirst.$enabled);
+                    
+					$_SESSION['rules_search_gwlist']="";
                     $_SESSION['rules_search_description']="";
-                    $sql = "insert into ".$table." (gwlist, description) values ('".$gwlist."', '".$description."')";
-		    $resultset = $link->prepare($sql);
-		    $resultset->execute();
-		    $resultset->free();
-                    $sql = "select * from ".$table." where (1=1)";
-                    $resultset = $link->queryAll($sql);
+                    
+					$sql = "insert into ".$table." (carrierid, gwlist, flags, description) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$description."')";
+
+		
+					$resultset = $link->prepare($sql);
+				    $resultset->execute();
+				    $resultset->free();
+                    
+					$sql = "select count(*) from ".$table." where (1=1)";
+                    $result = $link->queryOne($sql);
                     if(PEAR::isError($resultset)) {
 	                    die('Failed to issue query, error message : ' . $resultset->getMessage());
                     }	
-                    $data_no=count($resultset);
+                    $data_no=$result;
                     $link->disconnect();
                     $page_no=ceil($data_no/10);
                     $_SESSION[$current_page]=$page_no;
@@ -143,11 +229,47 @@
 ################
 # start delete #
 ################
- if ($action=="delete")
- {
-  $sql = "delete from ".$table." where id='".$_GET['id']."'";
-  $link->exec($sql);
+ if ($action=="delete"){
+  $del_id = $_GET['carrierid'];
+  $sql = "delete from ".$table." where carrierid='".$del_id."'";
+  $result = $link->exec($sql);
+  if(PEAR::isError($result)) {
+	die('Failed to issue query, error message : ' . $result->getMessage());
+  }
+
+    $sql_regex = "'(^#".$del_id."(=[^,]+)?,)|(,#".$del_id."(=[^,]+)?$)|(^#".$del_id."(=[^,]+)?$)|(,#".$del_id."(=[^,]+)?,)'";
+
+    $preg_exp1 = "'(^#".$del_id."(=[^,]+)?,)|(,#".$del_id."(=[^,]+)?$)|(^#".$del_id."(=[^,]+)?$)'";
+    $preg_exp2 = "'(,#".$del_id."(=[^,]+)?,)'";
+
+    //remove Carriers from dr_rules
+    if ($config->db_driver == "mysql")
+        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ".$sql_regex;
+    else if ($config->db_driver == "pgsql")
+        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ".$sql_regex;
+
+    $resultset = $link->queryAll($sql);
+
+    if(PEAR::isError($resultset)) {
+        die('Failed to issue query, error message : ' . $resultset->getMessage());
+    }
+    for($i=0;count($resultset)>$i;$i++){
+        $list=$resultset[$i]['gwlist'];
+        if (preg_match($preg_exp1,$list))
+            $list = preg_replace($sql_regex,'',$list);
+        else if (preg_match($preg_exp2,$list))
+            $list = preg_replace($sql_regex,',',$list);
+        $sql = "update ".$config->table_rules." set gwlist='".$list."' where ruleid='".$resultset[$i]['ruleid']."' limit 1";
+        $result = $link->exec($sql);
+        if(PEAR::isError($result)) {
+            die('Failed to issue query, error message : ' . $result->getMessage());
+        }
+    }  
+
+
+
   $link->disconnect();
+
  }
 ##############
 # end delete #

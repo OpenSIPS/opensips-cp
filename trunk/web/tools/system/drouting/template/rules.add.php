@@ -34,23 +34,29 @@
                           echo(' </tr>');
                          }
 ?>
+
  <tr>
-  <td class="dataRecord"><b>Group ID:</b></td>
-  <td class="dataRecord">
-   <input type="text" name="groupid" id="groupid" value="<?=$groupid?>" maxlength="64" readonly class="dataInput">
-   <input type="button" name="clear_groupid" value="Clear" class="formButton" onclick="clearObject('groupid')"><br>
-   <input type="button" name="add_groupid" value="Add" class="formButton" onclick="addElementToObject('groupid')"><?=print_groupids()?>
+  <td class="dataRecord" rowspan="2"><b>Group ID:</b></td>
+  <td class="dataRecord" >
+    <input type="text" name="groupid" id="groupid" value="<?=$groupid?>" maxlength="64" style="width:230px;" readonly class="dataInput">
+    <input type="button" name="clear_groupid" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('groupid')">
   </td>
  </tr>
  <tr>
+  <td class="dataRecord">
+   <?=print_groupids()?>
+   <input type="button" name="add_groupid" value="Add" class="formButton" style="width:50px;" onclick="addElementToObject('groupid')">
+  </td>
+ </tr> 
+ <tr>
   <td class="dataRecord"><b>Prefix:</b></td>
-  <td class="dataRecord"><input type="text" name="prefix" value="<?=$prefix?>" maxlength="64" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="prefix" value="<?=$prefix?>"  style="width:230px;" maxlength="64" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Time Recurrence:</b><br><center><img src="images/info.gif" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
   <td class="dataRecord">
   
-   <select name="time_recurrence" class="dataSelect" id="time_recurrence" onChange="optionChange('time_recurrence')">
+   <select name="time_recurrence" class="dataSelect" id="time_recurrence" style="width:230px;"  onChange="optionChange('time_recurrence')">
     <option value="0">Time Recurrence Disabled</option>
     <option value="1">Time Recurrence Enabled</option>
    </select>
@@ -155,48 +161,42 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Priority:</b></td>
-  <td class="dataRecord"><input type="text" name="priority" value="<?=$priority?>" maxlength="11" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="priority" value="<?=$priority?>" style="width:230px;" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Route ID:</b></td>
-  <td class="dataRecord"><input type="text" name="routeid" value="" maxlength="11" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="routeid" value="" style="width:230px;" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Gateway List:</b></td>
+  <td class="dataRecord"><b>Gateways List:</b></td>
   <td class="dataRecord">
-   <select name="gw_list" class="dataSelect" id="gw_list" onChange="optionClick('gw_list')">
-    <option value="gw_list">--Select--</option>
-    <option value="lists">Use Gateway List</option>
-    <option value="gws">Use Gateways</option>
-   </select>
-
-   <div id='div_gw_list' style="display:none">
-
-    <div id="div_lists" style="display:none">
-     <input type="text" name="lists" id="lists" value="<?php echo $lists;?>" maxlength="255" readonly class="dataInput">
-     <input type="button" name="clear_lists" value="Clear" class="formButton" onclick="clearObject('lists')"><br>
-     <input type="button" name="add_lists" value="Set" class="formButton" onclick="addElement('lists')"><?=print_lists()?>&nbsp;
-
-    </div>
-
-   <div id="div_gws" style="display:none">
-    <input type="text" name="gwlist" id="gwlist" value="<?php echo $gwlist?>" maxlength="255" readonly class="dataInput">
-    <input type="button" name="clear_gwlist" value="Clear" class="formButton" onclick="clearObject('gwlist')"><br>
-    <input type="button" name="add_gwlist" value="Add" class="formButton" onclick="addElementToObject('gwlist')"><?=print_gwlist()?>&nbsp;|&nbsp;
-    <input type="button" name="end_group_gwlist" value="End Group" class="formButton" onclick="endGroupGwList('gwlist')"><br>
-   </div>
-  </div>
- </td>
+   <input type="text"   name="gw_weight" id="gw_weight" value="" maxlength="5" class="dataInput" style="width:38;"> <?=print_gwlist()?>
+   <input type="button" name="add_gwlist" value="Add" class="formButton" style="margin-left:2px;width:50px;" onclick="addGWElementToObject('gwlist','gw_weight')">
+  </td>
  </tr>
-
+ <tr>
+  <td class="dataRecord"><b>Carriers List:</b></td>
+  <td class="dataRecord">
+   <input type="text"   name="car_weight" id="car_weight" value="" maxlength="5" class="dataInput" style="width:38;"> <?=print_carrierlist()?>
+   <input type="button" name="add_carrier" value="Add" class="formButton" style="margin-left:2px;width:50px;" onclick="addCarElementToObject('gwlist','car_weight')">
+  </td>
+ </tr>
+ <tr>
+  <td  class="dataRecord" ><b>Gateway List:</b></td>
+   <td class="dataRecord">
+            <input type="text"   name="gwlist" id="gwlist" value="<?=$gwlist?>" style="width:230px;" maxlength="255" readonly class="dataInput">
+            <input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('gwlist')"><br>
+   </td>
+  </tr>
  <tr>
   <td class="dataRecord"><b>Attributes:</b></td>
-  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="12828 class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" style="width:230px;" maxlength="128" class="dataInput">
+  </td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" style="width:230px;" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>

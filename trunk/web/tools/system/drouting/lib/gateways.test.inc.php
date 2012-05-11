@@ -44,7 +44,7 @@ include("db_connect.php");
                   $form_valid=false;
                   $form_error="- <b>Strip</b> field must be a positive number -";
                  }
-  if ($form_valid) {
+  if ($form_valid && $action!="modify") {
                     $sql="select * from ".$table." where address='".$address."' and type='".$type."' and strip='".$strip."' and pri_prefix='".$pri_prefix."'";
                     $result=$link->queryAll($sql);
 		    if(PEAR::isError($result)) {
@@ -56,6 +56,20 @@ include("db_connect.php");
                      $form_valid=false;
                      $form_error="- this is already a valid gateway -";
                     }
+
+
                    }
+	if ($form_valid && $action!="modify") {
+		$sql="select count(*) from ".$table." where gwid = '".$gwid."'";
+		$result=$link->queryOne($sql);
+		if(PEAR::isError($result)) {
+			die('Failed to issue query, error message : ' . $result->getMessage());
+		}
+		if ($result > 0) {
+			$form_valid=false;
+            $form_error="- GWID already exists -";
+		}
+
+	}
 
 ?>

@@ -41,6 +41,88 @@ if (document.getElementById(object_name).value=="") document.getElementById(obje
        }
 }
 
+function is_pos_int(value){
+    if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+        if (value >= 0)
+            return true;
+        else
+            return false;
+    }
+    else {
+        return false;
+    }
+}
+
+function addGWElementToObject(object_name,weight){
+    var new_weight = document.getElementById(weight).value;
+    if (new_weight!='')
+        if (!is_pos_int(new_weight)){
+            alert("The value of a gateway's weight has to be a positive integer");
+            return false;
+        }
+
+
+    if (document.getElementById(object_name).value==""){
+        if (new_weight!='')
+                document.getElementById(object_name).value += document.getElementById(object_name+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value += document.getElementById(object_name+"_value").value;
+    }
+    else {
+        var values=document.getElementById(object_name).value;
+        var new_value=document.getElementById(object_name+"_value").value;
+
+        if (values.charAt(values.length-1)==",") {
+            if (new_weight!='')
+                document.getElementById(object_name).value += document.getElementById(object_name+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value += document.getElementById(object_name+"_value").value;
+        }
+        else{
+            if (new_weight!='')
+                document.getElementById(object_name).value+=","+document.getElementById(object_name+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value+=","+document.getElementById(object_name+"_value").value;
+        }
+    }
+}
+
+function addCarElementToObject(object_name,weight){
+    var new_weight = document.getElementById(weight).value;
+	var carrier_list = 'carrierlist';
+    if (new_weight!='')
+        if (!is_pos_int(new_weight)){
+            alert("The value of a carrier's weight has to be a positive integer");
+            return false;
+        }
+
+
+
+    if (document.getElementById(object_name).value==""){
+        if (new_weight!='')
+                document.getElementById(object_name).value += '#'+document.getElementById(carrier_list+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value += '#'+document.getElementById(carrier_list+"_value").value;
+    }
+    else {
+        var values=document.getElementById(object_name).value;
+
+        if (values.charAt(values.length-1)==",") {
+            if (new_weight!='')
+                document.getElementById(object_name).value += '#'+document.getElementById(carrier_list+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value += '#'+document.getElementById(carrier_list+"_value").value;
+        }
+        else{
+            if (new_weight!='')
+                document.getElementById(object_name).value+=","+'#'+document.getElementById(carrier_list+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value+=","+'#'+document.getElementById(carrier_list+"_value").value;
+        }
+    }
+}
+
+
 function endGroupGwList(object_name)
 {
  var values=document.getElementById(object_name).value;

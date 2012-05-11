@@ -1,6 +1,6 @@
 <!--
  *
- * $Id$
+ * $Id: lists.details.php 287 2011-10-17 09:41:35Z untiptun $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -32,9 +32,23 @@
  <tr>
   <td class="dataRecord"><b>Gateway List:</b> <?=$resultset[0]['gwlist']?></td>
  </tr>
+
+ <tr>
+   <td class="dataRecord"><b>Use weights:</b> <?=$resultset[0]['useweights']?></td> 
+ </tr>
+ <tr>
+    <td class="dataRecord"><b>Use only first:</b> <?=$resultset[0]['useonlyfirst']?></td>
+ </tr>
+
+ <tr>
+     <td class="dataRecord"><b>Enabled:</b> <?=$resultset[0]['enabled']?></td>
+ </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
+ <tr>
+   <td class="dataRecord"><b>Status:</b> <?=$resultset[0]['status']?></td>
+  </tr>
  <tr height="10">
   <td class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>

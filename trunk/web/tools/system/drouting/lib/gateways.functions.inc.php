@@ -22,25 +22,11 @@
  */
 
 
-function get_status($id)
-{
- global $link;
-// include("db_connect.php");
- require_once("../../../../config/db.inc.php");
- global $config;
- if ($config->db_driver == "mysql") 
- 	$sql="select ruleid from ".$config->table_rules." where gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)|(^#".$id."$)'";
- else if ($config->db_driver == "pgsql")
-	 $sql="select ruleid from ".$config->table_rules." where gwlist ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)|(^#".$id."$)'";
- $result=$link->queryAll($sql);
- if(PEAR::isError($result)) {
-	 die('Failed to issue query, error message : ' . $result->getMessage());
- }
- $data_no = count($result);
- return($data_no);
+function get_status($gwid){
+
 }
 
-function get_types($name, $set)
+function get_types($name, $set, $width=200)
 {
  $filename = "../../../../config/tools/system/drouting/gw_types.txt";
  $handle = fopen($filename, "r");
@@ -52,7 +38,7 @@ function get_types($name, $set)
   $content[] = trim(substr($buffer, $pos, strlen($buffer)));
  }
  fclose($handle);
- echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect">');
+ echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect" style="width:'.$width.';">');
  if ($name=="search_type") echo('<option value="">- all types -</option>');
  
  for ($i=0; $i<count($values); $i++)

@@ -24,7 +24,10 @@
  
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dataTitle">Detailed view for Gateway #<?=$_GET['id']?></td>
+  <td class="dataTitle">Detailed view for Gateway <?=$_GET['gwid']?></td>
+ </tr>
+ <tr>
+ 	<td class="dataRecord"><b>ID:</b> <?=$resultset[0]['id']?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Gateway ID:</b> <?=$resultset[0]['gwid']?></td>
@@ -41,6 +44,18 @@
  <tr>
   <td class="dataRecord"><b>PRI Prefix:</b> <?=$resultset[0]['pri_prefix']?></td>
  </tr>
+<tr>
+  	<td class="dataRecord"><b>Probe mode:</b> 
+		<?php 
+			switch ($resultset[0]['probe_mode']){
+				case "0" : echo "0 - Never"; break;
+				case "1" : echo "1 - When disabled"; break;
+				case "2" : echo "2 - Always"; break;
+			}
+		?>
+	</td>
+ </tr>
+
  <tr>
  <tr>
   <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>

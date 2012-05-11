@@ -62,6 +62,28 @@ function get_gwlist()
  return($values);
 }
 
+function get_carrierlist()
+{
+ //include("db_connect.php");
+ global $link;
+ global $config;
+ $index = 0;
+ $values = array();
+ $sql="select * from ".$config->table_carriers." where (1=1) order by carrierid asc";
+ $result=$link->queryAll($sql);
+ if(PEAR::isError($result)) {
+    die('Failed to issue query, error message : ' . $result->getMessage());
+ }
+ for($i=0;count($result)>$i;$i++)
+ {
+  $values[$index][0] = $result[$i]['carrierid'];
+  $values[$index][1] = $result[$i]['description'];
+  $index++;
+ }
+ return($values);
+}
+
+
 function print_groupids()
 {
  global $config;
@@ -76,7 +98,7 @@ function print_groupids()
    $content[] = trim(substr($buffer, $pos, strlen($buffer)));
   }
   fclose($handle);
-  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect">');
+  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:230px; margin-left:1px; margin-top:2px;">');
   for ($i=0; $i<sizeof($values); $i++)
    if($values[$i]!="")
 	echo('<option value="'.$values[$i].'">'.$values[$i].' - '.$content[$i].'</option>');
@@ -85,7 +107,7 @@ function print_groupids()
  if ($config->group_id_method=="dynamic") {
   $values = get_groupids();
   sort($values);
-  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect">');
+  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:230px; margin-left:1px; margin-top:2px;">');
   for ($i=0; $i<sizeof($values); $i++)
    echo('<option value="'.$values[$i].'">'.$values[$i].'</option>');
   echo('</select>');
@@ -122,18 +144,38 @@ function print_gwlist()
  $start_index = 0;
  $end_index = sizeof($array_values);
 ?>
- <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect">
+ <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect" style="width:186px; margin-left:1px;margin-top:2px;">
  <?php
   for ($i=$start_index;$i<$end_index;$i++)
   {
    if (strlen($array_values[$i][2]) < 25) $desc = $array_values[$i][2];
     else $desc = substr($array_values[$i][2], 0, 25) . "...";
-   echo('<option value="'.$array_values[$i][0].'"> (#'.$array_values[$i][0].') '.$array_values[$i][1].' / '.$desc.'</option>');
+   echo('<option value="'.$array_values[$i][0].'"> ('.$array_values[$i][0].') '.$array_values[$i][1].' / '.$desc.'</option>');
   }
  ?>
  </select>
 <?php
 }
+
+function print_carrierlist()
+{
+ $array_values = get_carrierlist();
+ $start_index = 0;
+ $end_index = sizeof($array_values);
+?>
+ <select name="carrierlist_value" id="carrierlist_value" size="1" class="dataSelect" style="width:186px; margin-left:1px;margin-top:2px;">
+ <?php
+  for ($i=$start_index;$i<$end_index;$i++)
+  {
+   if (strlen($array_values[$i][1]) < 25) $desc = $array_values[$i][1];
+    else $desc = substr($array_values[$i][1], 0, 25) . "...";
+   echo('<option value="'.$array_values[$i][0].'"> (#'.$array_values[$i][0].')  / '.$desc.'</option>');
+  }
+ ?>
+ </select>
+<?php
+}
+
 
 function print_object($obj_name, $start_value, $end_value, $select_value)
 {
@@ -298,7 +340,12 @@ function parse_gwlist($gwlist_string)
  $string_return="";
  for($i=0;$i<sizeof($buffer);$i++)
  {
-  $string_return.=' <a href="gateways.php?action=details&id='.$buffer[$i].'" class="gwList">'.$buffer[$i].'</a>';
+  $temp = explode ("=",$buffer[$i]);
+  $gwOrCarrierid = $temp[0];
+  if ($gwOrCarrierid[0]=="#") 
+	  $string_return.=' <a href="carriers.php?action=details&carrierid='.substr($gwOrCarrierid,1).'" class="gwList">'.$buffer[$i].'</a>';
+  else
+  	  $string_return.=' <a href="gateways.php?action=details&gwid='.$gwOrCarrierid.'" class="gwList">'.$buffer[$i].'</a>';
   $len_val=strlen($buffer[$i]);
   $gwlist_string=substr($gwlist_string,$len_val,strlen($gwlist_string));
   $string_return.=substr($gwlist_string,0,1);

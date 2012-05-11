@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id$
+ * $Id: lists.functions.inc.php 287 2011-10-17 09:41:35Z untiptun $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -21,6 +21,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+
+
+function fmt_binary($x, $numbits, $retbit) {
+        // Convert to binary
+        $bin = decbin($x);
+        $bin = substr(str_repeat(0,$numbits),0,$numbits - strlen($bin)) . $bin;
+        // Split into x 4-bits long
+        $rtnval = '';
+        for ($x = 0; $x < $numbits/4; $x++) {
+            $rtnval .= ' ' . substr($bin,$x*4,4);
+        }
+    	// Get rid of first space.
+	    return ltrim($rtnval[$retbit]);
+} 
 
 function get_groupids()
 {
@@ -122,12 +136,13 @@ function print_gwlist()
  $start_index = 0;
  $end_index = sizeof($array_values);
 ?>
- <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect">
+ <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect" style="width:230px; margin-left:1px;margin-top:2px;">
  <?php
-  for ($i=$start_index;$i<$end_index;$i++)
-  {
-   if (strlen($array_values[$i][2]) < 25) $desc = $array_values[$i][2];
-    else $desc = substr($array_values[$i][2], 0, 25) . "...";
+  for ($i=$start_index;$i<$end_index;$i++){
+   if (strlen($array_values[$i][2]) < 25) 
+   	$desc = $array_values[$i][2];
+   else 
+   	$desc = substr($array_values[$i][2], 0, 25) . "...";
    echo('<option value="'.$array_values[$i][0].'"> (#'.$array_values[$i][0].') '.$array_values[$i][1].' / '.$desc.'</option>');
   }
  ?>
@@ -298,7 +313,9 @@ function parse_gwlist($gwlist_string)
  $string_return="";
  for($i=0;$i<sizeof($buffer);$i++)
  {
-  $string_return.=' <a href="gateways.php?action=details&id='.$buffer[$i].'" class="gwList">'.$buffer[$i].'</a>';
+  $temp = explode ("=",$buffer[$i]);
+  $gatewayid = $temp[0];
+  $string_return.=' <a href="gateways.php?action=details&gwid='.$gatewayid.'" class="gwList">'.$buffer[$i].'</a>';
   $len_val=strlen($buffer[$i]);
   $gwlist_string=substr($gwlist_string,$len_val,strlen($gwlist_string));
   $string_return.=substr($gwlist_string,0,1);
