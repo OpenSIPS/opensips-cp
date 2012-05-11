@@ -35,8 +35,12 @@
                          }
 ?>
  <tr>
+   <td class="dataRecord"><b>GWID:</b></td>
+   <td class="dataRecord" width="275"><input type="text" name="gwid" value="<?=$resultset[0]['gwid']?>" maxlength="128" class="dataInput"></td>
+ </tr>
+ <tr>
   <td class="dataRecord"><b>Type:</b></td>
-  <td class="dataRecord" width="275"><?=get_types("type",$resultset[0]['type'])?></td>
+  <td class="dataRecord" width="275"><?=get_types("type",$resultset[0]['type'],275)?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Address:</b></td>
@@ -46,11 +50,20 @@
   <td class="dataRecord"><b>Strip:</b></td>
   <td class="dataRecord"><input type="text" name="strip" value="<?=$resultset[0]['strip']?>" maxlength="11" class="dataInput"></td>
  </tr>
- <tr>
+  <tr>
   <td class="dataRecord"><b>PRI Prefix:</b></td>
   <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$resultset[0]['pri_prefix']?>" maxlength="16" class="dataInput"></td>
  </tr>
-
+<tr>
+  <td class="searchRecord"><b>Probe Mode:</b></td>
+  <td class="searchRecord" width="200">
+    <select id="probe_mode" name="probe_mode" class="dataSelect" style="width: 275px;">
+     <option value="0" <?php if ($resultset[0]['probe_mode']==0) echo "selected";?>>0 - Never</option>
+     <option value="1" <?php if ($resultset[0]['probe_mode']==1) echo "selected";?>>1 - When disabled</option>
+     <option value="2" <?php if ($resultset[0]['probe_mode']==2) echo "selected";?>>2 - Always</option>
+    </select>
+  </td>
+ </tr>
  <tr>
   <td class="dataRecord"><b>Attributes:</b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<? echo htmlspecialchars($resultset[0]['attrs']);?>" maxlength="16" class="dataInput"></td>

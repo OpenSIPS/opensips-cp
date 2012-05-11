@@ -1,6 +1,6 @@
 <?php
 /*
- * $Id$
+ * $Id: lists.test.inc.php 287 2011-10-17 09:41:35Z untiptun $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -31,20 +31,20 @@
   
   if ($form_valid) {
                     // make $gwlist
-                    if (substr($gwlist,strlen($gwlist)-1,1)==";") $gwlist=substr($gwlist,0,strlen($gwlist)-1);
                     if (substr($gwlist,strlen($gwlist)-1,1)==",") $gwlist=substr($gwlist,0,strlen($gwlist)-1);
   }
-                    $sql="select * from ".$table." where gwlist='".$gwlist."'";
-		    $result = $link->queryAll($sql);
-		    if(PEAR::isError($resultset)) {
-                                die('Failed to issue query, error message : ' . $resultset->getMessage());
+  if ($action != "edit"){
+                    $sql="select count(*) from ".$table." where carrierid='".$gwlist."'";
+				    $result = $link->queryOne($sql);
+				    if(PEAR::isError($result)) {
+	                    die('Failed to issue query, error message : ' . $result->getMessage());
                     }	
-                    $data_rows=count($result);
-                    if (($data_rows>0) && ($result[0]['id']!=$_GET['id']))
+                    $data_rows=$result;
+                    if (($data_rows>0))
                     {
                      $form_valid=false;
-                     $form_error="- this is already a valid rule -";
+                     $form_error="- this carrier already exists -";
                     }
-                   
+ }
 
 ?>

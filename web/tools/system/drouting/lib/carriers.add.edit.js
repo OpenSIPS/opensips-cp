@@ -20,25 +20,50 @@ function clearObject(object_name)
  }
 }
 
-function addElementToObject(object_name)
-{
- if (document.getElementById(object_name).value=="") document.getElementById(object_name).value=document.getElementById(object_name+"_value").value;
-  else {
+function is_pos_int(value){
+	if((parseFloat(value) == parseInt(value)) && !isNaN(value)){
+		if (value >= 0)
+	    	return true;
+		else
+			return false;
+	} 
+	else {
+		return false;
+	}
+}
+
+function addElementToObject(object_name,weight){
+	var new_weight = document.getElementById(weight).value;
+	if (new_weight!='')
+		if (!is_pos_int(new_weight)){
+			alert("The value of the gateway's weight has to be a positive integer");
+			return false;
+		}
+				
+	
+	if (document.getElementById(object_name).value==""){
+		if (new_weight!='')
+                document.getElementById(object_name).value += document.getElementById(object_name+"_value").value+'='+new_weight;
+            else
+                document.getElementById(object_name).value += document.getElementById(object_name+"_value").value;
+	}
+	else {
         var values=document.getElementById(object_name).value;
-        values_modified=values.replace(/;/g,",");
-        var value_array=values_modified.split(",");
         var new_value=document.getElementById(object_name+"_value").value;
-        var index=0;
-        while (index<value_array.length)
-         if (value_array[index]==new_value) {
-                                             if (object_name=="groupid") alert("Error: Duplicate Group ID value: '"+new_value+"'");
-                                             if (object_name=="gwlist") alert("Error: Duplicate Gateway Address value: '#"+new_value+"'");
-                                             return false;
-                                            }
-          else index+=1;
-        if ((values.charAt(values.length-1)==";") || (values.charAt(values.length-1)==",")) document.getElementById(object_name).value+=document.getElementById(object_name+"_value").value;
-         else document.getElementById(object_name).value+=","+document.getElementById(object_name+"_value").value;
-       }
+        
+		if (values.charAt(values.length-1)==",") {
+			if (new_weight!='')
+				document.getElementById(object_name).value += document.getElementById(object_name+"_value").value+'='+new_weight;
+			else
+ 				document.getElementById(object_name).value += document.getElementById(object_name+"_value").value;
+		}
+        else{ 
+			if (new_weight!='')
+				document.getElementById(object_name).value+=","+document.getElementById(object_name+"_value").value+'='+new_weight;
+			else
+				document.getElementById(object_name).value+=","+document.getElementById(object_name+"_value").value;
+		}
+	}
 }
 
 function endGroupGwList(object_name)

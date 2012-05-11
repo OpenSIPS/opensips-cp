@@ -35,8 +35,12 @@
                          }
 ?>
  <tr>
+   <td class="dataRecord"><b>GWID:</b></td>
+   <td class="dataRecord" width="275"><input type="text" name="gwid" value="<?=$gwid?>" maxlength="128" class="dataInput"></td>
+ </tr>
+ <tr>
   <td class="dataRecord"><b>Type:</b></td>
-  <td class="dataRecord" width="275"><?=get_types("type",$config->default_gw_type)?></td>
+  <td class="dataRecord" width="275"><?=get_types("type",$config->default_gw_type,"275")?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Address:</b></td>
@@ -50,7 +54,16 @@
   <td class="dataRecord"><b>PRI Prefix:</b></td>
   <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$pri_prefix?>" maxlength="16" class="dataInput"></td>
  </tr>
-
+ <tr>
+  <td class="searchRecord"><b>Probe Mode:</b></td>
+  <td class="searchRecord" width="200">
+    <select id="probe_mode" name="probe_mode" class="dataSelect" style="width: 275px;">
+     <option value="0" selected>0 - Never</option>
+     <option value="1">1 - When disabled</option>
+     <option value="2">2 - Always</option>
+    </select>
+  </td>
+ </tr>
  <tr>
   <td class="dataRecord"><b>Attributes:</b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>

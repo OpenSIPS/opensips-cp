@@ -105,6 +105,7 @@ a.menuItemSelect:hover {
 	border: #999999 1px solid;
 	font-size: 10px;
 	color: #000000;
+	width: 200px;
 }
 a.gwList {
 	font-size: 12px;

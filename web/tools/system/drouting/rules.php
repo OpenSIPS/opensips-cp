@@ -110,12 +110,12 @@
 		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
-                    $sql = "select * from ".$table." where (1=1)";
-                    $resultset = $link->queryAll($sql);
-                    if(PEAR::isError($resultset)) {
-	                    die('Failed to issue query, error message : ' . $resultset->getMessage());
+                    $sql = "select count(*) from ".$table." where (1=1)";
+                    $result = $link->queryOne($sql);
+                    if(PEAR::isError($result)) {
+	                    die('Failed to issue query, error message : ' . $result->getMessage());
                     }
-                    $data_no=count($resultset);
+                    $data_no=$result;
                     $page_no=ceil($data_no/10);
                     $_SESSION[$current_page]=$page_no;
                    }

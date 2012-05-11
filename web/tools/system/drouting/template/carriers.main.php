@@ -1,6 +1,6 @@
 <!--
  *
- * $Id$
+ * $Id: lists.main.php 287 2011-10-17 09:41:35Z untiptun $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -26,31 +26,31 @@
 <?php
 
  $sql_search="";
- $search_gwlist=$_SESSION['rules_search_gwlist'];
+ $search_gwlist=$_SESSION['carriers_search_gwlist'];
  if ($search_gwlist!="") {
                           $id=$search_gwlist;
                           $id=str_replace("*",".*",$id);
                           $id=str_replace("%",".*",$id);
 			if ( $config->db_driver == "mysql" )
-                          $sql_search.=" and gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+                          $sql_search.=" and gwlist regexp '(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'";
 			else if ( $config->db_driver == "pgsql" )
-                          $sql_search.=" and gwlist ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+                          $sql_search.=" and gwlist ~* '(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'";
                          }
 
- $search_description=$_SESSION['rules_search_description'];
+ $search_description=$_SESSION['carriers_search_description'];
  if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
 ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="searchTitle">Search GW LIST by</td>
+  <td colspan="2" class="searchTitle">Search carriers by</td>
  </tr>
  <tr>
   <td class="searchRecord"> GW List: </td>
-  <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
+  <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['carriers_search_gwlist']?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
   <td class="searchRecord">Description: </td>
-  <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['rules_search_description']?>" maxlength="128" class="searchInput"></td>
+  <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['carriers_search_description']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
   <td colspan="2" class="searchRecord" align="center">
@@ -73,20 +73,53 @@
 <table width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td class="dataTitle">ID</td>
+  <td class="dataTitle">GW ID</td>
   <td class="dataTitle">GW List</td>  
+  <td class="dataTitle">Use weights</td>
+  <td class="dataTitle">Use only first</td>
+  <td class="dataTitle">Enabled</td>
   <td class="dataTitle">Description</td>
+  <td class="dataTitle">Status</td>
+  <td class="dataTitle">Details</td>
   <td class="dataTitle">Edit</td>
   <td class="dataTitle">Delete</td>
  </tr>
 <?php
- if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc ";
-  else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc ";
- $resultset=$link->queryAll($sql_command);
- if(PEAR::isError($resultset)) {
+	//get status for all the gws
+	$carrier_statuses = Array ();
+
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$command="dr_carrier_status";
+
+	for ($i=0;$i<count($mi_connectors);$i++){
+    	$comm_type=params($mi_connectors[$i]);
+	    $message=mi_command($command, $errors, $status);
+	}
+
+
+	$message = explode("\n",trim($message));
+	for ($i=0;$i<count($message);$i++){
+    	preg_match('/^(?:ID:: )?([^ ]+)/',$message[$i],$matchCarID);
+	    preg_match('/(?:Enabled=)?([^ ]+)$/',$message[$i],$matchStatus);
+
+    	$carrier_statuses[$matchCarID[1]]= $matchStatus [1];
+	}
+//end get status
+
+ if ($sql_search=="") 
+ 	$sql_command="from ".$table." where (1=1) order by id asc ";
+ else 
+ 	$sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc ";
+
+ $sql_command_count = "select count(*) ".$sql_command;
+ $sql_command = "select * ".$sql_command;
+
+ $result=$link->queryOne($sql_command_count);
+ if(PEAR::isError($result)) {
          die('Failed to issue query, error message : ' . $resultset->getMessage());
  }
- $data_no=count($resultset);
- if ($data_no==0) echo('<tr><td colspan="10" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ $data_no=$result;
+ if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=$config->results_per_page;
@@ -112,16 +145,48 @@
     else $row_style="rowEven";
    if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
-    if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
-     //    else $description="&nbsp;";
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'" onclick="return confirmDelete(\''.$resultset[$i]['id'].'\')" ><img src="images/trash.gif" border="0"></a>';
+	//handle flags
+	if (is_numeric($resultset[$i]['flags'])) {
+		$useweights   = (fmt_binary($resultset[$i]['flags'],3,1)) ? "Yes" : "No" ;
+		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],3,2)) ? "Yes" : "No" ;
+		$enabled      =	(fmt_binary($resultset[$i]['flags'],3,3)) ? "Yes" : "No" ;
+	}
+	else{
+		$useweights = "error";
+		$usefirstonly = "error";
+		$enabled = "error";
+	}
+	
+    if ($resultset[$i]['description']!="") 
+		$description=$resultset[$i]['description'];
+    else 
+		$description="&nbsp;";
+
+
+	//handle status
+	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
+
+	   if ($carrier_status=="yes")
+	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="images/active.gif" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
+      else
+	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="images/inactive.gif" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
+
+	//edit and delete links					 
+   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="images/details.gif" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="images/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="images/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
   <td class="<?=$row_style?>"><?=$resultset[$i]['id']?></td>	
+  <td class="<?=$row_style?>"><?=$resultset[$i]['carrierid']?></td>	
   <td class="<?=$row_style?>"><?=$gwlist?></td>
+  <td class="<?=$row_style?>" align="center"><?=$useweights?></td>
+  <td class="<?=$row_style?>" align="center"><?=$useonlyfirst?></td>
+  <td class="<?=$row_style?>" align="center"><?=$enabled?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
+  <td class="<?=$row_style?>" align="center"><?=$status?></td>
+  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$details_link?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$delete_link?></td>
  </tr>
@@ -130,7 +195,7 @@
  }
 ?>
  <tr>
-  <td colspan="10" class="dataTitle">
+  <td colspan="11" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">
