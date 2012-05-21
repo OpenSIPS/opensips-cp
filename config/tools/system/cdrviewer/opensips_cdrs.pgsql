@@ -1,6 +1,6 @@
 CREATE LANGUAGE plpgsql;
 ALTER TABLE acc ADD COLUMN cdr_id integer NOT NULL DEFAULT 0;
-CREATE OR REPLACE FUNCTION opensips_cdrs_1_6() RETURNS text AS $$
+CREATE OR REPLACE FUNCTION opensips_cdrs() RETURNS text AS $$
 DECLARE   bye_record  integer DEFAULT 0;
           v_callid varchar;
           v_from_tag varchar;
