@@ -113,12 +113,12 @@ The cdrviewer tool uses a mysql stored procedure, and there is no stored procedu
 		or 
 	psql -h host_name -U postgres_username -d opensips < cdrs.pgsql
 	
-	2. * for mysql install opensips_cdrs_1_6.mysql , a mysql stored procedure that generates cdr records
+	2. * for mysql install opensips_cdrs.mysql , a mysql stored procedure that generates cdr records
 	from the acc table :  
 	
-	mysql -Dopensips -p < opensips_cdrs_1_6.mysql
+	mysql -Dopensips -p < opensips_cdrs.mysql
 
- 	  * for postgres install opensips_cdrs_1_6.postgres, a postgresql procedure that generates cdr records 
+ 	  * for postgres install opensips_cdrs.postgres, a postgresql procedure that generates cdr records 
 	from the acc table:      
 	
 

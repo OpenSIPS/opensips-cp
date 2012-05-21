@@ -10,7 +10,7 @@ The permissions tool is used for determining if a call has appropriate permissio
 to be established. For the time being, just the address table is available. This tool allows deleting, searching and adding database transactions, and it also lists the whole trusted table content.
 
 The permissions module documentation can be found at the following link: 
-http://www.opensips.org/html/docs/modules/1.6.x/permissions.html
+http://www.opensips.org/html/docs/modules/1.8.x/permissions.html
 
 Configuration
 -------------------

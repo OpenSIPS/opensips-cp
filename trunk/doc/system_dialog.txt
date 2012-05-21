@@ -6,7 +6,7 @@ Description
 The dialog tools is a graphical interface for the dialog module in OpenSIPS.
 It gives the opportunity to view the ongoing dialogs and stop them.
 You can find the dialog module documentation here:
-http://www.opensips.org/html/docs/modules/1.6.x/dialog.html
+http://www.opensips.org/html/docs/modules/1.8.x/dialog.html
 
 
 Configuration

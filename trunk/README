@@ -8,7 +8,7 @@ OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL/PG
 backend. 
 
 
-OpenSIPS Control Panel version 4.0 is compatible with OpenSIPS 1.6.x.
+OpenSIPS Control Panel version 5.0 is compatible with OpenSIPS 1.8.x.
 
 
 OpenSIPS Control Panel currently features 3 main categories:
@@ -23,6 +23,8 @@ OpenSIPS Control Panel currently features 3 main categories:
 	alias_management - feature for adding/deleting users aliases
 
 	user_management - the admin can add new users, view all users and operate on their account
+
+	acl_management - provisioning of user's ACLs based on "group" module
 
 * system
 	cdrviewer - allows cdr search and listing 
@@ -52,6 +54,8 @@ OpenSIPS Control Panel currently features 3 main categories:
 	siptrace   -  this is an interface with the siptrace engine of OpenSIPS
 
 	smonitor - tool for monitoring the internals of OpenSIPS . It shows nice graphs.
+
+	tviewer - tool managing (insert, delete, update) generic SQL tables.
 
 
 

@@ -12,7 +12,7 @@ OpenSIPS at any moment from the web interface. It shows a table with OpenSIPS
 dialplan rules, offering the ability to  add , edit, clone  and  delete rules.
 
 You can find  the dialplan module documentation here : 
-http://www.opensips.org/html/docs/modules/1.6.x/dialplan.html
+http://www.opensips.org/html/docs/modules/1.8.x/dialplan.html
 
 Configuration
 -------------------

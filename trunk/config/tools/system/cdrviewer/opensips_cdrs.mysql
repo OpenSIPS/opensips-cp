@@ -1,8 +1,8 @@
 USE opensips ;
 ALTER TABLE acc ADD COLUMN cdr_id bigint(11) not null default 0 AFTER time; 
-DROP PROCEDURE IF EXISTS `opensips_cdrs_1_6` ; 
+DROP PROCEDURE IF EXISTS `opensips_cdrs` ; 
 DELIMITER // 
-CREATE PROCEDURE opensips_cdrs_1_6()
+CREATE PROCEDURE opensips_cdrs()
 BEGIN
   DECLARE done INT DEFAULT 0;
   DECLARE bye_record INT DEFAULT 0;
