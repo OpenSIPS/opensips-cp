@@ -9,7 +9,7 @@ Description
 The siptrace tool uses the info provided by the OpenSIPS siptrace module and 
 shows it on the page in a nice graphical way (messages grouped under calls, with
 flow direction, etc). You can find  the siptrace module documentation here : 
-http://www.opensips.org/html/docs/modules/1.6.x/siptrace.html
+http://www.opensips.org/html/docs/modules/1.8.x/siptrace.html
 
 
 Configuration
