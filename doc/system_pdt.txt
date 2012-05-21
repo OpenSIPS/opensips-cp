@@ -10,7 +10,7 @@ This tool provisions (add, delete, edit) the prefix-to-domain mappings used by t
 (translates a local domain into a foreign domain based on a numerical prefix).
 
 You can find  the pdt module documentation here : 
-(http://www.opensips.org/html/docs/modules/1.6.x/pdt.html)
+(http://www.opensips.org/html/docs/modules/1.8.x/pdt.html)
 
 
 Configuration

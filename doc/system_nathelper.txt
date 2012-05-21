@@ -8,8 +8,9 @@ The nathelper module is being used for helping with NAT traversal.
 The DB List tag is for usual DB transactions: adding, deleting, searching,
 showing the whole content of the table. Cache List tab si for refreshing
 the data, from DB to chache. Nat Ping tag allows the enabling or disabling of nat ping.
-You can find the nathelper module documentation here:
-http://www.opensips.org/html/docs/modules/1.6.x/nathelper.html
+You can find the nathelper & rtpproxy modules documentation here:
+http://www.opensips.org/html/docs/modules/1.8.x/nathelper.html  (pinging management)
+http://www.opensips.org/html/docs/modules/1.8.x/rtpproxy.html  (rtpproxy management)
 
 
 Configuration
