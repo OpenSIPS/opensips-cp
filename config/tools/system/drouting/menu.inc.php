@@ -28,8 +28,8 @@
           "Gateways" // menu name
     ),
     array(
-          "lists.php", // page name
-          "Gateways Lists" // menu name
+          "carriers.php", // page name
+          "Carriers" // menu name
     ),
     array(
           "rules.php", // page name
