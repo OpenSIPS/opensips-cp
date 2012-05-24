@@ -77,8 +77,9 @@
   <td class="dataTitle">GW List</td>  
   <td class="dataTitle">Use weights</td>
   <td class="dataTitle">Use only first</td>
-  <td class="dataTitle">Enabled</td>
+  <td class="dataTitle">Disabled</td>
   <td class="dataTitle">Description</td>
+  <td class="dataTitle">Attributes</td>
   <td class="dataTitle">Status</td>
   <td class="dataTitle">Details</td>
   <td class="dataTitle">Edit</td>
@@ -106,20 +107,22 @@
 	}
 //end get status
 
- if ($sql_search=="") 
+ if ($sql_search=="") {
  	$sql_command="from ".$table." where (1=1) order by id asc ";
- else 
+ 	$sql_command_count = "select count(*) from ".$table." where (1=1)";
+ }
+ else { 
  	$sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc ";
-
- $sql_command_count = "select count(*) ".$sql_command;
+ 	$sql_command_count = "select count(*) from ".$table." where (1=1) ".$sql_search;
+ }
  $sql_command = "select * ".$sql_command;
 
  $result=$link->queryOne($sql_command_count);
  if(PEAR::isError($result)) {
-         die('Failed to issue query, error message : ' . $resultset->getMessage());
+         die('Failed to issue query count , error message : ' . $resultset->getMessage());
  }
  $data_no=$result;
- if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) echo('<tr><td colspan="12" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=$config->results_per_page;
@@ -134,7 +137,7 @@
   else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
   $resultset=$link->queryAll($sql_command);
   if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
+          die('Failed to issue query select, error message : ' . $resultset->getMessage());
   }
   require("lib/".$page_id.".main.js");
   $index_row=0;
@@ -147,9 +150,9 @@
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
 	//handle flags
 	if (is_numeric($resultset[$i]['flags'])) {
-		$useweights   = (fmt_binary($resultset[$i]['flags'],3,1)) ? "Yes" : "No" ;
+		$useweights   = (fmt_binary($resultset[$i]['flags'],3,3)) ? "Yes" : "No" ;
 		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],3,2)) ? "Yes" : "No" ;
-		$enabled      =	(fmt_binary($resultset[$i]['flags'],3,3)) ? "Yes" : "No" ;
+		$enabled      =	(fmt_binary($resultset[$i]['flags'],3,1)) ? "Yes" : "No" ;
 	}
 	else{
 		$useweights = "error";
@@ -162,6 +165,10 @@
     else 
 		$description="&nbsp;";
 
+    if ($resultset[$i]['attrs']!="") 
+		$attrs=$resultset[$i]['attrs'];
+    else 
+		$attrs="&nbsp;";
 
 	//handle status
 	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
@@ -185,6 +192,7 @@
   <td class="<?=$row_style?>" align="center"><?=$useonlyfirst?></td>
   <td class="<?=$row_style?>" align="center"><?=$enabled?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
+  <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$details_link?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>
@@ -195,7 +203,7 @@
  }
 ?>
  <tr>
-  <td colspan="11" class="dataTitle">
+  <td colspan="12" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">

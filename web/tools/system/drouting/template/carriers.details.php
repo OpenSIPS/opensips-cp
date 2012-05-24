@@ -41,10 +41,13 @@
  </tr>
 
  <tr>
-     <td class="dataRecord"><b>Enabled:</b> <?=$resultset[0]['enabled']?></td>
+     <td class="dataRecord"><b>Disabled:</b> <?=$resultset[0]['enabled']?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
+ </tr>
+ <tr>
+  <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
  </tr>
  <tr>
    <td class="dataRecord"><b>Status:</b> <?=$resultset[0]['status']?></td>
