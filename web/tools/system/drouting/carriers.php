@@ -189,8 +189,6 @@ if ($action=="disablecar"){
                     
 					$sql = "insert into ".$table." (carrierid, gwlist, flags, description,attrs) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$description."','".$attrs."')";
 
-					echo $sql;
-		
 					$resultset = $link->prepare($sql);
 				    $resultset->execute();
 				    $resultset->free();
