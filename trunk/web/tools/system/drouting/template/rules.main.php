@@ -25,9 +25,9 @@
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
  if($_SESSION['read-only']) {
-	$colspan=10;
+	$colspan=9;
  } else {
-	$colspan=8;
+	$colspan=7;
  }
  $sql_search="";
  $search_groupid=$_SESSION['rules_search_groupid'];
@@ -160,6 +160,8 @@
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
    if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
     else $attrs="&nbsp;";
+   if ($resultset[$i]['routeid']!="") $routeid=$resultset[$i]['routeid'];
+    else $routeid="&nbsp;";
    if (strlen($resultset[$i]['description'])>18) $description=substr($resultset[$i]['description'],0,15)."...";
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
@@ -173,7 +175,7 @@
   <td class="<?=$row_style?>"><?=$resultset[$i]['groupid']?></td>
   <td class="<?=$row_style?>"><?=$prefix?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['priority']?></td>
-  <td class="<?=$row_style?>"><?=$resultset[$i]['routeid']?></td>
+  <td class="<?=$row_style?>"><?=$routeid?></td>
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
