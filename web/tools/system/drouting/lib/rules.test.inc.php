@@ -54,12 +54,6 @@ if (!empty($lists)) $gwlist=$lists;
                     $form_valid=false;
                     $form_error="- <b>Route ID</b> field must be a positive number -";
                    }
-  if ($form_valid ) 
-    if ($gwlist=="") {
-                     $form_valid=false;
-                     $form_error="- invalid <b>Gateway List</b> field -";
-                    }
-  
                      
    if (isset($frequency)){
    
