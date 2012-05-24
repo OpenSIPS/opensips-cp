@@ -50,9 +50,9 @@
   }
   $link->disconnect();
 
-  $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,1)) ? "Yes" : "No";
+  $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,3)) ? "Yes" : "No";
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2)) ? "Yes" : "No";
-  $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,3)) ? "Yes" : "No";
+  $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,1)) ? "Yes" : "No";
 
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
   $command="dr_carrier_status ".$_GET['carrierid'];
@@ -126,10 +126,10 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-			$flags = bindec($useweights.$useonlyfirst.$enabled);
+			$flags = bindec($enabled.$useonlyfirst.$useweights);
 		
 
-            $sql = "update ".$table." set gwlist='".$gwlist."', flags='".$flags."', description='".$description."' where carrierid='".$_GET['carrierid']."'";
+            $sql = "update ".$table." set gwlist='".$gwlist."', flags='".$flags."', description='".$description."', attrs='".$attrs."' where carrierid='".$_GET['carrierid']."'";
 		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
@@ -155,9 +155,9 @@ if ($action=="disablecar"){
 //  $link->disconnect();
   
   if (is_numeric((int)$resultset[$i]['flags'])) {
-        $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,1));
+        $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,3));
         $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2));
-        $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,3));
+        $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,1));
 		//print_r($resultset[0]);
     }
     else{
@@ -182,13 +182,14 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-  					$flags = bindec($useweights.$useonlyfirst.$enabled);
+  					$flags = bindec($enabled.$useonlyfirst.$useweights);
                     
 					$_SESSION['rules_search_gwlist']="";
                     $_SESSION['rules_search_description']="";
                     
-					$sql = "insert into ".$table." (carrierid, gwlist, flags, description) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$description."')";
+					$sql = "insert into ".$table." (carrierid, gwlist, flags, description,attrs) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$description."','".$attrs."')";
 
+					echo $sql;
 		
 					$resultset = $link->prepare($sql);
 				    $resultset->execute();

@@ -155,10 +155,10 @@ for ($i=0;$i<count($message);$i++){
 }
 //end get status
 
+  $sql_command_count = "select count(*) ".$sql_command;
  if ($sql_search=="") $sql_command="from ".$table." where (1=1) order by id asc";
   else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
 
-  $sql_command_count = "select count(*) ".$sql_command;
   $sql_command = "select * ".$sql_command;
   $result = $link->queryOne($sql_command_count);
   if(PEAR::isError($result)) {

@@ -71,7 +71,7 @@
     </td>
   </tr>
  <tr>
-  <td class="dataRecord"><b>Enabled:</b></td>
+  <td class="dataRecord"><b>Disabled:</b></td>
     <td class="dataRecord">
         <select id="enabled" name="enabled" class="dataSelect" style="width: 275px;">
             <option value="0" <?php if (isset($enabled)) {if ($enabled==0) echo "selected";} else echo "selected";?>>0 - No</option>
@@ -82,6 +82,10 @@
  <tr>
   <td class="dataRecord"><b>Description:</b></td>
   <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
+ </tr>
+ <tr>
+  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=$resultset[0]['attrs']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Add" class="formButton"></td>
