@@ -33,6 +33,7 @@
 	$name = "";
  }
 
+
  if (isset($_POST['password'])) $password = $_POST['password'];
   else $password = "";
 
@@ -46,10 +47,16 @@ $login_ok = false;
 
 if ($config->admin_passwd_mode==0) {
     $ha1  = '';
-    $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND password='".$password."'";
-    $resultset1 = $link->queryAll($sql);
+    
+    $sql = "select * from ocp_admin_privileges where username = ? and password = ?";
+    
+    $sth = $link->prepare($sql);
+    $credentials = array($name,$password);
+    $result1 = $sth->execute($credentials);
+    $resultset1 = $result1->fetchAll();
+    $sth->free();
 
-    if(PEAR::isError($resultset1)) {
+    if(PEAR::isError($result1)) {
         die('Failed to issue query, error message : ' . $resultset1->getMessage());
     }
 
@@ -57,10 +64,15 @@ if ($config->admin_passwd_mode==0) {
     $ha1 = md5($name.":".$password);
     $password='';
 
-    $sql = "SELECT * FROM ocp_admin_privileges WHERE username='".$name."' AND ha1='".$ha1."'";
-    $resultset2 = $link->queryAll($sql);
+    $sql = "SELECT * FROM ocp_admin_privileges WHERE username= ? AND ha1= ?";
 
-    if(PEAR::isError($resultset2)) {
+    $sth = $link->prepare($sql,MDB2_PREPARE_RESULT);
+    $credentials = array($name,$ha1);
+    $result2 = $sth->execute($credentials);
+    $resultset2 = $result2->fetchAll();
+    $sth->free();
+
+    if(PEAR::isError($result2)) {
         die('Failed to issue query, error message : ' . $resultset2->getMessage());
     }
 }
