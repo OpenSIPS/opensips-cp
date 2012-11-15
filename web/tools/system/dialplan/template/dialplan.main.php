@@ -91,10 +91,16 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-$row = $link->queryAll($sql_command);
- if(PEAR::isError($row)) {
+if ($sql_search=="") {
+	$sql_command="select * from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
+	$sql_count="select count(*) from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
+}
+else {
+	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+}
+$data_no = $link->queryOne($sql_count);
+ if(PEAR::isError($data_no)) {
          die('Failed to issue query, error message : ' . $row->getMessage());
  }
 
