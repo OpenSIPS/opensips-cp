@@ -124,10 +124,16 @@
   <td class="dataTitle">Delete</td>
  </tr>
 <?php
- if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by ruleid asc";
-  else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by ruleid asc";
- $resultset = $link->queryAll($sql_command);
- $data_no=count($resultset);
+ if ($sql_search=="") {
+	$sql_command="select * from ".$table." where (1=1) order by ruleid asc";
+	$sql_count="select count(*) from ".$table." where (1=1)";
+ }
+ else {
+	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by ruleid asc";
+	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search;
+ }
+ $data_no = $link->queryOne($sql_count);
+ 
  if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
