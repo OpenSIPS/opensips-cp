@@ -37,7 +37,7 @@ if($clone =="1"){
 	$dpid = $resultset[0]['dpid'];
 	$pr = $resultset[0]['pr'];
 	$match_exp =$resultset[0]['match_exp'];
-	$match_len =$resultset[0]['match_len'];
+	$match_flags =$resultset[0]['match_flags'];
 	$subst_exp =$resultset[0]['subst_exp'];
 	$repl_exp  =$resultset[0]['repl_exp'];
 	$attrs = $resultset[0]['attrs'];
@@ -110,9 +110,9 @@ $match_op_sel.= '</select>';
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Matching String Length:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="match_exp_len" 
-  value="<?=$match_len?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b>Matching Flags:</b></td>
+  <td class="dataRecord" width="275"><input type="text" name="match_exp_flags 
+  value="<?=$match_flags?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 <tr>

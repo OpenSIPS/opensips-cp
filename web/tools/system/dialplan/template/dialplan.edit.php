@@ -94,9 +94,9 @@
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Matching String Length:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="match_exp_len" 
-  	value="<?=$resultset[0]['match_len']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b>Matching Flags:</b></td>
+  <td class="dataRecord" width="275"><input type="text" name="match_exp_flags" 
+  	value="<?=$resultset[0]['match_flags']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 <tr>

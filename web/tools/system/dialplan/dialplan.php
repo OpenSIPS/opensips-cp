@@ -95,7 +95,7 @@ if ($action=="add_verify")
 		$pr=$_POST['pr'];
 		$match_op = $_POST['match_op'];
 		$match_exp= $_POST['match_exp'];
-		$match_len= $_POST['match_exp_len'];
+		$match_flags= $_POST['match_exp_flags'];
 		$subst_exp= $_POST['subst_exp'];
 		$repl_exp= $_POST['repl_exp'];
 		if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
@@ -108,11 +108,11 @@ if ($action=="add_verify")
 
 		}
 
-		if ($dpid=="" || $pr=="" || $match_exp=="" || $match_len <0){
+		if ($dpid=="" || $pr=="" || $match_exp==""){
 			$errors = "Invalid data, the entry was not inserted in the database";
 		}
-		if($match_len=="")
-		$match_len = "0";
+		if($match_flags==NULL)
+		$match_flags = 0;
 
 		if ($errors=="") {
 			if(get_magic_quotes_gpc()==0){
@@ -141,10 +141,10 @@ if ($action=="add_verify")
 					$repl_exp=mysql_real_escape_string($repl_exp);
 				}
 				$sql = "INSERT INTO ".$table."
-				(dpid, pr, match_op, match_exp, match_len, subst_exp, 
+				(dpid, pr, match_op, match_exp, match_flags, subst_exp, 
 				repl_exp, attrs) VALUES 
 				(".$dpid.", ".$pr.",".$match_op.", '".$match_exp."',".
-				$match_len.",'" .$subst_exp. "','" .$repl_exp. "','" .
+				$match_flags.",'" .$subst_exp. "','" .$repl_exp. "','" .
 				$attrs. "')";
 				$resultset=$link->prepare($sql);
 				if(PEAR::isError($resultset)) {
@@ -197,10 +197,10 @@ if ($action=="add_verify_dp")
 				for ($i=0; $i<count($resultset);$i++)
 				{
 					$sql = "INSERT INTO ".$table.
-					"(dpid, pr, match_op, match_exp, match_len, subst_exp,
+					"(dpid, pr, match_op, match_exp, match_flags, subst_exp,
 					repl_exp, attrs) VALUES (".$dst_dpid.", ".
 					$resultset[$i]['pr'].", ".$resultset[$i]['match_op'].
-					", '".$resultset[$i]['match_exp']."', ".$resultset[$i]['match_len'].
+					", '".$resultset[$i]['match_exp']."', ".$resultset[$i]['match_flags'].
 					", '" .$resultset[$i]['subst_exp']."', '".$resultset[$i]['repl_exp'].
 					"', '".$resultset[$i]['attrs']."')";
 					$resultset = $link->prepare($sql);
@@ -263,7 +263,7 @@ if ($action=="modify")
 		$pr=$_POST['pr'];
 		$match_op = $_POST['match_op'];
 		$match_exp= $_POST['match_exp'];
-		$match_len= $_POST['match_exp_len'];
+		$match_flags= $_POST['match_exp_flags'];
 		$subst_exp= $_POST['subst_exp'];
 		$repl_exp= $_POST['repl_exp'];
 
@@ -277,16 +277,16 @@ if ($action=="modify")
 
 		}
 
-		if ($dpid=="" || $pr=="" || $match_exp=="" || $match_len <0){
+		if ($dpid=="" || $pr=="" || $match_exp==""){
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
-		if($match_len=="")
-		$match_len = "0";
+		if($match_flags==NULL)
+		$match_flags = 0;
 
 		if ($errors=="") {
 			if(get_magic_quotes_gpc()==0){
 
-				$match_exp = mysql_real_escape_string($match_exp);
+				$match_exp = mysql_real_escape_string($match_exp, $link);
 			}
 
 			$sql = "SELECT * FROM ".$table.
@@ -314,13 +314,13 @@ if ($action=="modify")
 				}
 				if(get_magic_quotes_gpc()==0){
 					if($subst_exp!="")
-					$subst_exp	= mysql_real_escape_string($subst_exp);
+					$subst_exp	= mysql_real_escape_string($subst_exp,	$link);
 					if($repl_exp!="")
-					$repl_exp	= mysql_real_escape_string($repl_exp);
+					$repl_exp	= mysql_real_escape_string($repl_exp,	$link);
 				}
 				$sql = "UPDATE ".$table." SET dpid=".$dpid.", pr = ".$pr.
 				", match_op= ".$match_op.", match_exp ='".$match_exp.
-				"', match_len=".$match_len.", subst_exp = '" .$subst_exp.
+				"', match_flags=".$match_flags.", subst_exp = '" .$subst_exp.
 				"', repl_exp='" .$repl_exp. "', attrs= '".$attrs."'".
 				" WHERE id=".$id;
 				$resultset = $link->prepare($sql);
@@ -417,13 +417,7 @@ if ($action=="dp_act")
                 		require("template/footer.php");
 		                exit();
 
-                                        $sql = "INSERT INTO ".$table.
-                                        "(dpid, pr, match_op, match_exp, match_len, subst_exp,
-                                        repl_exp, attrs) VALUES (".$dest_dpid.", ".
-                                        $resultset[0]['pr'].", ".$resultset[0]['match_op'].
-                                        ", '".$resultset[0]['match_exp']."', ".$resultset[0]['match_len'].
-                                        ", '" .$resultset[0]['subst_exp']."', '".$resultset[0]['repl_exp'].
-                                        "', '".$resultset[0]['attrs']."')";
+                                        $sql = "INSERT INTO ".$table."(dpid, pr, match_op, match_exp, match_flags, subst_exp,repl_exp, attrs) VALUES (".$dest_dpid.", ".$resultset[0]['pr'].", ".$resultset[0]['match_op'].", '".$resultset[0]['match_exp']."', ".$resultset[0]['match_flags'].", '" .$resultset[0]['subst_exp']."', '".$resultset[0]['repl_exp']."', '".$resultset[0]['attrs']."')";
                                         $result = $link->prepare($sql);
                                         if(PEAR::isError($result)) {
                                                 die('Failed to issue query, error message: ' . $result->getMessage());

@@ -77,7 +77,7 @@ if(!$_SESSION['read_only']){
   <td class="dialplanTitle">Rule Priority</td>
   <td class="dialplanTitle">Matching Operator</td>
   <td class="dialplanTitle">Matching Regular Expression</td>
-  <td class="dialplanTitle">Matching String Length</td>
+  <td class="dialplanTitle">Matching Flags</td>
   <td class="dialplanTitle">Substitution Regular Expression</td>
   <td class="dialplanTitle">Replacement Expression</td>
   <td class="dialplanTitle">Atrributes</td>
@@ -91,16 +91,10 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") {
-	$sql_command="select * from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
-	$sql_count="select count(*) from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
-}
-else {
-	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-}
-$data_no = $link->queryOne($sql_count);
- if(PEAR::isError($data_no)) {
+if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
+else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+$row = $link->queryAll($sql_command);
+ if(PEAR::isError($row)) {
          die('Failed to issue query, error message : ' . $row->getMessage());
  }
 
@@ -149,7 +143,7 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['pr']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_op']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_exp']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_len']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_flags']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['subst_exp']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['repl_exp']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$attrs?></td>
