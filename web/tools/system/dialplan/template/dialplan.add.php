@@ -111,7 +111,7 @@ $match_op_sel.= '</select>';
 
  <tr>
   <td class="dataRecord"><b>Matching Flags:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="match_exp_flags 
+  <td class="dataRecord" width="275"><input type="text" name="match_exp_flags" 
   value="<?=$match_flags?>" maxlength="128" class="dataInput"></td>
  </tr>
 
