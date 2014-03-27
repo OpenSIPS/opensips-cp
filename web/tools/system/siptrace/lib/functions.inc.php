@@ -21,31 +21,35 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+
 function params($box_val){
 
-    global $xmlrpc_host; 
-    global $xmlrpc_port; 
-    global $fifo_file; 
+	global $xmlrpc_host;
+	global $xmlrpc_port;
+	global $fifo_file;
+	global $udp_host;
+	global $udp_port;
 
-$a=explode(":",$box_val);    
-	
-if (!empty($a[1]))
-    {
-	
-    	$comm_type="xmlrpc";
-	
-    	$xmlrpc_host=$a[0];
-	
-    	$xmlrpc_port=$a[1];
-    
-    } else {
-    
-    	$comm_type="fifo";
-	
-    	$fifo_file=$box_val ;
-    }
+	$a=explode(":",$box_val);
 
-return $comm_type;
+	switch ($a[0]) {
+		case "udp":
+			$comm_type="udp";
+			$udp_host = $a[1];
+			$udp_port = $a[2];
+			break;
+		case "xmlrpc":
+			$comm_type="xmlrpc";
+			$xmlrpc_host = $a[1];
+			$xmlrpc_port = $a[2];
+			break;
+		case "fifo":
+			$comm_type="fifo";
+			$fifo_file = $a[1];
+			break;
+	}
+
+	return $comm_type;
 }
 
 function get_proxys_by_assoc_id($my_assoc_id){

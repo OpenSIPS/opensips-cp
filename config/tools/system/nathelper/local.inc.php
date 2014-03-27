@@ -27,7 +27,7 @@
 ###############################################################################
 
  //database tables
- $config->table_nathelper = "nh_sockets";
+ $config->table_nathelper = "rtpproxy_sockets";
 
  // system to talk with (via MI)  
  $talk_to_this_assoc_id = 1 ;

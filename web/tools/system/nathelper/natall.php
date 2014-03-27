@@ -41,7 +41,7 @@ if ($action=="toggle"){
         	// get status from the first one only
 	        $comm_type=params($mi_connectors[0]);
 
-        	 mi_command("nh_enable_rtpp $sock 0" , $errors , $status);
+        	 mi_command("rtpproxy_enable $sock 0" , $errors , $status);
 	         print_r($errors);
 	         $status = trim($status);
 	
@@ -55,7 +55,7 @@ if ($action=="toggle"){
         	// get status from the first one only
 	        $comm_type=params($mi_connectors[0]);
 
-        	 mi_command("nh_enable_rtpp $sock 1" , $errors , $status);
+        	 mi_command("rtpproxy_enable $sock 1" , $errors , $status);
 	         print_r($errors);
 	         $status = trim($status);
 	        $toggle_button = "enabled";
