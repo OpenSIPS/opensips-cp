@@ -95,7 +95,7 @@ function print_domains($type,$value)
         $end_index = sizeof($options);
 
 ?>
-	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 175px" class="dataSelect">
+	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
 	 <?php
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
@@ -118,7 +118,7 @@ function print_domains($type,$value)
 function print_groups($type,$value){
 	require("../../../../config/tools/users/acl_management/local.inc.php");
 	?>
-	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 175px" class="dataSelect">
+	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
 	<?php
 		           if ($value!=NULL) 
 		        	      echo('<option value="'.$value. '" selected > '.$value.'</option>');

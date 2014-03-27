@@ -21,6 +21,63 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+function write2udp($command,&$errors,&$status){
+	global $config;
+	global $udp_host;
+	global $udp_port;
+
+
+	$first_space = strpos($command, ' ');
+	if ($first_space === false){
+		$cmd = ":".trim($command).":\n";
+		$args = "";
+	}
+	else {
+		$cmd = ":".substr($command, 0, $first_space).":\n";
+		$args = str_replace(" ",":\n" ,substr($command, $first_space+1, strlen($command))).":\n";
+	}
+
+	#create the udp socket
+	if(!($sock = socket_create(AF_INET, SOCK_DGRAM, 0))){
+    	$errorcode = socket_last_error();
+	    $errormsg = socket_strerror($errorcode);
+		$errors [] = "Couldn't create socket: [$errorcode] $errormsg";
+		$status = "500 Error";
+		return;
+	}
+	//Send the message to the server
+    if( ! socket_sendto($sock, $cmd.$args , strlen($cmd.$args) , 0 , $udp_host , $udp_port))
+    {
+        $errorcode = socket_last_error();
+        $errormsg = socket_strerror($errorcode);
+		$errors [] = "Could not send data: [$errorcode] $errormsg";
+		$status = "500 Could not send data";
+		return;
+    }
+         
+    //Now receive reply from server and print it
+    if(socket_recv ( $sock , $reply , 2045 , MSG_WAITALL ) === FALSE)
+    {
+        $errorcode = socket_last_error();
+        $errormsg = socket_strerror($errorcode);
+		$errors [] = "Could not receive data: [$errorcode] $errormsg";
+		$status = "500 Could not receive data";
+		return;
+    }
+
+	$first_enter = strpos($reply, PHP_EOL);
+    if ($first_enter === false){
+        $status = trim($reply);
+        $args = "";
+    }
+    else {
+        $status = trim(substr($reply, 0, $first_enter));
+        $message = substr($reply, $first_enter+1, strlen($reply));
+    }    
+
+	$errors = NULL;
+	return $message;
+}
 
 function write2fifo($command, &$errors, &$status){
 
@@ -192,7 +249,7 @@ function write2xmlrpc($command,&$errors,&$status){
     $response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
     $xml=(substr($response,strpos($response,"\r\n\r\n")+4));
 
-    preg_match('/HTTP\/1.1\s+\d+\s+[A-Za-z]+\s+/',$response,$match);
+    preg_match('/HTTP\/\d.\d\s+\d+\s+[A-Za-z]+\s+/',$response,$match);
     $status = substr($match[0],9);
 
 	preg_match('/\<fault\>/',$xml,$fault_match);
@@ -218,18 +275,23 @@ function mi_command($command,&$errors,&$status){
     global $xmlrpc_host ; 
     global $xmlrpc_port ; 
     global $fifo_file ;
-
+	global $udp_host;
+	global $udp_port;
 
     $buf="";
-    if (strtolower($comm_type)=="fifo"){
-    
-    $buf=write2fifo($command, $errors, $status);
-    }
 
-    if (strtolower($comm_type)=="xmlrpc"){
-    $buf=write2xmlrpc($command,$errors,$status);
-    
-    }
+	switch ($comm_type){
+		case "fifo":
+			$buf=write2fifo($command, $errors, $status);
+			break;
+		case "xmlrpc":
+			$buf=write2xmlrpc($command,$errors,$status);
+			break;
+		case "udp":
+			$buf=write2udp($command,$errors,$status);
+			break;
+	}
+
     return $buf ; 
 
 }

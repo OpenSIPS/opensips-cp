@@ -68,33 +68,33 @@ if ( $users == "online_usr" ) {
   <td colspan="2" height="10" class="listTitle"></td>
  </tr>
  <tr>
-  <td class="searchRecord" align="center">Username</td>
+  <td class="searchRecord" align="left">Username</td>
   <td class="searchRecord" width="200"><input type="text" name="lst_uname" 
   value="<?=$search_uname?>" maxlength="16" class="searchInput"></td>
  </tr>
  <tr>	
-  <td class="searchRecord" align="center">Domain</td>
-  <td class="searchRecord" width="200"<?php print_domains("list_domain","ANY")?></td>
+  <td class="searchRecord" align="left">Domain</td>
+  <td class="searchRecord" width="200"><?php if ($search_adomain!="") print_domains("list_domain",$search_adomain); else print_domains("list_domain","ANY");?> 
  </tr>
  <tr>
-  <td class="searchRecord" align="center">Email:</td>
+  <td class="searchRecord" align="left">Email</td>
   <td class="searchRecord" width="200"><input type="text" name="lst_email" 
   value="<?=$search_email?>" maxlength="16" class="searchInput"></td>
  </tr>
  <tr>
   <td align="right"><input type="radio" name="users" 
   value="all_usr" <?php if ($users=="all_usr") echo "checked=\"true\"";?> ></td>
-  <td class="searchRecord" align="center">All Users:</td>
+  <td class="searchRecord" align="left">All Users</td>
  </tr>
  <tr>	
   <td align="right"><input type="radio" name="users" 
   value="online_usr" $checkedOnline  <?php if ($users=="online_usr") echo "checked=\"true\"";?> ></td>
-  <td class="searchRecord" align="center">Online Users:</td>
+  <td class="searchRecord" align="left">Online Users</td>
  </tr>
  <tr>	
   <td align="right"><input type="radio" name="users" 
   value="offline_usr" <?php if ($users=="offline_usr") echo "checked=\"true\"";?>  ></td>
-  <td class="searchRecord" align="center">Offline Users:</td>
+  <td class="searchRecord" align="let">Offline Users</td>
  </tr>
  <tr height="10">
   <td colspan="2" class="searchRecord" align="center">

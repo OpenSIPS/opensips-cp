@@ -28,7 +28,7 @@
 	for ($i=0;$i<count($mi_connectors);$i++){
 				//echo "here again";
                 $comm_type=params($mi_connectors[$i]);
-                $message = mi_command('nh_show_rtpp',$errors,$status);
+                $message = mi_command('rtpproxy_show',$errors,$status);
                 print_r($errors);
 				
                 $message = trim($message);

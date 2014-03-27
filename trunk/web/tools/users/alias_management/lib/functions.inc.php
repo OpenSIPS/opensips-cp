@@ -95,7 +95,7 @@ function print_domains($type,$value)
         $end_index = sizeof($options);
 
 ?>
-	<select <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly "; ?> name=<?=$type?> id=<?=$type?> size="1" style="width: 175px" class="dataSelect">
+	<select <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly "; ?> name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
 	 <?php
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
@@ -129,7 +129,7 @@ function print_aliasType($value)
         $start_index = 0;
         $end_index = sizeof($options);
 ?>
-        <select name="alias_type" id="alias_type" size="1" style="width: 175px" class="dataSelect">
+        <select name="alias_type" id="alias_type" size="1" style="width: 190px" class="dataSelect">
          <?php
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
