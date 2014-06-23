@@ -1,0 +1,5 @@
+For loadbalancer module:
+	restricted resource field format to: name1=value1;name2=value2...
+--This line, and those below, will be ignored--
+
+M    loadbalancer.php

@@ -1,0 +1,53 @@
+
+SIPTrace Tool (siptrace)
+---------------------------------
+
+Description 	
+---------------
+
+
+The siptrace tool uses the info provided by the OpenSIPS siptrace module and 
+shows it on the page in a nice graphical way (messages grouped under calls, with
+flow direction, etc). You can find  the siptrace module documentation here : 
+http://www.opensips.org/html/docs/modules/1.8.x/siptrace.html
+
+
+Configuration
+------------------
+
+
+* Database layer configuration file : 
+opensips-cp/config/tools/system/siptrace/db.inc.php
+
+Mysql connection data is set through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration  file : 
+
+opensips-cp/config/tools/system/siptrace/local.inc.php
+
+Attributes set in this file : 
+
++ database table name  
++ the `results per page` variable is set in this file (how many records to be 
+seen on a single page , pagination )
++ the assoc_id - must point to the type of machines which are OpenSIPS servers
+$talk_to_this_assoc_id = 1 ;
+(see global.boxes.inc.php)
++ a list of  IP addresses and ports to be recognized as proxies - you must 
+provide at least one entry .
+example:  $proxy_list=array("udp:192.168.2.134:5060","udp:127.0.0.1:5060");
+
+Usage and Features 
+---------------------------
+
+
+The tool presents the info from the  siptrace table  in a nice graphical way .

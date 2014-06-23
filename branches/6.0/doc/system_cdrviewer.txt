@@ -1,0 +1,97 @@
+
+CDRviewer Tool
+----------------------
+
+Description
+----------------
+
+It shows Call Detail Records(CDRs) from the database. You have the possibility 
+to filter CDRs and to export CDRs in csv (comma-separated values) files. 
+
+Configuration
+-------------------
+* Database layer configuration file: 
+
+opensips-cp/config/tools/system/cdrviewer/db.inc.php  
+
+- The variables in this file are somewhat self explanatory.You must set 
+up the mysql connection data through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration file :  
+opensips-cp/config/tools/system/cdrviewer/local.inc.php
+
+
+Attributes like database table name, fields to be displayed, results per page 
+and variables which control the way the tool exports CDRs are set in this file. 
+The following variables present in this file may be subject to change more often:
+$show_field  and  $export_csv. 
+
+They are associative arrays used to configure the CDR fields that are to be 
+displayed or extracted from the database. Following is an explanation of the 
+meaning of these variables.
+
+
+$show_field
+===========
+
+This array controls which fields from the database are to be  displayed.  
+The order in which the fields are placed in the csv file can be established  by 
+modifying the array index.  
+
+$show_field[index]['database_field_name'] = "Field Description | Field_Type";
+
+“Field Description”  is the column description that will be displayed.
+
+“Field_Type” must be  “int”  or “string”, depending on the type of the record  in the database. 
+
+
+$export_csv
+===========
+
+This array is used only by the cdr_exporter.php script which is a command-line 
+script meant to export cdr records from the database into csv files. 
+
+$export_csv[index]['database_field_name'] = "Field Description";
+
+The order in which the fields are placed in the csv file can be established  by 
+modifying the array index.  
+“Field Description” ($export_csv)  is the column description that will show in 
+the exported csv file.
+The presence of the field description in the csv files is optional because automated
+tools might be  configured to work on this file.
+
+// where the export script puts the cdrs as csv files
+$cdr_repository_path = '/var/lib/opensips_cdrs' ;
+
+// if to set field names on top of the file or not
+//(this might be useful for CDR aggregation/some billing engines)
+$cdr_set_field_names = 1 ;
+
+// the delay the cron script will extract the records from the
+database , defaults to one hour .
+$delay=3600 ;
+
+
+Usage and Features
+---------------------------
+
+You can search by any field and use a wildcard 
+( '%' - matches a set of characters ). 
+The filters  “CDR Field”, “Start Date”, “End Date” can be  applied in parallel. 
+With the help of this tool you can export CDR records in a csv file.
+The filters applied on "Search" are working on the exported CDRs as well, so it 
+exports what is displayed. 
+When the “Export” button is pressed a download pop-up will show in your browser.  
+There is a feature to jump to SIP traces of the call if such records 
+exist (see SIPTrace module). 
+The correlation between CDRs and the SIPTrace tool is done following the 
+`call_id` field which is common for both `cdrs` and `siptrace` tables .

@@ -1,0 +1,54 @@
+
+Dispatcher Tool (dispatcher)
+---------------------------------
+
+
+Description 
+---------------
+This tool implements a dispatcher for destination addresses.
+It shows a table with OpenSIPS dispatcher rules, offering the
+ability to  add, edit and delete rules.
+
+You can find  the dialplan module documentation here : 
+http://www.opensips.org/html/docs/modules/1.8.x/dispatcher.html
+
+Configuration
+-------------------
+* Database layer configuration file : 
+opensips-cp/config/tools/system/dispatcher/db.inc.php 
+
+- Mysql connection data is set through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+* Local configuration file :  
+opensips-cp/config/tools/system/dispatcher/local.inc.php
+
+Attributes like database table name, results per page are set in this file
+
++ database table name  
++ the `results per page` variable is set in this file (how many records to be 
+seen on a single page , pagination )
+ + the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
+trigger the reload command via MI $talk_to_this_assoc_id = 1 ;).
+
+Usage and Features
+--------------------------
+
+
+The user can list, add, edit and delete dispatcher list. 
+Following is an explanation of the actions performed by the buttons on the page:
+
+"Search": Searches through the dispatcher rules, displaying only the rules with the Setid, Destination and Description submited by the user.
+"Show all": Shows all the dispatcher rules. 
+"Delete Dispatcher": Deletes all  entries with certain Setid, Destination and Description.
+"Add New": Inserts a form to add new rule into dispatcher.
+
+
+NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to click on  “Apply Changes to Server” button.

@@ -1,0 +1,51 @@
+Load Balancer Tool (loadbalancer)
+--------------------------------
+
+Description   
+
+The Load Balancer module is an interface to the Load Balancer
+module within OpenSIPS. The DB List tag is for usual DB 
+transactions: adding, deleting, searching, showing the whole content
+of the table. Cache List tab si for refreshing the data,
+from DB to chache. 	
+You can find the loadbalancer module documentation here :
+http://www.opensips.org/html/docs/modules/devel/load_balancer.html
+
+Configuration
+-------------
+ *Database layer configuration file: 
+opensips-cp/config/tools/system/loadbalancer/db.inc.php
+
+Database connection data is set through this file.
+
+Attributes  set in this file :
+    
++database host
++database port
++database username 
++database password
++database name
+  
+ *Local configuration  file :
+opensips-cp/config/tools/system/loadbalancer/local.inc.php
+
+Attributes set in this file :
+
++The names of the tables that hold data related to loadbalancer tool.
++$talk_to_this_assoc_id variable - must point to the type of 
+machines which are OpenSIPS servers (to trigger the reload command via MI).
+
+Usage and Features 
+------------------
+
+The loadbalancer module has 2 tabs :
+DB List , Cache List 
+
+ *DB List Tab.
+NOTE: all the changes are done in database. To apply them into your 
+OpenSIPS, you need to click on "Apply Changes to Server" button
+
+ *Cache List Tab.
+   Displays all the loadbalancer rules and their information.
+   The status can be controlled (enabled or disabled).
+   Button to refresh the Cache List .

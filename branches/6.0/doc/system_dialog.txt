@@ -1,0 +1,43 @@
+Dialog Tool 
+---------------------------------
+
+Description
+---------------
+The dialog tools is a graphical interface for the dialog module in OpenSIPS.
+It gives the opportunity to view the ongoing dialogs and stop them.
+You can find the dialog module documentation here:
+http://www.opensips.org/html/docs/modules/1.8.x/dialog.html
+
+
+Configuration
+------------------
+
+* Local configuration  file :
+
+opensips-cp/config/tools/system/dialog/local.inc.php
+
+Attributes set in this file :
+
++Attributes that do not need to be changed: results per page, page range,
+fifo filename
+
++Attributes that need to be changed:
+$config->profile_list
+
+$config->profile_list
+=====================
+An array used for configuring the profile list.
+
+Usage and Features
+---------------------------
+
+The dialog module has 2 tabs :
+ Cache, Profile
+
+ * Cache Tab.
+	Displays ongoing dialogs
+	There is also a refresh button placed on top of the page
+
+ * Profile Tab.
+    Displays information from a certain profile listes in $config->profile_list array
+
