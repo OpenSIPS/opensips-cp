@@ -92,6 +92,7 @@ function params($box_val){
 	global $fifo_file;
 	global $udp_host;
 	global $udp_port;
+	global $json_url;
 
 	$a=explode(":",$box_val);
 
@@ -109,6 +110,10 @@ function params($box_val){
 		case "fifo":
 			$comm_type="fifo";
 			$fifo_file = $a[1];
+			break;
+		case "json":
+			$comm_type="json";
+			$json_url = substr($box_val,5);
 			break;
 	}
 

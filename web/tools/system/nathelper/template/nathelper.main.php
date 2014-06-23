@@ -21,14 +21,59 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 -->
-<div align="right">
- <?php if (!$_read_only) echo('<button type="button" class="Button" onClick="window.open(\'apply_changes.php\',\'apply\',\'width=300,height=100\')">Apply Changes to Server</button><br>') ?>
-</div>
-<br>
-
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=dp_act" method="post">
 <?php
+//fetch cache data
 
+$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+for ($i=0;$i<count($mi_connectors);$i++){
+	$comm_type=params($mi_connectors[$i]);
+	$message = mi_command('rtpproxy_show',$errors,$status);
+	print_r($errors);
+
+	if ($comm_type != "json"){
+		$pattern = '/Set\:\:\s+(?P<setid>\d+)\s+node\:\:\s+(?P<sock>[a-zA-Z0-9.:=]+)\s+index=(?P<index>\d+)\s+disabled=(?P<status>\d+)\s+weight=(?P<weight>\d+)\s+recheck_ticks=(?P<ticks>\d+)\s/';
+		preg_match_all($pattern,$message,$matches);
+		$data_no = count($matches[0]);
+	}
+	else {
+		$message = json_decode($message,true);
+		$message = $message['Set'];
+		$data_no = count($message);
+	}
+}
+
+$rtpproxies_cache = array();
+
+if ($comm_type != "json"){
+	for ($i=0; $i<count($matches[0]);$i++) {
+		$rtpproxies_cache[$matches['setid'][$i]][$matches['sock'][$i]]['status'] 	= $matches['status'][$i]; 
+		$rtpproxies_cache[$matches['setid'][$i]][$matches['sock'][$i]]['weight'] 	= $matches['weight'][$i]; 
+		$rtpproxies_cache[$matches['setid'][$i]][$matches['sock'][$i]]['ticks'] 	= $matches['ticks'][$i];
+
+		if ($matches['status'][$i] == 1){
+			$rtpproxies_cache[$matches['setid'][$i]][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="images/inactive.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
+		} else if ($matches['status'][$i] == 0){
+			$rtpproxies_cache[$matches['setid'][$i]][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="images/active.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
+		}
+	} 	
+}
+else {
+	for ($i=0; $i<count($message);$i++) {
+		$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][0]['value']]['status'] = $message[$i]['children']['node'][0]['attributes']['disabled'];
+		$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][0]['value']]['weight'] = $message[$i]['children']['node'][0]['attributes']['weight'];
+		$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][0]['value']]['ticks'] = $message[$i]['children']['node'][0]['attributes']['recheck_ticks'];
+		
+		if ($message[$i]['children']['node'][0]['attributes']['disabled'] == 1){
+			$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][0]['value']]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$message[$i]['children']['node'][0]['attributes']['disabled'].'&sock='.$message[$i]['children']['node'][0]['value'].'"><img align="center" name="status'.$i.'" src="images/inactive.png" alt="'.$message[$i]['children']['node'][0]['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$message[$i]['children']['node'][0]['attributes']['disabled'].'\')" border="0"></a>';
+		} else if ($message[$i]['children']['node'][0]['attributes']['disabled'] == 0){
+			$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][0]['value']]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$message[$i]['children']['node'][0]['attributes']['disabled'].'&sock='.$message[$i]['children']['node'][0]['value'].'"><img align="center" name="status'.$i.'" src="images/active.png" alt="'.$message[$i]['children']['node'][0]['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$message[$i]['children']['node'][0]['attributes']['disabled'].'\')" border="0"></a>';
+		}
+	} 	
+}
 $sql_search="";
 $search_setid=$_SESSION['nathelper_setid'];
 $search_sock=$_SESSION['nathelper_sock'];
@@ -45,9 +90,9 @@ if ( $search_sock!="" ) {
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 5;
+	$colspan = 8;
 }else{
-	$colspan = 3;
+	$colspan = 5;
 }
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
@@ -55,12 +100,12 @@ if(!$_SESSION['read_only']){
   <td colspan="2" height="10" class="nathelperTitle"></td>
  </tr>
   <tr>
-  <td class="searchRecord" align="center">RTPproxy Sock :</td>
+  <td class="searchRecord">RTPproxy Sock</td>
   <td class="searchRecord" width="200"><input type="text" name="nathelper_sock" 
   value="<?=$search_sock?>" class="searchInput"></td>
  </tr>
   <tr>
-  <td class="searchRecord" align="center">Setid :</td>
+  <td class="searchRecord">Setid</td>
   <td class="searchRecord" width="200"><input type="text" name="nathelper_setid" 
   value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
  </tr>
@@ -70,15 +115,6 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 
-<?
-if(!$_SESSION['read_only']){
-	echo('<tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
-  <input type="submit" class="formButton" name="delete" value="Delete RTPproxy Sock" onclick="return confirmDeleteRTPproxy()">
-  </td>
- </tr>');
-}
-?>
  <tr height="10">
   <td colspan="2" class="nathelperTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
@@ -95,11 +131,13 @@ if(!$_SESSION['read_only']){
   <td class="nathelperTitle">ID</td>
   <td class="nathelperTitle">RTPproxy Sock</td>
   <td class="nathelperTitle">Setid</td>
+  <td class="nathelperTitle">Weight</td>
+  <td class="nathelperTitle">Ticks</td>
   <?
   if(!$_SESSION['read_only']){
-
-  	echo('<td class="nathelperTitle">Edit</td>
-  		<td class="nathelperTitle">Delete</td>');
+  	echo('<td class="nathelperTitle">Memory State</td>');
+  	echo('<td class="nathelperTitle">Edit</td>'); 
+	echo ('<td class="nathelperTitle">Delete</td>');
   }
   ?>
  </tr>
@@ -115,52 +153,57 @@ $data_no=count($result);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	$res_no=$config->results_per_page;
-	$page=$_SESSION[$current_page];
-	$page_no=ceil($data_no/$res_no);
-	if ($page>$page_no) {
-		$page=$page_no;
-		$_SESSION[$current_page]=$page;
-	}
-	$start_limit=($page-1)*$res_no;
-	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	  if ($start_limit==0) $sql_command.=" limit ".$res_no;
-	  else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-	  $result = $link->queryAll($sql_command);
-	  if(PEAR::isError($result)) {
-	          die('Failed to issue query, error message : ' . $resultset->getMessage());
-	  }
-	require("lib/".$page_id.".main.js");
-	$index_row=0;
-	for ($i=0;count($result)>$i;$i++)
-	{
-		$index_row++;
-		if ($index_row%2==1) $row_style="rowOdd";
-		else $row_style="rowEven";
+$res_no=$config->results_per_page;
+$page=$_SESSION[$current_page];
+$page_no=ceil($data_no/$res_no);
+if ($page>$page_no) {
+$page=$page_no;
+$_SESSION[$current_page]=$page;
+}
+$start_limit=($page-1)*$res_no;
+//$sql_command.=" limit ".$start_limit.", ".$res_no;
+if ($start_limit==0) $sql_command.=" limit ".$res_no;
+else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
+$result = $link->queryAll($sql_command);
+if(PEAR::isError($result)) {
+	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+}
+require("lib/".$page_id.".main.js");
+$index_row=0;
+for ($i=0;count($result)>$i;$i++)
+{
+$index_row++;
+if ($index_row%2==1) $row_style="rowOdd";
+else $row_style="rowEven";
 
-		if(!$_SESSION['read_only']){
+if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
-		}
-?>
- <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['rtpproxy_sock']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['set_id']?></td>
-   <? 
-   if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
-   }
-	?>  
-  </tr>  
-<?php
-	}
+	$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
+	$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 }
 ?>
- <tr>
-  <td colspan="<?=$colspan?>" class="nathelperTitle">
+<tr>
+<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
+<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['rtpproxy_sock']?></td>
+<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['set_id']?></td>
+<td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['weight'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['weight']:"n/a"?></td>
+<td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['ticks'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['ticks']:"n/a"?></td>
+<? 
+if(!$_SESSION['read_only']){
+?>
+<td class="<?=$row_style?>" align="center"><?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['state_link'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['state_link']:"n/a"?></td>
+<td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
+<td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+<?php
+}
+?>  
+</tr>  
+<?php
+}
+}
+?>
+<tr>
+<td colspan="<?=$colspan?>" class="nathelperTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">

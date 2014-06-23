@@ -23,7 +23,6 @@
 
  require_once("../../../../config/session.inc.php");
  require_once("../../../../config/tools/system/nathelper/db.inc.php");
- require_once("../../../../config/tools/system/nathelper/menu.inc.php");
  require_once("../../../../config/tools/system/nathelper/local.inc.php");
  //require_once("lib/charts.inc.php");
  require_once("lib/functions.inc.php");
