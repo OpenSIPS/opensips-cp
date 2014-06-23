@@ -31,7 +31,7 @@
  //$config->profile_list = array("caller_profile" , "pstn");
  $config->profile_list = array("proxyIP");
 
- $box[1]['mi']['conn']="xmlrpc:127.0.0.1:8888"; 
+ $box[1]['mi']['conn']="fifo:/tmp/opensips_proxy_fifo"; 
 
  // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;
