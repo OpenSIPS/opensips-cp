@@ -32,9 +32,41 @@ $current_page="current_page_nathelper";
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
+
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+###############################
+# 		state change		  #
+###############################
+
+if ($action=="change_state"){
+
+	$state= $_GET['state'];
+	$sock = $_GET['sock'];
+	if ($state=="0") {
+
+        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+        	// get status from the first one only
+	        $comm_type=params($mi_connectors[0]);
+
+        	 mi_command("rtpproxy_enable $sock 0" , $errors , $status);
+	         print_r($errors);
+	         $status = trim($status);
+
+	} else if ($state=="1") {
+
+        	//      get all rtpproxies
+	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+
+        	// get status from the first one only
+	        $comm_type=params($mi_connectors[0]);
+
+        	 mi_command("rtpproxy_enable $sock 1" , $errors , $status);
+	         print_r($errors);
+	         $status = trim($status);
+	}
+} 
 
 #################
 # start add new #
