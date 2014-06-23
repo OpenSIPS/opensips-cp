@@ -47,3 +47,11 @@
   </tr>
 </table>
 <hr width="100%" color="#000000">
+
+<div align="right">
+<?php if (!$_SESSION['read_only'])
+	echo '<a href="javascript:;" onclick="apply_changes()" class="ButtonLink">Apply Changes to Server</a>';
+?>
+</div>
+
+<br>

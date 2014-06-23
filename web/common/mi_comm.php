@@ -21,6 +21,49 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+
+function write2json($command, &$errors, &$status){
+	global $config;
+	global $json_url;
+
+
+	$first_space = strpos($command, ' ');
+	if ($first_space === false){
+		$cmd = trim($command);
+		$args = "";
+	}
+	else {
+		$cmd = substr($command, 0, $first_space);
+		$args = "?params=".str_replace(" ","," ,substr($command, $first_space+1, strlen($command)));
+	}
+	
+	$url = $json_url.$cmd.$args;
+
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_HEADER, FALSE);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	$response = curl_exec($ch);
+
+	if($response === false){
+		$errors[] = curl_error($ch);
+		return false;
+	}
+
+	$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+
+	curl_close($ch);
+
+	//search for errors inside the reply
+	if (substr($response,2,5) == "error"){
+		$err = json_decode($response,true);
+		$errors [] = $err["error"];
+	}
+	
+	return $response;
+}
+
+
 function write2udp($command,&$errors,&$status){
 	global $config;
 	global $udp_host;
@@ -277,6 +320,7 @@ function mi_command($command,&$errors,&$status){
     global $fifo_file ;
 	global $udp_host;
 	global $udp_port;
+	global $json_url;
 
     $buf="";
 
@@ -289,6 +333,11 @@ function mi_command($command,&$errors,&$status){
 			break;
 		case "udp":
 			$buf=write2udp($command,$errors,$status);
+			break;
+		case "json":
+			//$status = "200OK";
+			//return "caca";
+			$buf=write2json($command,$errors,$status);
 			break;
 	}
 

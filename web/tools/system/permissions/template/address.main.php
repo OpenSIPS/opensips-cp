@@ -21,11 +21,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 -->
-<div align="right">
- <?php if (!$_read_only) echo('<button type="button" class="Button" onClick="window.open(\'address_apply_changes.php\',\'apply\',\'width=300,height=100\')">Apply Changes to Server</button><br>') ?>
-</div>
-<br>
-
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=dp_act" method="post">
 <?php
 $sql_search="";
@@ -48,17 +46,17 @@ if(!$_SESSION['read_only']){
   <td colspan="2" height="10" class="permissionsTitle"></td>
  </tr>
   <tr>
-  <td class="searchRecord" align="center">IP :</td>
+  <td class="searchRecord">IP</td>
   <td class="searchRecord" width="200"><input type="text" name="address_src" 
   value="<?=$search_src?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr>
-  <td class="searchRecord" align="center">Protocol:</td>
+  <td class="searchRecord">Protocol</td>
   <td class="searchRecord" width="200"><input type="text" name="address_proto" 
   value="<?=$search_proto?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr>
-  <td class="searchRecord" align="center">Port:</td>
+  <td class="searchRecord">Port</td>
   <td class="searchRecord" width="200"><input type="text" name="address_port" 
   value="<?=$search_port?>" maxlength="16" class="searchInput"></td>
  </tr>
@@ -68,14 +66,6 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 
-<?
-if(!$_SESSION['read_only']){
-	echo('<tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
-	  <input type="submit" class="formButton" name="delete" value="Delete Address" onclick="return confirmDeletePermission()">
- </tr>');
-}
-?>
  <tr height="10">
   <td colspan="2" class="permissionsTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>

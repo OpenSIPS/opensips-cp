@@ -45,22 +45,22 @@ if(!$_SESSION['read_only']){
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="listTitle"></td>
+  <td colspan="2" height="10" class="listadminsTitle"></td>
  </tr>
  <tr>
-  <td class="searchRecord" align="center">Username</td>
+  <td class="searchRecord">Username</td>
   <td class="searchRecord" width="200"><input type="text" name="list_uname" 
-  value="<?=$search_uname?>" maxlength="16" class="searchInput"></td>
+  value="<?=$search_uname?>" maxlength="32" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord" align="center">First Name:</td>
-  <td class="searchRecord" width="225"><input type="text" name="list_fname" 
-  value="<?=$search_fname?>" maxlength="16" class="searchInput"></td>
+  <td class="searchRecord">First Name</td>
+  <td class="searchRecord" width="200"><input type="text" name="list_fname" 
+  value="<?=$search_fname?>" maxlength="32" class="searchInput"></td>
  </tr>
   <tr>
-  <td class="searchRecord" align="center">Last Name:</td>
+  <td class="searchRecord">Last Name</td>
   <td class="searchRecord" width="200"><input type="text" name="list_lname" 
-  value="<?=$search_lname?>" maxlength="16" class="searchInput"></td>
+  value="<?=$search_lname?>" maxlength="32" class="searchInput"></td>
  </tr>
   <tr height="10">
   <td colspan="2" class="searchRecord" align="center">
@@ -69,7 +69,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="listTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="listadminsTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -78,14 +78,14 @@ if(!$_SESSION['read_only']){
 
 <table width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="listTitle">Username</td>
-  <td class="listTitle">Name</td>
-  <td class="listTitle">Access</td>
+  <td class="listadminsTitle">Username</td>
+  <td class="listadminsTitle">Name</td>
+  <td class="listadminsTitle">Access</td>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<td class="listTitle">Edit Info</td>
-  		<td class="listTitle">Delete</td>');
+  	echo('<td class="listadminsTitle">Edit Info</td>
+  		<td class="listadminsTitle">Delete</td>');
   }
   ?>
  </tr>
@@ -152,7 +152,7 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="listTitle">
+  <td colspan="<?=$colspan?>" class="listadminsTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">

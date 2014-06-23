@@ -35,27 +35,27 @@
                          }
 ?>
  <tr>
-   <td class="dataRecord"><b>GWID:</b></td>
+   <td class="dataRecord"><b>GWID</b></td>
    <td class="dataRecord" width="275"><input type="text" name="gwid" value="<?=$gwid?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Type:</b></td>
+  <td class="dataRecord"><b>Type</b></td>
   <td class="dataRecord" width="275"><?=get_types("type",$config->default_gw_type,"275")?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Address:</b></td>
+  <td class="dataRecord"><b>Address</b></td>
   <td class="dataRecord" width="275"><input type="text" name="address" value="<?=$address?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Strip:</b></td>
+  <td class="dataRecord"><b>Strip</b></td>
   <td class="dataRecord"><input type="text" name="strip" value="<?=$strip?>" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>PRI Prefix:</b></td>
+  <td class="dataRecord"><b>PRI Prefix</b></td>
   <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$pri_prefix?>" maxlength="16" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord"><b>Probe Mode:</b></td>
+  <td class="searchRecord"><b>Probe Mode</b></td>
   <td class="searchRecord" width="200">
     <select id="probe_mode" name="probe_mode" class="dataSelect" style="width: 275px;">
      <option value="0" selected>0 - Never</option>
@@ -64,13 +64,38 @@
     </select>
   </td>
  </tr>
+<tr>
+	<td class="dataRecord">
+		<b>Socket</b>
+	</td>
+	<td class="dataRecord" width="275">
+		<input type="text" name="socket" value="<?=$socket?>" maxlength="128" class="dataInput">
+	</td>
+</tr>
+
+<tr>
+	<td class="dataRecord">
+		<b>DB State</b>
+	</td>
+	<td class="dataRecord" width="200">
+		<select id="state" name="state" class="dataSelect" style="width: 275px;">
+			<option value="0" <? if (isset($state) && $state == 0) echo "selected"; ?>>0 - Active</option>
+			<option value="1" <? if (isset($state) && $state == 1) echo "selected"; ?>>1 - Inactive</option>
+			<option value="2" <? if (isset($state) && $state == 2) echo "selected"; ?>>2 - Probing</option>
+		</select>
+	</td>
+ </tr>
  <tr>
-  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><b>Attributes</b></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
+ </tr>
+ <tr>
+  <td class="dataRecord"><b>Attributes</b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Description:</b></td>
+  <td class="dataRecord"><b>Description</b></td>
   <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>

@@ -35,16 +35,24 @@ body, table {
 	color: #ffffff;
 }
 a.headerLogout {
-	font-size: 12px;
-	font-weight: bold;
-	color: #ffffff;
-	text-decoration: none;	
+	background: url("images/logout.png") no-repeat scroll 0px 0px rgba(0, 0, 0, 0);
+	padding-left: 20px;
+	color: #FFFFFF;
+    cursor: pointer;
+    font-family: System,serif;
+    font-size: 14px;
+    margin: 3px;
+    text-decoration: none;
 }
 a.headerLogout:hover {
-	font-size: 12px;
-	font-weight: bold;
-	color: #c0c0c0;
-	text-decoration: none;
+	background: url("images/logout-red.png") no-repeat scroll 0px 0px rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+    cursor: pointer;
+    font-family: System,serif;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 3px;
+    text-decoration: none;
 }
 
 a.menuItem {
@@ -75,8 +83,18 @@ a.submenuItem {
 		margin-left : 10px;
 		
 		background: url(images/bullet_default.png) no-repeat center left; /*custom bullet list image*/
-		#display: block;
-		#height: 5px;
+		padding: 10px 0;
+		padding-left: 15px; /*link text is indented 19px*/
+		text-decoration: none;
+        text-indent: left;
+}
+a.submenuItemActive {
+		font-size: 13px;
+		font-weight: bold;
+		color: #0969b5;
+		margin-left : 10px;
+		
+		background: url(images/bullet_active.png) no-repeat center left; /*custom bullet list image*/
 		padding: 10px 0;
 		padding-left: 15px; /*link text is indented 19px*/
 		text-decoration: none;
@@ -114,7 +132,7 @@ a.submenuItem:focus, a.submenuItem:active {
         list-style:none;
 }
 
-#menuadmin {
+.menu {
         text-decoration:none;
         text-indent: 50px;
         line-height: 1.6;
@@ -131,102 +149,40 @@ a.submenuItem:focus, a.submenuItem:active {
 
 
 
-#menuadmin:hover {
+.menu:hover {
         background:  url(images/menu_active.png);
 		-moz-border-radius-bottomleft: 10px;
         
 }
 
-#menuadmin:active {
+.menu:active {
         background:  url(images/menu_active.png);
 		-moz-border-radius-bottomleft: 10px;
        
 }
 
-#menuadmin:visited {
-color: #FFF;
-        display: block;
-        background:  url(images/menu_default.png);
-		-moz-border-radius-bottomleft: 10px;
-        
-}
-
-
-
-
-#menuusers {
+.menu_active {
         text-decoration:none;
         text-indent: 50px;
         line-height: 1.6;
         color: white;
         font-family: System, serif;
         font-size: 17px;
-        background:  url(images/menu_default.png)  no-repeat center left;
+        background:  url(images/menu_active.png)  no-repeat center left;
 		-moz-border-radius-bottomleft: 10px;
         width: 160px;
         height: 32px;
         margin: 3px;
         cursor:pointer;
-}
-
-
-
-#menuusers:hover {
-        background:  url(images/menu_active.png) ;
-		-moz-border-radius-bottomleft: 10px;
        
 }
 
-#menuusers:active {
-        background:  url(images/menu_active.png);
-		-moz-border-radius-bottomleft: 10px;
-        
-}
-
-#menuusers:visited {
-	color: #FFF;
-        display: block;
-        background:  url(images/menu_default.png);
-		-moz-border-radius-bottomleft: 10px;
-        
-}
-
-
-#menusystem {
-        text-decoration:none;
-        text-indent: 50px;
-        line-height: 1.6;
-        color: white;
-        font-family: System, serif;
-        font-size: 17px;
-        background:  url(images/menu_default.png)  no-repeat center left;
-		-moz-border-radius-bottomleft: 10px;
-        width: 160px;
-        height: 32px;
-        margin: 3px;
-        cursor:pointer;
-}
-
-
-
-#menusystem:hover {
-        background:  url(images/menu_active.png) ;
-		-moz-border-radius-bottomleft: 10px;
-        
-}
-
-#menusystem:active {
-        background:  url(images/menu_active.png);
-		-moz-border-radius-bottomleft: 10px;
-        
-}
-
-#menusystem:visited {
+.menu:visited {
 		color: #FFF;
         display: block;
         background:  url(images/menu_default.png);
 		-moz-border-radius-bottomleft: 10px;
-       
+        
 }
 
 .submenu {

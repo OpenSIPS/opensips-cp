@@ -75,17 +75,6 @@ if ($action=="delete")
                 	$status = trim($status);
 					//echo $status;
 			}
-		// and refresh the list 
-		sleep(1);
-		
-		echo '<script language="javascript">';
-		echo 'refreshDlg();';
-		echo '</script>';
-
-		//echo 'mata';
-
-
-		
 	}else{
 
 		$errors= "User with Read-Only Rights";

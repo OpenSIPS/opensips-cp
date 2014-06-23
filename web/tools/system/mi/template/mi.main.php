@@ -29,7 +29,7 @@
   <td colspan="2" class="miTitle" align="center">Execute MI Command</td>
  </tr>
  <tr>
-  <td class="rowOdd">Command :</td>
+  <td class="rowOdd">Command</td>
   <td class="rowOdd"><input name="mi_cmd" type="text" class="formInput" value="" size="65"></td>
  </tr>
 <?php

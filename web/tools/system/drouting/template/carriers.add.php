@@ -35,11 +35,11 @@
                          }
 ?>
  <tr>
-   <td class="dataRecord"><b>Carrier ID:</b></td>
+   <td class="dataRecord"><b>Carrier ID</b></td>
    <td class="dataRecord"><input type="text" name="carrierid" value="<?=$carrierid;?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td rowspan="2" class="dataRecord" ><b>Gateway List:</b></td>
+  <td rowspan="2" class="dataRecord" ><b>Gateway List</b></td>
    <td class="dataRecord">
 			<input type="text"   name="gwlist" id="gwlist" value="" maxlength="255" readonly class="dataInput">
 			<input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('gwlist')"><br>
@@ -53,7 +53,7 @@
    </tr>
 	
  <tr>
-  <td class="dataRecord"><b>Use weights:</b></td>
+  <td class="dataRecord"><b>Use weights</b></td>
     <td class="dataRecord">
 		<select id="useweights" name="useweights" class="dataSelect" style="width: 275px;">
 			<option value="0" <?php if (isset($useweights)) {if ($useweights==0) echo "selected";} else echo "selected";?>>0 - No</option>
@@ -62,7 +62,7 @@
 	</td>
   </tr>
  <tr>
-  <td class="dataRecord"><b>Use only first:</b></td>
+  <td class="dataRecord"><b>Use only first</b></td>
     <td class="dataRecord">
         <select id="useonlyfirst" name="useonlyfirst" class="dataSelect" style="width: 275px;">
             <option value="0" <?php if (isset($useonlyfirst)) {if ($useonlyfirst==0) echo "selected";} else echo "selected";?>>0 - No</option>
@@ -70,22 +70,24 @@
         </select>   
     </td>
   </tr>
- <tr>
-  <td class="dataRecord"><b>Disabled:</b></td>
-    <td class="dataRecord">
-        <select id="enabled" name="enabled" class="dataSelect" style="width: 275px;">
-            <option value="0" <?php if (isset($enabled)) {if ($enabled==0) echo "selected";} else echo "selected";?>>0 - No</option>
-            <option value="1" <?php if (isset($enabled)) {if ($enabled==1) echo "selected";} ?>>1 - Yes</option>
-        </select>   
-    </td>
-  </tr>
- <tr>
-  <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
+<tr>
+	<td class="dataRecord">
+		<b>DB State</b>
+	</td>
+	<td class="dataRecord" width="200">
+		<select id="state" name="state" class="dataSelect" style="width: 275px;">
+			<option value="0" <? if (isset($state) && $state == 0) echo "selected"; ?>>0 - Active</option>
+			<option value="1" <? if (isset($state) && $state == 1) echo "selected"; ?>>1 - Inactive</option>
+		</select>
+	</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><b>Attributes</b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$resultset[0]['attrs']?>" maxlength="128" class="dataInput"></td>
+ </tr>
+ <tr>
+  <td class="dataRecord"><b>Description</b></td>
+  <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Add" class="formButton"></td>

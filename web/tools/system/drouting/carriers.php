@@ -50,9 +50,8 @@
   }
   $link->disconnect();
 
-  $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,3)) ? "Yes" : "No";
-  $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2)) ? "Yes" : "No";
-  $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,1)) ? "Yes" : "No";
+  $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
+  $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3)) ? "Yes" : "No";
 
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
   $command="dr_carrier_status ".$_GET['carrierid'];
@@ -91,9 +90,8 @@ if ($action=="enablecar"){
         $comm_type=params($mi_connectors[$i]);
         $message=mi_command($command, $errors, $status);
     }
-
-    if (trim($status)!="200 OK")
-        echo "Error while enabling carrier ".$_GET['gwid'];
+    if (substr(trim($status),0,3)!="200")
+        echo "Error while enabling carrier ".$_GET['carrierid'];
 }
 ##################
 # end enable gw  #
@@ -111,7 +109,7 @@ if ($action=="disablecar"){
         $comm_type=params($mi_connectors[$i]);
         $message=mi_command($command, $errors, $status);
     }
-    if (trim($status)!="200 OK")
+    if (substr(trim($status),0,3)!="200")
         echo "Error while disabling carrier ".$_GET['carrierid'];
 }
 ##################
@@ -126,10 +124,10 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-			$flags = bindec($enabled.$useonlyfirst.$useweights);
+			$flags = bindec($useonlyfirst.$useweights);
 		
 
-            $sql = "update ".$table." set gwlist='".$gwlist."', flags='".$flags."', description='".$description."', attrs='".$attrs."' where carrierid='".$_GET['carrierid']."'";
+            $sql = "update ".$table." set gwlist='".$gwlist."', flags= (flags | ".$flags.") & ".$flags.", state='".$state."', description='".$description."', attrs='".$attrs."' where carrierid='".$_GET['carrierid']."'";
 		    $resultset = $link->prepare($sql);
 		    $resultset->execute();
 		    $resultset->free();	
@@ -187,7 +185,7 @@ if ($action=="disablecar"){
 					$_SESSION['rules_search_gwlist']="";
                     $_SESSION['rules_search_description']="";
                     
-					$sql = "insert into ".$table." (carrierid, gwlist, flags, description,attrs) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$description."','".$attrs."')";
+					$sql = "insert into ".$table." (carrierid, gwlist, flags, state, description,attrs) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$state."', '".$description."','".$attrs."')";
 
 					$resultset = $link->prepare($sql);
 				    $resultset->execute();

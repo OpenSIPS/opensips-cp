@@ -27,17 +27,17 @@
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="aliasTitle">New ACL</td>
+  <td colspan="2" class="aclTitle">Add New ACL</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Username:</b></td>
+  <td class="dataRecord"><b>Username</b></td>
   <td class="dataRecord" width="275"><input  type="text" name="username" value="<?php if ($_SESSION['fromusrmgmt'])
 		echo $_SESSION['acl_username'];?>" maxlength="128" class="dataInput" >
   </td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Domain:</b></td>
+  <td class="dataRecord"><b>Domain</b></td>
   <td class="dataRecord" width="275"><?php 
   	if ($_SESSION['fromusrmgmt'])
   		print_domains("domain",$_SESSION['acl_domain']);
@@ -47,7 +47,7 @@
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Group:</b></td>
+  <td class="dataRecord"><b>Group</b></td>
   <td class="dataRecord" width="275"><?php print_groups("acl_grp",$acl_grp)?></td>
   </tr>
 

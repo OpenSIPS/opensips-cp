@@ -96,7 +96,11 @@ function params($box_val){
 }
 
 function get_modules() {
-         $modules=array();
+
+	global $config;
+	require("../../../../config/modules.inc.php");
+    
+	$modules=array();
 	 $mod = array();
          if ($handle=opendir('../../../tools/admin/'))
          {
@@ -132,6 +136,7 @@ function get_modules() {
           closedir($handle);
 	  $mod['System'] = $modules; 
 	  }	
+         
      return $mod;
 }
 

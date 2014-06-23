@@ -21,12 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../../config/tools/system/loadbalancer/db.inc.php");
- require("../../../../config/db.inc.php");
- require("../../../../config/tools/system/loadbalancer/local.inc.php");
- //require("../../../common/mi_comm.php");
  require("lib/functions.inc.php");
-
  session_start();
  get_priv();
  header("Location: loadbalancer.php");

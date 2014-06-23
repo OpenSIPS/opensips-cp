@@ -28,21 +28,30 @@
 	for ($i=0;$i<count($mi_connectors);$i++){
 
                 $comm_type=params($mi_connectors[$i]);
-                $status = mi_command('lb_list',$errors,$code);
+                $message = mi_command('lb_list',$errors,$status);
                 print_r($errors);
                 $status = trim($status);
-		preg_match_all('/Destination\:\:\s+sip\:[a-zA-Z0-9.:]+\s+id=\d+\s+group=\d+\s+enabled=(yes|no)\s+auto-re=(on|off)(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*/',$status,$matches);
+				
+				if ($comm_type != "json"){
+	                $message = trim($message);
+					$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-re=(?P<autore>on|off)\s+Resources(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
+					preg_match_all($pattern,$message,$matches);
+					$data_no = count($matches[0]);
+				}
+				else {
+					//no more stupid parsing
+					$message = json_decode($message,true);
+					$message = $message['Destination'];
+					$data_no = count($message);
+				}
 }
 ?>
 </form>
 <form action="<?=$page_name?>?action=refresh" method="post">
-<table width="85%" cellspacing="2" cellpadding="2" border="0">
+<table width="95%" cellspacing="2" cellpadding="2" border="0">
  
  <tr height="10">
-  <td colspan="3" class="searchRecord" align="right"><input type="submit" name="refresh" value="Refresh from Cache" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="3"  align="right"><input type="submit" name="refresh" value="Refresh from Cache" class="searchButton"></td>
  </tr>
 </table>
 </form>
@@ -59,58 +68,126 @@
   <td class="loadbalancerTitle">Resources</td>
 
 <?
-	for ($i=0; $i<count($matches[0]);$i++) {
-                if ($i%2==1) $row_style="rowOdd";
-                else $row_style="rowEven";
-		$tmp = explode("::",$matches[0][$i]); 
-		$temp=explode(" ",$tmp[1]);
-		$dst_uri = $temp[1];
-		$id = explode("=",$temp[2]);
-		$group = explode("=",$temp[3]);
-		$status = explode("=",$temp[4]);
-		$auto = explode(" ",$temp[5]);
-		$auto_re = explode("=",$auto[0]);
-		$auto_re[1] = substr($auto_re[1],0,-8);
 
-		if ( $status[1]=="yes" ) {
-		        $toggle_button = "enabled";
+if ($data_no==0) {
+	echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
+else {
+	if ($comm_type != "json"){
+		for ($i=0; $i<count($matches[0]);$i++) {
+			$row_style = ($i%2==1)?"rowOdd":"rowEven";
+			
+			$dst_uri 	= $matches['destination'][$i];
+			$id			= $matches['id'][$i];
+			$group 		= $matches['group'][$i];
+			$status 	= $matches['enabled'][$i];
+			$auto_re 	= $matches['autore'][$i];
 
-		} else if ( $status[1] == "no" ){
-		        $toggle_button = "disabled";
+			$pattern	= '/\s+Resource\:\:\s+(?P<resource_name>[a-zA-Z0-9_-]+)\s+max=(?P<resource_max_load>\d+)\s+load=(?P<resource_load>\d+)/';
+			
+			preg_match_all($pattern,$matches['resources'][$i],$resources);
+
+
+			$toggle_button =($status=="yes")?"enabled":"disabled";
+
+			$resource="<table>";
+			for ($j=0;$j<count($resources[0]);$j++) {
+				
+				$resource .= "<tr>";
+				$resource .= "<td>";
+				$resource .= $resources['resource_name'][$j];
+				$resource .= " = ";
+				$resource .= $resources['resource_load'][$j];
+				$resource .= "</td>";
+				$resource .= "<td>";
+				$resource .= "( max =  ";
+				$resource .= $resources['resource_max_load'][$j];
+				$resource .= " )  ";
+				$resource .= "</td>";
+				$resource .= "</tr>";
+			}
+			$resource .= "</table>";
+?>
+			<tr align=center>
+				<td class="<?=$row_style?>">&nbsp;<?=$id?></td>
+				<td class="<?=$row_style?>">&nbsp;<?=$group?></td>
+				<td class="<?=$row_style?>">&nbsp;<?=$dst_uri?></td>
+				<td class="<?=$row_style?>">&nbsp;
+					<div align="center">
+			
+						<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>&id=<?=$id?>" method="post">
+						<? if ( $toggle_button == "enabled" ) {
+								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
+						} else if  ( $toggle_button == "disabled" ) {
+								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
+						}
+						?>
+						</form>
+					</div>
+				</td>
+				<td class="<?=$row_style?>">&nbsp;<?=$auto_re?></td>
+				<td class="<?=$row_style?>" style="text-align: left; padding-left: 5px;"><?=$resource?></td>
+			</tr>
+<?
+ 		}
+ 	}
+ 	else {
+		for ($i=0; $i<count($message);$i++) {
+			$row_style = ($i%2==1)?"rowOdd":"rowEven";
+			
+			$dst_uri 	= $message[$i]['value'];
+			$id 		= $message[$i]['attributes']['id'];
+			$group 		= $message[$i]['attributes']['group'];
+			$status 	= $message[$i]['attributes']['enabled'];
+			$auto_re	= $message[$i]['attributes']['auto-re'];
+
+			$toggle_button =($status=="yes")?"enabled":"disabled";
+
+			$resource="<table>";
+			for ($j=0;$j<count($message[$i]['children']['Resources']['children']['Resource']);$j++) {
+				
+				$resource .= "<tr>";
+				$resource .= "<td>";
+				$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['value'];
+				$resource .= " = ";
+				$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['attributes']['load'];
+				$resource .= "</td>";
+				$resource .= "<td>";
+				$resource .= "( max =  ";
+				$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['attributes']['max'];
+				$resource .= " )  ";
+				$resource .= "</td>";
+				$resource .= "</tr>";
+			}
+			$resource .= "</table>";
+?>
+			<tr align=center>
+				<td class="<?=$row_style?>">&nbsp;<?=$id?></td>
+				<td class="<?=$row_style?>">&nbsp;<?=$group?></td>
+				<td class="<?=$row_style?>">&nbsp;<?=$dst_uri?></td>
+				<td class="<?=$row_style?>">&nbsp;
+					<div align="center">
+			
+						<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>&id=<?=$id?>" method="post">
+						<? if ( $toggle_button == "enabled" ) {
+								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
+						} else if  ( $toggle_button == "disabled" ) {
+								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
+						}
+						?>
+						</form>
+					</div>
+				</td>
+				<td class="<?=$row_style?>">&nbsp;<?=$auto_re?></td>
+				<td class="<?=$row_style?>" style="text-align: left; padding-left: 5px;"><?=$resource?></td>
+			</tr>
+<?
 		}
-
-$resource="";
-for ($j=2;count($tmp)>$j;$j++) {
-	if (preg_match('/Resource$/',$tmp[$j],$match)!=0 ) $tmp[$j]=substr($tmp[$j],0,-8);
-	$resource .= $tmp[$j]."\n";
-
+ 	}
 }
 ?>
- <tr align=center>
-  <td class="<?=$row_style?>">&nbsp;<?=$id[1]?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$group[1]?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$dst_uri?></td>
-  <td class="<?=$row_style?>">&nbsp;<div align="center">
-	<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>&id=<?=$id[1]?>" method="post">
-	<? if ( $toggle_button == "enabled" ) {
 
-        	echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
-		
-	} else
-	if  ( $toggle_button == "disabled" )
-	{
-
-        	echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
-	}
-	?>
-        </form>
-	</div>
-  </td>
-  <td class="<?=$row_style?>">&nbsp;<?=$auto_re[1]?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resource?></td>
- </tr>
-<?
- }
-?>
-
+ <tr>
+ <td colspan="6" class="loadbalancerTitle" align="right">Total Records: <?php print $data_no?>&nbsp;</td>
+ <tr>
 </table>

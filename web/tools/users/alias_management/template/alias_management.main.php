@@ -97,6 +97,11 @@ echo('<tr height="10">
 
 </table>
 </form>
+<br>
+<form action="<?=$page_name?>?action=add" method="post">
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
+</form>
+<br>
 
 <table width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
@@ -309,9 +314,4 @@ else
   </td>
  </tr>
 </table>
-<form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
-</form>
-
-<br>
 

@@ -49,7 +49,7 @@
     $sql = "SELECT * FROM ".$table." WHERE name='".$var_name."' AND box_id=".$box_id;
     $resultset = $link->queryAll($sql);
     if(PEAR::isError($resultset)) {
-             die('Failed to issue query, error message : ' . $resultset->getMessage());
+             //die('Failed to issue query, error message : ' . $resultset->getMessage());
     }	
     if (count($resultset)>0) {
                                     $var_checked="checked"; $bold_="<b>"; $_bold="</b>";

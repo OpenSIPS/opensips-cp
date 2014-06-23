@@ -22,11 +22,6 @@
  */
 -->
 
-<div id="tooltip" style="background-color:ivory;width: 150px;
- height: 29px;border: solid 1px gray; text-align: center;">
-</div>
-
-
 <?php 
 if (!isset($toggle_button)) {
 
@@ -39,7 +34,13 @@ if (!isset($toggle_button)) {
 
 	$message = mi_command("sip_trace" , $errors , $status);
 	print_r($errors);
-	$message = trim($message);
+	if ($comm_type != "json"){
+		$message = trim($message);
+	}
+	else {
+		$message = json_decode($message,true);
+		$message = $message['value'];
+	}
 	if ($message == "on")
 	$toggle_button = "disable";
 
@@ -49,7 +50,6 @@ if (!isset($toggle_button)) {
 }
 
  ?>
-<hr width="100%" color="#000000">
 <div align="right">
 <form action="<?=$page_name?>?action=toggle&toggle_button=<?php print $toggle_button?>" method="post">
 <?php if (!$_SESSION['read_only']) {

@@ -1,6 +1,6 @@
 <?php
 /*
-* $Id$
+* $Id: address_apply_changes.php 287 2011-10-17 09:41:35Z untiptun $
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -22,56 +22,38 @@
 */
 ?>
 
-
-<HTML>
-
-<HEAD>
- <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
- <META HTTP-EQUIV="Expires" CONTENT="-1">
-</HEAD>
-
-<BODY>
 <?php
 
-require("../../../../config/tools/system/permissions/local.inc.php");
+
+require("../../../../config/tools/system/dialplan/local.inc.php");
 require("../../../common/mi_comm.php");
 require("lib/functions.inc.php");
 
-$xmlrpc_host="";
-$xmlrpc_port="";
-$fifo_file="";
-$comm_type="";
+$command="address_reload";
+
+?>
+<fieldset><legend>Sending MI command: <?=$command?></legend>
+<br>
+<?php
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
-if($errors)
-echo('get proxys error');
-
-$command="address_reload";
-
 for ($i=0;$i<count($mi_connectors);$i++){
-
+	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
 	$comm_type=params($mi_connectors[$i]);
 
 	$message=mi_command($command, $errors, $status);
+
+	if ($errors) {
+		echo "<font color='red'><b>".$errors[0]."</b></font>";
+	} else {
+		echo "<font color='green'><b>Success</b></font>";
+	}
+	echo "<br>";
 }
-
-if ($errors) {
-
-	echo($errors[0]);
-
-
-} else {
-
-	echo "Command successfully executed.";
-
-
-}
-
-return;
 
 ?>
-</BODY>
 
-</HTML>
+</fieldset>
+

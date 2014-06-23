@@ -48,10 +48,4 @@
   </tr>
 </table>
 <hr width="100%" color="#000000">
-<?php
-/*<div align="right">
- <?php if (!$_read_only) echo('<button type="button" class="Button" onClick="window.open(\'apply_changes.php\',\'apply\',\'width=300,height=100\')">Apply Changes to Server</button><br>') ?>
-</div>
-*/
-?>
 <br>

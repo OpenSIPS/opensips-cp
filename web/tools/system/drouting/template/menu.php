@@ -48,6 +48,8 @@
 </table>
 <hr width="100%" color="#000000">
 <div align="right">
- <?php if ((!$_read_only) && ($page_name!="settings.php")) echo('<button type="button" class="formButton" onClick="window.open(\'apply_changes.php\',\'apply\',\'width=300,height=100\')">Apply Changes to Server</button><br>') ?>
+<?php if (!$_SESSION['read_only'])
+	echo '<a href="javascript:;" onclick="apply_changes()" class="ButtonLink">Apply Changes to Server</a>';
+?>
 </div>
 <br>

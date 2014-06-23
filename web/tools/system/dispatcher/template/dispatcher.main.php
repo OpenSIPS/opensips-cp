@@ -30,20 +30,30 @@ $sipURI = array();
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 for ($i=0;$i<count($mi_connectors);$i++){
 
-	$comm_type=params($mi_connectors[$i]);
+		$comm_type=params($mi_connectors[$i]);
         $message=mi_command('ds_list',$errors,$status);
         print_r($errors);
         $status = trim($status);
-        preg_match_all('/URI\:\:\s+sip\:[0-9\.a-zA-Z]+\:\d+\s+flag\=./',$message,$matches);
 }
-?>
-<?php
-for($j=0; count($matches[0])>$j; $j++) {
-	$temp = explode(" ",$matches[0][$j]);
-	$sipURI[] = $temp[1];
-	$fl = explode("=",$temp[2]);
-	$flag[] = $fl[1];
+if ($comm_type != "json"){
+	preg_match_all('/URI\:\:\s+sip\:[0-9\.a-zA-Z]+\:\d+\s+state\=(Active|Inactive|Probing)/',$message,$matches);
+	for($j=0; count($matches[0])>$j; $j++) {
+		$temp = explode(" ",$matches[0][$j]);
+		$sipURI[] = $temp[1];
+		$fl = explode("=",$temp[2]);
+		$flag[] = $fl[1];
+	}
 }
+else {
+	$message = json_decode($message,true);
+	$message = $message['SET'];
+
+	for ($j=0; $j<count($message); $j++){
+		$sipURI[] 	= $message[$j]['children']['URI'][0]['value'];
+		$flag[] 	= $message[$j]['children']['URI'][0]['attributes']['state'];
+	}
+}
+
 
 $sql_search="";
 $search_setid=$_SESSION['dispatcher_setid'];
@@ -55,27 +65,31 @@ if($search_descr !="") $sql_search.=" and description like '%".$search_descr."%'
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 8;
+	$colspan = 11;
 }else{
-	$colspan = 5;
+	$colspan = 8;
 }
   ?>
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
+<form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="dispatcherTitle"></td>
  </tr>
-<form action="<?=$page_name?>?action=dp_act" method="post">
   <tr>
-  <td class="searchRecord" align="center">Setid:</td>
+  <td class="searchRecord">Setid</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_setid" 
   value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
  <tr>
- <td class="searchRecord" align="center">Destination:</td>
+ <td class="searchRecord">Destination</td>
  <td class="searchRecord" width="200"><input type="text" name="dispatcher_dest" 
  value="<?=$search_dest?>" maxlength="16" class="searchInput"></td>
 </tr>
   <tr>
-  <td class="searchRecord" align="center">Description:</td>
+  <td class="searchRecord" >Description</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_descr" 
   value="<?=$search_descr?>" maxlength="16" class="searchInput"></td>
  </tr>
@@ -86,33 +100,18 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 
-<?
-if(!$_SESSION['read_only']){
-	echo('<tr height="10">
-	  <td colspan="2" class="searchRecord" align="center">
- 	  <input type="submit" class="formButton" name="delete" value="Delete Dispatcher" onclick="return confirmDeleteDispatcher()"> 
-	  </td>
-	  </tr>
-	  </form>'); 
-}
-?>
  <tr height="10">
   <td colspan="2" class="dispatcherTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
+</form>
 <br>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
 <tr>
-<td align="right">
+<td align="center">
 <form action="<?=$page_name?>?action=add&clone=0" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
-</form>
-</td>
-<td align="left">
-<form action="<?=$page_name?>?action=refresh" method="post">
-  <input type="submit" name="refresh" value="Refresh" class="searchButton">
-  <img src="images/spacer.gif" width="5" height="5">
 </form>
 </td>
 </tr>
@@ -125,11 +124,14 @@ if(!$_SESSION['read_only']){
   <td class="dispatcherTitle">ID</td>
   <td class="dispatcherTitle">Setid</td>
   <td class="dispatcherTitle">Destination</td>
-  <td class="dispatcherTitle">Flags</td>
+  <td class="dispatcherTitle">Socket</td>
+  <td class="dispatcherTitle">Weight</td>
+  <td class="dispatcherTitle">Attributes</td>
   <td class="dispatcherTitle">Description</td>
+  <td class="dispatcherTitle">DB State</td>
   <?
   if(!$_SESSION['read_only']){
-  	echo('<td class="dispatcherTitle">Status</td>
+  	echo('<td class="dispatcherTitle">Memory State</td>
 
   	<td class="dispatcherTitle">Edit</td>
   		<td class="dispatcherTitle">Delete</td>');
@@ -166,27 +168,32 @@ else
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;
+	$state = array();
 	while (count($resultset)>$i)
 	{
+		   switch ($resultset[$i]['state']) {
+			case "0" : $db_state = "Active"; break;
+			case "1" : $db_state = "Inactive"; break;
+		   }
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
 		if (in_array($resultset[$i]['destination'],$sipURI)) {
 			$key = array_search($resultset[$i]['destination'],$sipURI);
-			$state[$i] = $config->status[$flag[$key]];
+			$state[$i] = $config->status[trim($flag[$key])];
 		} else {
 		        $state[$i] = "-";
 		}
 
-
 		if(!$_SESSION['read_only']){
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
-			if ($state[$i]== "-") $state_link = $state[$i];
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'" onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+			if ($state[$i]== "-") 
+				$state_link = $state[$i];
 			else
-				$state_link = '<a href="'.$page_name.'?action=change_state&state='.$state[$i].'&group='.$resultset[$i]['setid'].'&address='.$resultset[$i]['destination'].'">'.$state[$i].'</a>';
+				$state_link = '<a href="'.$page_name.'?action=change_state&state='.$state[$i].'&group='.$resultset[$i]['setid'].'&address='.$resultset[$i]['destination'].'"><img align="center" name="status'.$i.'" src="images/'.strtolower($state[$i]).'.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$state[$i].'\')" border="0"></a>';
 		}
 
 ?>
@@ -194,13 +201,16 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['setid']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['destination']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['flags']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['socket']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['weight']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['attrs']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['description']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=$db_state?></td>
   <? 
    if(!$_SESSION['read_only']){
-   	echo ('<td class="'.$row_style.'">&nbsp;'.$state_link.'</td>');
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-	      <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+   	echo '<td class="'.$row_style.'" align="center">'.$state_link.'</td>';
+   	echo '<td class="'.$row_style.'" align="center">'.$edit_link.'</td>';
+	echo '<td class="'.$row_style.'" align="center">'.$delete_link.'</td>';
    }
 	?>  
   </tr>  

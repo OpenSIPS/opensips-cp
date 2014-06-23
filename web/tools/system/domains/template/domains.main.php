@@ -39,6 +39,9 @@ else {
 
 if (!$_SESSION[read_only]) {
 ?> 
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=<?=$form_action?>" method="post">
 <?=$form_extra?>
 <table width="250" cellspacing="2" cellpadding="2" border="0">

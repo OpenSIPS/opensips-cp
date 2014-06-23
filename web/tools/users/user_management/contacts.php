@@ -69,59 +69,118 @@ for ($i=0;$i<count($mi_connectors);$i++){
     $status = trim($status);
 }
 unset($contact);
-if ($message == NULL) 
+if ($message == NULL) {
 	echo "The user is not registered!";
+}
 else{
 	$stupidtags = array("&lt;","&gt;");
-    $goodtags = array("<",">");
+	$goodtags = array("<",">");
 
 	$message=str_replace($stupidtags,$goodtags,$message);
 
-	$temp=explode(";",$message);
-	preg_match_all('/Contact:: <.+?>/', $message, $mcontact);
-	for ($i=0;$i<count($mcontact[0]);$i++){
-		$contact[$i] = substr($mcontact[0][$i],11,-1);
-		if ($contact[$i]=="") $contact[$i]="n/a";
-	}
-	preg_match_all('/q=.?;/', $message, $mq);
-	for ($i=0;$i<count($mq[0]);$i++){
-		$q[$i]=substr($mq[0][$i],2,-1);
-		if ($q[$i]=="") $q[$i]="n/a";
-	}
+	if ($comm_type != "json"){
 
-	preg_match_all('/expires=.+?;/', $message, $mexpires);
-	for ($i=0;$i<count($mexpires[0]);$i++){
-		$expires[$i]=secs2hms(substr($mexpires[0][$i],8,-1));
-	}
-	preg_match_all('/flags=.+?;/', $message, $mflags);
-	for ($i=0;$i<count($mflags[0]);$i++){
-		$flags[$i]=decbin(hexdec(substr($mflags[0][$i],6,-1)));
-	}
+
+		preg_match_all('/Contact:: <.+?>/', $message, $mcontact);
+		for ($i=0;$i<count($mcontact[0]);$i++){
+			$contact[$i] = substr($mcontact[0][$i],11,-1);
+			if ($contact[$i]=="") $contact[$i]="n/a";
+		}
+		preg_match_all('/q=.?;/', $message, $mq);
+		for ($i=0;$i<count($mq[0]);$i++){
+			$q[$i]=substr($mq[0][$i],2,-1);
+			if ($q[$i]=="") $q[$i]="n/a";
+		}
+
+		preg_match_all('/expires=.+?;/', $message, $mexpires);
+		for ($i=0;$i<count($mexpires[0]);$i++){
+			$expires[$i]=secs2hms(substr($mexpires[0][$i],8,-1));
+		}
+		preg_match_all('/flags=.+?;/', $message, $mflags);
+		for ($i=0;$i<count($mflags[0]);$i++){
+			$flags[$i]=decbin(hexdec(substr($mflags[0][$i],6,-1)));
+		}
 	
-	preg_match_all('/cflags=.+?;/', $message, $mcflags);
-	for ($i=0;$i<count($mcflags[0]);$i++){
-		$cflags[$i]=decbin(hexdec(substr($mcflags[0][$i],7,-1)));
-	}
+		preg_match_all('/cflags=.+?;/', $message, $mcflags);
+		for ($i=0;$i<count($mcflags[0]);$i++){
+			$cflags[$i]=decbin(hexdec(substr($mcflags[0][$i],7,-1)));
+		}
 
-	preg_match_all('/socket=<.+?>/', $message, $msocket);
-	for ($i=0;$i<count($msocket[0]);$i++){
-		$socket[$i] = substr($msocket[0][$i],8,-1);
-		if ($socket[$i]=="") $socket[$i]="n/a";
-	}
-	preg_match_all('/methods=.+?;/', $message, $mmethods);
-	for ($i=0;$i<count($mmethods[0]);$i++){
-		$methods[$i] = decbin(hexdec(substr($mmethods[0][$i],8,-1)));
-	}
+		preg_match_all('/socket=<.+?>/', $message, $msocket);
+		for ($i=0;$i<count($msocket[0]);$i++){
+			$socket[$i] = substr($msocket[0][$i],8,-1);
+			if ($socket[$i]=="") $socket[$i]="n/a";
+		}
 
-	preg_match_all('/received=<.+?>/', $message, $mreceived);
-	for ($i=0;$i<count($mreceived[0]);$i++){
-		$received[$i]=substr($mreceived[0][$i],10,-1);
-		if ($received[$i]=="") $received[$i]="n/a";	
+		preg_match_all('/methods=.+?;/', $message, $mmethods);
+		for ($i=0;$i<count($mmethods[0]);$i++){
+			$methods[$i] = decbin(hexdec(substr($mmethods[0][$i],8,-1)));
+		}
+
+		preg_match_all('/received=<.+?>/', $message, $mreceived);
+		for ($i=0;$i<count($mreceived[0]);$i++){
+			$received[$i]=substr($mreceived[0][$i],10,-1);
+			if ($received[$i]=="") $received[$i]="n/a";	
+		}
+
+		preg_match_all('/user_agent=<.+?>/', $message, $museragent);
+		for ($i=0;$i<count($museragent[0]);$i++){
+			$useragent[$i]=substr($museragent[0][$i],12,-1);
+			if ($useragent[$i]=="") $useragent[$i]="n/a";
+		}
 	}
-	preg_match_all('/user_agent=<.+?>/', $message, $museragent);
-	for ($i=0;$i<count($museragent[0]);$i++){
-		$useragent[$i]=substr($museragent[0][$i],12,-1);
-		if ($useragent[$i]=="") $useragent[$i]="n/a";
+	else {
+		$message = json_decode($message,true);
+		$message = $message['Contact'];
+		for ($j=0; $j <= count($message); $j++){
+			preg_match_all('/^<sip:.+?>/', $message[$j]['value'], $mcontact);
+			for ($i=0;$i<count($mcontact[0]);$i++){
+				$contact[$j] = substr($mcontact[0][$i],1,-1);
+				if ($contact[$j]=="") $contact[$i]="n/a";
+			}
+			preg_match_all('/q=.?;/', $message[$j]['value'], $mq);
+			for ($i=0;$i<count($mq[0]);$i++){
+				$q[$j]=substr($mq[0][$i],2,-1);
+				if ($q[$j]=="") $q[$j]="n/a";
+			}
+
+			preg_match_all('/expires=.+?;/', $message[$j]['value'], $mexpires);
+			for ($i=0;$i<count($mexpires[0]);$i++){
+				$expires[$j]=secs2hms(substr($mexpires[0][$i],8,-1));
+			}
+			preg_match_all('/flags=.+?;/', $message[$j]['value'], $mflags);
+			for ($i=0;$i<count($mflags[0]);$i++){
+				$flags[$j]=decbin(hexdec(substr($mflags[0][$i],6,-1)));
+			}	
+	
+			preg_match_all('/cflags=.+?;/', $message[$j]['value'], $mcflags);
+			for ($i=0;$i<count($mcflags[0]);$i++){
+				$cflags[$j]=decbin(hexdec(substr($mcflags[0][$i],7,-1)));
+			}
+
+			preg_match_all('/socket=<.+?>/', $message[$j]['value'], $msocket);
+			for ($i=0;$i<count($msocket[0]);$i++){
+				$socket[$j] = substr($msocket[0][$i],8,-1);
+				if ($socket[$j]=="") $socket[$j]="n/a";
+			}
+
+			preg_match_all('/methods=.+?;/', $message[$j]['value'], $mmethods);
+			for ($i=0;$i<count($mmethods[0]);$i++){
+				$methods[$j] = decbin(hexdec(substr($mmethods[0][$i],8,-1)));
+			}
+
+			preg_match_all('/received=<.+?>/', $message[$j]['value'], $mreceived);
+			for ($i=0;$i<count($mreceived[0]);$i++){
+				$received[$j]=substr($mreceived[0][$i],10,-1);
+				if ($received[$j]=="") $received[$j]="n/a";	
+			}
+
+			preg_match_all('/user_agent=<.+?>/', $message[$j]['value'], $museragent);
+			for ($i=0;$i<count($museragent[0]);$i++){
+				$useragent[$j]=substr($museragent[0][$i],12,-1);
+				if ($useragent[$j]=="") $useragent[$j]="n/a";
+			}
+		}
 	}
 }
 

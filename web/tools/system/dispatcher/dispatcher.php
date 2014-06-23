@@ -72,41 +72,66 @@ if ($action=="add_verify")
 
 		$setid=$_POST['setid'];
 		$destination=$_POST['destination'];
-		$flags = $_POST['flags'];
+		$socket = $_POST['socket'];
+		$state = $_POST['state'];
+		$weight = $_POST['weight'];
+		$attrs = $_POST['attrs'];
+		$description = $_POST['description'];
 
-		if (!empty($_POST['description'])) {
-			$description= $_POST['description'];
-		} else {
-			$description=NULL;
+
+		if(!isset($setid) || $setid == NULL || !ctype_digit(strval($setid)) || $setid < 0){
+			$form_error = "Invalid Set ID - has to be INTEGER >= 0";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
 		}
 
-		if($setid=="")
-		$setid = "0";
+		if (!isset($destination) || !preg_match("/^(sip|sips):.*$/",$destination)){
+			$form_error = "Invalid Destination - has to be a SIP URI";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
 
-		if($flags=="")
-		$flags = "0";
+		if (isset($socket) && $socket != "" && !preg_match("/^(sip|udp|tcp|raw):.*:\d{1,5}$/",$socket)){
+			$form_error = "Invalid Socket - has to be proto:ip:port";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
+		
+		if(!isset($weight) || $weight == NULL || !ctype_digit(strval($weight)) || $weight < 0){
+			$form_error = "Invalid Weight - has to be INTEGER >= 0";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
 
-		if ($errors=="") {
-		/*	$sql = "SELECT * FROM ".$table.
-			" WHERE setid=" .$setid;
-			$resultset = $link->queryAll($sql);
-                        if(PEAR::isError($resultset)) {
-                                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                        }
+		//check for duplicates
+		$sql = "SELECT count(*) FROM ".$table." WHERE setid=" .$setid. " and destination = '".$destination."'"; 
+		$result = $link->queryOne($sql);
+        if(PEAR::isError($result)) {
+        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+        }
  	
-			if (count($resultset)>0) {
-				$errors="Duplicate rule";
-			} else {*/
-				$sql = "INSERT INTO ".$table."
-				(setid, destination, flags, description) VALUES 
-				(". $setid .",'". $destination ."',". $flags .",'". $description."') ";
-				$resultset = $link->prepare($sql);
-				$resultset->execute();
-				$resultset->free();
+		if ($result > 0){
+			$form_error = "Duplicate record - a record with same setid & address already exists";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		} else {
+			$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES 
+				('". $setid ."','". $destination ."','".$socket."','".$state."','".$weight."','". $attrs."','". $description."') ";
+				$result = $link->exec($sql);
+        		if(PEAR::isError($result)) {
+		        	$form_error = $result->getUserInfo();
+					require("template/".$page_id.".add.php");
+					require("template/footer.php");
+					exit();
+       			}
 				$info="The new record was added";
-			//}
-			$link->disconnect();
 		}
+		$link->disconnect();
 	}else{
 		$errors= "User with Read-Only Rights";
 	}
@@ -151,28 +176,68 @@ if ($action=="modify")
 		$id = $_GET['id'];
 		$setid=$_POST['setid'];
 		$destination=$_POST['destination'];
-		$flags = $_POST['flags'];
-		$description= $_POST['description'];
+		$socket = $_POST['socket'];
+		$state = $_POST['state'];
+		$weight = $_POST['weight'];
+		$attrs = $_POST['attrs'];
+		$description = $_POST['description'];
 
-		if ($setid=="" || $destination=="" || $flags==""){
-			$errors = "Invalid data, the entry was not modified in the database";
+
+		if(!isset($setid) || $setid == NULL || !ctype_digit(strval($setid)) || $setid < 0){
+			$form_error = "Invalid Set ID - has to be INTEGER >= 0";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
 		}
-		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE setid=" .$setid. " AND id!=".$id;
-			$resultset = $link->queryAll($sql);
-                        if(PEAR::isError($resultset)) {
-                                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                        }
-				$sql = "UPDATE ".$table." SET setid=".$setid.", destination = '".$destination.
-				"', flags= ".$flags.", description ='".$description."' WHERE id=".$id;
-				$resultset = $link->prepare($sql);
-				$resultset->execute();
-				$resultset->free();
-				$info="The new rule was modified";
-			$link->disconnect();
+
+		if (!isset($destination) || !preg_match("/^(sip|sips):.*$/",$destination)){
+			$form_error = "Invalid Destination - has to be a SIP URI";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
+
+		if (isset($socket) && $socket != "" && !preg_match("/^(sip|udp|tcp|raw):.*:\d{1,5}$/",$socket)){
+			$form_error = "Invalid Socket - has to be proto:ip:port";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
+		
+		if(!isset($weight) || $weight == NULL || !ctype_digit(strval($weight)) || $weight < 0){
+			$form_error = "Invalid Weight - has to be INTEGER >= 0";
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
+
+		//check for duplicates
+		$sql = "SELECT count(*) FROM ".$table." WHERE setid=" .$setid. " and destination = '".$destination."' and id != ".$id; 
+		$result = $link->queryOne($sql);
+		if(PEAR::isError($result)) {
+			die('Failed to issue query, error message : ' . $resultset->getMessage());
+		}
+		else {
+				$sql = "UPDATE ".$table." SET 
+						setid=".$setid.", 
+						destination = '".$destination."', 
+						socket = '".$socket."', 
+						state = ".$state.", 
+						weight = ".$weight.", 
+						attrs = '".$attrs."', 
+						description = '".$description."' 
+						WHERE id=".$id;
+				$result = $link->exec($sql);
+        		if(PEAR::isError($result)) {
+		        	$form_error = $result->getUserInfo();
+					require("template/".$page_id.".edit.php");
+					require("template/footer.php");
+					exit();
+       			}
+				$info="Record has been updated";
+				$link->disconnect();
 		}
 	}else{
-
 		$errors= "User with Read-Only Rights";
 	}
 
@@ -273,9 +338,11 @@ if ($action=="dp_act")
 if ($action=="change_state") {
 
 
-	if (($_GET['state']=='Active') || ($_GET['state']=='Probing') ){
+	if ($_GET['state']=='Active') {
 		$desired_state = 'I';
 	} else if ($_GET['state']=='Inactive'){
+		$desired_state = 'A';
+	} else if ($_GET['state']=='Probing'){
 		$desired_state = 'A';
 	}
 
