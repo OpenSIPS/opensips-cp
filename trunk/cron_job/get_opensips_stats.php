@@ -22,7 +22,7 @@
  */
 
 
-$path_to_smonitor="/var/www/opensips-cp/web/tools/system/smonitor";
+$path_to_smonitor="/var/www/pmwiki/opensips-cp/web/tools/system/smonitor";
 chdir($path_to_smonitor);
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/smonitor/local.inc.php");
@@ -36,7 +36,10 @@ $box_id=0;
 
 $xmlrpc_host=""; 
 $xmlrpc_port=""; 
+$udp_host=""; 
+$udp_port=""; 
 $fifo_file=""; 
+$json_url=""; 
 $comm_type="";
 
 foreach ($boxes as $ar){
@@ -57,14 +60,15 @@ foreach ($boxes as $ar){
 
 		for ($i=0;count($resultset)>$i;$i++){
 				$var_name=$resultset[$i]['name'];
-				preg_match("/".$var_name." = ([0-9]*)/i", $stats, $regs);
+				preg_match("/".$var_name.":: ([0-9]*)/i", $stats, $regs);
 				$var_value=$regs[1];
-				if ($var_value==NULL) $var_value="0"; 
-			$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$var_name."','".$var_value."','".$time."',".$box_id.")";
-			$result = $link->exec($sql);
-			if(PEAR::isError($result)) {
-				die('Failed to issue query, error message : ' . $resultset->getMessage());
-			}
+				if ($var_value==NULL) 
+					$var_value="0"; 
+				$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$var_name."','".$var_value."','".$time."',".$box_id.")";
+				$result = $link->exec($sql);
+				if(PEAR::isError($result)) {
+					die('Failed to issue query, error message : ' . $resultset->getMessage());
+				}
 		}
 	}
 	$box_id++;
