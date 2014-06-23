@@ -52,15 +52,14 @@ A must-have option to be set into your php.ini :
 
 short_open_tag = On ;  
 
-4. MDB2 package needs to be installed with the 2 drivers (mysql and postgresql)
+4. MDB2 package needs to be installed with the appropriate DB driver (mysql / postgresql / mssql / sqlite etc.)
 pear install MDB2
-pear install MDB2#mysql
-pear install MDB2#pgsql
+pear install MDB2#mysql #to install the mysql driver
 pear install log
 
 
 
-PostgreSQL
+PostgreSQL (in case you decide to use postgres)
 ------------
 
 1. in /etc/postgresql/8.3/main/postgresql.conf set:
@@ -190,6 +189,8 @@ The 2 types of files (global and local) are almost identical, the exception is t
 
 *Configuration files:
 	1) globals.php (config/globals.php)
+	2) boxes.global.inc.php (config/boxes.global.inc.php)
+	3) modules.inc.php (config/modules.inc.php)
 
 	1)The globals.php file is used for parameters that are being accessed in more then one module.
 		*$config->table_aliases
@@ -205,5 +206,27 @@ The 2 types of files (global and local) are almost identical, the exception is t
 		This array has 2 values that will remain unchanged: read-only and read-write.
 
 		$config->permissions = array("read-only","read-write");
+    2) The boxes.global.inc.php contains some important parameters like :
+        - box_id - this is an integer unique ID of the box your are configuring
+        - MI (management interface) connector - gives OpenSIPS Control Panel the ability to "talk" to OpenSIPS proxy via fifo, udp, xmlrpc and http json
+        - Monit configuration - OpenSIPS CP can be integrated with Monit (see https://mmonit.com/monit/)
+        - enable / disable Smonitor charts generator (you can choose to sample charts data on a box - be careful to configure the cron scripts)
+        - choose the system id associated to the box
+        You can define multiple boxes and group them into systems (see commented part of the file).
 
- 
+    3) The modules.inc.php file is used to configure what tools (modules) and/or groups of tools should appear in the main menu
+        For example :
+
+           "users"         => array (
+                                                    "enabled"   => true,
+                                                    "name"      => "Users",
+                                                    "modules"   => array (
+                                                                        "acl_management"    => array (
+                                                                                                    "enabled"   => true,
+                                                                                                    "name"      => "ACL Management" 
+                                                                        "alias_management"  => array (
+                                                                                                    "enabled"   => false,
+                                                                                                    "name"      => "Alias Management"
+                                                                                            ),
+
+        Above you can see that the Users tool group is enabled and the "ACL Management" module are enabled but the "Alias Management" is not enabled so it will not show up in the main menu.
