@@ -22,6 +22,9 @@
  *
 -->
 
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
  $sql_search="";
@@ -29,8 +32,7 @@
  $search_gwid=$_SESSION['gateways_search_gwid'];
  if ($search_gwid!="") {
      $sql_search.=" and gwid like '%" . $search_gwid . "%' ";
- } else
-    $sql_search .=" and gwid like '%' ";
+ }
 
 
  $search_type=$_SESSION['gateways_search_type'];
@@ -40,8 +42,7 @@
  $search_address=$_SESSION['gateways_search_address'];
  if ($search_address!="") {
 	 $sql_search.=" and address like '%" . $search_address . "%' ";
- } else 
-	$sql_search .=" and address like '%' "; 
+ } 
  
  $search_pri_prefix=$_SESSION['gateways_search_pri_prefix'];
  
@@ -69,23 +70,23 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
   <td colspan="2" class="searchTitle">Search Gateways by</td>
  </tr>
  <tr>
-  <td class="searchRecord">GWID :</td>
+  <td class="searchRecord">GWID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwid" value="<?=$search_gwid?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Type :</td>
+  <td class="searchRecord">Type </td>
   <td class="searchRecord" width="200"><?=get_types("search_type", $search_type)?></td>
  </tr>
  <tr>
-  <td class="searchRecord">Address :</td>
+  <td class="searchRecord">Address </td>
   <td class="searchRecord" width="200"><input type="text" name="search_address" value="<?=$search_address?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">PRI Prefix :</td>
+  <td class="searchRecord">PRI Prefix </td>
   <td class="searchRecord" width="200"><input type="text" name="search_pri_prefix" value="<?=$search_pri_prefix?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Probe Mode :</td>
+  <td class="searchRecord">Probe Mode </td>
   <td class="searchRecord" width="200">
   	<select id="probe_mode" name="probe_mode" class="dataSelect">
 	 <option value="0" selected>0 - Never</option>
@@ -95,13 +96,13 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
   </td>
 </tr>
  <tr>
-  <td class="searchRecord">Attributes :</td>
+  <td class="searchRecord">Attributes </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
 
  <tr>
-  <td class="searchRecord">Description :</td>
+  <td class="searchRecord">Description </td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$search_description?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
@@ -126,9 +127,11 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
   <td class="dataTitle">Strip</td>
   <td class="dataTitle">PRI Prefix</td>
   <td class="dataTitle">Probe Mode</td>
+  <td class="dataTitle">Socket</td>
   <td class="dataTitle">Attributes</td>
   <td class="dataTitle">Description</td>
-  <td class="dataTitle">Status</td>
+  <td class="dataTitle">DB State</td>
+  <td class="dataTitle">Memory State</td>
   <td class="dataTitle">Details</td>
   <td class="dataTitle">Edit</td>
   <td class="dataTitle">Delete</td>
@@ -144,29 +147,40 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	$comm_type=params($mi_connectors[$i]);
 	$message=mi_command($command, $errors, $status);
 }
+if ($comm_type != "json"){
+	$message = explode("\n",trim($message));
+	for ($i=0;$i<count($message);$i++){
+		
+		preg_match('/^(?:ID:: )?([^ ]+)/',trim($message[$i]),$matchGWID);
+		preg_match('/(Active|Inactive|Disabled MI|Probing)$/',$message[$i],$matchStatus);
 
+		$gw_statuses[$matchGWID[1]]= $matchStatus [1];
+	}
+}
+else {
+	$message =  preg_replace('/([^0-9\.,"A-Za-z{:\}\]\[\s]+)/', '', $message);
 
-$message = explode("\n",trim($message));
-for ($i=0;$i<count($message);$i++){
-	preg_match('/^(?:ID:: )?([^ ]+)/',$message[$i],$matchGWID);
-	preg_match('/(?:Enabled=)?([^ ]+)$/',$message[$i],$matchStatus);
-
-	$gw_statuses[$matchGWID[1]]= $matchStatus [1];
+	$message = json_decode($message,true);
+	$message = $message['ID'];
+	for ($j=0; $j<count($message); $j++){
+		$gw_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['State']);
+	}
 }
 //end get status
-
-  $sql_command_count = "select count(*) ".$sql_command;
- if ($sql_search=="") $sql_command="from ".$table." where (1=1) order by id asc";
-  else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
-
-  $sql_command = "select * ".$sql_command;
-  $result = $link->queryOne($sql_command_count);
-  if(PEAR::isError($result)) {
- 	 die('Failed to issue query, error message : ' . $result->getMessage());
+ if ($sql_search=="") {
+	$sql_command="select * from ".$table." where (1=1)";
+	$sql_count="select count(*) from ".$table." where (1=1)";
+ }
+ else {
+	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by ruleid asc";
+	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search;
+ }
+ $data_no = $link->queryOne($sql_count);
+  if(PEAR::isError($data_no)) {
+ 	 die('Failed to issue query, error message : ' . $data_no->getMessage());
   }
-  $data_no=$result;
  if ($data_no==0) 
- 	echo('<tr><td colspan="13" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ 	echo('<tr><td colspan="15" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=$config->results_per_page;
@@ -195,13 +209,24 @@ for ($i=0;$i<count($message);$i++){
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
    $gw_status = $gw_statuses[$resultset[$i]['gwid']];
-
-   if ($gw_status=="yes") 
-   		$status='<a href="'.$page_name.'?action=disablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/active.gif" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['gwid'].'\');"></a>';
-   else 
-   		$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/inactive.gif" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['gwid'].'\')"></a>';
-
-
+	
+	switch ($gw_status) {
+		case "Active": 
+   			$status='<a href="'.$page_name.'?action=disablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/active.png" alt="Enabled - Click to disable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'yes\');"></a>';
+			break;
+		case "Inactive": 
+   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+			break;
+		case "Disabled MI": 
+   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+			break;
+		case "Probing": 
+   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/probing.png" alt="Enabled - Click to enable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+			break;
+		default: 
+			$status = "n/a";
+	}
+	
    if ($resultset[$i]['pri_prefix']!="") $pri_prefix=$resultset[$i]['pri_prefix'];
     else $pri_prefix="&nbsp;";
 
@@ -212,6 +237,11 @@ for ($i=0;$i<count($message);$i++){
    	case "0" : $probe_mode = "Never"; break;
 	case "1" : $probe_mode = "When disabled"; break;
 	case "2" : $probe_mode = "Always"; break;
+   }
+   switch ($resultset[$i]['state']) {
+   	case "0" : $state = "Active"; break;
+	case "1" : $state = "Inactive"; break;
+	case "2" : $state = "Probing"; break;
    }
    $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="images/details.gif" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
@@ -226,8 +256,10 @@ for ($i=0;$i<count($message);$i++){
   <td class="<?=$row_style?>"><?=$resultset[$i]['strip']?></td>
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>
   <td class="<?=$row_style?>"><?=$probe_mode?> </td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['socket']?></td>
   <td class="<?=$row_style?>"><?=$attrs?> </td>
   <td class="<?=$row_style?>"><?=$description?></td>
+  <td class="<?=$row_style?>"><?=$state?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
   <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
   <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
@@ -238,7 +270,7 @@ for ($i=0;$i<count($message);$i++){
  }
 ?>
  <tr>
-  <td colspan="13" class="dataTitle">
+  <td colspan="15" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <td align="left">

@@ -22,8 +22,8 @@
 */
 
 require_once("../../../../config/session.inc.php");
-require_once("../../../../config/tools/system/dispatcher/db.inc.php");
 require_once("../../../../config/db.inc.php");
+require_once("../../../../config/tools/system/dispatcher/db.inc.php");
 require_once("../../../../config/tools/system/dispatcher/local.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['PHP_SELF']);

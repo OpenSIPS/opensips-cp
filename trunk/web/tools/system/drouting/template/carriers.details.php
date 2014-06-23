@@ -44,6 +44,16 @@
      <td class="dataRecord"><b>Disabled:</b> <?=$resultset[0]['enabled']?></td>
  </tr>
  <tr>
+  	<td class="dataRecord"><b>State</b> 
+		<?php 
+			switch ($resultset[0]['state']){
+				case "1" : echo "1 - Active"; break;
+				case "0" : echo "0 - Inactive"; break;
+			}
+		?>
+	</td>
+ </tr>
+ <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr>

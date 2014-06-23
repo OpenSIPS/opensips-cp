@@ -80,12 +80,32 @@ if ($_GET['action']=="execute")
 		$_SESSION['mi_time'][]=date("H:i:s");
 		$_SESSION['mi_command'][]=$command." ".$arguments;
 		$_SESSION['mi_box'][]=$current_box ;
-		if (count($errors)>0) $_SESSION['mi_response'][]=$errors[0];
+
+		if (count($errors)>0) {
+			$_SESSION['mi_response'][]=$errors[0];
+		}
 		else {
-			if (substr($status,0,1)!="2") $_SESSION['mi_response'][]=$status;
+			if (substr($status,0,1)!="2") {
+				$_SESSION['mi_response'][]=$status;
+			}
 			else {
-				if ($message!="") $_SESSION['mi_response'][]=$message;
-				else $_SESSION['mi_response'][]="Successfully executed, no output generated";
+				if ($message!="") {
+					if ($comm_type != "json"){	
+						$_SESSION['mi_response'][]=$message;
+					}
+					else {
+						$res = json_decode($message,true);
+						if (count($res) == 0){
+							$_SESSION['mi_response'][]="Successfully executed, no output generated";
+						}
+						else {
+							$_SESSION['mi_response'][]=print_r($res,true);
+						}
+					}
+				}
+				else {
+					$_SESSION['mi_response'][]="Successfully executed, no output generated";
+				}
 			}
 		}
 	}

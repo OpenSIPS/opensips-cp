@@ -46,7 +46,7 @@ if(!$_SESSION['read_only']){
   foreach ($config->custom_table_columns as $key => $value){
 ?>
   <tr>
-  <td class="searchRecord" align="left"><?php echo $key; ?>:</td>
+  <td class="searchRecord" align="left"><?php echo $key; ?></td>
   <td class="searchRecord" width="200"><input type="text" name="<?=$value; ?>" value="<?=$_SESSION[$value]?>" class="searchInput"></td>
   </tr>
 <?php } ?>

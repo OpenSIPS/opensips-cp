@@ -27,25 +27,25 @@
   <td class="dataTitle">Detailed view for Gateway <?=$_GET['gwid']?></td>
  </tr>
  <tr>
- 	<td class="dataRecord"><b>ID:</b> <?=$resultset[0]['id']?></td>
+ 	<td class="dataRecord"><b>ID</b> <?=$resultset[0]['id']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Gateway ID:</b> <?=$resultset[0]['gwid']?></td>
+  <td class="dataRecord"><b>Gateway ID</b> <?=$resultset[0]['gwid']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Type:</b> <?=get_type($resultset[0]['type'])?></td>
+  <td class="dataRecord"><b>Type</b> <?=get_type($resultset[0]['type'])?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Address:</b> <?=$resultset[0]['address']?></td>
+  <td class="dataRecord"><b>Address</b> <?=$resultset[0]['address']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Strip:</b> <?=$resultset[0]['strip']?></td>
+  <td class="dataRecord"><b>Strip</b> <?=$resultset[0]['strip']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>PRI Prefix:</b> <?=$resultset[0]['pri_prefix']?></td>
+  <td class="dataRecord"><b>PRI Prefix</b> <?=$resultset[0]['pri_prefix']?></td>
  </tr>
 <tr>
-  	<td class="dataRecord"><b>Probe mode:</b> 
+  	<td class="dataRecord"><b>Probe mode</b> 
 		<?php 
 			switch ($resultset[0]['probe_mode']){
 				case "0" : echo "0 - Never"; break;
@@ -55,13 +55,26 @@
 		?>
 	</td>
  </tr>
-
  <tr>
- <tr>
-  <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
+  <td class="dataRecord"><b>Socket</b> <?=$resultset[0]['socket']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
+  	<td class="dataRecord"><b>State</b> 
+		<?php 
+			switch ($resultset[0]['state']){
+				case "0" : echo "0 - Active"; break;
+				case "1" : echo "1 - Inactive"; break;
+				case "2" : echo "2 - Probing"; break;
+			}
+		?>
+	</td>
+ </tr>
+ <tr>
+ <tr>
+  <td class="dataRecord"><b>Attributes</b> <?=$resultset[0]['attrs']?></td>
+ </tr>
+ <tr>
+  <td class="dataRecord"><b>Description</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">
   <td class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>

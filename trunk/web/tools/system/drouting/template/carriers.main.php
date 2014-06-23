@@ -22,6 +22,9 @@
  *
  -->
 
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
 
@@ -77,10 +80,10 @@
   <td class="dataTitle">GW List</td>  
   <td class="dataTitle">Use weights</td>
   <td class="dataTitle">Use only first</td>
-  <td class="dataTitle">Disabled</td>
   <td class="dataTitle">Description</td>
   <td class="dataTitle">Attributes</td>
-  <td class="dataTitle">Status</td>
+  <td class="dataTitle">DB State</td>
+  <td class="dataTitle">Memory State</td>
   <td class="dataTitle">Details</td>
   <td class="dataTitle">Edit</td>
   <td class="dataTitle">Delete</td>
@@ -98,12 +101,21 @@
 	}
 
 
-	$message = explode("\n",trim($message));
-	for ($i=0;$i<count($message);$i++){
-    	preg_match('/^(?:ID:: )?([^ ]+)/',$message[$i],$matchCarID);
-	    preg_match('/(?:Enabled=)?([^ ]+)$/',$message[$i],$matchStatus);
+	if ($comm_type != "json"){
+		$message = explode("\n",trim($message));
+		for ($i=0;$i<count($message);$i++){
+    		preg_match('/^(?:ID:: )?([^ ]+)/',trim($message[$i]),$matchCarID);
+	    	preg_match('/(?:Enabled=)?([^ ]+)$/',trim($message[$i]),$matchStatus);
 
-    	$carrier_statuses[$matchCarID[1]]= $matchStatus [1];
+    		$carrier_statuses[$matchCarID[1]]= $matchStatus [1];
+		}
+	}
+	else {
+		$message = json_decode($message,true);
+		$message = $message['ID'];
+		for ($j=0; $j<count($message); $j++){
+			$carrier_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['Enabled']);
+		}
 	}
 //end get status
 
@@ -150,9 +162,8 @@
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
 	//handle flags
 	if (is_numeric($resultset[$i]['flags'])) {
-		$useweights   = (fmt_binary($resultset[$i]['flags'],3,3)) ? "Yes" : "No" ;
-		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],3,2)) ? "Yes" : "No" ;
-		$enabled      =	(fmt_binary($resultset[$i]['flags'],3,1)) ? "Yes" : "No" ;
+		$useweights   = (fmt_binary($resultset[$i]['flags'],4,4)) ? "Yes" : "No" ;
+		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],4,3)) ? "Yes" : "No" ;
 	}
 	else{
 		$useweights = "error";
@@ -178,6 +189,10 @@
       else
 	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="images/inactive.gif" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
 
+   switch ($resultset[$i]['state']) {
+   	case "0" : $state = "Active"; break;
+	case "1" : $state = "Inactive"; break;
+   }
 	//edit and delete links					 
    $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="images/details.gif" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="images/edit.gif" border="0"></a>';
@@ -190,9 +205,9 @@
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>" align="center"><?=$useweights?></td>
   <td class="<?=$row_style?>" align="center"><?=$useonlyfirst?></td>
-  <td class="<?=$row_style?>" align="center"><?=$enabled?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$attrs?></td>
+  <td class="<?=$row_style?>" align="center"><?=$state?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$details_link?></td>
   <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>

@@ -47,3 +47,6 @@
     </td> 
   </tr>
 </table>
+
+<hr width="100%" color="#000000">
+

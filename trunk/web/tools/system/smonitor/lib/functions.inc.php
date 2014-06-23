@@ -97,16 +97,27 @@ function get_modules()
  global $comm_type ;
  global $xmlrpc_host ;
  global $xmlrpc_port ;
- 
+ global $udp_host ;
+ global $udp_port ;
+ global $json_url ;
+	  
 	  $command="get_statistics all";
 	  $message=mi_command($command, $errors, $status);
  		   
-
  if ($errors) {echo($errors[0]); return;}
 
-//      preg_match_all("/Module name = (.*?); statistics=([0-9]*)/i", $message, $regs);
-	preg_match_all("/(.*?):(.*?) = ([0-9]*)/i",$message,$regs);
-	// uniq 
+	if ($comm_type == "json") {
+		$message = json_decode($message,true);
+		ksort($message);
+
+		$temp = array();
+		foreach ($message as $module_stat => $value){
+			$temp [] = $module_stat.":: ".$value;
+		}
+		$message = implode("\n",$temp);
+	}
+
+	preg_match_all("/(.*?):(.*?):: ([0-9]*)/i",$message,$regs);
 
 	$modules=array();
 	$a=0; $j=0 ;
@@ -115,7 +126,7 @@ function get_modules()
 	for ($i=0;$i<sizeof($regs[0])+1;$i++){
 		
 		if ($modules[0][$a]!=$regs[1][$i]){
-                    $modules[1][$a]=$j ; 
+            $modules[1][$a]=$j ; 
 		    $a++ ; 
 		    $modules[0][$a]=$regs[1][$i] ;
 		    $j=0;	
@@ -137,10 +148,13 @@ function get_modules()
 
 function get_vars($module)
 {
- global $config;
- global $comm_type;  
- global $xmlrpc_host ;
- global $xmlrpc_port ;
+global $config;
+global $comm_type;  
+global $xmlrpc_host ;
+global $xmlrpc_port ;
+global $udp_host;
+global $udp_port;
+global $json_url;
  
  
   $command="get_statistics ".$module.":";
@@ -148,33 +162,62 @@ function get_vars($module)
 
   
  if ($errors) {echo($errors[0]); return;}
- /* we accept any 2xx as ok */
-// if (substr($status,0,1)!="2") {echo($status); return;}
-//  else {
-        preg_match_all("/".$module.":(.*?) = ([0-9]*)/i", $message, $regs);
+
+
+
+	if ($comm_type == "json") {
+		$message = json_decode($message,true);
+		ksort($message);
+
+		$temp = array();
+		foreach ($message as $module_stat => $value){
+			$temp [] = $module_stat.":: ".$value;
+		}
+		$message = implode("\n",$temp);
+	}
+        
+		
+		
+		preg_match_all("/".$module.":(.*?):: ([0-9]*)/i", $message, $regs);
         for ($i=0; $i<sizeof($regs[0]); $i++)
         {
          $out[0][$i] = $regs[1][$i];
          $out[1][$i] = $regs[2][$i];
         }
-//      }
  return $out;
 }
 
 function get_all_vars()
 {
- global $config;
- global $comm_type ; 
- global $xmlrpc_host ;
- global $xmlrpc_port ;
+	global $config;
+	global $comm_type; 
+	global $xmlrpc_host;
+	global $xmlrpc_port;
+	global $udp_host;
+	global $udp_port;
+	global $json_url;
  
-		$command="get_statistics all";
-		$message=mi_command($command,$errors,$status);
+	$command="get_statistics all";
+	$message=mi_command($command,$errors,$status);
 
-if ($errors) {echo($errors[0]); return;}
- /* we accept any 2xx as ok */
- //if (substr($status,0,1)!="2") {echo($status); return;}
-  else return $message;
+	if ($comm_type == "json"){
+		$message = json_decode($message,true);
+		ksort($message);
+
+		$temp = array();
+		foreach ($message as $module_stat => $value){
+			$temp [] = $module_stat.":: ".$value;
+		}
+		$message = implode("\n",$temp);
+	}
+
+	if ($errors) {
+		echo($errors[0]); 
+		return;
+	}
+  	else { 
+		return $message;
+	}
 }
 
 function reset_var($stats)
@@ -292,6 +335,7 @@ function params($box_val){
 	global $fifo_file;
 	global $udp_host;
 	global $udp_port;
+	global $json_url;
 
 	$a=explode(":",$box_val);
 
@@ -309,6 +353,10 @@ function params($box_val){
 		case "fifo":
 			$comm_type="fifo";
 			$fifo_file = $a[1];
+			break;
+		case "json":
+			$comm_type="json";
+			$json_url = substr($box_val,5);
 			break;
 	}
 

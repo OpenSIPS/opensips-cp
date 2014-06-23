@@ -38,7 +38,7 @@ $permissions=array();
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
- <td colspan="3" class="listTitle" align="center">Edit Tools and Permissions </td>
+ <td colspan="3" class="listadminsTitle" align="center">Edit Tools and Permissions </td>
  </tr>
  
  <tr>
@@ -88,7 +88,7 @@ $permissions=array();
   ?>
   	<table width="400" cellspacing="2" cellpadding="2" border="0">
 	   <tr>
-	     <td colspan="3" class="listTitle" align="center">Tools for <?php print $key?> Tab: </td>
+	     <td colspan="3" class="listadminsTitle" align="center">Tools for <?php print $key?> Tab: </td>
 	   </tr>
 	
 	<?php

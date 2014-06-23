@@ -30,11 +30,24 @@ function get_command_list()
 	global $comm_type ;
 	global $udp_host;
 	global $udp_port;
+	global $json_url;
 
 	$command = "which";
 	$message = mi_command($command, $errors, $status);
 
-	$_SESSION['mi_command_list'] = explode("\n", $message);
+	if ($comm_type != "json"){
+		$_SESSION['mi_command_list'] = explode("\n", $message);
+	}
+	else{
+		$message = json_decode($message,true);
+		//TODO - this might change 
+		$message = $message[null];
+		$cmds = array();
+		for ($i=0;$i<count($message);$i++){
+			$cmds [] = $message[$i]['value'];
+		}
+		$_SESSION['mi_command_list'] = $cmds;
+	}
 	return;
 }
 
@@ -169,6 +182,7 @@ function params($box_val){
 	global $fifo_file;
 	global $udp_host;
 	global $udp_port;
+	global $json_url;
 
 	$a=explode(":",$box_val);
 
@@ -186,6 +200,10 @@ function params($box_val){
 		case "fifo":
 			$comm_type="fifo";
 			$fifo_file = $a[1];
+			break;
+		case "json":
+			$comm_type="json";
+			$json_url = substr($box_val,5);
 			break;
 	}
 

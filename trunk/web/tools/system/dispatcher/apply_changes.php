@@ -23,55 +23,36 @@
 ?>
 
 
-<HTML>
-
-<HEAD>
- <META HTTP-EQUIV="Pragma" CONTENT="no-cache">
- <META HTTP-EQUIV="Expires" CONTENT="-1">
-</HEAD>
-
-<BODY>
 <?php
 
 require("../../../../config/tools/system/dispatcher/local.inc.php");
 require("../../../common/mi_comm.php");
 require("lib/functions.inc.php");
 
-$xmlrpc_host="";
-$xmlrpc_port="";
-$fifo_file="";
-$comm_type="";
+$command="ds_reload";
+
+?>
+<fieldset><legend>Sending MI command: <?=$command?></legend>
+<br>
+<?php
 
 $mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
 
-if($errors)
-echo('get proxys error');
-
-$command="ds_reload";
-
 for ($i=0;$i<count($mi_connectors);$i++){
-
+	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
 	$comm_type=params($mi_connectors[$i]);
 
 	$message=mi_command($command, $errors, $status);
+
+	if ($errors) {
+		echo "<font color='red'><b>".$errors[0]."</b></font>";
+	} else {
+		echo "<font color='green'><b>Success</b></font>";
+	}
+	echo "<br>";
 }
-
-if ($errors) {
-
-	echo($errors[0]);
-
-
-} else {
-
-	echo "Command successfully executed.";
-
-
-}
-
-return;
 
 ?>
-</BODY>
 
-</HTML>
+</fieldset>

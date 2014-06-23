@@ -20,52 +20,34 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- session_start();
- if (!isset($_SESSION['user_login'])) header("Location:index.php?err=1");
- if (!isset($_SESSION['user_active_tool'])) {
-	$main_body="blank.php";
- } else {
-	if ($handle=opendir('tools/admin/'))
-	 {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") )
-           {
-		$file_admin[] = $file;
-            $i++;
-           }
-          closedir($handle);
- 	}
-	
-	if ($handle=opendir('tools/users/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") )
-           {
-                $file_users[] = $file;
-            $i++;
-           }
-          closedir($handle);
-	 }
-	
-	if ($handle=opendir('tools/system/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") )
-           {
-                $file_system[] = $file;
-            $i++;
-           }
-          closedir($handle);
-	}
+session_start();
+require("../config/modules.inc.php");
+require("../config/local.inc.php");
 
-	if (in_array($_SESSION['user_active_tool'],$file_admin)) 
-            $main_body="tools/admin/".$_SESSION['user_active_tool']."/".$_SESSION['user_active_page'];	
-	else if (in_array($_SESSION['user_active_tool'],$file_users)) 
-            $main_body="tools/users/".$_SESSION['user_active_tool']."/".$_SESSION['user_active_page'];
-	else if (in_array($_SESSION['user_active_tool'],$file_system)) 
-            $main_body="tools/system/".$_SESSION['user_active_tool']."/".$_SESSION['user_active_page'];
+if (!isset($_SESSION['user_login'])) {
+	header("Location:index.php?err=1");
 }
- require("../config/local.inc.php");
+
+if (!isset($_SESSION['user_active_tool'])) {
+	$main_body="blank.php";
+} else {
+	foreach ($config_modules as $menuitem => $menuitem_config) {
+		if ($menuitem_config['enabled']) {
+			if ($handle=opendir('tools/'.$menuitem.'/')){
+				while (false!==($file=readdir($handle))) {
+					if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ($menuitem_config['modules'][$file]['enabled'])) {
+						${"file_".$menuitem}[] = $file;
+						if ($_SESSION['user_active_tool'] == $file){
+            				$main_body="tools/".$menuitem."/".$_SESSION['user_active_tool']."/".$_SESSION['user_active_page'];	
+						}
+						$i++;
+					}
+				}
+				closedir($handle);
+			}
+		}
+	}
+}
 ?>
 
 <html>

@@ -22,6 +22,9 @@
  *
  -->
 
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
  if($_SESSION['read-only']) {

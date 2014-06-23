@@ -1,5 +1,3 @@
-<script type="text/javascript">
-
 /***********************************************
 * Switch Menu script- by Martial B of http://getElementById.com/
 * Modified by Dynamic Drive for format & NS4/IE4 compatibility
@@ -15,8 +13,38 @@ document.write('.submenu{display: none;}\n')
 document.write('</style>\n')
 }
 
+function SwitchSubMenu(tool){
+	var spans = document.getElementById('masterdiv').getElementsByTagName('span');
+	var obj = {};
+
+	for(var i = 0, l = spans.length; i < l; i++){
+		links = document.getElementById(spans[i].id).getElementsByTagName('a');
+		for(var j = 0, l = links.length; j < l; j++){
+			if (links[j].id == tool){
+				links[j].className = "submenuItemActive"
+			}
+			else {
+				links[j].className = "submenuItem"
+			}
+		}
+
+	}
+}
+
 function SwitchMenu(obj){
 	if(document.getElementById){
+	//get the current group menu item
+	var main_el = document.getElementById('menu'+obj);
+	//set it active
+	main_el.className = "menu_active";
+	//set the others inactive
+	var main_ar = document.getElementById("masterdiv").getElementsByTagName("div"); //DynamicDrive.com change
+	for (var i=0; i<main_ar.length; i++){
+		if (main_ar[i].id != 'menu'+obj){
+			main_ar[i].className = "menu";
+		}
+	}
+
 	var el = document.getElementById(obj);
 	var ar = document.getElementById("masterdiv").getElementsByTagName("span"); //DynamicDrive.com change
 		if(el.style.display != "block"){ //DynamicDrive.com change
@@ -79,4 +107,3 @@ window.onload=onloadfunction
 if (persistmenu=="yes" && document.getElementById)
 window.onunload=savemenustate
 
-</script>

@@ -68,7 +68,7 @@ if ($action=="enablegw"){
 		$message=mi_command($command, $errors, $status);
 	}
 
-	if (trim($status)!="200 OK")
+    if (substr(trim($status),0,3)!="200")
 		echo "Error while enabling gateway ".$_GET['gwid'];
 }
 ##################
@@ -87,13 +87,31 @@ if ($action=="disablegw"){
         $comm_type=params($mi_connectors[$i]);
         $message=mi_command($command, $errors, $status);
     }
-    if (trim($status)!="200 OK")
+    if (substr(trim($status),0,3)!="200")
         echo "Error while disabling gateway ".$_GET['gwid'];
 }
 ##################
 # end disable gw  #
 ##################
 
+######################
+# start probing gw   #
+######################
+if ($action=="probegw"){
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$command="dr_gw_status ".$_GET['gwid']." 2";
+
+	for ($i=0;$i<count($mi_connectors);$i++){
+		$comm_type=params($mi_connectors[$i]);
+		$message=mi_command($command, $errors, $status);
+	}
+
+    if (substr(trim($status),0,3)!="200")
+		echo "Error while probing gateway ".$_GET['gwid'];
+}
+##################
+# end probing gw #
+##################
 
 
 ################
@@ -103,7 +121,7 @@ if ($action=="disablegw"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                $sql = "update ".$table." set gwid='".$gwid."',type='".$type."', attrs='".$attrs."',address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', probe_mode='".$probe_mode."', description='".$description."' where id='".$_GET['id']."'";
+                $sql = "update ".$table." set gwid='".$gwid."',type='".$type."', attrs='".$attrs."',address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', probe_mode='".$probe_mode."', socket='".$socket."',state='".$state."', description='".$description."' where id='".$_GET['id']."'";
 		$resultset = $link->prepare($sql);
 		$resultset->execute();
 		$resultset->free();		
@@ -150,7 +168,7 @@ if ($action=="disablegw"){
 	$_SESSION['gateways_search_probe_mode']="";
 	$_SESSION['gateways_search_description']="";
 	$_SESSION['gateways_search_attrs']="";
-	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, probe_mode, description) values ('".$gwid."','".$type."', '".$address."','".$attrs."', '".$strip."', '".$pri_prefix."', '".$probe_mode."', '".$description."')";
+	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, socket, state, probe_mode, description) values ('".$gwid."','".$type."', '".$address."','".$attrs."', '".$strip."', '".$pri_prefix."', '".$probe_mode."','".$socket."','".$state."', '".$description."')";
 	
 	$result = $link->exec($sql);
 	if(PEAR::isError($result)) {
@@ -261,20 +279,21 @@ if ($action=="delete"){
 ################
 # start search #
 ################
- if ($action=="search")
- {
-  $_SESSION[$current_page]=1;
-  extract($_POST);
-  if ($show_all=="Show All") {
-                              $_SESSION['gateways_search_gwid']="";
-                              $_SESSION['gateways_search_type']="";
-                              $_SESSION['gateways_search_address']="";
-                              $_SESSION['gateways_search_pri_prefix']="";
-                              $_SESSION['gateways_search_probe_mode']="";
-                              $_SESSION['gateways_search_description']="";
-			      $_SESSION['gateways_search_attrs']="";
-                             }
-   else {
+if ($action=="search") {
+
+	$_SESSION[$current_page]=1;
+	extract($_POST);
+
+	if ($show_all=="Show All") {
+		$_SESSION['gateways_search_gwid']="";
+		$_SESSION['gateways_search_type']="";
+		$_SESSION['gateways_search_address']="";
+		$_SESSION['gateways_search_pri_prefix']="";
+		$_SESSION['gateways_search_probe_mode']="";
+		$_SESSION['gateways_search_description']="";
+		$_SESSION['gateways_search_attrs']="";
+	}
+	else {
          $_SESSION['gateways_search_gwid']=$search_gwid;
          $_SESSION['gateways_search_type']=$search_type;
          $_SESSION['gateways_search_address']=$search_address;
@@ -282,8 +301,8 @@ if ($action=="delete"){
 		 $_SESSION['gateways_search_probe_mode']=$probe_mode;
          $_SESSION['gateways_search_description']=$search_description;
 		 $_SESSION['gateways_search_attrs']=$search_attrs;
-        }
- }
+	}
+}
 ##############
 # end search #
 ##############

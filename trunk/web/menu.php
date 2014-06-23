@@ -22,132 +22,97 @@
  */
 
 
- session_start();
- $super_admin=false;
- $available_tabs=array();
- if ($_SESSION['user_tabs']!="*") $available_tabs=explode(",",$_SESSION['user_tabs']);
- else $super_admin=true;
+session_start();
 
-include("menu.js");
-
+require("../config/modules.inc.php");
+$super_admin=false;
+$available_tabs=array();
+if ($_SESSION['user_tabs']!="*") 
+	$available_tabs=explode(",",$_SESSION['user_tabs']);
+else 
+	$super_admin=true;
 ?>
 
 <html>
 
 <head>
- <base target="main_body">
- <link href='style.css' type='text/css' rel='StyleSheet'>
+	<base target="main_body">
+	<link href='style.css' type='text/css' rel='StyleSheet'>
+	<script type="text/javascript" src="menu.js"></script>
 </head>
 
 <body>
 <!-- Keep all menus within masterdiv-->
 <div id="masterdiv">
-	<div id="menuadmin" class="menu" onclick="SwitchMenu('admin')">Admin</div>
-	<span id="admin" class="submenu" >
-        <table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
-        <?php
-	 $menu_link_text=array();
-         if ($handle=opendir('tools/admin/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ((in_array($file,$available_tabs)) || ($super_admin)))
-           {
-            $menu_link_text[$file."/"]=trim(file_get_contents("tools/admin/".$file."/tool.name"));
-           }
-          closedir($handle);
-
-	  reset($available_tabs);
-          asort($menu_link_text);
-          reset($menu_link_text);
-	?>
 <?php
-          $k=0;
-          foreach ($menu_link_text as $key=>$val )
-          {
+foreach ($config_modules as $menuitem => $menuitem_config) {
+	if ($menuitem_config['enabled']) {
+?>
+
+<?php
+		$menu_link_text=array();
+		if ($handle=opendir('tools/'.$menuitem.'/')) {
+			while (false!==($file=readdir($handle))) {
+				if ((($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ((in_array($file,$available_tabs)) || ($super_admin))) && ($menuitem_config['modules'][$file]['enabled'])) {
+					$menu_link_text[$file]=$menuitem_config['modules'][$file]['name'];
+				}
+			}
+			closedir($handle);
+
+			reset($available_tabs);
+			asort($menu_link_text);
+			#reset($menu_link_text);
+
+			$tools = array_keys($menu_link_text);
+			if (in_array($_SESSION['user_active_tool'],$tools)){
 	?>
-            <tr height="20" >
-
-		<td onClick="top.frames['main_body'].location.href='tools/admin/<?php print $key?>index.php';"><a class="submenuItem" href="tools/admin/<?php print $key?>index.php"><?=$val?></a></td>
-            </tr>
+			<div id="menu<?=$menuitem?>" class="menu_active" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
+				<span id="<?=$menuitem?>" class="submenu" style="display: block;">
 	<?php
-                $k++;
-          }
-            next( $menu_link_text);
-         }
-        ?>
-        </table>
-
-	</span>
-
-	<div id="menuusers" class="menu" onclick="SwitchMenu('users')">Users</div>
-	<span class="submenu" id="users">
-        <table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
-        <?php
-	 $menu_link_text=array();
-         if ($handle=opendir('tools/users/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ((in_array($file,$available_tabs)) || ($super_admin)))
-           {
-            $menu_link_text[$file."/"]=trim(file_get_contents("tools/users/".$file."/tool.name"));
-           }
-          closedir($handle);
-
-          asort($menu_link_text);
-          reset($menu_link_text);
-
-          $k=0;
-          foreach ($menu_link_text as $key=>$val )
-          {
-           ?>
-            <tr height="20" id="<?=$key?>" >
-		<td onClick="top.frames['main_body'].location.href='tools/users/<?php print $key?>index.php';"><a class="submenuItem" href="tools/users/<?php print $key?>/index.php"><?=$val?></a></td>
-            </tr>
-           <?php
-                $k++;
-          }
-            next( $menu_link_text);
-         }
-        ?>
-        </table>
-
-	</span>
-
-	<div id="menusystem" class="menu" onclick="SwitchMenu('system')">System</div>
-	<span class="submenu" id="system">
-	<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
-	<?php
-	 $i=0;
-	 $menu_link_text=array();
-	 if ($handle=opendir('tools/system/'))
-	 {
-	  while (false!==($file=readdir($handle)))
-	   if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ((in_array($file,$available_tabs)) || ($super_admin)))
-	   {
-            $menu_link_text[$file."/"]=trim(file_get_contents("tools/system/".$file."/tool.name"));
-            $i++;
-	   }
-	  closedir($handle);
-
-	  asort($menu_link_text);
-	  reset($menu_link_text);
-
-	  $k=0;
-	  foreach ($menu_link_text as $key=>$val )
-	  {
-	   ?>
-	    <tr height="20" id="<?=$key?>">
-		<td onClick="top.frames['main_body'].location.href='tools/system/<?php print $key?>index.php';"><a class="submenuItem" href="tools/system/<?php print $key?>index.php"><?=$val?></a></td>
-	    </tr>
-	   <?php
-        	$k++;
-	  }
-	    next( $menu_link_text);
-	 }
+			} else {
 	?>
-	</table>
-	</span>
-	
+			<div id="menu<?=$menuitem?>" class="menu" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
+				<span id="<?=$menuitem?>" class="submenu" style="display: none;">
+	<?php	
+			} 
+	?>
+				<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
+	<?php	
+				foreach ($menu_link_text as $key=>$val) {
+	?>
+            		<tr height="20">
+	<?php 
+					if (isset($_SESSION['user_active_tool']) && $_SESSION['user_active_tool'] == $key) { 
+	?>
+						<td onClick="top.frames['main_body'].location.href='tools/<?=$menuitem?>/<?=$key?>/index.php';">
+							<a id="<?=$key?>" class="submenuItemActive" onclick="SwitchSubMenu('<?=$key?>')" href12="tools/<?=$menuitem?>/<?=$key?>/index.php">
+								<?=$val?>
+							</a>
+						</td>
+	<?php 
+					} 
+					else { 
+	?>
+						<td onClick="top.frames['main_body'].location.href='tools/<?=$menuitem?>/<?=$key?>/index.php';">
+							<a id="<?=$key?>" class="submenuItem" onclick="SwitchSubMenu('<?=$key?>')" href12="tools/<?=$menuitem?>/<?=$key?>/index.php">
+								<?=$val?>
+							</a>
+						</td>
+	<?php 			
+					} 
+	?>
+            		</tr>
+	<?php
+          		}
+            	next($menu_link_text);
+         	}
+    ?>
+				</table>
+			</span>
+	<?php 
+	}
+} 
+	?>
 </div>
 </body>
 </html>

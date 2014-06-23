@@ -36,9 +36,8 @@
 
 
  $box_id=get_box_id($current_box); 
- 
   
- get_modules();
+ print_r(get_modules());
  clean_stats_table();
  
 
@@ -53,7 +52,6 @@
   if(PEAR::isError($resultset)) {
           die('Failed to issue query, error message : ' . $resultset->getMessage());
   }
-  //echo "SELECT * FROM ".$table." WHERE name='".$var_name."'"." AND box_id=".$box_id ;
   if (count($resultset)==0){
 	$sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('".$var_name."','','".$box_id."') ";
 	$resultset = $link->prepare($sql);
@@ -77,8 +75,7 @@
  for($i=0; $i<$_SESSION['modules_no']; $i++)
   if ($_SESSION["module_open"][$i]=="yes") $expanded=true;
  
- if ($_POST['reset_stats']!=null)
- {
+ if ($_POST['reset_stats']!=null){
   $reset=$_POST['reset'];
   for($i=0; $i<sizeof($reset); $i++)
   if ($reset[$i]!=null) reset_var($reset[$i]);
