@@ -27,13 +27,13 @@
 
 $box_id=0;
 
-// options: fifo:/path/to/fifo_file | xmlrpc:host:port | udp:host:port
-$boxes[$box_id]['mi']['conn']="xmlrpc:127.0.0.1:8888";
+// options: fifo:/path/to/fifo_file | xmlrpc:host:port | udp:host:port | json:json_url
+$boxes[$box_id]['mi']['conn']="fifo:/tmp/opensips_proxy_fifo";
 
 // monit host:port
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
 $boxes[$box_id]['monit']['user']="admin";
-$boxes[$box_id]['monit']['pass']="pass";
+$boxes[$box_id]['monit']['pass']="monit";
 $boxes[$box_id]['monit']['has_ssl']=1;
 
 
