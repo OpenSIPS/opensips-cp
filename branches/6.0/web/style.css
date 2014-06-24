@@ -1,0 +1,206 @@
+/*
+ * $Id: style.css 40 2009-04-13 14:59:22Z iulia_bublea $
+ */ 
+
+body, table {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+}
+
+.loginTitle {
+	font-size: 16px;
+	font-weight: bold;
+}
+.loginInput {
+	border: #999999 1px solid;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	padding-left: 2px;
+	margin: 1px;
+	font-size: 12px;
+	color: #000000;
+	width: 160px;
+}
+.loginError {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ff0000;
+}
+
+
+.headerTitle {
+	font-size: 14px;
+	font-weight: bold;
+	color: #ffffff;
+}
+a.headerLogout {
+	background: url("images/logout.png") no-repeat scroll 0px 0px rgba(0, 0, 0, 0);
+	padding-left: 20px;
+	color: #FFFFFF;
+    cursor: pointer;
+    font-family: System,serif;
+    font-size: 14px;
+    margin: 3px;
+    text-decoration: none;
+}
+a.headerLogout:hover {
+	background: url("images/logout-red.png") no-repeat scroll 0px 0px rgba(0, 0, 0, 0);
+	color: #FFFFFF;
+    cursor: pointer;
+    font-family: System,serif;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 3px;
+    text-decoration: none;
+}
+
+a.menuItem {
+	font-size: 13px;
+	font-weight: bold;
+	color: #0969b5;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none; 
+}
+
+a.menuItem:focus, a.menuItem:active {
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;  ! important
+	text-decoration: none; 
+	outline:none;
+}
+
+a.submenuItem {
+		font-size: 13px;
+		font-weight: bold;
+		color: #0969b5;
+		margin-left : 10px;
+		
+		background: url(images/bullet_default.png) no-repeat center left; /*custom bullet list image*/
+		padding: 10px 0;
+		padding-left: 15px; /*link text is indented 19px*/
+		text-decoration: none;
+        text-indent: left;
+}
+a.submenuItemActive {
+		font-size: 13px;
+		font-weight: bold;
+		color: #0969b5;
+		margin-left : 10px;
+		
+		background: url(images/bullet_active.png) no-repeat center left; /*custom bullet list image*/
+		padding: 10px 0;
+		padding-left: 15px; /*link text is indented 19px*/
+		text-decoration: none;
+        text-indent: left;
+}
+a.submenuItem:hover {
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;
+	background: url(images/bullet_active.png) no-repeat center left; /*custom bullet list image*/
+	text-decoration: none; 
+}
+
+a.submenuItem:focus, a.submenuItem:active {
+	font-size: 13px;
+	font-weight: bold;
+	color: #000000;  
+	background: url(images/bullet_active.png) no-repeat center left; /*custom bullet list image*/
+	
+	text-decoration: none; 
+	outline:none;
+}
+
+
+.copyright {
+	font-size: 10px;
+	font-weight: normal;
+	color: #000000;
+}
+
+#masterdiv {
+        width:160px;
+        #padding:10px;
+        #margin:1px;
+        list-style:none;
+}
+
+.menu {
+        text-decoration:none;
+        text-indent: 50px;
+        line-height: 1.6;
+        color: white;
+        font-family: System, serif;
+        font-size: 17px;
+        background:  url(images/menu_default.png)  no-repeat center left;
+		-moz-border-radius-bottomleft: 10px;
+        width: 160px;
+        height: 32px;
+        margin: 3px;
+        cursor:pointer;
+}
+
+
+
+.menu:hover {
+        background:  url(images/menu_active.png);
+		-moz-border-radius-bottomleft: 10px;
+        
+}
+
+.menu:active {
+        background:  url(images/menu_active.png);
+		-moz-border-radius-bottomleft: 10px;
+       
+}
+
+.menu_active {
+        text-decoration:none;
+        text-indent: 50px;
+        line-height: 1.6;
+        color: white;
+        font-family: System, serif;
+        font-size: 17px;
+        background:  url(images/menu_active.png)  no-repeat center left;
+		-moz-border-radius-bottomleft: 10px;
+        width: 160px;
+        height: 32px;
+        margin: 3px;
+        cursor:pointer;
+       
+}
+
+.menu:visited {
+		color: #FFF;
+        display: block;
+        background:  url(images/menu_default.png);
+		-moz-border-radius-bottomleft: 10px;
+        
+}
+
+.submenu {
+		
+		-moz-border-radius-bottomright: 10px;
+		-moz-border-radius-bottomleft: 10px;
+        max-height;
+        margin-left: 14px;
+       #max-width;
+		width:auto;
+		#padding-left: 10px;
+	    width: 150px;
+        font-size: 10px;
+        font-family: System, sans-serif;
+        line-height: 0.5;
+        background-color: 99ccff;
+        float: down;
+        clear: center;
+        cursor: pointer;
+}
+

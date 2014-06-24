@@ -1,0 +1,50 @@
+
+Alias Management Tool
+----------------------
+
+Description
+----------------
+This feature allows alias provisioning for users in subscriber table.
+
+Configuration
+-------------------
+* Database layer configuration file: 
+
+opensips-cp/config/tools/admin/alias_management/db.inc.php  
+
+- The variables in this file are somewhat self explanatory.You must set 
+up the db connection data through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration file :  
+opensips-cp/config/tools/admin/alias_management/local.inc.php
+
+
+Attributes like fields to be displayed, results per page 
+and variables which control the way the tool displays information from database. 
+
+* Global Configuration file:
+opensips-cp/config/globals.php
+
+Parameter used for the aliases tables if there are more than
+the standard dbaliases table. The defined array has as key the
+label and as value the table name.For defining more than one
+attribute/value pair, complete the list with identical elements
+separated by comma.
+
+$config->table_aliases = array("DBaliases"=>"dbaliases");
+
+
+Usage and Features
+---------------------------
+
+You can search by alias username, alias domain and alias type, or show all records.
+There is an option for adding a new alias, editing or deleting a certain alias. 

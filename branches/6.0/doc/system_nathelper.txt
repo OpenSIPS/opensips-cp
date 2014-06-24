@@ -1,0 +1,74 @@
+NAThelper Tool (nathelper)
+---------------------------------
+
+Description
+---------------
+
+The nathelper module is being used for helping with NAT traversal.
+The DB List tag is for usual DB transactions: adding, deleting, searching,
+showing the whole content of the table. Cache List tab si for refreshing
+the data, from DB to chache. Nat Ping tag allows the enabling or disabling of nat ping.
+You can find the nathelper & rtpproxy modules documentation here:
+http://www.opensips.org/html/docs/modules/1.8.x/nathelper.html  (pinging management)
+http://www.opensips.org/html/docs/modules/1.8.x/rtpproxy.html  (rtpproxy management)
+
+
+Configuration
+------------------
+
+
+* Database layer configuration file :
+opensips-cp/config/tools/system/nathelper/db.inc.php
+
+Database connection data is set through this file.
+
+Attributes  set in this file :
+
++database host
++database port
++database username
++database password
++database name
+
+
+* Local configuration  file :
+
+opensips-cp/config/tools/system/nathelper/local.inc.php
+
+Attributes set in this file :
+
++ database table name
++ the `results per page` variable is set in this file (how many records to be
+seen on a single page , pagination )
++ the assoc_id - must point to the type of machines which are OpenSIPS servers
+$talk_to_this_assoc_id = 1 ;
+(see global.boxes.inc.php)
++ a list of  IP addresses and ports to be recognized as proxies - you must
+provide at least one entry .
+example:  $proxy_list=array("udp:192.168.2.1.5:5060","udp:127.0.0.1:5060");
+
+
+Usage and Features
+---------------------------
+
+The nathelper module has 3 tabs :
+ DB List , Cache List , NAT Ping
+
+ *DB List Tab.
+    The following is an explanation of the actions performed by the buttons on the page:
+
+        "Search": Searches through the rtpproxy table, displaying only the entries that are similar to the ones submited by the user.
+        "Show all": Shows all the rtpproxy socks.
+        "Delete RTPproxy": Deletes certain RTPproxy sockets based on the info introduced by the user.
+        "Add New": Inserts a new RTPproxy sock.
+
+   NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to click on "Apply Changes to Server" button
+
+ * Cache List Tab.
+    Displays all the RTPproxy socks and their information (socket name, setid, index, status, weight, recheck ticks). The status can be controlled (enabled or disabled).
+
+ NOTE: Button to refresh the Cache List.
+
+ * NAT Ping Tab.
+    This tab has two buttons, one for enabling natping and the other one for disabling it.
+

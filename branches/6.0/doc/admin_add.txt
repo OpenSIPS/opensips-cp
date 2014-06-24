@@ -1,0 +1,42 @@
+
+Add Admin Tool
+----------------------
+
+Description
+----------------
+This feature comes to support adding new admins to ocp_admin_privileges 
+table.  
+It replaces the config/access.inc.php file from the previous versions.
+
+Configuration
+-------------------
+* Database layer configuration file: 
+
+opensips-cp/config/tools/admin/add_admin/db.inc.php  
+
+- The variables in this file are somewhat self explanatory.You must set 
+up the db connection data through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration file :  
+opensips-cp/config/tools/admin/add_admin/local.inc.php
+
+Table name:
+
+//database tables
+$config->table_addadmin = "ocp_admin_privileges";
+
+Attributes like database table name, fifo file name and variables which 
+control the way the tool displays information from database. 
+
+Usage and Features
+---------------------------
+The only feature this module has is adding new admins to ocp_admin_privileges table.

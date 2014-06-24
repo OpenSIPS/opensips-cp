@@ -1,0 +1,205 @@
+OpenSIPS Control Panel (OCP) Configuration Guide 
+------------------------------------------------------------------------
+
+
+This file shows information about the configuration of the OPENSIPS-CP.
+A minimal knowledge of php is necesarry to configure it.
+
+
+This file is structured as follows :
+
+
+1. Global Configuration Files Description
+
+2. Local Configuration Files Description
+
+
+
+
+
+1. Global Configuration Files Description
+-------------------------------------------------------
+
+
+All configuration files are situated in a separated  directory  `opensips-cp/config`.
+
+
+local.inc.php 
+-----------------
+
+This file contains some text constatnts which do not change very often.
+It basically looks like this:
+
+$login_page_title = "OpenSIPS Control Panel - Login Page";
+$login_title = "OpenSIPS Control Panel";
+$login_user = "Username";
+$login_pass = "Password";
+$login_err = "Invalid ".$login_user." / ".$login_pass;
+$session_err = "Your Session has expired";
+
+$page_title = "OpenSIPS Control Panel";
+$header_title = ".: OpenSIPS Control Panel";
+$copyright = "Copyright &copy; 2011 OpenSIPS Project";
+
+
+
+boxes.global.inc.php 
+----------------------------
+
+For an easy deployment of the Opensips Control Panel , 
+the "boxes.global.inc.php" file has been developed. The ideea was to keep the 
+commonly used data (by multiple tools) in this file (to avoid data redundancy). 
+
+This file contains the descriptions of the boxes (servers) that form the platform
+provisioned/controlled by OpenSIPS Control Panel.
+
+Each machine has an unique identification number ($box_id)  - for each of  them,
+you must configure a set of properties, like the IP addresses of the machine, MI 
+interface, MONIT interface, etc
+
+Description of the associative arrays in the file:
+
+
+//You must configure the IP address of the MI connector of opensips through this 
+//array. It can be a XMLRPC host:port pair (ex: 127.0.0.1:8080 ) or a fifo file 
+//(/tmp/opensips_fifo)
+//If the machine does not have a MI you can leave this  blank. 
+
+$boxes[$box_id]['mi']['conn']="127.0.0.1:8080";
+
+//You must configure the IP address of monit through this array:
+//the next three variables are somewhat self explained.
+
+$boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
+$boxes[$box_id]['monit']['user']="monit_user";
+$boxes[$box_id]['monit']['pass']="monit_pass";
+
+//the monit tool can connect to a monit server over a ssl connection. 
+//set 1 here if monit has ssl, otherwise put 0.
+
+$boxes[$box_id]['monit']['has_ssl']=1;
+
+		
+//the text description of the box as it will show in mi and monit tools 
+$boxes[$box_id]['desc']="Primary SIP server";
+
+// the association ID of this machine. 
+//It is ment to select the system this machine is part of. 
+//If two machines are in the same system , they must have the same `assoc_id`. 
+
+// This is  a very important parameter . Some of the tools are designed to talk to certain type of servers 
+// (there can be multiple servers of the same type)
+// Servers of the same type have same assoc_id - the tools will use this to identify which are the OpenSIPS servers 
+// (typically for MI interaction)
+// the tools that check this variable are:
+// -  drouting
+// -  dialplan 
+// -  siptrace
+// -  pdt
+// -  domains 
+// The so called `assoc_id` which marks the machines the tools talk to is set in the 
+// local.inc.php config file (for each tool)
+
+$boxes[$box_id]['assoc_id']=1; 
+
+
+
+Don't forget to increment the $box_id variable as you add boxes to this array.
+
+db.inc.php
+-----------
+
+
+The global configuration file helds global parameters for database connections to mysql or postgres. 
+These parameters cover up all modules, unless one of themodules needs to use some other database.
+The file is found in config directory and it is called db.inc.php The structure of the file is 
+somewhat identical with the one of the local configuation files. The exception is that the global 
+configuration file also specifies a parameter for the database driver, as shown bellow:
+
+//database driver mysql or pgsql
+$config->db_driver = "mysql";
+
+//database host
+$config->db_host = "localhost";
+
+//database port - leave empty for default
+$config->db_port = "";
+
+//database connection user
+$config->db_user = "root";
+
+//database connection password
+$config->db_pass = "mysql";
+
+//database name
+$config->db_name = "opensips"; 
+
+
+
+globals.php
+-----------
+
+The globals.php file is used for parameters that are being accessed in more then one module.
+
+*$config->table_aliases
+Parameter used for the aliases tables in case there are more than the standard dbaliases table. The defined array has as key the
+label and as value the table name.For defining more than one attribute/value pair, complete the list with identical elements
+separated by comma.
+
+$config->table_aliases = array("DBaliases"=>"dbaliases");
+
+
+*$config->permissions
+The permissions parameter is used by all modules, when setting the modules permissions for a certain admin.
+This array has 2 values that will remain unchanged: read-only and read-write.
+
+$config->permissions = array("read-only","read-write");
+
+$config->admin_passwd_mode= 0/1
+
+This array controls the way the admin password is going to be saved in the database.
+Value 0 means the password will be saved as plain text string (text mode)
+Value 1 means the password will be saved as MD5 (HA1) token (password field will be empty and ha1 will be calculated)
+
+
+
+2. Local Configuration Files Description
+-----------------------------------------------------
+
+
+The local configuration files contain database layer connection data and other attributes that 
+are specific to each tool. If the same database is being used for each module, then there 
+should be used the global config file and the local one should be left as it is by default. 
+If one module needs a different configuration, just uncomment the parameters and set them as needed:
+
+These files are :
+
+    * opensips-cp/config/tools/(admin|users|system)/toolname/db.inc.php 
+
+The variables in this file are somewhat self explanatory.You must set up the mysql connection data 
+through this file.
+
+All db.inc.php files look the same , like this :
+
+//database host
+$config->db_host = "localhost";
+
+//database port - leave empty for default $config->db_port = "";
+
+//database connection user
+$config->db_user = "root";
+
+//database connection password
+$config->db_pass = "mysql";
+
+//database name
+$config->db_name = "opensips";
+
+Not all the tools require access to the database but every tool that uses the database has its own 
+database configuration file.
+
+    * opensips-cp/config/tools/(admin|users|system)/toolname/local.inc.php 
+
+Documentation for each module can be found by following the specific link.
+
+

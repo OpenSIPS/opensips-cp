@@ -1,0 +1,50 @@
+
+Domains Tool (domains)
+----------------------------------
+
+
+
+Description 
+---------------
+
+The Domains tool is used to perform modifications in OpenSIPS's local domain list 
+in real time. The domain names are kept in a database and they can be re-loaded 
+into OpenSIPS at any moment.
+You can find the domains OpenSIPS module documentation here: 
+http://www.opensips.org/html/docs/modules/1.8.x/domain.html
+
+
+Configuration
+-------------------
+
+
+* Database layer configuration file: 
+opensips-cp/config/tools/system/domains/db.inc.php
+
+Mysql connection data is set through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+
+* Local configuration file :  
+opensips-cp/config/tools/system/domains/local.inc.php
+
++ database table name  
++ the `results per page` variable is set in this file (how many records to be 
+seen on a single page , pagination )
++ the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers
+ ($talk_to_this_assoc_id = 1 ;)
+
+Usage and Features:
+---------------------------
+
+
+
+You can list, add, edit and delete domains. When “Apply changes to server” 
+button is triggered the domains will be loaded from the database into OpenSIPS.
