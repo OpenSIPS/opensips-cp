@@ -114,7 +114,8 @@ machine in the network.
 
 * Additional steps:
 
-    * For the admin tool you must add a table.
+    * MANDATORY - Admin table: in order to be able to login you will have to 
+      create a DB table and insert the first user.
 
         Follow these steps:
 	
