@@ -1,5 +1,3 @@
-
-
 This is OpenSIPS Control Panel (OCP), a web application for the 
 system provisioning of OpenSIPS SIP server (www.opensips.org)
 
@@ -8,7 +6,7 @@ OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL/PG
 backend. 
 
 
-OpenSIPS Control Panel version 5.0 is compatible with OpenSIPS 1.8.x.
+OpenSIPS Control Panel version 6.0 is compatible with OpenSIPS Server >= 1.11.x
 
 
 OpenSIPS Control Panel currently features 3 main categories:
@@ -28,6 +26,8 @@ OpenSIPS Control Panel currently features 3 main categories:
 
 * system
 	cdrviewer - allows cdr search and listing 
+	
+    callcenter - used for provisioning the callcenter module in OpenSIPS
 
 	dialog  - the user can view ongoign dialogs and end them
 
@@ -55,7 +55,7 @@ OpenSIPS Control Panel currently features 3 main categories:
 
 	smonitor - tool for monitoring the internals of OpenSIPS . It shows nice graphs.
 
-	tviewer - tool managing (insert, delete, update) generic SQL tables.
+	tviewer - tool managing (insert, delete, update) generic SQL tables - you can also add your own custom actions.
 
 
 
