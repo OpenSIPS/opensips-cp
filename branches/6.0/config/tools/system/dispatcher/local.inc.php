@@ -32,7 +32,7 @@
  // system to talk with for MI part 
  $talk_to_this_assoc_id = 1 ;
 
- $box[1]['mi']['conn']="fifo:/tmp/opensips_proxy_fifo";
+ $box[1]['mi']['conn']="fifo:/tmp/opensips_fifo";
 
  //status
  $config->status = array('Active'=>'Active','Inactive'=>'Inactive','Probing'=>'Probing');
