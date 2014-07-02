@@ -168,7 +168,7 @@ if ($action=="probegw"){
 	$_SESSION['gateways_search_probe_mode']="";
 	$_SESSION['gateways_search_description']="";
 	$_SESSION['gateways_search_attrs']="";
-	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, socket, state, probe_mode, description) values ('".$gwid."','".$type."', '".$address."','".$attrs."', '".$strip."', '".$pri_prefix."', '".$probe_mode."','".$socket."','".$state."', '".$description."')";
+	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, probe_mode, socket, state, description) values ('".$gwid."','".$type."', '".$address."','".$attrs."', '".$strip."', '".$pri_prefix."', '".$probe_mode."','".$socket."','".$state."', '".$description."')";
 	
 	$result = $link->exec($sql);
 	if(PEAR::isError($result)) {
