@@ -54,7 +54,12 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	if ($errors) {
 		echo "<font color='red'>".$errors[0]."</font>";
 	} else {
-		echo "<font color='green'><b>Success</b></font>";
+		if (substr(trim($status),0,3) != "200"){
+			echo "<font color='red'><b>".substr(trim($status),4)."</b></font>";
+		}
+		else {
+			echo "<font color='green'><b>Success</b></font>";
+		}
 	}
 	echo "<br>";
 }
