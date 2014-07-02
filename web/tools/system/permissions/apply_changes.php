@@ -25,7 +25,7 @@
 <?php
 
 
-require("../../../../config/tools/system/dialplan/local.inc.php");
+require("../../../../config/tools/system/permissions/local.inc.php");
 require("../../../common/mi_comm.php");
 require("lib/functions.inc.php");
 
@@ -48,7 +48,12 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	if ($errors) {
 		echo "<font color='red'><b>".$errors[0]."</b></font>";
 	} else {
-		echo "<font color='green'><b>Success</b></font>";
+		if (substr(trim($status),0,3) != "200"){
+			echo "<font color='red'><b>".substr(trim($status),4)."</b></font>";
+		}
+		else {
+			echo "<font color='green'><b>Success</b></font>";
+		}
 	}
 	echo "<br>";
 }
