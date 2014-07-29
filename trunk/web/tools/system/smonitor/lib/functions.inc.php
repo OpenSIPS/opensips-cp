@@ -222,10 +222,13 @@ function get_all_vars()
 
 function reset_var($stats)
 {
- global $config;
- global $comm_type ; 
- global $xmlrpc_host ;
- global $xmlrpc_port ;
+ 	global $config;
+	global $comm_type ; 
+	global $xmlrpc_host ;
+	global $xmlrpc_port ;
+	global $udp_host;
+	global $udp_port;
+	global $json_url;
  
  	$command="reset_statistics ".$stats;
  	$message=mi_command($command,$errors,$status);

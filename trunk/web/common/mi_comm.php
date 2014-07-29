@@ -335,8 +335,6 @@ function mi_command($command,&$errors,&$status){
 			$buf=write2udp($command,$errors,$status);
 			break;
 		case "json":
-			//$status = "200OK";
-			//return "caca";
 			$buf=write2json($command,$errors,$status);
 			break;
 	}
