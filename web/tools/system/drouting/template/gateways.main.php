@@ -158,7 +158,7 @@ if ($comm_type != "json"){
 	}
 }
 else {
-	$message =  preg_replace('/([^0-9\.,"A-Za-z{:\}\]\[\s]+)/', '', $message);
+	$message =  preg_replace('/([^0-9\.\-,"A-Za-z{:\}\]\[\s]+)/', '', $message);
 
 	$message = json_decode($message,true);
 	$message = $message['ID'];
