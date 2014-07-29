@@ -220,7 +220,7 @@ else
 		if(PEAR::isError($resultset_)) {
 		     	die('Failed to issue query, error message : ' . $resultset_->getMessage());
 		}
-			if (($resultset_[0]['fromip']!="127.0.0.1") && ($resultset_[0]['fromip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['fromip'];
+			if (($resultset_[0]['from_ip']!="127.0.0.1") && ($resultset_[0]['from_ip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['from_proto'].":".$resultset_[0]['from_ip'].":".$resultset_[0]['from_port'];
 			else $trace_text="to ".get_ip($resultset_[0]['toip']);
 			$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
 			$matched_trace_id=$resultset_[0]['id'];
@@ -271,7 +271,7 @@ else
 
      	$method = $resultset_d[$j]['method'];
 
-     	$to_ip=$resultset_d[$j]['toip'];
+     	$to_ip=$resultset_d[$j]['to_ip'];
 
      	$from_ip=$resultset_d[$j]['fromip'];
 
@@ -279,16 +279,8 @@ else
      	// a reply has status
      	$status = trim($resultset_d[$j]['status']);
 
-     	$a = explode (":",$to_ip)  ;
-     	$b = explode (":",$from_ip);
-
-     	// siptrace - opensips 1.2   (fromip does not have protocol)
-     	if ( count($a) > count($b) ) {
-
-     		$to_ip=$a[1].":".$a[2];
-
-     	}
-
+     	$from_ip = $resultset_d[$j]['from_proto'].":".$resultset_d[$j]['from_ip'].":".$resultset_d[$j]['from_port'];
+     	$to_ip = $resultset_d[$j]['to_proto'].":".$resultset_d[$j]['to_ip'].":".$resultset_d[$j]['to_port'];
 
      	// identify proxy
      	if (in_array($from_ip,$proxy_list)) {
@@ -309,136 +301,101 @@ else
 
      	if ($proxy=="")
      	{
-     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy not set in local config ($proxy_list)? <br><br></td></tr>');
+     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config ($proxy_list)? <br><br></td></tr>');
 
      		exit();
      	}
 
+		if ( $ftag_init=="" )
+				$ftag_init = $ftag;
 
+		if ($ftag_init==$ftag) {
+				// downstream
+				$dir = "down";
 
-     	if ((( $status=="" )  && ($direction == "in")) || (( $status!="" )  && ($direction == "out"))){
+				if ( $status=="" ) {
+				// request
+						if ($direction == "in") {
+								$left = "caller";
+								$right = "proxy";
+						} else {
+								$left = "proxy";
+								$right = "callee";
+						}
+				} else {
+						// reply
+						if ($direction == "in") {
+								$left = "proxy";
+								$right = "callee";
+						} else {
+								$left = "caller";
+								$right = "proxy";
+						}
+				}
+		} else {
+				// upstream
+				$dir = "up";
+				if ( $status=="" ) {
+				// request
 
+						if ($direction == "in") {
+								$right = "callee";
+								$left = "proxy";
+						} else {
+								$right = "proxy";
+								$left = "caller";
+						}
+				} else {
+				// reply
+						if ($direction == "in") {
+								$right = "proxy";
+								$left = "caller";
+						} else {
+								$right = "callee";
+								$left = "proxy";
+						}
+				}
+		}
 
-     		if ($direction == "in")  {
-     			$caller = $from_ip;
-     		}
+		if ($direction == "in")  {
+			$caller = $from_ip;
+		}
 
+		if ($direction == "out")  {
+			$caller = $to_ip;
+		}
 
-     		if ($direction == "out")  {
-     			$caller = $to_ip;
+		if ((( $status=="" )   && ($direction == "out")) || (( $status!="" )   && ($direction == "in"))) {
+              if ($direction == "out" ) $tmp_ip = $to_ip ;
+              if ($direction == "in" ) $tmp_ip = $from_ip ;
+              if (isset($tmp_ip) ) {
+                      $callee = $tmp_ip ;
+                      unset($caller);
+              }
+      }
+	
+	
 
-     		}
-
-
-     	} else
-
-     	if ((( $status=="" )   && ($direction == "out")) || (( $status!="" )   && ($direction == "in"))) {
-
-     		// XXX
-
-     		if ($direction == "out" ) $tmp_ip = $to_ip ;
-
-     		if ($direction == "in" ) $tmp_ip = $from_ip ;
-
-     		if (isset($tmp_ip) ) {
-
-
-     			$callee = $tmp_ip ;
-     			unset($caller);
-
-     		}
-
-
-     	}
-
-     	else {
-
-     		echo "bug" ;
-
-     	}
-
-
-     	if ($from_ip==$proxy) {
-
-     		$left= "proxy" ;
-     	}
-     	else if ($from_ip==$caller) {
-
-     		$left= "caller" ;
-
-     	}
-
-
-
-
-     	if ($to_ip==$proxy) {
-
-     		$right= "proxy" ;
-
-     	} else if ($to_ip==$callee){
-
-     		$right= "callee" ;
-
-     	}
-
-
-
-     	if ($from_ip==$callee){
-
-     		$left="proxy" ;
-     		$right="callee" ;
-
-     	}
-
-
-     	if ($to_ip==$caller){
-
-
-     		$left="caller" ;
-     		$right="proxy" ;
-
-     	}
-
-     	//  exception
-     	//		if (( in_array($caller,$proxy_list ) === true ) && ( in_array($callee,$proxy_list ) === true ) )  {
      	if (( in_array($from_ip,$proxy_list ) === true ) && ( in_array($to_ip,$proxy_list ) === true ) )  {
-
-     		//			$path='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$from_ip.'\') onmouseout=if(t1)t1.Hide(event) >';
-
-     		/*
-     		if (($resultset_d[$j]['direction']=="in") ) {
-
-     		$path.=' <img src="images/arrow_right.png" alt="to"> ';
-
-     		}
-
-
-     		if (($resultset_d[$j]['direction']=="out") ) {
-
-     		$path.=' <img src="images/arrow_left.png" alt="to"> ';
-     		}
-
-     		*/
 
      		if ($status=="") {
 
-
-     			$path='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$from_ip.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$from_ip.'</strong><br/></span></a>';
 
      			$path.=' <img src="images/arrow_right.png" alt="to"> ';
 
-     			$path.='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$to_ip.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path.='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$to_ip.'</strong><br/></span></a>';
      		}
 
 
      		if ($status!="") {
 
 
-     			$path='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$from_ip.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$from_ip.'</strong><br/></span></a>';
 
      			$path.=' <img src="images/arrow_left.png" alt="to"> ';
 
-     			$path.='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$to_ip.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path.='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$to_ip.'</strong><br/></span></a>';
 
      		}
 
@@ -451,14 +408,12 @@ else
 
 
      		if ($left=="proxy")	 {
-
-     			$path='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$proxy.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$proxy.'</strong><br/></span></a>';
 
      		} else
      		if ($left=="caller") {
 
-
-     			$path='<img src="images/caller.png" alt="UA: Callee" onmouseover=if(t1)t1.Show(event,\''.$caller.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path='<a href="#" class="tooltip"> <img src="images/caller.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$caller.'</strong><br/></span></a>';
      		}
 
 
@@ -490,12 +445,11 @@ else
 
      		if ($right=="proxy")	 {
 
-     			$path.='<img src="images/server.png" alt="SIP Proxy" onmouseover=if(t1)t1.Show(event,\''.$proxy.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path.='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$proxy.'</strong><br/></span></a>';
 
      		} else if ($right=="callee")  {
 
-
-     			$path.='<img src="images/callee.png" alt="UA: Callee" onmouseover=if(t1)t1.Show(event,\''.$callee.'\') onmouseout=if(t1)t1.Hide(event) >';
+				$path.='<a href="#" class="tooltip"> <img src="images/callee.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$callee.'</strong><br/></span></a>';
 
      		}
 
