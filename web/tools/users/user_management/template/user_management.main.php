@@ -74,7 +74,7 @@ if ( $users == "online_usr" ) {
  </tr>
  <tr>	
   <td class="searchRecord" align="left">Domain</td>
-  <td class="searchRecord" width="200"><?php if ($search_adomain!="") print_domains("list_domain",$search_adomain); else print_domains("list_domain","ANY");?> 
+  <td class="searchRecord" width="200"><?php if ($search_domain!="") print_domains("lst_domain",$search_adomain); else print_domains("lst_domain","ANY");?> 
  </tr>
  <tr>
   <td class="searchRecord" align="left">Email</td>
