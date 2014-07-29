@@ -186,17 +186,13 @@ else
 		else $row_style="rowEven";
 
 		if (file_exists("../acl_management")) {
-			$group_link = '<a href="../../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
+			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
 			
 		 }
 		 if (file_exists("../alias_management")) {
-		             $alias_link = '<a href="../../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
+		             $alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
 
 		}
-
-//		$contacts_link = '<a href="'.$page_name.'?action=showcontacts&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/contacts.png" border="0"></a>';
-		
-//		$contacts_link = "<a href='#' onclick="newwindow('".$resultset[$i]['username']."')"><img src='images/contacts.png' border='0'></a>";
 
 		if(!$_SESSION['read_only']){
 
