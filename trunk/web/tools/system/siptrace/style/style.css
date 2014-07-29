@@ -128,4 +128,18 @@ a.pageList:hover {
         font-weight: bold;
         color: #000000;
 }
+a.tooltip {outline:none; } 
+a.tooltip strong {line-height:20px;} 
+a.tooltip:hover {text-decoration:none;} 
+a.tooltip span { 
+	z-index:10;display:none; 
+	padding:5px 5px; 
+	margin-top:-5px; 
+	margin-left:5px; 
+	width:190px; 
+	line-height:5px; 
+} 
+a.tooltip:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;} 
+.callout {z-index:20;position:absolute;top:4px;border:0;left:-12px;} /*CSS3 extras*/ 
+a.tooltip span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 5px 5px 8px #CCC; -webkit-box-shadow: 5px 5px 8px #CCC; box-shadow: 5px 5px 8px #CCC; }
 
