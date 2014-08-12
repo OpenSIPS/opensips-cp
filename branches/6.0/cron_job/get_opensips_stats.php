@@ -22,7 +22,7 @@
  */
 
 
-$path_to_smonitor="/var/www/pmwiki/opensips-cp/web/tools/system/smonitor";
+$path_to_smonitor="../web/tools/system/smonitor";
 chdir($path_to_smonitor);
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/smonitor/local.inc.php");
