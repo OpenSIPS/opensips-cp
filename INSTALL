@@ -159,7 +159,7 @@ machine in the network.
 	        3. Add a cron job that collects data from the opensips machine(s).
 	
                 Here's a cron job that collects data at 1 minute interval:
-                * * * * *   root   php /var/www/opensips-cp/cron_job/get_opensips_stats.php > /dev/null
+                * * * * *   root  cd /var/www/opensips_cp/cron_job/; php get_opensips_stats.php > /dev/null (be careful and put the right path to the CP dir)
 	
 	
 
