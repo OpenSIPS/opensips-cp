@@ -187,6 +187,55 @@ global $json_url;
  return $out;
 }
 
+
+function get_vars_type()
+{
+	global $config;
+	global $comm_type;  
+	global $xmlrpc_host ;
+	global $xmlrpc_port ;
+	global $udp_host;
+	global $udp_port;
+	global $json_url;
+ 
+ 
+	$command="list_statistics";
+	$message=mi_command($command,$errors,$status);
+
+  
+	if ($errors) {
+		echo($errors[0]);
+		return;
+	}
+
+
+
+	if ($comm_type == "json") {
+		$message = json_decode($message,true);
+		ksort($message);
+
+		$temp = array();
+		foreach ($message as $module_stat => $value){
+			$temp [] = $module_stat.":: ".$value;
+		}
+		$message = implode("\n",$temp);
+	}
+        
+		
+		
+	preg_match_all("/(.*?):(.*?):: ([0-9a-zA-Z\-]*)/i", $message, $regs);
+    
+	$gauge_arr = array();
+
+	for ($i=0; $i<sizeof($regs[0]); $i++){
+		if ($regs[3][$i] == "non-incremental"){
+			$gauge_arr [] = $regs[1][$i].":".$regs[2][$i];
+		}
+     }
+	 
+	 return $gauge_arr;
+}
+
 function get_all_vars()
 {
 	global $config;
@@ -398,7 +447,8 @@ global $config_type;
 
 function show_graph($stat,$box_id){
 
-global $config;
+	global $config;
+	global $gauge_arr;
 
 	$var = $stat;
 	$box_id = $box_id;

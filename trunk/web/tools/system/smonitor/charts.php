@@ -21,6 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ require("../../../common/mi_comm.php");
  require("../../../../config/tools/system/smonitor/local.inc.php"); 
  require("../../../../config/tools/system/smonitor/db.inc.php"); 
  require("../../../../config/db.inc.php"); 
@@ -34,6 +35,8 @@
  require("template/header.php");
  $table=$config->table_monitoring;
  $name_table=$config->table_monitored;
+
+ $gauge_arr = get_vars_type();
  
  if ($_GET['stat_id']!=null)
  {
