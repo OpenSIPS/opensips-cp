@@ -68,7 +68,7 @@ if 	((($sql_search!=""))) {
 
 ?>
 
-<table width="85%" cellspacing="2" cellpadding="2" border="0">
+<table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search CDRs by: </td>
  </tr>
@@ -189,18 +189,18 @@ else
 
 
 	<center>
-	<table width="640" cellspacing="1" cellpadding="1" border="0" align="right">
+	<table class="ttable" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">
      <tr align="center">
 
  	  <? for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
      
  	  		
- 	  	<td class="Title" align="center"><?echo $show_field[$i][key($show_field[$i])]?></td>
+ 	  	<th class="Title" align="center"><?echo $show_field[$i][key($show_field[$i])]?></th>
 
 
  	  <? } ?>
      	   
- 	  	<td class="Title" align="center"></td>
+ 	  	<th class="Title" align="center">Details</th>
     </tr>
 	
 	<?
@@ -249,10 +249,10 @@ $link->disconnect();
 
 ?>
 <tr>
-  <td colspan="6" class="Title">
+  <th colspan="6" class="Title">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -274,11 +274,11 @@ $link->disconnect();
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 

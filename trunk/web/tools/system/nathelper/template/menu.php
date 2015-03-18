@@ -25,7 +25,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td align="right" style="color:#0969b5">
-        <b><?php print "System / Nathelper / ".$_SESSION['permission'];?></b>
+        <b><?php print "System / RTPProxy / ".$_SESSION['permission'];?></b>
     </td>
   </tr>
   <tr>

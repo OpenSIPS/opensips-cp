@@ -27,42 +27,42 @@
   <td colspan="2" height="10" class="listTitle">Add New User</td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Username:</td>
+  <td class="listRecord" >Username</td>
   <td class="listRecord" width="200"><input type="text" name="uname"
   value="<?=$uname?>" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Domain:</td>
+  <td class="listRecord" >Domain</td>
   <td class="listRecord" width="200"><?php print_domains("domain",'')?></td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Email:</td>
+  <td class="listRecord" >Email</td>
   <td class="listRecord" width="200"><input type="text" name="email"
   value="<?=$email?>" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Alias Username:</td>
+  <td class="listRecord" >Alias Username</td>
   <td class="listRecord" width="200"><input type="text" name="alias"
   value="" class="searchInput" maxlength=5></td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Alias Type:</td>
+  <td class="listRecord" >Alias Type</td>
   <td class="listRecord" width="200"><?php print_aliasType(0)?></td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Password:</td>
+  <td class="listRecord" >Password</td>
   <td class="listRecord" width="200"><input type="password" name="passwd"
-  value=""></td>
+  value="" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="listRecord" align="center">Confirm Password:</td>
+  <td class="listRecord" >Confirm Password</td>
   <td class="listRecord" width="200"><input type="password" name="confirm_passwd"
-  value="" ></td>
+  value="" class="searchInput"></td>
  </tr>
- <tr>
-  <td colspan="2" class="listRecord" align="center">
+ <tr align="center">
+  <td colspan="2" class="listRecord" >
   <?php if (!$_SESSION['read_only']) {
-	  echo('<input type="submit" name="adduser" value="Register" class="Button">&nbsp;&nbsp;&nbsp;');
+	  echo('<input type="submit" name="adduser" value="Register" class="formButton">&nbsp;&nbsp;&nbsp;');
 	}
  ?>
  </tr>

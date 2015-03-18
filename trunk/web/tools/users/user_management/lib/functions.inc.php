@@ -155,7 +155,7 @@ function print_timezone($time_zone)
         $start_index = 0;
         $end_index = sizeof($options);
 ?>
- <select name="timezone" id="timezone" size="1" style="width: 175px" class="dataSelect">
+ <select name="timezone" id="timezone" size="1" style="width: 205px" class="dataSelect">
  <?php
   if ($value!=NULL) {
 	echo('<option value="'.$value. '" selected > '.$value.'</option>');
@@ -192,7 +192,7 @@ function print_aliasType($value)
         $start_index = 0;
         $end_index = sizeof($options);
 ?>
-        <select name="alias_type" id="alias_type" size="1" style="width: 175px" class="dataSelect">
+        <select name="alias_type" id="alias_type" size="1" style="width: 205px" class="dataSelect">
          <?php
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
@@ -242,7 +242,7 @@ function print_domains($type,$value)
         $end_index = sizeof($options);
 
 ?>
-        <select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
+        <select name=<?=$type?> id=<?=$type?> size="1" style="width: 205px" class="dataSelect">
          <?php
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
@@ -302,5 +302,45 @@ function get_modules() {
      return $mod;
 }
 
+function secs2hms($secs) {
+	if ($secs<0) return false;
+	$m = (int)($secs / 60); $s = $secs % 60;
+	$h = (int)($m / 60); $m = $m % 60;
+	
+	$time = "";
+
+
+	if ($h>0){
+		$hh="";
+		if ($h<10)
+			$hh.="0".$h;
+		else 
+			$hh.=$h;
+		$time.$hh.":";
+	}
+	
+
+	if ($m>0){
+		$mm="";
+		if ($m<10)
+			$mm.="0".$m;
+		else
+		    $mm.=$m;
+	    $time.=$mm.":";
+	}
+
+	if ($h>0 && $m==0)
+		$time.="00:";
+
+	if ($s>=0){
+        $ss="";
+        if ($s<10 && $m>0)
+	        $ss.="0".$s;
+	    else
+		    $ss.=$s;
+		$time.=$ss;
+	}
+	return $time;
+}
 
 ?>

@@ -140,18 +140,18 @@ if(!$_SESSION['read_only']){
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="nathelperTitle">ID</td>
-  <td class="nathelperTitle">RTPproxy Sock</td>
-  <td class="nathelperTitle">Setid</td>
-  <td class="nathelperTitle">Weight</td>
-  <td class="nathelperTitle">Ticks</td>
+  <th class="nathelperTitle">ID</th>
+  <th class="nathelperTitle">RTPproxy Sock</th>
+  <th class="nathelperTitle">Setid</th>
+  <th class="nathelperTitle">Weight</th>
+  <th class="nathelperTitle">Ticks</th>
   <?
   if(!$_SESSION['read_only']){
-  	echo('<td class="nathelperTitle">Memory State</td>');
-  	echo('<td class="nathelperTitle">Edit</td>'); 
-	echo ('<td class="nathelperTitle">Delete</td>');
+  	echo('<th class="nathelperTitle">Memory State</th>');
+  	echo('<th class="nathelperTitle">Edit</th>'); 
+	echo ('<th class="nathelperTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -217,10 +217,10 @@ if(!$_SESSION['read_only']){
 }
 ?>
 <tr>
-<td colspan="<?=$colspan?>" class="nathelperTitle">
+<th colspan="<?=$colspan?>" class="nathelperTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -242,11 +242,11 @@ if(!$_SESSION['read_only']){
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

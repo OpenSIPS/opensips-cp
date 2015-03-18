@@ -47,27 +47,27 @@ unset($email);
 
  <tr>
   <td class="dataRecord"><b>Username</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="uname" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="200"><input type="text" name="uname" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
  <tr>
   <td class="dataRecord"><b>Domain</b></td>
-  <td class="dataRecord" width="275"><?php print_domains("domain",$resultset[0]['domain'])?></td>
+  <td class="dataRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'])?></td>
  </tr>
  
 <tr>
-  <td class="dataRecord"><b>Email:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="email" value="<?php print $email?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b>Email</b></td>
+  <td class="dataRecord" width="200"><input type="text" name="email" value="<?php print $email?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Password:</b></td>
-  <td class="dataRecord" width="275"><input type="password" name="passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b>Password</b></td>
+  <td class="dataRecord" width="200"><input type="password" name="passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Retype Password:</b></td>
-  <td class="dataRecord" width="275"><input type="password" name="r_passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b>Retype Password</b></td>
+  <td class="dataRecord" width="200"><input type="password" name="r_passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 
@@ -79,5 +79,6 @@ unset($email);
  </tr>
 </table>
 </form>
+<br>
 <?=$back_link?>
 

@@ -97,19 +97,19 @@ if(!$_SESSION['read_only']){
 </tr>
 </table>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="loadbalancerTitle">ID</td>
-  <td class="loadbalancerTitle">Group ID</td>
-  <td class="loadbalancerTitle">Destination URI</td>
-  <td class="loadbalancerTitle">Resources</td>
-  <td class="loadbalancerTitle">Probe Mode</td>
-  <td class="loadbalancerTitle">Description</td>
+  <th class="loadbalancerTitle">ID</th>
+  <th class="loadbalancerTitle">Group ID</th>
+  <th class="loadbalancerTitle">Destination URI</th>
+  <th class="loadbalancerTitle">Resources</th>
+  <th class="loadbalancerTitle">Probe Mode</th>
+  <th class="loadbalancerTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<td class="loadbalancerTitle">Edit</td>
-  		<td class="loadbalancerTitle">Delete</td>');
+  	echo('<th class="loadbalancerTitle">Edit</th>
+  		<th class="loadbalancerTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -173,10 +173,10 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="loadbalancerTitle">
+  <th colspan="<?=$colspan?>" class="loadbalancerTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -198,11 +198,11 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

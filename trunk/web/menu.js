@@ -19,7 +19,7 @@ function SwitchSubMenu(tool){
 
 	for(var i = 0, l = spans.length; i < l; i++){
 		links = document.getElementById(spans[i].id).getElementsByTagName('a');
-		for(var j = 0, l = links.length; j < l; j++){
+		for(var j = 0, k = links.length; j < k; j++){
 			if (links[j].id == tool){
 				links[j].className = "submenuItemActive"
 			}

@@ -97,28 +97,28 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 }
 
  ?>
-<table width="85%" cellspacing="2" cellpadding="2" border="0">
+<table width="70%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search SIP Traces by</td>
  </tr>
  <tr>
-  <td class="searchRecord" width="115">RegExp :</td>
+  <td class="searchRecord" width="115">RegExp </td>
   <td class="searchRecord"><input type="text" name="search_regexp" value="<?=$search_regexp?>" id="search_regexp" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Call ID :</td>
+  <td class="searchRecord">Call ID </td>
   <td class="searchRecord"><input type="text" name="search_callid" value="<?=$search_callid?>"  id="search_callid" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Traced User :</td>
+  <td class="searchRecord">Traced User </td>
   <td class="searchRecord"><input type="text" name="search_traced_user" value="<?=$search_traced_user?>" id="search_traced_user" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord"><input type="checkbox" name="set_start" value="set" onChange="changeState('start')" <?php if($search_start!="") echo('checked') ?>>Start Date :</td>
+  <td class="searchRecord"><input type="checkbox" name="set_start" value="set" onChange="changeState('start')" <?php if($search_start!="") echo('checked') ?>>Start Date </td>
   <td class="searchRecord"><?=print_start_date_time($search_start)?></td>
  </tr>
  <tr>
-  <td class="searchRecord"><input type="checkbox" name="set_end" value="set" onChange="changeState('end')" <?php if($search_end!="") echo('checked') ?>>End Date :</td>
+  <td class="searchRecord"><input type="checkbox" name="set_end" value="set" onChange="changeState('end')" <?php if($search_end!="") echo('checked') ?>>End Date </td>
   <td class="searchRecord"><?=print_end_date_time($search_end)?></td>
  </tr>
  <tr>
@@ -135,13 +135,13 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 </table>
 </form><br>
 
-<table width="500" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="600" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td class="Title" align="center">Date Time</td>
-  <td class="Title" align="center">Method</td>
-  <td class="Title" align="center">Address</td>
-  <td class="Title" align="center" width="55">Message</td>
-  <td class="Title" align="center" width="45">Call</td>
+  <th class="siptraceTitle" align="center">Date Time</th>
+  <th class="siptraceTitle" align="center">Method</th>
+  <th class="siptraceTitle" align="center">Address</th>
+  <th class="siptraceTitle" align="center" width="55">Message</th>
+  <th class="siptraceTitle" align="center" width="45">Call</th>
  </tr>
 <?php
 
@@ -226,11 +226,11 @@ else
 			$matched_trace_id=$resultset_[0]['id'];
    ?>
    <tr>
-   <td class="rowOdd"><?=$resultset_[0]['time_stamp']?></td>
-   <td class="rowOdd"><?=$resultset_[0]['method']?></td>
-   <td class="rowOdd"><?=$trace_text?></td>
-   <td class="rowOdd" align="center"><?=$details_msg?></td>
-   <td class="rowOdd" align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="images/details.gif" border="0"></a></td>
+   <td ><?=$resultset_[0]['time_stamp']?></td>
+   <td ><?=$resultset_[0]['method']?></td>
+   <td ><?=$trace_text?></td>
+   <td  align="center"><?=$details_msg?></td>
+   <td  align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="images/details.gif" border="0"></a></td>
    </tr>
    <?php
    if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
@@ -241,8 +241,8 @@ else
 	     	die('Failed to issue query, error message : ' . $resultset_d->getMessage());
 	}
     ?>
-    <tr><td colspan="5" class="rowOdd">
-    <table width="480" cellspacing="1" cellpadding="1" border="0" align="right">
+    <tr><td colspan="5" align="center" >
+    <table width="650" cellspacing="1" cellpadding="1" border="0" align="right">
      <tr align="center">
       <td class="Title">Date Time</td>
       <td class="Title">Method</td>
@@ -372,7 +372,7 @@ else
                       $callee = $tmp_ip ;
                       unset($caller);
               }
-      }
+      	}
 	
 	
 
@@ -494,10 +494,10 @@ else
 
 ?>
  <tr>
-  <td colspan="5" class="Title">
+  <th colspan="5" class="siptraceTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -519,10 +519,10 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>

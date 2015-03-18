@@ -38,7 +38,7 @@
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
- <td colspan="2" class="listTitle" align="center">Edit Admin Information</td>
+ <td colspan="2" class="listadminsTitle" align="center">Edit Admin Information</td>
  </tr>
 <?php
 ?>
@@ -49,22 +49,22 @@
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>First Name:</b></td>
+  <td class="dataRecord"><b>First Name</b></td>
   <td class="dataRecord" width="275"><input type="text" name="listfname" value="<?=$resultset[0]['first_name']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
-  <td class="dataRecord"><b>Last Name:</b></td>
+  <td class="dataRecord"><b>Last Name</b></td>
   <td class="dataRecord" width="275"><input type="text" name="listlname" value="<?=$resultset[0]['last_name']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
  <tr>
-  <td class="dataRecord"><b>Password:</b></td>
+  <td class="dataRecord"><b>Password</b></td>
   <td class="dataRecord" width="275"><input type="password" name="listpasswd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Confirm Password:</b></td>
+  <td class="dataRecord"><b>Confirm Password</b></td>
   <td class="dataRecord" width="275"><input type="password" name="conf_passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
@@ -76,5 +76,6 @@
  </tr>
 </table>
 </form>
+<br>
 <?=$back_link?>
 

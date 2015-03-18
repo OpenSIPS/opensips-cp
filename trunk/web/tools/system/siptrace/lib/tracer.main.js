@@ -13,6 +13,24 @@ function changeState(id)
  document.getElementById(id+"_hour").disabled=newState;
  document.getElementById(id+"_minute").disabled=newState;
  document.getElementById(id+"_second").disabled=newState;    
+
+ if (newState == true){
+		 document.getElementById(id+"_day").style.background="#d6d2d0";
+		 document.getElementById(id+"_month").style.background="#d6d2d0";
+		 document.getElementById(id+"_year").style.background="#d6d2d0";
+		 document.getElementById(id+"_hour").style.background="#d6d2d0";
+		 document.getElementById(id+"_minute").style.background="#d6d2d0";
+		 document.getElementById(id+"_second").style.background="#d6d2d0";    
+ 	
+ }
+ else {
+		 document.getElementById(id+"_day").style.background="#fff";
+		 document.getElementById(id+"_month").style.background="#fff";
+		 document.getElementById(id+"_year").style.background="#fff";
+		 document.getElementById(id+"_hour").style.background="#fff";
+		 document.getElementById(id+"_minute").style.background="#fff";
+		 document.getElementById(id+"_second").style.background="#fff";    
+ }
 }
 
 

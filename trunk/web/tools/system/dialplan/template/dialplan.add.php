@@ -86,49 +86,49 @@ $match_op_sel.= '</select>';
 <?php
 ?>
  <tr>
-  <td class="dataRecord"><b>Dialplan ID:</b></td>
+  <td class="dataRecord"><b>Dialplan ID</b></td>
   <td class="dataRecord" width="275"><input type="text" name="dpid" 
   value="<?=$dpid?>"maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
-  <td class="dataRecord"><b>Rule Priority:</b></td>
+  <td class="dataRecord"><b>Rule Priority</b></td>
   <td class="dataRecord" width="275"><input type="text" name="pr" 
   value="<?=$pr?>" maxlength="128" class="dataInput"></td>
  </tr>
  
 <tr>
-  <td class="dataRecord"><b>Matching Operator:</b></td>
+  <td class="dataRecord"><b>Matching Operator</b></td>
   <td class="dataRecord" width="275"><?=$match_op_sel?></td>
  </tr>
 
 
 <tr>
-  <td class="dataRecord"><b>Matching Regular Expression:</b></td>
+  <td class="dataRecord"><b>Matching Regular Expression</b></td>
   <td class="dataRecord" width="275"><input type="text" name="match_exp" 
   value="<?=$match_exp?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Matching Flags:</b></td>
+  <td class="dataRecord"><b>Matching Flags</b></td>
   <td class="dataRecord" width="275"><input type="text" name="match_exp_flags" 
   value="<?=$match_flags?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 <tr>
-  <td class="dataRecord"><b>Substitution Regular Expression:</b></td>
+  <td class="dataRecord"><b>Substitution Regular Expression</b></td>
   <td class="dataRecord" width="275"><input type="text" name="subst_exp" 
   value="<?=$subst_exp?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 <tr>
-  <td class="dataRecord"><b>Replacement Expression:</b></td>
+  <td class="dataRecord"><b>Replacement Expression</b></td>
   <td class="dataRecord" width="275"><input type="text" name="repl_exp" 
   value="<?=$repl_exp?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Attributes:</b></td>
+  <td class="dataRecord"><b>Attributes</b></td>
 
   <? if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {  ?>	
   	<td class="dataRecord"><?=$check_boxes?></td>
@@ -145,7 +145,7 @@ $match_op_sel.= '</select>';
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dialplanTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>

@@ -22,6 +22,17 @@
  */
 -->
 
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+<?php
+	if ($keepoverlay){
+		echo "<script language='JavaScript'>";
+		echo "show_contacts('".$_POST['username']."','".$_POST['domain']."')";
+		echo "</script>";
+	}
+?>
+
 <form action="<?=$page_name?>?action=dp_act" method="post">
 <?php
 $sql_search="";
@@ -34,7 +45,6 @@ if(($search_domain =="ANY") || ($search_domain == "")) $sql_search.=" and s.doma
 else $sql_search.=" AND s.domain ='" . $search_domain."'";
 if($search_email !="") $sql_search.=" and s.email_address like '".$search_email."%'";
 else $sql_search.=" and s.email_address like '%'";
-require("lib/".$page_id.".main.js");
 if(!$_SESSION['read_only']){
 	$colspan = 5;
 }else{
@@ -82,17 +92,17 @@ if ( $users == "online_usr" ) {
   value="<?=$search_email?>" maxlength="16" class="searchInput"></td>
  </tr>
  <tr>
-  <td align="right"><input type="radio" name="users" 
+  <td align="right" class="searchRecord"><input type="radio" name="users" 
   value="all_usr" <?php if ($users=="all_usr") echo "checked=\"true\"";?> ></td>
   <td class="searchRecord" align="left">All Users</td>
  </tr>
  <tr>	
-  <td align="right"><input type="radio" name="users" 
+  <td align="right" class="searchRecord"><input type="radio" name="users" 
   value="online_usr" $checkedOnline  <?php if ($users=="online_usr") echo "checked=\"true\"";?> ></td>
   <td class="searchRecord" align="left">Online Users</td>
  </tr>
  <tr>	
-  <td align="right"><input type="radio" name="users" 
+  <td align="right" class="searchRecord"><input type="radio" name="users" 
   value="offline_usr" <?php if ($users=="offline_usr") echo "checked=\"true\"";?>  ></td>
   <td class="searchRecord" align="let">Offline Users</td>
  </tr>
@@ -115,27 +125,27 @@ if ( $users == "online_usr" ) {
 </form>
 <br>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="listTitle">Username</td>
-  <td class="listTitle">Email Address</td>
+  <th class="listTitle">Username</th>
+  <th class="listTitle">Email Address</th>
   
   <?
-    echo ('<td class="listTitle">Contacts</td>');
+    echo ('<th class="listTitle">Contacts</th>');
 	
 	if (file_exists("../alias_management")) {
-		echo('<td class="listTitle">Alias</td>');
+		echo('<th class="listTitle">Alias</th>');
 	}
 
   if (file_exists("../acl_management")) {
-  	echo('<td class="listTitle">Group</td>');
+  	echo('<th class="listTitle">Group</th>');
   }
 	
 
   if(!$_SESSION['read_only']){
 
-  	echo('<td class="listTitle">Edit</td>
-  		<td class="listTitle">Delete</td>');
+  	echo('<th class="listTitle">Edit</th>
+  		<th class="listTitle">Delete</th>');
   }
 
 
@@ -176,7 +186,6 @@ else
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
-	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;
 	while (count($resultset)>$i)
@@ -201,9 +210,13 @@ else
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['email_address']?></td>
-  <td class="<?=$row_style?>" align="center">&nbsp;<a href="javascript:showContacts('<?=$resultset[$i]['username']?>','<?=$resultset[$i]['domain']?>',300,155)"><img src="images/contacts.png" border="0"></a> </td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
+  <td class="<?=$row_style?>"><?=$resultset[$i]['email_address']?></td>
+  <td class="<?=$row_style?>" align="center">
+    <a href="javascript:;" onclick="show_contacts('<?=$resultset[$i]['username']?>','<?=$resultset[$i]['domain']?>')">
+		<img src="images/contacts.png" border="0">
+	</a>
+  </td>
 
    <? 
 
@@ -231,10 +244,10 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="listTitle">
+  <th colspan="<?=$colspan?>" class="listTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -256,11 +269,11 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 

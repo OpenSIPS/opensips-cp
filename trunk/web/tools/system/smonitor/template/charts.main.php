@@ -26,7 +26,7 @@
 <form action="<?=$page_name?>" method="post">
 <table width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td align="center" class="Title">Click a statistic to see its chart</td>
+  <td align="center" class="smonitorTitle">Click a statistic to see its chart</td>
  </tr>
 <?php
 $sql = "SELECT DISTINCT name FROM ".$table." WHERE (1=1) AND box_id=".$box_id." ORDER BY name ASC";
@@ -55,7 +55,7 @@ else
   echo $result['time'];
   ?>
    <tr>
-    <td class="rowOdd">
+    <td class="searchRecord">
      <div id="stat_<?=$stat?>" class="Data" onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?stat_id=<?=$i?>'">
       <img src="<?=$stat_img?>" width="16" height="14"> <b><?=$stat?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
      </div>
@@ -75,11 +75,11 @@ else
 $link->disconnect();
 ?>
  <tr>
-  <td colspan="2" class="Title"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="smonitorTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>
 <?php
- if ((!$_read_only) && ($data_no!=0)) echo('<input type="submit" name="flush" value="Clear Statistics Logs" class="Button">');
+ if ((!$_read_only) && ($data_no!=0)) echo('<input type="submit" name="flush" value="Clear Statistics Logs" class="formButton">');
 ?>
 </form>

@@ -22,18 +22,21 @@
  */
 -->
 <form action="<?=$page_name?>?action=profile_list" method="post">
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table width="50%" cellspacing="2" cellpadding="2" border="0">
+
+ <tr align="center">
+  <td colspan="2" height="10" class="dialogTitle"></td>
+ </tr>
   <tr height="10">
-          <td align="right"><b>Select profile from list: </b></td>
-          <td align="left"><?php print_profile();?></td>
+          <td class="searchRecord" align="right"><b>Select profile from list: </b></td>
+          <td class="searchRecord" align="left"><?php print_profile();?></td>
   </tr>
   <tr height="10">
-          <td align="right"><b>Parameter: </b></td>
-          <td align="left"><input name="profile_param" type="text" class="newParam"></td>
+          <td align="right" class="searchRecord" ><b>Parameter</b></td>
+          <td align="left" class="searchRecord" ><input name="profile_param" type="text" class="searchInput"></td>
   </tr>
-  <tr height="10"> </tr>
  <tr height="10">
-        <td align="center" colspan="2"><input type="checkbox" name="sizes" checked> List number of dialogs in the selected profile</td>
+        <td class="searchRecord" align="center" colspan="2"><input type="checkbox" name="sizes" checked> List number of dialogs in the selected profile</td>
  </tr>
  <!--tr height="10">
         <td align="center" colspan="2"><input type="checkbox" name="dialogs"> List the dialogs in the selected profile</td>

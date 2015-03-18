@@ -31,7 +31,7 @@
 </head>
 
 <body topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
-<table width="100%" height="30" background="images/bar.jpg">
+<table class="headerTable" width="100%" height="30" background="images/bar.jpg">
  <tr>
   <td align="left"><div class="headerTitle"><?=$header_title?></div></td>
   <td align="right"><a href="logout.php" target="_parent" class="headerLogout">Logout</a>&nbsp;&nbsp;&nbsp;</td>

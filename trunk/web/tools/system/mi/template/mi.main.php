@@ -29,15 +29,15 @@
   <td colspan="2" class="miTitle" align="center">Execute MI Command</td>
  </tr>
  <tr>
-  <td class="rowOdd">Command</td>
-  <td class="rowOdd"><input name="mi_cmd" type="text" class="formInput" value="" size="65"></td>
+  <td class="searchRecord">Command</td>
+  <td class="searchRecord"><input name="mi_cmd" type="text" class="formInput" value="" size="65"></td>
  </tr>
 <?php
 if (!$_read_only)
 {
 ?> 
  <tr>
-  <td colspan="2" class="rowOdd">
+  <td colspan="2" class="searchRecord">
    <table width="100%" cellspacing="0" cellpadding="0" border="0">
     <tr>
      <td width="150">&nbsp;</td>
@@ -57,10 +57,10 @@ if (!$_read_only)
 </form>
 <br>
 
-<table width="450" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="450" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td align="center" class="miTitle"><img src="images/spacer.gif" width="52" height="5">History</td>
-  <td width="50" align="center" class="miTitle"><button type="button" class="Button" onClick="window.location='<?=$page_name?>?action=clear_history'">clear</button></td>
+  <th align="center" class="miTitle"><img src="images/spacer.gif" width="52" height="5">History</th>
+  <th width="50" align="center" class="miTitle"><button type="button" class="Button" onClick="window.location='<?=$page_name?>?action=clear_history'">clear</button></th>
  </tr>
  <?php
 
@@ -86,6 +86,6 @@ if (!$_read_only)
  }
  ?>
  <tr>
-  <td colspan="2" class="miTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <th colspan="2" class="miTitle"><img src="images/spacer.gif" width="5" height="5"></th>
  </tr>
 </table>

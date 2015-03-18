@@ -119,22 +119,22 @@ if(!$_SESSION['read_only']){
 <br>
 
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dispatcherTitle">ID</td>
-  <td class="dispatcherTitle">Setid</td>
-  <td class="dispatcherTitle">Destination</td>
-  <td class="dispatcherTitle">Socket</td>
-  <td class="dispatcherTitle">Weight</td>
-  <td class="dispatcherTitle">Attributes</td>
-  <td class="dispatcherTitle">Description</td>
-  <td class="dispatcherTitle">DB State</td>
+  <th class="dispatcherTitle">ID</th>
+  <th class="dispatcherTitle">Setid</th>
+  <th class="dispatcherTitle">Destination</th>
+  <th class="dispatcherTitle">Socket</th>
+  <th class="dispatcherTitle">Weight</th>
+  <th class="dispatcherTitle">Attributes</th>
+  <th class="dispatcherTitle">Description</th>
+  <th class="dispatcherTitle">DB State</th>
   <?
   if(!$_SESSION['read_only']){
-  	echo('<td class="dispatcherTitle">Memory State</td>
+  	echo('<th class="dispatcherTitle">Memory State</th>
 
-  	<td class="dispatcherTitle">Edit</td>
-  		<td class="dispatcherTitle">Delete</td>');
+  	<th class="dispatcherTitle">Edit</th>
+  	<th class="dispatcherTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -221,10 +221,10 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="dispatcherTitle">
+  <th colspan="<?=$colspan?>" class="dispatcherTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -246,11 +246,11 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

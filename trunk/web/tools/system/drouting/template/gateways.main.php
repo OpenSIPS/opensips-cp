@@ -65,7 +65,7 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
         $sql_search.=" and attrs like '%".$search_attrs."%'";
 
 ?>
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="35%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search Gateways by</td>
  </tr>
@@ -118,23 +118,23 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
  <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">'); ?>
 </form>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dataTitle">ID</td>
-  <td class="dataTitle">GWID</td>
-  <td class="dataTitle">Type</td>
-  <td class="dataTitle">Address</td>
-  <td class="dataTitle">Strip</td>
-  <td class="dataTitle">PRI Prefix</td>
-  <td class="dataTitle">Probe Mode</td>
-  <td class="dataTitle">Socket</td>
-  <td class="dataTitle">Attributes</td>
-  <td class="dataTitle">Description</td>
-  <td class="dataTitle">DB State</td>
-  <td class="dataTitle">Memory State</td>
-  <td class="dataTitle">Details</td>
-  <td class="dataTitle">Edit</td>
-  <td class="dataTitle">Delete</td>
+  <th class="dataTitle">ID</th>
+  <th class="dataTitle">GWID</th>
+  <th class="dataTitle">Type</th>
+  <th class="dataTitle">Address</th>
+  <th class="dataTitle">Strip</th>
+  <th class="dataTitle">PRI Prefix</th>
+  <th class="dataTitle">Probe Mode</th>
+  <th class="dataTitle">Socket</th>
+  <th class="dataTitle">Attributes</th>
+  <th class="dataTitle">Description</th>
+  <th class="dataTitle">DB State</th>
+  <th class="dataTitle">Memory State</th>
+  <th class="dataTitle">Details</th>
+  <th class="dataTitle">Edit</th>
+  <th class="dataTitle">Delete</th>
  </tr>
 <?php
 //get status for all the gws
@@ -270,10 +270,10 @@ else {
  }
 ?>
  <tr>
-  <td colspan="15" class="dataTitle">
+  <th colspan="15" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -295,11 +295,11 @@ else {
                if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
               }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>
