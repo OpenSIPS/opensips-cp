@@ -1,0 +1,53 @@
+
+Permissions Tool (permissions)
+---------------------------------
+
+
+Description 
+---------------
+
+The permissions tool is used for determining if a call has appropriate permission
+to be established. For the time being, just the address table is available. This tool allows deleting, searching and adding database transactions, and it also lists the whole trusted table content.
+
+The permissions module documentation can be found at the following link: 
+http://www.opensips.org/html/docs/modules/1.8.x/permissions.html
+
+Configuration
+-------------------
+* Database layer configuration file : 
+opensips-cp/config/tools/system/permissions/db.inc.php 
+
+- Mysql connection data is set through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+* Local configuration file :  
+opensips-cp/config/tools/system/permissions/local.inc.php
+
+Attributes like database table name, results per page are set in this file
+
++ database table name  
++ the `results per page` variable is set in this file (how many records to be 
+seen on a single page , pagination )
+ + the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
+trigger the reload command via MI $talk_to_this_assoc_id = 1 ;).
+
+Usage and Features
+--------------------------
+
+
+The user can list, add, edit and delete permissions. 
+The following is an explanation of the actions performed by the buttons on the page:
+
+"Search": Searches through the adress rules, displaying only the rules that have the Source IP and Protocol submited by the user.
+"Show all": Shows all the address rules.
+"Delete Trusted": Deletes all entries with a certain Source IP and Protocol.  
+"Add New": Inserts a form to add new address rule. 
+
+NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to click on  “Apply Changes to Server” button.

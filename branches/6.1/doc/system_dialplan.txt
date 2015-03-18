@@ -1,0 +1,60 @@
+
+Dialplan Tool (dialplan)
+---------------------------------
+
+
+Description 
+---------------
+
+The dialplan tool is used to perform modifications in OpenSIPS's dialplan rules 
+in realtime.  The rules are kept in a database and they can be reloaded into 
+OpenSIPS at any moment from the web interface. It shows a table with OpenSIPS
+dialplan rules, offering the ability to  add , edit, clone  and  delete rules.
+
+You can find  the dialplan module documentation here : 
+http://www.opensips.org/html/docs/modules/1.8.x/dialplan.html
+
+Configuration
+-------------------
+* Database layer configuration file : 
+opensips-cp/config/tools/system/dialplan/db.inc.php 
+
+- Mysql connection data is set through this file.
+
+Attributes  set in this file : 
+
++database host 
++database port
++database username 
++database password
++database name
+
+* Local configuration file :  
+opensips-cp/config/tools/system/dialplan/local.inc.php
+
+Attributes like database table name, results per page are set in this file
+
++ database table name  
++ the `results per page` variable is set in this file (how many records to be 
+seen on a single page , pagination )
+ + the $talk_to_this_assoc_id variable - must point to the type of machines which are OpenSIPS servers (to 
+trigger the reload command via MI $talk_to_this_assoc_id = 1 ;).
+
+Usage and Features
+--------------------------
+
+
+The user can list, add, edit and delete dialplan rules. 
+Following is an explanation of the actions performed by the buttons on the page:
+
+“Search”:  Searches through the dialplan rules, displaying only the rules with 
+the dialplan ID submited by the user.
+“Show All”: Shows all the dialplan rules from all dialplans.
+“Clone Dialplan”: Creates a new entry of the selected dialplan rule identical 
+with the selected one.
+“Delete Dialplan”: Deletes all  entries with a certain dialplan ID. 
+“Add New Rule”: Presents a form to add new rule into dialplan.
+“Apply Changes to Server”: Reloads the dialplan rules from the database into 
+OpenSIPS instantaneously.
+
+NOTE: all the changes are done in database. To apply them into your OpenSIPS, you need to click on  “Apply Changes to Server” button.

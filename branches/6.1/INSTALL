@@ -1,0 +1,235 @@
+OpenSIPS Control Panel (OCP) Installation Guide 
+-----------------------------------------------
+
+
+OCP has been tested and developed mostly on Debian and Redhat Linux , but, being 
+a web portal qualifies it to work also with other Linux distros and operating 
+systems as well. Most of the paths and commands in this INSTALL guide are be 
+debian/redhat specific.   
+
+
+You Will Need:
+1. a web server (this tutorial focuses only on Apache Web Server)
+2. PHP and some of it's extensions
+3. DB (mysql/postgres/sqlite/oracle etc)
+
+This tutorial assumes that your web directory is /var/www/ and the OCP files are 
+located in /var/www/opensips-cp/ folder
+
+Apache
+------
+
+1. Install Apache
+- debian: apt-get install apache2 libapache2-mod-php5
+- redhat: yum install httpd
+
+2. Configure Apache
+- you can add the configuration below into one of Apache's existent VHOSTs or 
+  create a new one:
+
+        <Directory /var/www/opensips-cp/web>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        <Directory /var/www/opensips-cp>
+                Options Indexes FollowSymLinks MultiViews
+                AllowOverride None
+                Order deny,allow
+                deny from all
+        </Directory>
+
+        Alias /cp /var/www/opensips-cp/web
+
+- you can read more about Apache's VHOSTS here: 
+    http://httpd.apache.org/docs/current/vhosts/examples.html
+
+
+2. Apache is going to need write permissions on some files / folders in the 
+   opensips-cp directory :
+
+- so you can do:
+    - for debian: chown -R www-data:www-data /var/www/opensips-cp/
+    - for redhat: chown -R apache:apache /var/www/opensips-cp/
+
+- or, at least chown the mandatory files:
+    - for debian: chown -R www-data:www-data /var/www/opensips-cp/web/tools/system/smonitor/generated
+                  chown  www-data:www-data /var/www/opensips-cp/config/tools/system/drouting/group_ids.txt
+                  chown  www-data:www-data /var/www/opensips-cp/config/tools/system/drouting/gw_types.txt
+  
+    - for redhat: chown -R apache:apache /var/www/opensips-cp/web/tools/system/smonitor/generated
+                  chown  apache:apache /var/www/opensips-cp/config/tools/system/drouting/group_ids.txt
+                  chown  apache:apache /var/www/opensips-cp/config/tools/system/drouting/gw_types.txt
+
+
+
+
+PHP 
+---
+
+
+You must have PHP installed and enabled in the web server.
+
+In order to do that you will have to install php and some of it's extensions.
+
+- on debian distros do: 
+    apt-get install php5 php5-gd php5-mysql php5-xmlrpc php-pear php5-cli
+- on redhat distros do: 
+    yum install php php-gd php-mysql php-xmlrpc php-pear
+
+
+Check if these extensions are enabled :
+- for debian distros check /etc/php5/conf.d/ for mysql.ini, gd.ini, xmlrpc.ini
+- for redhat distros check /etc/php.d/ for mysql.ini, gd.ini, xmlrpc.ini 
+
+If these are not there plese check if you have installed them correctly
+
+Do not forget to set in your php.ini :
+short_open_tag = On ;  
+
+4. MDB2 package needs to be installed with the appropriate DB driver 
+   (mysql / postgresql / mssql / sqlite etc.)
+
+    pear install MDB2
+    pear install MDB2#mysql //should you choose to go with the mysql database
+    pear install log
+
+
+
+Database server 
+----------------
+
+The OpenSIPS Control Panel can connect to a remote database server, 
+so the DB server can be used from the SIP Server machine or another 
+machine in the network.
+
+
+
+* You will need the opensips database schema from the opensips distribution. 
+  (www.opensips.org) 
+(OCP is made for it)
+
+
+* Additional steps:
+
+    * MANDATORY - Admin table: in order to be able to login you will have to 
+      create a DB table and insert the first user.
+
+        Follow these steps:
+	
+	    1. install the ocp_admin_privileges table schema (we only provide the 
+           schema for mysql and pgsql)
+            - from the opensips-cp folder run:
+                mysql -Dopensips -p < config/tools/admin/add_admin/ocp_admin_privileges.mysql
+                    or
+                psql -h host_name -U postgres_username -d opensips < config/tools/admin/add_admin/ocp_admin_privileges.pgsql
+	
+	    2. For being able to login create an admin account with the following 
+           username and password: admin/admin. Add it into the database:
+
+	        INSERT INTO ocp_admin_privileges (username,password,ha1,available_tools,permissions) values ('admin','admin',md5('admin:admin'),'all','all');		
+
+    
+    * For the cdrviewer tool you must add a table of use one that is already in 
+      your OpenSIPS Database (in case your OpenSIPS Server generates & stores 
+      CDRs in DB)
+
+        Follow these steps (in case you do not have already a cdrs table in your
+        opensips DB):	
+     
+	        mysql -Dopensips -p < config/tools/system/cdrviewer/cdrs.mysql 
+		        or 
+            psql -h host_name -U postgres_username -d opensips < config/tools/system/cdrviewer/cdrs.pgsql
+	
+
+	
+    * For the smonitor module: you must add two tables to the OpenSIPS database 
+
+        Follow these steps:	
+	        1. Install the monitored_stats and monitoring_stats tables. 
+	            mysql -Dopensips -p < config/tools/system/smonitor/tables.mysql
+		            or 
+                psql -h host_name -U postgres_username -d opensips < config/tools/system/smonitor/tables.pgsql
+    
+            2. Edit the cron_job/get_opensips_stats.php file and change:
+                $path_to_smonitor="/var/www/opensips-cp/web/tools/system/smonitor"; to the actual path of your OpenSIPS CP
+	    
+	        3. Add a cron job that collects data from the opensips machine(s).
+	
+                Here's a cron job that collects data at 1 minute interval:
+                * * * * *   root  cd /var/www/opensips_cp/cron_job/; php get_opensips_stats.php > /dev/null (be careful and put the right path to the CP dir)
+	
+	
+
+Configuration files
+-------------------
+
+* DB Configuration files are split in:
+	1) global(config/db.inc.php) 
+	2) local(config/tools/(admin|users|system)/module_name/db.inc.php)	
+
+    NOTE:   
+        If all modules pull out data from the same database, there should be 
+        used only the global config file and the local config files should be 
+        left as they are defined by default. 
+        If modules draw out data from different databases, in the local config 
+        files all the fields should be uncommented and provisioned accordingly
+        ( host, database name, port -if necessary - user, password ).
+
+* Configuration files:
+	1) globals.php (config/globals.php)
+	2) boxes.global.inc.php (config/boxes.global.inc.php)
+	3) modules.inc.php (config/modules.inc.php)
+
+	1)The globals.php file is used for parameters that are being accessed in 
+        more then one module.
+		
+        *$config->permissions
+	
+    	The permissions parameter is used by all modules, when setting the 
+        modules permissions for a certain admin.
+		
+        This array has 2 values that will remain unchanged: 
+            read-only and read-write.
+
+		    $config->permissions = array("read-only","read-write");
+
+        *$config->admin_passwd_mode
+        You can use this parameter if you want your passwords to be 
+        encrypted (1) or left in plain text mode (0)
+
+    2) The boxes.global.inc.php contains some important parameters like :
+        - box_id - this is an integer unique ID of the box your are configuring
+        - MI (management interface) connector - gives OpenSIPS Control Panel 
+          the ability to "talk" to OpenSIPS proxy via fifo, udp, xmlrpc and 
+          http json
+        - Monit configuration - OpenSIPS CP can be integrated with Monit 
+          (see https://mmonit.com/monit/)
+        - enable / disable Smonitor charts generator (you can choose to sample 
+          charts data on a box - be careful to configure the cron scripts)
+        - choose the system id associated to the box
+      
+      You can define multiple boxes and group them into systems (see commented 
+          part of the file).
+
+    3) The modules.inc.php file is used to configure what tools (modules) 
+       and/or groups of tools should appear in the main menu
+        For example :
+
+           "users"         => array (
+                                                    "enabled"   => true,
+                                                    "name"      => "Users",
+                                                    "modules"   => array (
+                                                                        "acl_management"    => array (
+                                                                                                    "enabled"   => true,
+                                                                                                    "name"      => "ACL Management" 
+                                                                        "alias_management"  => array (
+                                                                                                    "enabled"   => false,
+                                                                                                    "name"      => "Alias Management"
+                                                                                            ),
+
+        Above you can see that the Users tool group is enabled and the 
+        "ACL Management" module are enabled but the "Alias Management" is not 
+        enabled so it will not show up in the main menu.

@@ -1,0 +1,41 @@
+
+MI Tool (mi)
+------------------
+
+
+
+Description 	
+---------------
+
+
+
+MI stands for management interface.	
+The tool offers the possibility to execute commands - via FIFO or XMLRPC - 
+on the OpenSIPS servers  configured on the platform. 
+This is a form of low–level access to the server management. 
+
+you can find the MI modules documentation here : 
+http://www.opensips.org/html/docs/modules/1.5.x/mi_xmlrpc.html
+http://www.opensips.org/html/docs/modules/1.5.x/mi_fifo.html
+
+
+Configuration
+-------------------
+
+The tool connects to the machines configured in the global configuration file.
+(global.boxes.inc.php) 
+
+Example:
+$boxes[$box_id]['mi']['conn']="127.0.0.1:8080";
+
+
+Usage and Features
+--------------------------
+
+
+The tool presents an input box for commands. 
+It also has a drop down box with pre-configured SIP Servers to easily switch 
+between machines on your SIP platform.
+It has a drop down MI Command box with a listing of available commands. 
+The commands can take arguments (parameters) and the command output is saved in 
+the same web session.

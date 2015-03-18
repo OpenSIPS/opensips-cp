@@ -1,0 +1,62 @@
+This is OpenSIPS Control Panel (OCP), a web application for the 
+system provisioning of OpenSIPS SIP server (www.opensips.org)
+
+
+OpenSIPS Control Panel is made in the PHP programming language , with a MYSQL/PGSQL using an abstract layer for interfacing with the DB (Pear MDB2) 
+backend. 
+
+
+OpenSIPS Control Panel version 6.0 is compatible with OpenSIPS Server >= 1.11.x
+
+
+OpenSIPS Control Panel currently features 3 main categories:
+
+* admin
+	add_admin - feature for adding new admin
+
+	list_admins - the user can view all admins and change their permissions
+
+* users
+
+	alias_management - feature for adding/deleting users aliases
+
+	user_management - the admin can add new users, view all users and operate on their account
+
+	acl_management - provisioning of user's ACLs based on "group" module
+
+* system
+	cdrviewer - allows cdr search and listing 
+	
+    callcenter - used for provisioning the callcenter module in OpenSIPS
+
+	dialog  - the user can view ongoign dialogs and end them
+
+	dialplan  - the user can easily operate changes in OpenSIPS's dialplan domains
+
+	dispatcher  - provisioning of dispatching lists (view list and status, edit, add and reload)
+
+	drouting - tool used for provisioning the drouting module of OpenSIPS
+
+	domains  - handy tool for adding / deleting domains 
+
+	loadbalancer - tool used for provisioning the load balancer module within OpenSIPS
+
+	mi -  the user can issue commands to opensips via xmlrpc/fifo interface 
+
+	monit  - an interface which integrates the `monit` monitoring tool 
+
+	nathelper - provisioning via DB of the RTPproxy's sockets, cache viewing (status of RTPproxy socks), enable/disable sockets, NAT ping control
+
+	permissions - provisioning of "trusted" table
+
+	pdt  -  tool provisions (add, delete, edit) the prefix-to-domain mappings used by the PDT module
+
+	siptrace   -  this is an interface with the siptrace engine of OpenSIPS
+
+	smonitor - tool for monitoring the internals of OpenSIPS . It shows nice graphs.
+
+	tviewer - tool managing (insert, delete, update) generic SQL tables - you can also add your own custom actions.
+
+
+
+Please see the doc directory for further documentation.
