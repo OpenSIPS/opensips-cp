@@ -24,9 +24,9 @@
 ?>
 
 <form action="<?=$page_name?>" method="post"> 
-<table width="300" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="300" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td colspan="2" align="center" class="Title">Click a module to see its statistics</td>
+  <th colspan="2" align="center" class="smonitorTitle">Click a module to see its statistics</th>
  </tr>
 <?php
  $var_index=0;
@@ -74,12 +74,10 @@
   <td colspan="2" class="rowOdd">
    <table width="100%" cellspacing="0" cellpadding="0" border="0">
    <tr>
-    <td align="left">
-     <div id="modul_<?=$module?>" class="Data" onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?module_id=<?=$i?>'">
+     <div style="float: left; width: 85%;" id="modul_<?=$module?>" class="Data" onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?module_id=<?=$i?>'">
       <img src="<?=$module_img?>" width="16" height="16"> Module: <?=$module?> (<?=$no_vars?>)
      </div>
-    </td>
-    <td align="right"><?=$reset_flag?></td>
+    <div style="float: left;padding: 5px;"><?=$reset_flag?></div>
    </tr>
    </table>
   </td>
@@ -89,7 +87,6 @@
   {
    ?>
    <tr>
-    <td width="5">&nbsp;</td>
     <td class="rowEven"><?=$var_string?></td>
    </tr>
    <tr>
@@ -100,11 +97,11 @@
  }
 ?>
  <tr>
-  <td colspan="2" class="Title"><img src="images/spacer.gif" width="5" height="5"></td>
+  <th colspan="2" class="smonitorTitle"><img src="images/spacer.gif" width="5" height="5"></th>
  </tr>
 </table>
 <br>
 <?php
- if ((!$_read_only) && ($expanded)) echo('<input type="submit" name="reset_stats" value="Reset Checked" class="Button">');
+ if ((!$_read_only) && ($expanded)) echo('<input type="submit" name="reset_stats" value="Reset Checked" class="formButton">');
 ?>
 </form>

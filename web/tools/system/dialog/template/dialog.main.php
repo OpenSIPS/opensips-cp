@@ -21,24 +21,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 -->
-<form name="refreshform" action="<?=$page_name?>?action=refresh" method="post">
-<?php
-
-
-//print_r($message);
-?>
-
-<table width="85%" cellspacing="2" cellpadding="2" border="0">
-
- <tr height="10">
-  <td colspan="3" class="searchRecord" align="right">
-	<input type="submit" name="refresh" value="Refresh Dialog List" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
- </tr>
-</table>
-</form>
+<div align="right">
+	<form name="refreshform" action="<?=$page_name?>?action=refresh" method="post">
+		<input type="submit" name="refresh" value="Refresh Dialog List" class="ButtonLink">
+	</form>
+</div>
 <br>
 
 <?php
@@ -68,18 +55,18 @@ for ($i=0;$i<count($mi_connectors);$i++){
 }
 
 
-echo '<table width="95%" cellspacing="2" cellpadding="2" border="0">';
+echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';
 echo '<tr align="center">';
-echo '<td class="dialogTitle">Call ID</td>';
-echo '<td class="dialogTitle">From URI</td>';
-echo '<td class="dialogTitle">To URI</td>';
-echo '<td class="dialogTitle">Start Time</td>';
-echo '<td class="dialogTitle">State</td>';
+echo '<th class="dialogTitle">Call ID</th>';
+echo '<th class="dialogTitle">From URI</th>';
+echo '<th class="dialogTitle">To URI</th>';
+echo '<th class="dialogTitle">Start Time</th>';
+echo '<th class="dialogTitle">State</th>';
 
   unset($entry);
   if(!$_SESSION['read_only']){
 
-    echo('<td class="dialogTitle">Stop Call</td>');
+    echo('<th class="dialogTitle">Stop Call</th>');
   }
 
  echo '</tr>';
@@ -214,10 +201,10 @@ else {
 
 
 <tr>
-<td colspan="6" class="dialogTitle">
+<th colspan="6" class="dialogTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -239,13 +226,13 @@ else {
         if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
-    </td>
+    </th>
  </tr>
 </table>
 

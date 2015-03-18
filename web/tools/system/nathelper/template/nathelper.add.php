@@ -39,7 +39,7 @@ if($clone =="1"){
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="dispatcherTitle">New RTPproxy</td>
+  <td colspan="2" class="nathelperTitle">New RTPproxy</td>
  </tr>
 <?php
 ?>

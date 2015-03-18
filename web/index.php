@@ -56,12 +56,12 @@
       </tr>
       <tr>
        <td width="40" align="right" valign="middle"><img height="10" src="images/arrow.gif" width="5" border="0">&nbsp;</td>
-       <td width="90" align="right"><b><?php echo($login_user) ?>:&nbsp;</b></td>
-       <td><input type="text" name="name" class="loginInput"></td>
+       <td width="90" align="right"><b class="loginLabel"><?php echo($login_user) ?>&nbsp;</b></td>
+       <td><input type="text" name="name" class="loginInput" autofocus></td>
       </tr>
       <tr>
        <td width="40" align="right" valign="middle"><img height="10" src="images/arrow.gif" width="5" border="0">&nbsp;</td>
-       <td width="90" align="right"><b><?php echo($login_pass) ?>:&nbsp;</b></td>
+       <td width="90" align="right"><b class="loginLabel"><?php echo($login_pass) ?>&nbsp;</b></td>
        <td><input type="password" name="password" class="loginInput"></td>
       </tr>
       <tr>

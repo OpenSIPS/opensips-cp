@@ -77,21 +77,21 @@ if(!$_SESSION['read_only']){
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="permissionsTitle">ID</td>
-  <td class="permissionsTitle">Group</td>
-  <td class="permissionsTitle">IP</td>
-  <td class="permissionsTitle">Mask</td>
-  <td class="permissionsTitle">Port</td>
-  <td class="permissionsTitle">Protocol</td>
-  <td class="permissionsTitle">Pattern</td>
-  <td class="permissionsTitle">Context Info</td>
+  <th class="permissionsTitle">ID</th>
+  <th class="permissionsTitle">Group</th>
+  <th class="permissionsTitle">IP</th>
+  <th class="permissionsTitle">Mask</th>
+  <th class="permissionsTitle">Port</th>
+  <th class="permissionsTitle">Protocol</th>
+  <th class="permissionsTitle">Pattern</th>
+  <th class="permissionsTitle">Context Info</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<td class="permissionsTitle">Edit</td>
-  		<td class="permissionsTitle">Delete</td>');
+  	echo('<th class="permissionsTitle">Edit</th>
+  		<th class="permissionsTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -153,10 +153,10 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="permissionsTitle">
+  <th colspan="<?=$colspan?>" class="permissionsTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -178,11 +178,11 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

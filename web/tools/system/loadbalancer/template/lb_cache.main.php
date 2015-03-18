@@ -57,15 +57,15 @@
 </form>
 <br>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
 
-  <td class="loadbalancerTitle">ID</td>
-  <td class="loadbalancerTitle">Group ID</td>
-  <td class="loadbalancerTitle">Destination URI</td>
-  <td class="loadbalancerTitle">Status</td>
-  <td class="loadbalancerTitle">Auto</td>
-  <td class="loadbalancerTitle">Resources</td>
+  <th class="loadbalancerTitle">ID</th>
+  <th class="loadbalancerTitle">Group ID</th>
+  <th class="loadbalancerTitle">Destination URI</th>
+  <th class="loadbalancerTitle">Status</th>
+  <th class="loadbalancerTitle">Auto</th>
+  <th class="loadbalancerTitle">Resources</th>
 
 <?
 
@@ -188,6 +188,6 @@ else {
 ?>
 
  <tr>
- <td colspan="6" class="loadbalancerTitle" align="right">Total Records: <?php print $data_no?>&nbsp;</td>
+ <th colspan="6" class="loadbalancerTitle" align="right">Total Records: <?php print $data_no?>&nbsp;</th>
  <tr>
 </table>

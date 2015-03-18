@@ -30,8 +30,8 @@ if ($form_domain!=null) {
 else {
 	$form_action="add";
 	$form_title="New Domain Name";
-	$form_input='<input name="new_domain" type="text" class="newDomain" value="">';
-	$form_button='<input name="add" type="submit" value="Add Domain" class="Button">';
+	$form_input='<input name="new_domain" type="text" class="searchInput" value="">';
+	$form_button='<input name="add" type="submit" value="Add Domain" class="searchButton">';
 }
 ?>
 
@@ -49,14 +49,14 @@ if (!$_SESSION[read_only]) {
   <td class="domainTitle" align="center"><?=$form_title?></td>
  </tr>
 <?php
-if ($error!="") echo('<tr><td class="rowOdd" align="center"><div class="formError">'.$error.'</div></td></tr>');
-if ($info!="") echo('<tr><td class="rowOdd" align="center"><div class="formInfo">'.$info.'</div></td></tr>');
+if ($error!="") echo('<tr><td align="center"><div class="formError">'.$error.'</div></td></tr>');
+if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 ?>
  <tr>
-  <td class="rowOdd" align="center"><?=$form_input?></td>
+  <td class="searchRecord" align="center"><?=$form_input?></td>
  </tr>
  <tr>
-  <td class="rowOdd" align="center"><?=$form_button?></td>
+  <td class="searchRecord" align="center"><?=$form_button?></td>
  </tr>
  <tr>
   <td class="domainTitle"><img src="images/spacer.gif" width="5" height="5"></td>
@@ -68,12 +68,12 @@ if ($info!="") echo('<tr><td class="rowOdd" align="center"><div class="formInfo"
 }
 ?>
 
-<table width="400" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td align="center" class="domainTitle">Domain Name</td>
-  <td align="center" class="domainTitle">Last Modified</td>
-  <td align="center" class="domainTitle">Edit</td>
-  <td align="center" class="domainTitle">Delete</td>
+  <th align="center" class="domainTitle">Domain Name</th>
+  <th align="center" class="domainTitle">Last Modified</th>
+  <th align="center" class="domainTitle">Edit</th>
+  <th align="center" class="domainTitle">Delete</th>
  </tr>
 <?php
 //include("lib/db_connect.php");
@@ -107,6 +107,6 @@ if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 $link->disconnect();
 ?>
  <tr>
-  <td colspan="4" class="domainTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <th colspan="4" class="domainTitle"><img src="images/spacer.gif" width="5" height="5"></th>
  </tr>
 </table>

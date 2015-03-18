@@ -45,30 +45,30 @@
  $search_description=$_SESSION['groups_search_description'];
  if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
 ?>
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="35%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search Groups by</td>
  </tr>
  <tr>
-  <td class="searchRecord">Username :</td>
+  <td class="searchRecord">Username </td>
   <td class="searchRecord" width="200"><input type="text" name="search_username" value="<?=$search_username?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Domain :</td>
+  <td class="searchRecord">Domain </td>
   <td class="searchRecord" width="200"><input type="text" name="search_domain" value="<?=$search_domain?>" maxlength="64" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Group ID :</td>
+  <td class="searchRecord">Group ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_groupid" value="<?=$search_groupid?>" maxlength="11" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Description :</td>
+  <td class="searchRecord">Description </td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$search_description?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
   <td colspan="2" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
- ;<tr height="10">
+ <tr height="10">
   <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
@@ -78,15 +78,15 @@
  <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dataTitle">Username</td>
-  <td class="dataTitle">Domain</td>
-  <td class="dataTitle">Group ID</td>
-  <td class="dataTitle">Description</td>
-  <td class="dataTitle">Details</td>
-  <td class="dataTitle">Edit</td>
-  <td class="dataTitle">Delete</td>
+  <th class="dataTitle">Username</th>
+  <th class="dataTitle">Domain</th>
+  <th class="dataTitle">Group ID</th>
+  <th class="dataTitle">Description</th>
+  <th class="dataTitle">Details</th>
+  <th class="dataTitle">Edit</th>
+  <th class="dataTitle">Delete</th>
  </tr>
 <?php
  if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by username, domain asc";
@@ -147,10 +147,10 @@
  }
 ?>
  <tr>
-  <td colspan="7" class="dataTitle">
+  <th colspan="7" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -172,11 +172,11 @@
                if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
               }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

@@ -68,38 +68,41 @@
   <td colspan="2" class="searchTitle">Search Rules by</td>
  </tr>
  <tr>
-  <td class="searchRecord">Group ID :</td>
+  <td class="searchRecord">Group ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_groupid" value="<?=$_SESSION['rules_search_groupid']?>" maxlength="64" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Prefix :</td>
+  <td class="searchRecord">Prefix </td>
   <td class="searchRecord" width="200"><input type="text" name="search_prefix" value="<?=$_SESSION['rules_search_prefix']?>" maxlength="64" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Priority :</td>
+  <td class="searchRecord">Priority </td>
   <td class="searchRecord" width="200"><input type="text" name="search_priority" value="<?=$_SESSION['rules_search_priority']?>" maxlength="11" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Route ID :</td>
+  <td class="searchRecord">Route ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_routeid" value="<?=$_SESSION['rules_search_routeid']?>" maxlength="11" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Gateway List :</td>
+  <td class="searchRecord">Gateway List </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Attributes :</td>
+  <td class="searchRecord">Attributes </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$_SESSION['rules_search_attrs']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Description :</td>
+  <td class="searchRecord">Description </td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['rules_search_description']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
   <td colspan="2" class="searchRecord" align="center">
    <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-   <?php if (!$_read_only) echo('<input type="submit" name="delete" value="Delete Matching" class="searchButton" onClick="return confirmDeleteSearch()">&nbsp;&nbsp;&nbsp;') ?>
    <input type="submit" name="show_all" value="Show All" class="searchButton">
+  </td>
+ </tr>
+  <td colspan="2" class="searchRecord" align="center">
+   <?php if (!$_read_only) echo('<input type="submit" name="delete" value="Delete Matching" class="searchButton" onClick="return confirmDeleteSearch()">&nbsp;&nbsp;&nbsp;') ?>
   </td>
  </tr>
  <tr height="10">
@@ -112,19 +115,19 @@
  <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dataTitle">ID</td>
-  <td class="dataTitle">Group ID</td>
-  <td class="dataTitle">Prefix</td>
-  <td class="dataTitle">Priority</td>
-  <td class="dataTitle">Route ID</td>
-  <td class="dataTitle">GW List</td>  
-  <td class="dataTitle">Attributes</td>
-  <td class="dataTitle">Description</td>
-  <td class="dataTitle">Details</td>
-  <td class="dataTitle">Edit</td>
-  <td class="dataTitle">Delete</td>
+  <th class="dataTitle">ID</th>
+  <th class="dataTitle">Group ID</th>
+  <th class="dataTitle">Prefix</th>
+  <th class="dataTitle">Priority</th>
+  <th class="dataTitle">Route ID</th>
+  <th class="dataTitle">GW List</th>  
+  <th class="dataTitle">Attributes</th>
+  <th class="dataTitle">Description</th>
+  <th class="dataTitle">Details</th>
+  <th class="dataTitle">Edit</th>
+  <th class="dataTitle">Delete</th>
  </tr>
 <?php
  if ($sql_search=="") {
@@ -200,10 +203,10 @@
  }
 ?>
  <tr>
-  <td colspan="11" class="dataTitle">
+  <th colspan="11" class="dataTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -225,11 +228,11 @@
                if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
               }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

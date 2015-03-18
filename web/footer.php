@@ -31,7 +31,7 @@
 </head>
 
 <body topmargin="5" leftmargin="0" bottommargin="0" rightmargin="0">
-<table width="100%" height="20" background="images/bar.jpg">
+<table class="headertable" width="100%" height="20">
  <tr>
   <td align="center" class="copyright">
    <?=$copyright?>

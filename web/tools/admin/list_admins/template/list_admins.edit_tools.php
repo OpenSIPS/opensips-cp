@@ -1,5 +1,4 @@
 <form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
-<table width="400" cellspacing="2" cellpadding="2" border="0">
 <?php
 /*
  * $Id$
@@ -40,10 +39,7 @@ $permissions=array();
  <tr>
  <td colspan="3" class="listadminsTitle" align="center">Edit Tools and Permissions </td>
  </tr>
- 
- <tr>
-  
- </tr>
+</table>
   <?php
 	$sql = 'select available_tools,permissions from '. $table .' where username="'.$_GET['uname'].'" limit 1';
 	$resultset = $link->queryAll($sql);
@@ -145,7 +141,6 @@ if ($_SESSION['read_only']) {
        }
   ?>
 
- <tr> 
   <table width="400" cellspacing="2" cellpadding="2" border="0">
 
 <?php
@@ -161,9 +156,8 @@ if (!$_SESSION['read_only']) {
    <td colspan="3" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
   </tr>
   </table>
-</tr>
 
-</table>
 </form>
+</tr>
 <?=$back_link?>
 

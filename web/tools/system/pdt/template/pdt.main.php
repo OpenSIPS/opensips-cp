@@ -57,12 +57,12 @@ if ($config->sdomain) {
 	
 }
 ?>
-<table width="300" cellspacing="2" cellpadding="2" border="0">
+<table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search Prefix 2 Domain by</td>
  </tr>
  <tr>
-  <td class="searchRecord">Prefix :</td>
+  <td class="searchRecord">Prefix</td>
   <td class="searchRecord" width="200"><?=$config->start_string.$config->start_prefix?><input type="text" name="search_prefix" value="<?=$search_prefix?>" maxlength="32" class="searchInput"></td>
  </tr>
 <?php
@@ -70,14 +70,14 @@ if ($config->sdomain)
 {
  ?>
  <tr>
-  <td class="searchRecord">source Domain :</td>
+  <td class="searchRecord">source Domain </td>
   <td class="searchRecord" width="200"><?=$sdomain_input?></td>
  </tr>
  <?php
 }
 ?>
  <tr>
-  <td class="searchRecord">to Domain :</td>
+  <td class="searchRecord">to Domain </td>
   <td class="searchRecord" width="200"><input type="text" name="search_domain" value="<?=$search_domain?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
@@ -90,18 +90,18 @@ if ($config->sdomain)
 </form>
 
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="Button">') ?>
+ <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 
-<table width="450" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="450" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td align="center" class="pdtTitle">Prefix</td>
+  <th align="center" class="pdtTitle">Prefix</th>
 <?php
-if ($config->sdomain) echo('<td align="center" class="pdtTitle">source Domain</td>');
+if ($config->sdomain) echo('<th align="center" class="pdtTitle">source Domain</th>');
 ?>
-  <td align="center" class="pdtTitle">to Domain</td>
-  <td align="center" class="pdtTitle">Edit</td>
-  <td align="center" class="pdtTitle">Delete</td>
+  <th align="center" class="pdtTitle">to Domain</th>
+  <th align="center" class="pdtTitle">Edit</th>
+  <th align="center" class="pdtTitle">Delete</th>
  </tr>
 <?php
 if ($sql_search=="") $sql_command="SELECT * FROM ".$table." WHERE (1=1) ORDER BY prefix ASC";
@@ -154,25 +154,25 @@ if ($config->sdomain) echo('<td class="'.$row_style.'">'.$resultset[$i]['sdomain
 $link->disconnect();
 ?>
  <tr>
-  <td colspan="5" class="pdtTitle">
+  <th colspan="5" class="pdtTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        for($i=1;$i<=$page_no;$i++)
        if ($i==$page) echo('<font class="pageActive">'.$i.'</font>&nbsp;');
        else echo('<a href="'.$page_name.'?page='.$i.'&'.$sess.'" class="pageList">'.$i.'</a>&nbsp;');
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>
 
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="Button">') ?>
+ <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>

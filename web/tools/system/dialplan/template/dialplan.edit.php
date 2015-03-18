@@ -128,7 +128,7 @@
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dialplanTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>

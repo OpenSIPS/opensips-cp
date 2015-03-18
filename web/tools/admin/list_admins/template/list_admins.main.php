@@ -76,16 +76,16 @@ if(!$_SESSION['read_only']){
 </form>
 <br>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="listadminsTitle">Username</td>
-  <td class="listadminsTitle">Name</td>
-  <td class="listadminsTitle">Access</td>
+  <th class="listadminsTitle">Username</th>
+  <th class="listadminsTitle">Name</th>
+  <th class="listadminsTitle">Access</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<td class="listadminsTitle">Edit Info</td>
-  		<td class="listadminsTitle">Delete</td>');
+  	echo('<th class="listadminsTitle">Edit Info</th>
+  		<th class="listadminsTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -152,10 +152,10 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="listadminsTitle">
+  <th colspan="<?=$colspan?>" class="listadminsTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -177,11 +177,11 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

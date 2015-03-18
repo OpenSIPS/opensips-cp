@@ -29,7 +29,7 @@ if ($config->sdomain) {
 	if(PEAR::isError($resultset)) {
         	die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
-	$sdomain_input='<select name="sdomain" class="newPdt">';
+	$sdomain_input='<select name="sdomain" class="searchInput">';
 	
 	$i=0;
 	while(count($resultset)>$i)
@@ -50,31 +50,31 @@ if ($config->sdomain) {
 <?php
 if (isset($form_error)) {
 	echo(' <tr align="center">');
-	echo('  <td class="rowOdd" colspan="2"><div class="formError">'.$form_error.'</div></td>');
+	echo('  <td class="searchRecord" colspan="2"><div class="formError">'.$form_error.'</div></td>');
 	echo(' </tr>');
 }
 ?>
  <tr>
-  <td class="rowOdd"><b>Prefix:</b></td>
-  <td class="rowOdd" width="250"><?=$config->start_string.$config->start_prefix?><input type="text" name="prefix" value="<?=$prefix?>" maxlength="30" class="newPdt"></td>
+  <td class="searchRecord"><b>Prefix</b></td>
+  <td class="searchRecord" width="200"><?=$config->start_string.$config->start_prefix?><input type="text" name="prefix" value="<?=$prefix?>" maxlength="30" class="searchInput"></td>
  </tr>
 <?php
 if ($config->sdomain)
 {
  ?> 
  <tr>
-  <td class="rowOdd"><b>source Domain:</b></td>
-  <td class="rowOdd"><?=$sdomain_input?></td>
+  <td class="searchRecord"><b>source Domain</b></td>
+  <td class="searchRecord"><?=$sdomain_input?></td>
  </tr>
  <?php
 }
 ?>
  <tr>
-  <td class="rowOdd"><b>to Domain:</b></td>
-  <td class="rowOdd"><input type="text" name="domain" value="<?=$domain?>" maxlength="255" class="newPdt"></td>
+  <td class="searchRecord"><b>to Domain</b></td>
+  <td class="searchRecord"><input type="text" name="domain" value="<?=$domain?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="rowOdd" colspan="2" align="center"><input type="submit" name="add" value="Add" class="Button"></td>
+  <td class="searchRecord" colspan="2" align="center"><input type="submit" name="add" value="Add" class="Button"></td>
  </tr>
  <tr>
   <td class="pdtTitle" colspan="2"><img src="images/spacer.gif" width="5" height="5"></td>

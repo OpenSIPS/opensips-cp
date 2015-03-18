@@ -103,19 +103,19 @@ echo('<tr height="10">
 </form>
 <br>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<td class="aliasTitle">ID</td>
-<td class="aliasTitle">Alias Username</td>
-<td class="aliasTitle">Alias Domain</td>
-<td class="aliasTitle">Alias Type</td>
-<td class="aliasTitle">Username</td>
-<td class="aliasTitle">Domain</td>
+<th class="aliasTitle">ID</th>
+<th class="aliasTitle">Alias Username</th>
+<th class="aliasTitle">Alias Domain</th>
+<th class="aliasTitle">Alias Type</th>
+<th class="aliasTitle">Username</th>
+<th class="aliasTitle">Domain</th>
 <?
 if(!$_SESSION['read_only']){
 
-echo('<td class="aliasTitle">Edit</td>
-	<td class="aliasTitle">Delete</td>');
+echo('<th class="aliasTitle">Edit</th>
+	<th class="aliasTitle">Delete</th>');
 }
 ?>
 </tr>
@@ -185,10 +185,10 @@ else {
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="aliasTitle">
+  <th colspan="<?=$colspan?>" class="aliasTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -210,8 +210,8 @@ else {
         if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
 <?php 
@@ -224,7 +224,8 @@ if(PEAR::isError($resultset)) {
         die('Failed to issue query, error message : ' . $resultset->getMessage());
 }
 $data_no=count($resultset);
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) 
+	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
    {
         $res=$config->results_per_page;
@@ -256,7 +257,8 @@ else
                         $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="images/edit.gif" border="0"></a>';
                         $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
 
-?>
+				} 
+		?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
@@ -276,13 +278,12 @@ else
         $i++;
         }
 }
-}
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="aliasTitle">
+  <th colspan="<?=$colspan?>" class="aliasTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -304,14 +305,11 @@ else
         if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-<?php
-}
-?>
-  </td>
+  </th>
  </tr>
 </table>
-
+<?php } ?>

@@ -269,7 +269,6 @@ function xml_do_call($xmlrpc_host,$xmlrpc_port,$request,&$errors,&$status) {
 
 
 function write2xmlrpc($command,&$errors,&$status){
-
 	global $xmlrpc_host ; 
 	global $xmlrpc_port ; 
 
@@ -285,31 +284,20 @@ function write2xmlrpc($command,&$errors,&$status){
 	if (!isset($params[0])) {
 		$params=NULL ;
 	}
-	$str = "";
-
 
 	$request = xmlrpc_encode_request($my_command, $params);
     $response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
     $xml=(substr($response,strpos($response,"\r\n\r\n")+4));
 
-    preg_match('/HTTP\/\d.\d\s+\d+\s+[A-Za-z]+\s+/',$response,$match);
-    $status = substr($match[0],9);
-
-	preg_match('/\<fault\>/',$xml,$fault_match);
-	if ( count($fault_match)==0 ) {
-	    preg_match_all('/\<string\>(.*\s+)+\<\/string\>/',$xml,$matches);
-    	for ($j=0;$j<count($matches[0]);$j++){
-      	   $temp = substr($matches[0][$j],8);
-       	   $str = $str.substr($temp,0,-9);
-    	}
-	} else {
-	    preg_match_all('/\<string\>.*\<\/string\>/',$xml,$matches);
-      	$temp = substr($matches[0][0],8);
-		$errors[] = "ERROR: ".substr($temp,0,-9);
+    preg_match('/HTTP\/\d.\d\s+(?P<status_code>\d+)\s+(?P<status_text>[A-Za-z\s]+)\s/',$response,$match);
+    $status = $match['status_code']." ".$match['status_text'];
+	if ($match['status_code'] != 200){
+		$errors [] = xmlrpc_decode($xml);
+		return xmlrpc_decode($xml);
 	}
-
-	return  $str ;
-
+	else {
+		return xmlrpc_decode($xml);
+	}
 }
 
 function mi_command($command,&$errors,&$status){

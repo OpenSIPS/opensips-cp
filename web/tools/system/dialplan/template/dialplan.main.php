@@ -65,22 +65,22 @@ if(!$_SESSION['read_only']){
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Rule" class="formButton">') ?>
 </form>
 
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dialplanTitle">Dialplan ID</td>
-  <td class="dialplanTitle">Rule Priority</td>
-  <td class="dialplanTitle">Matching Operator</td>
-  <td class="dialplanTitle">Matching Regular Expression</td>
-  <td class="dialplanTitle">Matching Flags</td>
-  <td class="dialplanTitle">Substitution Regular Expression</td>
-  <td class="dialplanTitle">Replacement Expression</td>
-  <td class="dialplanTitle">Atrributes</td>
+  <th class="dialplanTitle">Dialplan ID</th>
+  <th class="dialplanTitle">Rule Priority</th>
+  <th class="dialplanTitle">Matching Operator</th>
+  <th class="dialplanTitle">Matching Regular Expression</th>
+  <th class="dialplanTitle">Matching Flags</th>
+  <th class="dialplanTitle">Substitution Regular Expression</th>
+  <th class="dialplanTitle">Replacement Expression</th>
+  <th class="dialplanTitle">Atrributes</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<td class="dialplanTitle">Edit</td>
-  		<td class="dialplanTitle">Delete</td>
-    	<td class="dialplanTitle">Clone</td>');
+  	echo('<th class="dialplanTitle">Edit</th>
+  		<th class="dialplanTitle">Delete</th>
+    	<th class="dialplanTitle">Clone</th>');
   }
   ?>
  </tr>
@@ -154,10 +154,10 @@ else
 }
 ?>
  <tr>
-  <td colspan="<?=$colspan?>" class="dialplanTitle">
+  <th colspan="<?=$colspan?>" class="dialplanTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <td align="left">
+      <th align="left">
        &nbsp;Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
@@ -179,11 +179,11 @@ else
        	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
-      </td>
-      <td align="right">Total Records: <?=$data_no?>&nbsp;</td>
+      </th>
+      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-  </td>
+  </th>
  </tr>
 </table>
 <br>

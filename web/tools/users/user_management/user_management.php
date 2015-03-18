@@ -30,6 +30,8 @@ include("lib/db_connect.php");
 $table=$config->table_users;
 $current_page="current_page_user_management";
 
+$keepoverlay = false;
+
 foreach ($config->table_aliases as $key=>$value) {
         $options[]=array("label"=>$key,"value"=>$value);
 }
@@ -41,6 +43,21 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+###############
+# del_contact #
+###############
+if ($action=="delcon"){
+    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+    for ($i=0;$i<count($mi_connectors);$i++){
+        $comm_type=params($mi_connectors[$i]);
+        $comm = "ul_rm_contact location ".$_POST["username"]."@".$_POST["domain"]." ".$_POST["contact"];
+        $mess=mi_command($comm,$errors,$status);
+    }
+	$keepoverlay = true;
+}
+###################
+# end del_contact #
+###################
 
 ##############
 # start edit #

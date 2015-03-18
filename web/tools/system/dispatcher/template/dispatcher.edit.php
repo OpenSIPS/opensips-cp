@@ -51,7 +51,7 @@
 			<td class="dataRecord">
 				<b>Setid</b>
 			</td>
-			<td class="dataRecord" width="275">
+			<td class="dataRecord" width="200">
 				<input type="text" name="setid" value="<?=$resultset['setid']?>"maxlength="128" class="dataInput">
 			</td>
 		</tr>
@@ -60,7 +60,7 @@
 			<td class="dataRecord">
 				<b>Destination</b>
 			</td>
-			<td class="dataRecord" width="275">
+			<td class="dataRecord" width="200">
 				<input type="text" name="destination" value="<?=$resultset['destination']?>" maxlength="192" class="dataInput">
 			</td>
 		</tr>
@@ -69,7 +69,7 @@
 			<td class="dataRecord">
 				<b>Socket</b>
 			</td>
-			<td class="dataRecord" width="275">
+			<td class="dataRecord" width="200">
 				<input type="text" name="socket" value="<?=$resultset['socket']?>" maxlength="128" class="dataInput">
 			</td>
 		</tr>
@@ -79,7 +79,7 @@
 				<b>DB State</b>
 			</td>
 			<td class="dataRecord" width="200">
-				<select id="state" name="state" class="dataSelect" style="width: 275px;">
+				<select id="state" name="state" class="dataSelect" style="width: 200px;">
 					<option value="0" <? if (isset($resultset['state']) && $resultset['state'] == 0) echo "selected"; ?>>0 - Active</option>
 					<option value="1" <? if (isset($resultset['state']) && $resultset['state'] == 1) echo "selected"; ?>>1 - Inactive</option>
 				</select>
@@ -90,7 +90,7 @@
 			<td class="dataRecord">
 				<b>Weight</b>
 			</td>
-			<td class="dataRecord" width="275">
+			<td class="dataRecord" width="200">
 				<input type="text" name="weight"   value="<?=$resultset['weight']?>" maxlength="128" class="dataInput">
 			</td>	
 		</tr>
@@ -99,7 +99,7 @@
 			<td class="dataRecord">
 				<b>Attributes</b>
 			</td>
-			<td class="dataRecord" width="275">
+			<td class="dataRecord" width="200">
 				<input type="text" name="attrs" value="<?=$resultset['attrs']?>" maxlength="128" class="dataInput">
 			</td>
 		 </tr>
@@ -108,7 +108,7 @@
 			<td class="dataRecord">
 				<b>Description</b>
 			</td>
-			<td class="dataRecord" width="275">
+			<td class="dataRecord" width="200">
 				<input type="text" name="description" value="<?=$resultset['description']?>" maxlength="128" class="dataInput">
 			</td>
 		</tr>
