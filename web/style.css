@@ -132,7 +132,9 @@ a.submenuItem:focus, a.submenuItem:active {
 .copyright {
 	font-size: 10px;
 	font-weight: normal;
-	color: #000000;
+	color: #fff;
+    text-shadow: 1px 1px 0 #333;
+    font-family: Arial,Helvetica,sans-serif;
 }
 
 #masterdiv {
