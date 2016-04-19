@@ -23,21 +23,23 @@
 
 ###############################################################################
 
-# Attention : advanced options !!
-
  
- //database tables
- $config->table_users = "subscriber";
- $config->table_location = "location";
- $config->results_per_page = 10;
- $config->results_page_range = 10;
+	//database tables
+	$config->table_users = "subscriber";
+	$config->table_location = "location";
 
- $talk_to_this_assoc_id = 1 ;
+	$config->results_per_page = 25;
+	$config->results_page_range = 10;
 
-// the array containing the alias tables
- $config->table_aliases = array("DBaliases"=>"dbaliases");
+	// The system ID of the SIP servers. We need this
+	// in order to query via MI for registration information
+	$talk_to_this_assoc_id = 1 ;
+
+	// the array containing the alias tables
+	$config->table_aliases = array("DBaliases"=>"dbaliases");
 
 
- //Password can be saved in plain text mode by setting $config->passwd_mode to 0 or chyphered mode, by setting it to 1
- $config->passwd_mode=0;
+	// Password for the SIP account can be saved in plain text
+	// by setting $config->passwd_mode to 0 or chyphered (HA1), by setting it to 1
+	$config->passwd_mode=0;
 ?>

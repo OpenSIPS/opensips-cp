@@ -22,16 +22,16 @@
  */
 
  //database host
- //$config->db_host_alias_management = "loclhost";
+ //$config->db_host_alias_management = "localhost";
  
  //database port - leave empty for default
  //$config->db_port_alias_management = "";
  
  //database connection user
- //$config->db_user_alias_management = "root";
+ //$config->db_user_alias_management = "opensips";
  
  //database connection password
- //$config->db_pass_alias_management = "mysql";
+ //$config->db_pass_alias_management = "opensipsrw";
  
  //database name
  //$config->db_name_alias_management = "opensips";

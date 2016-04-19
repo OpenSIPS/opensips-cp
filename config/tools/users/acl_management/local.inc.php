@@ -23,15 +23,13 @@
 
 ###############################################################################
  
- $config->results_per_page = 10;
+ $config->results_per_page = 25;
  $config->results_page_range = 10;
 
  // the array containing the alias tables
  $config->table_acls = "grp";
 
+ // list with the name of the groups defined in OpenSIPS cfg
  $config->grps = array("grp_one","grp_two","grp_three");
- 
- // whats the id of the `system` ?  
- $talk_to_this_assoc_id = 1 ;
  
 ?>

@@ -1,6 +1,5 @@
 <?php
 /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -23,16 +22,13 @@
 
 ###############################################################################
  
- $config->results_per_page = 10;
- $config->results_page_range = 10;
+	$config->results_per_page = 25;
+	$config->results_page_range = 10;
 
- // the array containing the alias tables
- $config->table_aliases = array("DBaliases"=>"dbaliases");
+	// the array containing the alias tables
+	$config->table_aliases = array("DBaliases"=>"dbaliases");
 
- 
- $config->alias_format = "/^9[0-9][0-9][0-9][0-9]/";
- 
- // whats the id of the `system` ?  
- $talk_to_this_assoc_id = 1 ;
+	// pattern to validate the inserted aliases
+	$config->alias_format = "/^[0-9a-zA-Z]+/";
  
 ?>
