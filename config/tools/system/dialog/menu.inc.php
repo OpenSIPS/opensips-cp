@@ -24,11 +24,11 @@
  $config->menu_item = array(
     array(
           "dialog.php", // page name
-          "Cache" // menu name
+          "Ongoing calls" // menu name
     ),
     array(
           "profile.php", // page name
-          "Profile" // menu name
+          "Call profiles" // menu name
     )
  );
 ?>
