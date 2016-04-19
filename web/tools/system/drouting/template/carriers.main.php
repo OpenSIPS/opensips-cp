@@ -100,7 +100,7 @@
 	$command="dr_carrier_status";
 
 	for ($i=0;$i<count($mi_connectors);$i++){
-    	$comm_type=params($mi_connectors[$i]);
+    	$comm_type=mi_get_conn_params($mi_connectors[$i]);
 	    $message=mi_command($command, $errors, $status);
 	}
 

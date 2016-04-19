@@ -127,41 +127,6 @@ function get_all_proxys_by_assoc_id($my_assoc_id){
 }
 
 
-function params($box_val){
-
-	global $xmlrpc_host;
-	global $xmlrpc_port;
-	global $fifo_file;
-	global $udp_host;
-	global $udp_port;
-	global $json_url;
-
-	$a=explode(":",$box_val);
-
-	switch ($a[0]) {
-		case "udp":
-			$comm_type="udp";
-			$udp_host = $a[1];
-			$udp_port = $a[2];
-			break;
-		case "xmlrpc":
-			$comm_type="xmlrpc";
-			$xmlrpc_host = $a[1];
-			$xmlrpc_port = $a[2];
-			break;
-		case "fifo":
-			$comm_type="fifo";
-			$fifo_file = $a[1];
-			break;
-		case "json":
-			$comm_type="json";
-			$json_url = substr($box_val,5);
-			break;
-	}
-
-	return $comm_type;
-}
-
 function get_modules() {
          $modules=array();
          $mod = array();

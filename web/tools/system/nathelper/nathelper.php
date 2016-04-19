@@ -48,7 +48,7 @@ if ($action=="change_state"){
 
         $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         	// get status from the first one only
-	        $comm_type=params($mi_connectors[0]);
+	        $comm_type=mi_get_conn_params($mi_connectors[0]);
 
         	 mi_command("rtpproxy_enable $sock 0" , $errors , $status);
 	         print_r($errors);
@@ -60,7 +60,7 @@ if ($action=="change_state"){
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
         	// get status from the first one only
-	        $comm_type=params($mi_connectors[0]);
+	        $comm_type=mi_get_conn_params($mi_connectors[0]);
 
         	 mi_command("rtpproxy_enable $sock 1" , $errors , $status);
 	         print_r($errors);

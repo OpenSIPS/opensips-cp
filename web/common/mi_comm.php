@@ -37,7 +37,7 @@ function write2json($command, &$errors, &$status){
 		$args = "?params=".str_replace(" ","," ,substr($command, $first_space+1, strlen($command)));
 	}
 	
-	$url = $json_url.$cmd.$args;
+	$url = $json_url."/".$cmd.$args;
 
 	$ch = curl_init();
 	curl_setopt($ch, CURLOPT_URL, $url);
@@ -255,7 +255,6 @@ function xml_do_call($xmlrpc_host,$xmlrpc_port,$request,&$errors,&$status) {
      $errors[] = "Write error"; return -1;
    }
 
-
    $contents = '';
 
    while (!feof($fp)) { 	    
@@ -298,6 +297,41 @@ function write2xmlrpc($command,&$errors,&$status){
 	else {
 		return xmlrpc_decode($xml);
 	}
+}
+
+function mi_get_conn_params($box_val){
+
+	global $xmlrpc_host;
+	global $xmlrpc_port;
+	global $fifo_file;
+	global $udp_host;
+	global $udp_port;
+	global $json_url;
+
+	$a=explode(":",$box_val);
+
+	switch ($a[0]) {
+		case "udp":
+			$comm_type="udp";
+			$udp_host = $a[1];
+			$udp_port = $a[2];
+			break;
+		case "xmlrpc":
+			$comm_type="xmlrpc";
+			$xmlrpc_host = $a[1];
+			$xmlrpc_port = $a[2];
+			break;
+		case "fifo":
+			$comm_type="fifo";
+			$fifo_file = $a[1];
+			break;
+		case "json":
+			$comm_type="json";
+			$json_url = substr($box_val,5);
+			break;
+	}
+
+	return $comm_type;
 }
 
 function mi_command($command,&$errors,&$status){

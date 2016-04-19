@@ -43,7 +43,7 @@ if ($action=="load") {
         for ($i=0;$i<count($mi_connectors);$i++){
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 // get status from the first one only
-                $comm_type=params($mi_connectors[0]);
+                $comm_type=mi_get_conn_params($mi_connectors[0]);
                 $message=mi_command("profile_list_dlgs $profile" , $errors , $status);
                 print_r($errors);
                 $status = trim($status);
@@ -70,7 +70,7 @@ if ($action=="delete")
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 for ($i=0;$i<count($mi_connectors);$i++){
 
-                        $comm_type=params($mi_connectors[$i]);
+                        $comm_type=mi_get_conn_params($mi_connectors[$i]);
                         mi_command("dlg_end_dlg ".$h_entry." ".$h_id,$errors,$status);
                         print_r($errors);
                         $status = trim($status);

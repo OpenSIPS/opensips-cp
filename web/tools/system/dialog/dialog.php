@@ -43,7 +43,7 @@ $start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 for ($i=0;$i<count($mi_connectors);$i++){
 
-                $comm_type=params($mi_connectors[$i]);
+                $comm_type=mi_get_conn_params($mi_connectors[$i]);
                 $comm = "dlg_list ".$start_limit." ".$config->results_per_page;
                 $message=mi_command($comm,$errors,$status);
                 print_r($errors);
@@ -69,7 +69,7 @@ if ($action=="delete")
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         	for ($i=0;$i<count($mi_connectors);$i++){
 
-                	$comm_type=params($mi_connectors[$i]);
+                	$comm_type=mi_get_conn_params($mi_connectors[$i]);
 	                mi_command("dlg_end_dlg ".$h_entry." ".$h_id,$errors,$status);
         	        print_r($errors);
                 	$status = trim($status);

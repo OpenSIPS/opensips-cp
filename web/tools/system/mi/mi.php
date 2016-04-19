@@ -54,7 +54,7 @@ if (!empty($_SESSION['mi_current_box']) && empty($current_box)) {
 $current_box=show_boxes($boxlist,$current_box,'mi_current_box');
 $_SESSION['mi_current_box']=$current_box;
 
-$comm_type=params($current_box);
+$comm_type=mi_get_conn_params($current_box);
 $_SESSION['comm_type']=$comm_type;
 
 

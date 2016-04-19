@@ -39,7 +39,7 @@ if ($action=="toggle"){
 
         $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         	// get status from the first one only
-	        $comm_type=params($mi_connectors[0]);
+	        $comm_type=mi_get_conn_params($mi_connectors[0]);
 
         	 mi_command("lb_status $id 0" , $errors , $status);
 	         print_r($errors);
@@ -53,7 +53,7 @@ if ($action=="toggle"){
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
         	// get status from the first one only
-	        $comm_type=params($mi_connectors[0]);
+	        $comm_type=mi_get_conn_params($mi_connectors[0]);
 
         	 mi_command("lb_status $id 1" , $errors , $status);
 	         print_r($errors);

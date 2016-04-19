@@ -27,7 +27,7 @@
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	for ($i=0;$i<count($mi_connectors);$i++){
 
-                $comm_type=params($mi_connectors[$i]);
+                $comm_type=mi_get_conn_params($mi_connectors[$i]);
                 $message = mi_command('lb_list',$errors,$status);
                 print_r($errors);
                 $status = trim($status);

@@ -65,7 +65,7 @@ if (isset($_POST['sizes'])) {
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 for ($i=0;$i<count($mi_connectors);$i++){
                         // get status from the first one only
-                        $comm_type=params($mi_connectors[0]);
+                        $comm_type=mi_get_conn_params($mi_connectors[0]);
 			if ($profile_param == "")
 	                        $msg=mi_command("profile_get_size $profile" , $errors , $status);
 			else

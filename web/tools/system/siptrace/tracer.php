@@ -65,7 +65,7 @@ if ($action=="toggle"){
 
 	for ($i=0;$i<count($mi_connectors);$i++){	
 
-		$comm_type=params($mi_connectors[$i]);	
+		$comm_type=mi_get_conn_params($mi_connectors[$i]);	
 		mi_command($command,$errors,$status);
 
 	}

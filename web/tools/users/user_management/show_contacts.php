@@ -7,7 +7,7 @@ require_once("lib/functions.inc.php");
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 for ($i=0;$i<count($mi_connectors);$i++){
-	$comm_type=params($mi_connectors[$i]);
+	$comm_type=mi_get_conn_params($mi_connectors[$i]);
     $comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
     $message=mi_command($comm,$errors,$status);
     $status = trim($status);

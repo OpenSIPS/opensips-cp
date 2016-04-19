@@ -51,7 +51,7 @@
   $current_box=show_boxes($boxlist,$current_box);
   $_SESSION['smon_current_box']=$current_box;
   
-  $comm_type=params($current_box);
+  $comm_type=mi_get_conn_params($current_box);
   $_SESSION['comm_type']=$comm_type;     
  
 ?>
