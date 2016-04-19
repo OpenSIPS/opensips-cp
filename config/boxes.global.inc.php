@@ -1,7 +1,5 @@
 <?php
-
 /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -28,7 +26,7 @@
 $box_id=0;
 
 // options: fifo:/path/to/fifo_file | xmlrpc:host:port | udp:host:port | json:json_url
-$boxes[$box_id]['mi']['conn']="fifo:/tmp/opensips_proxy_fifo";
+$boxes[$box_id]['mi']['conn']="fifo:/tmp/opensips_fifo";
 
 // monit host:port
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
@@ -51,8 +49,8 @@ $boxes[$box_id]['smonitor']['charts']=1;
 /*---------------------------------------------------------------------------
 $box_id=1;
 
-// mi host:port pair || fifo_file 
-$boxes[$box_id]['mi']['conn']="192.168.0.2:8080";
+// options: fifo:/path/to/fifo_file | xmlrpc:host:port | udp:host:port | json:json_url
+$boxes[$box_id]['mi']['conn']="xmlrpc:192.168.0.2:8080";
 
 
 // monit host:port
@@ -86,8 +84,6 @@ $systems[$_system_id]['name']="SIP Servers";
 $systems[$_system_id]['desc']="OpenSIPS SIP server cluster";
 //boxes with this assoc_id are assigned to this system
 $systems[$_system_id]['assoc_id']=1;
-// 1= sip proxies pair , 2 = databases , 3 = media servers , etc..
-$systems[$_system_id]['system_type_id']=1;
 
 
 /*---------------------------------------------------------------------------
@@ -96,8 +92,6 @@ $systems[$_system_id]['name']="Presence Servers";
 $systems[$_system_id]['desc']="OpenSIPS Presence server cluster";
 //boxes with this assoc_id are assigned to this system
 $systems[$_system_id]['assoc_id']=2;
-// 1= sip proxies pair , 2 = databases , 3 = media servers , etc..
-$systems[$_system_id]['system_type_id']=5;
 */
 
 

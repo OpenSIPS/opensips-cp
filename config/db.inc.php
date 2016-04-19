@@ -1,6 +1,5 @@
 <?php
 /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -31,10 +30,10 @@
  $config->db_port = "";
  
  //database connection user
- $config->db_user = "root";
+ $config->db_user = "opensips";
  
  //database connection password
- $config->db_pass = "";
+ $config->db_pass = "opensipsrw";
  
  //database name
  $config->db_name = "opensips";

@@ -1,6 +1,5 @@
 <?php
 /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -30,6 +29,6 @@
  
  $page_title = "OpenSIPS Control Panel";
  $header_title = ".: OpenSIPS Control Panel";
- $copyright = "Copyright &copy; 2006-2011 OpenSIPS Project";
+ $copyright = "Copyright &copy; 2006-2016 OpenSIPS Project";
 
 ?>
