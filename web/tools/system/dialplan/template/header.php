@@ -25,7 +25,7 @@ require_once("../../../../config/session.inc.php");
 require_once("../../../../config/tools/system/dialplan/db.inc.php");
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/system/dialplan/local.inc.php");
-require_once("lib/functions.inc.php");
+
 $page_name = basename($_SERVER['PHP_SELF']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 $back_link = '<a href="'.$page_name.'" class="backLink">Go Main</a>';

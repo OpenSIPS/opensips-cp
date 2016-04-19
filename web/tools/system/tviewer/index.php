@@ -27,7 +27,7 @@
 ######################################
  require("init.php");
 
- require("lib/functions.inc.php");
+ require("../../../common/cfg_comm.php");
  session_start();
  get_priv();
  header("Location: tviewer.php");

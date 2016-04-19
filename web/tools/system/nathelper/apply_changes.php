@@ -26,7 +26,7 @@
 
 require("../../../../config/tools/system/dialplan/local.inc.php");
 require("../../../common/mi_comm.php");
-require("lib/functions.inc.php");
+require("../../../common/cfg_comm.php");
 
 $command="rtpproxy_reload";
 

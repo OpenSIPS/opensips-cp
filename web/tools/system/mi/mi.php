@@ -22,6 +22,7 @@
 */
 
 require("../../../common/mi_comm.php");
+require("../../../common/cfg_comm.php");
 require("../../../../config/tools/system/mi/local.inc.php");
 require("lib/functions.inc.php");
 

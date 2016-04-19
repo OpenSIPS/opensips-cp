@@ -37,7 +37,7 @@
 
  $box_id=get_box_id($current_box); 
   
- print_r(get_modules());
+ print_r(get_mi_modules());
  clean_stats_table();
  
 

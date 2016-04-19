@@ -29,6 +29,7 @@
 
 require("../../../../config/tools/system/drouting/local.inc.php");
 require("../../../common/mi_comm.php");
+require("../../../common/cfg_comm.php");
 require("lib/functions.inc.php");
 
 $command="dr_reload";

@@ -1,6 +1,5 @@
 <?php
-/*
- * $Id$
+ /*
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -21,7 +20,51 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- 
+
+
+
+function get_proxys_by_assoc_id($my_assoc_id){
+
+	$global="../../../../config/boxes.global.inc.php";
+	require($global);
+
+	$mi_connectors=array();
+
+	for ($i=0;$i<count($boxes);$i++){
+
+		if ($boxes[$i]['assoc_id']==$my_assoc_id){
+
+			$mi_connectors[]=$boxes[$i]['mi']['conn'];
+
+		}
+
+	}
+
+	return $mi_connectors;
+}
+
+
+function get_all_proxys_by_assoc_id($my_assoc_id){
+
+	$global="../../../../config/boxes.global.inc.php";
+	require($global);
+
+	$mi_connectors=array();
+
+	for ($i=0;$i<count($boxes);$i++){
+
+		if ($boxes[$i]['assoc_id']==$my_assoc_id){
+
+			$mi_connectors[]=$boxes[$i]['mi']['conn'];
+
+		}
+
+	}
+
+	return $mi_connectors;
+}
+
+
 function get_priv() {
 
         $modules = get_modules();
@@ -49,7 +92,7 @@ function get_priv() {
 		$_SESSION['permission'] = "Read-Write";
         } else {
                 $available_privs=explode(",",$_SESSION['user_priv']);
-                if( ($key = array_search("drouting", $available_tabs))!==false) {
+                if( ($key = array_search("dialog", $available_tabs))!==false) {
                         if ($available_privs[$key]=="read-only"){
                                 $_SESSION['read_only'] = true;
 				$_SESSION['permission'] = "Read-Only";
@@ -66,25 +109,6 @@ function get_priv() {
 
 }
 
-function get_proxys_by_assoc_id($my_assoc_id){
-
-	$global="../../../../config/boxes.global.inc.php";	 
-	require($global);	 
-	 
-	$mi_connectors=array();
-	
-	for ($i=0;$i<count($boxes);$i++){
-
-		if ($boxes[$i]['assoc_id']==$my_assoc_id){
-		
-			$mi_connectors[]=$boxes[$i]['mi']['conn'];			
-
-		}		
-
-	}
-
-	return $mi_connectors; 	
-}
 
 function get_modules() {
          $modules=array();
@@ -92,7 +116,7 @@ function get_modules() {
          if ($handle=opendir('../../../tools/admin/'))
          {
           while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
+           if (($file!=".") && ($file!="..") && ($file!=".git"))
            {
             $modules[$file]=trim(file_get_contents("../../../tools/admin/".$file."/tool.name"));
            }
@@ -104,7 +128,7 @@ function get_modules() {
          if ($handle=opendir('../../../tools/users/'))
          {
           while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
+           if (($file!=".") && ($file!="..") && ($file!=".git"))
            {
             $modules[$file]=trim(file_get_contents("../../../tools/users/".$file."/tool.name"));
            }
@@ -116,7 +140,7 @@ function get_modules() {
          if ($handle=opendir('../../../tools/system/'))
          {
           while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
+           if (($file!=".") && ($file!="..") && ($file!=".git"))
            {
             $modules[$file]=trim(file_get_contents("../../../tools/system/".$file."/tool.name"));
            }
@@ -125,5 +149,6 @@ function get_modules() {
           }
      return $mod;
 }
+
 
 ?>

@@ -27,7 +27,6 @@
  require_once("../../../../config/db.inc.php");
  require_once("../../../../config/tools/system//drouting/menu.inc.php");
  require_once("../../../../config/tools/system/drouting/local.inc.php");
- require_once("lib/functions.inc.php");
  
  $page_name = basename($_SERVER['PHP_SELF']);
  $page_id = substr($page_name, 0, strlen($page_name) - 4);

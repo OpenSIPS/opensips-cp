@@ -24,8 +24,7 @@
  require("../../../../config/tools/system/nathelper/db.inc.php");
  require("../../../../config/db.inc.php");
  require("../../../../config/tools/system/nathelper/local.inc.php");
- //require("../../../common/mi_comm.php");
- require("lib/functions.inc.php");
+ require("../../../common/cfg_comm.php");
 
  session_start();
  get_priv();

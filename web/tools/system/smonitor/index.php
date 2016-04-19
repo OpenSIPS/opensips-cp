@@ -26,8 +26,8 @@
  require("../../../../config/db.inc.php");
  require("../../../../config/tools/system/smonitor/local.inc.php");
  require("../../../common/mi_comm.php"); 
+ require("../../../common/cfg_comm.php"); 
  require("lib/functions.inc.php");
- //include("lib/db_connect.php"); 
 
  session_start();
  get_priv();

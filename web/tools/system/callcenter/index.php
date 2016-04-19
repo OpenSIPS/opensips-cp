@@ -27,6 +27,7 @@
 ######################################
  require("init.php");
 
+ require("../../../common/cfg_comm.php");
  require("lib/functions.inc.php");
  session_start();
  get_priv();

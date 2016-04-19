@@ -27,7 +27,7 @@
 
 require("../../../../config/tools/system/permissions/local.inc.php");
 require("../../../common/mi_comm.php");
-require("lib/functions.inc.php");
+require("../../../common/cfg_comm.php");
 
 $command="address_reload";
 

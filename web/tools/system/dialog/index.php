@@ -22,7 +22,7 @@
  */
 
  require("../../../../config/tools/system/dialog/local.inc.php");
- //require("../../common/mi_comm.php");
+ include("../../../common/cfg_comm.php");
  require("lib/functions.inc.php");
  session_start();
  get_priv();

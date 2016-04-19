@@ -26,6 +26,8 @@
  
  require("../../../../config/tools/system/loadbalancer/local.inc.php");
  require("../../../common/mi_comm.php");
+ require("../../../common/cfg_comm.php");
+
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];
       else $action="";

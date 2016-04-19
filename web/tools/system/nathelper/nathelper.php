@@ -24,6 +24,7 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
+require("../../../common/cfg_comm.php");
 include("lib/db_connect.php");
 
 $table=$config->table_nathelper;

@@ -21,9 +21,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("lib/functions.inc.php");
  require("../../../../config/tools/system/permissions/db.inc.php");
  require("../../../../config/db.inc.php");
+ require("../../../common/cfg_comm.php");
+
  session_start();
  get_priv();
  header("Location: address.php");

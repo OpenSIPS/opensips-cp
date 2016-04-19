@@ -22,6 +22,7 @@
  */
 
 
+require("../../../../web/common/cfg_comm.php");
 require("lib/functions.inc.php");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/cdrviewer/db.inc.php");

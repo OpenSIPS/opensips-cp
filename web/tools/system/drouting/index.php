@@ -22,8 +22,7 @@
  */
 
 
- require("lib/functions.inc.php");
- //include("lib/db_connect");
+ require("../../../common/cfg_comm.php");
  session_start();
  get_priv();
  header("Location: gateways.php");

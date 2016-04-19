@@ -24,6 +24,7 @@
  require("template/header.php");
  include("lib/db_connect.php");
  require ("../../../common/mi_comm.php");
+ require("../../../common/cfg_comm.php");
  require("../../../../config/db.inc.php");
  $table=$config->table_gateways;
  $current_page="current_page_gateways";
