@@ -28,21 +28,21 @@
   <td colspan="2" height="10" class="dialogTitle"></td>
  </tr>
   <tr height="10">
-          <td class="searchRecord" align="right"><b>Select profile from list: </b></td>
+          <td class="searchRecord" align="right"><b>Profile: </b></td>
           <td class="searchRecord" align="left"><?php print_profile();?></td>
   </tr>
   <tr height="10">
-          <td align="right" class="searchRecord" ><b>Parameter</b></td>
+          <td align="right" class="searchRecord" ><b>Value (optional)</b></td>
           <td align="left" class="searchRecord" ><input name="profile_param" type="text" class="searchInput"></td>
   </tr>
  <tr height="10">
-        <td class="searchRecord" align="center" colspan="2"><input type="checkbox" name="sizes" checked> List number of dialogs in the selected profile</td>
+        <td class="searchRecord" align="center" colspan="2"><input type="checkbox" name="sizes" > List dialogs in the selected profile</td>
  </tr>
  <!--tr height="10">
         <td align="center" colspan="2"><input type="checkbox" name="dialogs"> List the dialogs in the selected profile</td>
  </tr-->
   <tr align="center" colspan="2" class="searchRecord" align="center">
-         <td align="center" colspan="2"><input type="submit" name="submit" value="Submit" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
+         <td align="center" colspan="2"><input type="submit" name="submit" value="Get size" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
   </tr>
   <tr height="10">
         <td colspan="2" class="dialogTitle"><img src="images/spacer.gif" width="5" height="5"></td>
@@ -53,36 +53,39 @@
 <?php
 if (isset($_POST['sizes'])) {
 ?>
-        <table width="95%" cellspacing="2" cellpadding="2" border="0">
-        <tr align="center">
-          <?php
+	<table width="95%" cellspacing="2" cellpadding="2" border="0">
+	<tr align="center">
+	<?php
 		if (isset($_POST['profile_param']))
-                	$profile_param = $_POST['profile_param'];
-        	else
-		        $profile_param = "";
+			$profile_param = $_POST['profile_param'];
+		else
+			$profile_param = "";
 
 		$profile = $_POST['profile'];
-                $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-                for ($i=0;$i<count($mi_connectors);$i++){
-                        // get status from the first one only
-                        $comm_type=mi_get_conn_params($mi_connectors[0]);
-			if ($profile_param == "")
-	                        $msg=mi_command("profile_get_size $profile" , $errors , $status);
-			else
-				$msg=mi_command("profile_get_size $profile $profile_param" , $errors , $status);
-                        print_r($errors);
-                        $status = trim($status);
-        }
+		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		// get status from the first one only
+		$comm_type=mi_get_conn_params($mi_connectors[0]);
+		if ($profile_param == "")
+			$msg=mi_command("profile_get_size $profile" , $errors , $status);
+		else
+			$msg=mi_command("profile_get_size $profile $profile_param" , $errors , $status);
+		print_r($errors);
+		$status = trim($status);
 
-                if (!empty($msg)) {
-                        preg_match('/count=\d+/',$msg,$matches);
-                        $profile_size=explode("=",$matches[0]);
-                        echo ('Number of dialogs in profile <b>'.$profile. '</b> is <b>' . $profile_size[1] .'</b>');
-                        unset($_SESSION['profile_size']);
-                }
-        ?>
-        </tr>
-        </table>
+		if (!empty($msg)) {
+			if ($comm_type != "json") {
+				preg_match('/count=(\d+)/',$msg,$matches);
+				$profile_size=$matches[1];
+			} else {
+				$msg = json_decode($msg,true);
+				$profile_size = $msg[profile][attributes][count];
+			}
+			echo ('Number of dialogs in profile <b>'.$profile. '</b> is <b>' . $profile_size .'</b>');
+			unset($_SESSION['profile_size']);
+		}
+	?>
+	</tr>
+	</table>
 <br>
 <?php
 }

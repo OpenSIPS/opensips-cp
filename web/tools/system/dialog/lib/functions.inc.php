@@ -24,12 +24,29 @@ function print_profile() {
 require ("../../../../config/tools/system/dialog/local.inc.php");
 	global $config;
 
-        foreach ($config->profile_list as $v) {
-                $options[]=array("label"=>$v,"value"=>$v);
-        }
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	// get status from the first one only
+	$comm_type=mi_get_conn_params($mi_connectors[0]);
+	$message=mi_command("list_all_profiles" , $errors , $status);
+	print_r($errors);
+	$status = trim($status);
 
-        $start_index = 0;
-        $end_index = sizeof($options);
+	if ($comm_type != "json"){
+		$message = explode("\n",trim($message));
+		for ($i=0;$i<count($message);$i++){
+        	if (preg_match('/^([a-zA-Z0-9]+):: .+/',trim($message[$i]),$matches) )
+				$options[]=array("label"=>$matches[1],"value"=>$matches[1]);
+		}
+	} else{
+		$message = json_decode($message,true);
+		foreach($message as $prof => $type ){
+			$options[]=array("label"=>$prof,"value"=>$prof);
+        }
+    }
+ 
+
+	$start_index = 0;
+	$end_index = sizeof($options);
 ?>
  <select name="profile" id="profile" size="1" style="width: 175px" class="dataSelect">
  <?php
