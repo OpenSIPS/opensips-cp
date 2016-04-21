@@ -53,7 +53,7 @@ foreach ($boxes as $ar){
 		for ($i=0;count($resultset)>$i;$i++){
 			$arr = explode( ":", $resultset[$i]['name'] );
 			// some stats name may contain ':', so better simply trim out the name of the module
-			$stats_name = $stats_name." ".substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
+			$stats_name = $stats_name.($i==0?"":" ").substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
 		}
 		if (stats_name == "")
 			return;
