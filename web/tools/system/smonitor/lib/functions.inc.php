@@ -159,11 +159,15 @@ function get_vars_type( $mi_url )
 	 return $gauge_arr;
 }
 
-function get_all_vars( $mi_url )
+function get_all_vars( $mi_url , $stats_list)
 {
 	global $config;
- 
-	$message=mi_command("get_statistics all", $mi_url, $mi_type, $errors,$status);
+
+	if ( strlen($stats_list)==0 ) {
+		$message=mi_command("get_statistics all", $mi_url, $mi_type, $errors,$status);
+	} else {
+		$message=mi_command("get_statistics ".$stats_list, $mi_url, $mi_type, $errors,$status);
+	}
 	if ($errors) {
 		echo($errors[0]); 
 		return;

@@ -46,9 +46,7 @@ foreach ($boxes as $ar){
 		$history=get_config_var('chart_history',$box_id);
 	
 		if ($history=="auto") {
-			$sampling_time=get_config_var('sampling_time',$box_id);
-			$chart_size=get_config_var('chart_size',$box_id);
-			$oldest_time = $time - 60*($sampling_time * $chart_size);
+			$oldest_time = $time - 24*60*60*3 /*3 days in seconds */;
 		} else {
 			$oldest_time = $time - 24*60*60*$history;
 		}

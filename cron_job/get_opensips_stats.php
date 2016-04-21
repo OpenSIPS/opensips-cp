@@ -34,23 +34,13 @@ require("lib/db_connect.php");
 
 $box_id=0;
 
-$xmlrpc_host=""; 
-$xmlrpc_port=""; 
-$udp_host=""; 
-$udp_port=""; 
-$fifo_file=""; 
-$json_url=""; 
-$comm_type="";
-
 foreach ($boxes as $ar){
 
 	if ($ar['smonitor']['charts']==1){
 		$time=time();
 		$sampling_time=get_config_var('sampling_time',$box_id);
 
-		$comm_type=params($ar['mi']['conn']); 		
-		$stats=get_all_vars();
-
+		// Get the name of the needed statistics
 		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=".$box_id." ORDER BY name ASC";
 		$resultset = $link->queryAll($sql);
 
@@ -58,17 +48,28 @@ foreach ($boxes as $ar){
 			die('Failed to issue query, error message : ' . $resultset->getMessage());
 		}
 
+		// Compile the list and fetch them via MI
+		$stats_name = "";
 		for ($i=0;count($resultset)>$i;$i++){
-				$var_name=$resultset[$i]['name'];
-				preg_match("/".$var_name.":: ([0-9]*)/i", $stats, $regs);
-				$var_value=$regs[1];
-				if ($var_value==NULL) 
-					$var_value="0"; 
-				$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$var_name."','".$var_value."','".$time."',".$box_id.")";
-				$result = $link->exec($sql);
-				if(PEAR::isError($result)) {
-					die('Failed to issue query, error message : ' . $resultset->getMessage());
-				}
+			$arr = explode( ":", $resultset[$i]['name'] );
+			// some stats name may contain ':', so better simply trim out the name of the module
+			$stats_name = $stats_name." ".substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
+		}
+		if (stats_name == "")
+			return;
+		$stats = get_all_vars( $ar['mi']['conn'] , $stats_name );
+
+		// insert values into DB
+		preg_match_all("/([^:]+:[^:]+):: ([0-9]*)/i", $stats, $regs);
+		for ($i=0;count($regs[0])>$i;$i++) {
+			$var_value=$regs[2][$i];
+			if ($var_value==NULL) 
+				$var_value="0"; 
+			$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$regs[1][$i]."','".$var_value."','".$time."',".$box_id.")";
+			$result = $link->exec($sql);
+			if(PEAR::isError($result)) {
+				die('Failed to issue query, error message : ' . $resultset->getMessage());
+			}
 		}
 	}
 	$box_id++;
