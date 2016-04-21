@@ -334,7 +334,7 @@ function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 				$errors[] = "No URL found in JSON MI URL <".$mi_url.">";
 				return;
 			}
-			return write2json($command,$a[1]/*URL*/,$errors,$status);
+			return write2json($command,substr($mi_url,5)/*URL*/,$errors,$status);
 			break;
 		default:
 			$errors[] = "Unknwon type[".$a[0]."] for MI URL <".$mi_url.">";
