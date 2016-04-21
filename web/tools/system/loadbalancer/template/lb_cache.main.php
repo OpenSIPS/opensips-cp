@@ -27,12 +27,11 @@
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	for ($i=0;$i<count($mi_connectors);$i++){
 
-                $comm_type=mi_get_conn_params($mi_connectors[$i]);
-                $message = mi_command('lb_list',$errors,$status);
+                $message = mi_command('lb_list', $mi_connectors[$i], $mi_type, $errors,$status);
                 print_r($errors);
                 $status = trim($status);
 				
-				if ($comm_type != "json"){
+				if ($mi_type != "json"){
 	                $message = trim($message);
 					$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-re=(?P<autore>on|off)\s+Resources(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
 					preg_match_all($pattern,$message,$matches);
@@ -73,7 +72,7 @@ if ($data_no==0) {
 	echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 }
 else {
-	if ($comm_type != "json"){
+	if ($mi_type != "json"){
 		for ($i=0; $i<count($matches[0]);$i++) {
 			$row_style = ($i%2==1)?"rowOdd":"rowEven";
 			

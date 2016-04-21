@@ -28,14 +28,13 @@ $flag = array();
 $sipURI = array();
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-for ($i=0;$i<count($mi_connectors);$i++){
 
-		$comm_type=mi_get_conn_params($mi_connectors[$i]);
-        $message=mi_command('ds_list',$errors,$status);
-        print_r($errors);
-        $status = trim($status);
-}
-if ($comm_type != "json"){
+// date input from the first box only
+$message=mi_command('ds_list',$mi_connectors[0], $mi_type, $errors,$status);
+print_r($errors);
+$status = trim($status);
+
+if ($mi_type != "json"){
 	preg_match_all('/URI\:\:\s+sip\:[0-9\.a-zA-Z]+\:\d+\s+state\=(Active|Inactive|Probing)/',$message,$matches);
 	for($j=0; count($matches[0])>$j; $j++) {
 		$temp = explode(" ",$matches[0][$j]);

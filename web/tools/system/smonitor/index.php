@@ -32,8 +32,6 @@
  session_start();
  get_priv();
 
- clean_stats_table();
-
  header("Location: rt_stats.php");
  
 ?>

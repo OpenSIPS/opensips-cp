@@ -36,10 +36,8 @@
 
 
  $box_id=get_box_id($current_box); 
-  
- print_r(get_mi_modules());
- clean_stats_table();
  
+ print_r(get_mi_modules($current_box));
 
  require("template/header.php");
  $table=$config->table_monitored;
@@ -78,7 +76,7 @@
  if ($_POST['reset_stats']!=null){
   $reset=$_POST['reset'];
   for($i=0; $i<sizeof($reset); $i++)
-  if ($reset[$i]!=null) reset_var($reset[$i]);
+  if ($reset[$i]!=null) reset_var($reset[$i], $current_box);
  }
  
  require("template/".$page_id.".main.php");

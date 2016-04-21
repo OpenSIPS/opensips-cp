@@ -26,12 +26,11 @@ require ("../../../../config/tools/system/dialog/local.inc.php");
 
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// get status from the first one only
-	$comm_type=mi_get_conn_params($mi_connectors[0]);
-	$message=mi_command("list_all_profiles" , $errors , $status);
+	$message=mi_command("list_all_profiles", $mi_connectors[0], $mi_type, $errors , $status);
 	print_r($errors);
 	$status = trim($status);
 
-	if ($comm_type != "json"){
+	if ($mi_type != "json"){
 		$message = explode("\n",trim($message));
 		for ($i=0;$i<count($message);$i++){
         	if (preg_match('/^([a-zA-Z0-9]+):: .+/',trim($message[$i]),$matches) )

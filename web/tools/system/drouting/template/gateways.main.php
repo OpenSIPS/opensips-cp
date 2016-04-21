@@ -144,10 +144,9 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 $command="dr_gw_status";
 
 for ($i=0;$i<count($mi_connectors);$i++){
-	$comm_type=mi_get_conn_params($mi_connectors[$i]);
-	$message=mi_command($command, $errors, $status);
+	$message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
 }
-if ($comm_type != "json"){
+if ($mi_type != "json"){
 	$message = explode("\n",trim($message));
 	for ($i=0;$i<count($message);$i++){
 		

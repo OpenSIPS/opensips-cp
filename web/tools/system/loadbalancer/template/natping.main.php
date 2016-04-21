@@ -31,8 +31,7 @@ if (!isset($toggle_button)) {
 
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// get status from the first one only
-	$comm_type=mi_get_conn_params($mi_connectors[0]);
-	mi_command("nh_enable_ping" , $errors , $status);
+	mi_command("nh_enable_ping", $mi_connectors[0], $mi_type, $errors , $status);
 	print_r($errors);
 	$status = trim($status);
 	

@@ -29,29 +29,25 @@
 <br>
 
 <?php
+
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
-for ($i=0;$i<count($mi_connectors);$i++){
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-
 // get status from the first one only
-	$comm_type=mi_get_conn_params($mi_connectors[0]);
-	$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
-	$message=mi_command($comm , $errors , $status);
-	print_r($errors);
-	$status = trim($status);
+$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
+$message=mi_command($comm , $mi_connectors[0], $mi_type, $errors , $status);
+print_r($errors);
+$status = trim($status);
 
-	if ($comm_type != "json"){
-		$tempmess = explode("dlg_counter:: ",$message);
-		$pos = strpos($message, "\n",0);
-		$data_no = substr($message,14,$pos-14);
-		$message = substr($message,$pos);
-	}
-	else {
-		$message = json_decode($message,true);
-		$data_no = $message['dlg_counter'][0]['value'];
-		$message = $message['dlg_counter'];
-	}
+if ($mi_type != "json"){
+	$tempmess = explode("dlg_counter:: ",$message);
+	$pos = strpos($message, "\n",0);
+	$data_no = substr($message,14,$pos-14);
+	$message = substr($message,$pos);
+}
+else {
+	$message = json_decode($message,true);
+	$data_no = $message['dlg_counter'][0]['value'];
+	$message = $message['dlg_counter'];
 }
 
 
@@ -85,7 +81,7 @@ else {
 	
 	$start_limit=($page-1)*$config->results_per_page;
 
-	if ($comm_type != "json") {
+	if ($mi_type != "json") {
 		$temp = explode ("dialog:: ",$message);
 		$recno = count($temp);
 		for ($i=1;$i<$recno;$i++) {

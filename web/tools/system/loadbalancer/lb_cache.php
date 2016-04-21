@@ -39,25 +39,21 @@ if ($action=="toggle"){
 	$id = $_GET['id'];
 	if ($toggle_button=="enabled") {
 
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-        	// get status from the first one only
-	        $comm_type=mi_get_conn_params($mi_connectors[0]);
-
-        	 mi_command("lb_status $id 0" , $errors , $status);
+             $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+             // get status from the first one only
+             mi_command("lb_status $id 0" , $mi_connectors[0], $mi_type, $errors , $status);
 	         print_r($errors);
 	         $status = trim($status);
 	
-        	$toggle_button = "disabled";
+             $toggle_button = "disabled";
 
 	} else if ($toggle_button=="disabled") {
 
-        	//      get all rtpproxies
+            //      get all rtpproxies
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
         	// get status from the first one only
-	        $comm_type=mi_get_conn_params($mi_connectors[0]);
-
-        	 mi_command("lb_status $id 1" , $errors , $status);
+        	 mi_command("lb_status $id 1", $mi_connectors[0], $mi_type, $errors , $status);
 	         print_r($errors);
 	         $status = trim($status);
 	        $toggle_button = "enabled";

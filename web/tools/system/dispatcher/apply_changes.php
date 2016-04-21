@@ -29,8 +29,6 @@ require("../../../../config/tools/system/dispatcher/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 
-$command="ds_reload";
-
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>
 <br>
@@ -41,9 +39,7 @@ $mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
-	$comm_type=mi_get_conn_params($mi_connectors[$i]);
-
-	$message=mi_command($command, $errors, $status);
+	$message=mi_command( "ds_reload", $mi_connectors[$i], $mi_type, $errors, $status);
 
 	if ($errors) {
 		echo "<font color='red'><b>".$errors[0]."</b></font>";

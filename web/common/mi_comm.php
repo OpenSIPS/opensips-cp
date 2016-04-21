@@ -22,10 +22,8 @@
  */
 
 
-function write2json($command, &$errors, &$status){
+function write2json($command, $json_url, &$errors, &$status){
 	global $config;
-	global $json_url;
-
 
 	$first_space = strpos($command, ' ');
 	if ($first_space === false){
@@ -64,11 +62,8 @@ function write2json($command, &$errors, &$status){
 }
 
 
-function write2udp($command,&$errors,&$status){
+function write2udp($command,$udp_host,$udp_port,&$errors,&$status){
 	global $config;
-	global $udp_host;
-	global $udp_port;
-
 
 	$first_space = strpos($command, ' ');
 	if ($first_space === false){
@@ -122,16 +117,12 @@ function write2udp($command,&$errors,&$status){
 	return $message;
 }
 
-function write2fifo($command, &$errors, &$status){
+function write2fifo($command, $fifo_file, &$errors, &$status){
 
 	global $config;
-	global $fifo_file ; 	
-
 
 	$reply_fifo_filename="webfifo_".rand();
 	$reply_fifo_path="/tmp/".$reply_fifo_filename;
-
-
 
       $pos=strpos($command," ");
    
@@ -202,7 +193,6 @@ function write2fifo($command, &$errors, &$status){
 	$fifo_cmd=$fifo_cmd."\n";
 
 	/* write fifo command */
-
 	if (fwrite($fifo_handle, $fifo_cmd)==-1) {
 		@unlink($reply_fifo_path);
 		@fclose($fifo_handle);
@@ -267,9 +257,7 @@ function xml_do_call($xmlrpc_host,$xmlrpc_port,$request,&$errors,&$status) {
 }
 
 
-function write2xmlrpc($command,&$errors,&$status){
-	global $xmlrpc_host ; 
-	global $xmlrpc_port ; 
+function write2xmlrpc($command, $xmlrpc_host, $xmlrpc_port, &$errors,&$status){
 
 	// command with arguments 
 	$full_command=explode(" ",$command);
@@ -299,6 +287,7 @@ function write2xmlrpc($command,&$errors,&$status){
 	}
 }
 
+/*
 function mi_get_conn_params($box_val){
 
 	global $xmlrpc_host;
@@ -332,37 +321,63 @@ function mi_get_conn_params($box_val){
 	}
 
 	return $comm_type;
-}
+}*/
 
-function mi_command($command,&$errors,&$status){
+function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 
-    global $comm_type ; 
-    global $xmlrpc_host ; 
-    global $xmlrpc_port ; 
-    global $fifo_file ;
-	global $udp_host;
-	global $udp_port;
-	global $json_url;
+	/* identify and break down the MI URL */
+	$a=explode(":",$mi_url);
 
-    $buf="";
-
-	switch ($comm_type){
-		case "fifo":
-			$buf=write2fifo($command, $errors, $status);
-			break;
-		case "xmlrpc":
-			$buf=write2xmlrpc($command,$errors,$status);
-			break;
+	switch ($a[0]) {
 		case "udp":
-			$buf=write2udp($command,$errors,$status);
+			$mi_type="udp";
+			if (strlen($a[1])==0){
+				$errors[] = "No host found in UDP MI URL <".$mi_url.">";
+				return;
+			}
+			if (strlen($a[2])==0){
+				$errors[] = "No port found in UDP MI URL <".$mi_url.">";
+				return;
+			}
+			return write2udp($command,$a[1]/*host*/,$a[2]/*port*/,$errors,$status);
 			break;
+
+		case "xmlrpc":
+			$mi_type="xmlrpc";
+			if (strlen($a[1])==0){
+				$errors[] = "No host found in XMLRPC MI URL <".$mi_url.">";
+				return;
+			}
+			if (strlen($a[2])==0){
+				$errors[] = "No port found in XMLRPC MI URL <".$mi_url.">";
+				return;
+			}
+			return write2xmlrpc($command,$a[1]/*host*/,$a[2]/*port*/,$errors,$status);
+			break;
+
+		case "fifo":
+			$mi_type="fifo";
+			if (strlen($a[1])==0){
+				$errors[] = "No file found in FIFO MI URL <".$mi_url.">";
+				return;
+			}
+			return write2fifo($command, $a[1] /*fifo filename*/, $errors, $status);
+			break;
+
 		case "json":
-			$buf=write2json($command,$errors,$status);
+			$mi_type="json";
+			if (strlen($a[1])==0){
+				$errors[] = "No URL found in JSON MI URL <".$mi_url.">";
+				return;
+			}
+			return write2json($command,$a[1]/*URL*/,$errors,$status);
 			break;
+		default:
+			$errors[] = "Unknwon type[".$a[0]."] for MI URL <".$mi_url.">";
+			return;
 	}
 
-    return $buf ; 
-
+    return; 
 }
 
 ?>

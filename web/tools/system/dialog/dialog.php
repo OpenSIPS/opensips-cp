@@ -39,17 +39,14 @@ $start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
 # start show #
 ################
 if ($action=="refresh") {
-$_SESSION[$current_page]=1;
-$start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-for ($i=0;$i<count($mi_connectors);$i++){
-
-                $comm_type=mi_get_conn_params($mi_connectors[$i]);
-                $comm = "dlg_list ".$start_limit." ".$config->results_per_page;
-                $message=mi_command($comm,$errors,$status);
-                print_r($errors);
-                $status = trim($status);
-        }
+	$_SESSION[$current_page]=1;
+	$start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	// take the list from the first box only
+	$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
+	$message=mi_command($comm, $mi_connectors[0], $mi_type, $errors,$status);
+	print_r($errors);
+	$status = trim($status);
 }
 
 ##############
@@ -70,11 +67,10 @@ if ($action=="delete")
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         	for ($i=0;$i<count($mi_connectors);$i++){
 
-                	$comm_type=mi_get_conn_params($mi_connectors[$i]);
-	                mi_command("dlg_end_dlg ".$h_entry." ".$h_id,$errors,$status);
+	                mi_command("dlg_end_dlg ".$h_entry." ".$h_id,  $mi_connectors[$i], $mi_type, $errors,$status);
         	        print_r($errors);
                 	$status = trim($status);
-					//echo $status;
+
 			}
 	}else{
 

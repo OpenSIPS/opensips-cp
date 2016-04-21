@@ -29,36 +29,34 @@
 //fetch cache data
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-for ($i=0;$i<count($mi_connectors);$i++){
-	$comm_type=mi_get_conn_params($mi_connectors[$i]);
-	$message = mi_command('rtpproxy_show',$errors,$status);
-	print_r($errors);
 
-	if ($comm_type != "json"){
-		$sets = array();
-		$pattern = '/node\:\:\s+(?P<sock>[a-zA-Z0-9.:=]+)\s+index=(?P<index>\d+)\s+disabled=(?P<status>\d+)\s+weight=(?P<weight>\d+)\s+recheck_ticks=(?P<ticks>\d+)(\s|\n)*/';
-		$message = explode("Set:: ",trim($message));
-		for ($j=0; $j<count($message); $j++){
-			$setid = substr($message[$j],0,strpos($message[$j],"\n"));
-			if ($setid != "" && $setid != null) {
-				preg_match_all($pattern,substr($message[$j],strpos($message[$j],"\n")+1),$matches);
-				if (count($matches[0]) > 0){
-					$sets[$setid] = $matches;
-				}
+// fetch data from the first box only
+$message = mi_command('rtpproxy_show',$mi_connectors[0], $mi_type, $errors,$status);
+print_r($errors);
+
+if ($mi_type != "json"){
+	$sets = array();
+	$pattern = '/node\:\:\s+(?P<sock>[a-zA-Z0-9.:=]+)\s+index=(?P<index>\d+)\s+disabled=(?P<status>\d+)\s+weight=(?P<weight>\d+)\s+recheck_ticks=(?P<ticks>\d+)(\s|\n)*/';
+	$message = explode("Set:: ",trim($message));
+	for ($j=0; $j<count($message); $j++){
+		$setid = substr($message[$j],0,strpos($message[$j],"\n"));
+		if ($setid != "" && $setid != null) {
+			preg_match_all($pattern,substr($message[$j],strpos($message[$j],"\n")+1),$matches);
+			if (count($matches[0]) > 0){
+				$sets[$setid] = $matches;
 			}
-			$data_no += count($matches[0]);
 		}
+		$data_no += count($matches[0]);
 	}
-	else {
-		$message = json_decode($message,true);
-		$message = $message['Set'];
-		$data_no = count($message);
-	}
+} else {
+	$message = json_decode($message,true);
+	$message = $message['Set'];
+	$data_no = count($message);
 }
 
 $rtpproxies_cache = array();
 
-if ($comm_type != "json"){
+if ($mi_type != "json"){
 	foreach ($sets as $setid => $matches) {
 		for ($i=0; $i<count($matches[0]);$i++) {
 			$rtpproxies_cache[$setid][$matches['sock'][$i]]['status'] 	= $matches['status'][$i]; 

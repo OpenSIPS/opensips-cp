@@ -45,22 +45,15 @@ include("db_connect.php");
  return $value;
 }
 
-function get_mi_modules()
+function get_mi_modules($mi_url)
 {
  global $config;
- global $comm_type ;
- global $xmlrpc_host ;
- global $xmlrpc_port ;
- global $udp_host ;
- global $udp_port ;
- global $json_url ;
-	  
-	  $command="get_statistics all";
-	  $message=mi_command($command, $errors, $status);
- 		   
+ 
+ $message=mi_command("get_statistics all", $mi_url, $mi_type, $errors, $status);
+
  if ($errors) {echo($errors[0]); return;}
 
-	if ($comm_type == "json") {
+	if ($mi_type == "json") {
 		$message = json_decode($message,true);
 		ksort($message);
 
@@ -100,110 +93,83 @@ function get_mi_modules()
  return;
 }
 
-function get_vars($module)
+function get_vars($module, $mi_url)
 {
-global $config;
-global $comm_type;  
-global $xmlrpc_host ;
-global $xmlrpc_port ;
-global $udp_host;
-global $udp_port;
-global $json_url;
- 
- 
-  $command="get_statistics ".$module.":";
-  $message=mi_command($command,$errors,$status);
+	global $config;
 
-  
- if ($errors) {echo($errors[0]); return;}
+	$command="get_statistics ".$module.":";
+	$message=mi_command($command,$mi_url,$mi_type,$errors,$status);
+	if ($errors) {echo($errors[0]); return;}
 
-
-
-	if ($comm_type == "json") {
+	if ($mi_type == "json") {
 		$message = json_decode($message,true);
 		ksort($message);
 
 		$temp = array();
+		$i=0;
 		foreach ($message as $module_stat => $value){
-			$temp [] = $module_stat.":: ".$value;
+			$out[0][$i] = $module_stat;
+			$out[1][$i] = $value;
+			$i++;
 		}
-		$message = implode("\n",$temp);
-	}
-        
-		
-		
+	} else {
 		preg_match_all("/".$module.":(.*?):: ([0-9]*)/i", $message, $regs);
-        for ($i=0; $i<sizeof($regs[0]); $i++)
-        {
-         $out[0][$i] = $regs[1][$i];
-         $out[1][$i] = $regs[2][$i];
-        }
- return $out;
+		for ($i=0; $i<sizeof($regs[0]); $i++) {
+			$out[0][$i] = $regs[1][$i];
+			$out[1][$i] = $regs[2][$i];
+		}
+	}
+	return $out;
 }
 
 
-function get_vars_type()
+function get_vars_type( $mi_url )
 {
 	global $config;
-	global $comm_type;  
-	global $xmlrpc_host ;
-	global $xmlrpc_port ;
-	global $udp_host;
-	global $udp_port;
-	global $json_url;
  
- 
-	$command="list_statistics";
-	$message=mi_command($command,$errors,$status);
-
-  
+	$message=mi_command("list_statistics", $mi_url, $mi_type, $errors,$status);
 	if ($errors) {
 		echo($errors[0]);
 		return;
 	}
 
-
-
-	if ($comm_type == "json") {
-		$message = json_decode($message,true);
-		ksort($message);
-
-		$temp = array();
-		foreach ($message as $module_stat => $value){
-			$temp [] = $module_stat.":: ".$value;
-		}
-		$message = implode("\n",$temp);
-	}
-        
-		
-		
-	preg_match_all("/(.*?):(.*?):: ([0-9a-zA-Z\-]*)/i", $message, $regs);
-    
 	$gauge_arr = array();
 
-	for ($i=0; $i<sizeof($regs[0]); $i++){
-		if ($regs[3][$i] == "non-incremental"){
-			$gauge_arr [] = $regs[1][$i].":".$regs[2][$i];
+	if ($mi_type == "json") {
+
+		$message = json_decode($message,true);
+		ksort($message);
+		foreach ($message as $module_stat => $value){
+			if ($value == "non-incremental"){
+				$gauge_arr [] = $module_stat;
+			}
 		}
-     }
+
+	} else {
+        
+		preg_match_all("/(.*?):(.*?):: ([0-9a-zA-Z\-]*)/i", $message, $regs);
+		for ($i=0; $i<sizeof($regs[0]); $i++){
+			if ($regs[3][$i] == "non-incremental"){
+				$gauge_arr [] = $regs[1][$i].":".$regs[2][$i];
+			}
+     	}
+
+	}
 	 
 	 return $gauge_arr;
 }
 
-function get_all_vars()
+function get_all_vars( $mi_url )
 {
 	global $config;
-	global $comm_type; 
-	global $xmlrpc_host;
-	global $xmlrpc_port;
-	global $udp_host;
-	global $udp_port;
-	global $json_url;
  
-	$command="get_statistics all";
-	$message=mi_command($command,$errors,$status);
+	$message=mi_command("get_statistics all", $mi_url, $mi_type, $errors,$status);
+	if ($errors) {
+		echo($errors[0]); 
+		return;
+	}
 
-	if ($comm_type == "json"){
+	if ($mi_type == "json"){
 		$message = json_decode($message,true);
 		ksort($message);
 
@@ -214,33 +180,19 @@ function get_all_vars()
 		$message = implode("\n",$temp);
 	}
 
-	if ($errors) {
-		echo($errors[0]); 
-		return;
-	}
-  	else { 
-		return $message;
-	}
+	return $message;
 }
 
-function reset_var($stats)
+function reset_var($stats, $mi_url)
 {
  	global $config;
-	global $comm_type ; 
-	global $xmlrpc_host ;
-	global $xmlrpc_port ;
-	global $udp_host;
-	global $udp_port;
-	global $json_url;
  
- 	$command="reset_statistics ".$stats;
- 	$message=mi_command($command,$errors,$status);
+ 	$message=mi_command("reset_statistics ".$stats, $mi_url, $mi_type, $errors,$status);
 
- 
- if ($errors) {echo($errors[0]); return;}
- /* we accept any 2xx as ok */
-// if (substr($status,0,1)!="2") {echo($status); return;}
- return;
+	if ($errors) {echo($errors[0]); return;}
+	/* we accept any 2xx as ok */
+	// if (substr($status,0,1)!="2") {echo($status); return;}
+	return;
 }
 
 function clean_stats_table(){
@@ -267,41 +219,36 @@ function clean_stats_table(){
 
 
 function inspect_config_mi(){
+	global $config_type ; 
+	global $opensips_boxes ; 
+	global $box_count ; 
 
-global $config_type ; 
-global $opensips_boxes ; 
-global $box_count ; 
-
-$a=0; $b=0 ; 
+	$a=0; $b=0 ; 
     
     $global='../../../../config/boxes.global.inc.php';
     require ($global);
 
     foreach ( $boxes as $ar ){
 
-    $box_val=$ar['mi']['conn'];
+		$box_val=$ar['mi']['conn'];
 
-    if (!empty($box_val)){ 
-
-	$b++ ;
-	if ( is_file($box_val) || strpos($box_val,"/") || !(strpos($box_val,":")) )   
-    	    							$a++;
-	    $boxlist[$ar['mi']['conn']]=$ar['desc'];
-     }
-
-    }
+		if (!empty($box_val)){ 
+			$b++ ;
+			if ( is_file($box_val) || strpos($box_val,"/") || !(strpos($box_val,":")) )   
+				$a++;
+			$boxlist[$ar['mi']['conn']]=$ar['desc'];
+		}
+	}
 
     if ($a > 1) {
-	echo "ERR: multiple fifo hosts declared in $global " . "<br>" ;
-	echo "IT CAN BE ONLY ONE "."<br>" ;
-	exit();
+		echo "ERR: multiple fifo hosts declared in $global " . "<br>" ;
+		echo "IT CAN BE ONLY ONE "."<br>" ;
+		exit();
     }
 
-$box_count=$b;
+	$box_count=$b;
 
-
-return $boxlist;
-
+	return $boxlist;
 }
 
 function show_boxes($boxen){
@@ -398,17 +345,17 @@ function show_graph($stat,$box_id){
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
 			
 	if ($normal_chart) {
-	
-	for($i=0;count($row)>$i;$i++)
-	{
-		if ($row[$i]['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row[$i]['value'];
-		else $chart[ 'chart_data' ] [1] [$index] = 0;
-		$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row[$i]['time']);
-		if ($index==$chart_size) {$axis_min = $row[$i]['value']; $axis_max = $row[$i]['value'];}
-		if ($row[$i]['value']>$axis_max) $axis_max = $row[$i]['value'];
-		if ($row[$i]['value']<$axis_min) $axis_min = $row[$i]['value'];
-		$index--;
-	}
+
+		for($i=0;count($row)>$i;$i++)
+		{
+			if ($row[$i]['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row[$i]['value'];
+			else $chart[ 'chart_data' ] [1] [$index] = 0;
+			$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row[$i]['time']);
+			if ($index==$chart_size) {$axis_min = $row[$i]['value']; $axis_max = $row[$i]['value'];}
+			if ($row[$i]['value']>$axis_max) $axis_max = $row[$i]['value'];
+			if ($row[$i]['value']<$axis_min) $axis_min = $row[$i]['value'];
+			$index--;
+		}
 	
 	} else {
 	
@@ -420,42 +367,43 @@ function show_graph($stat,$box_id){
 		$prev_field_val = $result[0]['value'];
 	
 	
-	for($i=0;count($result)>$i;$i++)
-	{
+		for($i=0;count($result)>$i;$i++)
+		{
 	
-		$plot_val = $prev_field_val - $result[$i]['value']  ;
+			$plot_val = $prev_field_val - $result[$i]['value']  ;
 		
-		if ($plot_val < 0 )  $plot_val = 0 ; 
+			if ($plot_val < 0 )  $plot_val = 0 ; 
 		
-		if ($plot_val!=NULL) 
+			if ($plot_val!=NULL) 
 				
 				$chart[ 'chart_data' ] [1] [$index] = $plot_val;
-		else 
+			else 
 		
 				$chart[ 'chart_data' ] [1] [$index] = 0;
 				
-		$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$result[$i]['time']);
+			$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$result[$i]['time']);
 		
-		if ($index==$chart_size) {
+			if ($index==$chart_size) {
 		
-						$axis_min = $plot_val; 
-						$axis_max = $plot_val;
-		
-		}
-		if ($plot_val>$axis_max) 
+				$axis_min = $plot_val; 
 				$axis_max = $plot_val;
 		
-		if ($plot_val<$axis_min) 
+			}
+			if ($plot_val>$axis_max) 
+				$axis_max = $plot_val;
+		
+			if ($plot_val<$axis_min) 
 				$axis_min = $plot_val;
 		
-		$index--;
+			$index--;
 		
-		$prev_field_val=$result[$i]['value'];
+			$prev_field_val=$result[$i]['value'];
 		
-	}
+		}
 	
 	}	
 
+	printf(" var $var in box $box_id, normal=$normal_chart??");
 
 	include "lib/libchart/classes/libchart.php";
 

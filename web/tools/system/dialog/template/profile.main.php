@@ -64,16 +64,15 @@ if (isset($_POST['sizes'])) {
 		$profile = $_POST['profile'];
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		// get status from the first one only
-		$comm_type=mi_get_conn_params($mi_connectors[0]);
 		if ($profile_param == "")
-			$msg=mi_command("profile_get_size $profile" , $errors , $status);
+			$msg=mi_command("profile_get_size $profile", $mi_connectors[0], $mi_type, $errors , $status);
 		else
-			$msg=mi_command("profile_get_size $profile $profile_param" , $errors , $status);
+			$msg=mi_command("profile_get_size $profile $profile_param", $mi_connectors[0], $mi_type, $errors , $status);
 		print_r($errors);
 		$status = trim($status);
 
 		if (!empty($msg)) {
-			if ($comm_type != "json") {
+			if ($mi_type != "json") {
 				preg_match('/count=(\d+)/',$msg,$matches);
 				$profile_size=$matches[1];
 			} else {

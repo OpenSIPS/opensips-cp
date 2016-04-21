@@ -28,10 +28,6 @@ require("lib/functions.inc.php");
 
 session_start();
 get_priv();
-$xmlrpc_host="";
-$xmlrpc_port="";
-$fifo_file="";
-
 
 $current_box=$_SESSION['mi_current_box'];
 if (empty($current_box))
@@ -55,14 +51,10 @@ if (!empty($_SESSION['mi_current_box']) && empty($current_box)) {
 $current_box=show_boxes($boxlist,$current_box,'mi_current_box');
 $_SESSION['mi_current_box']=$current_box;
 
-$comm_type=mi_get_conn_params($current_box);
-$_SESSION['comm_type']=$comm_type;
-
-
 require("template/header.php");
 
 if (empty($_SESSION['mi_command_list']))
-get_command_list();
+	get_command_list( $current_box );
 
 if ($_GET['action']=="execute")
 {
@@ -71,7 +63,7 @@ if ($_GET['action']=="execute")
 	if ($command=="") $error=true;
 	if (!$error ) {
 
-		$message=mi_command($command,$errors,$status);
+		$message=mi_command($command,$current_box,$mi_type,$errors,$status);
 
 		$stupidtags = array("&lt;","&gt;");
 	    $goodtags = array("<",">");
@@ -91,7 +83,7 @@ if ($_GET['action']=="execute")
 			}
 			else {
 				if ($message!="") {
-					if ($comm_type != "json"){	
+					if ($mi_type != "json"){	
 						$_SESSION['mi_response'][]=$message;
 					}
 					else {
@@ -124,7 +116,7 @@ if ($_GET['action']=="change_box")
 
 	$current_box=$_POST['box_val'];
 	$_SESSION['mi_current_box']=$current_box;
-	echo $comm_type ."<br>";
+	echo $mi_type ."<br>";
 	echo $current_box ."<br>";
 	get_command_list();
 }

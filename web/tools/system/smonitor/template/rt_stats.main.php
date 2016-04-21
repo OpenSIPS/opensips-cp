@@ -41,7 +41,7 @@
   {
    $module_img="images/module-open.gif";
    if (!$_read_only) $reset_flag="reset";
-   $vars=get_vars($module);
+   $vars=get_vars($module,$_SESSION['smon_current_box']);
    for ($k=0; $k<sizeof($vars[0]); $k++)
    {
     $var_name=$module.":".$vars[0][$k];

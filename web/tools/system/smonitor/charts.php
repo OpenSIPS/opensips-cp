@@ -36,7 +36,7 @@
  $table=$config->table_monitoring;
  $name_table=$config->table_monitored;
 
- $gauge_arr = get_vars_type();
+ $gauge_arr = get_vars_type($current_box);
  
  if ($_GET['stat_id']!=null)
  {

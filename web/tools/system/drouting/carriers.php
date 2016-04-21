@@ -58,8 +58,7 @@
   $command="dr_carrier_status ".$_GET['carrierid'];
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $comm_type=mi_get_conn_params($mi_connectors[$i]);
-        $message=mi_command($command, $errors, $status);
+        $message=mi_command($command,$mi_connectors[$i], $mi_type, $errors, $status);
     }
 
 
@@ -88,8 +87,7 @@ if ($action=="enablecar"){
     $command="dr_carrier_status ".$_GET['carrierid']." 1";
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $comm_type=mi_get_conn_params($mi_connectors[$i]);
-        $message=mi_command($command, $errors, $status);
+        $message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
     }
     if (substr(trim($status),0,3)!="200")
         echo "Error while enabling carrier ".$_GET['carrierid'];
@@ -107,8 +105,7 @@ if ($action=="disablecar"){
     $command="dr_carrier_status ".$_GET['carrierid']." 0";
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $comm_type=mi_get_conn_params($mi_connectors[$i]);
-        $message=mi_command($command, $errors, $status);
+        $message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
     }
     if (substr(trim($status),0,3)!="200")
         echo "Error while disabling carrier ".$_GET['carrierid'];

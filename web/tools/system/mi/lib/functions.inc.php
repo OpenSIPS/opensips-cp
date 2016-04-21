@@ -22,20 +22,11 @@
 */
 
 
-function get_command_list()
+function get_command_list($mi_url)
 {
-	global $config;
-	global $xmlrpc_host ;
-	global $xmlrpc_port ;
-	global $comm_type ;
-	global $udp_host;
-	global $udp_port;
-	global $json_url;
+	$message = mi_command( "which", $mi_url, $mi_type, $errors, $status);
 
-	$command = "which";
-	$message = mi_command($command, $errors, $status);
-
-	if ($comm_type != "json"){
+	if ($mi_type != "json"){
 		$_SESSION['mi_command_list'] = explode("\n", $message);
 	}
 	else{

@@ -40,17 +40,12 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if ($action=="load") {
 	extract($_POST);
 	$profile = $_POST['profile'];
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-        for ($i=0;$i<count($mi_connectors);$i++){
-                $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-                // get status from the first one only
-                $comm_type=mi_get_conn_params($mi_connectors[0]);
-                $message=mi_command("profile_list_dlgs $profile" , $errors , $status);
-                print_r($errors);
-                $status = trim($status);
-	}
-$_SESSION['message']=$message;
-
+    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+    // get status from the first one only
+    $message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $mi_type, $errors , $status);
+    print_r($errors);
+    $status = trim($status);
+	$_SESSION['message']=$message;
 }
 
 ##############
@@ -71,8 +66,7 @@ if ($action=="delete")
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
                 for ($i=0;$i<count($mi_connectors);$i++){
 
-                        $comm_type=mi_get_conn_params($mi_connectors[$i]);
-                        mi_command("dlg_end_dlg ".$h_entry." ".$h_id,$errors,$status);
+                        mi_command("dlg_end_dlg ".$h_entry." ".$h_id, $mi_connectors[$i], $mi_type, $errors, $status);
                         print_r($errors);
                         $status = trim($status);
                 }

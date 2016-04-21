@@ -45,28 +45,18 @@ if ($action=="change_state"){
 
 	$state= $_GET['state'];
 	$sock = $_GET['sock'];
-	if ($state=="0") {
 
-        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-        	// get status from the first one only
-	        $comm_type=mi_get_conn_params($mi_connectors[0]);
-
-        	 mi_command("rtpproxy_enable $sock 0" , $errors , $status);
-	         print_r($errors);
-	         $status = trim($status);
-
-	} else if ($state=="1") {
-
-        	//      get all rtpproxies
-	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-
-        	// get status from the first one only
-	        $comm_type=mi_get_conn_params($mi_connectors[0]);
-
-        	 mi_command("rtpproxy_enable $sock 1" , $errors , $status);
-	         print_r($errors);
-	         $status = trim($status);
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	for ($i=0;$i<count($mi_connectors);$i++) {
+		if ($state=="0") {
+			mi_command("rtpproxy_enable $sock 0" , $mi_connectors[$i], $mi_type, $errors , $status);
+		} else {
+			mi_command("rtpproxy_enable $sock 1" , $mi_connectors[$i], $mi_type, $errors , $status);
+		}
+		print_r($errors);
+		$status = trim($status);
 	}
+
 } 
 
 #################
