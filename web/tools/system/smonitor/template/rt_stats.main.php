@@ -42,6 +42,7 @@
    $module_img="images/module-open.gif";
    if (!$_read_only) $reset_flag="reset";
    $vars=get_vars($module,$_SESSION['smon_current_box']);
+   $var_string.='<table width="100%" cellspacing="0" cellpadding="0" border="0">';
    for ($k=0; $k<sizeof($vars[0]); $k++)
    {
     $var_name=$module.":".$vars[0][$k];
@@ -54,7 +55,6 @@
     if (count($resultset)>0) {
                                     $var_checked="checked"; $bold_="<b>"; $_bold="</b>";
                                    }
-    $var_string.='<table width="100%" cellspacing="0" cellpadding="0" border="0">';
     $var_string.=' <tr>';
     $var_string.='  <td align="left">';
     if (!$_read_only) $var_string.='   &nbsp;<input type="checkbox" name="var[]" '.$var_checked.' onchange="document.location.href=\''.$page_name.'?var='.$var_name.'\' ">'.$bold_.$vars[0][$k].$_bold.' = '.$vars[1][$k];
@@ -65,9 +65,9 @@
     else $var_string.='   &nbsp;';
     $var_string.='  </td>';
     $var_string.=' </tr>';
-    $var_string.='</table>';
     $var_index++;
    }
+   $var_string.='</table>';
   }
  ?>
  <tr>
