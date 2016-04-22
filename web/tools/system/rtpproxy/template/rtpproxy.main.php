@@ -90,8 +90,8 @@ else {
 	} 	
 }
 $sql_search="";
-$search_setid=$_SESSION['nathelper_setid'];
-$search_sock=$_SESSION['nathelper_sock'];
+$search_setid=$_SESSION['rtpproxy_setid'];
+$search_sock=$_SESSION['rtpproxy_sock'];
 if($search_setid!="") { 
 	$sql_search.="and set_id=".$search_setid;
 }
@@ -112,16 +112,16 @@ if(!$_SESSION['read_only']){
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="nathelperTitle"></td>
+  <td colspan="2" height="10" class="rtpproxyTitle"></td>
  </tr>
   <tr>
   <td class="searchRecord">RTPproxy Sock</td>
-  <td class="searchRecord" width="200"><input type="text" name="nathelper_sock" 
+  <td class="searchRecord" width="200"><input type="text" name="rtpproxy_sock" 
   value="<?=$search_sock?>" class="searchInput"></td>
  </tr>
   <tr>
   <td class="searchRecord">Setid</td>
-  <td class="searchRecord" width="200"><input type="text" name="nathelper_setid" 
+  <td class="searchRecord" width="200"><input type="text" name="rtpproxy_setid" 
   value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr height="10">
@@ -131,7 +131,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="nathelperTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="rtpproxyTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -143,16 +143,16 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="nathelperTitle">ID</th>
-  <th class="nathelperTitle">RTPproxy Sock</th>
-  <th class="nathelperTitle">Setid</th>
-  <th class="nathelperTitle">Weight</th>
-  <th class="nathelperTitle">Ticks</th>
+  <th class="rtpproxyTitle">ID</th>
+  <th class="rtpproxyTitle">RTPproxy Sock</th>
+  <th class="rtpproxyTitle">Setid</th>
+  <th class="rtpproxyTitle">Weight</th>
+  <th class="rtpproxyTitle">Ticks</th>
   <?
   if(!$_SESSION['read_only']){
-  	echo('<th class="nathelperTitle">Memory State</th>');
-  	echo('<th class="nathelperTitle">Edit</th>'); 
-	echo ('<th class="nathelperTitle">Delete</th>');
+  	echo('<th class="rtpproxyTitle">Memory State</th>');
+  	echo('<th class="rtpproxyTitle">Edit</th>'); 
+	echo ('<th class="rtpproxyTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -218,7 +218,7 @@ if(!$_SESSION['read_only']){
 }
 ?>
 <tr>
-<th colspan="<?=$colspan?>" class="nathelperTitle">
+<th colspan="<?=$colspan?>" class="rtpproxyTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">

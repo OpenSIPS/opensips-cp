@@ -100,7 +100,7 @@ $config_modules 	= array (
 																									"enabled"	=> true,
 																									"name"		=> "Monit"
 																							),
-																		"nathelper"			=> array (
+																		"rtpproxy"			=> array (
 																									"enabled"	=> true,
 																									"name"		=> "RTPProxy"
 																							),

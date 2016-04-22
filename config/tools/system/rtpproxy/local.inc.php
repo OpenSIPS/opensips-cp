@@ -21,10 +21,15 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- $config->menu_item = array(
-    array(
-          "nathelper.php", // page name
-          "DB List" // menu name
-    )
- );
+ $config->results_per_page = 20;
+ $config->results_page_range = 5;
+ 
+###############################################################################
+
+ //database tables
+ $config->table_rtpproxy = "rtpproxy_sockets";
+
+ // system to talk with (via MI)  
+ $talk_to_this_assoc_id = 1 ;
+
 ?>

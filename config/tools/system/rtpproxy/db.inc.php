@@ -22,20 +22,20 @@
  */
 
  //database host
- //$config->db_host_nathelper = "localhost";
+ //$config->db_host_rtpproxy = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_nathelper = "";
+ //$config->db_port_rtpproxy = "";
  
  //database connection user
- //$config->db_user_nathelper = "root";
+ //$config->db_user_rtpproxy = "opensips";
  
  //database connection password
- //$config->db_pass_nathelper = "mysql";
+ //$config->db_pass_rtpproxy = "opensipsrw";
  
  //database name
- //$config->db_name_nathelper = "opensips";
+ //$config->db_name_rtpproxy = "opensips";
  
- //if ($config->db_port_nathelper != "") $config->db_host_nathelper = $config->db_host_nathelper . ":" . $config->db_port_nathelper;
+ //if ($config->db_port_rtpproxy != "") $config->db_host_rtpproxy = $config->db_host_rtpproxy . ":" . $config->db_port_rtpproxy;
  
 ?>

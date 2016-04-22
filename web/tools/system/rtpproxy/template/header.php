@@ -20,41 +20,29 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
+
+ require_once("../../../../config/session.inc.php");
+ require_once("../../../../config/tools/system/rtpproxy/db.inc.php");
+ require_once("../../../../config/tools/system/rtpproxy/local.inc.php");
+
+ $page_name = basename($_SERVER['PHP_SELF']);
+ $page_id = substr($page_name, 0, strlen($page_name) - 4);
+ $back_link = '<a href="'.$page_name.'" class="backLink">Go Main</a>';
+ $no_result = "No Data Found.";
 ?>
 
-<?php
+<html>
 
-require("../../../../config/tools/system/dialplan/local.inc.php");
-require("../../../common/mi_comm.php");
-require("../../../common/cfg_comm.php");
+<head>
+ <link href="style/style.css" type="text/css" rel="StyleSheet">
+</head>
 
-$command="rtpproxy_reload";
-
-?>
-<fieldset><legend>Sending MI command: <?=$command?></legend>
-<br>
-<?php
-
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-
-for ($i=0;$i<count($mi_connectors);$i++){
-	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
-
-	$message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
-
-	if ($errors) {
-		echo "<font color='red'><b>".$errors[0]."</b></font>";
-	} else {
-		if (substr(trim($status),0,3) != "200"){
-			echo "<font color='red'><b>".substr(trim($status),4)."</b></font>";
-		}
-		else {
-			echo "<font color='green'><b>Success</b></font>";
-		}
-	}
-	echo "<br>";
-}
-
-?>
-
-</fieldset>
+<body bgcolor="#e9ecef">
+<center>
+<table width="705" cellpadding="5" cellspacing="5" border="0">
+ <tr  valign="top" height="20">
+  <td><?php require("template/menu.php")?></td>
+ </tr>
+ <tr valign="top" align="center"> 
+  <td>
+   <img src="images/spacer.gif" width="10" height="5"><br>

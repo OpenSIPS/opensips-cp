@@ -114,7 +114,7 @@ a.menuItemSelect:hover {
 	text-decoration: none;
 }
 
-.nathelperTitle {
+.rtpproxyTitle {
 	background: #d1e8ff; /* Old browsers */
 	background: -moz-linear-gradient(top, #d1e8ff 0%, #bfe8f9 34%, #8acff2 70%, #5eaeff 100%); /* FF3.6+ */
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8ff), color-stop(34%,#bfe8f9), color-stop(70%,#8acff2), color-stop(100%,#5eaeff)); /* Chrome,Safari4+ */

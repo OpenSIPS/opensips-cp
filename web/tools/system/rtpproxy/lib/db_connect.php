@@ -23,17 +23,17 @@
 
 
 
-require_once("../../../../config/tools/system/nathelper/db.inc.php");
+require_once("../../../../config/tools/system/rtpproxy/db.inc.php");
 require_once("../../../../config/db.inc.php");
 
 require_once("MDB2.php");
         global $config;
-        if (isset($config->db_host_nathelper) && isset($config->db_user_nathelper) && isset($config->db_name_nathelper) ) {
-                $config->db_host = $config->db_host_nathelper;
-                $config->db_port = $config->db_port_nathelper;
-                $config->db_user = $config->db_user_nathelper;
-                $config->db_pass = $config->db_pass_nathelper;
-                $config->db_name = $config->db_name_nathelper;
+        if (isset($config->db_host_rtpproxy) && isset($config->db_user_rtpproxy) && isset($config->db_name_rtpproxy) ) {
+                $config->db_host = $config->db_host_rtpproxy;
+                $config->db_port = $config->db_port_rtpproxy;
+                $config->db_user = $config->db_user_rtpproxy;
+                $config->db_pass = $config->db_pass_rtpproxy;
+                $config->db_name = $config->db_name_rtpproxy;
         }
         $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
         $link = & MDB2::connect($dsn);

@@ -27,8 +27,8 @@ require ("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 include("lib/db_connect.php");
 
-$table=$config->table_nathelper;
-$current_page="current_page_nathelper";
+$table=$config->table_rtpproxy;
+$current_page="current_page_rtpproxy";
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -228,24 +228,24 @@ if ($action=="delete")
 if ($action=="dp_act")
 {
 $query="";
-	$_SESSION['nathelper_sock']  = $_POST['nathelper_sock'];
-	$_SESSION['nathelper_setid']= $_POST['nathelper_setid'];
+	$_SESSION['rtpproxy_sock']  = $_POST['rtpproxy_sock'];
+	$_SESSION['rtpproxy_setid']= $_POST['rtpproxy_setid'];
 
 	$_SESSION[$current_page]=1;
 	extract($_POST);
 	if ($show_all=="Show All") {
-		$_SESSION['nathelper_setid']="";
-		$_SESSION['nathelper_sock']="";
+		$_SESSION['rtpproxy_setid']="";
+		$_SESSION['rtpproxy_sock']="";
 	} else if($search=="Search"){
-		$_SESSION['nathelper_setid']=$_POST['nathelper_setid'];
-		$_SESSION['nathelper_sock'] =$_POST['nathelper_sock'];
+		$_SESSION['rtpproxy_setid']=$_POST['rtpproxy_setid'];
+		$_SESSION['rtpproxy_sock'] =$_POST['rtpproxy_sock'];
 	} else if($_SESSION['read_only']){
 
 		$errors= "User with Read-Only Rights";
 
 	}else if($delete=="Delete RTPproxy Sock"){
-		$set_id = $_POST['nathelper_setid'];
-		$rtpproxy_sock = $_POST['nathelper_sock'];
+		$set_id = $_POST['rtpproxy_setid'];
+		$rtpproxy_sock = $_POST['rtpproxy_sock'];
 		if($rtpproxy_sock =="") { 
 			$query .= " AND rtpproxy_sock like %";
 		}else {
@@ -263,8 +263,8 @@ $query="";
 
 			if (count($row)==0) {
 				$errors="No Rule with such RTPproxy Sock ID";
-				$_SESSION['nathelper_setid']="";
-				$_SESSION['nathelper_sock']="";
+				$_SESSION['rtpproxy_setid']="";
+				$_SESSION['rtpproxy_sock']="";
 
 			}else{
 				$sql = "DELETE FROM ".$table." WHERE (1=1) " .$query;

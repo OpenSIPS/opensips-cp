@@ -21,15 +21,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- $config->results_per_page = 20;
- $config->results_page_range = 5;
+ require("../../../../config/tools/system/rtpproxy/db.inc.php");
+ require("../../../../config/db.inc.php");
+ require("../../../../config/tools/system/rtpproxy/local.inc.php");
+ require("../../../common/cfg_comm.php");
+
+ session_start();
+ get_priv();
+ header("Location: rtpproxy.php");
  
-###############################################################################
-
- //database tables
- $config->table_nathelper = "rtpproxy_sockets";
-
- // system to talk with (via MI)  
- $talk_to_this_assoc_id = 1 ;
-
 ?>

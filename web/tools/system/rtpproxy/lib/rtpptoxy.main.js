@@ -1,61 +1,34 @@
 <script language="JavaScript">
 //
-// $Id: natall.main.js 28 2009-04-01 15:27:03Z iulia_bublea $
+// $Id: nathelper.main.js 28 2009-04-01 15:27:03Z iulia_bublea $
 //
   
-function changeState(id)
-{
- if (document.getElementById(id+"_day").disabled==true) newState=false;
-  else newState=true;
- document.getElementById(id+"_day").disabled=newState;
- document.getElementById(id+"_month").disabled=newState;
- document.getElementById(id+"_year").disabled=newState;
- document.getElementById(id+"_hour").disabled=newState;
- document.getElementById(id+"_minute").disabled=newState;
- document.getElementById(id+"_second").disabled=newState;    
+function confirmStateChange(state){
+	if (state == "0")
+		msg = "Are you sure you want to change the state to 'Inactive' ?";
+	else if (state == "1")
+		msg = "Are you sure you want to change the state to 'Active' ?";
+	
+	var agree=confirm(msg);
+	if (agree) 
+		return true;
+	else 
+		return false;
 }
 
-
-function confirmDelete_2nd()
+function confirmDelete()
 {
- var agree=confirm("You are trying to delete ALL the traces. Is this okay ?");
+ var agree=confirm("Are you sure you want to delete this entry?");
  if (agree)	return true;
   else return false;
 }
 
-
-function confirmDelete()
+function confirmDeleteRTPproxy()
 {
- var agree=confirm("Are you sure you want to delete this/these Trace/Traces?");
-
- if (agree)	 {
-
- 	if ((document.getElementById("search_regexp").value=="") && 
- 		(document.getElementById("search_callid").value=="") &&
-		(document.getElementById("search_traced_user").value=="")) 
-			{
- 				
- 			
-		
-			 var agree2=confirm("You are trying to delete ALL the traces. Is this okay ?");
-			 if (agree2)	return true;
-			  else return false;				
-		
-			}	
- 	
- 	return true ; 
- 	
- }
-   	
- else {
-
- 	return false;
- 
- }
-
-
+ var agree=confirm("Are you sure you want to delete this RTPproxy Sock?");
+ if (agree)	return true;
+  else return false;
 }
-
 
 function handleHttpResponse(http) {   
 		
@@ -147,4 +120,5 @@ function apply_changes(){
 		
 	return true;
 }
+
 </script>
