@@ -60,7 +60,7 @@ foreach ($boxes as $ar){
 		$stats = get_all_vars( $ar['mi']['conn'] , $stats_name );
 
 		// insert values into DB
-		preg_match_all("/([^:]+:[^:]+):: ([0-9]*)/i", $stats, $regs);
+		preg_match_all("/(.+):: ([0-9]*)/i", $stats, $regs);
 		for ($i=0;count($regs[0])>$i;$i++) {
 			$var_value=$regs[2][$i];
 			if ($var_value==NULL) 
