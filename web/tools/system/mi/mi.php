@@ -116,9 +116,7 @@ if ($_GET['action']=="change_box")
 
 	$current_box=$_POST['box_val'];
 	$_SESSION['mi_current_box']=$current_box;
-	echo $mi_type ."<br>";
-	echo $current_box ."<br>";
-	get_command_list();
+	get_command_list($current_box);
 }
 
 require("template/".$page_id.".main.php");

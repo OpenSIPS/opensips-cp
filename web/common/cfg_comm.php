@@ -151,4 +151,42 @@ function get_modules() {
 }
 
 
+function inspect_config_mi(){
+	global $opensips_boxes ;
+	global $box_count ;
+	$a=0; $b=0 ;
+
+	$global='../../../../config/boxes.global.inc.php';
+	require ($global);
+
+	$my_mis = array();
+
+	foreach ( $boxes as $ar ) {
+
+		$mi_url=$ar['mi']['conn'];
+
+		if (!empty($mi_url)){
+
+			$b++ ;
+
+			if ( in_array( $mi_url , $my_mis) ) {
+				echo "Re-usage of MI URL $mi_url in box ".$ar['desc']." in $global " . "<br>" ;
+				echo "MI URLs must be uniques"."<br>" ;
+				exit();
+			}
+
+			$my_mis[] = $mi_url;
+
+			$boxlist[$ar['mi']['conn']]=$ar['desc'];
+		}
+
+	}
+
+	$box_count=$b;
+
+	return $boxlist;
+}
+
+
+
 ?>

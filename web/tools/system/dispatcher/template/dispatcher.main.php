@@ -45,6 +45,8 @@ if ($mi_type != "json"){
 }
 else {
 	$message = json_decode($message,true);
+	if ($message['PARTITION'])
+		$message = $message['PARTITION'][0]['children'];
 	$message = $message['SET'];
 
 	for ($j=0; $j<count($message); $j++){

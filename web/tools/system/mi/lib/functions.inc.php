@@ -54,46 +54,6 @@ function print_command_list()
 	return;
 }
 
-function inspect_config_mi(){
-	global $opensips_boxes ;
-	global $box_count ;
-	$a=0; $b=0 ;
-
-
-
-	$global='../../../../config/boxes.global.inc.php';
-	require ($global);
-
-	foreach ( $boxes as $ar ){
-
-
-		$box_val=$ar['mi']['conn'];
-
-		if (!empty($box_val)){
-
-				$b++ ;
-
-				if (  is_file($box_val) || strpos($box_val,"/") || !(strpos($box_val,":"))  )
-				$a++;
-				$boxlist[$ar['mi']['conn']]=$ar['desc'];
-
-			}
-
-		}
-
-		if ($a > 1) {
-			echo "ERR: multiple fifo hosts declared in $global " . "<br>" ;
-			echo "IT CAN BE ONLY ONE "."<br>" ;
-			exit();
-		}
-
-	$box_count=$b;
-
-
-	return $boxlist;
-	
-}
-
 function show_boxes($boxen,$current_box,$hold){
 
 	global $page_name ;
