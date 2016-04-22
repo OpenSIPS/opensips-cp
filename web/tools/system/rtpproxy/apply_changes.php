@@ -26,6 +26,7 @@
 
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
+require("../../../../config/tools/system/rtpproxy/local.inc.php");
 
 $command="rtpproxy_reload";
 
@@ -35,7 +36,6 @@ $command="rtpproxy_reload";
 <?php
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
