@@ -25,6 +25,7 @@
 require("../../../../config/tools/system/siptrace/local.inc.php");
 require("../../../../config/tools/system/siptrace/db.inc.php");
 require("../../../../config/db.inc.php");
+require("../../../common/cfg_comm.php");
 require("../siptrace/lib/functions.inc.php");
 include("lib/db_connect.php");
 

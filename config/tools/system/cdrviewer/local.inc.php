@@ -22,13 +22,12 @@
  */ 
 
 ###############################################################################
-# Attention : advanced options !!
 
  
  //database tables
- $config->cdr_table = "cdrs";
+ $config->cdr_table = "acc";
 
- $config->results_per_page = 20 ;
+ $config->results_per_page = 30 ;
  
  $config->results_page_range = 10 ;
  
@@ -42,60 +41,39 @@
  
  
  // what fields to show  
- $show_field[0]['sip_call_id'] = "Sip Call ID" ; 
- $show_field[1]['sip_from_tag'] = "Sip From Tag" ; 
- $show_field[2]['sip_to_tag'] = "Sip To Tag";
- $show_field[3]['call_start_time'] = "Call Start Time";
- $show_field[4]['duration'] = "Duration"; 
+ $show_field[0]['time'] = "Time" ; 
+ $show_field[1]['method'] = "Method" ; 
+ $show_field[2]['callid'] = "Sip Call ID" ; 
+ $show_field[3]['sip_code'] = "Sip Code" ; 
+ $show_field[4]['sip_reason'] = "Sip Reason" ; 
+ $show_field[5]['setuptime'] = "Setup Time"; 
+ $show_field[6]['duration'] = "Duration"; 
+ $show_field[7]['from_tag'] = "Sip From Tag" ; 
+ $show_field[8]['to_tag'] = "Sip To Tag";
  
  
-/*  
- $show_field[5]['leg_status'] = "Leg Status";
- $show_field[6]['sip_call_id'] = "Sip Call ID"; 
- $show_field[7]['sip_from_tag'] = "Sip From Tag";
- $show_field[8]['sip_to_tag'] = "Sip To Tag";
- $show_field[9]['cdr_rated'] = "Cdr Rated";
- $show_field[10]['created'] = "Created";
- $show_field[11]['src_local'] = "Src Local";
-*/ 
-
-// use this field to link with siptrace module 
-  $sip_call_id_field_name='sip_call_id';
+ // the tool must be aware of couple of fields 
+ $sip_call_id_field_name='callid';
+ $cdr_id_field_name='id';
 
 
  // what fields to export (cron job)
- $export_csv[0]['cdr_id'] = "CDR ID" ;
- $export_csv[1]['call_start_time'] = "Call Start Time";
- $export_csv[2]['duration'] = "Duration"; 
- $export_csv[3]['sip_call_id'] = "SIP callid"; 
- $export_csv[4]['sip_from_tag'] = "SIP fromTag"; 
- $export_csv[5]['sip_to_tag'] = "SIP toTag"; 
- $export_csv[6]['leg_status'] = "LEG status" ;
- $export_csv[7]['leg_type'] = "LEG type" ;
- $export_csv[8]['leg_transition'] = "LEG transition" ;
- $export_csv[9]['caller_id'] = "Caller" ; 
- $export_csv[10]['callee_id'] =  "Callee" ; 
- $export_csv[11]['destination'] = "Destination" ; 
+ $export_csv[0]['id'] = "CDR ID" ;
+ $export_csv[1]['time'] = "Call Start Time";
+ $export_csv[1]['method'] = "SIP Method" ; 
+ $export_csv[2]['callid'] = "Sip Call ID" ; 
+ $export_csv[3]['sip_code'] = "Sip Code" ; 
+ $export_csv[4]['sip_reason'] = "Sip Reason" ; 
+ $export_csv[5]['setuptime'] = "Setup Time"; 
+ $export_csv[6]['duration'] = "Duration"; 
+ $export_csv[7]['from_tag'] = "Sip From Tag" ; 
+ $export_csv[8]['to_tag'] = "Sip To Tag";
 
- 
-/* 
- $export_csv[5]['leg_status'] = "Leg Status"; 
- $export_csv[6]['sip_call_id'] = "Sip Call ID"; 
- $export_csv[7]['sip_from_tag'] = "Sip From Tag";
- $export_csv[8]['sip_to_tag'] = "Sip To Tag";
- $export_csv[9]['cdr_rated'] = "Cdr Rated";
- $export_csv[10]['created'] = "Created";
- $export_csv[11]['src_local'] = "Src Local";
-*/ 
- 
- // where to dump the files (cron job)
- 
- 
  // where to dump the files (cron job)
  $cdr_repository_path = '/var/lib/opensips_cdrs' ; 
 
-//  field description in csv file (cron job) ; 
-//	1 == on ,  0 == off
+ // field description in csv file (cron job) ; 
+ //	1 == on ,  0 == off
  $cdr_set_field_names = 1 ;
 
  $delay=3600 ; 

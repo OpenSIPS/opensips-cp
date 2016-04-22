@@ -26,7 +26,7 @@ require_once("../../../../config/tools/system/cdrviewer/local.inc.php");
 require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
 $table=$config->cdr_table;
-$sql = "SELECT * FROM ".$table." WHERE cdr_id='".$_GET['cdr_id']."'";
+$sql = "SELECT * FROM ".$table." WHERE ".$cdr_id_field_name."='".$_GET['cdr_id']."'";
 $row = $link->queryAll($sql);
 if(PEAR::isError($row)) {
         die('Failed to issue query, error message : ' . $row->getMessage());
@@ -47,7 +47,7 @@ if(PEAR::isError($row)) {
 $k=0;
 foreach($row[0] as $key=>$value) {
  if ( $k%2 == 0 ) $row_style="rowOdd";
- if ( $k%2 != 0 ) $row_style="rowEven";
+ else $row_style="rowEven";
 	
 ?>
  <tr><td class="<?php print $row_style?>"><b><?php print "$key:"?></b><?php print "$value"?></td></tr>

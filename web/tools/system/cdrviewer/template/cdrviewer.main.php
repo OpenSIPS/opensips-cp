@@ -36,7 +36,7 @@ $search_regexp=$_SESSION['cdrviewer_search_val'];
 $cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
 
-if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=" and ".$cdr_field.'="'.$search_regexp.'"' ;
+if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=" and ".$cdr_field.' like "%'.$search_regexp.'%"' ;
 
 
 $search_start=$_SESSION['cdrviewer_search_start'];
@@ -47,13 +47,13 @@ $sql  = "select count(*) from ".$cdr_table. " where (1=1) ";
 
 if (($search_start!="")) {
 
-	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(call_start_time)";
+	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(time)";
 
 }
 
 if ($search_end!="") {
 
-	$sql.=" and unix_timestamp(call_start_time) <= unix_timestamp('" . $search_end ."')";
+	$sql.=" and unix_timestamp(time) <= unix_timestamp('" . $search_end ."')";
 
 }
 
@@ -68,7 +68,7 @@ if 	((($sql_search!=""))) {
 
 ?>
 
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="450" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search CDRs by: </td>
  </tr>
@@ -137,7 +137,6 @@ if(PEAR::isError($row)) {
 
 $data_no = $row[0]['count(*)'];
 
-
 if ($data_no==0) {
 
 	echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -164,8 +163,8 @@ else
 
 	if (($search_start!="") && ($search_end!="")) {
 
-		$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(call_start_time) and  ";
-		$sql.="unix_timestamp(call_start_time) <= unix_timestamp('" . $search_end ."')"   ;
+		$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(time) and  ";
+		$sql.="unix_timestamp(time) <= unix_timestamp('" . $search_end ."')"   ;
 
 		$sql .=$sql_search ;
 
@@ -179,10 +178,13 @@ else
 	}
 
 
-	$sql .= " order by call_start_time desc " ;
+	$sql .= " order by time desc " ;
 	$sql.=" LIMIT ".$start_limit.", ".$config->results_per_page;
 
 	$result=$link->queryAll($sql);
+	if(PEAR::isError($result)) {
+		die('Failed to issue query, error message : ' . $result->getMessage());
+	}
 
 	?>
 
@@ -211,33 +213,23 @@ else
 	{
 
 		if ( $k%2 == 0 ) $row_style="rowOdd";
+		else $row_style="rowEven";
+		
+		echo '<tr align="center">';
 
-		if ( $k%2 != 0 ) $row_style="rowEven";
-
-
-		?>
-
-	   <tr align="center">
-
-	   <? for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
-	   <td class="<?=$row_style?>"><?=$result[$j][key($show_field[$i])]?></td>
-       
-	   <?php } 
+		for ($i = 0 ; $i < count($show_field)  ; $i++) {
+			if ($sip_call_id_field_name==key($show_field[$i])) {
+				// link the "callid" filed to siptrace module
+				echo '<td class="'.$row_style.'">'.'&nbsp;<a href="'.'go_to_siptrace.php'.'?callid='.($result[$j][key($show_field[$i])]).'" class="menuItem" onClick="select_dot()" > <b>'.($result[$j][key($show_field[$i])]).'</b></a>&nbsp;'.'</td>';
+			} else {
+				echo '<td class="'.$row_style.'">'.$result[$j][key($show_field[$i])].'</td>';
+			}
+		}
 	   
-	   $this_cdr_id = $result[$j]['cdr_id'];
+	   $this_cdr_id = $result[$j][$cdr_id_field_name];
 	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="images/details.gif" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
 	   ?>
 	   <td class="rowOdd" align="center"><?print $details_cdr?></td>
-	   <td>
- 
-		<?php
-
-		$this_sip_call_id = $result[$j][$sip_call_id_field_name];
-
-		echo('&nbsp;<a href="'.'go_to_siptrace.php'.'?callid='.($this_sip_call_id).'" class="menuItem" onClick="select_dot()" > <b>Trace</b></a>&nbsp;');
-
-		?>		
-	   </td>
 
 	   </tr>
 
@@ -249,7 +241,7 @@ $link->disconnect();
 
 ?>
 <tr>
-  <th colspan="6" class="Title">
+  <th colspan="<?print(count($show_field)+1)?>" class="Title">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">

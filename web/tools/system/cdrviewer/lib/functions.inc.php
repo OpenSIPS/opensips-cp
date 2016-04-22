@@ -132,11 +132,11 @@ function cdr_export($start_time,  $end_time ) {
 
 	$sql.=" from ".$cdr_table . " where  ";
 
-	$sql.=" unix_timestamp('".$start_time ."') - ".$delay."  <= unix_timestamp(call_start_time)  and  ";
+	$sql.=" unix_timestamp('".$start_time ."') - ".$delay."  <= unix_timestamp(time)  and  ";
 
-	$sql.="unix_timestamp(call_start_time) <= unix_timestamp('" . $end_time  ."') - ".$delay   ;
+	$sql.="unix_timestamp(time) <= unix_timestamp('" . $end_time  ."') - ".$delay   ;
 
-	$sql .= " order by call_start_time desc " ;
+	$sql .= " order by time desc " ;
 
 	$result =$link->queryAll($sql);
 	if(PEAR::isError($result))
@@ -229,21 +229,21 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 	if (($start_time !="")) {
 
-		$sql.=" and unix_timestamp('".$start_time ."')  <= unix_timestamp(call_start_time)";
+		$sql.=" and unix_timestamp('".$start_time ."')  <= unix_timestamp(time)";
 
 	}
 
 
 	if (($end_time !="")){
 
-		$sql.=" and unix_timestamp(call_start_time) <= unix_timestamp('" . $end_time  ."')"   ;
+		$sql.=" and unix_timestamp(time) <= unix_timestamp('" . $end_time  ."')"   ;
 
 	}
 
 
 	if ($sql_search!="") $sql.=  $sql_search  ;
 
-	$sql .= " order by call_start_time desc " ;
+	$sql .= " order by time desc " ;
 	
 	$result = $link->queryAll($sql);
 	if(PEAR::isError($result)) {

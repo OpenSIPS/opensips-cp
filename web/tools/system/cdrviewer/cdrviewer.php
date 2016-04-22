@@ -70,7 +70,7 @@ if ($export == "Export") {
 	$cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
 
-	if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=" and ".$cdr_field.'="'.$search_regexp.'"' ;
+	if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=" and ".$cdr_field.' like "%'.$search_regexp.'%"' ;
 
 
 	$search_start=$_SESSION['cdrviewer_search_start'];

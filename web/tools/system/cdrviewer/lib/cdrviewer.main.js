@@ -56,7 +56,7 @@ function validate_cdr_export() {
 
 	if (document.getElementById("search_regexp").value == "") {
 
-		alert("Cannot export CDRs using these values!");
+		alert("You cannot export without using a search filter1!");
 
 		return false ;
 
