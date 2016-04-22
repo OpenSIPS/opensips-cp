@@ -72,16 +72,19 @@ if ($mi_type != "json"){
 	}
 }
 else {
+	// $message is an array of sets right now
 	for ($i=0; $i<count($message);$i++) {
-		for ($j=0; $j<count($message); $j++){
-			$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][$j]['value']]['status'] = $message[$i]['children']['node'][$j]['attributes']['disabled'];
-			$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][$j]['value']]['weight'] = $message[$i]['children']['node'][$j]['attributes']['weight'];
-			$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][$j]['value']]['ticks']  = $message[$i]['children']['node'][$j]['attributes']['recheck_ticks'];
+		// get each node from the SET
+		for ($j=0; $j<count($message[$i]['children']['node']); $j++){
+			$node = $message[$i]['children']['node'][$j];
+			$rtpproxies_cache[ $i ][ $node['value'] ]['status'] = $node['attributes']['disabled'];
+			$rtpproxies_cache[ $i ][ $node['value'] ]['weight'] = $node['attributes']['weight'];
+			$rtpproxies_cache[ $i ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
 		
-			if ($message[$i]['children']['node'][$j]['attributes']['disabled'] == 1){
-				$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][$j]['value']]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$message[$i]['children']['node'][$j]['attributes']['disabled'].'&sock='.$message[$i]['children']['node'][$j]['value'].'"><img align="center" name="status'.$i.'" src="images/inactive.png" alt="'.$message[$i]['children']['node'][$j]['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$message[$i]['children']['node'][$j]['attributes']['disabled'].'\')" border="0"></a>';
-			} else if ($message[$i]['children']['node'][$j]['attributes']['disabled'] == 0){
-				$rtpproxies_cache[$message[$i]['value']][$message[$i]['children']['node'][$j]['value']]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$message[$i]['children']['node'][$j]['attributes']['disabled'].'&sock='.$message[$i]['children']['node'][$j]['value'].'"><img align="center" name="status'.$i.'" src="images/active.png" alt="'.$message[$i]['children']['node'][$j]['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$message[$i]['children']['node'][$j]['attributes']['disabled'].'\')" border="0"></a>';
+			if ($node['attributes']['disabled'] == 1){
+				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="images/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+			} else if ($node['attributes']['disabled'] == 0){
+				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="images/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
 			}
 		}
 	} 	
