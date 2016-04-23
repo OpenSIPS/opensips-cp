@@ -22,39 +22,26 @@
  */
 -->
 
-<div id="dialog" class="dialog" style="display:none"></div>
-<div onclick="closeDialog();" id="overlay" style="display:none"></div>
-<div id="content" style="display:none"></div>
-<form action="<?=$page_name?>?action=dp_act" method="post">
 <?php
+require("lib/".$page_id.".main.js");
 
 $sql_search="";
 $search_groupid=$_SESSION['lb_groupid'];
 $search_dsturi=$_SESSION['lb_dsturi'];
 $search_resources=$_SESSION['lb_resources'];
-if($search_groupid!="") { 
-	$sql_search.="and group_id=".$search_groupid;
-}
-if ( $search_dsturi!="" ) {
-	$sql_search.=" and dst_uri like '%".$search_dsturi."%'";
-} else {
-	$sql_search.=" and dst_uri like '%'";		
-}
-
-if ( $search_resources!="" ) {
-	$sql_search.=" and resources like '%".$search_resources."%'";
-} else {
-	$sql_search.=" and resources like '%'";		
-}
-
-require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 8;
+	$colspan = 10;
 }else{
-	$colspan = 6;
+	$colspan = 8;
 }
-  ?>
+?>
+
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
+<form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="loadbalancerTitle"></td>
@@ -91,11 +78,20 @@ if(!$_SESSION['read_only']){
 <tr>
 <td align="center">
 <form action="<?=$page_name?>?action=add&clone=0" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New LB Entry" class="formButton">') ?>
 </form>
 </td>
 </tr>
 </table>
+
+<form action="<?=$page_name?>?action=refresh" method="post">
+<table width="95%" cellspacing="2" cellpadding="2" border="0">
+	<tr height="10">
+		<td colspan="3"  align="right"><input type="submit" name="refresh" value="Refresh from Cache" class="searchButton"></td>
+	</tr>
+</table>
+</form>
+
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -104,6 +100,8 @@ if(!$_SESSION['read_only']){
   <th class="loadbalancerTitle">Destination URI</th>
   <th class="loadbalancerTitle">Resources</th>
   <th class="loadbalancerTitle">Probe Mode</th>
+  <th class="loadbalancerTitle">Auto Re-enable</th>
+  <th class="loadbalancerTitle">Status</th>
   <th class="loadbalancerTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
@@ -113,18 +111,81 @@ if(!$_SESSION['read_only']){
   }
   ?>
  </tr>
+
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where(1=1) order by id asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
+if($search_groupid!="") { 
+	$sql_search.=" and group_id=".$search_groupid;
+}
+if ( $search_dsturi!="" ) {
+	$sql_search.=" and dst_uri like '%".$search_dsturi."%'";
+}
+if ( $search_resources!="" ) {
+	$sql_search.=" and resources like '%".$search_resources."%'";
+}
+
+$sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
 $result = $link->queryAll($sql_command);
 if(PEAR::isError($result)) {
          die('Failed to issue query, error message : ' . $result->getMessage());
 }
 
-$data_no=count($result);
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else
-{
+$data_no=$result[0]['count(*)'];
+if ($data_no==0)
+	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+else {
+	// get in memory status for the entries we want to list
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$message = mi_command('lb_list', $mi_connectors[0], $mi_type, $errors,$status);
+	print_r($errors);
+	$status = trim($status);
+
+	$lb_state = array();
+	$lb_res = array();
+	$lb_auro = array();
+
+	if ($mi_type != "json"){
+		$message = trim($message);
+		$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-reenable=(?P<autore>on|off)\s+Resources(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
+		preg_match_all($pattern,$message,$matches);
+		for ($i=0; $i<count($matches[0]);$i++) {
+			$id			= $matches['id'][$i];
+
+			$pattern	= '/\s+Resource\:\:\s+(?P<resource_name>[a-zA-Z0-9_-]+)\s+max=(?P<resource_max_load>\d+)\s+load=(?P<resource_load>\d+)/';
+			preg_match_all($pattern,$matches['resources'][$i],$resources);
+
+			$resource="";
+			for ($j=0;$j<count($resources[0]);$j++) {
+				$resource .= "<tr>";
+				$resource .= "<td>".$resources['resource_name'][$j]." = ".$resources['resource_load'][$j]."/".$resources['resource_max_load'][$j]."</td>";
+				$resource .= "</tr>";
+			}
+			$lb_res[$id] = "<table>".$resource."</table>";
+			$lb_state[$id] = ($matches['enabled'][$i]=="yes")?"enabled":"disabled";
+			$lb_auto[$id] = $matches['autore'][$i];
+		}
+
+	} else {
+
+		//no more stupid parsing
+		$message = json_decode($message,true);
+		$message = $message['Destination'];
+		for ($i=0; $i<count($message);$i++) {
+			$id 		= $message[$i]['attributes']['id'];
+
+			$resource="";
+			$res = $message[$i]['children']['Resources']['children']['Resource'];
+			for ($j=0;$j<count($res);$j++) {
+				$resource .= "<tr>";
+				$resource .= "<td>".$res[$j]['value']."=".$res[$j]['attributes']['load']."/".$res[$j]['attributes']['max']."</td>";
+				$resource .= "</tr>";
+			}
+			$lb_res[$id] = "<table>".$resource."</table>";
+			$lb_state[$id] = ($message[$i]['attributes']['enabled']=="yes")?"enabled":"disabled";
+			$lb_auto[$id] = $message[$i]['attributes']['auto-reenable'];
+		}
+	}
+
+
 	$res_no=$config->results_per_page;
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
@@ -133,41 +194,52 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	  if ($start_limit==0) $sql_command.=" limit ".$res_no;
-	  else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-	  $result = $link->queryAll($sql_command);
-	  if(PEAR::isError($result)) {
-	          die('Failed to issue query, error message : ' . $resultset->getMessage());
-	  }
-	require("lib/".$page_id.".main.js");
+
+	$sql_command = "select * from ".$table." where (1=1) ".$sql_search." order by id asc";
+	if ($start_limit==0) $sql_command.=" limit ".$res_no;
+	else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
+	$result = $link->queryAll($sql_command);
+	if(PEAR::isError($result)) {
+		die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}
+
+	// display the resulting rows in the table
 	$index_row=0;
 	for ($i=0;count($result)>$i;$i++)
 	{
 		$index_row++;
+		$id = $result[$i]['id'];
+
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
-
-		if(!$_SESSION['read_only']){
-
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
-		}
-?>
- <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['group_id']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['dst_uri']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['resources']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['probe_mode']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
-   <? 
-   if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
-   }
-	?>  
-  </tr>  
+		?>
+		<tr>
+			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['group_id']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['dst_uri']?></td>
+			<td class="<?=$row_style?>"><?=$lb_res[$id]?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['probe_mode']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$lb_auto[$id]?></td>
+			<td class="<?=$row_style?>">&nbsp;
+				<div align="center">
+					<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$lb_state[$id]?>&id=<?=$id?>" method="post">
+					<? if ( $lb_state[$id] == "enabled" ) {
+						echo '<input type="submit" name="toggle" value="'.$lb_state[$id].'" class="formButton" style="background-color: #00ff00; ">';
+					} else if  ( $lb_state[$id] == "disabled" ) {
+						echo '<input type="submit" name="toggle" value="'.$lb_state[$id].'" class="formButton" style="background-color: #ff0000; ">';
+					}
+					?>
+					</form>
+				</div>
+			</td>
+			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
+			<? 
+			if(!$_SESSION['read_only']){
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="images/edit.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a></td>');
+   			}
+			?>  
+		</tr>  
 <?php
 	}
 }

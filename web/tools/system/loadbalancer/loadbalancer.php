@@ -24,6 +24,7 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
+require ("../../../../config/tools/system/loadbalancer/local.inc.php");
 include("lib/db_connect.php");
 
 $table=$config->table_lb;
@@ -35,7 +36,7 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
-
+ 
 #################
 # start add new #
 #################
@@ -133,6 +134,36 @@ if ($action=="edit")
 #############
 # end edit  #
 #############
+
+require ("../../../common/cfg_comm.php");
+
+#################
+# start toggle #
+#################
+
+if ($action=="toggle"){
+
+	$toggle_button= $_GET['toggle_button'];
+	$id = $_GET['id'];
+	if ($toggle_button=="enabled") {
+		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		for($i=0;$i<count($mi_connectors);$i++) {
+			mi_command("lb_status $id 0", $mi_connectors[$i], $mi_type, $errors , $status);
+			print_r($errors);
+			$status = trim($status);
+		}
+		$toggle_button = "disabled";
+	} else if ($toggle_button=="disabled") {
+		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		for($i=0;$i<count($mi_connectors);$i++) {
+			print_r($mi_connectors);
+			mi_command("lb_status $id 1", $mi_connectors[$i], $mi_type, $errors , $status);
+			print_r($errors);
+			$status = trim($status);
+		}
+		$toggle_button = "enabled";
+	}
+} 
 
 #################
 # start modify	#
