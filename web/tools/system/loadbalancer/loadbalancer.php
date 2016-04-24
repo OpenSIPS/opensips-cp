@@ -156,7 +156,6 @@ if ($action=="toggle"){
 	} else if ($toggle_button=="disabled") {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		for($i=0;$i<count($mi_connectors);$i++) {
-			print_r($mi_connectors);
 			mi_command("lb_status $id 1", $mi_connectors[$i], $mi_type, $errors , $status);
 			print_r($errors);
 			$status = trim($status);
