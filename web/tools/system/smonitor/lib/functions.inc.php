@@ -47,11 +47,11 @@ include("db_connect.php");
 
 function get_mi_modules($mi_url)
 {
- global $config;
+	global $config;
  
- $message=mi_command("get_statistics all", $mi_url, $mi_type, $errors, $status);
-
- if ($errors) {echo($errors[0]); return;}
+	$message=mi_command("get_statistics all", $mi_url, $mi_type, $errors, $status);
+	if ($errors)
+		return;
 
 	if ($mi_type == "json") {
 		$message = json_decode($message,true);
@@ -99,7 +99,8 @@ function get_vars($module, $mi_url)
 
 	$command="get_statistics ".$module.":";
 	$message=mi_command($command,$mi_url,$mi_type,$errors,$status);
-	if ($errors) {echo($errors[0]); return;}
+	if ($errors)
+		return;
 
 	if ($mi_type == "json") {
 		$message = json_decode($message,true);
@@ -128,10 +129,8 @@ function get_vars_type( $mi_url )
 	global $config;
  
 	$message=mi_command("list_statistics", $mi_url, $mi_type, $errors,$status);
-	if ($errors) {
-		echo($errors[0]);
+	if ($errors)
 		return;
-	}
 
 	$gauge_arr = array();
 
@@ -168,10 +167,8 @@ function get_all_vars( $mi_url , $stats_list)
 	} else {
 		$message=mi_command("get_statistics ".$stats_list, $mi_url, $mi_type, $errors,$status);
 	}
-	if ($errors) {
-		echo($errors[0]); 
+	if ($errors) 
 		return;
-	}
 
 	if ($mi_type == "json"){
 		$message = json_decode($message,true);
@@ -193,9 +190,6 @@ function reset_var($stats, $mi_url)
  
  	$message=mi_command("reset_statistics ".$stats, $mi_url, $mi_type, $errors,$status);
 
-	if ($errors) {echo($errors[0]); return;}
-	/* we accept any 2xx as ok */
-	// if (substr($status,0,1)!="2") {echo($status); return;}
 	return;
 }
 

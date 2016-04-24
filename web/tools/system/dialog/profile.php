@@ -34,24 +34,6 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
-################
-# start load   #
-################
-if ($action=="load") {
-	extract($_POST);
-	$profile = $_POST['profile'];
-    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    // get status from the first one only
-    $message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $mi_type, $errors , $status);
-    print_r($errors);
-    $status = trim($status);
-	$_SESSION['message']=$message;
-}
-
-##############
-# end load   #
-##############
-
 
 ################
 # start delete #
@@ -67,8 +49,6 @@ if ($action=="delete")
                 for ($i=0;$i<count($mi_connectors);$i++){
 
                         mi_command("dlg_end_dlg ".$h_entry." ".$h_id, $mi_connectors[$i], $mi_type, $errors, $status);
-                        print_r($errors);
-                        $status = trim($status);
                 }
         }else{
 

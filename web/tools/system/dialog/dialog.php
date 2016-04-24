@@ -44,9 +44,6 @@ if ($action=="refresh") {
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// take the list from the first box only
 	$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
-	$message=mi_command($comm, $mi_connectors[0], $mi_type, $errors,$status);
-	print_r($errors);
-	$status = trim($status);
 }
 
 ##############
@@ -66,11 +63,7 @@ if ($action=="delete")
 		$h_id=$_GET['h_id'];
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         	for ($i=0;$i<count($mi_connectors);$i++){
-
-	                mi_command("dlg_end_dlg ".$h_entry." ".$h_id,  $mi_connectors[$i], $mi_type, $errors,$status);
-        	        print_r($errors);
-                	$status = trim($status);
-
+				mi_command("dlg_end_dlg ".$h_entry." ".$h_id,  $mi_connectors[$i], $mi_type, $errors,$status);
 			}
 	}else{
 

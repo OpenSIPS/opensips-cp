@@ -27,8 +27,6 @@ require ("../../../../config/tools/system/dialog/local.inc.php");
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// get status from the first one only
 	$message=mi_command("list_all_profiles", $mi_connectors[0], $mi_type, $errors , $status);
-	print_r($errors);
-	$status = trim($status);
 
 	if ($mi_type != "json"){
 		$message = explode("\n",trim($message));

@@ -45,15 +45,8 @@ for ($i=0;$i<count($mi_connectors);$i++){
 
 	$message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
 
-	if ($errors) {
-		echo "<font color='red'><b>".$errors[0]."</b></font>";
-	} else {
-		if (substr(trim($status),0,3) != "200"){
-			echo "<font color='red'><b>".substr(trim($status),4)."</b></font>";
-		}
-		else {
-			echo "<font color='green'><b>Success</b></font>";
-		}
+	if (!$errors) {
+		echo "<font color='green'><b>Success</b></font>";
 	}
 	echo "<br>";
 }

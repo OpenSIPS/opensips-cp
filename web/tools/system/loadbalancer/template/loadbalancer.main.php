@@ -136,8 +136,6 @@ else {
 	// get in memory status for the entries we want to list
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	$message = mi_command('lb_list', $mi_connectors[0], $mi_type, $errors,$status);
-	print_r($errors);
-	$status = trim($status);
 
 	$lb_state = array();
 	$lb_res = array();

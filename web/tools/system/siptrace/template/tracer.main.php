@@ -30,19 +30,27 @@ if (!isset($toggle_button)) {
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 	$message = mi_command("sip_trace" ,$mi_connectors[0], $mi_type, $errors , $status);
-	print_r($errors);
-	if ($mi_type != "json"){
+
+	if ($mi_type != "json") {
 		$message = trim($message);
-	}
-	else {
-		$message = json_decode($message,true);
+		if (preg_match("/global:: (\w+)/", $message, $matches)) {
+			$message = $matches[1];
+		}
+	} else {
+		printf("---|".$message."|----");
+		if (preg_match("/\"global\":\"([a-z])\"/", $message, $matches)) {
+			$message = $matches[1];
+		}
+		print_r($message);
 		$message = $message['value'];
 	}
-	if ($message == "on")
-	$toggle_button = "disable";
 
-	if ($message == "off")
-	$toggle_button = "enable";
+	if ($message == "on")
+		$toggle_button = "disable";
+	else if ($message == "off")
+		$toggle_button = "enable";
+	else
+		$toggle_button = "";
 
 }
 

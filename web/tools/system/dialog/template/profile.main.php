@@ -36,7 +36,7 @@
           <td align="left" class="searchRecord" ><input name="profile_param" type="text" class="searchInput"></td>
   </tr>
  <tr height="10">
-        <td class="searchRecord" align="center" colspan="2"><input type="checkbox" name="sizes" > List dialogs in the selected profile</td>
+        <td class="searchRecord" align="center" colspan="2"><input type="checkbox" name="dialogs" > List dialogs in the selected profile</td>
  </tr>
  <!--tr height="10">
         <td align="center" colspan="2"><input type="checkbox" name="dialogs"> List the dialogs in the selected profile</td>
@@ -51,7 +51,7 @@
 </table>
 <br><br>
 <?php
-if (isset($_POST['sizes'])) {
+if (isset($_POST['submit'])) {
 ?>
 	<table width="95%" cellspacing="2" cellpadding="2" border="0">
 	<tr align="center">
@@ -68,8 +68,6 @@ if (isset($_POST['sizes'])) {
 			$msg=mi_command("profile_get_size $profile", $mi_connectors[0], $mi_type, $errors , $status);
 		else
 			$msg=mi_command("profile_get_size $profile $profile_param", $mi_connectors[0], $mi_type, $errors , $status);
-		print_r($errors);
-		$status = trim($status);
 
 		if (!empty($msg)) {
 			if ($mi_type != "json") {
@@ -107,31 +105,35 @@ if (isset($_POST['dialogs'])) {
   ?>
  </tr>
  <?php
- $message=$_SESSION['message'];
-$data_no=count($message);
-if ($data_no==0) echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else {
+	if ($profile_size=="0")
+		echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+	else {
+		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		// get status from the first one only
+		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $mi_type, $errors , $status);
 
+		$n = 0;
+		if ($mi_type!="json") {
+			$temp = explode ("dialog:: ",$message);
+			$recno = count($temp);
+			for ($i=1;$i<$recno;$i++) {
+				preg_match_all('/hash=\d+:\d+\s+/',$temp[$i],$hash);
+				$temp[$i] = substr($temp[$i],strlen($hash[0][0]),strlen($temp[$i]));
+				$temptemp = explode ("\n",$temp[$i]);
 
-                $temp = explode ("dialog:: ",$message);
-                $recno = count($temp);
-                for ($i=1;$i<$recno;$i++) {
-                        preg_match_all('/hash=\d+:\d+\s+/',$temp[$i],$hash);
-                        $temp[$i] = substr($temp[$i],strlen($hash[0][0]),strlen($temp[$i]));
-                        $temptemp = explode ("\n",$temp[$i]);
-
-                        for ($j=0;$j<count($temptemp);$j++){
-                                $tmp = explode (":: ",$temptemp[$j]);
-                                $res[trim($tmp[0])]=$tmp[1];
-                        }
+				for ($j=0;$j<count($temptemp);$j++){
+					$tmp = explode (":: ",$temptemp[$j]);
+					$res[trim($tmp[0])]=$tmp[1];
+				}
 
 
                 //unset($temp);
                 unset($temptemp);
-        //get h_id & h_entry
+				//get h_id & h_entry
 
                 $hashtemp = explode ("=",$hash[0][0]);
                 $hashie = explode(":",$hashtemp[1]);
+
                 $entry[$i]['h_entry'] = $hashie[0];
                 $entry[$i]['h_id'] = $hashie[1];
 
@@ -139,50 +141,64 @@ else {
                         $delete_link='<a href="'.$page_name.'?action=delete&h_id='.$entry[$i]['h_id'].'&h_entry='.$entry[$i]['h_entry'].'" onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
                 }
 
-echo '<tr>';
+				$entry[$i]['state']=$res['state'];
 
-
-if ($res['state']==1) $entry[$i]['state']="Unconfirmed Call";
-                else if ($res['state']==2) $entry[$i]['state']="Early Call";
-                else if ($res['state']==3) $entry[$i]['state']="Confirmed Not Acknoledged Call";
-                else if ($res['state']==4) $entry[$i]['state']="Confirmed Call";
-                else if ($res['state']==5) $entry[$i]['state']="Deleted Call";
-
-
-        //timestart
-
+				//timestart
                 $entry[$i]['start_time'] = date("Y-m-d H:i:s",$res['timestart']);
 
-        //toURI
-
+				//toURI
                 $entry[$i]['toURI']=$res['to_uri'];
 
-        //fromURI
-
+				//fromURI
                 $entry[$i]['fromURI']=$res['from_uri'];
 
-        //callID
-
+				//callID
                 $entry[$i]['callID']=$res['callid'];
 
                 unset($res);
 
- if ($i%2==1) $row_style="rowOdd";
- else $row_style="rowEven";
+				$n++;
 
+        	} //for
 
-  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["callID"]."</td>";
-  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["fromURI"]."</td>";
-  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["toURI"]."</td>";
-  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["start_time"]."</td>";
-  echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
+		} else {
 
-   if(!$_SESSION['read_only']){
-        echo('<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
-   }
+			// JSON handling
+			$message = json_decode($message,true);
+			for ($i=0;$i<count($message['dialog']);$i++) {
+				$dlg = $message['dialog'][$i];
+				print_r($dlg);
+				$n++;
+			}
 
-  echo '</tr>';
-        }
+		}
+
+		// display stuff
+		for ($i=1;$i<$m;$i++) {
+			if ($i%2==1) $row_style="rowOdd";
+			else $row_style="rowEven";
+
+			if ($entry[$i]['state']==1) $entry[$i]['state']="Unconfirmed Call";
+            else if ($entry[$i]['state']==2) $entry[$i]['state']="Early Call";
+            else if ($entry[$i]['state']==3) $entry[$i]['state']="Confirmed Not Acknoledged Call";
+            else if ($entry[$i]['state']==4) $entry[$i]['state']="Confirmed Call";
+            else if ($entry[$i]['state']==5) $entry[$i]['state']="Deleted Call";
+
+			echo '<tr>';
+
+			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["callID"]."</td>";
+			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["fromURI"]."</td>";
+  			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["toURI"]."</td>";
+  			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["start_time"]."</td>";
+  			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
+
+			if(!$_SESSION['read_only']){
+				echo('<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+			}
+
+			echo '</tr>';
+		}
+
 }
 unset($entry);
 

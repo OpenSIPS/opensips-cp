@@ -346,6 +346,10 @@ function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 			$errors[] = "MI command failed with ".$status;
 		}
 	}
+	if ($errors) {
+		echo "<font color='red'>".$errors[0]."</font>";
+	}
+
     return $output; 
 }
 

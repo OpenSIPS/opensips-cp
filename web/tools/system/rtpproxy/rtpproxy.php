@@ -53,8 +53,6 @@ if ($action=="change_state"){
 		} else {
 			mi_command("rtpproxy_enable $sock 1" , $mi_connectors[$i], $mi_type, $errors , $status);
 		}
-		print_r($errors);
-		$status = trim($status);
 	}
 
 } 

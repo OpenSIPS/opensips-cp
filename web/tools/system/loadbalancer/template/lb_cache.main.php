@@ -28,8 +28,6 @@
 	for ($i=0;$i<count($mi_connectors);$i++){
 
                 $message = mi_command('lb_list', $mi_connectors[$i], $mi_type, $errors,$status);
-                print_r($errors);
-                $status = trim($status);
 				
 				if ($mi_type != "json"){
 	                $message = trim($message);
