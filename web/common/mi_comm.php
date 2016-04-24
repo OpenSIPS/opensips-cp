@@ -303,7 +303,7 @@ function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 				$errors[] = "No port found in UDP MI URL <".$mi_url.">";
 				return;
 			}
-			return write2udp($command,$a[1]/*host*/,$a[2]/*port*/,$errors,$status);
+			$output = write2udp($command,$a[1]/*host*/,$a[2]/*port*/,$errors,$status);
 			break;
 
 		case "xmlrpc":
@@ -316,7 +316,7 @@ function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 				$errors[] = "No port found in XMLRPC MI URL <".$mi_url.">";
 				return;
 			}
-			return write2xmlrpc($command,$a[1]/*host*/,$a[2]/*port*/,$errors,$status);
+			$output = write2xmlrpc($command,$a[1]/*host*/,$a[2]/*port*/,$errors,$status);
 			break;
 
 		case "fifo":
@@ -325,7 +325,7 @@ function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 				$errors[] = "No file found in FIFO MI URL <".$mi_url.">";
 				return;
 			}
-			return write2fifo($command, $a[1] /*fifo filename*/, $errors, $status);
+			$output = write2fifo($command, $a[1] /*fifo filename*/, $errors, $status);
 			break;
 
 		case "json":
@@ -334,14 +334,19 @@ function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 				$errors[] = "No URL found in JSON MI URL <".$mi_url.">";
 				return;
 			}
-			return write2json($command,substr($mi_url,5)/*URL*/,$errors,$status);
+			$output = write2json($command,substr($mi_url,5)/*URL*/,$errors,$status);
 			break;
 		default:
 			$errors[] = "Unknwon type[".$a[0]."] for MI URL <".$mi_url.">";
 			return;
 	}
 
-    return; 
+	if ($status && preg_match("/([0-9][0-9][0-9])/",$status,$matches) ) {
+		if ( $matches[0] >=300) { 
+			$errors[] = "MI command failed with ".$status;
+		}
+	}
+    return $output; 
 }
 
 ?>

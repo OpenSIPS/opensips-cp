@@ -76,29 +76,20 @@ if ($_GET['action']=="execute")
 
 		if (count($errors)>0) {
 			$_SESSION['mi_response'][]=$errors[0];
-		}
-		else {
-			if (substr($status,0,1)!="2") {
-				$_SESSION['mi_response'][]=$status;
-			}
-			else {
-				if ($message!="") {
-					if ($mi_type != "json"){	
-						$_SESSION['mi_response'][]=$message;
-					}
-					else {
-						$res = json_decode($message,true);
-						if (count($res) == 0){
-							$_SESSION['mi_response'][]="Successfully executed, no output generated";
-						}
-						else {
-							$_SESSION['mi_response'][]=print_r($res,true);
-						}
+		} else {
+			if ($message!="") {
+				if ($mi_type != "json"){	
+					$_SESSION['mi_response'][]=$message;
+				} else {
+					$res = json_decode($message,true);
+					if (count($res) == 0){
+						$_SESSION['mi_response'][]="Successfully executed, no output generated";
+					} else {
+						$_SESSION['mi_response'][]=print_r($res,true);
 					}
 				}
-				else {
-					$_SESSION['mi_response'][]="Successfully executed, no output generated";
-				}
+			} else {
+				$_SESSION['mi_response'][]="Successfully executed, no output generated";
 			}
 		}
 	}
