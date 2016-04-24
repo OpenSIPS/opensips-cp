@@ -145,7 +145,7 @@ else {
 
 	if ($mi_type != "json"){
 		$message = trim($message);
-		$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-reenable=(?P<autore>on|off)\s+Resources(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
+		$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-reenable=(?P<autore>on|off)\s+Resources\:\:(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
 		preg_match_all($pattern,$message,$matches);
 		for ($i=0; $i<count($matches[0]);$i++) {
 			$id			= $matches['id'][$i];
@@ -156,7 +156,7 @@ else {
 			$resource="";
 			for ($j=0;$j<count($resources[0]);$j++) {
 				$resource .= "<tr>";
-				$resource .= "<td>".$resources['resource_name'][$j]." = ".$resources['resource_load'][$j]."/".$resources['resource_max_load'][$j]."</td>";
+				$resource .= "<td>".$resources['resource_name'][$j]."=".$resources['resource_load'][$j]."/".$resources['resource_max_load'][$j]."</td>";
 				$resource .= "</tr>";
 			}
 			$lb_res[$id] = "<table>".$resource."</table>";
