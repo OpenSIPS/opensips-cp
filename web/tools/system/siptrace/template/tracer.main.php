@@ -37,12 +37,8 @@ if (!isset($toggle_button)) {
 			$message = $matches[1];
 		}
 	} else {
-		printf("---|".$message."|----");
-		if (preg_match("/\"global\":\"([a-z])\"/", $message, $matches)) {
-			$message = $matches[1];
-		}
-		print_r($message);
-		$message = $message['value'];
+		$message = json_decode($message, TRUE);
+		$message = $message['global'];
 	}
 
 	if ($message == "on")
