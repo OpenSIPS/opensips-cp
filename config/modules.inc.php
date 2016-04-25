@@ -88,6 +88,10 @@ $config_modules 	= array (
 																									"enabled"	=> true,
 																									"name"		=> "Dynamic Routing"
 																							),
+																		"clusterer"			=> array (
+																									"enabled"	=> true,
+																									"name"		=> "Clusterer"
+																							),
 																		"loadbalancer"		=> array (
 																									"enabled"	=> true,
 																									"name"		=> "Load Balancer"

@@ -1,7 +1,6 @@
 <?php
 /*
- * $Id$
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2016 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
  * OpenSIPS SIP server.
@@ -21,14 +20,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- $config->menu_item = array(
-    array(
-          "loadbalancer.php", // page name
-          "DB List" // menu name
-    ),
-    array(
-          "lb_cache.php", // page name
-          "Cache List" // menu name
-    )
- );
+###############################################################################
+ 
+ //database tables
+ $config->table_clusterer = "clusterer";
+
+ // system to talk to via MI ?  
+ $talk_to_this_assoc_id = 1 ;
+
+ 
 ?>
