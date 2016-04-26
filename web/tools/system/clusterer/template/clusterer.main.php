@@ -23,13 +23,13 @@
 <div id="dialog" class="dialog" style="display:none"></div>
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
-<form action="<?=$page_name?>?action=dp_act" method="post">
+<form action="<?=$page_name?>?action=search" method="post">
 
 <?php
 $sql_search="";
 $search_cid=$_SESSION['cl_cid'];
 $search_url=$_SESSION['cl_url'];
-if($search_cid!="") $sql_search.=" and cluster_id=".$search_src;
+if($search_cid!="") $sql_search.=" and cluster_id=".$search_cid;
 if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
 require("lib/".$page_id.".main.js");
 
@@ -86,7 +86,7 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1)";
+if ($sql_search=="") $sql_command="select * from ".$table;
 else $sql_command="select * from ".$table." where (1=1) ".$sql_search;
 $resultset = $link->queryAll($sql_command);
 if(PEAR::isError($resultset)) {
