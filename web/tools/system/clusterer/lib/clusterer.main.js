@@ -9,6 +9,22 @@ function confirmDelete(id)
   else return false;
 }
 
+function validateFormCLAdd() {
+    var cid = document.forms["cl_add"]["cln_cid"].value;
+    var sid = document.forms["cl_add"]["cln_sid"].value;
+    var url = document.forms["cl_add"]["cln_url"].value;
+    if (cid == null || cid == "") {
+        alert("Cluster ID must be filled out");
+        return false;
+    }
+	if ( ! /^([0-9]+$/.test(cid)) {
+        alert("Cluster ID must be numerical");
+        return false;
+	}
+        alert("Cluster ID must be filled out");
+}
+
+
 function handleHttpResponse(http) {   
 		
     if (http.readyState == 4) {

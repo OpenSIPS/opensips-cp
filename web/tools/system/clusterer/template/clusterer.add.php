@@ -20,13 +20,20 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 ?>
-<form action="<?=$page_name?>?action=add_verify" method="post">
+
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
+<?php
+require("lib/".$page_id.".main.js");
+?>
+
+<form name="cl_add" action="<?=$page_name?>?action=add_verify" onsubmit="return validateFormCLAdd()" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="clustererTitle">New CLuster Node Definition</td>
  </tr>
-<?php
-?>
  <tr>
   <td class="dataRecord"><b>Cluster ID:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="cln_cid" 

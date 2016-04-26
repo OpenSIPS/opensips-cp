@@ -72,7 +72,7 @@ if ($action=="add_verify")
 		$cln_cid=$_POST['cln_cid'];
 		$cln_sid=$_POST['cln_sid'];
 		$cln_url=$_POST['cln_url'];
-		$cld_description=$_POST['cld_description'];
+		$cln_description=$_POST['cln_description'];
 
 		$sql = "SELECT * FROM ".$table.
 			" WHERE cluster_id=".$cln_cid." and (machine_id=".$cln_sid." or url='".$cln_url."')";
@@ -124,55 +124,46 @@ if ($action=="edit")
 #############
 
 #################
-# start modify	# FIXME
+# start modify	#
 #################
 if ($action=="modify")
 {
-
 	$info="";
 	$errors="";
 
 	if(!$_SESSION['read_only']){
 
-		$id = $_GET['id'];
-                $grp=$_POST['grp'];
-                $src_ip=$_POST['src_ip'];
-                $mask=$_POST['mask'];
-                $port=$_POST['port'];
-                $proto=$_POST['proto'];
-                $from_pattern = $_POST['from_pattern'];
-                $context_info= $_POST['context_info'];
+		$cle_id = $_GET['id'];
+		$cle_cid=$_POST['cle_cid'];
+		$cle_sid=$_POST['cle_sid'];
+		$cle_url=$_POST['cle_url'];
+		$cle_description=$_POST['cle_description'];
 
-
-
-		if ( $src_ip=="" || $proto=="" ){
+		if ( $cle_cid=="" || $cle_sid=="" || $cle_url=="" ){
 			$errors = "Invalid data, the entry was not modified in the database";
-		}
-		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE ip_addr='" .$src_ip. "' AND proto='" . $proto. "' AND id!=".$id;
-	                if(PEAR::isError($resultset)) {
-                                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                        }
-	
+		} else {
+			$sql = "SELECT * FROM ".$table.
+				" WHERE id!=".$cli_id." cluster_id=".$cle_cid." and (machine_id=".$cle_sid." or url='".$cle_url."')";
+			$resultset = $link->queryAll($sql);
+			if(PEAR::isError($resultset)) {
+				die('Failed to issue query, error message : ' . $resultset->getMessage());
+			}
+
 			if (count($resultset)>0) {
-				$errors="Duplicate rule";
+				$errors="Duplicate Cluster Node!";
 			} else {
-
-				$sql = "UPDATE ".$table." SET grp=".$grp.", ip='".$src_ip."', mask=".$mask.", port=".$port.", proto = '".$proto.
-				"', pattern= '".$from_pattern."', context_info='".$context_info."' WHERE id=".$id;
-				$resultset = $link->prepare($sql);
-				$resultset->execute();
-				$resultset->free();
-
-				$info="The new rule was modified";
+				$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", machine_id=".$cle_sid.", url='".$cle_url."', description='".$cle_description."' where id=".$cle_id;
+				$resultset = $link->exec($sql);
+				if(PEAR::isError($resultset)) {
+            	    die('Failed to issue query, error message : ' . $resultset->getMessage());
+            	}
+				$info="The cluster node was modified";
 			}
 			$link->disconnect();
 		}
 	}else{
-
 		$errors= "User with Read-Only Rights";
 	}
-
 }
 #################
 # end modify	#
