@@ -143,14 +143,14 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		} else {
 			$sql = "SELECT * FROM ".$table.
-				" WHERE id!=".$cli_id." cluster_id=".$cle_cid." and machine_id=".$cle_sid;
+				" WHERE id!=".$cle_id." and cluster_id=".$cle_cid." and machine_id=".$cle_sid;
 			$resultset = $link->queryAll($sql);
 			if(PEAR::isError($resultset)) {
 				die('Failed to issue query, error message : ' . $resultset->getMessage());
 			}
 
 			if (count($resultset)>0) {
-				$errors="Duplicate Cluster Node!";
+				$errors="Duplicate Cluster Node, database was not changed";
 			} else {
 				$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", machine_id=".$cle_sid.", url='".$cle_url."', description='".$cle_description."' where id=".$cle_id;
 				$resultset = $link->exec($sql);
@@ -219,7 +219,7 @@ if ($action=="search")
 
 require("template/".$page_id.".main.php");
 if($errors)
-echo('!!! ');echo($errors);
+echo("<font color='red'><b>".$errors."</b></font>");
 require("template/footer.php");
 exit();
 
