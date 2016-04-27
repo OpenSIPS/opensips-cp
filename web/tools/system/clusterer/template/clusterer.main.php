@@ -75,8 +75,8 @@ if(!$_SESSION['read_only']){
   <th class="clustererTitle">Cluster ID</th>
   <th class="clustererTitle">Server ID</th>
   <th class="clustererTitle">URL</th>
-  <th class="clustererTitle">State</th>
   <th class="clustererTitle">Description</th>
+  <th class="clustererTitle">Details</th>
   <?
   if(!$_SESSION['read_only']){
 
@@ -102,6 +102,8 @@ else
 		if ($i%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
+		$node_details='<a href="details.php?id='.($resultset[$i]['id']).'" class="menuItem"> <img src="images/details.gif" border="0" onClick="window.open(\'details.php?id='.($resultset[$i]['id']).'\',\'info\',\'scrollbars=1,width=300,height=350\');return false;"></td></a>&nbsp';
+
 		if(!$_SESSION['read_only']){
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
@@ -112,8 +114,8 @@ else
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['cluster_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['machine_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['url']?></td>
-			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['state']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
+		 	<td class="<?=$row_style?>" align="center"><?php echo $node_details?></td>
  			<? 
  			if(!$_SESSION['read_only']){
 				echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
