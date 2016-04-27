@@ -27,8 +27,15 @@
 	$resultset = $link->queryAll($sql);
 	$link->disconnect();
 ?>
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 
-<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
+<?php
+require("lib/".$page_id.".main.js");
+?>
+
+<form name="cl_edit" action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" onsubmit="return validateFormCLAdd('cl_edit','cle_cid','cle_sid','cle_url')" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="clustererTitle">Edit CLuster Node Definition</td>

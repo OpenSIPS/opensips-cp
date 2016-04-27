@@ -75,7 +75,7 @@ if ($action=="add_verify")
 		$cln_description=$_POST['cln_description'];
 
 		$sql = "SELECT * FROM ".$table.
-			" WHERE cluster_id=".$cln_cid." and (machine_id=".$cln_sid." or url='".$cln_url."')";
+			" WHERE cluster_id=".$cln_cid." and machine_id=".$cln_sid;
 		$resultset = $link->queryAll($sql);
 		if(PEAR::isError($resultset)) {
 			die('Failed to issue query, error message : ' . $resultset->getMessage());
@@ -143,7 +143,7 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		} else {
 			$sql = "SELECT * FROM ".$table.
-				" WHERE id!=".$cli_id." cluster_id=".$cle_cid." and (machine_id=".$cle_sid." or url='".$cle_url."')";
+				" WHERE id!=".$cli_id." cluster_id=".$cle_cid." and machine_id=".$cle_sid;
 			$resultset = $link->queryAll($sql);
 			if(PEAR::isError($resultset)) {
 				die('Failed to issue query, error message : ' . $resultset->getMessage());

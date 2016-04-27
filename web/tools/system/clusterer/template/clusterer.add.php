@@ -29,7 +29,7 @@
 require("lib/".$page_id.".main.js");
 ?>
 
-<form name="cl_add" action="<?=$page_name?>?action=add_verify" onsubmit="return validateFormCLAdd()" method="post">
+<form name="cl_add" action="<?=$page_name?>?action=add_verify" onsubmit="return validateFormCLAdd('cl_add','cln_cid','cln_sid','cln_url')" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="clustererTitle">New CLuster Node Definition</td>
