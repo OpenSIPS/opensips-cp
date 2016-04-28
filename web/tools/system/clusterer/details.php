@@ -41,7 +41,7 @@ if ($mi_type=='json') {
 		$cid = $message['Cluster'][$c]['value'];
 		$servers=$message['Cluster'][$c]['children']['Server'];
 		for ($s=0;$s<count($servers);$s++) {
-			if ($servers[$s]['attributes']['DB ID']==$_GET['id']) {
+			if ($servers[$s]['attributes']['DB_ID']==$_GET['id']) {
 				$sid = $servers[$s]['value'];
 				$attr = $servers[$s]['attributes'];
 				break;
@@ -73,13 +73,13 @@ if ($mi_type=='json') {
 </head>
 
 <body bgcolor="#e9ecef">
+<center>
 
 <?php
 if ($sid=="") {
-	echo("<font color='red'><b>Your OpenSIPS has no in-memory info about node ".$_GET['id']."</br></font>");
+	echo("<font color='red'><b>Your OpenSIPS has no in-memory <br>info about node ".$_GET['id']."</br></font>");
 } else {	
 	?>
-	<center>
 	<table width="90%" cellpadding="5" cellspacing="5" border="0" align="center">
  		<tr><td class="rowOdd"><b>Cluster ID</b></td><td><?php print "$cid"?></td></tr>
  		<tr><td class="rowEven"><b>Server ID</b></td><td><?php print "$sid"?></td></tr>
