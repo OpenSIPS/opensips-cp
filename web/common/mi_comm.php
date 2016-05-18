@@ -53,9 +53,10 @@ function write2json($command, $json_url, &$errors, &$status){
 	curl_close($ch);
 
 	//search for errors inside the reply
-	if (substr($response,2,5) == "error"){
-		$err = json_decode($response,true);
-		$errors [] = $err["error"];
+	$err = json_decode($response,true);
+	if ($err["error"]) {
+		// error is reported
+		$errors[] = "Error code ".$err["error"]["code"]." (".$err["error"]["message"].")";
 	}
 	
 	return $response;
