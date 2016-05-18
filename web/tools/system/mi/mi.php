@@ -75,7 +75,7 @@ if ($_GET['action']=="execute")
 		$_SESSION['mi_box'][]=$current_box ;
 
 		if (count($errors)>0) {
-			$_SESSION['mi_response'][]=$errors[0];
+			$_SESSION['mi_response'][]="<font color='red'>".$errors[0]."</font>";
 		} else {
 			if ($message!="") {
 				if ($mi_type != "json"){	
