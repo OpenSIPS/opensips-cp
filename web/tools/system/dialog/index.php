@@ -25,7 +25,7 @@
  include("../../../common/cfg_comm.php");
  require("lib/functions.inc.php");
  session_start();
- get_priv();
+ get_priv("dialog");
  header("Location: dialog.php");
  
 ?>

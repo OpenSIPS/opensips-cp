@@ -65,47 +65,46 @@ function get_all_proxys_by_assoc_id($my_assoc_id){
 }
 
 
-function get_priv() {
+function get_priv($my_tool) {
 
-        $modules = get_modules();
+		$modules = get_modules();
 
-        foreach($modules['Admin'] as $key=>$value) {
-                $all_tools[$key] = $value;
-        }
-        foreach($modules['Users'] as $key=>$value) {
-                $all_tools[$key] = $value;
-        }
-        foreach($modules['System'] as $key=>$value) {
-                $all_tools[$key] = $value;
-        }
+		foreach($modules['Admin'] as $key=>$value) {
+				$all_tools[$key] = $value;
+		}
+		foreach($modules['Users'] as $key=>$value) {
+				$all_tools[$key] = $value;
+		}
+		foreach($modules['System'] as $key=>$value) {
+				$all_tools[$key] = $value;
+		}
 
-        if($_SESSION['user_tabs']=="*") {
-                foreach ($all_tools as $lable=>$val) {
-                        $available_tabs[]=$lable;
-                }
-        } else {
-                $available_tabs=explode(",",$_SESSION['user_tabs']);
-        }
+		if($_SESSION['user_tabs']=="*") {
+				foreach ($all_tools as $lable=>$val) {
+						$available_tabs[]=$lable;
+				}
+		} else {
+				$available_tabs=explode(",",$_SESSION['user_tabs']);
+		}
 
-        if ($_SESSION['user_priv']=="*") {
-                $_SESSION['read_only'] = false;
-		$_SESSION['permission'] = "Read-Write";
-        } else {
-                $available_privs=explode(",",$_SESSION['user_priv']);
-                if( ($key = array_search("dialog", $available_tabs))!==false) {
-                        if ($available_privs[$key]=="read-only"){
-                                $_SESSION['read_only'] = true;
-				$_SESSION['permission'] = "Read-Only";
-                        }
-                        if ($available_privs[$key]=="read-write"){
-                                $_SESSION['read_only'] = false;
+		if ($_SESSION['user_priv']=="*") {
+				$_SESSION['read_only'] = false;
 				$_SESSION['permission'] = "Read-Write";
-                        }
+		} else {
+				$available_privs=explode(",",$_SESSION['user_priv']);
+				if( ($key = array_search($my_tool, $available_tabs))!==false) {
+						if ($available_privs[$key]=="read-only"){
+								$_SESSION['read_only'] = true;
+								$_SESSION['permission'] = "Read-Only";
+						}
+						if ($available_privs[$key]=="read-write"){
+								$_SESSION['read_only'] = false;
+								$_SESSION['permission'] = "Read-Write";
+						}
+				}
+		}
 
-                }
-        }
-
-        return;
+		return;
 
 }
 

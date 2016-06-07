@@ -21,9 +21,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("lib/functions.inc.php");
+ require("../../../common/cfg_comm.php");
  session_start();
- get_priv();
+ get_priv("acl_management");
  header("Location: acl_management.php");
  
 ?>

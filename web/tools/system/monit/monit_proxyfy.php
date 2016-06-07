@@ -27,7 +27,7 @@ require_once("../../../../config/tools/system/monit/local.inc.php");
 require_once("lib/functions.inc.php");
 
 session_start();
-get_priv();
+get_priv("monit");
 
 $box=$_SESSION['monit_current_box'];
 $var=$_GET['var'];

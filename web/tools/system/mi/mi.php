@@ -27,7 +27,7 @@ require("../../../../config/tools/system/mi/local.inc.php");
 require("lib/functions.inc.php");
 
 session_start();
-get_priv();
+get_priv("mi");
 
 $current_box=$_SESSION['mi_current_box'];
 if (empty($current_box))

@@ -26,7 +26,7 @@
  require("../../../common/cfg_comm.php");
 
  session_start();
- get_priv();
+ get_priv("siptrace");
  $_SESSION['detailed_callid']=array();
  $_SESSION['grouped_results']=true;
  header("Location: tracer.php");

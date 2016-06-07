@@ -23,7 +23,7 @@
 
  require("../../../common/cfg_comm.php");
  session_start();
- get_priv();
+ get_priv("domains");
  header("Location: domains.php");
  
 ?>

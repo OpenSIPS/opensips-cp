@@ -30,7 +30,7 @@ require("../../../../config/tools/system/cdrviewer/db.inc.php");
 unset($_SESSION['read_only']);
 session_start();
 $_SESSION['user_active_tool']="cdrviewer";
-get_priv();
+get_priv("cdrviewer");
 $_SESSION['detailed_callid']=array();
 $_SESSION['grouped_results']=true;
 header("Location: cdrviewer.php");

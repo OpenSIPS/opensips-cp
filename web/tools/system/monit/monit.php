@@ -28,7 +28,7 @@ require("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 
 session_start();
-get_priv();
+get_priv("monit");
 
 $current_box=$_SESSION['monit_current_box'];
 if (empty($current_box))

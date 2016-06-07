@@ -30,7 +30,7 @@
  require("lib/functions.inc.php");
 
  session_start();
- get_priv();
+ get_priv("smonitor");
 
  header("Location: rt_stats.php");
  

@@ -29,7 +29,7 @@
 
  require("../../../common/cfg_comm.php");
  session_start();
- get_priv();
+ get_priv("tviewer");
  header("Location: tviewer.php");
  
 ?>

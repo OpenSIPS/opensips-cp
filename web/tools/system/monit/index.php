@@ -26,6 +26,6 @@ require_once("../../../../config/tools/system/monit/local.inc.php");
 require("../../../common/cfg_comm.php");
 
 session_start();
-get_priv();
+get_priv("monit");
 header("Location: monit.php");
 ?>

@@ -30,7 +30,7 @@ require("../siptrace/lib/functions.inc.php");
 include("lib/db_connect.php");
 
 session_start();
-get_priv();
+get_priv("cdrviewer");
 $_SESSION['detailed_callid']=array();
 $_SESSION['grouped_results']=true;
 
