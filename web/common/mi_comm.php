@@ -275,18 +275,18 @@ function write2xmlrpc($command, $xmlrpc_host, $xmlrpc_port, &$errors,&$status){
 
 	$request = xmlrpc_encode_request($my_command, $params);
     $response = xml_do_call($xmlrpc_host, $xmlrpc_port, $request,$errors,$status);
-    $xml=(substr($response,strpos($response,"\r\n\r\n")+4));
+    $xml_str=(substr($response,strpos($response,"\r\n\r\n")+4));
 
-    preg_match('/HTTP\/\d.\d\s+(?P<status_code>\d+)\s+(?P<status_text>[A-Za-z\s]+)\s/',$response,$match);
-    $status = $match['status_code']." ".$match['status_text'];
-	if ($match['status_code'] != 200){
-		$errors [] = xmlrpc_decode($xml);
-		return xmlrpc_decode($xml);
+	//search for errors inside the reply
+	$xml = xmlrpc_decode($xml_str);
+	if (is_array($xml) && xmlrpc_is_fault($xml)) {
+		// error is reported
+		$errors[] = "Error code ".$xml["faultCode"]." (".$xml["faultString"].")";
 	}
-	else {
-		return xmlrpc_decode($xml);
-	}
+
+	return $xml;
 }
+
 
 function mi_command($command, $mi_url, &$mi_type, &$errors, &$status){
 
