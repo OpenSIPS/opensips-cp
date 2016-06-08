@@ -24,7 +24,6 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 include("lib/db_connect.php");
-require_once("lib/functions.inc.php");
 require("../../../../config/tools/admin/add_admin/local.inc.php");
 require("../../../../config/globals.php");
 $table=$config->table_addadmin;

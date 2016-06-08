@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../common/cfg_comm.php");
+ require_once("../../../common/cfg_comm.php");
  session_start();
  get_priv("list_admins");
  header("Location: list_admins.php");

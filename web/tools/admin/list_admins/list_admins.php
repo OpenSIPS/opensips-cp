@@ -28,6 +28,7 @@ require("../../../../config/tools/admin/list_admins/local.inc.php");
 require("../../../../config/db.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
+require_once("../../../common/cfg_comm.php");
 
 $table=$config->table_list_admins;
 $current_page="current_page_list_admins";
