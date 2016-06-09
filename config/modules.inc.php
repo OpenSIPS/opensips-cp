@@ -124,6 +124,10 @@ $config_modules 	= array (
 																									"enabled"	=> true,
 																									"name"		=> "Statistics Monitor"
 																							),
+																		"homer"				=> array (
+																									"enabled"	=> true,
+																									"name"		=> "Homer"
+																							),
 																		"tviewer"			=> array (
 																									"enabled"	=> true,
 																									"name"		=> "TViewer"
