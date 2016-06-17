@@ -210,7 +210,7 @@ if($action == "modify"){
 										"whitelist"=>$whitelist
 										));
 									$resultset->free();
-									$log = $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "none") ? "@" . $domain : "") . "<hr/>";
+									$log = $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "*") ? "@" . $domain : "") . "<hr/>";
 								}
 							}
 						}

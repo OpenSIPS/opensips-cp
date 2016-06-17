@@ -6,9 +6,9 @@ function verif_entries($username, $prefix, $domain, $whitelist){
 	$log = "";
 	// Determines if we can insert an entry in the database
 	$possible = false;
-	$log .= $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "none") ? "@" . $domain : "") . "<hr/>";
+	$log .= $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "*") ? "@" . $domain : "") . "<hr/>";
 	if($domain == "none") $domain = "";
-	$sql = "SELECT * FROM userblacklist WHERE (username='$username' AND prefix='$prefix' AND domain='none') XOR (username='$username' AND prefix='$prefix' AND domain='$domain')";
+	$sql = "SELECT * FROM userblacklist WHERE (username='$username' AND prefix='$prefix' AND domain='*') XOR (username='$username' AND prefix='$prefix' AND domain='$domain')";
 	$resultset = $link->query($sql);
 
 	if(PEAR::isError($resultset)) {
@@ -18,7 +18,7 @@ function verif_entries($username, $prefix, $domain, $whitelist){
 	// If one of the two available options exists, we verify which one is in the database, then we look if we can add the new entry
 	if ( $resultset->numRows() == 1 ) {
 		$resultset->free();
-		$sql = "SELECT * FROM userblacklist WHERE username='$username' AND prefix='$prefix' AND domain='none'";
+		$sql = "SELECT * FROM userblacklist WHERE username='$username' AND prefix='$prefix' AND domain='*'";
 
 		$resultset = $link->query($sql);
 
@@ -47,7 +47,7 @@ function verif_entries($username, $prefix, $domain, $whitelist){
 
 		$resultset->free();
 		// Only verify first option, because if it exists
-		$sql = "SELECT * FROM userblacklist WHERE (username='$username' AND prefix='$prefix' AND domain='none') AND (username='$username' AND prefix='$prefix' AND domain='$domain')";
+		$sql = "SELECT * FROM userblacklist WHERE (username='$username' AND prefix='$prefix' AND domain='*') AND (username='$username' AND prefix='$prefix' AND domain='$domain')";
 
 		$resultset = $link->query($sql);
 
