@@ -172,7 +172,7 @@ if($action == "modify"){
 		
 		if(strlen($domain) > 64) $error="Entered domain name too long (" . strlen($domain) . " chars, 64 max authorized) : ". htmlspecialchars($domain);
 		else{
-			if(isset($error)){
+			if(!isset($error)){
 				$sql = "SELECT * FROM userblacklist WHERE id='$id'";
 				$resultset = $link->query($sql);
 
@@ -180,7 +180,7 @@ if($action == "modify"){
 					die('Failed to issue query, error message : ' . $resultset->getMessage());
 				}
 
-				if ( $resultset->numRows() == 0 ) $error="This entry doesn't exist !";
+				if ( $resultset->numRows() == 0 ) $error = "This entry doesn't exist !";
 				else {
 					$resultset->free();
 					if(empty($prefix)) $error = "You have to specify a prefix !";

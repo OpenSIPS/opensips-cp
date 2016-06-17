@@ -7,7 +7,7 @@ function verif_entries($username, $prefix, $domain, $whitelist){
 	// Determines if we can insert an entry in the database
 	$possible = false;
 	$log .= $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "*") ? "@" . $domain : "") . "<hr/>";
-	if($domain == "none") $domain = "";
+	if($domain == "*") $domain = "";
 	$sql = "SELECT * FROM userblacklist WHERE (username='$username' AND prefix='$prefix' AND domain='*') XOR (username='$username' AND prefix='$prefix' AND domain='$domain')";
 	$resultset = $link->query($sql);
 
