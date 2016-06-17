@@ -33,17 +33,17 @@ $no_result = "No Data Found.";
 
 				<tr height="10">
 					<td class="searchRecord" align="right">Prefix / number</td>
-					<td class="searchRecord" align="left"><input name="prefix" class="searchInput" type="text"></td>
+					<td class="searchRecord" align="left"><input name="prefix" class="searchInput" type="text" maxlength="64" ></td>
 				</tr>
 
 				<tr height="10">
 					<td class="searchRecord" align="right">Username</td>
-					<td class="searchRecord" align="left"><input name="username" class="searchInput" type="text"></td>
+					<td class="searchRecord" align="left"><input name="username" class="searchInput" type="text" maxlength="64" ></td>
 				</tr>
 
 				<tr height="10">
 					<td class="searchRecord" align="right">Domain</td>
-					<td class="searchRecord" align="left"><?=print_domains_blacklist("lst_domain", "none")?></td>
+					<td class="searchRecord" align="left"><input name="domain" class="searchInput" value="<?=$entry['domain']?>" type="text" maxlength="64" /></td>
 				</tr>
 
 				<tr height="10">

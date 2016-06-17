@@ -43,28 +43,36 @@ if($action == "add"){
 if($action == "add_verify"){
 	if(!$_SESSION['read_only']){
 		$username = $_POST['username'];
-		$domain = $_POST['lst_domain'];
+		$domain = $_POST['domain'];
 		$prefix = $_POST['prefix'];
-		$whitelist = isset($_POST['whitelisted']) ? '1' : '0';
-		if(empty($prefix)) $error = "You have to specify a prefix !";
-		else{
-			if(empty($username)) $error = "You have to specify a username !";
-			else{
-				$verif = verif_entries($username, $prefix, $domain, $whitelist, $action);
-				if($verif[0]){
-					$sql = "INSERT INTO userblacklist (id, username, domain, prefix, whitelist) VALUES ('', :username, :domain, :prefix, :whitelist)";
-					$resultset = $link->prepare($sql);
 
-					$resultset->execute(array(
-						"username"=>$username,
-						"domain"=>$domain,
-						"prefix"=>$prefix,
-						"whitelist"=>$whitelist
-						));
-					$resultset->free();
-					$log = $verif[1];
-				}else{
-					$error = $verif[1];
+		
+		if(strlen($domain) > 64) $error="Entered domain name too long (" . strlen($domain) . " chars, 64 max authorized) : ". htmlspecialchars($domain);
+		else{
+			$whitelist = isset($_POST['whitelisted']) ? '1' : '0';
+			if(empty($prefix)) $error = "You have to specify a prefix !";
+			else{
+				if(empty($username)) $error = "You have to specify a username !";
+				else{
+					if(empty($domain)) $error = "You have to specify a domain !";
+					else{
+						$verif = verif_entries($username, $prefix, $domain, $whitelist, $action);
+						if($verif[0]){
+							$sql = "INSERT INTO userblacklist (id, username, domain, prefix, whitelist) VALUES ('', :username, :domain, :prefix, :whitelist)";
+							$resultset = $link->prepare($sql);
+
+							$resultset->execute(array(
+								"username"=>$username,
+								"domain"=>$domain,
+								"prefix"=>$prefix,
+								"whitelist"=>$whitelist
+								));
+							$resultset->free();
+							$log = $verif[1];
+						}else{
+							$error = $verif[1];
+						}
+					}
 				}
 			}
 		}
@@ -158,46 +166,54 @@ if($action == "modify"){
 	if(!$_SESSION['read_only']){
 		$id = $_GET['id'];
 		$prefix = $_POST['prefix'];
-		$domain = $_POST['lst_domain'];
+		$domain = $_POST['domain'];
 		$username = $_POST['username'];
 		$whitelist = isset($_POST['whitelisted']) ? '1' : '0';
 		
-		$sql = "SELECT * FROM userblacklist WHERE id='$id'";
-		$resultset = $link->query($sql);
+		if(strlen($domain) > 64) $error="Entered domain name too long (" . strlen($domain) . " chars, 64 max authorized) : ". htmlspecialchars($domain);
+		else{
+			if(isset($error)){
+				$sql = "SELECT * FROM userblacklist WHERE id='$id'";
+				$resultset = $link->query($sql);
 
-		if(PEAR::isError($resultset)) {
-			die('Failed to issue query, error message : ' . $resultset->getMessage());
-		}
+				if(PEAR::isError($resultset)) {
+					die('Failed to issue query, error message : ' . $resultset->getMessage());
+				}
 
-		if ( $resultset->numRows() == 0 ) $error="This entry doesn't exist !";
-		else {
-			$resultset->free();
-			if(empty($prefix)) $error = "You have to specify a prefix !";
-			else{
-				if(empty($username)) $error = "You have to specify a username !";
-				else{
-					$sql = "SELECT * FROM userblacklist WHERE username='$username' AND prefix='$prefix' AND domain='$domain' AND id!='$id'";
-					$resultset = $link->query($sql);
+				if ( $resultset->numRows() == 0 ) $error="This entry doesn't exist !";
+				else {
+					$resultset->free();
+					if(empty($prefix)) $error = "You have to specify a prefix !";
+					else{
+						if(empty($username)) $error = "You have to specify a username !";
+						else{
+							if(empty($domain)) $error = "You have to specify a domain !";
+							else{
+								$sql = "SELECT * FROM userblacklist WHERE username='$username' AND prefix='$prefix' AND domain='$domain' AND id!='$id'";
+								$resultset = $link->query($sql);
 
-					if(PEAR::isError($resultset)) {
-						die('Failed to issue query, error message : ' . $resultset->getMessage());
-					}
+								if(PEAR::isError($resultset)) {
+									die('Failed to issue query, error message : ' . $resultset->getMessage());
+								}
 
-					if ( $resultset->numRows() == 1 ) $error="This entry already exists, no need to change it !";
-					else {
-						$resultset->free();
-						$sql = "UPDATE userblacklist SET prefix=:prefix, username=:username, domain=:domain, whitelist=:whitelist WHERE id=:id";
-						$resultset = $link->prepare($sql);
+								if ( $resultset->numRows() == 1 ) $error="This entry already exists, no need to change it !";
+								else {
+									$resultset->free();
+									$sql = "UPDATE userblacklist SET prefix=:prefix, username=:username, domain=:domain, whitelist=:whitelist WHERE id=:id";
+									$resultset = $link->prepare($sql);
 
-						$resultset->execute(array(
-							"id"=>$id,
-							"prefix"=>$prefix,
-							"username"=>$username,
-							"domain"=>$domain,
-							"whitelist"=>$whitelist
-							));
-						$resultset->free();
-						$log = $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "none") ? "@" . $domain : "") . "<hr/>";
+									$resultset->execute(array(
+										"id"=>$id,
+										"prefix"=>$prefix,
+										"username"=>$username,
+										"domain"=>$domain,
+										"whitelist"=>$whitelist
+										));
+									$resultset->free();
+									$log = $prefix . " successfully " . ($whitelist ? "whitelisted" : "blacklisted") . " for " . $username  . (($domain != "none") ? "@" . $domain : "") . "<hr/>";
+								}
+							}
+						}
 					}
 				}
 			}
