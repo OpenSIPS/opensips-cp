@@ -23,13 +23,13 @@
 
 
 require_once("../config/db.inc.php");
-        require_once("MDB2.php");
+require_once("MDB2.php");
 
         global $config;
         $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
         $link = & MDB2::connect($dsn);
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
         if(PEAR::isError($link)) {
             die("Error while connecting : " . $link->getMessage());
         }
+        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
 ?>

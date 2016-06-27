@@ -19,7 +19,4 @@ require_once("MDB2.php");
             die("Error while connecting : " . $link->getMessage());
         }
         $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
-        if(PEAR::isError($link)) {
-            die("Error while connecting : " . $link->getMessage());
-        }
 ?>

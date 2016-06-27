@@ -36,10 +36,10 @@
        
 	$dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name;
         $link = & MDB2::connect($dsn);
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
         if(PEAR::isError($link)) {
 		die("Error while connecting : " . $link->getMessage());
         }	
+        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
 	
 	/* DB table to use */
 	$sTable = $custom_config[$module_id]['custom_table'];
