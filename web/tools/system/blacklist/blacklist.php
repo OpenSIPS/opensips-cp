@@ -113,6 +113,28 @@ if($action == "delete"){
 #################
 
 
+################
+# start search #
+################
+if ($action=="dp_act")
+{
+	$_SESSION[$current_page]=1;
+	extract($_POST);
+	if ($show_all=="Show All") {
+		$_SESSION['lst_g_prefix']="";
+		$_SESSION['lst_g_whitelist']="";
+		$_SESSION['lst_g_description']="";
+	} else if($search=="Search"){
+		$_SESSION['lst_g_prefix']=$_POST['lst_prefix'];
+		$_SESSION['lst_g_whitelist']= isset($_POST['lst_whitelist']) ? $_POST['lst_whitelist'] : "";
+		$_SESSION['lst_g_description']=$_POST['lst_description'];
+	} 
+}
+##############
+# end search #
+##############
+
+
 ##############
 # start edit #
 ##############

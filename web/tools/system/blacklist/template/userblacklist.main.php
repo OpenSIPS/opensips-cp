@@ -25,6 +25,64 @@ $no_result = "No Data Found.";
 
 <body bgcolor="#e9ecef">
 	<center>
+		<form action="<?=$page_name?>?action=dp_act" method="post">
+			<?php
+			$sql_search="SELECT * FROM userblacklist WHERE '1'='1'";
+			$search_prefix = $_SESSION['lst_u_prefix'];
+			$search_whitelist = $_SESSION['lst_u_whitelist'];
+			$search_domain = $_SESSION['lst_u_domain'];
+			$search_username = $_SESSION['lst_u_username'];
+			if($search_prefix !="") $sql_search.=" AND prefix LIKE '" . $search_prefix . "%'";
+			else $sql_search.=" AND prefix like '%'";
+
+			if($search_whitelist != "") $sql_search.=" AND whitelist = '" . $search_whitelist . "'";
+
+			if($search_domain !="") $sql_search.=" AND domain LIKE '%" . $search_domain . "%'";
+			else $sql_search.=" AND domain like '%'";
+
+			if($search_username !="") $sql_search.=" AND username LIKE '%" . $search_username . "%'";
+			else $sql_search.=" AND username like '%'";
+
+			$sql_search.=" ORDER BY prefix ASC";
+
+			?>
+			<table name="ttable" cellspacing="2" cellpadding="2" border="0">
+				<tr align="center">
+					<td colspan="2" height="10" class="blacklistTitle"></td>
+				</tr>
+				<tr>
+					<td class="searchRecord" align="left"><label for="prefix">Prefix</label></td>
+					<td class="searchRecord" width="200"><input type="text" name="lst_prefix" value="<?=$search_prefix?>" id="prefix" maxlength="64" class="searchInput"></td>
+				</tr>
+				<tr>
+					<td class="searchRecord" align="left"><label for="username">Username</label></td>
+					<td class="searchRecord" width="200"><input type="text" name="lst_username" value="<?=$search_username?>" id="username" maxlength="64" class="searchInput"></td>
+				</tr>
+				<tr>
+					<td align="right" class="searchRecord"><input type="radio" name="lst_whitelist" id="blacklisted" value="0" <?php if ($search_whitelist=="0") echo "checked=\"true\"";?> ></td>
+					<td class="searchRecord" align="left"><label for="blacklisted">Blacklisted</label></td>
+				</tr>
+				<tr>	
+					<td align="right" class="searchRecord"><input type="radio" name="lst_whitelist" id="whitelisted" value="1" <?php if ($search_whitelist=="1") echo "checked=\"true\"";?> ></td>
+					<td class="searchRecord" align="left"><label for="whitelisted">Whitelisted</label></td>
+				</tr>
+				<tr>	
+					<td class="searchRecord" align="left"><label for="domain">Domain</label></td>
+					<td class="searchRecord" width="200"><input type="text" name="lst_domain" value="<?=$search_domain?>" id="domain" maxlength="255" class="searchInput"></td>
+				</tr>
+				<tr height="10">
+					<td colspan="2" class="searchRecord" align="center">
+						<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
+						<input type="submit" name="show_all" value="Show All" class="searchButton">
+					</td>
+				</tr>
+
+				<tr height="10">
+					<td colspan="2" class="blacklistTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+				</tr>
+
+			</table>
+		</form>
 
 		<?php
 		if (!$_SESSION['read_only']) {
@@ -47,15 +105,14 @@ $no_result = "No Data Found.";
 			</tr>
 			<?php
 			$index_row = 0;
-			$sql = "SELECT * FROM userblacklist";
-			$resultset = $link->query($sql);
+			$resultset = $link->query($sql_search);
 			if(PEAR::isError($resultset)) {
 				die('Failed to issue query, error message : ' . $resultset->getMessage());
 			}
 			$data_no = $resultset->numRows();
 			$resultset->free();
-			$sql .= " LIMIT " . $config->results_per_page . " OFFSET " . (($page - 1) * $config->results_per_page);
-			$resultset = $link->query($sql);
+			$sql_search .= " LIMIT " . $config->results_per_page . " OFFSET " . (($page - 1) * $config->results_per_page);
+			$resultset = $link->query($sql_search);
 
 			if(PEAR::isError($resultset)) {
 				die('Failed to issue query, error message : ' . $resultset->getMessage());

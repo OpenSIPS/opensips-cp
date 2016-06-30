@@ -35,7 +35,6 @@ if($action == "add"){
 ##############
 
 
-
 #####################
 # start add_verify  #
 #####################
@@ -123,6 +122,30 @@ if($action == "delete"){
 #################
 # end delete    #
 #################
+
+
+################
+# start search #
+################
+if ($action=="dp_act")
+{
+	$_SESSION[$current_page]=1;
+	extract($_POST);
+	if ($show_all=="Show All") {
+		$_SESSION['lst_u_prefix']="";
+		$_SESSION['lst_u_whitelist']="";
+		$_SESSION['lst_u_username']="";
+		$_SESSION['lst_u_domain']="";
+	} else if($search=="Search"){
+		$_SESSION['lst_u_prefix']=$_POST['lst_prefix'];
+		$_SESSION['lst_u_username']=$_POST['lst_username'];
+		$_SESSION['lst_u_whitelist']= isset($_POST['lst_whitelist']) ? $_POST['lst_whitelist'] : "";
+		$_SESSION['lst_u_domain']=$_POST['lst_domain'];
+	} 
+}
+##############
+# end search #
+##############
 
 
 ##############
