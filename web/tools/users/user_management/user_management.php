@@ -49,9 +49,8 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if ($action=="delcon"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
     for ($i=0;$i<count($mi_connectors);$i++){
-        $comm_type=mi_get_conn_params($mi_connectors[$i]);
         $comm = "ul_rm_contact location ".$_POST["username"]."@".$_POST["domain"]." ".$_POST["contact"];
-        $mess=mi_command($comm,$errors,$status);
+        $mess=mi_command($comm,$mi_connectors[$i], $mi_type, $errors,$status);
     }
 	$keepoverlay = true;
 }
@@ -149,9 +148,8 @@ if ($action=="showcontacts")
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	for ($i=0;$i<count($mi_connectors);$i++){
 
-          $comm_type=mi_get_conn_params($mi_connectors[$i]);
           $comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
-          $message=mi_command($comm,$errors,$status);
+          $message=mi_command($comm,$mi_connectors[$i], $mi_type, $errors,$status);
 		  print_r($message);
           print_r($errors);
           $status = trim($status);
