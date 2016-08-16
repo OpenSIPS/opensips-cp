@@ -39,6 +39,24 @@ $sql_search="";
 $search_uname = $_SESSION['lst_uname'];
 $search_domain = $_SESSION['lst_domain'];
 $search_email = $_SESSION['lst_email'];
+
+## check what other tools are available
+require("../../../../config/modules.inc.php");
+if ( file_exists("../acl_management") &&
+$config_modules["users"]["modules"]["acl_management"]["enabled"]==true
+)
+	$has_acl = true;
+else
+	$has_acl = false;
+
+if ( file_exists("../alias_management") &&
+$config_modules["users"]["modules"]["alias_management"]["enabled"]==true
+)
+	$has_alias = true;
+else
+	$has_alias = false;
+
+
 if($search_uname !="") $sql_search.=" AND s.username like '" . $search_uname."%'";
 else $sql_search.=" AND s.username like '%'";
 if(($search_domain =="ANY") || ($search_domain == "")) $sql_search.=" and s.domain like '%'";
@@ -51,11 +69,11 @@ if(!$_SESSION['read_only']){
 	$colspan = 3;
 }
 
-if (file_exists("../acl_management")){
+if ($has_acl){
 	$colspan++;
 }
 
-if (file_exists("../alias_management")){
+if ($has_alias){
 	$colspan++;
 }
 if ( $users == "online_usr" ) {
@@ -133,21 +151,18 @@ if ( $users == "online_usr" ) {
   <?
     echo ('<th class="listTitle">Contacts</th>');
 	
-	if (file_exists("../alias_management")) {
+	if ($has_alias) {
 		echo('<th class="listTitle">Alias</th>');
 	}
-
-  if (file_exists("../acl_management")) {
-  	echo('<th class="listTitle">Group</th>');
-  }
 	
-
-  if(!$_SESSION['read_only']){
-
-  	echo('<th class="listTitle">Edit</th>
-  		<th class="listTitle">Delete</th>');
-  }
-
+	if ($has_acl) {
+		echo('<th class="listTitle">Group</th>');
+	}
+	
+	if(!$_SESSION['read_only']){
+		echo('<th class="listTitle">Edit</th>
+			<th class="listTitle">Delete</th>');
+	}
 
   ?>
  </tr>
@@ -194,17 +209,15 @@ else
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
-		if (file_exists("../acl_management")) {
+		if ($has_acl) {
 			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
 			
-		 }
-		 if (file_exists("../alias_management")) {
-		             $alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
-
+		}
+		if ($has_alias) {
+			$alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
 		}
 
 		if(!$_SESSION['read_only']){
-
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="images/edit.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"onclick="return confirmDelete()"><img src="images/delete.png" border="0"></a>';
 		}
@@ -222,19 +235,19 @@ else
 
 	
 
-	if (file_exists("../alias_management")){
-	        echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
+	if ($has_alias){
+		echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
 	}
 
-   if (file_exists("../acl_management")){
-   		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
-   }
+	if ($has_acl){
+		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
+	}
 
 
-   if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
-   }
+	if(!$_SESSION['read_only']){
+		echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
+			<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+	}
 	?>  
   </tr>  
 <?php
