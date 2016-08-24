@@ -118,7 +118,7 @@
 	<? } else if ($dialplan_attributes_mode == 1 ) {  ?>	
 
 	  <td class="dataRecord" width="275"><input type="text" name="attrs" 
-  	value="<?=$resultset['attrs']?>" maxlength="128" class="dataInput"></td>
+  	value="<?=$resultset[0]['attrs']?>" maxlength="128" class="dataInput"></td>
 
 	<? } ?>
   </td>
