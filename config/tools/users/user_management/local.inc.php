@@ -42,4 +42,9 @@
 	// Password for the SIP account can be saved in plain text
 	// by setting $config->passwd_mode to 0 or chyphered (HA1), by setting it to 1
 	$config->passwd_mode=0;
+
+	// Array with optional extra fields for 'subscriber' table
+	// Key is the column name, the value is the Display name
+	//$config->subs_extra['first_name'] = "First Name" ;
+	//$config->subs_extra['last_name']  = "Last Name" ;
 ?>
