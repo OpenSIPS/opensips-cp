@@ -39,36 +39,31 @@ function print_domains($type,$value)
         if(PEAR::isError($result)) {
                 die('Failed to issue query, error message : ' . $result->getMessage());
         }
+
+        $options[]=array("label"=>"ANY","value"=>"ANY");
         foreach ($result as $k=>$v) {
                 $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);
         }
 
-        if ($value=='ANY') {
-                array_unshift($options,array("label"=>"ANY","value"=>"ANY"));
-                $value='';
-        }
         $start_index = 0;
         $end_index = sizeof($options);
 
-?>
-	<select <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly "; ?> name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
-	 <?php
-           if ($value!=NULL) {
-             echo('<option value="'.$value. '" selected > '.$value.'</option>');
-             $temp = $value;
-             $value = '';
-           }
-	  for ($i=$start_index;$i<$end_index;$i++)
-	  {
-           if ($options[$i]['value'] == $temp) {
-                continue;
-	   } else { 	
-	     echo('<option value="'.$options[$i]['value']. '"> '.$options[$i]['value'].'</option>');
-	   }
-	  }
-	 ?>
-	 </select>
-	<?php
+		echo('<select ');
+		if (isset($_SESSION['fromusrmgmt']) && ($_SESSION['fromusrmgmt'])) echo "disabled ";
+		echo('name='.$type.' id='.$type.' size="1" style="width: 205px" class="dataSelect">');
+		if ($value!=NULL && $value!="") {
+			echo('<option value="'.$value. '" selected > '.$value.'</option>');
+			$temp = $value;
+			$value = '';
+		}
+		for ($i=$start_index;$i<$end_index;$i++) {
+			if ($options[$i]['value'] == $temp) {
+				continue;
+			} else {
+				echo('<option value="'.$options[$i]['value']. '"> '.$options[$i]['value'].'</option>');
+			}
+		}
+		echo('</select>');
 }
 
 function print_aliasType($value)

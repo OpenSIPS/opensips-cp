@@ -1,6 +1,5 @@
-<!--
+<?php
  /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -20,10 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
--->
-<form action="<?=$page_name?>?action=dp_act" method="post">
 
-<?php
 $sql_search="";
 $search_ausername=$_SESSION['username'];
 $search_aaliasusername=$_SESSION['alias_username'];
@@ -42,8 +38,6 @@ if($search_atype !='ANY') {
 	}	
 } 
 
-//require("lib/".$page_id.".main.js");
-
 if(!$_SESSION['read_only']){
         $colspan = 8;
 }else{
@@ -52,6 +46,7 @@ if(!$_SESSION['read_only']){
 
 ?>
 
+<form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
 <td colspan="2" height="10" class="aliasTitle"></td>
@@ -68,7 +63,7 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <tr>
 <td class="searchRecord" align="left">Alias Domain</td>
-<td class="searchRecord" width="200"><?php if ($search_adomain!="") print_domains("alias_domain",$search_adomain); else print_domains("alias_domain","ANY");?> 
+<td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain);?> 
 </tr>
 <tr>
 <td class="searchRecord" align="left">Alias Type</td>
@@ -80,20 +75,9 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
 <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
 </tr>
-<?
-/*if(!$_SESSION['read_only']){
-echo('<tr height="10">
-<td colspan="2" class="searchRecord" align="center">
-<input type="submit" class="formButton" name="delete" value="Delete Alias" onclick="return confirmDeleteAlias()">
-</td>
-</tr>');
-
-}*/
-?>
-
- <tr height="10">
-  <td colspan="2" class="aliasTitle"><img src="images/spacer.gif" width="5" height="5"></td>
- </tr>
+<tr height="10">
+<td colspan="2" class="aliasTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+</tr>
 
 </table>
 </form>
@@ -125,15 +109,16 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 		
 	for($k=0;$k<count($options);$k++){
 		$table = $options[$k]['value'];
-		if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
-		else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-		$resultset = $link->queryAll($sql_command);
+		if ($sql_search=="") $sql_command="from ".$table." order by id asc";
+		else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
+		$resultset = $link->queryAll("select count(*) ".$sql_command);
 		if(PEAR::isError($resultset)) {
 		        die('Failed to issue query, error message : ' . $resultset->getMessage());
 		}	
-$data_no=count($resultset);
-if ($data_no==0)   echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
-else { 
+		$data_no=$resultset[0]['count(*)'];
+		if ($data_no==0)
+			echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
+		else { 
 
         $res = $config->results_per_page;
         $page=$_SESSION[$current_page];
@@ -145,7 +130,7 @@ else {
         $start_limit=($page-1)*$res;
         if ($start_limit==0) $sql_command.=" limit ".$res;
         else $sql_command.=" limit ".$res." OFFSET " . $start_limit;
-        $resultset = $link->queryAll($sql_command);
+        $resultset = $link->queryAll("select * ".$sql_command);
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
