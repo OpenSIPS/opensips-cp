@@ -50,22 +50,19 @@ function print_domains($type,$value)
         $start_index = 0;
         $end_index = sizeof($options);
 
-?>
-	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
-	 <?php
-           if ($value!=NULL) {
-             echo('<option value="'.$value. '" selected > '.$value.'</option>');
-             $temp = $value;
-             $value = '';
-           }
-	  for ($i=$start_index;$i<$end_index;$i++)
-	  {
-           if ($options[$i]['value'] == $temp) {
-                continue;
-	   } else { 	
-	     echo('<option value="'.$options[$i]['value']. '"> '.$options[$i]['value'].'</option>');
-	   }
-	  }
+		echo('<select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">');
+		if ($value!=NULL) {
+			echo('<option value="'.$value. '" selected > '.$value.'</option>');
+			$temp = $value;
+			$value = '';
+		}
+		for ($i=$start_index;$i<$end_index;$i++) {
+			if ($options[$i]['value'] == $temp) {
+				continue;
+			} else {
+				echo('<option value="'.$options[$i]['value']. '"> '.$options[$i]['value'].'</option>');
+			}
+		}
 	 ?>
 	 </select>
 	<?php

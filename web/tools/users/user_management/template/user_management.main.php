@@ -57,12 +57,22 @@ else
 	$has_alias = false;
 
 
-if($search_uname !="") $sql_search.=" AND s.username like '" . $search_uname."%'";
-else $sql_search.=" AND s.username like '%'";
-if(($search_domain =="ANY") || ($search_domain == "")) $sql_search.=" and s.domain like '%'";
-else $sql_search.=" AND s.domain ='" . $search_domain."'";
-if($search_email !="") $sql_search.=" and s.email_address like '".$search_email."%'";
-else $sql_search.=" and s.email_address like '%'";
+if ($search_uname !="") {
+	if (strpos($search_uname,"%")===false)
+		$sql_search.=" AND s.username = '".$search_uname."'";
+	else
+		$sql_search.=" AND s.username like '".$search_uname."'";
+}
+if (($search_domain!="ANY") && ($search_domain!="")) {
+		$sql_search.=" AND s.domain = '".$search_domain."'";
+}
+if ($search_email!="") {
+	if (strpos($search_email,"%")===false)
+		$sql_search.=" AND s.email_address = '".$search_email."'";
+	else
+		$sql_search.=" AND s.email_address like '".$search_email."'";
+}
+
 if(!$_SESSION['read_only']){
 	$colspan = 5;
 }else{
@@ -102,7 +112,7 @@ if ( $users == "online_usr" ) {
  </tr>
  <tr>	
   <td class="searchRecord" align="left">Domain</td>
-  <td class="searchRecord" width="200"><?php if ($search_domain!="") print_domains("lst_domain",$search_adomain); else print_domains("lst_domain","ANY");?> 
+  <td class="searchRecord" width="200"><?php print_domains("lst_domain",$search_domain);?> 
  </tr>
  <tr>
   <td class="searchRecord" align="left">Email</td>
@@ -168,21 +178,20 @@ if ( $users == "online_usr" ) {
  </tr>
 <?php
 if ($users=="all_usr" || $users=="") {
-	if ($sql_search=="") $sql_command="select * from ".$table." s where (1=1) order by s.id asc";
-	else $sql_command="select * from ".$table." s where (1=1) ".$sql_search." order by s.id asc";
+	if ($sql_search!="") $sql_search = "WHERE ".substr($sql_search,4);
+	$sql_command="from ".$table." s ".$sql_search." order by s.id asc";
 } else if ($users=="online_usr") {
-	if ($sql_search=="") $sql_command="select * from ".$table." s, $config->table_location l where (1=1) s.username=l.username AND s.domain=l.domain order by s.id asc";
-	else $sql_command="select * from ".$table." s, $config->table_location l where (1=1) AND s.username=l.username AND s.domain=l.domain ".$sql_search." order by s.id asc";
+	$sql_command="from ".$table." s, $config->table_location l where s.username=l.username AND s.domain=l.domain ".$sql_search." order by s.id asc";
 } else if ($users=="offline_usr") {
-	if ($sql_search=="") $sql_command="select * from ".$table." s where (1=1) AND s.username NOT IN (select s.username from $table s, $config->table_location l where s.username=l.username AND s.domain=l.domain) order by s.id asc";
-	else $sql_command="select * from ".$table." s where (1=1) AND s.username NOT IN (select s.username from $table s,$config->table_location l where s.username=l.username AND s.domain=l.domain )".$sql_search." order by s.id asc";
+	if ($sql_search!="") $sql_search = substr($sql_search,4);
+	$sql_command="from ".$table." s where s.username NOT IN (select s.username from $table s,$config->table_location l where s.username=l.username AND s.domain=l.domain )".$sql_search." order by s.id asc";
 }
 
-$resultset = $link->queryAll($sql_command);
+$resultset = $link->queryAll("select count(*) ".$sql_command);
 if(PEAR::isError($resultset)) {
 	die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
-$data_no=count($resultset);
+} 
+$data_no=$resultset[0]['count(*)'];
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -194,10 +203,9 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	//$sql_command.=" limit ".$start_limit.", ".$res_no;
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-	$resultset = $link->queryAll($sql_command);
+	$resultset = $link->queryAll("select * ".$sql_command);
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
