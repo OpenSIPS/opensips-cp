@@ -22,17 +22,17 @@
  */
 -->
 <form action="<?=$page_name?>?action=profile_list" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
 
  <tr align="center">
   <td colspan="2" height="10" class="dialogTitle"></td>
  </tr>
   <tr height="10">
-          <td class="searchRecord" align="right"><b>Profile: </b></td>
+          <td class="searchRecord" align="right"><b>Profile Name: </b></td>
           <td class="searchRecord" align="left"><?php print_profile();?></td>
   </tr>
   <tr height="10">
-          <td align="right" class="searchRecord" ><b>Value (optional)</b></td>
+          <td align="right" class="searchRecord" ><b>Value (optional):</b></td>
           <td align="left" class="searchRecord" ><input name="profile_param" type="text" class="searchInput"></td>
   </tr>
  <tr height="10">
@@ -83,135 +83,37 @@ if (isset($_POST['submit'])) {
 	?>
 	</tr>
 	</table>
-<br>
+<br/>
 <?php
 }
 if (isset($_POST['dialogs'])) {
-?>
-<form action="<?=$page_name?>?action=load" method="post">
- <table width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td class="dialogTitle">Call ID</td>
-  <td class="dialogTitle">From URI</td>
-  <td class="dialogTitle">To URI</td>
-  <td class="dialogTitle">Start Time</td>
-  <td class="dialogTitle">State</td>
-  <?
-  unset($entry);
-  if(!$_SESSION['read_only']){
+	include "dialog_table.inc.php";
 
-        echo('<td class="dialogTitle">Stop Call</td>');
-  }
-  ?>
- </tr>
- <?php
+	echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';
+	echo '<tr align="center">';
+	echo '<th class="dialogTitle">Call ID</th>';
+	echo '<th class="dialogTitle">From URI</th>';
+	echo '<th class="dialogTitle">To URI</th>';
+	echo '<th class="dialogTitle">Start Time</th>';
+	echo '<th class="dialogTitle">Timeout Time</th>';
+	echo '<th class="dialogTitle">State</th>';
+	if(!$_SESSION['read_only'])
+		echo('<th class="dialogTitle">Stop Call</th>');
+	echo '</tr>';
+
 	if ($profile_size=="0")
-		echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+		echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 	else {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		// get status from the first one only
 		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $mi_type, $errors , $status);
 
-		$n = 0;
-		if ($mi_type!="json") {
-			$temp = explode ("dialog:: ",$message);
-			$recno = count($temp);
-			for ($i=1;$i<$recno;$i++) {
-				preg_match_all('/hash=\d+:\d+\s+/',$temp[$i],$hash);
-				$temp[$i] = substr($temp[$i],strlen($hash[0][0]),strlen($temp[$i]));
-				$temptemp = explode ("\n",$temp[$i]);
+		display_dialog_table($message, $mi_type);
+	}
 
-				for ($j=0;$j<count($temptemp);$j++){
-					$tmp = explode (":: ",$temptemp[$j]);
-					$res[trim($tmp[0])]=$tmp[1];
-				}
-
-
-                //unset($temp);
-                unset($temptemp);
-				//get h_id & h_entry
-
-                $hashtemp = explode ("=",$hash[0][0]);
-                $hashie = explode(":",$hashtemp[1]);
-
-                $entry[$i]['h_entry'] = $hashie[0];
-                $entry[$i]['h_id'] = $hashie[1];
-
-                if(!$_SESSION['read_only']){
-                        $delete_link='<a href="'.$page_name.'?action=delete&h_id='.$entry[$i]['h_id'].'&h_entry='.$entry[$i]['h_entry'].'" onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
-                }
-
-				$entry[$i]['state']=$res['state'];
-
-				//timestart
-                $entry[$i]['start_time'] = date("Y-m-d H:i:s",$res['timestart']);
-
-				//toURI
-                $entry[$i]['toURI']=$res['to_uri'];
-
-				//fromURI
-                $entry[$i]['fromURI']=$res['from_uri'];
-
-				//callID
-                $entry[$i]['callID']=$res['callid'];
-
-                unset($res);
-
-				$n++;
-
-        	} //for
-
-		} else {
-
-			// JSON handling
-			$message = json_decode($message,true);
-			for ($i=0;$i<count($message['dialog']);$i++) {
-				$dlg = $message['dialog'][$i];
-				print_r($dlg);
-				$n++;
-			}
-
-		}
-
-		// display stuff
-		for ($i=1;$i<$m;$i++) {
-			if ($i%2==1) $row_style="rowOdd";
-			else $row_style="rowEven";
-
-			if ($entry[$i]['state']==1) $entry[$i]['state']="Unconfirmed Call";
-            else if ($entry[$i]['state']==2) $entry[$i]['state']="Early Call";
-            else if ($entry[$i]['state']==3) $entry[$i]['state']="Confirmed Not Acknoledged Call";
-            else if ($entry[$i]['state']==4) $entry[$i]['state']="Confirmed Call";
-            else if ($entry[$i]['state']==5) $entry[$i]['state']="Deleted Call";
-
-			echo '<tr>';
-
-			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["callID"]."</td>";
-			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["fromURI"]."</td>";
-  			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["toURI"]."</td>";
-  			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["start_time"]."</td>";
-  			echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
-
-			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
-			}
-
-			echo '</tr>';
-		}
-
-}
-unset($entry);
-
-?>
- <tr>
-<td colspan="6" class="dialogTitle">
-  </td>
- </tr>
-    </td>
- </tr>
- </table>
-</form>
-<?php
+	echo '<tr>';
+	echo '<th colspan="7" class="dialogTitle" align="right">Total Records: '.$profile_size.'&nbsp;</th>';
+	echo '</table>';
  }
 ?>
 </form>
