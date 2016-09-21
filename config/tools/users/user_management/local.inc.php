@@ -45,6 +45,7 @@
 
 	// Array with optional extra fields for 'subscriber' table
 	// Key is the column name, the value is the Display name
+	$config->subs_extra = array();
 	//$config->subs_extra['first_name'] = "First Name" ;
 	//$config->subs_extra['last_name']  = "Last Name" ;
 ?>
