@@ -1,5 +1,3 @@
-<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
-<table width="400" cellspacing="2" cellpadding="2" border="0">
 <?php
 /*
  * $Id$
@@ -23,27 +21,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/* if (isset($form_error)) {
-                          echo(' <tr align="center">');
-                          echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
-                          echo(' </tr>');
-                         } */
-	$id=$_GET['id'];
-unset($email);
+$id=$_GET['id'];
 	
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
-    $index_row=0;
-	$link->disconnect();
-	if ($resultset[0]['email_address'] == "" ) $email="";
-	else $email = $resultset[0]['email_address'];
+$sql = "select * from ".$table." where id='".$id."'";
+$resultset = $link->queryAll($sql);
+$link->disconnect();
 ?>
+
+<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
  <td colspan="2" class="listTitle" align="center">Edit User Information</td>
  </tr>
-<?php
-?>
 
  <tr>
   <td class="dataRecord"><b>Username</b></td>
@@ -55,25 +44,37 @@ unset($email);
   <td class="dataRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'])?></td>
  </tr>
  
-<tr>
+ <tr>
   <td class="dataRecord"><b>Email</b></td>
-  <td class="dataRecord" width="200"><input type="text" name="email" value="<?php print $email?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="200"><input type="text" name="email" value="<?=$resultset[0]['email_address']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
+<?php
+	foreach ( $config->subs_extra as $key => $value ) {
+?>
  <tr>
-  <td class="dataRecord"><b>Password</b></td>
-  <td class="dataRecord" width="200"><input type="password" name="passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b><?=$value?></b></td>
+  <td class="dataRecord" width="200"><input type="text" name="extra_<?=$key?>" value="<?=$resultset[0][$key]?>" maxlength="128" class="dataInput"></td>
+ </tr>
+<?php
+    }
+?>
+
+ <tr>
+  <td class="dataRecord"><b>New Password</b></td>
+  <td class="dataRecord" width="200"><input type="password" name="passwd" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Retype Password</b></td>
-  <td class="dataRecord" width="200"><input type="password" name="r_passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="200"><input type="password" name="r_passwd" maxlength="128" class="dataInput"></td>
  </tr>
 
 
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
  </tr>
+
  <tr height="10">
   <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
  </tr>

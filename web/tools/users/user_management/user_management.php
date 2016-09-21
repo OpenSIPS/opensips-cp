@@ -95,24 +95,27 @@ if ($action=="modify")
 		$email = $_POST['email'];
 		$r_passwd = $_POST['r_passwd'];
 
-		if ($uname=="" || $domain=="" || $email==""){
-			$errors = "Invalid data, the entry was not modified in the database";
-		}
-               if ($config->passwd_mode==0) {
-                     $ha1  = "";
-                     $ha1b = "";
-		     $passwd = $_POST['passwd'];
-               } else if ($config->passwd_mode==1) {
-                     $ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
-                     $ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
-		     $passwd = "";
-               }
-
-		if ($errors=="") {
+		if ($uname=="" || $domain==""){
+			$errors = "Invalid data (username and domain are mandatory)! No DataBase change performed";
+		} else {
 			if ($_POST['passwd']!="") {
-				if (($r_passwd!="")&&($_POST['passwd']==$r_passwd)) {
+				if (($r_passwd=="")||($_POST['passwd']!=$r_passwd)) {
+					$errors = "The new passwords do not match!! No update performed";
+				} else {
+					if ($config->passwd_mode==0) {
+						$ha1  = "";
+						$ha1b = "";
+						$passwd = $_POST['passwd'];
+					} else if ($config->passwd_mode==1) {
+						$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
+						$ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
+						$passwd = "";
+					}
 					$sql = 'UPDATE '.$table.' SET username="'.$uname.'", domain="'.$domain.'",
-						 email_address= "'.$email.'",password="'.$passwd.'",ha1="'.$ha1.'", ha1b="'.$ha1b.'" WHERE id='.$id;
+						 email_address= "'.$email.'",password="'.$passwd.'",ha1="'.$ha1.'", ha1b="'.$ha1b.'"';
+					foreach ( $config->subs_extra as $key => $value )
+						$sql .= ', '.$key.'="'.$_POST['extra_'.$key].'"';
+					$sql .= ' WHERE id='.$id;
 					$resultset = $link->prepare($sql);
 					$resultset->execute();
 					$resultset->free();
@@ -120,13 +123,16 @@ if ($action=="modify")
 					$link->disconnect();
 				}	
 			} else {
-					$sql = 'UPDATE '.$table.' SET username="'.$uname.'", domain="'.$domain.'",
-						 email_address= "'.$email.'" WHERE id='.$id;
-					$resultset = $link->prepare($sql);
-					$resultset->execute();
-					$resultset->free();
-					print "The user's info was modified, but password remained the same";
-					$link->disconnect();
+				$sql = 'UPDATE '.$table.' SET username="'.$uname.'", domain="'.$domain.'",
+					 email_address= "'.$email.'"';
+				foreach ( $config->subs_extra as $key => $value )
+					$sql .= ', '.$key.'="'.$_POST['extra_'.$key].'"';
+				$sql .= ' WHERE id='.$id;
+				$resultset = $link->prepare($sql);
+				$resultset->execute();
+				$resultset->free();
+				print "The user's info was modified, password not changed";
+				$link->disconnect();
 			}
 		}
 	}else{
@@ -250,22 +256,28 @@ if ($action=="add_verify")
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
                 if ($config->passwd_mode==1) $passwd="";
-                $sql = 'INSERT INTO '.$table.' (username,domain,password,email_address,ha1,ha1b) VALUES '.
-                ' (\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
-                $email.'\',\''.$ha1.'\',\''.$ha1b.'\')';
+                $sql = 'INSERT INTO '.$table.' (username,domain,password,email_address,ha1,ha1b';
+				foreach ( $config->subs_extra as $key => $value )
+					$sql .= ','.$key;
+				$sql .= ') VALUES (\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
+                $email.'\',\''.$ha1.'\',\''.$ha1b.'\'';
+				foreach ( $config->subs_extra as $key => $value )
+					$sql .= ',\''.$_POST['extra_'.$key].'\'';
+				$sql .= ')';
 
                 $resultset = $link->prepare($sql);
 
                 $resultset->execute();
                 $resultset->free();
 
-                $sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES '.
-                ' (\''. $uname . '\',\'' . $domain.'\',\''. $alias.'\',\''.$domain.'\')';
+				if ($alias!="") {
+	                $sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES '.
+    	            ' (\''. $uname . '\',\'' . $domain.'\',\''. $alias.'\',\''.$domain.'\')';
 
-                $resultset = $link->prepare($sql);
-
-                $resultset->execute();
-                $resultset->free();
+        	        $resultset = $link->prepare($sql);
+    	            $resultset->execute();
+        	        $resultset->free();
+				}
 
                 $link->disconnect();
 
@@ -277,8 +289,6 @@ if ($action=="add_verify")
                 $passwd=NULL;
                 $confirm_passwd=NULL;
 
-        }
-          if ($form_valid) {
                 print "New User added!";
                 $action="add";
           } else {

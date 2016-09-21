@@ -1,4 +1,3 @@
-<form action="<?=$page_name?>?action=add_verify&id=<?=$_GET['id']?>" method="post">
 <?php
 /*
 * $Id$
@@ -22,14 +21,14 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 ?>
+<form action="<?=$page_name?>?action=add_verify&id=<?=$_GET['id']?>" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="listTitle">Add New User</td>
  </tr>
  <tr>
   <td class="listRecord" >Username</td>
-  <td class="listRecord" width="200"><input type="text" name="uname"
-  value="<?=$uname?>" class="searchInput"></td>
+  <td class="listRecord" width="200"><input type="text" name="uname" value="" class="searchInput"></td>
  </tr>
  <tr>
   <td class="listRecord" >Domain</td>
@@ -37,27 +36,35 @@
  </tr>
  <tr>
   <td class="listRecord" >Email</td>
-  <td class="listRecord" width="200"><input type="text" name="email"
-  value="<?=$email?>" class="searchInput"></td>
+  <td class="listRecord" width="200"><input type="text" name="email" value="" class="searchInput"></td>
  </tr>
  <tr>
   <td class="listRecord" >Alias Username</td>
-  <td class="listRecord" width="200"><input type="text" name="alias"
-  value="" class="searchInput" maxlength=5></td>
+  <td class="listRecord" width="200"><input type="text" name="alias" value="" class="searchInput" maxlength=5></td>
  </tr>
  <tr>
   <td class="listRecord" >Alias Type</td>
   <td class="listRecord" width="200"><?php print_aliasType(0)?></td>
  </tr>
+
+<?php
+	foreach ( $config->subs_extra as $key => $value ) {
+?>
+ <tr>
+  <td class="listRecord"><?=$value?></td>
+  <td class="listRecord" width="200"><input type="text" name="extra_<?=$key?>" value="" maxlength="128" class="searchInput"></td>
+ </tr>
+<?php
+	}
+?>
+
  <tr>
   <td class="listRecord" >Password</td>
-  <td class="listRecord" width="200"><input type="password" name="passwd"
-  value="" class="searchInput"></td>
+  <td class="listRecord" width="200"><input type="password" name="passwd" value="" class="searchInput"></td>
  </tr>
  <tr>
   <td class="listRecord" >Confirm Password</td>
-  <td class="listRecord" width="200"><input type="password" name="confirm_passwd"
-  value="" class="searchInput"></td>
+  <td class="listRecord" width="200"><input type="password" name="confirm_passwd" value="" class="searchInput"></td>
  </tr>
  <tr align="center">
   <td colspan="2" class="listRecord" >

@@ -25,16 +25,14 @@
 <div id="dialog" class="dialog" style="display:none"></div>
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
-<?php
-	if ($keepoverlay){
-		echo "<script language='JavaScript'>";
-		echo "show_contacts('".$_POST['username']."','".$_POST['domain']."')";
-		echo "</script>";
-	}
-?>
 
-<form action="<?=$page_name?>?action=dp_act" method="post">
 <?php
+if ($keepoverlay){
+	echo "<script language='JavaScript'>";
+	echo "show_contacts('".$_POST['username']."','".$_POST['domain']."')";
+	echo "</script>";
+}
+
 $sql_search="";
 $search_uname = $_SESSION['lst_uname'];
 $search_domain = $_SESSION['lst_domain'];
@@ -101,7 +99,8 @@ if ( $users == "online_usr" ) {
 	$checkedOffline="";
 }
   ?>
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<form action="<?=$page_name?>?action=dp_act" method="post">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="listTitle"></td>
  </tr>
@@ -159,8 +158,13 @@ if ( $users == "online_usr" ) {
   <th class="listTitle">Email Address</th>
   
   <?
-    echo ('<th class="listTitle">Contacts</th>');
+	foreach ( $config->subs_extra as $key => $value ) {
+    	echo ('<th class="listTitle">'.$value.'</th>');
+		$colspan++;
+	}
 	
+    echo ('<th class="listTitle">Contacts</th>');
+
 	if ($has_alias) {
 		echo('<th class="listTitle">Alias</th>');
 	}
@@ -174,9 +178,8 @@ if ( $users == "online_usr" ) {
 			<th class="listTitle">Delete</th>');
 	}
 
-  ?>
- </tr>
-<?php
+	echo('</tr>');
+
 if ($users=="all_usr" || $users=="") {
 	if ($sql_search!="") $sql_search = "WHERE ".substr($sql_search,4);
 	$sql_command="from ".$table." s ".$sql_search." order by s.id asc";
@@ -233,6 +236,14 @@ else
  <tr>
   <td class="<?=$row_style?>"><?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['email_address']?></td>
+
+<?php
+	foreach ( $config->subs_extra as $key => $value ) {
+    	echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
+		$colspan++;
+	}
+?>
+
   <td class="<?=$row_style?>" align="center">
     <a href="javascript:;" onclick="show_contacts('<?=$resultset[$i]['username']?>','<?=$resultset[$i]['domain']?>')">
 		<img src="images/contacts.png" border="0">
@@ -240,8 +251,6 @@ else
   </td>
 
    <? 
-
-	
 
 	if ($has_alias){
 		echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
@@ -251,12 +260,11 @@ else
 		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
 	}
 
-
 	if(!$_SESSION['read_only']){
 		echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
 			<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
 	}
-	?>  
+?>  
   </tr>  
 <?php
 
