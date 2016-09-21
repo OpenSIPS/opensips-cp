@@ -70,12 +70,9 @@ function print_aliasType($value)
 {
         global $config;
         require("../../../../config/globals.php");
+        $options[]=array("label"=>"ANY","value"=>"ANY");
         foreach ($config->table_aliases as $k=>$v) {
                 $options[]=array("label"=>$k,"value"=>$v);
-        }
-        if ($value=='ANY') {
-                array_unshift($options,array("label"=>"ANY","value"=>"ANY"));
-                $value=0;
         }
         $start_index = 0;
         $end_index = sizeof($options);
@@ -90,7 +87,7 @@ function print_aliasType($value)
 
           for ($i=$start_index;$i<$end_index;$i++)
           {
-           if ($options[$i]['value'] == $temp) {
+           if ($options[$i]['label'] == $temp) {
                 continue;
            } else {
              echo('<option value="'.$options[$i]['label']. '"> '.$options[$i]['label'].'</option>');

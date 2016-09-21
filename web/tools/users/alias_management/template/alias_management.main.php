@@ -20,29 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+
 $sql_search="";
 $search_ausername=$_SESSION['username'];
 $search_aaliasusername=$_SESSION['alias_username'];
 $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
-if($search_ausername !="") $sql_search.=" and username like '%" . $search_ausername."%'";
-else $sql_search.=" and username like '%'";
-if($search_aaliasusername !="") $sql_search.=" and alias_username like '%" . $search_aaliasusername."%'";
-else $sql_search.=" and alias_username like '%'";
-if(($search_adomain == 'ANY') || ($search_adomain == "")) $sql_search.=" and alias_domain like '%'";
-else $sql_search.=" and alias_domain='".$search_adomain."'";
-if($search_atype !='ANY') {
-	for($i=0;count($options)>$i;$i++){
-		if ($search_atype==$options[$i]['label'])
-		$table=$options[$i]['value'];
-	}	
-} 
-
-if(!$_SESSION['read_only']){
-        $colspan = 8;
-}else{
-        $colspan = 6;
-}
 
 ?>
 
@@ -67,7 +50,7 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 </tr>
 <tr>
 <td class="searchRecord" align="left">Alias Type</td>
-<td class="searchRecord" width="200"><?php print_aliasType("ANY")?></td>
+<td class="searchRecord" width="200"><?php print_aliasType($search_atype)?></td>
 </tr>
 </tr>
 <tr height="10">
@@ -105,6 +88,26 @@ echo('<th class="aliasTitle">Edit</th>
 </tr>
 
 <?php
+if($search_ausername !="") $sql_search.=" and username like '%" . $search_ausername."%'";
+else $sql_search.=" and username like '%'";
+if($search_aaliasusername !="") $sql_search.=" and alias_username like '%" . $search_aaliasusername."%'";
+else $sql_search.=" and alias_username like '%'";
+if(($search_adomain == 'ANY') || ($search_adomain == "")) $sql_search.=" and alias_domain like '%'";
+else $sql_search.=" and alias_domain='".$search_adomain."'";
+if($search_atype !='ANY') {
+	for($i=0;count($options)>$i;$i++){
+		if ($search_atype==$options[$i]['label'])
+			$table=$options[$i]['value'];
+	}
+} 
+
+if(!$_SESSION['read_only']){
+        $colspan = 8;
+}else{
+        $colspan = 6;
+}
+
+
 if (($search_atype=='ANY') || ($search_atype=='')) {
 		
 	for($k=0;$k<count($options);$k++){
@@ -239,8 +242,8 @@ else
 
                 if(!$_SESSION['read_only']){
 
-                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="images/edit.gif" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="images/edit.png" border="0"></a>';
+                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/delete.png" border="0"></a>';
 
 				} 
 		?>
