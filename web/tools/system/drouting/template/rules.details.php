@@ -23,7 +23,7 @@
  -->
 
 <?php
- if ($resultset[0]['gwlist']=="") $gwlist='<img src="images/inactive.gif" alt="No GW List">';
+ if ($resultset[0]['gwlist']=="") $gwlist='<img src="../../../images/share/inactive.gif" alt="No GW List">';
   else if ( preg_match('/[#][0-9]+/',$resultset[0]['gwlist'])) $gwlist=parse_list($resultset[0]['gwlist']); 
   else $gwlist=parse_gwlist($resultset[0]['gwlist']);
 ?>
@@ -64,7 +64,7 @@
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">
-  <td class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>

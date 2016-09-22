@@ -67,7 +67,7 @@
   </td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -161,7 +161,7 @@
    $index_row++;
    if ($index_row%2==1) $row_style="rowOdd";
     else $row_style="rowEven";
-   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
+   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.gif" alt="No GW List"></center>';
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
 	//handle flags
 	if (is_numeric($resultset[$i]['flags'])) {
@@ -188,18 +188,18 @@
 	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
 
 	   if ($carrier_status=="yes")
-	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="images/active.gif" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
+	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/active.gif" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
       else
-	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="images/inactive.gif" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
+	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.gif" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
 
    switch ($resultset[$i]['state']) {
    	case "0" : $state = "Active"; break;
 	case "1" : $state = "Inactive"; break;
    }
 	//edit and delete links					 
-   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="images/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="images/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>

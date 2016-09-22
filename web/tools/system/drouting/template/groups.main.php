@@ -69,7 +69,7 @@
   <td colspan="2" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -124,10 +124,10 @@
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
    $record_id=$resultset[$i]['username']."@".$resultset[$i]['domain'];
-   $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="images/details.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="../../../images/share/details.gif" border="0"></a>';
    if(!$_SESSION['read_only']){
-	   $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="images/edit.gif" border="0"></a>';
-	   $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="images/trash.gif" border="0"></a>';
+	   $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="../../../images/share/edit.gif" border="0"></a>';
+	   $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="../../../images/share/trash.gif" border="0"></a>';
    }
 
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';

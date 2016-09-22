@@ -52,7 +52,7 @@
   if (!$_read_only) echo('<tr><td class="searchRecord" align="center"><input type="submit" name="save" value="Save Changes" class="searchButton"></td></tr>');
  ?>
  <tr height="10">
-  <td class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -89,7 +89,7 @@ if ($config->group_id_method=="static")
   if (!$_read_only) echo('<tr><td class="searchRecord" align="center"><input type="submit" name="save" value="Save Changes" class="searchButton"></td></tr>');
  ?>
  <tr height="10">
-  <td class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>

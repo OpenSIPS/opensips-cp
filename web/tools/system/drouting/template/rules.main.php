@@ -106,7 +106,7 @@
   </td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -167,7 +167,7 @@
     else $row_style="rowEven";
    if ($resultset[$i]['prefix']!="") $prefix=$resultset[$i]['prefix'];
     else $prefix="&nbsp;";
-   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="images/inactive.gif" alt="No GW List"></center>';
+   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.gif" alt="No GW List"></center>';
    else if ( preg_match('/[#][0-9]+/',$resultset[$i]['gwlist'])) $gwlist=parse_list($resultset[$i]['gwlist']);
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
    if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
@@ -177,9 +177,9 @@
    if (strlen($resultset[$i]['description'])>18) $description=substr($resultset[$i]['description'],0,15)."...";
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
-   $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['ruleid'].'"><img src="images/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['ruleid'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['ruleid'].'" onclick="return confirmDelete(\''.$resultset[$i]['ruleid'].'\')" ><img src="images/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['ruleid'].'" onclick="return confirmDelete(\''.$resultset[$i]['ruleid'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>

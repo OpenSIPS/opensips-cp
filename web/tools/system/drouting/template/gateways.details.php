@@ -77,7 +77,7 @@
   <td class="dataRecord"><b>Description</b> <?=$resultset[0]['description']?></td>
  </tr>
  <tr height="10">
-  <td class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>

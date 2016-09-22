@@ -109,7 +109,7 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
   <td colspan="2" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -211,16 +211,16 @@ else {
 	
 	switch ($gw_status) {
 		case "Active": 
-   			$status='<a href="'.$page_name.'?action=disablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/active.png" alt="Enabled - Click to disable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'yes\');"></a>';
+   			$status='<a href="'.$page_name.'?action=disablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'yes\');"></a>';
 			break;
 		case "Inactive": 
-   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
 			break;
 		case "Disabled MI": 
-   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
 			break;
 		case "Probing": 
-   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="images/probing.png" alt="Enabled - Click to enable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/probing.png" alt="Enabled - Click to enable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
 			break;
 		default: 
 			$status = "n/a";
@@ -242,9 +242,9 @@ else {
 	case "1" : $state = "Inactive"; break;
 	case "2" : $state = "Probing"; break;
    }
-   $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="images/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="images/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="../../../images/share/trash.gif" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>

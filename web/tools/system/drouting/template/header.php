@@ -48,4 +48,4 @@
  </tr>
  <tr valign="top" align="center"> 
   <td>
-   <img src="images/spacer.gif" width="10" height="5"><br>
+   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
