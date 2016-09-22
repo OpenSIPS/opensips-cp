@@ -1,7 +1,5 @@
-<form action="<?=$page_name?>?action=dp_act=<?php echo $_GET['dest_dpid']?>" method="post">
 <?
 /*
-* $Id$
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -25,6 +23,7 @@
 $dpid=$_POST['dialplan_id'];
 ?>
 
+<form action="<?=$page_name?>?action=dp_act=<?php echo $_GET['dest_dpid']?>" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="dialplanTitle"></td>
@@ -41,7 +40,7 @@ $dpid=$_POST['dialplan_id'];
   <td colspan=2 align="center"><input type="submit" name="clone" value="Clone Dialplan" class="formButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="dialplanTitle"><img src="../images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>

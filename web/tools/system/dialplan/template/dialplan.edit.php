@@ -70,8 +70,7 @@
  <tr align="center">
   <td colspan="2" class="dialplanTitle">Edit Translation Rule</td>
  </tr>
-<?php
-?>
+
  <tr>
   <td class="dataRecord"><b>Dialplan ID:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="dpid" value="<?=$resultset[0]['dpid']?>" maxlength="128" class="dataInput"></td>
@@ -82,13 +81,12 @@
   <td class="dataRecord" width="275"><input type="text" name="pr" value="<?=$resultset[0]['pr']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
-<tr>
+ <tr>
   <td class="dataRecord"><b>Matching Operator:</b></td>
   <td class="dataRecord" width="275"><?=$match_op_sel?></td>
  </tr>
 
-
-<tr>
+ <tr>
   <td class="dataRecord"><b>Matching Regular Expression:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="match_exp" value="<?=$resultset[0]['match_exp']?>" maxlength="128" class="dataInput"></td>
  </tr>
@@ -99,13 +97,13 @@
   	value="<?=$resultset[0]['match_flags']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
-<tr>
+ <tr>
   <td class="dataRecord"><b>Substitution Regular Expression:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="subst_exp" 
   	value="<?=$resultset[0]['subst_exp']?>" maxlength="128" class="dataInput"></td>
- </tr>
+  </tr>
 
-<tr>
+ <tr>
   <td class="dataRecord"><b>Replacement Expression:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="repl_exp" 
   	value="<?=$resultset[0]['repl_exp']?>" maxlength="128" class="dataInput"></td>
@@ -127,8 +125,9 @@
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
  </tr>
+
  <tr height="10">
-  <td colspan="2" class="dialplanTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>

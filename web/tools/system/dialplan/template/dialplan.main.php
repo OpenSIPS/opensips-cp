@@ -38,8 +38,9 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 8;
 }
-  ?>
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+
+?>
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="dialplanTitle"></td>
  </tr>
@@ -55,7 +56,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="dialplanTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -127,9 +128,9 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
-			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row[$i]['id'].'"><img src="images/clone.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row[$i]['id'].'"><img src="../../../images/share/clone.gif" border="0"></a>';
 		}
 ?>
  <tr>

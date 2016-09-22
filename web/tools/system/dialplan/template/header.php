@@ -40,10 +40,10 @@ $no_result = "No Data Found.";
 
 <body bgcolor="#e9ecef">
 <center>
-<table width="705" cellpadding="5" cellspacing="5" border="0">
+<table width="90%" cellpadding="5" cellspacing="5" border="0">
  <tr  valign="top" height="20">
   <td><?php require("template/menu.php") ?></td>
  </tr>
  <tr valign="top" align="center"> 
   <td>
-   <img src="images/spacer.gif" width="10" height="5"><br>
+   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
