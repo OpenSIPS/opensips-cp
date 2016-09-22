@@ -63,9 +63,9 @@ if ($mi_type != "json"){
 			$rtpproxies_cache[$setid][$matches['sock'][$i]]['ticks'] 	= $matches['ticks'][$i];
 
 			if ($matches['status'][$i] == 1){
-				$rtpproxies_cache[$setid][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="images/inactive.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
+				$rtpproxies_cache[$setid][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
 			} else if ($matches['status'][$i] == 0){
-				$rtpproxies_cache[$setid][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="images/active.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
+				$rtpproxies_cache[$setid][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
 			}
 		}
 	}
@@ -81,9 +81,9 @@ else {
 			$rtpproxies_cache[ $i ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
 		
 			if ($node['attributes']['disabled'] == 1){
-				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="images/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
 			} else if ($node['attributes']['disabled'] == 0){
-				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="images/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
 			}
 		}
 	} 	
@@ -130,7 +130,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="rtpproxyTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="rtpproxyTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -192,8 +192,8 @@ else $row_style="rowEven";
 
 if(!$_SESSION['read_only']){
 
-	$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-	$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+	$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+	$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 }
 ?>
 <tr>
