@@ -121,7 +121,7 @@
 
 		<tr height="10">
 			<td colspan="2" class="dataTitle">
-				<img src="images/spacer.gif" width="5" height="5">
+				<img src="../../../images/share/spacer.gif" width="5" height="5">
 			</td>
 		</tr>
 	</table>
