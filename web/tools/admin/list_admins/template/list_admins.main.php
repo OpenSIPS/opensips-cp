@@ -1,4 +1,4 @@
-<!--
+<?php
  /*
  * $Id$
  * Copyright (C) 2011 OpenSIPS Project
@@ -20,10 +20,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
--->
 
-<form action="<?=$page_name?>?action=dp_act" method="post">
-<?php
 $sql_search="";
 $search_uname = $_SESSION['list_uname'];
 $search_fname = $_SESSION['list_fname'];
@@ -42,7 +39,8 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 3;
 }
-  ?>
+?>
+<form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="listadminsTitle"></td>
@@ -69,7 +67,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="listadminsTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="listadminsTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -128,8 +126,8 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/Edit-icon-16.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/Delete-icon.png" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 		}
 ?>
  <tr align = "center">

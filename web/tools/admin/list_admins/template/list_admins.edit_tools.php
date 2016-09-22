@@ -1,4 +1,3 @@
-<form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
 <?php
 /*
  * $Id$
@@ -37,6 +36,7 @@ require_once("../../../common/cfg_comm.php");
 	$link->disconnect();
 $permissions=array();
 ?>
+<form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
  <td colspan="3" class="listadminsTitle" align="center">Edit Tools and Permissions </td>
@@ -155,7 +155,7 @@ if (!$_SESSION['read_only']) {
  }
 ?>
   <tr height="10">
-   <td colspan="3" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+   <td colspan="3" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
   </tr>
   </table>
 
