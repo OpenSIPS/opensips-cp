@@ -45,7 +45,7 @@
          <td align="center" colspan="2"><input type="submit" name="submit" value="Get size" class="searchButton">&nbsp;&nbsp;&nbsp;</td>
   </tr>
   <tr height="10">
-        <td colspan="2" class="dialogTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+        <td colspan="2" class="dialogTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
   </tr>
 <br>
 </table>
