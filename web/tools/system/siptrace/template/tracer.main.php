@@ -131,7 +131,7 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
   <td colspan="3" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;<?php if(!$_SESSION['read_only']){ ?> <input type="submit" id="deletebutton" name="delete" value="Delete" class="searchButton" onClick="return confirmDelete()" > <?php } ?>  </td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form><br>
@@ -231,7 +231,7 @@ else
    <td ><?=$resultset_[0]['method']?></td>
    <td ><?=$trace_text?></td>
    <td  align="center"><?=$details_msg?></td>
-   <td  align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="images/details.gif" border="0"></a></td>
+   <td  align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="../../../images/share/details.gif" border="0"></a></td>
    </tr>
    <?php
    if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
@@ -484,7 +484,7 @@ else
 	
      
      
-     <img src="images/spacer.gif" width="100%" height="10"><br>
+     <img src="../../../images/share/spacer.gif" width="100%" height="10"><br>
     </td></tr>
     <?php
 
