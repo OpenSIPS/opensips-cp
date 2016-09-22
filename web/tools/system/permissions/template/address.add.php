@@ -1,4 +1,3 @@
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
 * $Id$
@@ -43,6 +42,7 @@ if($add_verify =="1"){
 }
 
 ?>
+<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="permissionsTitle">New Permission Definition</td>
@@ -95,7 +95,7 @@ if($add_verify =="1"){
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
