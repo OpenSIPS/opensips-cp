@@ -51,7 +51,7 @@ if (!$_read_only)
 }
 ?>
  <tr>
-  <td colspan="2" class="miTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="miTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -59,7 +59,7 @@ if (!$_read_only)
 
 <table class="ttable" width="450" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <th align="center" class="miTitle"><img src="images/spacer.gif" width="52" height="5">History</th>
+  <th align="center" class="miTitle"><img src="../../../images/share/spacer.gif" width="52" height="5">History</th>
   <th width="50" align="center" class="miTitle"><button type="button" class="Button" onClick="window.location='<?=$page_name?>?action=clear_history'">clear</button></th>
  </tr>
  <?php
@@ -86,6 +86,6 @@ if (!$_read_only)
  }
  ?>
  <tr>
-  <th colspan="2" class="miTitle"><img src="images/spacer.gif" width="5" height="5"></th>
+  <th colspan="2" class="miTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
  </tr>
 </table>
