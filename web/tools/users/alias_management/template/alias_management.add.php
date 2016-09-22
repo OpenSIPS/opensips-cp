@@ -1,4 +1,3 @@
-<form id="addnewalias" action="<?=$page_name?>?action=add_verified&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
 * $Id$
@@ -37,12 +36,12 @@ if($clone =="1"){
 }
 
 ?>
+<form id="addnewalias" action="<?=$page_name?>?action=add_verified&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="aliasTitle">New Alias</td>
  </tr>
-<?php
-?>
+
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
   <td class="dataRecord" width="275"><input <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly ";?> type="text" name="username" 
@@ -80,7 +79,7 @@ if($clone =="1"){
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
