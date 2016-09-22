@@ -1,4 +1,3 @@
-<form action="<?=$page_name?>?action=add_verify" method="post">
 <?php
 /*
 * $Id$
@@ -22,6 +21,7 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 ?>
+<form action="<?=$page_name?>?action=add_verify" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="addadminTitle">Add New Admin</td>
@@ -60,7 +60,7 @@
   </td>
  </tr>
  <tr>
-  <td colspan="2" class="addadminTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="addadminTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
