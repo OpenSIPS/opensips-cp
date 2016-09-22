@@ -66,7 +66,7 @@ else
     {
      ?>
       <tr><td class="rowEven"><?php show_graph($stat,$box_id); ?></td></tr>
-      <tr><td><img src="images/spacer.gif"></td></tr>
+      <tr><td><img src="../../../images/share/spacer.gif"></td></tr>
      <?php
     }
   $i++;
@@ -75,7 +75,7 @@ else
 $link->disconnect();
 ?>
  <tr>
-  <td colspan="2" class="smonitorTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="smonitorTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>

@@ -90,14 +90,14 @@
     <td class="rowEven"><?=$var_string?></td>
    </tr>
    <tr>
-    <td colspan="2" align="center"><img src="images/spacer.gif"></td>
+    <td colspan="2" align="center"><img src="../../../images/share/spacer.gif"></td>
    </tr>
    <?php
   }
  }
 ?>
  <tr>
-  <th colspan="2" class="smonitorTitle"><img src="images/spacer.gif" width="5" height="5"></th>
+  <th colspan="2" class="smonitorTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
  </tr>
 </table>
 <br>

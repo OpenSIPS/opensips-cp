@@ -62,7 +62,7 @@
   </td>
  </tr>
  <tr>
-  <td class="smonitorTitle" colspan="2"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td class="smonitorTitle" colspan="2"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
