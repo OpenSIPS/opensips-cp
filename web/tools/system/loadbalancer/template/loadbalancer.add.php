@@ -1,4 +1,3 @@
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
 * $Id$
@@ -23,12 +22,12 @@
 */
 
 ?>
+<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="loadbalancerTitle">New Load Balancer Definition</td>
  </tr>
-<?php
-?>
+
  <tr>
   <td class="dataRecord"><b>Group ID:</b></td>
   <td class="dataRecord" width="275"><input type="text" name="group_id" 
@@ -57,11 +56,13 @@
   <td class="dataRecord" width="275"><input type="text" name="description" 
   value="<?=$description?>" maxlength="128" class="dataInput"></td>
  </tr>
+
  <tr>
   <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
  </tr>
+
  <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>

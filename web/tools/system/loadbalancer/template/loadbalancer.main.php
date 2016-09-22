@@ -68,7 +68,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="loadbalancerTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="loadbalancerTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -233,8 +233,8 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
 			<? 
 			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="images/edit.gif" border="0"></a></td>');
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a></td>');
    			}
 			?>  
 		</tr>  
