@@ -59,7 +59,7 @@ if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</di
   <td class="searchRecord" align="center"><?=$form_button?></td>
  </tr>
  <tr>
-  <td class="domainTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td class="domainTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
@@ -92,8 +92,8 @@ while($row = $resultset->fetchRow())
 	$index_row++;
 	if ($index_row%2==1) $row_style="rowOdd";
 	else $row_style="rowEven";
-	$edit_link='<a href="'.$page_name.'?action=edit&domain='.$row['domain'].'"><img src="images/edit.gif" border="0"></a>';
-	$delete_link='<a href="'.$page_name.'?action=delete&domain='.$row['domain'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="images/trash.gif" border="0"></a>';
+	$edit_link='<a href="'.$page_name.'?action=edit&domain='.$row['domain'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+	$delete_link='<a href="'.$page_name.'?action=delete&domain='.$row['domain'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
 if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
   ?>
   <tr>
@@ -107,6 +107,6 @@ if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 $link->disconnect();
 ?>
  <tr>
-  <th colspan="4" class="domainTitle"><img src="images/spacer.gif" width="5" height="5"></th>
+  <th colspan="4" class="domainTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
  </tr>
 </table>
