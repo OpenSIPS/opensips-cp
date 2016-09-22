@@ -22,7 +22,7 @@
 */
 ?>
 <form action="<?=$page_name?>?action=add_verify&id=<?=$_GET['id']?>" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="listTitle">Add New User</td>
  </tr>
@@ -74,7 +74,7 @@
  ?>
  </tr>
  <tr>
-  <td colspan="2" class="listTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="listTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
