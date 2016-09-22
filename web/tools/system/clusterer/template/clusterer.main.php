@@ -59,7 +59,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="clustererTitle"><img src="images/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="clustererTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -102,11 +102,11 @@ else
 		if ($i%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
-		$node_details='<a href="details.php?id='.($resultset[$i]['id']).'" class="menuItem"> <img src="images/details.gif" border="0" onClick="window.open(\'details.php?id='.($resultset[$i]['id']).'\',\'info\',\'scrollbars=1,width=300,height=350\');return false;"></td></a>&nbsp';
+		$node_details='<a href="details.php?id='.($resultset[$i]['id']).'" class="menuItem"> <img src="../../../images/share/details.gif" border="0" onClick="window.open(\'details.php?id='.($resultset[$i]['id']).'\',\'info\',\'scrollbars=1,width=300,height=350\');return false;"></td></a>&nbsp';
 
 		if(!$_SESSION['read_only']){
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="images/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="images/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 		}
 		?>
 		<tr>
