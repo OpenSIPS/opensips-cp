@@ -1,6 +1,5 @@
 <?php
 /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -22,8 +21,7 @@
  */
 
 
-$path_to_smonitor="/var/www/opensips-cp/web/tools/system/smonitor";
-chdir($path_to_smonitor);
+chdir("web/tools/system/smonitor");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/smonitor/local.inc.php");
 require("lib/functions.inc.php");
@@ -32,16 +30,14 @@ require("../../../../config/boxes.global.inc.php");
 require("lib/db_connect.php");
 
 
-$box_id=0;
-
-foreach ($boxes as $ar){
+foreach ($boxes as $idx => $ar){
 
 	if ($ar['smonitor']['charts']==1){
 		$time=time();
-		$sampling_time=get_config_var('sampling_time',$box_id);
+		$sampling_time=get_config_var('sampling_time',$idx);
 
 		// Get the name of the needed statistics
-		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=".$box_id." ORDER BY name ASC";
+		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=".$idx." ORDER BY name ASC";
 		$resultset = $link->queryAll($sql);
 
 		if(PEAR::isError($resultset)){
@@ -65,14 +61,13 @@ foreach ($boxes as $ar){
 			$var_value=$regs[2][$i];
 			if ($var_value==NULL) 
 				$var_value="0"; 
-			$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$regs[1][$i]."','".$var_value."','".$time."',".$box_id.")";
+			$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$regs[1][$i]."','".$var_value."','".$time."',".$idx.")";
 			$result = $link->exec($sql);
 			if(PEAR::isError($result)) {
 				die('Failed to issue query, error message : ' . $resultset->getMessage());
 			}
 		}
 	}
-	$box_id++;
 } 
 
 ?>

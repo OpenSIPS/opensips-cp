@@ -1,0 +1,8 @@
+# IMPORTANT: the php file must be run in OpenSIPS Control Panel root directory
+
+# run the statistics sampling once every minute
+*  * * * * root (cd /var/www/opensips-cp/; /usr/bin/php cron_job/get_opensips_stats.php)
+
+
+# run the statistics cleanup once every hour, at x:10
+10 * * * * root (cd /var/www/opensips-cp/; /usr/bin/php cron_job/clean_statistics.php)
