@@ -143,7 +143,7 @@ else {
 
 	if ($mi_type != "json"){
 		$message = trim($message);
-		$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-reenable=(?P<autore>on|off)\s+Resources\:\:(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
+		$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-reenable=(?P<autore>on|off)\s+Resources(\:\:)?(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
 		preg_match_all($pattern,$message,$matches);
 		for ($i=0; $i<count($matches[0]);$i++) {
 			$id			= $matches['id'][$i];
@@ -210,6 +210,11 @@ else {
 
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
+
+		/* if the resources were not fetched via MI, used
+		   the DB values */
+		if ($lb_res[$id]==NULL || $lb_res[$id]=="")
+			$lb_res[$id] = $result[$i]['resources'];
 		?>
 		<tr>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
