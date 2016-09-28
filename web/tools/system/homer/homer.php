@@ -28,10 +28,17 @@ include("../../../../config/tools/system/homer/local.inc.php");
 $page_name = basename($_SERVER['PHP_SELF']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 
-## set the cookie before doing any kind of output
-
 $cookie = generateRandomString(32);
-setcookie("externalid", $cookie, time()+120, "/", $common_subdomain,  0);
+
+if ($homer_auth_method=="cookie") {
+	## set the cookie before doing any kind of output
+	setcookie("externalid", $cookie, time()+120, "/", $common_subdomain,  0);
+	$homer_URL_extra = "";
+} else {
+	## compute the GET param
+	$homer_URL_extra = "/api/v1/redirect?externalid=".$cookie."&url=".urlencode($homer_URL);
+}
+
 # store the session ID in cache, using as key the value of the cookie
 apc_store ( $cookie, session_id(), 60 );
 

@@ -19,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
+:w
 ###############################################################################
 
 
@@ -39,7 +39,16 @@
 #	= "https://homer.mydomain.com:8080"
 #	= "//homer.mydomain.com:8080"  # this is BROKEN as both HTTP and HTTPS
 #                                  # will be forced over the same port
-$homer_URL = "http://homer.opensips.org:8053";
+$homer_URL = "http://homer.opensips.org";
+
+# the authentication method to be used against HOMER. It can be:
+# * cookie - the auth ID will be passed as an HTTP cookie to the
+#            HOMER portal ; this will require to set the 
+#            $common_subdomain too !
+# * get    - the auth ID will be passed as an GET parameter to the
+#            HOMER portal; nothing more is required; this is a 
+#            much more flexible approach.
+$homer_auth_method = "get";
 
 # the common HTTP subdomaim shared between the CP URL and HOMER URL.
 # This is used for cookie transfer and must include at least 2 levels

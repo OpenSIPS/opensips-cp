@@ -26,7 +26,7 @@
 </head>
 <frameset border="0" frameborder="0" framespacing="0" rows="40,*">
 	<frame noresize scrolling="no" src="header.php" name="homer_head">
-	<frame noresize scrolling="auto" frameborder=1 src="<?=$homer_URL?>" name="homer_site">
+	<frame noresize scrolling="auto" frameborder=1 src="<?=$homer_URL.$homer_URL_extra?>" name="homer_site">
 </frameset>
 </html>
 
