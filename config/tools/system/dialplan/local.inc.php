@@ -45,6 +45,6 @@
 // Dialplan - Add/Edit new Translation Rule - Attributes input type 
 // 0 - checkboxes 
 // 1 - text
-$dialplan_attributes_mode = 0 ;
+$dialplan_attributes_mode = 1 ;
  
 ?>
