@@ -50,6 +50,7 @@ function show_boxes($boxen){
 
 	global $current_box;
 	global $page_name ;
+	global $box_val;
 
 
 	echo ('<table allign=left cellspacing=0 cellpadding=3 border=0 width="20%"><tr><td>');
@@ -120,17 +121,15 @@ function get_monit_page($box,$port,$user,$pass,$file,$action,$has_ssl) {
 	$out .= "\r\n";
 
 	if ($has_ssl==0){
-
-		if (!$con = @fsockopen($box, $port, $errno, $errstr, 10))
-
-		return 0;
-
+		if (!$con = @fsockopen($box, $port, $errno, $errstr, 10)) {
+			echo("Error: ".print_r($errstr,FALSE)."<br>");
+			return 0;
+		}
 	} else {
-
-		if (!$con = @fsockopen("ssl://".$box, $port, $errno, $errstr, 10))
-
-		return 0;
-
+		if (!$con = @fsockopen("ssl://".$box, $port, $errno, $errstr, 10)) {
+			echo("Error: ".print_r($errstr,FALSE)."<br>");
+			return 0;
+		}
 	}
 
 
