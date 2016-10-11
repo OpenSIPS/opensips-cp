@@ -35,7 +35,7 @@ $boxes[$box_id]['mi']['conn']="fifo:/tmp/opensips_fifo";
 // monit host:port
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
 $boxes[$box_id]['monit']['user']="admin";
-$boxes[$box_id]['monit']['pass']="monit";
+$boxes[$box_id]['monit']['pass']="admin";
 $boxes[$box_id]['monit']['has_ssl']=1;
 
 
