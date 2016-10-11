@@ -128,7 +128,7 @@ else
 }
 ?>
  <tr>
-   <th colspan="<?echo($colspan);?>" class="clustererTitle"><img src="images/spacer.gif" width="5" height="5"></th>
+   <th colspan="<?echo($colspan);?>" class="clustererTitle"><img src="../../../images/spacer.gif" width="5" height="5"></th>
  </tr>
 
 </table>
