@@ -19,7 +19,7 @@ This tutorial assumes that your web directory is /var/www/ and the OCP files are
 
 Depending on your Linux distro, do:
 
-    Debian-like: apt-get install apache2 libapache2-mod-php5
+    Debian-like: apt-get install apache2 libapache2-mod-php5 php5-curl
     Redhat-like: yum install httpd
 
 1.2 Configure Apache
