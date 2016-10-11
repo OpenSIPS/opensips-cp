@@ -25,7 +25,11 @@
 
 $box_id=0;
 
-// options: fifo:/path/to/fifo_file | xmlrpc:host:port | udp:host:port | json:json_url
+// Options:
+//   FIFO backend:   fifo:/path/to/fifo_file
+//   XMLRPC backend: xmlrpc:host:port/RPC2
+//   UDP backend:    udp:host:port
+//   JSON backedn:   json:json_url/JSON
 $boxes[$box_id]['mi']['conn']="fifo:/tmp/opensips_fifo";
 
 // monit host:port
