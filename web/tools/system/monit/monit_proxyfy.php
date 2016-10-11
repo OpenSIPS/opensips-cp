@@ -25,13 +25,17 @@
 require_once("../../../../config/session.inc.php");
 require_once("../../../../config/tools/system/monit/local.inc.php");
 require_once("lib/functions.inc.php");
+require("../../../common/cfg_comm.php");
 
 session_start();
 get_priv("monit");
 
 $box=$_SESSION['monit_current_box'];
 $var=$_GET['var'];
-$action=$_POST['action'];
+if (isset($_POST['action'])==NULL)
+	$action=NULL;
+else
+	$action=$_POST['action'];
 
 $boxen=inspect_config_monit();
 $boxenlist=prepare_for_select($boxen);
