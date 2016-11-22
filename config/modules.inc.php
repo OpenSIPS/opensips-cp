@@ -24,117 +24,117 @@
 ### List with all the available modules - you can enable and disable module from here
 
 $config_modules 	= array (
-							"admin"			=> array (
-													"enabled" 	=> true,
-													"name" 		=> "Admin",
-													"modules"	=> array (	
-																		"add_admin" 		=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Add Admin"
-																							),
-																		"list_admins" 		=> array (
-																									"enabled"	=> true,
-																									"name"		=> "List Admins"
-																							),
-																)
-											),
-							"users"			=> array (
-													"enabled" 	=> true,
-													"name" 		=> "Users",
-													"modules"	=> array (
-																		"acl_management"	=> array (
-																									"enabled"	=> true,
-																									"name"		=> "ACL Management"
-																							),
-																		"alias_management"	=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Alias Management"
-																							),
-																		"user_management"	=> array (
-																									"enabled"	=> true,
-																									"name"		=> "User Management"
-																							),
-																)
-											),
-							"system"		=> array (
-													"enabled" 	=> true,
-													"name" 		=> "System",
-													"modules"	=> array (
-																		"callcenter"		=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Callcenter"
-																							),
-																		"cdrviewer"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "CDR Viewer"
-																							),
-																		"dialog"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Dialog"
-																							),
-																		"dialplan"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Dialplan"
-																							),
-																		"dispatcher"		=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Dispatcher"
-																							),
-																		"domains"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Domains"
-																							),
-																		"drouting"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Dynamic Routing"
-																							),
-																		"clusterer"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Clusterer"
-																							),
-																		"loadbalancer"		=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Load Balancer"
-																							),
-																		"mi"				=> array (
-																									"enabled"	=> true,
-																									"name"		=> "MI Commands"
-																							),
-																		"monit"				=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Monit"
-																							),
-																		"rtpproxy"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "RTPProxy"
-																							),
-																		"pdt"				=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Prefix 2 Domain"
-																							),
-																		"permissions"		=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Permissions"
-																							),
-																		"siptrace"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "SIP Trace"
-																							),
-																		"smonitor"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Statistics Monitor"
-																							),
-																		"homer"				=> array (
-																									"enabled"	=> true,
-																									"name"		=> "Homer"
-																							),
-																		"tviewer"			=> array (
-																									"enabled"	=> true,
-																									"name"		=> "TViewer"
-																							),
-																)
-											),
-				);
+	"admin"			=> array (
+		"enabled" 	=> true,
+		"name"		=> "Admin",
+		"modules"	=> array (
+			"add_admin"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Add Admin"
+			),
+			"list_admins"		=> array (
+				"enabled"		=> true,
+				"name"			=> "List Admins"
+			),
+		)
+	),
+	"users"			=> array (
+		"enabled" 	=> true,
+		"name" 		=> "Users",
+		"modules"	=> array (
+			"acl_management"	=> array (
+				"enabled"		=> true,
+				"name"			=> "ACL Management"
+			),
+			"alias_management"	=> array (
+				"enabled"		=> true,
+				"name"			=> "Alias Management"
+			),
+			"user_management"	=> array (
+				"enabled"		=> true,
+				"name"			=> "User Management"
+			),
+		)
+	),
+	"system"		=> array (
+		"enabled"	=> true,
+		"name"		=> "System",
+		"modules"	=> array (
+			"callcenter"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Callcenter"
+			),
+			"cdrviewer"			=> array (
+				"enabled"		=> true,
+				"name"			=> "CDR Viewer"
+			),
+			"dialog"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Dialog"
+			),
+			"dialplan"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Dialplan"
+			),
+			"dispatcher"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Dispatcher"
+			),
+			"domains"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Domains"
+			),
+			"drouting"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Dynamic Routing"
+			),
+			"clusterer"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Clusterer"
+			),
+			"loadbalancer"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Load Balancer"
+			),
+			"mi"				=> array (
+				"enabled"		=> true,
+				"name"			=> "MI Commands"
+			),
+			"monit"				=> array (
+				"enabled"		=> true,
+				"name"			=> "Monit"
+			),
+			"rtpproxy"			=> array (
+				"enabled"		=> true,
+				"name"			=> "RTPProxy"
+			),
+			"pdt"				=> array (
+				"enabled"		=> true,
+				"name"			=> "Prefix 2 Domain"
+			),
+			"permissions"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Permissions"
+			),
+			"siptrace"			=> array (
+				"enabled"		=> true,
+				"name"			=> "SIP Trace"
+			),
+			"smonitor"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Statistics Monitor"
+			),
+			"homer"				=> array (
+				"enabled"		=> true,
+				"name"			=> "Homer"
+			),
+			"tviewer"			=> array (
+				"enabled"		=> true,
+				"name"			=> "TViewer"
+			),
+		)
+	),
+);
 
 
 
