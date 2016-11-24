@@ -35,8 +35,8 @@ $query_ct = "select count(".$custom_config[$module_id][$_SESSION[$module_id]['su
 			from ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'];
 
 $total_records = $link->queryOne($query_ct);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue total count query, error message : ' . $resultset->getMessage(). "[".$query_ct."]");
+if(PEAR::isError($total_records)) {
+	die('Failed to issue total count query, error message : ' . $total_records->getMessage(). "[".$query_ct."]");
 }
 
 
@@ -45,8 +45,8 @@ $query_fl =	"select count(".$custom_config[$module_id][$_SESSION[$module_id]['su
 		where ".$where;
 
 $filtered_records = $link->queryOne($query_fl);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage(). "[".$query_fl."]");
+if(PEAR::isError($filtered_records)) {
+	die('Failed to issue query, error message : ' . $filtered_records->getMessage(). "[".$query_fl."]");
 }
 //determine the colspan
 if(!$_SESSION['read_only']){
@@ -148,7 +148,10 @@ else {
 							<input 	type = "submit" 
 								name = "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" 
 								value= "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['text']?>" 
-								class= "button <?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['color']?>"
+								class= "<?php if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['style']))
+											echo($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['style']);
+										else
+											echo ("button ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['color']);?>"
 							>
 						</form>
 					</div>
@@ -161,16 +164,16 @@ else {
 <br>
 			<!-- TABLE STARTS HERE -->
 			
-			<table width="95%" cellspacing="2" cellpadding="2" border="0">
+			<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 				<tr align="center">
 					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-                    	<td class="tviewerTitle"><?=$value['header']?></td>
+                    	<th class="tviewerTitle"><?=$value['header']?></th>
 					<?php } ?>
 					<?php 
 						if(!$_SESSION['read_only']){ 
 							for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
 								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['show_header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
-								echo "<td class='tviewerTitle'>".$header_name."</td>";
+								echo "<th class='tviewerTitle'>".$header_name."</th>";
 							}
 						} 
 					?>
@@ -210,10 +213,10 @@ else {
 				?>
 						<!-- PAGING STARTS HERE -->
 						<tr>
-							<td colspan="<?=$colspan?>" class="tviewerTitle">
+							<th colspan="<?=$colspan?>" class="tviewerTitle">
 								<table width="100%" cellspacing="0" cellpadding="0" border="0">
 									<tr>
-										<td align="left">
+										<th align="left">
 											&nbsp;Page:
 									   <?php
 										if ($filtered_records==0) 
@@ -246,13 +249,13 @@ else {
 											if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
 									   }
 									   ?>
-										</td>
-      									<td align="right">
+										</th>
+      									<th align="right">
 											Total Records: <?=$filtered_records?>&nbsp;
-										</td>
+										</th>
 									</tr>
 								</table>
-							</td>
+							</th>
 						</tr>
 					</table>
 				<br>

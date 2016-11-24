@@ -195,7 +195,7 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 									"0"		=>	array(
 												"text" 				=> "Add",
 												"action" 			=> "add",
-												"color"				=> "red",
+												"style"				=> "formButton",
 												"action_script"		=> "custom_actions/add.php",
 												"action_template"	=> "template/custom_templates/add.php"
 										)
