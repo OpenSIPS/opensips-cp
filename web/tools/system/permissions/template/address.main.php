@@ -27,9 +27,18 @@
 <form action="<?=$page_name?>?action=dp_act" method="post">
 <?php
 $sql_search="";
-$search_src=$_SESSION['address_src'];
-$search_proto=$_SESSION['address_proto'];
-$search_port=$_SESSION['address_port'];
+if (isset($_SESSION['address_src']))
+	$search_src=$_SESSION['address_src'];
+else
+	$search_src="";
+if (isset($_SESSION['address_proto']))
+	$search_proto=$_SESSION['address_proto'];
+else
+	$search_proto="";
+if (isset($_SESSION['address_port']))
+	$search_port=$_SESSION['address_port'];
+else
+	$search_port="";
 if($search_src!="") $sql_search.=" and ip like '%".$search_src."%'";
 if($search_proto!="") $sql_search.=" and proto like '%".$search_proto."%'";
 if($search_port!="") $sql_search.=" and port like '%".$search_port."%'";
