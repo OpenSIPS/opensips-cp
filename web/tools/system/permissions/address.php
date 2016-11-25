@@ -274,8 +274,10 @@ if ($action=="dp_act")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if(isset($errors)) {
+	echo('!!! ');
+	echo($errors);
+}
 require("template/footer.php");
 exit();
 
