@@ -112,7 +112,7 @@ function get_priv($my_tool) {
 function get_modules() {
          $modules=array();
          $mod = array();
-         if ($handle=opendir('../../../tools/admin/'))
+         if (file_exists('../../../tools/admin/') && $handle=opendir('../../../tools/admin/'))
          {
           while (false!==($file=readdir($handle)))
            if (($file!=".") && ($file!="..") && ($file!=".git"))
@@ -120,11 +120,11 @@ function get_modules() {
             $modules[$file]=trim(file_get_contents("../../../tools/admin/".$file."/tool.name"));
            }
          closedir($handle);
-         $mod['Admin'] = $modules;
         }
+        $mod['Admin'] = $modules;
 
          $modules=array();
-         if ($handle=opendir('../../../tools/users/'))
+         if (file_exists('../../../tools/users/') && $handle=opendir('../../../tools/users/'))
          {
           while (false!==($file=readdir($handle)))
            if (($file!=".") && ($file!="..") && ($file!=".git"))
@@ -132,11 +132,11 @@ function get_modules() {
             $modules[$file]=trim(file_get_contents("../../../tools/users/".$file."/tool.name"));
            }
           closedir($handle);
-          $mod['Users'] = $modules;
          }
+         $mod['Users'] = $modules;
 
          $modules=array();
-         if ($handle=opendir('../../../tools/system/'))
+         if (file_exists('../../../tools/system/') && $handle=opendir('../../../tools/system/'))
          {
           while (false!==($file=readdir($handle)))
            if (($file!=".") && ($file!="..") && ($file!=".git"))
@@ -144,8 +144,8 @@ function get_modules() {
             $modules[$file]=trim(file_get_contents("../../../tools/system/".$file."/tool.name"));
            }
           closedir($handle);
-          $mod['System'] = $modules;
-          }
+         }
+         $mod['System'] = $modules;
      return $mod;
 }
 
