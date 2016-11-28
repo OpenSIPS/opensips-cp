@@ -21,7 +21,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$id=$_GET['id'];
+$id=$_GET[$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
 
 $sql = "select * from ".$table." where ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."='".$id."'";
 $resultset = $link->queryAll($sql);
@@ -36,7 +36,7 @@ $link->disconnect();
 		echo '<div class="formSuccess" ><strong>Success </strong>'.$success.' ('.$back_link.')</div>';
 ?>
 
-			<form id="editentry" class="block-content form" action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
+			<form id="editentry" class="block-content form" action="<?=$page_name?>?action=modify&id=<?=$id?>" method="post">
 				<table width="400" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
 						<td colspan="2" class="tviewerTitle">
@@ -72,7 +72,7 @@ $link->disconnect();
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Update" class="formButton">
 							<form>
-							<input type="button" value="Reset" class="formButton" onclick="window.location.href='tviewer.php?action=edit&id=<?=$_GET['id']?>'">
+							<input type="button" value="Reset" class="formButton" onclick="window.location.href='tviewer.php?action=edit&id=<?=$id?>'">
 							</form>
 						</td>
 					</tr>
