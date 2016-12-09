@@ -171,7 +171,7 @@ else {
 	$sql_count="select count(*) from ".$table." where (1=1)";
  }
  else {
-	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by ruleid asc";
+	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
 	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search;
  }
  $data_no = $link->queryOne($sql_count);
