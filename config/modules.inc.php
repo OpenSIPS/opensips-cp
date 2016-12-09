@@ -60,6 +60,10 @@ $config_modules 	= array (
 													"enabled" 	=> true,
 													"name" 		=> "System",
 													"modules"	=> array (
+																		"blacklist"		=> array (
+																									"enabled"	=> true,
+																									"name"		=> "BlackList"
+																							),
 																		"callcenter"		=> array (
 																									"enabled"	=> true,
 																									"name"		=> "Callcenter"
