@@ -21,31 +21,34 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-function get_types($name, $set)
+$available_probe_modes = array(
+	/* format is short tag - long tag */
+	array("No probing", "No probing"),
+	array("When disabled", "Probing only when the destination is in disabled mode"),
+	array("Always probing", "Probing all the time")
+);
+
+function get_probe_types($name, $set)
 {
- $filename = "../../../../config/tools/system/loadbalancer/lb_types.txt";
- $handle = fopen($filename, "r");
- while (!feof($handle))
- {
-  $buffer = fgets($handle, 4096);
-  $pos = strpos($buffer, " ");
-  //$values[] = trim(substr($buffer, 0, $pos));
-  $values[] = trim($buffer);
-  //$content[] = trim(substr($buffer, $pos, strlen($buffer)));
- }
- fclose($handle);
- echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect">');
- if ($name=="search_type") echo('<option value="">- all types -</option>');
- for ($i=0; $i<sizeof($values)-1; $i++)
- {
-  if ($set == $values[$i]) $xtra = 'selected';
-   else $xtra ='';
-  if(!empty($values[$i]))
-        echo('<option value="'.$values[$i].'" '.$xtra.'>'.$values[$i].'</option>');
- }
- echo('</select>');
- return;
+	global $available_probe_modes;
+	echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect">');
+	if ($name=="search_type") echo('<option value="">- all types -</option>');
+	for ($i=0; $i<sizeof($available_probe_modes); $i++)
+	{
+		if ($set == $available_probe_modes[$i][1]) $xtra = 'selected';
+		else $xtra ='';
+		if(!empty($available_probe_modes[$i][1]))
+			echo('<option value="'.$i.'" '.$xtra.'>'.$available_probe_modes[$i][1].'</option>');
+	}
+	echo('</select>');
 }
 
+function get_probe_mode($probe_idx)
+{
+	global $available_probe_modes;
+	if ($probe_idx < sizeof($available_probe_modes))
+		return $available_probe_modes[$probe_idx][0];
+	return '';
+}
 
 ?>

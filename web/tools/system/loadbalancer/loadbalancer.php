@@ -92,10 +92,7 @@ if ($action=="add_verify")
                 }
 		
 
-		if ($_POST['probe_mode'] == "No probing") $probe_mode = 0;
-		else if ($_POST['probe_mode'] == "Probing only when the destination is in disabled mode") $probe_mode=1;
-		else $probe_mode=2;
-
+		$probe_mode = $_POST['probe_mode'];
 		$sql_command = "INSERT INTO ".$table."
 		(group_id, dst_uri,resources,probe_mode,description) VALUES 
 		(".$group_id.", '".$dst_uri."','".$resources."',".$probe_mode.",'".$description."') ";
@@ -190,9 +187,7 @@ if ($action=="modify")
 				}
 		}
 
-		if ($_POST['probe_mode'] == "No probing") $probe_mode = 0;
-		else if ($_POST['probe_mode'] == "Probing only when the destination is in disabled mode") $probe_mode=1;
-		else $probe_mode=2;
+		$probe_mode = $_POST['probe_mode'];
 		$description=$_POST['description'];
 
 		if ($group_id=="" || $dst_uri=="" || $resources==""){

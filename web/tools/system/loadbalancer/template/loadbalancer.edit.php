@@ -64,7 +64,7 @@ else $probe = "Probing all the time";
 
  <tr>
   <td class="dataRecord"><b>Probe Mode:</b></td>
-  <td class="dataRecord" width="275"><?=get_types("probe_mode",$probe)?></td>
+  <td class="dataRecord" width="275"><?=get_probe_types("probe_mode",$probe)?></td>
  </tr>
 
  <tr>

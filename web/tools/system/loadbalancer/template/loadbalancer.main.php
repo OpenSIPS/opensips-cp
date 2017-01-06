@@ -221,7 +221,7 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['group_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['dst_uri']?></td>
 			<td class="<?=$row_style?>"><?=$lb_res[$id]?></td>
-			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['probe_mode']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=get_probe_mode($result[$i]['probe_mode'])?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$lb_auto[$id]?></td>
 			<td class="<?=$row_style?>">&nbsp;
 				<div align="center">

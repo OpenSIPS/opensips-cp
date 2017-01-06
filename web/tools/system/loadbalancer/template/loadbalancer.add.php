@@ -48,7 +48,7 @@
 
  <tr>
   <td class="dataRecord"><b>Probe Mode:</b></td>
-  <td class="dataRecord" width="275"><?=get_types("probe_mode", $probe_mode)?></td>
+  <td class="dataRecord" width="275"><?=get_probe_types("probe_mode", $probe_mode)?></td>
  </tr>
 
  <tr>

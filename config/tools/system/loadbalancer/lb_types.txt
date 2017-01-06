@@ -1,3 +1,0 @@
-No probing
-Probing only when the destination is in disabled mode
-Probing all the time
