@@ -286,7 +286,7 @@ if ($action=="modify")
 		if ($errors=="") {
 			if(get_magic_quotes_gpc()==0){
 
-				$match_exp = mysql_real_escape_string($match_exp, $link);
+				$match_exp = mysql_real_escape_string($match_exp);
 			}
 
 			$sql = "SELECT * FROM ".$table.
@@ -314,9 +314,9 @@ if ($action=="modify")
 				}
 				if(get_magic_quotes_gpc()==0){
 					if($subst_exp!="")
-					$subst_exp	= mysql_real_escape_string($subst_exp,	$link);
+					$subst_exp	= mysql_real_escape_string($subst_exp);
 					if($repl_exp!="")
-					$repl_exp	= mysql_real_escape_string($repl_exp,	$link);
+					$repl_exp	= mysql_real_escape_string($repl_exp);
 				}
 				$sql = "UPDATE ".$table." SET dpid=".$dpid.", pr = ".$pr.
 				", match_op= ".$match_op.", match_exp ='".$match_exp.
