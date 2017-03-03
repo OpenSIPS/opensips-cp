@@ -23,7 +23,7 @@
  -->
 
 <?php
- if ($resultset[0]['gwlist']=="") $gwlist='<img src="../../../images/share/inactive.gif" alt="No GW List">';
+ if ($resultset[0]['gwlist']=="") $gwlist='<img src="../../../images/share/inactive.png" alt="No GW List">';
   else if ( preg_match('/[#][0-9]+/',$resultset[0]['gwlist'])) $gwlist=parse_list($resultset[0]['gwlist']); 
   else $gwlist=parse_gwlist($resultset[0]['gwlist']);
 ?>

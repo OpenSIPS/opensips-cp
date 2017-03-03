@@ -167,7 +167,7 @@
     else $row_style="rowEven";
    if ($resultset[$i]['prefix']!="") $prefix=$resultset[$i]['prefix'];
     else $prefix="&nbsp;";
-   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.gif" alt="No GW List"></center>';
+   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.png" alt="No GW List"></center>';
    else if ( preg_match('/[#][0-9]+/',$resultset[$i]['gwlist'])) $gwlist=parse_list($resultset[$i]['gwlist']);
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
    if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
