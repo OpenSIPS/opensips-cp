@@ -161,7 +161,7 @@
    $index_row++;
    if ($index_row%2==1) $row_style="rowOdd";
     else $row_style="rowEven";
-   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.gif" alt="No GW List"></center>';
+   if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.png" alt="No GW List"></center>';
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
 	//handle flags
 	if (is_numeric($resultset[$i]['flags'])) {
@@ -188,9 +188,9 @@
 	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
 
 	   if ($carrier_status=="yes")
-	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/active.gif" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
+	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
       else
-	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.gif" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
+	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
 
    switch ($resultset[$i]['state']) {
    	case "0" : $state = "Active"; break;
