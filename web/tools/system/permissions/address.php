@@ -82,24 +82,13 @@ if ($action=="add_verify")
 		$flags = "0";
 
 		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table.
-			" WHERE ip='" .$src_ip."'";
-			$resultset = $link->queryAll($sql);
-                        if(PEAR::isError($resultset)) {
-                                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                        }
-
-			if (count($resultset)>0) {
-				$errors="Duplicate rule";
-			} else {
-				$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
+			$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
 				('".$grp."','".$src_ip."','".$mask."','".$port."','".$proto."','".$from_pattern."','".$context_info."')";
-				$resultset = $link->exec($sql);
-				if(PEAR::isError($resultset)) {
-	                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                }
-				$info="The new record was added";
+			$resultset = $link->exec($sql);
+			if(PEAR::isError($resultset)) {
+				die('Failed to issue query, error message : ' . $resultset->getMessage());
 			}
+			$info="The new record was added";
 			$link->disconnect();
 		}
 	}else{
@@ -157,23 +146,13 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE ip_addr='" .$src_ip. "' AND proto='" . $proto. "' AND id!=".$id;
-	                if(PEAR::isError($resultset)) {
-                                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                        }
-	
-			if (count($resultset)>0) {
-				$errors="Duplicate rule";
-			} else {
-
-				$sql = "UPDATE ".$table." SET grp=".$grp.", ip='".$src_ip."', mask=".$mask.", port=".$port.", proto = '".$proto.
+			$sql = "UPDATE ".$table." SET grp=".$grp.", ip='".$src_ip."', mask=".$mask.", port=".$port.", proto = '".$proto.
 				"', pattern= '".$from_pattern."', context_info='".$context_info."' WHERE id=".$id;
-				$resultset = $link->prepare($sql);
-				$resultset->execute();
-				$resultset->free();
+			$resultset = $link->prepare($sql);
+			$resultset->execute();
+			$resultset->free();
 
-				$info="The new rule was modified";
-			}
+			$info="The new rule was modified";
 			$link->disconnect();
 		}
 	}else{
