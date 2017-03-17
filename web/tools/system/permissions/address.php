@@ -36,6 +36,7 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+unset($errors);
 
 #################
 # start add new #
@@ -66,7 +67,6 @@ if ($action=="add")
 if ($action=="add_verify")
 {
 	$info="";
-	$errors="";
 
 	if(!$_SESSION['read_only']){
 
@@ -81,7 +81,11 @@ if ($action=="add_verify")
 		if($from_pattern=="")
 		$flags = "0";
 
-		if ($errors=="") {
+		if ( !preg_match('/^[0-9]+$/', $grp) ){
+			$errors = "Invalid group (not numerical), the entry was not modified in the database";
+		} else if ( !preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $src_ip) ){
+			$errors = "Invalid IP address, the entry was not modified in the database";
+		} else {
 			$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
 				('".$grp."','".$src_ip."','".$mask."','".$port."','".$proto."','".$from_pattern."','".$context_info."')";
 			$resultset = $link->exec($sql);
@@ -100,6 +104,7 @@ if ($action=="add_verify")
 # end add verify #
 ##################
 
+#################
 # start edit	#
 #################
 if ($action=="edit")
@@ -127,7 +132,6 @@ if ($action=="modify")
 {
 
 	$info="";
-	$errors="";
 
 	if(!$_SESSION['read_only']){
 
@@ -140,12 +144,11 @@ if ($action=="modify")
                 $from_pattern = $_POST['from_pattern'];
                 $context_info= $_POST['context_info'];
 
-
-
-		if ( $src_ip=="" || $proto=="" ){
-			$errors = "Invalid data, the entry was not modified in the database";
-		}
-		if ($errors=="") {
+		if ( !preg_match('/^[0-9]+$/', $grp) ){
+			$errors = "Invalid group (not numerical), the entry was not modified in the database";
+		} else if ( !preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $src_ip) ){
+			$errors = "Invalid IP address, the entry was not modified in the database";
+		} else {
 			$sql = "UPDATE ".$table." SET grp=".$grp.", ip='".$src_ip."', mask=".$mask.", port=".$port.", proto = '".$proto.
 				"', pattern= '".$from_pattern."', context_info='".$context_info."' WHERE id=".$id;
 			$resultset = $link->prepare($sql);
