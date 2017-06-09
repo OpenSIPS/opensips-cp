@@ -38,6 +38,9 @@ if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 
+$info="";
+$errors="";
+
 #################
 # start add new #
 #################
@@ -62,15 +65,13 @@ if ($action=="add")
 
 
 ####################
-# start add verify #
+# start do_add     #
 ####################
-if ($action=="add_verify")
+if ($action=="do_add")
 {
-	$info="";
-	$errors="";
-
-	if(!$_SESSION['read_only']){
-
+	if ($_SESSION['read_only']) {
+		$errors= "User with Read-Only Rights";
+	} else {
 		$setid=$_POST['setid'];
 		$destination=$_POST['destination'];
 		$socket = $_POST['socket'];
@@ -79,62 +80,17 @@ if ($action=="add_verify")
 		$attrs = $_POST['attrs'];
 		$description = $_POST['description'];
 
-
-		if(!isset($setid) || $setid == NULL || !ctype_digit(strval($setid)) || $setid < 0){
-			$form_error = "Invalid Set ID - has to be INTEGER >= 0";
+		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES 
+			('". $setid ."','". $destination ."','".$socket."','".$state."','".$weight."','".$attrs."','".$description."') ";
+			$result = $link->exec($sql);
+        	if(PEAR::isError($result)) {
+	        	$form_error = $result->getUserInfo();
 			require("template/".$page_id.".add.php");
 			require("template/footer.php");
 			exit();
-		}
-
-		if (!isset($destination) || !preg_match("/^(sip|sips):.*$/",$destination)){
-			$form_error = "Invalid Destination - has to be a SIP URI";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		}
-
-		if (isset($socket) && $socket != "" && !preg_match("/^(sip|udp|tcp|raw):.*:\d{1,5}$/",$socket)){
-			$form_error = "Invalid Socket - has to be proto:ip:port";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		}
-		
-		if(!isset($weight) || $weight == NULL || !ctype_digit(strval($weight)) || $weight < 0){
-			$form_error = "Invalid Weight - has to be INTEGER >= 0";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		}
-
-		//check for duplicates
-		$sql = "SELECT count(*) FROM ".$table." WHERE setid=" .$setid. " and destination = '".$destination."'"; 
-		$result = $link->queryOne($sql);
-        if(PEAR::isError($result)) {
-        	die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
- 	
-		if ($result > 0){
-			$form_error = "Duplicate record - a record with same setid & address already exists";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		} else {
-			$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES 
-				('". $setid ."','". $destination ."','".$socket."','".$state."','".$weight."','". $attrs."','". $description."') ";
-				$result = $link->exec($sql);
-        		if(PEAR::isError($result)) {
-		        	$form_error = $result->getUserInfo();
-					require("template/".$page_id.".add.php");
-					require("template/footer.php");
-					exit();
-       			}
-				$info="The new record was added";
-		}
+       		}
+		$info="The new record was added";
 		$link->disconnect();
-	}else{
-		$errors= "User with Read-Only Rights";
 	}
 
 }
@@ -143,6 +99,7 @@ if ($action=="add_verify")
 # end add verify #
 ##################
 
+#################
 # start edit	#
 #################
 if ($action=="edit")
@@ -363,8 +320,8 @@ if ($action=="change_state") {
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if ($error!="") echo('<tr><td align="center"><div class="formError">'.$error.'</div></td></tr>');
+if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();
 
