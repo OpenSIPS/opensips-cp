@@ -1,6 +1,5 @@
 <?php
 /*
-* $Id$
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -35,7 +34,7 @@ $no_result = "No Data Found.";
 <html>
 
 <head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef">
