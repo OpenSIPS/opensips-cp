@@ -73,7 +73,7 @@ if(!$_SESSION['read_only']){
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
-<form action="<?=$page_name?>?action=dp_act" method="post">
+<form action="<?=$page_name?>?action=ds_search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="dispatcherTitle"></td>

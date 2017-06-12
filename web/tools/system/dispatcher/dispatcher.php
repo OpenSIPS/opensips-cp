@@ -84,12 +84,10 @@ if ($action=="do_add")
 			('". $setid ."','". $destination ."','".$socket."','".$state."','".$weight."','".$attrs."','".$description."') ";
 			$result = $link->exec($sql);
         	if(PEAR::isError($result)) {
-	        	$form_error = $result->getUserInfo();
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-       		}
-		$info="The new record was added";
+	        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+       		} else {
+			$info="The new record was added";
+		}
 		$link->disconnect();
 	}
 
@@ -126,11 +124,9 @@ if ($action=="edit")
 if ($action=="modify")
 {
 
-	$info="";
-	$errors="";
-
-	if(!$_SESSION['read_only']){
-
+	if ($_SESSION['read_only']) {
+		$errors= "User with Read-Only Rights";
+	} else {
 		$id = $_GET['id'];
 		$setid=$_POST['setid'];
 		$destination=$_POST['destination'];
@@ -141,62 +137,22 @@ if ($action=="modify")
 		$description = $_POST['description'];
 
 
-		if(!isset($setid) || $setid == NULL || !ctype_digit(strval($setid)) || $setid < 0){
-			$form_error = "Invalid Set ID - has to be INTEGER >= 0";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
+		$sql = "UPDATE ".$table." SET 
+			setid=".$setid.", 
+			destination = '".$destination."', 
+			socket = '".$socket."', 
+			state = ".$state.", 
+			weight = ".$weight.", 
+			attrs = '".$attrs."', 
+			description = '".$description."' 
+			WHERE id=".$id;
+		$result = $link->exec($sql);
+        	if(PEAR::isError($result)) {
+	        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+       		} else {
+			$info="Record has been updated";
 		}
-
-		if (!isset($destination) || !preg_match("/^(sip|sips):.*$/",$destination)){
-			$form_error = "Invalid Destination - has to be a SIP URI";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		}
-
-		if (isset($socket) && $socket != "" && !preg_match("/^(sip|udp|tcp|raw):.*:\d{1,5}$/",$socket)){
-			$form_error = "Invalid Socket - has to be proto:ip:port";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		}
-		
-		if(!isset($weight) || $weight == NULL || !ctype_digit(strval($weight)) || $weight < 0){
-			$form_error = "Invalid Weight - has to be INTEGER >= 0";
-			require("template/".$page_id.".add.php");
-			require("template/footer.php");
-			exit();
-		}
-
-		//check for duplicates
-		$sql = "SELECT count(*) FROM ".$table." WHERE setid=" .$setid. " and destination = '".$destination."' and id != ".$id; 
-		$result = $link->queryOne($sql);
-		if(PEAR::isError($result)) {
-			die('Failed to issue query, error message : ' . $resultset->getMessage());
-		}
-		else {
-				$sql = "UPDATE ".$table." SET 
-						setid=".$setid.", 
-						destination = '".$destination."', 
-						socket = '".$socket."', 
-						state = ".$state.", 
-						weight = ".$weight.", 
-						attrs = '".$attrs."', 
-						description = '".$description."' 
-						WHERE id=".$id;
-				$result = $link->exec($sql);
-        		if(PEAR::isError($result)) {
-		        	$form_error = $result->getUserInfo();
-					require("template/".$page_id.".edit.php");
-					require("template/footer.php");
-					exit();
-       			}
-				$info="Record has been updated";
-				$link->disconnect();
-		}
-	}else{
-		$errors= "User with Read-Only Rights";
+		$link->disconnect();
 	}
 
 }
@@ -217,8 +173,8 @@ if ($action=="delete")
 
 		$sql = "DELETE FROM ".$table." WHERE id=".$id;
 		$link->exec($sql);
+		$info="Record has been deleted";
 	}else{
-
 		$errors= "User with Read-Only Rights";
 	}
 }
@@ -230,7 +186,7 @@ if ($action=="delete")
 ################
 # start search #
 ################
-if ($action=="dp_act")
+if ($action=="ds_search")
 {
 
 	$_SESSION['dispatcher_id']=$_POST['dispatcher_id'];
@@ -245,45 +201,6 @@ if ($action=="dp_act")
 		$_SESSION['dispatcher_setid']=$_POST['dispatcher_setid'];
 		$_SESSION['dispatcher_dest']=$_POST['dispatcher_dest'];
 		$_SESSION['dispatcher_descr']=$_POST['dispatcher_descr'];
-	} else if($_SESSION['read_only']){
-
-		$errors= "User with Read-Only Rights";
-
-	}else if($delete=="Delete Dispatcher"){
-		$sql_query = "";
-		if( $_POST['dispatcher_setid'] != "" ) {
-			$setid = $_POST['dispatcher_setid'];
-			$sql_query .= " AND setid=".$setid;
-		}
-
-		if( $_POST['dispatcher_dest'] != "" ) {
-			$dest = $_POST['dispatcher_dest'];
-			$sql_query .= " AND destination='".$dest . "'";
-		}
-
-		if( $_POST['dispatcher_descr'] != "" ) {
-			$descr = $_POST['dispatcher_descr'];
-			$sql_query .= " AND description='".$descr . "'";
-		}
-
-		$sql = "SELECT * FROM ".$table.
-		" WHERE (1=1) " . $sql_query;
-		$resultset = $link->queryAll($sql);
-                if(PEAR::isError($resultset)) {
-	                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                }
-		if (count($resultset)==0) {
-			$errors="No such Dispatcher rule";
-			$_SESSION['dispatcher_setid']="";
-			$_SESSION['dispatcher_dest']="";
-			$_SESSION['dispatcher_descr']="";
-
-		}else{
-
-			$sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
-			$link->exec($sql);
-		}
-		$link->disconnect();
 	}
 }
 ##############
