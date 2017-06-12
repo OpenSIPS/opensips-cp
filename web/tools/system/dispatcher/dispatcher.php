@@ -1,7 +1,6 @@
 <?php
 /*
-* $Id$
-* Copyright (C) 2011 OpenSIPS Project
+* Copyright (C) 2011-2017 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
 * OpenSIPS SIP server.
@@ -148,7 +147,7 @@ if ($action=="modify")
 			WHERE id=".$id;
 		$result = $link->exec($sql);
         	if(PEAR::isError($result)) {
-	        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+	        	$errors = "Update to DB failed with: ".$result->getUserInfo();
        		} else {
 			$info="Record has been updated";
 		}
