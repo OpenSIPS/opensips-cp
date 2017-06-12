@@ -37,7 +37,7 @@
 	<table width="400" cellspacing="2" cellpadding="2" border="0">
 
 	<tr align="center">
-		<td colspan="2" class="dispatcherTitle">
+		<td colspan="2" class="searchTitle">
 		Edit Dispatcher
 		</td>
 	 </tr>

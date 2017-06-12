@@ -76,10 +76,10 @@ if(!$_SESSION['read_only']){
 <form action="<?=$page_name?>?action=ds_search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="dispatcherTitle"></td>
+  <td colspan="2" height="10" class="searchTitle"></td>
  </tr>
   <tr>
-  <td class="searchRecord">Setid</td>
+  <td class="searchRecord">SetID</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_setid" 
   value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
  <tr>
@@ -100,7 +100,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="dispatcherTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -109,7 +109,7 @@ if(!$_SESSION['read_only']){
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
 <tr>
 <td align="center">
-<form action="<?=$page_name?>?action=add&clone=0" method="post">
+<form action="<?=$page_name?>?action=add" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 </td>
@@ -120,20 +120,20 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="dispatcherTitle">ID</th>
-  <th class="dispatcherTitle">Setid</th>
-  <th class="dispatcherTitle">Destination</th>
-  <th class="dispatcherTitle">Socket</th>
-  <th class="dispatcherTitle">Weight</th>
-  <th class="dispatcherTitle">Attributes</th>
-  <th class="dispatcherTitle">Description</th>
-  <th class="dispatcherTitle">DB State</th>
+  <th class="searchTitle">ID</th>
+  <th class="searchTitle">SetID</th>
+  <th class="searchTitle">Destination</th>
+  <th class="searchTitle">Socket</th>
+  <th class="searchTitle">Weight</th>
+  <th class="searchTitle">Attributes</th>
+  <th class="searchTitle">Description</th>
+  <th class="searchTitle">DB State</th>
   <?
   if(!$_SESSION['read_only']){
-  	echo('<th class="dispatcherTitle">Memory State</th>
+  	echo('<th class="searchTitle">Memory State</th>
 
-  	<th class="dispatcherTitle">Edit</th>
-  	<th class="dispatcherTitle">Delete</th>');
+  	<th class="searchTitle">Edit</th>
+  	<th class="searchTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -187,8 +187,8 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 			if ($state[$i]== "-") 
 				$state_link = $state[$i];
 			else
@@ -220,7 +220,7 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="dispatcherTitle">
+  <th colspan="<?=$colspan?>" class="searchTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">
