@@ -1,7 +1,6 @@
 <?php
 /*
-* $Id$
-* Copyright (C) 2011 OpenSIPS Project
+* Copyright (C) 2011-2017 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
 * OpenSIPS SIP server.
@@ -27,33 +26,25 @@ require ("../../../common/mi_comm.php");
 include("lib/db_connect.php");
 $table=$config->table_domains;
 
+if (isset($_POST['action'])) $action=$_POST['action'];
+else if (isset($_GET['action'])) $action=$_GET['action'];
+else $action="";
+
+$info="";
+$error="";
 
 #################
 # start add new #
 #################
-if ($_GET['action']=="add")
+if ($action=="add")
 {
-	$info="";
-	$error="";
-	$domain=$_POST['new_domain'];
-	if (strpos($domain,".")===false) $error="Invalid domain name";
-	if ($error=="") {
-		$sql = "SELECT * FROM ".$table." WHERE domain='".$domain."' ";
-		$resultset = $link->query($sql);
-		if(PEAR::isError($resultset)) {
-			    die('Failed to issue query, error message : ' . $resultset->getMessage());
-		}
-
-		if ( $resultset->numRows() > 0 ) $error="Duplicate domain";
-		else {
-			$sql = 'INSERT INTO '.$table.' (domain, last_modified) VALUES (:domain, NOW())';
-			$resultset = $link->prepare($sql);
-			$resultset->bindParam('domain', $domain);
-
-			$resultset->execute();
-			$resultset->free();
-
-		    }
+	$domain=$_POST['domain'];
+	$sql = 'INSERT INTO '.$table.' (domain, last_modified) VALUES ("'.$domain.'", NOW())';
+	$result = $link->exec($sql);
+       	if(PEAR::isError($result)) {
+        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+	} else {
+		$info="Domain Name has been inserted";
 	}
 	$link->disconnect();
 }
@@ -64,67 +55,54 @@ if ($_GET['action']=="add")
 ##############
 # start save #
 ##############
-if ($_GET['action']=="save")
+if ($action=="save")
 {
-	$info="";
-	$error="";
-	$domain=$_POST['new_domain'];
-	$old_domain=$_POST['old_domain'];
-	if (strpos($domain,".")===false) $error="Invalid domain name";
-	if ($error=="") {
-		$sql = "SELECT * FROM ".$table." WHERE domain='".$domain."' AND domain!='".$old_domain."' ";
-		$resultset = $link->query($sql);
-		if(PEAR::isError($resultset)) {
-                            die('Failed to issue query, error message : ' . $resultset->getMessage());
-                }
-		if ( $resultset->numRows() > 0 ) $error="Duplicate domain";
-		else {
-			$sql = "UPDATE ".$table." SET domain='".$domain."', last_modified=NOW() WHERE domain='".$old_domain."' ";
-			$info="The domain name was modified";
-
-                        $resultset = $link->prepare($sql);
-
-                        $resultset->execute();
-                        $resultset->free();
-		}
-	$link->disconnect();
+	$id=$_GET['id'];
+	$domain=$_POST['domain'];
+	$sql = "UPDATE ".$table." SET domain='".$domain."', last_modified=NOW() WHERE id='".$id."' ";
+	$result = $link->exec($sql);
+       	if(PEAR::isError($result)) {
+        	$errors = "Update to DB failed with: ".$result->getUserInfo();
+	} else {
+		$info="Domain name has been modified";
 	}
+	$link->disconnect();
 }
 ############
 # end save #
 ############
 
+
 ##############
 # start edit #
 ##############
-if ($_GET['action']=="edit")
+if ($action=="edit")
 {
-	$form_domain=$_GET['domain'];
-}
-if (($old_domain!="") && ($error!=""))
-{
-	$form_domain=$old_domain;
+	## nothing to do here at the moment
 }
 ############
 # end edit #
 ############
 
+
 ################
 # start delete #
 ################
-if ($_GET['action']=="delete")
+if ($action=="delete")
 {
-	$del_id=$_GET['domain'];	
-	//$sql = "DELETE FROM ".$table." WHERE domain='".$del_id."' LIMIT 1";
-	$sql = "DELETE FROM ".$table." WHERE domain='".$del_id."'";
+	$id=$_GET['id'];
+	$sql = "DELETE FROM ".$table." WHERE id='".$id."'";
 	$link->exec($sql);	
 	$link->disconnect();
+	$info = "Domain name has been deleted";
 }
 ##############
 # end delete #
 ##############
 
 require("template/".$page_id.".main.php");
+if ($error!="") echo('<tr><td align="center"><div class="formError">'.$error.'</div></td></tr>');
+if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();
 

@@ -34,7 +34,7 @@ $no_result = "No Data Found.";
 <html>
 
 <head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef">

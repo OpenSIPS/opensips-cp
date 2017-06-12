@@ -1,7 +1,6 @@
 <?php
 /*
-* $Id$
-* Copyright (C) 2011 OpenSIPS Project
+* Copyright (C) 2017 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
 * OpenSIPS SIP server.
@@ -20,93 +19,100 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-if ($form_domain!=null) {
-	$form_action="save";
-	$form_title="Edit Domain Name";
-	$form_input='<input name="new_domain" type="text" class="newDomain" value="'.$form_domain.'">';
-	$form_button='<input name="save" type="submit" value="Save Changes" class="Button">';
-	$form_extra='<input name="old_domain" type="hidden" value="'.$form_domain.'"';
-}
-else {
-	$form_action="add";
-	$form_title="New Domain Name";
-	$form_input='<input name="new_domain" type="text" class="searchInput" value="">';
-	$form_button='<input name="add" type="submit" value="Add Domain" class="searchButton">';
-}
-?>
-
-<?php
 
 if (!$_SESSION[read_only]) {
-?> 
-<div id="dialog" class="dialog" style="display:none"></div>
-<div onclick="closeDialog();" id="overlay" style="display:none"></div>
-<div id="content" style="display:none"></div>
-<form action="<?=$page_name?>?action=<?=$form_action?>" method="post">
-<?=$form_extra?>
-<table width="250" cellspacing="2" cellpadding="2" border="0">
- <tr>
-  <td class="domainTitle" align="center"><?=$form_title?></td>
- </tr>
-<?php
-if ($error!="") echo('<tr><td align="center"><div class="formError">'.$error.'</div></td></tr>');
-if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
-?>
- <tr>
-  <td class="searchRecord" align="center"><?=$form_input?></td>
- </tr>
- <tr>
-  <td class="searchRecord" align="center"><?=$form_button?></td>
- </tr>
- <tr>
-  <td class="domainTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-</table>
-</form>
-<br>
-<?php
-}
-?>
 
-<table class="ttable" width="400" cellspacing="2" cellpadding="2" border="0">
- <tr>
-  <th align="center" class="domainTitle">Domain Name</th>
-  <th align="center" class="domainTitle">Last Modified</th>
-  <th align="center" class="domainTitle">Edit</th>
-  <th align="center" class="domainTitle">Delete</th>
- </tr>
-<?php
-//include("lib/db_connect.php");
+	if ($action=="edit") {
+		## edit form
+		$url = $page_name."?action=save&id=".$_GET['id'];
+		$title = "Edit Domain name";
+		# populate the initial values for the form
+		$sql='SELECT domain FROM '.$table.' where id='.$_GET['id'];
+		$domain_form = $link->queryRow($sql);
+		$link->disconnect();
+		$button = "Save";
+	} else {
+		## insert form
+		$url = $page_name."?action=add";
+		$title = "New Domain name";
+		# populate the initial values for the form
+		$domain_form['domain'] = null;
+		$button = "Add";
+	}
+	?>
+
+	<form action="<?=$url?>" method="post">
+		<table width="400" cellspacing="2" cellpadding="2" border="0">
+		<tr align="center">
+			<td colspan="2" class="searchTitle">
+			<?=$title?>
+			</td>
+	 	</tr>
+		<?php
+		require("domains.form.php"); ?>
+		<tr>
+			<td colspan="2" class="dataRecord" align="center">
+			<input type="submit" name="add" disabled=true value="<?=$button?>" class="formButton">
+			</td>
+		</tr>
+		<tr height="10">
+			<td colspan="2" class="dataTitle">
+			<img src="../../../images/share/spacer.gif" width="5" height="5">
+			</td>
+		</tr>
+		</table>
+	</form>
+	<?php
+}
+
+
+
+
+
 $index_row=0;
-$sql='SELECT * FROM '.$table.' WHERE (1=1) ORDER BY domain ASC';
+$sql='SELECT * FROM '.$table.' ORDER BY domain ASC';
 $resultset = $link->query($sql);
 if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
-$data_no = $resultset->numRows();
-
-if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else
-while($row = $resultset->fetchRow())
-{
-	$index_row++;
-	if ($index_row%2==1) $row_style="rowOdd";
-	else $row_style="rowEven";
-	$edit_link='<a href="'.$page_name.'?action=edit&domain='.$row['domain'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-	$delete_link='<a href="'.$page_name.'?action=delete&domain='.$row['domain'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
-if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
-  ?>
-  <tr>
-   <td class="<?=$row_style?>"><?=$row['domain']?></td>
-   <td class="<?=$row_style?>"><?=$row['last_modified']?></td>
-   <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
-   <td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
-  </tr>
-  <?php
+	$errors = 'Failed to issue query, error message : ' . $resultset->getMessage();
+	$data_no = 0;
+} else {
+	$data_no = $resultset->numRows();
 }
 $link->disconnect();
+
 ?>
- <tr>
-  <th colspan="4" class="domainTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
- </tr>
+
+<br>
+
+<table class="ttable" width="400" cellspacing="2" cellpadding="2" border="0">
+	<tr>
+  		<th align="center" class="searchTitle">Domain Name</th>
+  		<th align="center" class="searchTitle">Last Modified</th>
+		<th align="center" class="searchTitle">Edit</th>
+		<th align="center" class="searchTitle">Delete</th>
+	</tr>
+	<?php
+	if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
+	else
+	while($row = $resultset->fetchRow())
+	{
+		$index_row++;
+		if ($index_row%2==1) $row_style="rowOdd";
+		else $row_style="rowEven";
+		$edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
+		$delete_link='<a href="'.$page_name.'?action=delete&id='.$row['id'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
+		if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
+		?>
+	<tr>
+   		<td class="<?=$row_style?>"><?=$row['domain']?></td>
+		<td class="<?=$row_style?>"><?=$row['last_modified']?></td>
+		<td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
+  	 	<td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+  	</tr>
+	<?php
+	}
+	?>
+ 	<tr>
+  		<th colspan="4" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
+ 	</tr>
 </table>
