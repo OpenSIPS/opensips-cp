@@ -101,7 +101,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 		</tr>");
 }
 
-function form_generate_select($title,$tip,$id,$mlen,$vals,$texts) {
+function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts) {
 
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
@@ -126,7 +126,7 @@ function form_generate_select($title,$tip,$id,$mlen,$vals,$texts) {
 				<select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
 	for($i = 0; $i < count($vals); ++$i){
 		print("
-					<option value='".$vals[$i]."'>".$texts[$i]."</option>");
+					<option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".$texts[$i]."</option>");
 	}
 	print("
 				</select>
