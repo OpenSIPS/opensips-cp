@@ -64,9 +64,9 @@ if($search_descr !="") $sql_search.=" and description like '%".$search_descr."%'
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 11;
+	$colspan = 10;
 }else{
-	$colspan = 8;
+	$colspan = 7;
 }
   ?>
 <div id="dialog" class="dialog" style="display:none"></div>
@@ -120,7 +120,6 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="searchTitle">ID</th>
   <th class="searchTitle">SetID</th>
   <th class="searchTitle">Destination</th>
   <th class="searchTitle">Socket</th>
@@ -197,7 +196,6 @@ else
 
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['setid']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['destination']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['socket']?></td>
