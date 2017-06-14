@@ -85,7 +85,7 @@ if ($_GET['action']=="execute")
 					if (count($res) == 0){
 						$_SESSION['mi_response'][]="Successfully executed, no output generated";
 					} else {
-						$_SESSION['mi_response'][]=print_r($res,true);
+						$_SESSION['mi_response'][]=json_encode($res,JSON_PRETTY_PRINT);
 					}
 				}
 			} else {
