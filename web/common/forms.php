@@ -92,7 +92,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 			</td>
 			<td class='dataRecord' width='250'>
 				<table><tr><td>
-				<input type='text' name='".$id."'".$value."' id='".$id."' maxlength='".$mlen."' class='dataInput'".$validate.">
+				<input type='text' name='".$id."'".$value." id='".$id."' maxlength='".$mlen."' class='dataInput'".$validate.">
 				</td>
 				<td width='20'>
 				<div id='".$id."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
