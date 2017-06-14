@@ -31,7 +31,7 @@ else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
 
 $info="";
-$error="";
+$errors="";
 
 #################
 # start add new #
@@ -101,7 +101,7 @@ if ($action=="delete")
 ##############
 
 require("template/".$page_id.".main.php");
-if ($error!="") echo('<tr><td align="center"><div class="formError">'.$error.'</div></td></tr>');
+if ($errors!="") echo('<tr><td align="center"><div class="formError">'.$errors.'</div></td></tr>');
 if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();

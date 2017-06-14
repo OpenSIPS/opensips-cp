@@ -81,7 +81,7 @@ if ($action=="do_add")
 
 		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES 
 			('". $setid ."','". $destination ."','".$socket."','".$state."','".$weight."','".$attrs."','".$description."') ";
-			$result = $link->exec($sql);
+		$result = $link->exec($sql);
         	if(PEAR::isError($result)) {
 	        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
        		} else {
@@ -114,7 +114,7 @@ if ($action=="edit")
 	}
 }
 #############
-# end edit	#
+# end edit  #
 #############
 
 #################
@@ -236,7 +236,7 @@ if ($action=="change_state") {
 ##############
 
 require("template/".$page_id.".main.php");
-if ($error!="") echo('<tr><td align="center"><div class="formError">'.$error.'</div></td></tr>');
+if ($errors!="") echo('<tr><td align="center"><div class="formError">'.$errors.'</div></td></tr>');
 if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();
