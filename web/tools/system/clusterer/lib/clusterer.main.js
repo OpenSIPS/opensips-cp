@@ -9,41 +9,6 @@ function confirmDelete(id)
   else return false;
 }
 
-function validateFormCLAdd(id,cid_name,sid_name,url_name) {
-	var cid = document.forms[id][cid_name].value;
-	var sid = document.forms[id][sid_name].value;
-	var url = document.forms[id][url_name].value;
-
-	if (cid == null || cid == "") {
-		alert("Cluster ID must be filled in");
-		return false;
-	}
-	if ( ! /^[0-9]+$/.test(cid)) {
-		alert("Cluster ID must be a number");
-		return false;
-	}
-
-	if (sid == null || sid == "") {
-		alert("Server ID must be filled in");
-		return false;
-	}
-	if ( ! /^[0-9]+$/.test(sid)) {
-		alert("Server ID must be a number");
-		return false;
-	}
-
-	if (url == null || url == "") {
-		alert("Server URL must be filled in");
-		return false;
-	}
-	if ( ! /^bin:[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}:[0-9]+$/.test(url)) {
-		alert("Server URL must be in 'bin:IP:PORT' format");
-		return false;
-	}
-
-	return true;
-}
-
 function handleHttpResponse(http) {   
 		
     if (http.readyState == 4) {
@@ -52,7 +17,6 @@ function handleHttpResponse(http) {
 				  //return results;
         }
     }
-		
 }
        
  

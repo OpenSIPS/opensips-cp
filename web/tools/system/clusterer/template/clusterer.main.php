@@ -20,9 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 -->
-<div id="dialog" class="dialog" style="display:none"></div>
-<div onclick="closeDialog();" id="overlay" style="display:none"></div>
-<div id="content" style="display:none"></div>
+
 <form action="<?=$page_name?>?action=search" method="post">
 
 <?php
@@ -34,14 +32,14 @@ if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 8;
+	$colspan = 7;
 }else{
-	$colspan = 6;
+	$colspan = 5;
 }
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="clustererTitle"></td>
+  <td colspan="2" height="10" class="searchTitle"></td>
  </tr>
   <tr>
   <td class="searchRecord">Cluster ID</td>
@@ -59,29 +57,28 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="clustererTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
 </form>
 
-<form action="<?=$page_name?>?action=add&clone=0" method="post">
+<form action="<?=$page_name?>?action=add" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
 </form>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="clustererTitle">ID</th>
-  <th class="clustererTitle">Cluster ID</th>
-  <th class="clustererTitle">Server ID</th>
-  <th class="clustererTitle">URL</th>
-  <th class="clustererTitle">Description</th>
-  <th class="clustererTitle">Details</th>
+  <th class="searchTitle">Cluster ID</th>
+  <th class="searchTitle">Node ID</th>
+  <th class="searchTitle">BIN URL</th>
+  <th class="searchTitle">Description</th>
+  <th class="searchTitle">Details</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="clustererTitle">Edit</th>
-  		<th class="clustererTitle">Delete</th>');
+  	echo('<th class="searchTitle">Edit</th>
+  		<th class="searchTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -110,9 +107,8 @@ else
 		}
 		?>
 		<tr>
-			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['cluster_id']?></td>
-			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['machine_id']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['node_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['url']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
 		 	<td class="<?=$row_style?>" align="center"><?php echo $node_details?></td>
@@ -128,7 +124,7 @@ else
 }
 ?>
  <tr>
-   <th colspan="<?echo($colspan);?>" class="clustererTitle"><img src="../../../images/spacer.gif" width="5" height="5"></th>
+   <th colspan="<?echo($colspan);?>" class="searchTitle"><img src="../../../images/spacer.gif" width="5" height="5"></th>
  </tr>
 
 </table>

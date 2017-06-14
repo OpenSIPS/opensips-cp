@@ -35,6 +35,8 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+$info="";
+$errors="";
 
 #################
 # start add new #
@@ -59,48 +61,34 @@ if ($action=="add")
 #################
 
 
-####################
-# start add verify #
-####################
-if ($action=="add_verify")
+################
+# start do add #
+################
+if ($action=="do_add")
 {
-	$info="";
-	$errors="";
+	if ($_SESSION['read_only']) {
+		$errors= "User with Read-Only Rights";
+	} else {
+		$cln_cid=$_POST['cluster_id'];
+		$cln_sid=$_POST['node_id'];
+		$cln_url=$_POST['url'];
+		$cln_description=$_POST['description'];
 
-	if(!$_SESSION['read_only']){
-
-		$cln_cid=$_POST['cln_cid'];
-		$cln_sid=$_POST['cln_sid'];
-		$cln_url=$_POST['cln_url'];
-		$cln_description=$_POST['cln_description'];
-
-		$sql = "SELECT * FROM ".$table.
-			" WHERE cluster_id=".$cln_cid." and machine_id=".$cln_sid;
-		$resultset = $link->queryAll($sql);
-		if(PEAR::isError($resultset)) {
-			die('Failed to issue query, error message : ' . $resultset->getMessage());
-		}
-
-		if (count($resultset)>0) {
-			$errors="Duplicate Cluster Node!";
-		} else {
-			$sql = "INSERT INTO ".$table." (cluster_id, machine_id, url, description) VALUES 
-				(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_description."')";
-			$resultset = $link->exec($sql);
-			if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
-            }
-			$info="The new record was added";
+		$sql = "INSERT INTO ".$table." (cluster_id, node_id, url, description) VALUES 
+			(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_description."')";
+		$result = $link->exec($sql);
+        	if(PEAR::isError($result)) {
+	        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+       		} else {
+			$info="The new cluster node was added";
 		}
 		$link->disconnect();
-	}else{
-		$errors= "User with Read-Only Rights";
 	}
 
 }
-##################
-# end add verify #
-##################
+##############
+# end do add #
+##############
 
 #################
 # start edit	#
@@ -128,41 +116,23 @@ if ($action=="edit")
 #################
 if ($action=="modify")
 {
-	$info="";
-	$errors="";
-
-	if(!$_SESSION['read_only']){
-
-		$cle_id = $_GET['id'];
-		$cle_cid=$_POST['cle_cid'];
-		$cle_sid=$_POST['cle_sid'];
-		$cle_url=$_POST['cle_url'];
-		$cle_description=$_POST['cle_description'];
-
-		if ( $cle_cid=="" || $cle_sid=="" || $cle_url=="" ){
-			$errors = "Invalid data, the entry was not modified in the database";
-		} else {
-			$sql = "SELECT * FROM ".$table.
-				" WHERE id!=".$cle_id." and cluster_id=".$cle_cid." and machine_id=".$cle_sid;
-			$resultset = $link->queryAll($sql);
-			if(PEAR::isError($resultset)) {
-				die('Failed to issue query, error message : ' . $resultset->getMessage());
-			}
-
-			if (count($resultset)>0) {
-				$errors="Duplicate Cluster Node, database was not changed";
-			} else {
-				$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", machine_id=".$cle_sid.", url='".$cle_url."', description='".$cle_description."' where id=".$cle_id;
-				$resultset = $link->exec($sql);
-				if(PEAR::isError($resultset)) {
-            	    die('Failed to issue query, error message : ' . $resultset->getMessage());
-            	}
-				$info="The cluster node was modified";
-			}
-			$link->disconnect();
-		}
-	}else{
+	if ($_SESSION['read_only']) {
 		$errors= "User with Read-Only Rights";
+	} else {
+		$cle_id = $_GET['id'];
+		$cle_cid=$_POST['cluster_id'];
+		$cle_sid=$_POST['node_id'];
+		$cle_url=$_POST['url'];
+		$cle_description=$_POST['description'];
+
+		$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", node_id=".$cle_sid.", url='".$cle_url."', description='".$cle_description."' where id=".$cle_id;
+		$result = $link->exec($sql);
+        	if(PEAR::isError($result)) {
+	        	$errors = "Update to DB failed with: ".$result->getUserInfo();
+       		} else {
+			$info="Cluster Node has been updated";
+		}
+		$link->disconnect();
 	}
 }
 #################
@@ -218,8 +188,8 @@ if ($action=="search")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo("<font color='red'><b>".$errors."</b></font>");
+if ($errors!="") echo('<tr><td align="center"><div class="formError">'.$errors.'</div></td></tr>');
+if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();
 

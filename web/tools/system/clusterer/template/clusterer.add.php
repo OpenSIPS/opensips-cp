@@ -29,41 +29,39 @@
 require("lib/".$page_id.".main.js");
 ?>
 
-<form name="cl_add" action="<?=$page_name?>?action=add_verify" onsubmit="return validateFormCLAdd('cl_add','cln_cid','cln_sid','cln_url')" method="post">
-<table width="400" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="clustererTitle">New CLuster Node Definition</td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>Cluster ID:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="cln_cid" 
-  value="<?=$grp?>"maxlength="128" class="dataInput"></td>
-  </tr>
 
- <tr>
-  <td class="dataRecord"><b>Server ID:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="cln_sid" 
-  value="<?=$src_ip?>"maxlength="128" class="dataInput"></td>
-  </tr>
+<form action="<?=$page_name?>?action=do_add" method="post">
+	<table width="400" cellspacing="2" cellpadding="2" border="0">
+	
+	<tr align="center">
+		<td colspan="2" class="searchTitle">
+			Add New Cluster Node
+		</td>
+	 </tr>
 
- <tr>
-  <td class="dataRecord"><b>URL:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="cln_url" 
-  value="<?=$mask?>"maxlength="128" class="dataInput"></td>
-  </tr>
+	<?php
+	# populate the initial values for the form
+	$cl_form['cluster_id'] = null;
+	$cl_form['node_id'] = null;
+	$cl_form['url'] = null;
+	$cl_form['description'] = null;
 
- <tr>
-  <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="cln_description" 
-  value="<?=$port?>"maxlength="128" class="dataInput"></td>
-  </tr>
+	require("clusterer.form.php");
+	?>
 
- <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-</table>
+	<tr>
+		<td colspan="2" class="dataRecord" align="center">
+			<input type="submit" name="add" disabled=true value="Add" class="formButton">
+		</td>
+	</tr>
+
+	<tr height="10">
+		<td colspan="2" class="dataTitle">
+			<img src="../../../images/share/spacer.gif" width="5" height="5">
+		</td>
+	</tr>
+
+	</table>
 </form>
 <?=$back_link?>
+
