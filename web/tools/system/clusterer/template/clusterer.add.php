@@ -44,6 +44,7 @@ require("lib/".$page_id.".main.js");
 	$cl_form['cluster_id'] = null;
 	$cl_form['node_id'] = null;
 	$cl_form['url'] = null;
+	$cl_form['no_ping_retries'] = 3;
 	$cl_form['description'] = null;
 
 	require("clusterer.form.php");

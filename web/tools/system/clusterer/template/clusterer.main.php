@@ -32,9 +32,9 @@ if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 7;
+	$colspan = 8;
 }else{
-	$colspan = 5;
+	$colspan = 6;
 }
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
@@ -72,6 +72,7 @@ if(!$_SESSION['read_only']){
   <th class="searchTitle">Cluster ID</th>
   <th class="searchTitle">Node ID</th>
   <th class="searchTitle">BIN URL</th>
+  <th class="searchTitle">Max retries</th>
   <th class="searchTitle">Description</th>
   <th class="searchTitle">Details</th>
   <?
@@ -110,6 +111,7 @@ else
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['cluster_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['node_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['url']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['no_ping_retries']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
 		 	<td class="<?=$row_style?>" align="center"><?php echo $node_details?></td>
  			<? 

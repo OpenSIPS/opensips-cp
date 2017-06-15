@@ -31,6 +31,9 @@ form_generate_input_text("Node ID", "The numerical ID of the server/node inside 
 form_generate_input_text("BIN URL", "The Binary INterface URL for reaching the node (like bin:ip:port)",
 	"url", "n", $cl_form['url'], 192, "^bin:[^:]+(:[0-9]+)$");
 
+form_generate_input_text("Max retries", "Maximum number of probes/retries before marking other nodes as unreachable",
+	"no_ping", "n", $cl_form['no_ping_retries'], 128, "^[0-9]+$");
+
 form_generate_input_text("Description", "Description in DB, not used by OpenSIPS",
 	"description", "y", $cl_form['description'], 128, null);
 ?>

@@ -42,7 +42,7 @@ $link->disconnect();
 
 	<tr>
 		<td colspan="2" class="dataRecord" align="center">
-			<input type="submit" name="save" disabled=true value="Save" class="formButton">
+			<input type="submit" name="save" value="Save" class="formButton">
 		</td>
 	</tr>
 

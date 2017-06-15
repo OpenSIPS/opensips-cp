@@ -39,23 +39,22 @@ if ($mi_type=='json') {
 	$message=json_decode($message,TRUE);
 	for($c=0;$c<count($message['Cluster']);$c++) {
 		$cid = $message['Cluster'][$c]['value'];
-		$servers=$message['Cluster'][$c]['children']['Server'];
-		for ($s=0;$s<count($servers);$s++) {
-			if ($servers[$s]['attributes']['DB_ID']==$_GET['id']) {
-				$sid = $servers[$s]['value'];
-				$attr = $servers[$s]['attributes'];
+		$nodes=$message['Cluster'][$c]['children']['Node'];
+		for ($s=0;$s<count($nodes);$s++) {
+			if ($nodes[$s]['attributes']['DB_ID']==$_GET['id']) {
+				$sid = $nodes[$s]['value'];
+				$attr = $nodes[$s]['attributes'];
 				break;
 			}
 		}	
 	}
 } else {
-	//print($message);
 	$lines = explode("\n",$message);
 	for($i=0 ; $i<count($lines) ; $i++) {
 		if (preg_match('/Cluster\:\:\s+([0-9]+)/',$lines[$i],$matches)) {
 			$cid = $matches[1];
 		} else 
-		if (preg_match('/\s+Server\:\:\s+(?P<sid>\d+)\s+DB_ID=(?P<DB_ID>\d+)\s+URL=(?P<URL>[a-zA-Z0-9\.\:]+)\s+State=(?P<State>\d+)\s+Last_failed_attempt=(?P<Last_failed_attempt>\d+)\s+Max_failed_attempts=(?P<Max_failed_attempts>\d+)\s+no_tries=(?P<no_tries>\d+)\s+Seconds_until_enabling=(?P<Seconds_until_enabling>\d+)\s+Description=(?P<Description>.+)/',$lines[$i],$attr)) {
+		if (preg_match('/\s+Node\:\:\s+(?P<sid>\d+)\s+DB_ID=(?P<DB_ID>\d+)\s+URL=(?P<URL>[a-zA-Z0-9\.\:]+)\s+Enabled=(?P<Enabled>\d+)\s+Link_state=(?P<Link_state>\w+)\s+Next_hop=(?P<Next_hop>\w+)\s+Description=(?P<Description>.+)/',$lines[$i],$attr)) {
 			if ($attr['DB_ID']==$_GET['id']) {
 				$sid = $attr['sid'];
 				break;
@@ -82,13 +81,11 @@ if ($sid=="") {
 	?>
 	<table width="90%" cellpadding="5" cellspacing="5" border="0" align="center">
  		<tr><td class="rowOdd"><b>Cluster ID</b></td><td><?php print "$cid"?></td></tr>
- 		<tr><td class="rowEven"><b>Server ID</b></td><td><?php print "$sid"?></td></tr>
- 		<tr><td class="rowOdd"><b>DB_ID</b></td><td><?php print($attr['DB_ID'])?></td></tr>
- 		<tr><td class="rowEven"><b>URL</b></td><td><?php print($attr['URL'])?></td></tr>
- 		<tr><td class="rowOdd"><b>State</b></td><td><?php print($attr['State'])?></td></tr>
- 		<tr><td class="rowEven"><b>Last failed attempt</b></td><td><?php print($attr['Last_failed_attempt] ='])?></td></tr>
- 		<tr><td class="rowOdd"><b>No. of tries</b></td><td><?php print($attr['no_tries'])?></td></tr>
- 		<tr><td class="rowEven"><b>Seconds until enabling</b></td><td><?php print($attr['Seconds_until_enabling'])?></td></tr>
+ 		<tr><td class="rowEven"><b>Node ID</b></td><td><?php print "$sid"?></td></tr>
+ 		<tr><td class="rowOdd"><b>BIN URL</b></td><td><?php print($attr['URL'])?></td></tr>
+ 		<tr><td class="rowEven"><b>Enabled</b></td><td><?php print($attr['Enabled'])?></td></tr>
+ 		<tr><td class="rowOdd"><b>Link state</b></td><td><?php print($attr['Link_state'])?></td></tr>
+ 		<tr><td class="rowEven"><b>Next hop</b></td><td><?php print($attr['Next_hop'])?></td></tr>
  		<tr><td class="rowOdd"><b>Description</b></td><td><?php print($attr['Description'])?></td></tr>
 	</table>
 
