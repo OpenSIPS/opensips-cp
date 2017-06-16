@@ -53,11 +53,11 @@ if ($config->admin_passwd_mode==0) {
     $sth = $link->prepare($sql);
     $credentials = array($name,$password);
     $result1 = $sth->execute($credentials);
-    $resultset1 = $result1->fetchAll();
+    $resultset = $result1->fetchAll();
     $sth->free();
 
     if(PEAR::isError($result1)) {
-        die('Failed to issue query, error message : ' . $resultset1->getMessage());
+        die('Failed to issue query, error message : ' . $resultset->getMessage());
     }
 
 } else if ($config->admin_passwd_mode==1) {
@@ -69,27 +69,22 @@ if ($config->admin_passwd_mode==0) {
     $sth = $link->prepare($sql,MDB2_PREPARE_RESULT);
     $credentials = array($name,$ha1);
     $result2 = $sth->execute($credentials);
-    $resultset2 = $result2->fetchAll();
+    $resultset = $result2->fetchAll();
     $sth->free();
 
     if(PEAR::isError($result2)) {
-        die('Failed to issue query, error message : ' . $resultset2->getMessage());
+        die('Failed to issue query, error message : ' . $resultset->getMessage());
     }
 }
 
-if ((count($resultset1)==0) && (count($resultset2)==0)) {
+if (isset($resultset) && count($resultset)==0) {
     $log = "[NOK] [".date("d-m-Y")." ".date("H:i:s")."] '$name' / '$password' from '".$_SERVER['REMOTE_ADDR']."'\n";
     header("Location:index.php?err=1");
         exit();
 }
 
-if (count($resultset1)!=0) {
-	$avail_tools = $resultset1[0]['available_tools'];
-	$avail_perms = $resultset1[0]['permissions'];
-} else if (count($resultset2)!=0) {
-	$avail_tools = $resultset2[0]['available_tools'];
-	$avail_perms = $resultset2[0]['permissions'];
-}
+$avail_tools = $resultset[0]['available_tools'];
+$avail_perms = $resultset[0]['permissions'];
 
 $_SESSION['user_login'] = $name;
 
