@@ -4,9 +4,22 @@
   
 function confirmDelete(id)
 {
- var agree=confirm("Are you sure you want to delete the node?");
- if (agree)	return true;
-  else return false;
+	var agree=confirm("Are you sure you want to delete the node?");
+	if (agree)	return true;
+	else return false;
+}
+
+function confirmStateChange(state){
+	if (state == "Active")
+		msg = "Are you sure you want to switch the node to 'Inactive' ?";
+	else if (state == "Inactive")
+		msg = "Are you sure you want to switch the node to 'Active' ?";
+	
+	var agree=confirm(msg);
+	if (agree) 
+		return true;
+	else 
+		return false;
 }
 
 function handleHttpResponse(http) {   
@@ -68,33 +81,26 @@ function closeDialog() {
 }
 
 function apply_changes(){
-		url = "apply_changes.php";
-		
-		var http = getHTTPObject();
-		
-		http.open("GET", url, false);
-		http.onreadystatechange = handleHttpResponse(http);
-		http.send(null);
-		result = http.responseText;
-		
-		var body = document.body,
-    	html = document.documentElement;
+	url = "apply_changes.php";
 
-		var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+	var http = getHTTPObject();
 
+	http.open("GET", url, false);
+	http.onreadystatechange = handleHttpResponse(http);
+	http.send(null);
+	result = http.responseText;
 
-		document.getElementById('overlay').style.height = height;
-		document.getElementById('overlay').style.display = 'block';
-		document.getElementById('dialog').innerHTML = result;
-		centerMe('dialog')
-		document.getElementById('overlay').onclick = function () {closeDialog();};
-		document.getElementById('dialog').style.display = 'block';
-		return true;
-		
+	var body = document.body,
+	html = document.documentElement;
 
-		document.getElementById("content").innerHTML = "whatever";
-		
-		
+	var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+	document.getElementById('overlay').style.height = height;
+	document.getElementById('overlay').style.display = 'block';
+	document.getElementById('dialog').innerHTML = result;
+	centerMe('dialog')
+	document.getElementById('overlay').onclick = function () {closeDialog();};
+	document.getElementById('dialog').style.display = 'block';
 	return true;
 }
 </script>

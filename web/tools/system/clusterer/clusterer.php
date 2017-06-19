@@ -23,6 +23,7 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
+require ("../../../common/cfg_comm.php");
 include("lib/db_connect.php");
 
 $table=$config->table_clusterer;
@@ -163,6 +164,48 @@ if ($action=="delete")
 ##############
 # end delete #
 ##############
+
+
+######################
+# start change state #
+######################
+if ($action=="change_state") {
+
+	if($_SESSION['read_only']) {
+
+		$errors= "User with Read-Only Rights";
+
+	} else {
+
+		if ($_GET['state']=='1') {
+			$desired_state = '0';
+		} else if ($_GET['state']=='0'){
+			$desired_state = '1';
+		}
+
+		$id = $_GET['id'];
+		$address = $_GET['address'];
+
+		$sql = "UPDATE ".$table." set state='".$desired_state."' where id=".$id;
+		$result = $link->exec($sql);
+        	if(PEAR::isError($result)) {
+	        	$errors = "Update to DB failed with: ".$result->getUserInfo();
+       		} else {
+			$info="Cluster Node has been updated";
+
+			$mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
+			for ($i=0;$i<count($mi_connectors);$i++){
+			        $message=mi_command("clusterer_set_status $id $desired_state",$mi_connectors[$i],$mi_type,$errors,$status);
+			}
+		}
+		$link->disconnect();
+	}
+
+}
+
+####################
+# end change state #
+####################
 
 
 ################

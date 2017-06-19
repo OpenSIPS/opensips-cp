@@ -21,6 +21,10 @@
  */
 -->
 
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
 <form action="<?=$page_name?>?action=search" method="post">
 
 <?php
@@ -29,12 +33,11 @@ $search_cid=$_SESSION['cl_cid'];
 $search_url=$_SESSION['cl_url'];
 if($search_cid!="") $sql_search.=" and cluster_id=".$search_cid;
 if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
-require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 8;
+	$colspan = 9;
 }else{
-	$colspan = 6;
+	$colspan = 7;
 }
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
@@ -73,6 +76,7 @@ if(!$_SESSION['read_only']){
   <th class="searchTitle">Node ID</th>
   <th class="searchTitle">BIN URL</th>
   <th class="searchTitle">Max retries</th>
+  <th class="searchTitle">In Use</th>
   <th class="searchTitle">Description</th>
   <th class="searchTitle">Details</th>
   <?
@@ -94,7 +98,6 @@ if (count($resultset)==0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	require("lib/".$page_id.".main.js");
 	for ($i=0;count($resultset)>$i;$i++)
 	{
 		if ($i%2==1) $row_style="rowOdd";
@@ -112,6 +115,15 @@ else
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['node_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['url']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['no_ping_retries']?></td>
+			<?
+			$state = ($resultset[$i]["state"]=="1")?"Active":"Inactive";
+			if($_SESSION['read_only']){
+				$state_info= '<img align="center" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'">';
+			} else {
+			        $state_info= '<a href="'.$page_name.'?action=change_state&state='.$resultset[$i]['state'].'&id='.$resultset[$i]['id'].'"><img align="center" name="status'.$i.'" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'" onclick="return confirmStateChange(\''.$state.'\')" border="0"></a>';
+			}
+			?>
+			<td class="<?=$row_style?>">&nbsp;<?php echo $state_info?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
 		 	<td class="<?=$row_style?>" align="center"><?php echo $node_details?></td>
  			<? 

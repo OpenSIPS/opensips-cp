@@ -25,10 +25,6 @@
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
-<?php
-require("lib/".$page_id.".main.js");
-?>
-
 
 <form action="<?=$page_name?>?action=do_add" method="post">
 	<table width="400" cellspacing="2" cellpadding="2" border="0">
