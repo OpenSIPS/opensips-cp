@@ -35,9 +35,9 @@ if($search_cid!="") $sql_search.=" and cluster_id=".$search_cid;
 if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
 
 if(!$_SESSION['read_only']){
-	$colspan = 9;
+	$colspan = 8;
 }else{
-	$colspan = 7;
+	$colspan = 6;
 }
   ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
@@ -78,7 +78,6 @@ if(!$_SESSION['read_only']){
   <th class="searchTitle">Max retries</th>
   <th class="searchTitle">In Use</th>
   <th class="searchTitle">Description</th>
-  <th class="searchTitle">Details</th>
   <?
   if(!$_SESSION['read_only']){
 
@@ -103,8 +102,6 @@ else
 		if ($i%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
-		$node_details='<a href="details.php?id='.($resultset[$i]['id']).'" class="menuItem"> <img src="../../../images/share/details.gif" border="0" onClick="window.open(\'details.php?id='.($resultset[$i]['id']).'\',\'info\',\'scrollbars=1,width=300,height=350\');return false;"></td></a>&nbsp';
-
 		if(!$_SESSION['read_only']){
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
@@ -125,7 +122,6 @@ else
 			?>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $state_info?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
-		 	<td class="<?=$row_style?>" align="center"><?php echo $node_details?></td>
  			<? 
  			if(!$_SESSION['read_only']){
 				echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
