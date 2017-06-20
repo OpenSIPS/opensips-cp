@@ -132,6 +132,7 @@ case "delete":
 	$sql = "DELETE FROM ".$table." WHERE id=".$id;
 	$link->exec($sql);
 	$link->disconnect();
+	$info="Record has been deleted";
 
 	break;
 ##############
