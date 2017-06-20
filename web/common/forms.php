@@ -139,5 +139,12 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts) {
 }
 
 
+// Helpers to build complet validation regexp
+
+# FreeSWITCH url (fs://[username]:password@host[:port])
+$re_fs_url ="(fs://[a-zA-Z0-9]*:[^@]+@[^:]+(:[0-9]+)?)";
+
+# SIP URI
+$re_sip_uri = "sip(s)?:([^@]+@)?[^:]+(:[0-9]+)?";
 
 ?>

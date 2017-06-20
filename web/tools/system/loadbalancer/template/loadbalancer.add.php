@@ -22,48 +22,41 @@
 */
 
 ?>
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
-<table width="400" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="loadbalancerTitle">New Load Balancer Definition</td>
- </tr>
 
- <tr>
-  <td class="dataRecord"><b>Group ID:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="group_id" 
-  value="<?=$group_id?>"maxlength="128" class="dataInput"></td>
-  </tr>
 
- <tr>
-  <td class="dataRecord"><b>Destination URI:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="dst_uri" 
-  value="<?=$dst_uri?>" maxlength="128" class="dataInput"></td>
- </tr>
- 
- <tr>
-  <td class="dataRecord"><b>Resources:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="resources" 
-  value="<?=$resources?>" maxlength="128" class="dataInput"></td>
- </tr>
+<form action="<?=$page_name?>?action=do_add" method="post">
+	<table width="420" cellspacing="2" cellpadding="2" border="0">
+	
+	<tr align="center">
+		<td colspan="2" class="searchTitle">
+			Add New Destination
+		</td>
+	 </tr>
 
- <tr>
-  <td class="dataRecord"><b>Probe Mode:</b></td>
-  <td class="dataRecord" width="275"><?=get_probe_types("probe_mode", $probe_mode)?></td>
- </tr>
+	<?php
+	# populate the initial values for the form
+	$lb_form['group_id'] = null;
+	$lb_form['dst_uri'] = null;
+	$lb_form['resources'] = null;
+	$lb_form['probe_mode'] = 0;
+	$lb_form['description'] = null;
 
- <tr>
-  <td class="dataRecord"><b>Description:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="description" 
-  value="<?=$description?>" maxlength="128" class="dataInput"></td>
- </tr>
+	require("loadbalancer.form.php");
+	?>
 
- <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
- </tr>
+	<tr>
+		<td colspan="2" class="dataRecord" align="center">
+			<input type="submit" name="add" disabled=true value="Add" class="formButton">
+		</td>
+	</tr>
 
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-</table>
+	<tr height="10">
+		<td colspan="2" class="dataTitle">
+			<img src="../../../images/share/spacer.gif" width="5" height="5">
+		</td>
+	</tr>
+
+	</table>
 </form>
 <?=$back_link?>
+

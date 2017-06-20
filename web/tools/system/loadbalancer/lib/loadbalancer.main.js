@@ -1,21 +1,25 @@
 <script language="JavaScript">
-//
-// $Id: nathelper.main.js 28 2009-04-01 15:27:03Z iulia_bublea $
-//
   
 function confirmDelete()
 {
- var agree=confirm("Are you sure you want to delete this entry?");
- if (agree)	return true;
-  else return false;
+	var agree=confirm("Are you sure you want to delete this entry?");
+	if (agree)	return true;
+	else return false;
 }
 
-function confirmDeleteRTPproxy()
-{
- var agree=confirm("Are you sure you want to delete this Load Balancer definition?");
- if (agree)	return true;
-  else return false;
+function confirmStateChange(state){
+	if (state == "enabled")
+		msg = "Are you sure you want to change the state to 'Disabled' ?";
+	else if (state == "disabled")
+		msg = "Are you sure you want to change the state to 'Enabled' ?";
+	
+	var agree=confirm(msg);
+	if (agree) 
+		return true;
+	else 
+		return false;
 }
+
 
 function handleHttpResponse(http) {   
 		
@@ -28,7 +32,6 @@ function handleHttpResponse(http) {
 	}
 		
 }
-       
  
 
 function getHTTPObject() {
@@ -51,10 +54,7 @@ function getHTTPObject() {
    if (!request)
      alert("Error initializing XMLHttpRequest!");
 
-  
   return request;
-
- 
 }
 
 
@@ -78,33 +78,27 @@ function closeDialog() {
 }
 
 function apply_changes(){
-		url = "apply_changes.php";
+	url = "apply_changes.php";
 		
-		var http = getHTTPObject();
+	var http = getHTTPObject();
 		
-		http.open("GET", url, false);
-		http.onreadystatechange = handleHttpResponse(http);
-		http.send(null);
-		result = http.responseText;
+	http.open("GET", url, false);
+	http.onreadystatechange = handleHttpResponse(http);
+	http.send(null);
+	result = http.responseText;
 		
-		var body = document.body,
+	var body = document.body,
     	html = document.documentElement;
 
-		var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+	var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
 
 
-		document.getElementById('overlay').style.height = height;
-		document.getElementById('overlay').style.display = 'block';
-		document.getElementById('dialog').innerHTML = result;
-		centerMe('dialog')
-		document.getElementById('overlay').onclick = function () {closeDialog();};
-		document.getElementById('dialog').style.display = 'block';
-		return true;
-		
-
-		document.getElementById("content").innerHTML = "whatever";
-		
-		
+	document.getElementById('overlay').style.height = height;
+	document.getElementById('overlay').style.display = 'block';
+	document.getElementById('dialog').innerHTML = result;
+	centerMe('dialog')
+	document.getElementById('overlay').onclick = function () {closeDialog();};
+	document.getElementById('dialog').style.display = 'block';
 	return true;
 }
 

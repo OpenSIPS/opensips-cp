@@ -24,235 +24,163 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
+require ("../../../common/cfg_comm.php");
 require ("../../../../config/tools/system/loadbalancer/local.inc.php");
 include("lib/db_connect.php");
 
 $table=$config->table_lb;
 $current_page="current_page_lb";
+$lb_probing_modes = array("No probing","On disabled","Permanent");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
+
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+$info="";
+$errors="";
  
+if ( $_SESSION['read_only'] && 
+($action=="add" || $action=="do_add" || $action=="edit" || $action=="modify" || $action=="delete" || $action=="toggle") ) {
+	$errors= "User with Read-Only Rights";
+} else	
+
+switch ($action) {
+
 #################
 # start add new #
 #################
-
-if ($action=="add")
-{
+case "add":
 	extract($_POST);
-	if(!$_SESSION['read_only'])
-	{
-		require("template/".$page_id.".add.php");
-		require("template/footer.php");
-		exit();
-	}else {
-		$errors= "User with Read-Only Rights";
-	}
-
-}
-
+	require("template/".$page_id.".add.php");
+	require("template/footer.php");
+	exit();
 #################
 # end add new   #
 #################
 
 
-####################
-# start add verify #
-####################
-if ($action=="add_verify")
-{
-	$info="";
-	$errors="";
-    $group_id=$_POST['group_id'];
-    $dst_uri=$_POST['dst_uri'];
-    $resources=$_POST['resources'];
-    $description=$_POST['description'];
+################
+# start do_add #
+################
+case "do_add":
+	$group_id=$_POST['group_id'];
+	$dst_uri=$_POST['dst_uri'];
+	$resources=$_POST['resources'];
+	$description=$_POST['description'];
+	$probe_mode = $_POST['probe_mode'];
 
-	if(!$_SESSION['read_only']){
-                $temp = split(";",$_POST['resources']);
-		print $temp[count($temp)+1];
-		if (empty($temp[count($temp)+1])) $length=count($temp)-1;//pop($temp[count($temp)+1]); 
-		else $length=count($temp);
-                for($i=0;$length>$i;$i++) {
-                        preg_match('/(\s*[a-zA-Z0-9]+=\d+\s*)*/',$temp[$i],$matches);
-                        if (!empty($matches[0])) $match[]=$matches[0];
-                }
-                if (count($match)!=$length) {
-                        while(1) {
-                                $errors = "Data format is incorrect!. Should be name1=value1;name2=value2...";
-                                if($errors)
-                                echo('!!! ');echo($errors);
-                                require("template/footer.php");
-                                exit();
-                                }
-                }
-		
-
-		$probe_mode = $_POST['probe_mode'];
-		$sql_command = "INSERT INTO ".$table."
+	$sql = "INSERT INTO ".$table."
 		(group_id, dst_uri,resources,probe_mode,description) VALUES 
 		(".$group_id.", '".$dst_uri."','".$resources."',".$probe_mode.",'".$description."') ";
-	        $result = $link->prepare($sql_command);
-	        $result->execute();
-	        $result->free();
 
-		$info="The new record was added";
-		$link->disconnect();	
-	}else{
-		$errors= "User with Read-Only Rights";
+	$result = $link->exec($sql);
+       	if(PEAR::isError($result)) {
+		$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+	} else {
+		$info="The new LB destination was added";
 	}
+	$link->disconnect();	
 
-}
+	break;
+##############
+# end do_add #
+##############
 
-##################
-# end add verify #
-##################
 
-# start edit	#
-#################
-if ($action=="edit")
-{
+##############
+# start edit #
+##############
+case "edit":
+	extract($_POST);
 
-	if(!$_SESSION['read_only']){
-
-		extract($_POST);
-
-		require("template/".$page_id.".edit.php");
-		require("template/footer.php");
-		exit();
-	}else{
-		$errors= "User with Read-Only Rights";
-	}
-}
+	require("template/".$page_id.".edit.php");
+	require("template/footer.php");
+	exit();
 #############
 # end edit  #
 #############
 
-require ("../../../common/cfg_comm.php");
 
-#################
-# start toggle #
-#################
-
-if ($action=="toggle"){
-
-	$toggle_button= $_GET['toggle_button'];
-	$id = $_GET['id'];
-	if ($toggle_button=="enabled") {
-		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-		for($i=0;$i<count($mi_connectors);$i++) {
-			mi_command("lb_status $id 0", $mi_connectors[$i], $mi_type, $errors , $status);
-		}
-		$toggle_button = "disabled";
-	} else if ($toggle_button=="disabled") {
-		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-		for($i=0;$i<count($mi_connectors);$i++) {
-			mi_command("lb_status $id 1", $mi_connectors[$i], $mi_type, $errors , $status);
-		}
-		$toggle_button = "enabled";
-	}
-} 
 
 #################
 # start modify	#
 #################
-if ($action=="modify")
-{
+case "modify":
+	$id=$_GET['id'];
+	$group_id=$_POST['group_id'];
+	$dst_uri=$_POST['dst_uri'];
+	$resources=$_POST['resources'];
+	$probe_mode = $_POST['probe_mode'];
+	$description=$_POST['description'];
 
-	$info="";
-	$errors="";
-
-	if(!$_SESSION['read_only']){
-
-		$group_id=$_POST['group_id'];
-		$dst_uri=$_POST['dst_uri'];
-		$resources=$_POST['resources'];
-                $id=$_GET['id'];
-		$temp = split(";",$resources);
-		for($i=0;count($temp)>$i;$i++) {
-			preg_match('/(\s*[a-zA-Z0-9]+=\d+\s*)*/',$temp[$i],$matches); //print_r($matches);
-			if (!empty($matches[0])) $match[]=$matches[0];
-		}
-		if (count($match)!=count($temp)) { 
-			while(1) {
-				$errors = "Data format is incorrect!. Should be name1=value1;name2=value2...";
-				if($errors)
-				echo('!!! ');echo($errors);
-				require("template/footer.php");
-				exit();
-				}
-		}
-
-		$probe_mode = $_POST['probe_mode'];
-		$description=$_POST['description'];
-
-		if ($group_id=="" || $dst_uri=="" || $resources==""){
-			$errors = "Invalid data, the entry was not modified in the database";
-		}
-		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE group_id=" .$group_id. " AND dst_uri='".$dst_uri."' AND resources='".$resources."' AND probe_mode=". $probe_mode." AND id!=".$id;
-                        $row = $link->queryAll($sql);
-                        if(PEAR::isError($row)) {
-                                 die('Failed to issue query, error message : ' . $row->getMessage());
-                        }
-
-			if (count($row)>0) {
-				$errors="Duplicate rule";
-			} else {
-
-				$sql_command = "UPDATE ".$table." SET group_id=".$group_id.", dst_uri = '".$dst_uri.
-				"', resources='".$resources."', probe_mode=".$probe_mode.", description='".$description."' WHERE id=".$id;
-                                 $result = $link->prepare($sql_command);
-                                 $result->execute();
-                                 $result->free();
-
-				$info="The new rule was modified";
-			}
-			$link->disconnect();
-		}
-	}else{
-
-		$errors= "User with Read-Only Rights";
+	$sql = "UPDATE ".$table." SET group_id=".$group_id.", dst_uri = '".$dst_uri.
+		"', resources='".$resources."', probe_mode=".$probe_mode.", description='".$description."' WHERE id=".$id;
+	$result = $link->exec($sql);
+       	if(PEAR::isError($result)) {
+		$errors = "Update to DB failed with: ".$result->getUserInfo();
+	} else {
+		$info="LB destination has been updated";
 	}
+	$link->disconnect();
 
-}
+	break;
 #################
 # end modify	#
 #################
 
 
+#################
+# start toggle #
+#################
+case "toggle":
+
+	$state= $_GET['state'];
+	$id = $_GET['id'];
+	if ($state=="enabled") {
+		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		for($i=0;$i<count($mi_connectors);$i++) {
+			mi_command("lb_status $id 0", $mi_connectors[$i], $mi_type, $errors , $status);
+		}
+	} else if ($state=="disabled") {
+		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		for($i=0;$i<count($mi_connectors);$i++) {
+			mi_command("lb_status $id 1", $mi_connectors[$i], $mi_type, $errors , $status);
+		}
+	}
+	break;
+################
+# end   toggle #
+################
+
 
 ################
 # start delete #
 ################
-if ($action=="delete")
-{
-	if(!$_SESSION['read_only']){
+case "delete":
+	$id=$_GET['id'];
+	$sql = "DELETE FROM ".$table." WHERE id=".$id;
+        $link->exec($sql);
+	$link->disconnect();
+	$info="Record has been deleted";
 
-		$id=$_GET['id'];
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-	        $link->exec($sql);
-		$link->disconnect();
-	}else{
-
-		$errors= "User with Read-Only Rights";
-	}
-}
+	break;
 ##############
 # end delete #
 ##############
+
+} //switch(action)
+
 
 
 ################
 # start search #
 ################
-if ($action=="dp_act")
+if ($action=="search")
 {
-$query="";
+	$query="";
 	$_SESSION['lb_groupid']  = $_POST['lb_groupid'];
 	$_SESSION['lb_dsturi']= $_POST['lb_dsturi'];
 	$_SESSION['lb_resources']= $_POST['lb_resources'];
@@ -267,65 +195,21 @@ $query="";
 		$_SESSION['lb_groupid']=$_POST['lb_groupid'];
 		$_SESSION['lb_dsturi'] =$_POST['lb_dsturi'];
 		$_SESSION['lb_resources'] =$_POST['lb_resources'];
-	} else if($_SESSION['read_only']){
-
-		$errors= "User with Read-Only Rights";
-
-	}else if($delete=="Delete Load Balancer Definition"){
-		$group_id = $_POST['lb_groupid'];
-		$dst_uri = $_POST['lb_dsturi'];
-		$resources = $_POST['resources'];
-
-		if($dst_uri =="") { 
-			$query .= " AND dst_uri like '%'";
-		}else {
-			$query .= " AND dst_uri like '%" . $dst_uri."%' "; 
-		}
-
-		if ($group_id != ""){
-			$query .=" AND group_id=".$group_id;
-		}
-
-		if ($resources == ""){
-			$query .= " AND resources like '%'";
-		} else {
-			$query .= " AND resources like '%" . $resources . "%' ";
-		}
-			$sql = "SELECT * FROM ".$table.
-			" WHERE (1=1) ". $query;
-	                $row = $link->queryAll($sql);
-                        if(PEAR::isError($row)) {
-                                 die('Failed to issue query, error message : ' . $row->getMessage());
-                        }
-
-			if (count($row)==0) {
-				$errors="No such Load Balancer Rule";
-				$_SESSION['lb_groupid']="";
-				$_SESSION['lb_dsturi']="";
-				$_SESSION['lb_resources']="";
-
-			}else{
-				$sql = "DELETE FROM ".$table." WHERE (1=1) " .$query;
-		                $link->exec($sql);				
-			}
-			$link->disconnect();
-		//print $result;
 	}
 }
 ##############
 # end search #
 ##############
 
+
 ##############
 # start main #
 ##############
-
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if ($errors!="") echo('<tr><td align="center"><div class="formError">'.$errors.'</div></td></tr>');
+if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();
-
 ##############
 # end main   #
 ##############

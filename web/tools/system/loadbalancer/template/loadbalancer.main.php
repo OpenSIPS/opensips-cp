@@ -23,8 +23,6 @@
 -->
 
 <?php
-require("lib/".$page_id.".main.js");
-
 $sql_search="";
 $search_groupid=$_SESSION['lb_groupid'];
 $search_dsturi=$_SESSION['lb_dsturi'];
@@ -41,10 +39,11 @@ if(!$_SESSION['read_only']){
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
-<form action="<?=$page_name?>?action=dp_act" method="post">
+
+<form action="<?=$page_name?>?action=search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="loadbalancerTitle"></td>
+  <td colspan="2" height="10" class="searchTitle"></td>
  </tr>
   <tr>
   <td class="searchRecord">Group ID</td>
@@ -52,7 +51,7 @@ if(!$_SESSION['read_only']){
   value="<?=$search_groupid?>" class="searchInput"></td>
  </tr>
   <tr>
-  <td class="searchRecord">Destination URI</td>
+  <td class="searchRecord">SIP URI</td>
   <td class="searchRecord" width="200"><input type="text" name="lb_dsturi" 
   value="<?=$search_dsturi?>" maxlength="16" class="searchInput"></td>
  </tr>
@@ -68,7 +67,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="loadbalancerTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -77,7 +76,7 @@ if(!$_SESSION['read_only']){
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
 <tr>
 <td align="center">
-<form action="<?=$page_name?>?action=add&clone=0" method="post">
+<form action="<?=$page_name?>?action=add" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New LB Entry" class="formButton">') ?>
 </form>
 </td>
@@ -95,19 +94,19 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="loadbalancerTitle">ID</th>
-  <th class="loadbalancerTitle">Group ID</th>
-  <th class="loadbalancerTitle">Destination URI</th>
-  <th class="loadbalancerTitle">Resources</th>
-  <th class="loadbalancerTitle">Probe Mode</th>
-  <th class="loadbalancerTitle">Auto Re-enable</th>
-  <th class="loadbalancerTitle">Status</th>
-  <th class="loadbalancerTitle">Description</th>
+  <th class="searchTitle">ID</th>
+  <th class="searchTitle">Group ID</th>
+  <th class="searchTitle">SIP URI</th>
+  <th class="searchTitle">Resources</th>
+  <th class="searchTitle">Probe Mode</th>
+  <th class="searchTitle">Auto Re-enable</th>
+  <th class="searchTitle">Status</th>
+  <th class="searchTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="loadbalancerTitle">Edit</th>
-  		<th class="loadbalancerTitle">Delete</th>');
+  	echo('<th class="searchTitle">Edit</th>
+  		<th class="searchTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -141,48 +140,22 @@ else {
 	$lb_res = array();
 	$lb_auro = array();
 
-	if ($mi_type != "json"){
-		$message = trim($message);
-		$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-reenable=(?P<autore>on|off)\s+Resources(\:\:)?(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
-		preg_match_all($pattern,$message,$matches);
-		for ($i=0; $i<count($matches[0]);$i++) {
-			$id			= $matches['id'][$i];
+	$message = json_decode($message,true);
+	$message = $message['Destination'];
+	for ($i=0; $i<count($message);$i++) {
+		$id 		= $message[$i]['attributes']['id'];
 
-			$pattern	= '/\s+Resource\:\:\s+(?P<resource_name>[a-zA-Z0-9_-]+)\s+max=(?P<resource_max_load>\d+)\s+load=(?P<resource_load>\d+)/';
-			preg_match_all($pattern,$matches['resources'][$i],$resources);
-
-			$resource="";
-			for ($j=0;$j<count($resources[0]);$j++) {
-				$resource .= "<tr>";
-				$resource .= "<td>".$resources['resource_name'][$j]."=".$resources['resource_load'][$j]."/".$resources['resource_max_load'][$j]."</td>";
-				$resource .= "</tr>";
-			}
-			$lb_res[$id] = "<table>".$resource."</table>";
-			$lb_state[$id] = ($matches['enabled'][$i]=="yes")?"enabled":"disabled";
-			$lb_auto[$id] = $matches['autore'][$i];
+		$resource="";
+		$res = $message[$i]['children']['Resources']['children']['Resource'];
+		for ($j=0;$j<count($res);$j++) {
+			$resource .= "<tr>";
+			$resource .= "<td>".$res[$j]['value']."=".$res[$j]['attributes']['load']."/".$res[$j]['attributes']['max']."</td>";
+			$resource .= "</tr>";
 		}
-
-	} else {
-
-		//no more stupid parsing
-		$message = json_decode($message,true);
-		$message = $message['Destination'];
-		for ($i=0; $i<count($message);$i++) {
-			$id 		= $message[$i]['attributes']['id'];
-
-			$resource="";
-			$res = $message[$i]['children']['Resources']['children']['Resource'];
-			for ($j=0;$j<count($res);$j++) {
-				$resource .= "<tr>";
-				$resource .= "<td>".$res[$j]['value']."=".$res[$j]['attributes']['load']."/".$res[$j]['attributes']['max']."</td>";
-				$resource .= "</tr>";
-			}
-			$lb_res[$id] = "<table>".$resource."</table>";
-			$lb_state[$id] = ($message[$i]['attributes']['enabled']=="yes")?"enabled":"disabled";
-			$lb_auto[$id] = $message[$i]['attributes']['auto-reenable'];
-		}
+		$lb_res[$id] = "<table>".$resource."</table>";
+		$lb_state[$id] = ($message[$i]['attributes']['enabled']=="yes")?"enabled":"disabled";
+		$lb_auto[$id] = $message[$i]['attributes']['auto-reenable'];
 	}
-
 
 	$res_no=$config->results_per_page;
 	$page=$_SESSION[$current_page];
@@ -221,25 +194,28 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['group_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['dst_uri']?></td>
 			<td class="<?=$row_style?>"><?=$lb_res[$id]?></td>
-			<td class="<?=$row_style?>">&nbsp;<?=get_probe_mode($result[$i]['probe_mode'])?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$lb_probing_modes[$result[$i]['probe_mode']]?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$lb_auto[$id]?></td>
 			<td class="<?=$row_style?>">&nbsp;
-				<div align="center">
-					<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$lb_state[$id]?>&id=<?=$id?>" method="post">
-					<? if ( $lb_state[$id] == "enabled" ) {
-						echo '<input type="submit" name="toggle" value="'.$lb_state[$id].'" class="formButton" style="background-color: #00ff00; ">';
-					} else if  ( $lb_state[$id] == "disabled" ) {
-						echo '<input type="submit" name="toggle" value="'.$lb_state[$id].'" class="formButton" style="background-color: #ff0000; ">';
-					}
-					?>
-					</form>
-				</div>
+			<? 
+                        if ($lb_state[$id]==NULL) {
+				echo "-";
+			} else if ($_SESSION['read_only']) {
+			?>
+				<img align="center" name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
+			<?
+			} else {
+			?>	
+				<a href="<?=$page_name?>?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img align="center" name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
+			<?
+			}
+			?>
 			</td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
 			<? 
 			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a></td>');
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a></td>');
    			}
 			?>  
 		</tr>  
@@ -248,7 +224,7 @@ else {
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="loadbalancerTitle">
+  <th colspan="<?=$colspan?>" class="searchTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">
