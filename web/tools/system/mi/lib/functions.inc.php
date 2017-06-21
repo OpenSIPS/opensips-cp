@@ -24,7 +24,7 @@
 
 function get_command_list($mi_url)
 {
-	$message = mi_command( "which", $mi_url, $mi_type, $errors, $status);
+	$message = mi_command( "which", $mi_url, $errors, $status);
 
 	$message = json_decode($message,true);
 	//TODO - this might change 

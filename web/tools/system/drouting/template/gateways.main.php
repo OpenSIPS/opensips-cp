@@ -137,21 +137,21 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
   <th class="dataTitle">Delete</th>
  </tr>
 <?php
-//get status for all the gws
+
+//get status for all the gws (from the first server only)
 $gw_statuses = Array ();
 
 $command="dr_gw_status";
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-$message=mi_command($command, $mi_connectors[0], $mi_type, $errors, $status);
+$message=mi_command($command, $mi_connectors[0], $errors, $status);
 
-$message =  preg_replace('/([^0-9\.\-,"A-Za-z{:\}\]\[\s]+)/', '', $message);
 $message = json_decode($message,true);
 $message = $message['ID'];
 for ($j=0; $j<count($message); $j++){
 	$gw_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['State']);
 }
-
 //end get status
+
  if ($sql_search=="") {
 	$sql_command="select * from ".$table." where (1=1)";
 	$sql_count="select count(*) from ".$table." where (1=1)";

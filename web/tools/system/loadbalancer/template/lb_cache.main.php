@@ -25,7 +25,7 @@
 <form action="<?=$page_name?>?action=refresh" method="post">
 <?
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$message = mi_command('lb_list', $mi_connectors[0], $mi_type, $errors,$status);
+	$message = mi_command('lb_list', $mi_connectors[0], $errors,$status);
 				
 	$message = json_decode($message,true);
 	$message = $message['Destination'];
@@ -59,117 +59,57 @@ if ($data_no==0) {
 	echo('<tr><td colspan="6" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 }
 else {
-	if ($mi_type != "json"){
-		for ($i=0; $i<count($matches[0]);$i++) {
-			$row_style = ($i%2==1)?"rowOdd":"rowEven";
-			
-			$dst_uri 	= $matches['destination'][$i];
-			$id			= $matches['id'][$i];
-			$group 		= $matches['group'][$i];
-			$status 	= $matches['enabled'][$i];
-			$auto_re 	= $matches['autore'][$i];
+	for ($i=0; $i<count($message);$i++) {
+		$row_style = ($i%2==1)?"rowOdd":"rowEven";
+	
+		$dst_uri 	= $message[$i]['value'];
+		$id 		= $message[$i]['attributes']['id'];
+		$group 		= $message[$i]['attributes']['group'];
+		$status 	= $message[$i]['attributes']['enabled'];
+		$auto_re	= $message[$i]['attributes']['auto-re'];
 
-			$pattern	= '/\s+Resource\:\:\s+(?P<resource_name>[a-zA-Z0-9_-]+)\s+max=(?P<resource_max_load>\d+)\s+load=(?P<resource_load>\d+)/';
-			
-			preg_match_all($pattern,$matches['resources'][$i],$resources);
+		$toggle_button =($status=="yes")?"enabled":"disabled";
 
-
-			$toggle_button =($status=="yes")?"enabled":"disabled";
-
-			$resource="<table>";
-			for ($j=0;$j<count($resources[0]);$j++) {
+		$resource="<table>";
+		for ($j=0;$j<count($message[$i]['children']['Resources']['children']['Resource']);$j++) {
 				
-				$resource .= "<tr>";
-				$resource .= "<td>";
-				$resource .= $resources['resource_name'][$j];
-				$resource .= " = ";
-				$resource .= $resources['resource_load'][$j];
-				$resource .= "</td>";
-				$resource .= "<td>";
-				$resource .= "( max =  ";
-				$resource .= $resources['resource_max_load'][$j];
-				$resource .= " )  ";
-				$resource .= "</td>";
-				$resource .= "</tr>";
-			}
-			$resource .= "</table>";
-?>
-			<tr align=center>
-				<td class="<?=$row_style?>">&nbsp;<?=$id?></td>
-				<td class="<?=$row_style?>">&nbsp;<?=$group?></td>
-				<td class="<?=$row_style?>">&nbsp;<?=$dst_uri?></td>
-				<td class="<?=$row_style?>">&nbsp;
-					<div align="center">
-			
-						<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>&id=<?=$id?>" method="post">
-						<? if ( $toggle_button == "enabled" ) {
-								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
-						} else if  ( $toggle_button == "disabled" ) {
-								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
-						}
-						?>
-						</form>
-					</div>
-				</td>
-				<td class="<?=$row_style?>">&nbsp;<?=$auto_re?></td>
-				<td class="<?=$row_style?>" style="text-align: left; padding-left: 5px;"><?=$resource?></td>
-			</tr>
-<?
- 		}
- 	}
- 	else {
-		for ($i=0; $i<count($message);$i++) {
-			$row_style = ($i%2==1)?"rowOdd":"rowEven";
-			
-			$dst_uri 	= $message[$i]['value'];
-			$id 		= $message[$i]['attributes']['id'];
-			$group 		= $message[$i]['attributes']['group'];
-			$status 	= $message[$i]['attributes']['enabled'];
-			$auto_re	= $message[$i]['attributes']['auto-re'];
-
-			$toggle_button =($status=="yes")?"enabled":"disabled";
-
-			$resource="<table>";
-			for ($j=0;$j<count($message[$i]['children']['Resources']['children']['Resource']);$j++) {
-				
-				$resource .= "<tr>";
-				$resource .= "<td>";
-				$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['value'];
-				$resource .= " = ";
-				$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['attributes']['load'];
-				$resource .= "</td>";
-				$resource .= "<td>";
-				$resource .= "( max =  ";
-				$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['attributes']['max'];
-				$resource .= " )  ";
-				$resource .= "</td>";
-				$resource .= "</tr>";
-			}
-			$resource .= "</table>";
-?>
-			<tr align=center>
-				<td class="<?=$row_style?>">&nbsp;<?=$id?></td>
-				<td class="<?=$row_style?>">&nbsp;<?=$group?></td>
-				<td class="<?=$row_style?>">&nbsp;<?=$dst_uri?></td>
-				<td class="<?=$row_style?>">&nbsp;
-					<div align="center">
-			
-						<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>&id=<?=$id?>" method="post">
-						<? if ( $toggle_button == "enabled" ) {
-								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
-						} else if  ( $toggle_button == "disabled" ) {
-								echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
-						}
-						?>
-						</form>
-					</div>
-				</td>
-				<td class="<?=$row_style?>">&nbsp;<?=$auto_re?></td>
-				<td class="<?=$row_style?>" style="text-align: left; padding-left: 5px;"><?=$resource?></td>
-			</tr>
-<?
+			$resource .= "<tr>";
+			$resource .= "<td>";
+			$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['value'];
+			$resource .= " = ";
+			$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['attributes']['load'];
+			$resource .= "</td>";
+			$resource .= "<td>";
+			$resource .= "( max =  ";
+			$resource .= $message[$i]['children']['Resources']['children']['Resource'][$j]['attributes']['max'];
+			$resource .= " )  ";
+			$resource .= "</td>";
+			$resource .= "</tr>";
 		}
- 	}
+		$resource .= "</table>";
+?>
+		<tr align=center>
+			<td class="<?=$row_style?>">&nbsp;<?=$id?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$group?></td>
+			<td class="<?=$row_style?>">&nbsp;<?=$dst_uri?></td>
+			<td class="<?=$row_style?>">&nbsp;
+				<div align="center">
+		
+					<form action="<?=$page_name?>?action=toggle&toggle_button=<?=$toggle_button?>&id=<?=$id?>" method="post">
+					<? if ( $toggle_button == "enabled" ) {
+						echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
+					} else if  ( $toggle_button == "disabled" ) {
+						echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
+					}
+					?>
+					</form>
+				</div>
+			</td>
+			<td class="<?=$row_style?>">&nbsp;<?=$auto_re?></td>
+			<td class="<?=$row_style?>" style="text-align: left; padding-left: 5px;"><?=$resource?></td>
+		</tr>
+<?
+	}
 }
 ?>
 

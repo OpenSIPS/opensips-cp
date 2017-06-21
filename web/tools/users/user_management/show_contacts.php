@@ -7,133 +7,58 @@ require_once("lib/functions.inc.php");
 
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-for ($i=0;$i<count($mi_connectors);$i++){
-	$comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
-	$message=mi_command($comm,$mi_connectors[$i], $mi_type, $errors,$status);
-	$status = trim($status);
-}
+$comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
+$message=mi_command($comm,$mi_connectors[0], $errors,$status);
+$status = trim($status);
+
 unset($contact);
 if ($message != NULL) {
+
 	$stupidtags = array("&lt;","&gt;");
 	$goodtags = array("<",">");
-
 	$message=str_replace($stupidtags,$goodtags,$message);
-	if ($comm_type != "json"){
 
-		preg_match_all('/AOR:: .*/', $message, $maor);
-		$aor = substr($maor[0][0],6);
+	$message = json_decode($message,true);
+	$aor = $message['AOR'][0]['value'];
+	$message = $message['AOR'][0]['children']['Contact'];
+	for ($j=0; $j < count($message); $j++){
+		$contact[$j] = $message[$j]['value'];
 
-		preg_match_all('/Contact:: .*?\s/', $message, $mcontact);
-		for ($i=0;$i<count($mcontact[0]);$i++){
-			$contact[$i] = substr($mcontact[0][$i],10,-1);
-			if ($contact[$i]=="") $contact[$i]="n/a";
-		}
-		preg_match_all('/Q=.?\n/', $message, $mq);
-		for ($i=0;$i<count($mq[0]);$i++){
-			$q[$i]=substr(trim($mq[0][$i]),2);
-			if ($q[$i]=="") $q[$i]="n/a";
-		}
+		$q[$j]=$message[$j]['attributes']['Q'];
+		if ($q[$j]=="") $q[$j]="n/a";
 
-		preg_match_all('/Expires::.+?\n/', $message, $mexpires);
-		for ($i=0;$i<count($mexpires[0]);$i++){
-			$exp = substr($mexpires[0][$i],10,-1);
-			if (is_numeric($exp)){
-				$expires[$i]=secs2hms($exp);
-			}
-			else {
-				$expires[$i]=$exp;
-			}
+		$exp=$message[$j]['children']['Expires'];
+		if (is_numeric($exp)){
+			$expires[$j]=secs2hms($exp);
 		}
-		preg_match_all('/Flags::.+?\n/', $message, $mflags);
-		for ($i=0;$i<count($mflags[0]);$i++){
-			$flags[$i]=decbin(hexdec(substr($mflags[0][$i],6,-1)));
-		}
-	
-		preg_match_all('/Cflags::.+?\n/', $message, $mcflags);
-		for ($i=0;$i<count($mcflags[0]);$i++){
-			$cflags[$i]=decbin(hexdec(substr($mcflags[0][$i],7,-1)));
-		}
+		else {
+			$expires[$j]=$exp;
+		}	
 
-		preg_match_all('/Socket::.+?\n/', $message, $msocket);
-		for ($i=0;$i<count($msocket[0]);$i++){
-			$socket[$i] = substr($msocket[0][$i],8,-1);
-			if ($socket[$i]=="") $socket[$i]="n/a";
-		}
-
-		preg_match_all('/Methods::.+?\n/', $message, $mmethods);
-		for ($i=0;$i<count($mmethods[0]);$i++){
-			if (substr($mmethods[0][$i],10) <= 65535){
-				$methods[$i] = decbin(hexdec(substr($mmethods[0][$i],8,-1)));
-			}
-			else if (substr($mmethods[0][$i],10) == 4294967295){
-				$methods[$i] = "all methods are accepted";
-			}	
-			else {
-				$methods[$i] = "invalid methods";
-			}
-		}
-
-		preg_match_all('/Received::.+?\n/', $message, $mreceived);
-		for ($i=0;$i<count($mreceived[0]);$i++){
-			$received[$i]=substr($mreceived[0][$i],10,-1);
-			if ($received[$i]=="") $received[$i]="n/a";	
-		}
+		$flags[$j]	= decbin(hexdec($message[$j]['children']['Flags']));
 		
-		preg_match_all('/State::.+?\n/', $message, $mstate);
-		for ($i=0;$i<count($mstate[0]);$i++){
-			$state[$i] = substr($mstate[0][$i],8,-1);
-			if ($state[$i]=="") $state[$i]="n/a";
+		$socket[$j] = $message[$j]['children']['Socket'];
+		if ($socket[$j]=="") $socket[$j]="n/a";
+
+		$methods[$j] = decbin(hexdec($message[$j]['children']['Methods']));
+		if ($methods[$j] <= 65535){
+			$methods[$j] = decbin(hexdec($methods[$j]));
+		}
+		else if ($methods[$j] == 4294967295){
+			$methods[$j] = "all methods are accepted";
+		}	
+		else {
+			$methods[$j] = "invalid methods";
 		}
 
-		preg_match_all('/User-agent::.+?\n/', $message, $museragent);
-		for ($i=0;$i<count($museragent[0]);$i++){
-			$useragent[$i]=substr($museragent[0][$i],12,-1);
-			if ($useragent[$i]=="") $useragent[$i]="n/a";
-		}
-	}
-	else {
-		$message = json_decode($message,true);
-		$aor = $message['AOR'][0]['value'];
-		$message = $message['AOR'][0]['children']['Contact'];
-		for ($j=0; $j < count($message); $j++){
-			$contact[$j] = $message[$j]['value'];
+		$received[$j] = $message[$j]['children']['Received'];
+		if ($received[$j]=="") $received[$j]="n/a";
+		
+		$state[$j] = $message[$j]['children']['State'];
+		if ($state[$j]=="") $state[$j]="n/a";
 
-			$q[$j]=$message[$j]['attributes']['Q'];
-			if ($q[$j]=="") $q[$j]="n/a";
-
-			$exp=$message[$j]['children']['Expires'];
-			if (is_numeric($exp)){
-				$expires[$j]=secs2hms($exp);
-			}
-			else {
-				$expires[$j]=$exp;
-			}	
-	
-			$flags[$j]	= decbin(hexdec($message[$j]['children']['Flags']));
-			
-			$socket[$j] = $message[$j]['children']['Socket'];
-			if ($socket[$j]=="") $socket[$j]="n/a";
-
-			$methods[$j] = decbin(hexdec($message[$j]['children']['Methods']));
-			if ($methods[$j] <= 65535){
-				$methods[$j] = decbin(hexdec($methods[$j]));
-			}
-			else if ($methods[$j] == 4294967295){
-				$methods[$j] = "all methods are accepted";
-			}	
-			else {
-				$methods[$j] = "invalid methods";
-			}
-
-			$received[$j] = $message[$j]['children']['Received'];
-			if ($received[$j]=="") $received[$j]="n/a";
-			
-			$state[$j] = $message[$j]['children']['State'];
-			if ($state[$j]=="") $state[$j]="n/a";
-
-			$useragent[$j] = $message[$j]['children']['User-agent'];
-			if ($useragent[$j]=="") $useragent[$j]="n/a";
-		}
+		$useragent[$j] = $message[$j]['children']['User-agent'];
+		if ($useragent[$j]=="") $useragent[$j]="n/a";
 	}
 }
 ?>

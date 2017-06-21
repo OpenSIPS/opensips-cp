@@ -35,7 +35,7 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 // get status from the first one only
 $comm = "dlg_list ".$start_limit." ".$config->results_per_page;
-$message=mi_command($comm , $mi_connectors[0], $mi_type, $errors , $status);
+$message=mi_command($comm , $mi_connectors[0], $errors , $status);
 
 $message = json_decode($message,true);
 $data_no = $message['dlg_counter'][0]['value'];

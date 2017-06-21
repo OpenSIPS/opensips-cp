@@ -65,9 +65,9 @@ if (isset($_POST['submit'])) {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		// get status from the first one only
 		if ($profile_param == "")
-			$msg=mi_command("profile_get_size $profile", $mi_connectors[0], $mi_type, $errors , $status);
+			$msg=mi_command("profile_get_size $profile", $mi_connectors[0], $errors , $status);
 		else
-			$msg=mi_command("profile_get_size $profile $profile_param", $mi_connectors[0], $mi_type, $errors , $status);
+			$msg=mi_command("profile_get_size $profile $profile_param", $mi_connectors[0], $errors , $status);
 
 		if (!empty($msg)) {
 			$msg = json_decode($msg,true);
@@ -101,7 +101,7 @@ if (isset($_POST['dialogs'])) {
 	else {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		// get status from the first one only
-		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $mi_type, $errors , $status);
+		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $errors , $status);
 
 		display_dialog_table($message);
 	}

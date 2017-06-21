@@ -81,6 +81,9 @@ if(PEAR::isError($resultset)) {
 $link->disconnect();
 
 ?>
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 
 <br>
 

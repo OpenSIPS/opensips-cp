@@ -27,17 +27,17 @@
 <?php
 if (!isset($toggle_button)) {
 
-	// 	get nat ping status
-
+	// get nat ping status
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// get status from the first one only
-	$message = mi_command("nh_enable_ping", $mi_connectors[0], $mi_type, $errors , $status);
+	$message = mi_command("nh_enable_ping", $mi_connectors[0], $errors , $status);
+
+	$message = json_decode($message, TRUE);
 	
-	if (preg_match('/0/',$message,$matches)){	
-		$toggle_button = "enable";
-	} else
-	if (preg_match('/1/',$message,$matches)) {
+	if ($message['status']=='0'){	
 		$toggle_button = "disable";
+	} else
+		$toggle_button = "enable";
 	}
 
 }

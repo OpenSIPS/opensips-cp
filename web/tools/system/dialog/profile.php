@@ -46,10 +46,7 @@ if ($action=="delete")
                 $h_entry=trim($_GET['h_entry']);
                 $h_id=trim($_GET['h_id']);
                 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-                for ($i=0;$i<count($mi_connectors);$i++){
-
-                        mi_command("dlg_end_dlg ".$h_entry." ".$h_id, $mi_connectors[$i], $mi_type, $errors, $status);
-                }
+                mi_command("dlg_end_dlg ".$h_entry." ".$h_id, $mi_connectors[0], $errors, $status);
         }else{
 
                 $errors= "User with Read-Only Rights";

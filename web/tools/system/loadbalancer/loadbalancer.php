@@ -142,12 +142,12 @@ case "toggle":
 	if ($state=="enabled") {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		for($i=0;$i<count($mi_connectors);$i++) {
-			mi_command("lb_status $id 0", $mi_connectors[$i], $mi_type, $errors , $status);
+			mi_command("lb_status $id 0", $mi_connectors[$i], $errors , $status);
 		}
 	} else if ($state=="disabled") {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		for($i=0;$i<count($mi_connectors);$i++) {
-			mi_command("lb_status $id 1", $mi_connectors[$i], $mi_type, $errors , $status);
+			mi_command("lb_status $id 1", $mi_connectors[$i], $errors , $status);
 		}
 	}
 	break;

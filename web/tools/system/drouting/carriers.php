@@ -57,7 +57,7 @@
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
   $command="dr_carrier_status ".$_GET['carrierid'];
 
-  $message=mi_command($command,$mi_connectors[0], $mi_type, $errors, $status);
+  $message=mi_command($command,$mi_connectors[0], $errors, $status);
 
     $message = explode("\n",trim($message));
     for ($i=0;$i<count($message);$i++){
@@ -84,32 +84,32 @@ if ($action=="enablecar"){
     $command="dr_carrier_status ".$_GET['carrierid']." 1";
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
+        $message=mi_command($command, $mi_connectors[$i], $errors, $status);
     }
     if (substr(trim($status),0,3)!="200")
         echo "Error while enabling carrier ".$_GET['carrierid'];
 }
-##################
-# end enable gw  #
-##################
+######################
+# end enable carrier #
+######################
 
 
-#######################
-# start disable gw    #
-#######################
+##########################
+# start disable carrier  #
+#########################
 if ($action=="disablecar"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
     $command="dr_carrier_status ".$_GET['carrierid']." 0";
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
+        $message=mi_command($command, $mi_connectors[$i], $errors, $status);
     }
     if (substr(trim($status),0,3)!="200")
         echo "Error while disabling carrier ".$_GET['carrierid'];
 }
-##################
-# end disable gw  #
-##################
+########################
+# end disable carrier  #
+########################
 
 
 ################

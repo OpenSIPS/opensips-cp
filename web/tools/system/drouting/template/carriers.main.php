@@ -92,20 +92,21 @@
   <th class="dataTitle">Edit</th>
   <th class="dataTitle">Delete</th>
  </tr>
+
 <?php
-	//get status for all the gws
-	$carrier_statuses = Array ();
+//get status for all the gws
+$carrier_statuses = Array ();
 
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$command="dr_carrier_status";
+$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$command="dr_carrier_status";
 
-	$message=mi_command($command, $mi_connectors[0], $mi_type, $errors, $status);
+$message=mi_command($command, $mi_connectors[0], $errors, $status);
 
-	$message = json_decode($message,true);
-	$message = $message['ID'];
-	for ($j=0; $j<count($message); $j++){
-		$carrier_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['Enabled']);
-	}
+$message = json_decode($message,true);
+$message = $message['ID'];
+for ($j=0; $j<count($message); $j++){
+	$carrier_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['Enabled']);
+}
 //end get status
 
  if ($sql_search=="") {

@@ -63,12 +63,11 @@ if ($_GET['action']=="execute")
 	if ($command=="") $error=true;
 	if (!$error ) {
 
-		$message=mi_command($command,$current_box,$mi_type,$errors,$status);
+		$message=mi_command($command,$current_box,$errors,$status);
 
 		$stupidtags = array("&lt;","&gt;");
-	    $goodtags = array("<",">");
-
-	    $message=str_replace($goodtags,$stupidtags,$message);
+		$goodtags = array("<",">");
+		$message=str_replace($goodtags,$stupidtags,$message);
 
 		$_SESSION['mi_time'][]=date("H:i:s");
 		$_SESSION['mi_command'][]=$command." ".$arguments;

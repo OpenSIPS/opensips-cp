@@ -29,7 +29,7 @@ if (!isset($toggle_button)) {
 
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
-	$message = mi_command("sip_trace" ,$mi_connectors[0], $mi_type, $errors , $status);
+	$message = mi_command("sip_trace" ,$mi_connectors[0], $errors , $status);
 
 	$message = json_decode($message, TRUE);
 	$message = $message['global'];

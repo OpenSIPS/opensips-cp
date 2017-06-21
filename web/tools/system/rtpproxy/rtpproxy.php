@@ -49,9 +49,9 @@ if ($action=="change_state"){
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	for ($i=0;$i<count($mi_connectors);$i++) {
 		if ($state=="0") {
-			mi_command("rtpproxy_enable $sock 0" , $mi_connectors[$i], $mi_type, $errors , $status);
+			mi_command("rtpproxy_enable $sock 0" , $mi_connectors[$i], $errors , $status);
 		} else {
-			mi_command("rtpproxy_enable $sock 1" , $mi_connectors[$i], $mi_type, $errors , $status);
+			mi_command("rtpproxy_enable $sock 1" , $mi_connectors[$i], $errors , $status);
 		}
 	}
 
