@@ -63,7 +63,7 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 			#reset($menu_link_text);
 
 			$tools = array_keys($menu_link_text);
-			if (in_array($_SESSION['user_active_tool'],$tools)){
+			if ( isset($_SESSION['user_active_tool']) && in_array($_SESSION['user_active_tool'],$tools)){
 	?>
 			<div id="menu<?=$menuitem?>" class="menu_active" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
 				<span id="<?=$menuitem?>" class="submenu" style="display: block;">
