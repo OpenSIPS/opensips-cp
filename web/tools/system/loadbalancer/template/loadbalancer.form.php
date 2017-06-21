@@ -29,7 +29,7 @@ form_generate_input_text("SIP URI", "SIP URI pointing to the destination",
 	"dst_uri", "n", $lb_form['dst_uri'], 192, "^$re_sip_uri$");
 
 form_generate_input_text("Resources", "The list of resources (ans their capacity) offered by this destination. It can be a list semicolon separate list of name=value (name is alphanumerical and value is numerical) or a single resource element pointing to a FreeSWITCH URL (name=fs://[username]:password@host[:port])",
-	"resources", "n", $lb_form['resources'], 256, "^(([a-zA-Z0-9]+=[0-9]+)(;[a-zA-Z0-9]+=[0-9]+)*)|([a-zA-Z0-9]+=$re_fs_url)$");
+	"resources", "n", $lb_form['resources'], 256, "^((([a-zA-Z0-9]+=[0-9]+)(;[a-zA-Z0-9]+=[0-9]+)*)|([a-zA-Z0-9]+=$re_fs_url))$");
 
 form_generate_select("Probe Mode", "When the destination should be probed/pinged via SIP messages (for availability)",
 	"probe_mode", 200, $ds_form['probe_mode'], array("0","1","2"),$lb_probing_modes);
