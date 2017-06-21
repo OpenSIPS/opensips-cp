@@ -25,12 +25,8 @@
 
 $box_id=0;
 
-// Options:
-//   FIFO backend:   fifo:/path/to/fifo_file
-//   XMLRPC backend: xmlrpc:host:port/RPC2
-//   UDP backend:    udp:host:port
-//   JSON backend:   json:host:port/json
-$boxes[$box_id]['mi']['conn']="fifo:/tmp/opensips_fifo";
+//  MI connector (via JSON backend):   json:host:port/json
+$boxes[$box_id]['mi']['conn']="json:127.0.0.1:8080/JSON";
 
 // monit host:port
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
