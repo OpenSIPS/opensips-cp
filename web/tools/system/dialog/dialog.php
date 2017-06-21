@@ -59,11 +59,10 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$h_entry=trim($_GET['h_entry']);
-		$h_id=trim($_GET['h_id']);
+		$id=trim($_GET['id']);
 	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
         	for ($i=0;$i<count($mi_connectors);$i++){
-				mi_command("dlg_end_dlg ".$h_entry." ".$h_id,  $mi_connectors[$i], $errors,$status);
+				mi_command("dlg_end_dlg ".$id,  $mi_connectors[$i], $errors,$status);
 			}
 	}else{
 

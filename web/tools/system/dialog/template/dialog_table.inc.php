@@ -29,14 +29,9 @@ function display_dialog_table($message){
 	
 		$row_style = ($i%2==1)?"rowOdd":"rowEven";
 
-		$temp_hash = explode(":",$message[$i]['attributes']['hash']);
-
-		$entry[$i]['h_entry'] = $temp_hash[0];
-		$entry[$i]['h_id'] = $temp_hash[1];
-
 		if(!$_SESSION['read_only']){
 			if ($message[$i]['children']['state']<5)
-       			     	$delete_link='<a href="'.$page_name.'?action=delete&h_id='.$entry[$i]['h_id'].'&h_entry='.$entry[$i]['h_entry'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['attributes']['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 			else
 				$delete_link = "n/a";
         	}
