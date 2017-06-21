@@ -99,26 +99,12 @@
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	$command="dr_carrier_status";
 
-	for ($i=0;$i<count($mi_connectors);$i++){
-	    $message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
-	}
+	$message=mi_command($command, $mi_connectors[0], $mi_type, $errors, $status);
 
-
-	if ($mi_type != "json"){
-		$message = explode("\n",trim($message));
-		for ($i=0;$i<count($message);$i++){
-    		preg_match('/^(?:ID:: )?([^ ]+)/',trim($message[$i]),$matchCarID);
-	    	preg_match('/(?:Enabled=)?([^ ]+)$/',trim($message[$i]),$matchStatus);
-
-    		$carrier_statuses[$matchCarID[1]]= $matchStatus [1];
-		}
-	}
-	else {
-		$message = json_decode($message,true);
-		$message = $message['ID'];
-		for ($j=0; $j<count($message); $j++){
-			$carrier_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['Enabled']);
-		}
+	$message = json_decode($message,true);
+	$message = $message['ID'];
+	for ($j=0; $j<count($message); $j++){
+		$carrier_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['Enabled']);
 	}
 //end get status
 

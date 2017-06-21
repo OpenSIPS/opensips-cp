@@ -25,22 +25,11 @@
 <form action="<?=$page_name?>?action=refresh" method="post">
 <?
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	for ($i=0;$i<count($mi_connectors);$i++){
-
-                $message = mi_command('lb_list', $mi_connectors[$i], $mi_type, $errors,$status);
+	$message = mi_command('lb_list', $mi_connectors[0], $mi_type, $errors,$status);
 				
-				if ($mi_type != "json"){
-	                $message = trim($message);
-					$pattern = '/Destination\:\:\s+(?P<destination>sip\:[a-zA-Z0-9.:-]+)\s+id=(?P<id>\d+)\s+group=(?P<group>\d+)\s+enabled=(?P<enabled>yes|no)\s+auto-re=(?P<autore>on|off)\s+Resources(?P<resources>(\s+Resource\:\:\s+[a-zA-Z0-9]+\s+max=\d+\s+load=\d+)*)/';
-					preg_match_all($pattern,$message,$matches);
-					$data_no = count($matches[0]);
-				}
-				else {
-					//no more stupid parsing
-					$message = json_decode($message,true);
-					$message = $message['Destination'];
-					$data_no = count($message);
-				}
+	$message = json_decode($message,true);
+	$message = $message['Destination'];
+	$data_no = count($message);
 }
 ?>
 </form>

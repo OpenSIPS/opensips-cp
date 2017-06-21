@@ -31,15 +31,8 @@ if (!isset($toggle_button)) {
 
 	$message = mi_command("sip_trace" ,$mi_connectors[0], $mi_type, $errors , $status);
 
-	if ($mi_type != "json") {
-		$message = trim($message);
-		if (preg_match("/global:: (\w+)/", $message, $matches)) {
-			$message = $matches[1];
-		}
-	} else {
-		$message = json_decode($message, TRUE);
-		$message = $message['global'];
-	}
+	$message = json_decode($message, TRUE);
+	$message = $message['global'];
 
 	if ($message == "on")
 		$toggle_button = "disable";

@@ -26,19 +26,14 @@ function get_command_list($mi_url)
 {
 	$message = mi_command( "which", $mi_url, $mi_type, $errors, $status);
 
-	if ($mi_type != "json"){
-		$_SESSION['mi_command_list'] = explode("\n", $message);
+	$message = json_decode($message,true);
+	//TODO - this might change 
+	$message = $message[null];
+	$cmds = array();
+	for ($i=0;$i<count($message);$i++){
+		$cmds [] = $message[$i]['value'];
 	}
-	else{
-		$message = json_decode($message,true);
-		//TODO - this might change 
-		$message = $message[null];
-		$cmds = array();
-		for ($i=0;$i<count($message);$i++){
-			$cmds [] = $message[$i]['value'];
-		}
-		$_SESSION['mi_command_list'] = $cmds;
-	}
+	$_SESSION['mi_command_list'] = $cmds;
 	return;
 }
 

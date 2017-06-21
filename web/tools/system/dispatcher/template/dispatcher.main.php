@@ -32,25 +32,14 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 // date input from the first box only
 $message=mi_command('ds_list',$mi_connectors[0], $mi_type, $errors,$status);
 
-if ($mi_type != "json"){
-	preg_match_all('/URI\:\:\s+sip\:[0-9\.a-zA-Z]+\(:\d+)?\s+state\=(Active|Inactive|Probing)/',$message,$matches);
-	for($j=0; count($matches[0])>$j; $j++) {
-		$temp = explode(" ",$matches[0][$j]);
-		$sipURI[] = $temp[1];
-		$fl = explode("=",$temp[2]);
-		$flag[] = $fl[1];
-	}
-}
-else {
-	$message = json_decode($message,true);
-	if ($message['PARTITION'])
-		$message = $message['PARTITION'][0]['children'];
-	$message = $message['SET'];
+$message = json_decode($message,true);
+if ($message['PARTITION'])
+	$message = $message['PARTITION'][0]['children'];
+$message = $message['SET'];
 
-	for ($j=0; $j<count($message); $j++){
-		$sipURI[] 	= $message[$j]['children']['URI'][0]['value'];
-		$flag[] 	= $message[$j]['children']['URI'][0]['attributes']['state'];
-	}
+for ($j=0; $j<count($message); $j++){
+	$sipURI[] 	= $message[$j]['children']['URI'][0]['value'];
+	$flag[] 	= $message[$j]['children']['URI'][0]['attributes']['state'];
 }
 
 

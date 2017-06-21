@@ -140,31 +140,17 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
 //get status for all the gws
 $gw_statuses = Array ();
 
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 $command="dr_gw_status";
+$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$message=mi_command($command, $mi_connectors[0], $mi_type, $errors, $status);
 
-for ($i=0;$i<count($mi_connectors);$i++){
-	$message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
+$message =  preg_replace('/([^0-9\.\-,"A-Za-z{:\}\]\[\s]+)/', '', $message);
+$message = json_decode($message,true);
+$message = $message['ID'];
+for ($j=0; $j<count($message); $j++){
+	$gw_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['State']);
 }
-if ($mi_type != "json"){
-	$message = explode("\n",trim($message));
-	for ($i=0;$i<count($message);$i++){
-		
-		preg_match('/^(?:ID:: )?([^ ]+)/',trim($message[$i]),$matchGWID);
-		preg_match('/(Active|Inactive|Disabled MI|Probing)$/',$message[$i],$matchStatus);
 
-		$gw_statuses[$matchGWID[1]]= $matchStatus [1];
-	}
-}
-else {
-	$message =  preg_replace('/([^0-9\.\-,"A-Za-z{:\}\]\[\s]+)/', '', $message);
-
-	$message = json_decode($message,true);
-	$message = $message['ID'];
-	for ($j=0; $j<count($message); $j++){
-		$gw_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['State']);
-	}
-}
 //end get status
  if ($sql_search=="") {
 	$sql_command="select * from ".$table." where (1=1)";

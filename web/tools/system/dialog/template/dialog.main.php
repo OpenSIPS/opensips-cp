@@ -37,17 +37,9 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 $comm = "dlg_list ".$start_limit." ".$config->results_per_page;
 $message=mi_command($comm , $mi_connectors[0], $mi_type, $errors , $status);
 
-if ($mi_type != "json"){
-	$tempmess = explode("dlg_counter:: ",$message);
-	$pos = strpos($message, "\n",0);
-	$data_no = substr($message,14,$pos-14);
-	$message = substr($message,$pos);
-}
-else {
-	$message = json_decode($message,true);
-	$data_no = $message['dlg_counter'][0]['value'];
-	$message = $message['dlg_counter'];
-}
+$message = json_decode($message,true);
+$data_no = $message['dlg_counter'][0]['value'];
+$message = $message['dlg_counter'];
 
 
 echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';
@@ -76,7 +68,7 @@ else {
 	
 	$start_limit=($page-1)*$config->results_per_page;
 
-	display_dialog_table($message, $mi_type);
+	display_dialog_table($message);
 }
 
 ?>

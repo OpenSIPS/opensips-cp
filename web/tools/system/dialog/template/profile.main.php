@@ -70,13 +70,8 @@ if (isset($_POST['submit'])) {
 			$msg=mi_command("profile_get_size $profile $profile_param", $mi_connectors[0], $mi_type, $errors , $status);
 
 		if (!empty($msg)) {
-			if ($mi_type != "json") {
-				preg_match('/count=(\d+)/',$msg,$matches);
-				$profile_size=$matches[1];
-			} else {
-				$msg = json_decode($msg,true);
-				$profile_size = $msg[profile][attributes][count];
-			}
+			$msg = json_decode($msg,true);
+			$profile_size = $msg[profile][attributes][count];
 			echo ('Number of dialogs in profile <b>'.$profile. '</b> is <b>' . $profile_size .'</b>');
 			unset($_SESSION['profile_size']);
 		}
@@ -108,7 +103,7 @@ if (isset($_POST['dialogs'])) {
 		// get status from the first one only
 		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $mi_type, $errors , $status);
 
-		display_dialog_table($message, $mi_type);
+		display_dialog_table($message);
 	}
 
 	echo '<tr>';

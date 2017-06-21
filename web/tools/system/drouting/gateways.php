@@ -64,11 +64,10 @@ if ($action=="enablegw"){
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	$command="dr_gw_status ".$_GET['gwid']." 1";
 
-	for ($i=0;$i<count($mi_connectors);$i++){
+    	for ($i=0;$i<count($mi_connectors);$i++){
 		$message=mi_command($command, $mi_connectors[$i], $mi_type, $errors, $status);
 	}
-
-    if (substr(trim($status),0,3)!="200")
+	if (substr(trim($status),0,3)!="200")
 		echo "Error while enabling gateway ".$_GET['gwid'];
 }
 ##################

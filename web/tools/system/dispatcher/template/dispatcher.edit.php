@@ -20,19 +20,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
+$id=$_GET['id'];
+
+$sql = "select * from ".$table." where id='".$id."'";
+$ds_form = $link->queryRow($sql);
+$link->disconnect();
 ?>
 
-
-
-<?php
-	$id=$_GET['id'];
-	
-	$sql = "select * from ".$table." where id='".$id."'";
-	$ds_form = $link->queryRow($sql);
-	$link->disconnect();
-?>
-
-<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
+<form action="<?=$page_name?>?action=modify&id=<?=$id?>" method="post">
 
 	<table width="400" cellspacing="2" cellpadding="2" border="0">
 

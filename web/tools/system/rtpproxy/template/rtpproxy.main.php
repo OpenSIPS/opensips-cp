@@ -33,61 +33,29 @@ $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 // fetch data from the first box only
 $message = mi_command('rtpproxy_show',$mi_connectors[0], $mi_type, $errors,$status);
 
-if ($mi_type != "json"){
-	$sets = array();
-	$pattern = '/node\:\:\s+(?P<sock>[a-zA-Z0-9.:=]+)\s+index=(?P<index>\d+)\s+disabled=(?P<status>\d+)\s+weight=(?P<weight>\d+)\s+recheck_ticks=(?P<ticks>\d+)(\s|\n)*/';
-	$message = explode("Set:: ",trim($message));
-	for ($j=0; $j<count($message); $j++){
-		$setid = substr($message[$j],0,strpos($message[$j],"\n"));
-		if ($setid != "" && $setid != null) {
-			preg_match_all($pattern,substr($message[$j],strpos($message[$j],"\n")+1),$matches);
-			if (count($matches[0]) > 0){
-				$sets[$setid] = $matches;
-			}
-		}
-		$data_no += count($matches[0]);
-	}
-} else {
-	$message = json_decode($message,true);
-	$message = $message['Set'];
-	$data_no = count($message);
-}
+$message = json_decode($message,true);
+$message = $message['Set'];
+$data_no = count($message);
 
 $rtpproxies_cache = array();
 
-if ($mi_type != "json"){
-	foreach ($sets as $setid => $matches) {
-		for ($i=0; $i<count($matches[0]);$i++) {
-			$rtpproxies_cache[$setid][$matches['sock'][$i]]['status'] 	= $matches['status'][$i]; 
-			$rtpproxies_cache[$setid][$matches['sock'][$i]]['weight'] 	= $matches['weight'][$i]; 
-			$rtpproxies_cache[$setid][$matches['sock'][$i]]['ticks'] 	= $matches['ticks'][$i];
-
-			if ($matches['status'][$i] == 1){
-				$rtpproxies_cache[$setid][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
-			} else if ($matches['status'][$i] == 0){
-				$rtpproxies_cache[$setid][$matches['sock'][$i]]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$matches['status'][$i].'&sock='.$matches['sock'][$i].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$matches['status'][$i].'\')" border="0"></a>';
-			}
+// $message is an array of sets right now
+for ($i=0; $i<count($message);$i++) {
+	// get each node from the SET
+	for ($j=0; $j<count($message[$i]['children']['node']); $j++){
+		$node = $message[$i]['children']['node'][$j];
+		$rtpproxies_cache[ $i ][ $node['value'] ]['status'] = $node['attributes']['disabled'];
+		$rtpproxies_cache[ $i ][ $node['value'] ]['weight'] = $node['attributes']['weight'];
+		$rtpproxies_cache[ $i ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
+		
+		if ($node['attributes']['disabled'] == 1){
+			$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+		} else if ($node['attributes']['disabled'] == 0){
+			$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
 		}
 	}
-}
-else {
-	// $message is an array of sets right now
-	for ($i=0; $i<count($message);$i++) {
-		// get each node from the SET
-		for ($j=0; $j<count($message[$i]['children']['node']); $j++){
-			$node = $message[$i]['children']['node'][$j];
-			$rtpproxies_cache[ $i ][ $node['value'] ]['status'] = $node['attributes']['disabled'];
-			$rtpproxies_cache[ $i ][ $node['value'] ]['weight'] = $node['attributes']['weight'];
-			$rtpproxies_cache[ $i ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
-		
-			if ($node['attributes']['disabled'] == 1){
-				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
-			} else if ($node['attributes']['disabled'] == 0){
-				$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
-			}
-		}
-	} 	
-}
+} 	
+
 $sql_search="";
 $search_setid=$_SESSION['rtpproxy_setid'];
 $search_sock=$_SESSION['rtpproxy_sock'];

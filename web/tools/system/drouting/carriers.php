@@ -57,10 +57,7 @@
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
   $command="dr_carrier_status ".$_GET['carrierid'];
 
-    for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command($command,$mi_connectors[$i], $mi_type, $errors, $status);
-    }
-
+  $message=mi_command($command,$mi_connectors[0], $mi_type, $errors, $status);
 
     $message = explode("\n",trim($message));
     for ($i=0;$i<count($message);$i++){

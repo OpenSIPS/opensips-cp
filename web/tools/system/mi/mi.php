@@ -78,15 +78,11 @@ if ($_GET['action']=="execute")
 			$_SESSION['mi_response'][]="<font color='red'>".$errors[0]."</font>";
 		} else {
 			if ($message!="") {
-				if ($mi_type != "json"){	
-					$_SESSION['mi_response'][]=$message;
+				$res = json_decode($message,true);
+				if (count($res) == 0){
+					$_SESSION['mi_response'][]="Successfully executed, no output generated";
 				} else {
-					$res = json_decode($message,true);
-					if (count($res) == 0){
-						$_SESSION['mi_response'][]="Successfully executed, no output generated";
-					} else {
-						$_SESSION['mi_response'][]=json_encode($res,JSON_PRETTY_PRINT);
-					}
+					$_SESSION['mi_response'][]=json_encode($res,JSON_PRETTY_PRINT);
 				}
 			} else {
 				$_SESSION['mi_response'][]="Successfully executed, no output generated";

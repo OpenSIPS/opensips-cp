@@ -53,16 +53,14 @@ function get_mi_modules($mi_url)
 	if ($errors)
 		return;
 
-	if ($mi_type == "json") {
-		$message = json_decode($message,true);
-		ksort($message);
+	$message = json_decode($message,true);
+	ksort($message);
 
-		$temp = array();
-		foreach ($message as $module_stat => $value){
-			$temp [] = $module_stat.":: ".$value;
-		}
-		$message = implode("\n",$temp);
+	$temp = array();
+	foreach ($message as $module_stat => $value){
+		$temp [] = $module_stat.":: ".$value;
 	}
+	$message = implode("\n",$temp);
 
 	preg_match_all("/(.*?):(.*?):: ([0-9]*)/i",$message,$regs);
 
@@ -102,23 +100,15 @@ function get_vars($module, $mi_url)
 	if ($errors)
 		return;
 
-	if ($mi_type == "json") {
-		$message = json_decode($message,true);
-		ksort($message);
+	$message = json_decode($message,true);
+	ksort($message);
 
-		$temp = array();
-		$i=0;
-		foreach ($message as $module_stat => $value){
-			$out[0][$i] = substr( $module_stat, 1+strpos($module_stat,":"));
-			$out[1][$i] = $value;
-			$i++;
-		}
-	} else {
-		preg_match_all("/".$module.":(.*?):: ([0-9]*)/i", $message, $regs);
-		for ($i=0; $i<sizeof($regs[0]); $i++) {
-			$out[0][$i] = $regs[1][$i];
-			$out[1][$i] = $regs[2][$i];
-		}
+	$temp = array();
+	$i=0;
+	foreach ($message as $module_stat => $value){
+		$out[0][$i] = substr( $module_stat, 1+strpos($module_stat,":"));
+		$out[1][$i] = $value;
+		$i++;
 	}
 	return $out;
 }
@@ -134,25 +124,12 @@ function get_vars_type( $mi_url )
 
 	$gauge_arr = array();
 
-	if ($mi_type == "json") {
-
-		$message = json_decode($message,true);
-		ksort($message);
-		foreach ($message as $module_stat => $value){
-			if ($value == "non-incremental"){
-				$gauge_arr [] = $module_stat;
-			}
+	$message = json_decode($message,true);
+	ksort($message);
+	foreach ($message as $module_stat => $value){
+		if ($value == "non-incremental"){
+			$gauge_arr [] = $module_stat;
 		}
-
-	} else {
-        
-		preg_match_all("/(.*?):(.*?):: ([0-9a-zA-Z\-]*)/i", $message, $regs);
-		for ($i=0; $i<sizeof($regs[0]); $i++){
-			if ($regs[3][$i] == "non-incremental"){
-				$gauge_arr [] = $regs[1][$i].":".$regs[2][$i];
-			}
-     	}
-
 	}
 	 
 	 return $gauge_arr;
@@ -170,16 +147,14 @@ function get_all_vars( $mi_url , $stats_list)
 	if ($errors) 
 		return;
 
-	if ($mi_type == "json"){
-		$message = json_decode($message,true);
-		ksort($message);
+	$message = json_decode($message,true);
+	ksort($message);
 
-		$temp = array();
-		foreach ($message as $module_stat => $value){
-			$temp [] = $module_stat.":: ".$value;
-		}
-		$message = implode("\n",$temp);
+	$temp = array();
+	foreach ($message as $module_stat => $value){
+		$temp [] = $module_stat.":: ".$value;
 	}
+	$message = implode("\n",$temp);
 
 	return $message;
 }

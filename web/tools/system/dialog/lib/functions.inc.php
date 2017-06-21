@@ -28,19 +28,10 @@ require ("../../../../config/tools/system/dialog/local.inc.php");
 	// get status from the first one only
 	$message=mi_command("list_all_profiles", $mi_connectors[0], $mi_type, $errors , $status);
 
-	if ($mi_type != "json"){
-		$message = explode("\n",trim($message));
-		for ($i=0;$i<count($message);$i++){
-        	if (preg_match('/^([a-zA-Z0-9]+):: .+/',trim($message[$i]),$matches) )
-				$options[]=array("label"=>$matches[1],"value"=>$matches[1]);
-		}
-	} else{
-		$message = json_decode($message,true);
-		foreach($message as $prof => $type ){
-			$options[]=array("label"=>$prof,"value"=>$prof);
+	$message = json_decode($message,true);
+	foreach($message as $prof => $type ){
+		$options[]=array("label"=>$prof,"value"=>$prof);
         }
-    }
- 
 
 	$start_index = 0;
 	$end_index = sizeof($options);
