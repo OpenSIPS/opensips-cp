@@ -41,14 +41,14 @@
  </tr>
 
  <tr>
-     <td class="dataRecord"><b>Disabled:</b> <?=$resultset[0]['enabled']?></td>
+     <td class="dataRecord"><b>Memory state:</b> <?=$resultset[0]['enabled']?></td>
  </tr>
  <tr>
-  	<td class="dataRecord"><b>State</b> 
+  	<td class="dataRecord"><b>DB State</b> 
 		<?php 
 			switch ($resultset[0]['state']){
-				case "1" : echo "1 - Active"; break;
-				case "0" : echo "0 - Inactive"; break;
+				case "0" : echo "Active"; break;
+				case "1" : echo "Inactive"; break;
 			}
 		?>
 	</td>
@@ -59,9 +59,6 @@
  <tr>
   <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
  </tr>
- <tr>
-   <td class="dataRecord"><b>Status:</b> <?=$resultset[0]['status']?></td>
-  </tr>
  <tr height="10">
   <td class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>

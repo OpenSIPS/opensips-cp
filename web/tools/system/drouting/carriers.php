@@ -58,14 +58,8 @@
   $command="dr_carrier_status ".$_GET['carrierid'];
 
   $message=mi_command($command,$mi_connectors[0], $errors, $status);
-
-    $message = explode("\n",trim($message));
-    for ($i=0;$i<count($message);$i++){
-        preg_match('/(?:Enabled=)?([^ ]+)$/',$message[$i],$matchStatus);
-	
-		$resultset[0]['status'] = ($matchStatus[1]=="yes") ? "Active" : "Inactive";
-		
-    }
+  $message = json_decode($message,true);
+  $resultset[0]['enabled'] = $message['Enabled']=="yes"?"enabled":"disabled";
 
   require("template/".$page_id.".details.php");
   require("template/footer.php");
