@@ -1,8 +1,4 @@
 <script language="JavaScript">
-//
-//// $Id: list_admins.main.js 28 2009-04-01 15:27:03Z iulia_bublea $
-////
-//
 
 function showhide(id){
         if (document.getElementById){

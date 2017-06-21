@@ -1,6 +1,5 @@
 <?php
  /*
- * $Id: tviewer.main.php 133 2009-10-29 18:05:56Z $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 

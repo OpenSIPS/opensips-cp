@@ -1,7 +1,5 @@
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
-<?
+<?php
 /*
-* $Id$
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -35,8 +33,9 @@ if($clone =="1"){
 	$rtpproxy_sock = $row[0]['rtpproxy_sock'];
 	$set_id = $row[0]['set_id'];
 }
-
 ?>
+
+<form action="<?=$page_name?>?action=add_verify&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="rtpproxyTitle">New RTPproxy</td>

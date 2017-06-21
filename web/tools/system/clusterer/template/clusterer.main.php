@@ -1,4 +1,4 @@
-<!--
+<?php
  /*
  * Copyright (C) 2016 OpenSIPS Project
  *
@@ -19,15 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
--->
 
-<div id="dialog" class="dialog" style="display:none"></div>
-<div onclick="closeDialog();" id="overlay" style="display:none"></div>
-<div id="content" style="display:none"></div>
 
-<form action="<?=$page_name?>?action=search" method="post">
-
-<?php
 $sql_search="";
 $search_cid=$_SESSION['cl_cid'];
 $search_url=$_SESSION['cl_url'];
@@ -39,7 +32,13 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 6;
 }
-  ?>
+?>
+
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
+<form action="<?=$page_name?>?action=search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="searchTitle"></td>

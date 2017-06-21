@@ -1,6 +1,5 @@
 <?php
 /*
-* $Id: apply_changes.php 287 2011-10-17 09:41:35Z untiptun $
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for

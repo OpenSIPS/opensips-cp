@@ -1,6 +1,5 @@
 <?
 /*
-* $Id: tviewer.add.php 133 2009-10-29 18:05:56Z untiptun $
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -22,14 +21,10 @@
 */
 
 
-?>
-
-
-<?php
-	if (isset($form_error) && $form_error!="")
-		echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
-	else if (isset($success) && $success!="")
-		echo '<div class="formSuccess" ><strong>Success </strong>'.$success.' ('.$back_link.')</div>';
+if (isset($form_error) && $form_error!="")
+	echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
+else if (isset($success) && $success!="")
+	echo '<div class="formSuccess" ><strong>Success </strong>'.$success.' ('.$back_link.')</div>';
 ?>
 
 			<form id="addnewentry" class="block-content form" action="<?=$page_name?>?action=add_verify" method="post">

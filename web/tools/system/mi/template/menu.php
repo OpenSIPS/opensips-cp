@@ -1,6 +1,5 @@
-<!--
+<?php
  /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -20,7 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- -->
+?>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
@@ -48,9 +47,4 @@
   </tr>
 </table>
 <hr width="100%" color="#000000">
-<!-- 
-<div align="right">
- <button type="button" class="Button" onClick="window.open('mi_help.php','help','width=400,height=500')">MI Command List</button><br>
-</div>
- -->
 <br>

@@ -1,7 +1,4 @@
 <script language="JavaScript">
-//
-// $Id: groups.main.js 40 2009-04-13 14:59:22Z iulia_bublea $
-//
 
 function confirmDelete(id)
 {

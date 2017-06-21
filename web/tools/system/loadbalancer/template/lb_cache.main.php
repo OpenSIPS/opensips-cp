@@ -1,6 +1,5 @@
-<!--
+<?php
  /*
- * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -20,19 +19,15 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
--->
 
-<form action="<?=$page_name?>?action=refresh" method="post">
-<?
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$message = mi_command('lb_list', $mi_connectors[0], $errors,$status);
-				
-	$message = json_decode($message,true);
-	$message = $message['Destination'];
-	$data_no = count($message);
+$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$message = mi_command('lb_list', $mi_connectors[0], $errors,$status);
+			
+$message = json_decode($message,true);
+$message = $message['Destination'];
+$data_no = count($message);
 }
 ?>
-</form>
 <form action="<?=$page_name?>?action=refresh" method="post">
 <table width="95%" cellspacing="2" cellpadding="2" border="0">
  

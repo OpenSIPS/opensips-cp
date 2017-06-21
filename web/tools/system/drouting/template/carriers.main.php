@@ -1,6 +1,5 @@
-<!--
- *
- * $Id: lists.main.php 287 2011-10-17 09:41:35Z untiptun $
+<?php
+/*
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -19,8 +18,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
- *
- -->
+ */
+?>
 
 <div id="dialog" class="dialog" style="display:none"></div>
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>

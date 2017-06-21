@@ -1,6 +1,5 @@
 <?php
 /*
-* $Id$
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -20,10 +19,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-?>
 
-
-<?php
 
 require("../../../../config/tools/system/dialplan/local.inc.php");
 require("../../../common/mi_comm.php");

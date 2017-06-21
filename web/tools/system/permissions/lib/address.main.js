@@ -1,7 +1,4 @@
 <script language="JavaScript">
-//
-// $Id: address.main.js 28 2009-04-01 15:27:03Z iulia_bublea $
-//
   
 function confirmDelete()
 {

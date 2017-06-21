@@ -1,7 +1,5 @@
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <?
 /*
-* $Id$
 * Copyright (C) 2011 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -79,6 +77,7 @@ $match_op_sel.= '</select>';
 
 
 ?>
+<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="dialplanTitle">Add new Translation Rule</td>

@@ -1,6 +1,5 @@
 <?php
 /*
- * $Id: index.php 210 2010-03-08 18:09:33Z bogdan_iancu $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 

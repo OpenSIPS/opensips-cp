@@ -1,6 +1,5 @@
-<!--
- /*
- * $Id: alias_management.main.php 210 2010-03-08 18:09:33Z bogdan_iancu $
+<?php
+/*
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for
@@ -20,10 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
--->
-<form action="<?=$page_name?>?action=dp_act" method="post">
 
-<?php
+
 $sql_search="";
 $search_ausername=$_SESSION['acl_username'];
 $search_adomain=$_SESSION['acl_domain'];
@@ -45,6 +42,7 @@ if(!$_SESSION['read_only']){
 
 ?>
 
+<form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
 <td colspan="2" height="10" class="aclTitle"></td>
