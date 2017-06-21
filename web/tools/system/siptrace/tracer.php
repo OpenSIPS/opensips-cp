@@ -42,24 +42,15 @@
  else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
  
  
-if ($action=="toggle"){
+if ($action=="toggle") {
 
 	$toggle_button=	$_GET['toggle_button'];
 	
 	if ($toggle_button=="enable") {	
-
 		$sip_trace	= "on" ;
-		$toggle_button = "disable";
-
 	} else if ($toggle_button=="disable") {	
-
 		$sip_trace	= "off" ;
-		$toggle_button = "enable";
 	}
-
-	################
-	# start search #
-	################
 
 	$command="sip_trace"." ".$sip_trace;
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
@@ -68,10 +59,26 @@ if ($action=="toggle"){
 		mi_command($command,$mi_connectors[$i],$errors,$status);
 	}
 
-
 }
 
 
+// get the current status of the tracing engine
+$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$msg = mi_command( "sip_trace", $mi_connectors[0], $errors, $status);
+$msg = json_decode($msg, TRUE);
+$state = $msg['global'];
+
+if ($state == "on")
+	$toggle_button = "disable";
+else if ($state == "off")
+	$toggle_button = "enable";
+else 
+	$toggle_button=null;
+
+
+################
+# start search #
+################
 
 if ($action=="search")
  {
