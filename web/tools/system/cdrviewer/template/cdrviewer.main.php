@@ -67,7 +67,7 @@ if 	((($sql_search!=""))) {
 
 ?>
 
-<table width="450" cellspacing="2" cellpadding="2" border="0">
+<table width="470" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="searchTitle">Search CDRs by: </td>
  </tr>
