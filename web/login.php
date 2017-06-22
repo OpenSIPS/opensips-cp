@@ -53,12 +53,11 @@ if ($config->admin_passwd_mode==0) {
     $sth = $link->prepare($sql);
     $credentials = array($name,$password);
     $result1 = $sth->execute($credentials);
+    if(PEAR::isError($result1)) {
+        die('Failed to issue query, error message : ' . $result1->getMessage());
+    }
     $resultset1 = $result1->fetchAll();
     $sth->free();
-
-    if(PEAR::isError($result1)) {
-        die('Failed to issue query, error message : ' . $resultset1->getMessage());
-    }
 
 } else if ($config->admin_passwd_mode==1) {
     $ha1 = md5($name.":".$password);
@@ -69,12 +68,11 @@ if ($config->admin_passwd_mode==0) {
     $sth = $link->prepare($sql,MDB2_PREPARE_RESULT);
     $credentials = array($name,$ha1);
     $result2 = $sth->execute($credentials);
+    if(PEAR::isError($result2)) {
+        die('Failed to issue query, error message : ' . $result2->getMessage());
+    }
     $resultset2 = $result2->fetchAll();
     $sth->free();
-
-    if(PEAR::isError($result2)) {
-        die('Failed to issue query, error message : ' . $resultset2->getMessage());
-    }
 }
 
 if ((count($resultset1)==0) && (count($resultset2)==0)) {
