@@ -46,18 +46,17 @@ $login_ok = false;
 
 if ($config->admin_passwd_mode==0) {
     $ha1  = '';
-    
+
     $sql = "select * from ocp_admin_privileges where username = ? and password = ?";
-    
+
     $sth = $link->prepare($sql);
     $credentials = array($name,$password);
     $result1 = $sth->execute($credentials);
+    if(PEAR::isError($result1)) {
+        die('Failed to issue query, error message : ' . $result1->getMessage());
+    }
     $resultset = $result1->fetchAll();
     $sth->free();
-
-    if(PEAR::isError($result1)) {
-        die('Failed to issue query, error message : ' . $resultset->getMessage());
-    }
 
 } else if ($config->admin_passwd_mode==1) {
     $ha1 = md5($name.":".$password);
@@ -68,12 +67,11 @@ if ($config->admin_passwd_mode==0) {
     $sth = $link->prepare($sql,MDB2_PREPARE_RESULT);
     $credentials = array($name,$ha1);
     $result2 = $sth->execute($credentials);
+    if(PEAR::isError($result2)) {
+        die('Failed to issue query, error message : ' . $result2->getMessage());
+    }
     $resultset = $result2->fetchAll();
     $sth->free();
-
-    if(PEAR::isError($result2)) {
-        die('Failed to issue query, error message : ' . $resultset->getMessage());
-    }
 }
 
 if (isset($resultset) && count($resultset)==0) {
