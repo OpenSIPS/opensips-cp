@@ -182,17 +182,20 @@ if ( $users == "online_usr" ) {
 
 if ($users=="all_usr" || $users=="") {
 	if ($sql_search!="") $sql_search = "WHERE ".substr($sql_search,4);
-	$sql_command="from ".$table." s ".$sql_search." order by s.id asc";
+	$sql_command="from ".$table." s ".$sql_search;
+	$sql_order=" order by s.id asc";
 } else if ($users=="online_usr") {
-	$sql_command="from ".$table." s, $config->table_location l where s.username=l.username AND s.domain=l.domain ".$sql_search." order by s.id asc";
+	$sql_command="from ".$table." s, $config->table_location l where s.username=l.username AND s.domain=l.domain ".$sql_search;
+	$sql_order=" order by s.id asc";
 } else if ($users=="offline_usr") {
 	if ($sql_search!="") $sql_search = substr($sql_search,4);
-	$sql_command="from ".$table." s where s.username NOT IN (select s.username from $table s,$config->table_location l where s.username=l.username AND s.domain=l.domain )".$sql_search." order by s.id asc";
+	$sql_command="from ".$table." s where s.username NOT IN (select s.username from $table s,$config->table_location l where s.username=l.username AND s.domain=l.domain )".$sql_search;
+	$sql_order=" order by s.id asc";
 }
 
 $resultset = $link->queryAll("select count(*) ".$sql_command);
 if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $resultset->getMessage());
 } 
 $data_no=$resultset[0]['count(*)'];
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -206,11 +209,11 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	if ($start_limit==0) $sql_command.=" limit ".$res_no;
-	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-	$resultset = $link->queryAll("select * ".$sql_command);
+	if ($start_limit==0) $sql_order.=" limit ".$res_no;
+	else $sql_order.=" limit ".$res_no." OFFSET " . $start_limit;
+	$resultset = $link->queryAll("select * ".$sql_command.$sql_order);
         if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
+                die('Failed to issue query [select * '.$sql_command.$sql_order.'], error message : ' . $resultset->getMessage());
         }
 	$index_row=0;
 	$i=0;
