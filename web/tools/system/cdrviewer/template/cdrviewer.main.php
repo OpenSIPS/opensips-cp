@@ -20,7 +20,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require("../../../../config/modules.inc.php");
+if ( file_exists("../homer") && $config_modules["system"]["modules"]["homer"]["enabled"]==true )
+	$tracer = "homer";
+else
+if ( file_exists("../siptrace") && $config_modules["system"]["modules"]["siptrce"]["enabled"]==true )
+	$tracer = "siptrace";
+else
+	$tracer = "";
 ?>
+
+
 <form action="<?=$page_name?>?action=search" method="post">
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
 <tr>
@@ -218,8 +228,12 @@ else
 
 		for ($i = 0 ; $i < count($show_field)  ; $i++) {
 			if ($sip_call_id_field_name==key($show_field[$i])) {
-				// link the "callid" filed to siptrace module
-				echo '<td class="'.$row_style.'">'.'&nbsp;<a href="'.'go_to_siptrace.php'.'?callid='.($result[$j][key($show_field[$i])]).'" class="menuItem" onClick="select_dot()" > <b>'.($result[$j][key($show_field[$i])]).'</b></a>&nbsp;'.'</td>';
+				// link the "callid" field to the tracer module
+				if ($tracer=="") {
+					echo '<td class="'.$row_style.'">'.$result[$j][key($show_field[$i])].'</td>';
+				} else {
+					echo '<td class="'.$row_style.'">'.'&nbsp;<a href="trace.php?tracer='.$tracer.'&callid='.($result[$j][key($show_field[$i])]).'" class="menuItem" onClick="select_dot()" > <b>'.($result[$j][key($show_field[$i])]).'</b></a>&nbsp;'.'</td>';
+				}
 			} else {
 				echo '<td class="'.$row_style.'">'.$result[$j][key($show_field[$i])].'</td>';
 			}

@@ -28,16 +28,23 @@ include("../../../../config/tools/system/homer/local.inc.php");
 $page_name = basename($_SERVER['PHP_SELF']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 
+if (isset($_GET['callid'])) {
+	$search_path="#/result?query=(trancall:'true',search_callid:'".$_GET['callid']."')";
+} else
+	$search_path="";
+
+
 $cookie = generateRandomString(32);
 
 if ($homer_auth_method=="cookie") {
 	## set the cookie before doing any kind of output
 	setcookie("externalid", $cookie, time()+120, "/", $common_subdomain,  0);
-	$homer_URL_extra = "";
+	$homer_URL_extra = '/'.$search_path;
 } else {
 	## compute the GET param
-	$homer_URL_extra = "/api/v1/redirect?externalid=".$cookie."&url=".urlencode($homer_URL);
+	$homer_URL_extra = "/api/v1/redirect?externalid=".$cookie."&url=".urlencode($homer_URL.'/'.$search_path);
 }
+
 
 # store the session ID in cache, using as key the value of the cookie
 apc_store ( $cookie, session_id(), 60 );
