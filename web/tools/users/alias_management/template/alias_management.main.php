@@ -21,7 +21,6 @@
  */
 
 
-$sql_search="";
 $search_ausername=$_SESSION['username'];
 $search_aaliasusername=$_SESSION['alias_username'];
 $search_adomain=$_SESSION['alias_domain'];
@@ -88,12 +87,16 @@ echo('<th class="aliasTitle">Edit</th>
 </tr>
 
 <?php
-if($search_ausername !="") $sql_search.=" and username like '%" . $search_ausername."%'";
-else $sql_search.=" and username like '%'";
-if($search_aaliasusername !="") $sql_search.=" and alias_username like '%" . $search_aaliasusername."%'";
-else $sql_search.=" and alias_username like '%'";
-if(($search_adomain == 'ANY') || ($search_adomain == "")) $sql_search.=" and alias_domain like '%'";
-else $sql_search.=" and alias_domain='".$search_adomain."'";
+$sql_search="";
+if ($search_ausername !="")
+	$sql_search.=" and username like '%" . $search_ausername."%'";
+if ($search_aaliasusername !="")
+       	$sql_search.=" and alias_username like '%" . $search_aaliasusername."%'";
+if (($search_adomain != 'ANY') && ($search_adomain != ""))
+	$sql_search.=" and alias_domain='".$search_adomain."'";
+if ($sql_search!="")
+	$sql_search = " where ".substr($sql_search,4);
+
 if($search_atype !='ANY') {
 	for($i=0;count($options)>$i;$i++){
 		if ($search_atype==$options[$i]['label'])
@@ -112,8 +115,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 		
 	for($k=0;$k<count($options);$k++){
 		$table = $options[$k]['value'];
-		if ($sql_search=="") $sql_command="from ".$table." order by id asc";
-		else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
+		$sql_command="from ".$table.$sql_search;
 		$resultset = $link->queryAll("select count(*) ".$sql_command);
 		if(PEAR::isError($resultset)) {
 		        die('Failed to issue query, error message : ' . $resultset->getMessage());
@@ -131,8 +133,8 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
                 $_SESSION[$current_page]=$page;
         }
         $start_limit=($page-1)*$res;
-        if ($start_limit==0) $sql_command.=" limit ".$res;
-        else $sql_command.=" limit ".$res." OFFSET " . $start_limit;
+        if ($start_limit==0) $sql_command.=" order by id asc limit ".$res;
+        else $sql_command.=" order by id asc limit ".$res." OFFSET " . $start_limit;
         $resultset = $link->queryAll("select * ".$sql_command);
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
@@ -205,17 +207,16 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 <?php 
 } else {
 
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-$resultset = $link->queryAll($sql_command);
-if(PEAR::isError($resultset)) {
-        die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
-$data_no=count($resultset);
-if ($data_no==0) 
-	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else
-   {
+	$sql_command="from ".$table.$sql_search;
+	$resultset = $link->queryAll("select count(*) ".$sql_command);
+	if(PEAR::isError($resultset)) {
+	        die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}	
+	$data_no=$resultset[0]['count(*)'];
+	if ($data_no==0)
+		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
+	else { 
+
         $res=$config->results_per_page;
         $page=$_SESSION[$current_page];
         $page_no=ceil($data_no/$res);
@@ -224,14 +225,12 @@ else
                 $_SESSION[$current_page]=$page;
         }
         $start_limit=($page-1)*$res;
-        //$sql_command.=" limit ".$start_limit.", ".$res;
-        if ($start_limit==0) $sql_command.=" limit ".$res;
-        else $sql_command.=" limit ".$res." OFFSET " . $start_limit;
-        $resultset = $link->queryAll($sql_command);
+        if ($start_limit==0) $sql_command.=" order by id asc limit ".$res;
+        else $sql_command.=" limit ".$res." order by id asc OFFSET " . $start_limit;
+        $resultset = $link->queryAll("select * ".$sql_command);
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
-        //require("lib/".$page_id.".main.js");
         $index_row=0;
         $i=0;
         while (count($resultset)>$i)
