@@ -24,18 +24,20 @@
 <form action="<?=$page_name?>?action=dp_act" method="post">
 
 <?php
-$sql_search="";
 $search_ausername=$_SESSION['acl_username'];
 $search_adomain=$_SESSION['acl_domain'];
 $search_agrp=$_SESSION['acl_grp'];
-if($search_ausername !="") $sql_search.=" and username like '%" . $search_ausername."%'";
-else $sql_search.=" and username like '%'";
-if(($search_adomain == 'ANY') || ($search_adomain == "")) $sql_search.=" and domain like '%'";
-else $sql_search.=" and domain='".$search_adomain."'";
-if(($search_agrp =='ANY') || ($search_agrp =="")) $sql_search.=" and grp like '%'";
-else $sql_search.=" and grp='".$search_agrp."'"; 
 
-//require("lib/".$page_id.".main.js");
+
+$sql_search="";
+if ($search_ausername !="")
+	$sql_search.=" and username like '%" . $search_ausername."%'";
+if (($search_adomain != 'ANY') && ($search_adomain != ""))
+	$sql_search.=" and domain='".$search_adomain."'";
+if (($search_agrp !='ANY') && ($search_agrp !=""))
+	$sql_search.=" and grp='".$search_agrp."'"; 
+if ($sql_search!="")
+	$sql_search = " where ".substr($sql_search,4);
 
 if(!$_SESSION['read_only']){
         $colspan = 8;
@@ -107,17 +109,15 @@ echo('<th class="aclTitle">Edit</th>
 </tr>
 
 <?php
-if (($search_agrp=='ANY') || ($search_agrp=='')) {
-		
-		if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
-		else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-		$resultset = $link->queryAll($sql_command);
-		if(PEAR::isError($resultset)) {
-		        die('Failed to issue query, error message : ' . $resultset->getMessage());
-		}	
-$data_no=count($resultset);
-if ($data_no==0)   echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
-else { 
+	$sql_command="from ".$table.$sql_search;
+	$resultset = $link->queryAll("select count(*) ".$sql_command);
+	if(PEAR::isError($resultset)) {
+	        die('Failed to issue query, error message : ' . $resultset->getMessage());
+	}	
+	$data_no=$resultset[0]['count(*)'];
+	if ($data_no==0)
+		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
+	else { 
 
         $res = $config->results_per_page;
         $page=$_SESSION[$current_page];
@@ -127,13 +127,12 @@ else {
                 $_SESSION[$current_page]=$page;
         }
         $start_limit=($page-1)*$res;
-        if ($start_limit==0) $sql_command.=" limit ".$res;
-        else $sql_command.=" limit ".$res." OFFSET " . $start_limit;
-        $resultset = $link->queryAll($sql_command);
+        if ($start_limit==0) $sql_command.=" order by id asc limit ".$res;
+        else $sql_command.=" order by id asc limit ".$res." OFFSET " . $start_limit;
+        $resultset = $link->queryAll("select * ".$sql_command);
         if(PEAR::isError($resultset)) {
                 die('Failed to issue query, error message : ' . $resultset->getMessage());
         }
-        //require("lib/".$page_id.".main.js");
         $index_row=0;
         $i=0;
         while (count($resultset)>$i)
@@ -146,7 +145,7 @@ else {
                         $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
                         $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 
-}
+		}
 ?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
@@ -195,101 +194,7 @@ else {
       <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
-<?php 
-} else {
 
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-$resultset = $link->queryAll($sql_command);
-if(PEAR::isError($resultset)) {
-        die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
-$data_no=count($resultset);
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else
-   {
-        $res=$config->results_per_page;
-        $page=$_SESSION[$current_page];
-        $page_no=ceil($data_no/$res);
-        if ($page>$page_no) {
-                $page=$page_no;
-                $_SESSION[$current_page]=$page;
-        }
-        $start_limit=($page-1)*$res;
-        //$sql_command.=" limit ".$start_limit.", ".$res;
-        if ($start_limit==0) $sql_command.=" limit ".$res;
-        else $sql_command.=" limit ".$res." OFFSET " . $start_limit;
-        $resultset = $link->queryAll($sql_command);
-        if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
-        //require("lib/".$page_id.".main.js");
-        $index_row=0;
-        $i=0;
-        while (count($resultset)>$i)
-        {
-                $index_row++;
-                if ($index_row%2==1) $row_style="rowOdd";
-                else $row_style="rowEven";
-
-                if(!$_SESSION['read_only']){
-
-                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
-
-?>
- <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['grp']?></td>
-   <?
-   if(!$_SESSION['read_only']){
-        echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-                          <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
-   }
-        ?>
-  </tr>
-<?php
-
-        $i++;
-        }
-}
-}
-?>
- <tr>
-  <th colspan="<?=$colspan?>" class="aclTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
-     <tr>
-      <th align="left">
-       &nbsp;Page:
-       <?php
-       if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
-       else {
-        $max_pages = $config->results_page_range;
-        // start page
-        if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
-        else $start_page = $page - ($page % $max_pages) + 1;
-        // end page
-        $end_page = $start_page + $max_pages - 1;
-        if ($end_page > $page_no) $end_page = $page_no;
-        // back block
-        if ($start_page!=1) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
-        // current pages
-        for($i=$start_page;$i<=$end_page;$i++)
-        if ($i==$page) echo('<font class="pageActive">'.$i.'</font>&nbsp;');
-        else echo('<a href="'.$page_name.'?page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
-        // next block
-        if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
-       }
-       ?>
-      </th>
-      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
-     </tr>
-    </table>
-<?php
-}
-?>
   </th>
  </tr>
 </table>
