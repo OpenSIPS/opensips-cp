@@ -235,17 +235,17 @@ else {
 
 											// back block
 											if ($start_page!=1) 
-												echo('&nbsp;<a href="'.$page_name.'?page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
+												echo('&nbsp;<a href="'.$page_name.'?action=dp_act&page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
 
 											// current pages
 											for($i=$start_page;$i<=$end_page;$i++)
 												if ($i==$page) 
 													echo('<font class="pageActive">'.$i.'</font>&nbsp;');
 												else 
-													echo('<a href="'.$page_name.'?page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
+													echo('<a href="'.$page_name.'?action=dp_act&page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
 										
 											// next block
-											if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
+											if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?action=dp_act&page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
 									   }
 									   ?>
 										</th>
