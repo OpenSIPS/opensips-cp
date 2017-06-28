@@ -249,7 +249,7 @@ if ($action=="delete")
 		$link->exec($sql);
 		for($i=0;$i<count($options);$i++){
 			$alias_table = $options[$i]['value'];
-	                $sql = 'DELETE FROM '.$alias_table.' WHERE username="'.$uname.'" AND domain="'.$domain.'" AND id='.$id;
+	                $sql = "DELETE FROM ".$alias_table." WHERE username='".$uname."' AND domain='".$domain."' AND id=".$id;
 	                $link->exec($sql);
 
 		}
