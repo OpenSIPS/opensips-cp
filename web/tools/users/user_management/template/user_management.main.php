@@ -192,7 +192,7 @@ if ($users=="all_usr" || $users=="") {
 	$sql_order=" order by s.id asc";
 }
 
-$data_no = $link->queryOne("select count(*) as total ".$sql_command);
+$data_no = $link->queryOne("select count(*) ".$sql_command);
 if(PEAR::isError($data_no)) {
 	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $data_no->getMessage());
 } 

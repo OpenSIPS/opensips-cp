@@ -39,7 +39,7 @@ $errors="";
 if ($action=="add")
 {
 	$domain=$_POST['domain'];
-	$sql = 'INSERT INTO '.$table.' (domain, last_modified) VALUES ("'.$domain.'", NOW())';
+	$sql = "INSERT INTO ".$table." (domain, last_modified) VALUES ('".$domain."', NOW())";
 	$result = $link->exec($sql);
        	if(PEAR::isError($result)) {
         	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();

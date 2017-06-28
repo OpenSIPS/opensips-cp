@@ -110,11 +110,11 @@ if ($action=="modify")
 						$ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
 						$passwd = "";
 					}
-					$sql = 'UPDATE '.$table.' SET username="'.$uname.'", domain="'.$domain.'",
-						 email_address= "'.$email.'",password="'.$passwd.'",ha1="'.$ha1.'", ha1b="'.$ha1b.'"';
+					$sql = "UPDATE ".$table." SET username='".$uname."', domain='".$domain."',
+						 email_address= '".$email."',password='".$passwd."',ha1='".$ha1."', ha1b='".$ha1b."'";
 					foreach ( $config->subs_extra as $key => $value )
-						$sql .= ', '.$key.'="'.$_POST['extra_'.$key].'"';
-					$sql .= ' WHERE id='.$id;
+						$sql .= ", ".$key."='".$_POST["extra_".$key]."'";
+					$sql .= " WHERE id=".$id;
 					$resultset = $link->prepare($sql);
 					$resultset->execute();
 					$resultset->free();
@@ -122,12 +122,15 @@ if ($action=="modify")
 					$link->disconnect();
 				}	
 			} else {
-				$sql = 'UPDATE '.$table.' SET username="'.$uname.'", domain="'.$domain.'",
-					 email_address= "'.$email.'"';
+				$sql = "UPDATE ".$table." SET username='".$uname."', domain='".$domain."',
+					 email_address= '".$email."'";
 				foreach ( $config->subs_extra as $key => $value )
-					$sql .= ', '.$key.'="'.$_POST['extra_'.$key].'"';
-				$sql .= ' WHERE id='.$id;
+					$sql .= ", ".$key."='".$_POST["extra_".$key]."'";
+				$sql .= " WHERE id=".$id;
 				$resultset = $link->prepare($sql);
+				 if(PEAR::isError($resultset)) {
+					die('Failed to issue query ['.$sql.'], error message : ' . $resultset->getMessage());
+				}
 				$resultset->execute();
 				$resultset->free();
 				print "The user's info was modified, password not changed";
@@ -180,7 +183,7 @@ if ($action=="delete")
 		$link->exec($sql);
 		for($i=0;$i<count($options);$i++){
 			$alias_table = $options[$i]['value'];
-	                $sql = 'DELETE FROM '.$alias_table.' WHERE username="'.$uname.'" AND domain="'.$domain.'"';
+	                $sql = "DELETE FROM ".$alias_table." WHERE username='".$uname."' AND domain='".$domain."'";
 	                $link->exec($sql);
 
 		}

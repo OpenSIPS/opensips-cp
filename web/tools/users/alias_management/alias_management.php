@@ -76,9 +76,9 @@ if ($action=="add_verified")
 					if ($alias_type == $options[$i]['label']) 
 						$table = $options[$i]['value']; 
 				}						
-                                $sql = 'INSERT INTO '.$table.'
+                                $sql = "INSERT INTO ".$table."
                                 (alias_username, alias_domain, username, domain) VALUES
-                                ("'.$alias_username.'","'.$alias_domain.'","'. $username.'","'.$domain.'")';
+                                ('".$alias_username."','".$alias_domain."','". $username."','".$domain."')";
                                 $resultset = $link->prepare($sql);
                                 $resultset->execute();
                                 $resultset->free();
