@@ -121,12 +121,11 @@ if ( $search_resources!="" ) {
 }
 
 $sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
-$result = $link->queryAll($sql_command);
-if(PEAR::isError($result)) {
-         die('Failed to issue query, error message : ' . $result->getMessage());
+$data_no = $link->queryOne($sql_command);
+if(PEAR::isError($data_no)) {
+         die('Failed to issue query, error message : ' . $data_no->getMessage());
 }
 
-$data_no=$result[0]['count(*)'];
 if ($data_no==0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else {

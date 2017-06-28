@@ -139,12 +139,10 @@ if 	((($sql_search!=""))) {
 </form><br>
 
 <?
-$row=$link->queryAll($sql);
-if(PEAR::isError($row)) {
-	die('Failed to issue query, error message : ' . $row->getMessage());
+$data_no=$link->queryOne($sql);
+if(PEAR::isError($data_no)) {
+	die('Failed to issue query, error message : ' . $data_no->getMessage());
 }
-
-$data_no = $row[0]['count(*)'];
 
 if ($data_no==0) {
 
