@@ -116,11 +116,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 	for($k=0;$k<count($options);$k++){
 		$table = $options[$k]['value'];
 		$sql_command="from ".$table.$sql_search;
-		$resultset = $link->queryAll("select count(*) ".$sql_command);
-		if(PEAR::isError($resultset)) {
-		        die('Failed to issue query, error message : ' . $resultset->getMessage());
+		$data_no = $link->queryOne("select count(*) ".$sql_command);
+		if(PEAR::isError($data_no)) {
+		        die('Failed to issue query, error message : ' . $data_no->getMessage());
 		}	
-		$data_no=$resultset[0]['count(*)'];
 		if ($data_no==0)
 			echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 		else { 
@@ -208,11 +207,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 } else {
 
 	$sql_command="from ".$table.$sql_search;
-	$resultset = $link->queryAll("select count(*) ".$sql_command);
-	if(PEAR::isError($resultset)) {
-	        die('Failed to issue query, error message : ' . $resultset->getMessage());
+	$data_no = $link->queryOne("select count(*) ".$sql_command);
+	if(PEAR::isError($data_no)) {
+	        die('Failed to issue query, error message : ' . $data_no->getMessage());
 	}	
-	$data_no=$resultset[0]['count(*)'];
 	if ($data_no==0)
 		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 	else { 

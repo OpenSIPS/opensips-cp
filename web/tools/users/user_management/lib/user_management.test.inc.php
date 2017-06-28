@@ -56,20 +56,20 @@
 		}	
   		// check for SIP account duplicate
 		$sql="select count(*) from ".$table." where username='".$uname."' and domain='".$domain."'";
-		$resultset = $link->queryAll($sql);
-		if(PEAR::isError($resultset))
-			die('Failed to issue query, error message : ' . $resultset->getMessage());
-		if ($resultset[0]['count(*)']!=0) {
+		$data_no = $link->queryOne($sql);
+		if(PEAR::isError($data_no))
+			die('Failed to issue query, error message : ' . $data_no->getMessage());
+		if ($data_no!=0) {
 			$form_valid=false;
 			$new_id=$uname."@".$domain;
 			$form_error="- <b>".$new_id."</b> is already a valid user -";
 		} else if ($alias!=""){
   			// check for SIP alias duplicate
 			$sql = "select count(*) from ".$alias_type." where alias_username='".$alias."' and alias_domain='".$domain."'";
-			$resultset = $link->queryAll($sql);
-			if(PEAR::isError($resultset))
-				die('Failed to issue query, error message : ' . $resultset->getMessage());
-			if ($resultset[0]['count(*)']!=0) {
+			$data_no = $link->queryOne($sql);
+			if(PEAR::isError($data_no))
+				die('Failed to issue query, error message : ' . $data_no->getMessage());
+			if ($data_no!=0) {
 				$form_valid=false;
 				$new_id=$alias."@".$domain;
 				$form_error="- <b>".$new_id."</b> is already a valid alias -";
