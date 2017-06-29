@@ -186,7 +186,7 @@ else
 
 
 	$sql .= " order by time desc " ;
-	$sql.=" LIMIT ".$start_limit.", ".$config->results_per_page;
+	$sql.=" LIMIT ".$config->results_per_page." OFFSET ".$start_limit;
 
 	$result=$link->queryAll($sql);
 	if(PEAR::isError($result)) {
