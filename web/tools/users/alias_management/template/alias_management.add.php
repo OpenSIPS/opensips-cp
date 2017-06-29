@@ -50,7 +50,7 @@ if($clone =="1"){
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
-  <td class="dataRecord" width="275"><?php print_domains("domain",'')?></td>
+  <td class="dataRecord" width="275"><?php print_domains("domain",'',FALSE)?></td>
   <?php if (isset($_SESSION['fromusrmgmt'])) 
   			if ($_SESSION['fromusrmgmt']){ 
 				echo "<script>\n";
@@ -67,12 +67,12 @@ if($clone =="1"){
 
  <tr>
   <td class="dataRecord"><b>Alias Domain:</b></td>
-  <td class="dataRecord" width="275"><?php print_domains("alias_domain",'')?></td>
+  <td class="dataRecord" width="275"><?php print_domains("alias_domain",'',FALSE)?></td>
  </tr>
  
  <tr>
   <td class="dataRecord"><b>Alias Type:</b></td>
-  <td class="dataRecord" width="275"><?php print_aliasType('')?></td>
+  <td class="dataRecord" width="275"><?php print_aliasType('',FALSE)?></td>
  </tr>
   
  <tr>

@@ -46,7 +46,7 @@
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
-  <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain']);?>
+  <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'],FALSE);?>
   <script>
   	setReadonly('domain');
   </script>
@@ -60,7 +60,7 @@
 
  <tr>
   <td class="dataRecord"><b>Alias Domain</b></td>
-  <td class="searchRecord" width="200"><?php print_domains("alias_domain",$resultset[0]['alias_domain']);?>
+  <td class="searchRecord" width="200"><?php print_domains("alias_domain",$resultset[0]['alias_domain'],FALSE);?>
  </tr>
 
  <tr>

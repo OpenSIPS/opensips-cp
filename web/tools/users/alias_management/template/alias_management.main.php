@@ -45,11 +45,11 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <tr>
 <td class="searchRecord" align="left">Alias Domain</td>
-<td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain);?> 
+<td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain,TRUE);?> 
 </tr>
 <tr>
 <td class="searchRecord" align="left">Alias Type</td>
-<td class="searchRecord" width="200"><?php print_aliasType($search_atype)?></td>
+<td class="searchRecord" width="200"><?php print_aliasType($search_atype,TRUE)?></td>
 </tr>
 </tr>
 <tr height="10">

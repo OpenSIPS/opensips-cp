@@ -22,7 +22,7 @@
 */
 
 
-function print_domains($type,$value)
+function print_domains($type,$value,$has_any)
 {
 
 	global $config;
@@ -40,7 +40,8 @@ function print_domains($type,$value)
                 die('Failed to issue query, error message : ' . $result->getMessage());
         }
 
-        $options[]=array("label"=>"ANY","value"=>"ANY");
+	if ($has_any)
+	        $options[]=array("label"=>"ANY","value"=>"ANY");
         foreach ($result as $k=>$v) {
                 $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);
         }
@@ -66,11 +67,12 @@ function print_domains($type,$value)
 		echo('</select>');
 }
 
-function print_aliasType($value)
+function print_aliasType($value, $has_any)
 {
         global $config;
-        require("../../../../config/globals.php");
-        $options[]=array("label"=>"ANY","value"=>"ANY");
+	require("../../../../config/globals.php");
+	if ($has_any)
+	        $options[]=array("label"=>"ANY","value"=>"ANY");
         foreach ($config->table_aliases as $k=>$v) {
                 $options[]=array("label"=>$k,"value"=>$v);
         }
