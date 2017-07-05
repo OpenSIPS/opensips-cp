@@ -31,7 +31,7 @@
  </tr>
  <tr>
   <td class="listRecord" >Domain</td>
-  <td class="listRecord" width="200"><?php print_domains("domain",'')?></td>
+  <td class="listRecord" width="200"><?php print_domains("domain",'',FALSE)?></td>
  </tr>
  <tr>
   <td class="listRecord" >Email</td>

@@ -40,7 +40,7 @@ $link->disconnect();
  
  <tr>
   <td class="dataRecord"><b>Domain</b></td>
-  <td class="dataRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'])?></td>
+  <td class="dataRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'],FALSE)?></td>
  </tr>
  
  <tr>

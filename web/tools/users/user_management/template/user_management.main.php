@@ -110,7 +110,7 @@ if ( $users == "online_usr" ) {
  </tr>
  <tr>	
   <td class="searchRecord" align="left">Domain</td>
-  <td class="searchRecord" width="200"><?php print_domains("lst_domain",$search_domain);?> 
+  <td class="searchRecord" width="200"><?php print_domains("lst_domain",$search_domain,TRUE);?> 
  </tr>
  <tr>
   <td class="searchRecord" align="left">Email</td>

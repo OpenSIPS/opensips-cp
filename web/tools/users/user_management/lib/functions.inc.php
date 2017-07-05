@@ -20,64 +20,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-function get_time_zones(){
-    global $config;
-
-    @$fp=fopen($config->zonetab_file, "r");
-    if (!$fp) {$errors[]="Cannot open zone.tab file"; return array();}
-    $out=array();
-
-    while (!feof($fp)){
-       $line=FgetS($fp, 512);
-       if (substr($line,0,1)=="#") continue; //skip comments
-       if (!$line) continue; //skip blank lines
-
-       $line_a=explode("\t", $line);
-
-       $line_a[2]=trim($line_a[2]);
-       if ($line_a[2]) $out[]=$line_a[2];
-    }
-
-    fclose($fp);
-    sort($out);
-    return $out;
-}
-
-
-function print_timezone($time_zone)
-{
-        $opt=get_time_zones();
-        foreach ($opt as $v) {
-                $options[]=array("label"=>$v,"value"=>$v);
-        }
-
-        $start_index = 0;
-        $end_index = sizeof($options);
-?>
- <select name="timezone" id="timezone" size="1" style="width: 205px" class="dataSelect">
- <?php
-  if ($value!=NULL) {
-	echo('<option value="'.$value. '" selected > '.$value.'</option>');
-        $temp = $value;
-        $value = 0;
-  }
-
-  for ($i=$start_index;$i<$end_index;$i++)
-  {
-   if ($time_zone!=0) { 
-   	echo('<option value="'.$options[$i]['label']. '" selected> '.$options[$i]['label'].'</option>');
-	$time_zone=0;
-   if ($options[$i]['value'] == $temp) {
-	   continue;
-   } else {
-   	echo('<option value="'.$options[$i]['label']. '"> '.$options[$i]['label'].'</option>');
-   }
-  }
- ?>
- </select>
- <?php
- }
-}
 
 function print_aliasType($value)
 {
@@ -112,7 +54,7 @@ function print_aliasType($value)
 
 }
 
-function print_domains($type,$value)
+function print_domains($type,$value,$has_any)
 {
 
         global $config;
@@ -130,7 +72,8 @@ function print_domains($type,$value)
                 die('Failed to issue query, error message : ' . $result->getMessage());
         }
 
-        $options[]=array("label"=>"ANY","value"=>"ANY");
+	if ($has_any)
+	        $options[]=array("label"=>"ANY","value"=>"ANY");
         foreach ($result as $k=>$v) {
                 $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);
         }
