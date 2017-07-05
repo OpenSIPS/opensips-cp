@@ -1,17 +1,15 @@
-OpenSIPS Control Panel is a PHP Web Portal for provisioning OpenSIPS SIP server 
-(www.opensips.org).
+OpenSIPS Control Panel (OCP) is a Provisioning Web Portal for OpenSIPS SIP 
+Server (www.opensips.org). This software is distributed under GPL v2 license.
+
+OpenSIPS Control Panel version 7.2.3 is compatible with OpenSIPS Server 2.3.x
 
 A single instance of OpenSIPS Control Panel may be used to provision, operate 
 and monitor multiple instances of OpenSIPS servers, in different locations, 
 with different purposes.
 
-
-OpenSIPS Control Panel is made in the PHP programming language , with a 
-MYSQL/PGSQL using an abstract layer for interfacing with the DB (Pear MDB2) 
-backend. 
-
-
-OpenSIPS Control Panel version 6.2 is compatible with OpenSIPS Server >= 2.2.x
+OpenSIPS Control Panel is made in the PHP programming language, using the
+generic MDB2 Pear interface for SQL database operations. Nevertheless, only
+MySQL and Postgres are officially tested and supported 
 
 
 OpenSIPS Control Panel currently features 3 main categories:
