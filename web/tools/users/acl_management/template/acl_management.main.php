@@ -59,7 +59,7 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 <tr>
 <td class="searchRecord" align="left">Group</td>
-<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp)?></td>
+<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
 </tr>
 </tr>
 <tr height="10">

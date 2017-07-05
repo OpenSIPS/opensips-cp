@@ -45,7 +45,7 @@
 
  <tr>
   <td class="dataRecord"><b>Group</b></td>
-  <td class="dataRecord" width="275"><?php print_groups("acl_grp",$acl_grp)?></td>
+  <td class="dataRecord" width="275"><?php print_groups("acl_grp",$acl_grp,FALSE)?></td>
   </tr>
 
   

@@ -53,7 +53,7 @@
 
  <tr>
   <td class="dataRecord"><b>Group</b></td>
-  <td class="dataRecord" width="275"><?php print_groups("acl_grp",$resultset[0]['grp']);?></td>
+  <td class="dataRecord" width="275"><?php print_groups("acl_grp",$resultset[0]['grp'],FALSE);?></td>
   </tr>
 
  <tr>
