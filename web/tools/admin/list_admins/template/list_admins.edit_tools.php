@@ -37,10 +37,7 @@ $permissions=array();
 ?>
 <form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
- <tr>
- <td colspan="3" class="listadminsTitle" align="center">Edit Tools and Permissions </td>
- </tr>
-</table>
+
   <?php
 	$sql = 'select available_tools,permissions from '. $table .' where username="'.$_GET['uname'].'" limit 1';
 	$resultset = $link->queryAll($sql);
@@ -83,9 +80,8 @@ $permissions=array();
 	
         foreach ($modules as $key => $value) {
   ?>
-  	<table width="400" cellspacing="2" cellpadding="2" border="0">
 	   <tr>
-	     <td colspan="3" class="listadminsTitle" align="center">Tools for <?php print $key?> Tab: </td>
+	     <td colspan="3" class="listadminsTitle" align="center">Tools and Permissions for <?php print $key?> Section: </td>
 	   </tr>
 	
 	<?php
@@ -94,7 +90,7 @@ $permissions=array();
 	$i++;
 	?>
         <tr>
-                <td class="dataRecord"><b><?php print $v;?></b></td>
+                <td class="dataRecord" width="25"><b><?php print $v;?></b></td>
 			<?php 
 if ($_SESSION['read_only']) {
 	$disabled="disabled";
@@ -104,8 +100,8 @@ if ($_SESSION['read_only']) {
 			if(($resultset[0]['available_tools']=="all") || (in_array($k,$available_tabs))) { 
 			
 			?>
-                		<td class="dataRecord" width="25"><input type="checkbox" name="state[<?php print $k;?>]" onClick="toggle(this,'<?='foo'.$i;?>');" checked class="dataInput" id="<?=$k?>" <?php print $disabled; ?>> </td>
-				<td class="dataRecord" width="25" >
+                		<td class="dataRecord" width="15"><input type="checkbox" name="state[<?php print $k;?>]" onClick="toggle(this,'<?='foo'.$i;?>');" checked class="dataInput" id="<?=$k?>" <?php print $disabled; ?>> </td>
+				<td class="dataRecord" width="15" >
 				
 			<?php
 				foreach($available_tabs as $keys=>$values) {
@@ -125,8 +121,8 @@ if ($_SESSION['read_only']) {
 			<?php
 			} else {
 			?>
-	                	<td class="dataRecord" width="25"><input type="checkbox" name="state[<?php print $k; ?>]" onClick="toggle(this,'<?='foo'.$i;?>');" class="dataInput" id="<?=$k?>" <?php print $disabled; ?> ></td>
-				<td class="dataRecord" width="25">
+	                	<td class="dataRecord" width="15"><input type="checkbox" name="state[<?php print $k; ?>]" onClick="toggle(this,'<?='foo'.$i;?>');" class="dataInput" id="<?=$k?>" <?php print $disabled; ?> ></td>
+				<td class="dataRecord" width="15">
 					<span id="<?='foo'.$i;?>" style="visibility:hidden">
 						<?php permission('',$k,$disabled);?>
 					</span>
@@ -134,17 +130,9 @@ if ($_SESSION['read_only']) {
 			<?php } ?>
          </tr>
   <?php
-   }
-  ?>
+     }
+  }
 
-  </table>	
-  <?php
-       }
-  ?>
-
-  <table width="400" cellspacing="2" cellpadding="2" border="0">
-
-<?php
 if (!$_SESSION['read_only']) {
 ?>
   <tr>
@@ -159,6 +147,7 @@ if (!$_SESSION['read_only']) {
   </table>
 
 </form>
-</tr>
+
+<br>
 <?=$back_link?>
 
