@@ -60,7 +60,7 @@ $link->disconnect();
 									/> 
 									<?php break; ?>	
 							<?php 	case "combo": ?>
-									<?php print_custom_combo($key,$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
+									<?php print_custom_combo($key,isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
 									<?php break; ?>	
 							<?php } ?>
 						</td>
