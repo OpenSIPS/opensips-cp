@@ -173,7 +173,7 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 												"show_header" 		=> false,
 												"type"				=> "link",
 												"action" 			=> "edit",
-												"icon"				=> "images/edit.png",
+												"icon"				=> "../../../images/share/edit.gif",
 												"action_script" 	=> "custom_actions/edit.php",
 												"action_template" 	=> "template/custom_templates/edit.php"
 											),
@@ -182,7 +182,7 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 												"show_header" 		=> false,
 												"type"				=> "link",
 												"action" 			=> "delete",
-												"icon"				=> "images/delete.png",
+												"icon"				=> "../../../images/share/trash.gif",
 												"action_script" 	=> "custom_actions/delete.php",
 												"action_template" 	=> "template/custom_templates/delete.php"
 											)
