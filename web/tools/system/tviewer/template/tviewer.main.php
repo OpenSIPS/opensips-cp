@@ -138,13 +138,12 @@ else {
 
 			
 			<!-- ACTION BUTTONS START HERE -->
-			<table width="50%" cellspacing="2" cellpadding="2" border="0"><tr><td>
-				<div id="action-buttons-div" style="height: 40px;">
+			<table align="center" cellspacing="2" cellpadding="4" border="0"><tr>
 				<?php if (!$_SESSION['read_only']) { ?>
 					<?php for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) { ?>
-					<div style="margin-top: 15px;margin-right: 30px; left: <?=(100/(count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'])+1)-5)?>%; position: relative; float: left;">
+					<td align="center">
 						<form action="<?=$page_name?>?action=<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" method="post">
-							<input 	type = "submit" 
+							<input  type = "submit" 
 								name = "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" 
 								value= "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['text']?>" 
 								class= "<?php if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['style']))
@@ -153,12 +152,10 @@ else {
 											echo ("button ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['color']);?>"
 							>
 						</form>
-					</div>
+					</td>
 					<?php } ?>
 				<?php } ?>
-				</div>
-			</td></tr></table>
-
+			</tr></table>
 			<!-- ACTION BUTTONS END HERE -->
 <br>
 			<!-- TABLE STARTS HERE -->
@@ -166,7 +163,7 @@ else {
 			<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 				<tr align="center">
 					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-                    	<th class="tviewerTitle"><?=$value['header']?></th>
+						<th class="tviewerTitle"><?=$value['header']?></th>
 					<?php } ?>
 					<?php 
 						if(!$_SESSION['read_only']){ 
@@ -249,7 +246,7 @@ else {
 									   }
 									   ?>
 										</th>
-      									<th align="right">
+										<th align="right">
 											Total Records: <?=$filtered_records?>&nbsp;
 										</th>
 									</tr>
