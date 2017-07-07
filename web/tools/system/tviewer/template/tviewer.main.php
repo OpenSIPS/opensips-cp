@@ -139,24 +139,21 @@ else {
 
 			
 			<!-- ACTION BUTTONS START HERE -->
-			<table width="50%" cellspacing="2" cellpadding="2" border="0"><tr><td>
-				<div id="action-buttons-div" style="height: 40px;">
+			<table align="center" cellspacing="2" cellpadding="4" border="0"><tr>
 				<?php if (!$_SESSION['read_only']) { ?>
 					<?php for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) { ?>
-					<div style="margin-top: 15px;margin-right: 30px; left: <?=(100/(count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'])+1)-5)?>%; position: relative; float: left;">
+					<td align="center">
 						<form action="<?=$page_name?>?action=<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" method="post">
-							<input 	type = "submit" 
+							<input  type = "submit" 
 								name = "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" 
 								value= "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['text']?>" 
 								class= "button <?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['color']?>"
 							>
 						</form>
-					</div>
+					</td>
 					<?php } ?>
 				<?php } ?>
-				</div>
-			</td></tr></table>
-
+			</tr></table>
 			<!-- ACTION BUTTONS END HERE -->
 <br>
 			<!-- TABLE STARTS HERE -->
@@ -164,7 +161,7 @@ else {
 			<table width="95%" cellspacing="2" cellpadding="2" border="0">
 				<tr align="center">
 					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-                    	<td class="tviewerTitle"><?=$value['header']?></td>
+						<th class="tviewerTitle"><?=$value['header']?></th>
 					<?php } ?>
 					<?php 
 						if(!$_SESSION['read_only']){ 
@@ -246,8 +243,13 @@ else {
 											if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?action=dp_act&page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
 									   }
 									   ?>
+<<<<<<< HEAD
 										</td>
       									<td align="right">
+=======
+										</th>
+										<th align="right">
+>>>>>>> d907b01... Fix dynamic spacing of Custom Action Buttons
 											Total Records: <?=$filtered_records?>&nbsp;
 										</td>
 									</tr>
