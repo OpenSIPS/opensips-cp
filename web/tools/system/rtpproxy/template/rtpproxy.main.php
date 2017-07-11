@@ -43,16 +43,17 @@ $rtpproxies_cache = array();
 // $message is an array of sets right now
 for ($i=0; $i<count($message);$i++) {
 	// get each node from the SET
+	$set = $message[$i]['value'];
 	for ($j=0; $j<count($message[$i]['children']['node']); $j++){
 		$node = $message[$i]['children']['node'][$j];
-		$rtpproxies_cache[ $i ][ $node['value'] ]['status'] = $node['attributes']['disabled'];
-		$rtpproxies_cache[ $i ][ $node['value'] ]['weight'] = $node['attributes']['weight'];
-		$rtpproxies_cache[ $i ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
+		$rtpproxies_cache[ $set ][ $node['value'] ]['status'] = $node['attributes']['disabled'];
+		$rtpproxies_cache[ $set ][ $node['value'] ]['weight'] = $node['attributes']['weight'];
+		$rtpproxies_cache[ $set ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
 		
 		if ($node['attributes']['disabled'] == 1){
-			$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+			$rtpproxies_cache[ $set ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
 		} else if ($node['attributes']['disabled'] == 0){
-			$rtpproxies_cache[ $i ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+			$rtpproxies_cache[ $set ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img align="center" name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
 		}
 	}
 } 	
