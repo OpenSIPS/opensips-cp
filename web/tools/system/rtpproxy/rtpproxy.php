@@ -161,6 +161,7 @@ if ($action=="modify")
 
 		$set_id=$_POST['set_id'];
 		$rtpproxy_sock=$_POST['rtpproxy_sock'];
+		$id=$_GET['id'];
 
 		if ($set_id=="" || $rtpproxy_sock==""){
 			$errors = "Invalid data, the entry was not modified in the database";
