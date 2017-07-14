@@ -77,8 +77,7 @@
  $cdr_set_field_names = 1 ;
 
  $delay=3600 ; 
- 
- /
+
  /* Optional function that may implement custom processing for the
     CDR fields before being exported. The argument the asoc array
     corresponding to a full CDR (all db fields) */
