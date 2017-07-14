@@ -276,6 +276,8 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 	}
 	for ($j=0;count($result)>$j;$j++) {
+		if ( function_exists("process_cdr_line_for_export") )
+			process_cdr_line_for_export( $result[$j] );
 		$line = "";
 
 		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
