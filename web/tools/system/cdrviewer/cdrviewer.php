@@ -22,7 +22,7 @@
 
 
 require("template/header.php");
-require("../../../../config/tools/system/cdrviewer/local.inc.php");
+require_once("../../../../config/tools/system/cdrviewer/local.inc.php");
 include("lib/db_connect.php");
 
 global $config;

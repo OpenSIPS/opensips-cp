@@ -78,4 +78,10 @@
 
  $delay=3600 ; 
  
+ /
+ /* Optional function that may implement custom processing for the
+    CDR fields before being exported. The argument the asoc array
+    corresponding to a full CDR (all db fields) */
+ //function process_cdr_line_for_export( &$cdr_line ) {
+ //}
 ?>
