@@ -187,6 +187,8 @@ if ($action=="delete")
 	                $link->exec($sql);
 
 		}
+		$sql = "DELETE FROM grp WHERE username='".$uname."' AND domain='".$domain."'";
+		$link->exec($sql);
 		
 	}else{
 
