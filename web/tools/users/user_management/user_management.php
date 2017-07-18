@@ -263,11 +263,13 @@ if ($action=="add_verify")
                 if ($config->passwd_mode==1) $passwd="";
                 $sql = 'INSERT INTO '.$table.' (username,domain,password,email_address,ha1,ha1b';
 				foreach ( $config->subs_extra as $key => $value )
-					$sql .= ','.$key;
+					if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
+						$sql .= ','.$key;
 				$sql .= ') VALUES (\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
                 $email.'\',\''.$ha1.'\',\''.$ha1b.'\'';
 				foreach ( $config->subs_extra as $key => $value )
-					$sql .= ',\''.$_POST['extra_'.$key].'\'';
+					if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
+						$sql .= ',\''.$_POST['extra_'.$key].'\'';
 				$sql .= ')';
 
                 $resultset = $link->prepare($sql);
