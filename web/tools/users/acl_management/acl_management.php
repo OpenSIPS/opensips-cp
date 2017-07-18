@@ -71,7 +71,7 @@ if ($action=="add_verified")
                 
                                 $sql = "INSERT INTO ".$table."
                                 (username, domain, grp, last_modified) VALUES
-                                ('".$acl_username."','".$acl_domain."','". $acl_grp."','NOW()')";
+                                ('".$acl_username."','".$acl_domain."','". $acl_grp."',NOW())";
                                 $resultset = $link->prepare($sql);
                                 $resultset->execute();
                                 $resultset->free();
