@@ -47,12 +47,15 @@ else {
 		$message = $message['PARTITION'][0]['children'];
 	$message = $message['SET'];
 
+	# iterate through the SETs
 	for ($j=0; $j<count($message); $j++){
-		$sipURI[] 	= $message[$j]['children']['URI'][0]['value'];
-		$flag[] 	= $message[$j]['children']['URI'][0]['attributes']['state'];
+		# interate though the destinations from the set
+		for ($i=0; $i<count($message[$j]['children']['URI']); $i++){
+			$sipURI[] = $message[$j]['children']['URI'][$i]['value'];
+			$flag[]   = $message[$j]['children']['URI'][$i]['attributes']['state'];
+		}
 	}
 }
-
 
 $sql_search="";
 $search_setid=$_SESSION['dispatcher_setid'];
