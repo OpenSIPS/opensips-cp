@@ -103,7 +103,14 @@ if (isset($_POST['dialogs'])) {
 		// get status from the first one only
 		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $errors , $status);
 
-		display_dialog_table($message);
+		if (!empty($msg)) {
+			$message = json_decode($message,true);
+			$dialogs = $message['dialog'];
+			array_unshift($dialogs, "dummy");
+			display_dialog_table($dialogs);
+		} else {
+			echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+		}
 	}
 
 	echo '<tr>';
