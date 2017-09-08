@@ -187,7 +187,7 @@ if ($users=="all_usr" || $users=="") {
 	$sql_command="from ".$table." s, $config->table_location l where s.username=l.username AND s.domain=l.domain ".$sql_search;
 	$sql_order=" order by s.id asc";
 } else if ($users=="offline_usr") {
-	if ($sql_search!="") $sql_search = substr($sql_search,4);
+	//if ($sql_search!="") $sql_search = substr($sql_search,4);
 	$sql_command="from ".$table." s where s.username NOT IN (select s.username from $table s,$config->table_location l where s.username=l.username AND s.domain=l.domain )".$sql_search;
 	$sql_order=" order by s.id asc";
 }
