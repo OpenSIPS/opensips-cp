@@ -67,7 +67,7 @@ else if (isset($success) && $success!="")
 					</tr>
 
 					<tr height="10">
-						<td colspan="2" class="dataTitle">
+						<td colspan="2" class="searchTitle">
 						<img src="../../../images/share/spacer.gif" width="5" height="5">
 					</td>
 				</tr>
