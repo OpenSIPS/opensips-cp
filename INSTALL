@@ -115,7 +115,7 @@ Install the ocp_admin_privileges table schema (we only provide the schema for my
 
 This will create the ocp_admin_privileges table into the opensips database. Next step is to insert a first login user into the table (user 'admin' with password 'admin' with full privileges):
 
-	INSERT INTO ocp_admin_privileges (username,password,ha1,available_tools,permissions) values ('admin','admin',md5('admin:admin'),'all','all');
+	INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','admin','admin','admin',md5('admin:admin'),'all','all');
 	
 
 3.2 Statistics Monitor tool
