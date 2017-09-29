@@ -86,7 +86,6 @@ if ($action=="modify")
 				$ha1  = "";
 				$listpasswd = $_POST['listpasswd'];	
 			} else if ($config->admin_passwd_mode==1) {
-				echo "Admin passwd mode este : ".$config->admin_passwd_mode==1;
 				$ha1 = md5($listuname.":".$_POST['listpasswd']);
 				$listpasswd = '';	
 			}
