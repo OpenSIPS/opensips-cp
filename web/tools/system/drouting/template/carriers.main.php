@@ -79,7 +79,7 @@
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="dataTitle">ID</th>
-  <th class="dataTitle">GW ID</th>
+  <th class="dataTitle">Carrier ID</th>
   <th class="dataTitle">GW List</th>  
   <th class="dataTitle">Use weights</th>
   <th class="dataTitle">Use only first</th>
