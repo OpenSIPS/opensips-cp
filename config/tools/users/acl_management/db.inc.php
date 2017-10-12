@@ -1,6 +1,5 @@
 <?php
 /*
- * $Id: db.inc.php 210 2010-03-08 18:09:33Z bogdan_iancu $
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -22,20 +21,20 @@
  */
 
  //database host
- //$config->db_host_alias_management = "localhost";
+ //$config->db_host_acl_management = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_alias_management = "";
+ //$config->db_port_acl_management = "";
  
  //database connection user
- //$config->db_user_alias_management = "opensips";
+ //$config->db_user_acl_management = "opensips";
  
  //database connection password
- //$config->db_pass_alias_management = "opensipsrw";
+ //$config->db_pass_acl_management = "opensipsrw";
  
  //database name
- //$config->db_name_alias_management = "opensips";
+ //$config->db_name_acl_management = "opensips";
  
- //if ($config->db_port_alias_management != "") $config->db_host_alias_management = $config->db_host_alias_management . ":" . $config->db_port_alias_management;
+ //if ($config->db_port_acl_management != "") $config->db_host_acl_management = $config->db_host_acl_management . ":" . $config->db_port_acl_management;
  
 ?>
