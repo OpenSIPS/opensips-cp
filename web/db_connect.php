@@ -26,7 +26,8 @@ require_once("MDB2.php");
 
         global $config;
         $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
-        $link = & MDB2::connect($dsn);
+        //PHP7.0 Only variables should be assigned by reference
+        $link = MDB2::connect($dsn);
         if(PEAR::isError($link)) {
             die("Error while connecting : " . $link->getMessage());
         }
