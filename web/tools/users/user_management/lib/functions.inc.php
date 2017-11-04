@@ -79,6 +79,7 @@ function print_domains($type,$value,$has_any)
         }
 
         $start_index = 0;
+	$temp = '';
         $end_index = sizeof($options);
 
 		echo('<select name='.$type.' id='.$type.' size="1" style="width: 205px" class="dataSelect">');
