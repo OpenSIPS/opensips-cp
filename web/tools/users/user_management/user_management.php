@@ -29,7 +29,7 @@ include("lib/db_connect.php");
 
 $table=$config->table_users;
 $current_page="current_page_user_management";
-
+$errors='';
 $keepoverlay = false;
 
 foreach ($config->table_aliases as $key=>$value) {
