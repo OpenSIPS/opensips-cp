@@ -80,6 +80,7 @@ function print_aliasType($value, $has_any)
 ?>
         <select name="alias_type" id="alias_type" size="1" style="width: 190px" class="dataSelect">
          <?php
+	   $temp = '';
            if ($value!=NULL) {
              echo('<option value="'.$value. '" selected > '.$value.'</option>');
              $temp = $value;
