@@ -20,11 +20,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-require("../../../../../config/tools/users/acl_management/local.inc.php");
-
-require_once("../../../../../config/tools/users/acl_management/db.inc.php");
 require_once("../../../../../config/db.inc.php");
+require("../../../../../config/tools/users/acl_management/local.inc.php");
+require_once("../../../../../config/tools/users/acl_management/db.inc.php");
 require_once("MDB2.php");
 
         global $config;
