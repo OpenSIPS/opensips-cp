@@ -20,11 +20,11 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../../config/db.inc.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/tools/admin/list_admins/db.inc.php");
 require("../../../../config/tools/admin/list_admins/local.inc.php");
-require("../../../../config/db.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 require_once("../../../common/cfg_comm.php");
