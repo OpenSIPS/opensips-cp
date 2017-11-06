@@ -31,6 +31,7 @@ function print_aliasType($value)
                 $options[]=array("label"=>$key,"value"=>$value);
         }
         $start_index = 0;
+	$temp = '';
         $end_index = sizeof($options);
 ?>
         <select name="alias_type" id="alias_type" size="1" style="width: 205px" class="dataSelect">
