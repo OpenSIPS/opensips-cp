@@ -59,8 +59,8 @@ function print_domains($type,$value,$has_any)
 
         global $config;
 
+	require("../../../../config/db.inc.php");
         require("../../../../config/tools/system/domains/local.inc.php");
-        require("../../../../config/db.inc.php");
         require("../../../../config/tools/system/domains/db.inc.php");
         require("db_connect.php");
 
