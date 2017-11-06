@@ -26,6 +26,7 @@ require("../../../../config/globals.php");
 require("../../../../config/tools/users/acl_management/local.inc.php");
 include("lib/db_connect.php");
 $table=$config->table_acls;
+$errors='';
 
 $current_page="current_page_acl_management";
 if (isset($_POST['action'])) $action=$_POST['action'];
