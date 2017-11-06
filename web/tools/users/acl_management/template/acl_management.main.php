@@ -107,6 +107,9 @@ echo('<th class="aclTitle">Edit</th>
 </tr>
 
 <?php
+        require("../../../../config/db.inc.php");
+        require("../../../../config/tools/users/acl_management/local.inc.php");
+
 	$sql_command="from ".$table.$sql_search;
 	$data_no = $link->queryOne("select count(*) ".$sql_command);
 	if(PEAR::isError($data_no)) {
