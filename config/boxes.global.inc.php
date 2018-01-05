@@ -49,12 +49,12 @@ $boxes[$box_id]['smonitor']['charts']=1;
 /*---------------------------------------------------------------------------
 $box_id=1;
 
-// options: fifo:/path/to/fifo_file | xmlrpc:host:port | udp:host:port | json:json_url
-$boxes[$box_id]['mi']['conn']="xmlrpc:192.168.0.2:8080";
+//  MI connector (via JSON backend):   json:host:port/json
+$boxes[$box_id]['mi']['conn']="json:127.0.0.2:8080/json";
 
 
 // monit host:port
-$boxes[$box_id]['monit']['conn']="192.168.0.2:2812";
+$boxes[$box_id]['monit']['conn']="127.0.0.2:2812";
 $boxes[$box_id]['monit']['user']="admin";
 $boxes[$box_id]['monit']['pass']="pass";
 $boxes[$box_id]['monit']['has_ssl']=1;
