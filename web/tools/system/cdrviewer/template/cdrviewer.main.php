@@ -45,7 +45,7 @@ $search_regexp=$_SESSION['cdrviewer_search_val'];
 $cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
 
-if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=" and ".$cdr_field.' like "%'.$search_regexp.'%"' ;
+if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=' and "'.$cdr_field.'" like \'%'.$search_regexp.'%\'' ;
 
 
 $search_start=$_SESSION['cdrviewer_search_start'];
@@ -56,13 +56,13 @@ $sql  = "select count(*) from ".$cdr_table. " where (1=1) ";
 
 if (($search_start!="")) {
 
-	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(time)";
+	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(\"time\")";
 
 }
 
 if ($search_end!="") {
 
-	$sql.=" and unix_timestamp(time) <= unix_timestamp('" . $search_end ."')";
+	$sql.=" and unix_timestamp("time\") <= unix_timestamp('" . $search_end ."')";
 
 }
 
