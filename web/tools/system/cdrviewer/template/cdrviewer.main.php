@@ -62,7 +62,7 @@ if (($search_start!="")) {
 
 if ($search_end!="") {
 
-	$sql.=" and unix_timestamp("time\") <= unix_timestamp('" . $search_end ."')";
+	$sql.=" and unix_timestamp(\"time\") <= unix_timestamp('" . $search_end ."')";
 
 }
 
