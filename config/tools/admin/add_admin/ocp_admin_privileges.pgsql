@@ -11,3 +11,10 @@ CREATE TABLE ocp_admin_privileges (
 ); 
 SET CLIENT_ENCODING TO 'latin1' ;
 
+CREATE FUNCTION unix_timestamp(time_str varchar(19) ) RETURNS integer AS $$
+  SELECT (date_part('epoch',to_timestamp(time_str, 'YYYY-MM-DD HH24:MI:SS')))::integer;
+  $$ LANGUAGE SQL IMMUTABLE;
+
+CREATE FUNCTION unix_timestamp(time_str TIMESTAMP ) RETURNS integer AS $$
+  SELECT (date_part('epoch',time_str))::integer;
+  $$ LANGUAGE SQL IMMUTABLE;
