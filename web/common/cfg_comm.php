@@ -69,39 +69,33 @@ function get_priv($my_tool) {
 
 		$modules = get_modules();
 
-		foreach($modules['Admin'] as $key=>$value) {
-				$all_tools[$key] = $value;
-		}
-		foreach($modules['Users'] as $key=>$value) {
-				$all_tools[$key] = $value;
-		}
-		foreach($modules['System'] as $key=>$value) {
+		foreach($modules as $mod_key=>$mod_value) {
+			foreach($mod_value as $key=>$value)
 				$all_tools[$key] = $value;
 		}
 
 		if($_SESSION['user_tabs']=="*") {
-				foreach ($all_tools as $lable=>$val) {
-						$available_tabs[]=$lable;
-				}
+			foreach ($all_tools as $lable=>$val)
+				$available_tabs[]=$lable;
 		} else {
-				$available_tabs=explode(",",$_SESSION['user_tabs']);
+			$available_tabs=explode(",",$_SESSION['user_tabs']);
 		}
 
 		if ($_SESSION['user_priv']=="*") {
-				$_SESSION['read_only'] = false;
-				$_SESSION['permission'] = "Read-Write";
+			$_SESSION['read_only'] = false;
+			$_SESSION['permission'] = "Read-Write";
 		} else {
-				$available_privs=explode(",",$_SESSION['user_priv']);
-				if( ($key = array_search($my_tool, $available_tabs))!==false) {
-						if ($available_privs[$key]=="read-only"){
-								$_SESSION['read_only'] = true;
-								$_SESSION['permission'] = "Read-Only";
-						}
-						if ($available_privs[$key]=="read-write"){
-								$_SESSION['read_only'] = false;
-								$_SESSION['permission'] = "Read-Write";
-						}
+			$available_privs=explode(",",$_SESSION['user_priv']);
+			if( ($key = array_search($my_tool, $available_tabs))!==false) {
+				if ($available_privs[$key]=="read-only"){
+					$_SESSION['read_only'] = true;
+					$_SESSION['permission'] = "Read-Only";
 				}
+				if ($available_privs[$key]=="read-write"){
+					$_SESSION['read_only'] = false;
+					$_SESSION['permission'] = "Read-Write";
+				}
+			}
 		}
 
 		return;
