@@ -110,43 +110,21 @@ function get_priv($my_tool) {
 
 
 function get_modules() {
-         $modules=array();
-         $mod = array();
-         if (file_exists('../../../tools/admin/') && $handle=opendir('../../../tools/admin/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!=".git"))
-           {
-            $modules[$file]=trim(file_get_contents("../../../tools/admin/".$file."/tool.name"));
-           }
-         closedir($handle);
-        }
-        $mod['Admin'] = $modules;
-
-         $modules=array();
-         if (file_exists('../../../tools/users/') && $handle=opendir('../../../tools/users/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!=".git"))
-           {
-            $modules[$file]=trim(file_get_contents("../../../tools/users/".$file."/tool.name"));
-           }
-          closedir($handle);
-         }
-         $mod['Users'] = $modules;
-
-         $modules=array();
-         if (file_exists('../../../tools/system/') && $handle=opendir('../../../tools/system/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!=".git"))
-           {
-            $modules[$file]=trim(file_get_contents("../../../tools/system/".$file."/tool.name"));
-           }
-          closedir($handle);
-         }
-         $mod['System'] = $modules;
-     return $mod;
+	require("../../../../config/modules.inc.php");
+	$modules = array();
+	foreach ($config_modules as $tool => $tool_config) {
+		if (!$tool_config['enabled'])
+			continue;
+		$tool_array = array();
+		foreach ($tool_config['modules'] as $module => $module_config) {
+			if (!$module_config['enabled'])
+				continue;
+			$tool_array[$module] = $module_config['name'];
+		}
+		if (sizeof($tool_array) > 0)
+			$modules[$tool_config['name']] = $tool_array;
+	}
+	return $modules;
 }
 
 
