@@ -133,14 +133,12 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['first_name'].' '.$resultset[$i]['last_name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $edit_tools_link?></td>
-   <? 
+<?php
    if(!$_SESSION['read_only']){
-   ?>
-	<?php
    	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
 			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
    }
-	?>  
+?>
   </tr>  
 <?php
 
