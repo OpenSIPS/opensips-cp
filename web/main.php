@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2011 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -27,22 +27,30 @@ if (!isset($_SESSION['user_login'])) {
 	header("Location:index.php?err=1");
 }
 
-if (!isset($_SESSION['user_active_tool'])) {
-	$main_body="blank.php";
-} else {
+$main_body="blank.php";
+if (isset($_SESSION['user_active_tool'])) {
 	foreach ($config_modules as $menuitem => $menuitem_config) {
-		if ($menuitem_config['enabled']) {
-			if ($handle=opendir('tools/'.$menuitem.'/')){
-				while (false!==($file=readdir($handle))) {
-					if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ($menuitem_config['modules'][$file]['enabled'])) {
-						${"file_".$menuitem}[] = $file;
-						if ($_SESSION['user_active_tool'] == $file){
-            				$main_body="tools/".$menuitem."/".$_SESSION['user_active_tool']."/".$_SESSION['user_active_page'];	
-						}
-						$i++;
-					}
-				}
-				closedir($handle);
+		if (!$menuitem_config['enabled'])
+			continue;
+		# if it has no modules, do not print it at all
+		if (!isset($menuitem_config['modules']))
+			continue;
+		foreach ($menuitem_config['modules'] as $key => $value) {
+			# if the module is not available, skip it
+			if (!isset($value['enabled']) || !$value['enabled'] ||
+					$key != $_SESSION['user_active_tool'])
+				continue;
+			$path = 'tools/';
+			# check if there is a path and it exists
+			if (!isset($value['path']))
+				$path .= $menuitem . '/' . $key;
+			else
+				$path .= $value['path'];
+			$path .= $_SESSION['user_active_page'];
+			# check if the module actually exists
+			if (file_exists($path)) {
+				$main_body=$path;
+				break;
 			}
 		}
 	}
@@ -65,7 +73,7 @@ if (!isset($_SESSION['user_active_tool'])) {
  </frameset>
 
  <frame noresize scrolling="no" src="footer.php" name="main_footer">
- 
+
 </frameset>
- 
+
 </html>

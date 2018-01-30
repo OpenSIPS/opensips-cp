@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2011 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -26,9 +26,9 @@ session_start();
 require("../config/modules.inc.php");
 $super_admin=false;
 $available_tabs=array();
-if ($_SESSION['user_tabs']!="*") 
+if ($_SESSION['user_tabs']!="*")
 	$available_tabs=explode(",",$_SESSION['user_tabs']);
-else 
+else
 	$super_admin=true;
 ?>
 
@@ -45,73 +45,80 @@ else
 <div id="masterdiv">
 <?php
 foreach ($config_modules as $menuitem => $menuitem_config) {
-	if ($menuitem_config['enabled']) {
+	if (!$menuitem_config['enabled'])
+		continue;
+
+	# if it has no modules, do not print it at all
+	if (!isset($menuitem_config['modules']))
+		continue;
+	# check to see if there is a tool within this module that is active
+	if (isset($_SESSION['user_active_tool']) &&
+			in_array($_SESSION['user_active_tool'], $menuitem_config['modules'])){
 ?>
-
+<div id="menu<?=$menuitem?>" class="menu_active" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
+<span id="<?=$menuitem?>" class="submenu" style="display: block;">
 <?php
-		$menu_link_text=array();
-		if ($handle=opendir('tools/'.$menuitem.'/')) {
-			while (false!==($file=readdir($handle))) {
-				if ((($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn") && ((in_array($file,$available_tabs)) || ($super_admin))) && ($menuitem_config['modules'][$file]['enabled'])) {
-					$menu_link_text[$file]=$menuitem_config['modules'][$file]['name'];
-				}
-			}
-			closedir($handle);
-
-			reset($available_tabs);
-			asort($menu_link_text);
-			#reset($menu_link_text);
-
-			$tools = array_keys($menu_link_text);
-			if ( isset($_SESSION['user_active_tool']) && in_array($_SESSION['user_active_tool'],$tools)){
-	?>
-			<div id="menu<?=$menuitem?>" class="menu_active" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
-				<span id="<?=$menuitem?>" class="submenu" style="display: block;">
-	<?php
-			} else {
-	?>
-			<div id="menu<?=$menuitem?>" class="menu" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
-				<span id="<?=$menuitem?>" class="submenu" style="display: none;">
-	<?php	
-			} 
-	?>
-				<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
-	<?php	
-				foreach ($menu_link_text as $key=>$val) {
-	?>
-            		<tr height="20">
-	<?php 
-					if (isset($_SESSION['user_active_tool']) && $_SESSION['user_active_tool'] == $key) { 
-	?>
-						<td onClick="top.frames['main_body'].location.href='tools/<?=$menuitem?>/<?=$key?>/index.php';">
-							<a id="<?=$key?>" class="submenuItemActive" onclick="SwitchSubMenu('<?=$key?>')" href12="tools/<?=$menuitem?>/<?=$key?>/index.php">
-								<?=$val?>
-							</a>
-						</td>
-	<?php 
-					} 
-					else { 
-	?>
-						<td onClick="top.frames['main_body'].location.href='tools/<?=$menuitem?>/<?=$key?>/index.php';">
-							<a id="<?=$key?>" class="submenuItem" onclick="SwitchSubMenu('<?=$key?>')" href12="tools/<?=$menuitem?>/<?=$key?>/index.php">
-								<?=$val?>
-							</a>
-						</td>
-	<?php 			
-					} 
-	?>
-            		</tr>
-	<?php
-          		}
-            	next($menu_link_text);
-         	}
-    ?>
-				</table>
-			</span>
-	<?php 
+	} else {
+?>
+<div id="menu<?=$menuitem?>" class="menu" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
+<span id="<?=$menuitem?>" class="submenu" style="display: none;">
+<?php
 	}
-} 
-	?>
+?>
+<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
+<?php
+	$menu_link_text=array();
+	# now go through each tool and see if it is activated
+	foreach ($menuitem_config['modules'] as $key => $value) {
+		# if the module is not available, skip it
+		if (!isset($value['enabled']) || !$value['enabled'])
+			continue;
+		# check if this is an available module
+		if (!($super_admin) && !in_array($key, $available_tabs))
+			continue;
+		# check if there is a path and it exists
+		if (!isset($value['path']))
+			$path = $menuitem . '/' . $key;
+		else
+			$path = $value['path'];
+		# check if the module actually exists
+		if (file_exists('tools/'.$path.'/index.php'))
+			$menu_link_text[$key] = $value['name'];
+	}
+	reset($available_tabs);
+	asort($menu_link_text);
+
+	foreach ($menu_link_text as $key=>$val) {
+		$path = 'tools/';
+		if (!isset($menuitem_config['modules'][$key]['path']))
+			$path .= $menuitem . '/' . $key;
+		else
+			$path .= $menuitem_config['modules'][$key]['path'];
+		$path .= '/index.php';
+?>
+<tr height="20">
+<td onClick="top.frames['main_body'].location.href='<?=$path?>';">
+<?php
+		if (isset($_SESSION['user_active_tool']) && $_SESSION['user_active_tool'] == $key) {
+?>
+<a id="<?=$key?>" class="submenuItemActive" onclick="SwitchSubMenu('<?=$key?>')" href12="<?=$path?>"><?=$val?></a>
+<?php
+		} else {
+?>
+<a id="<?=$key?>" class="submenuItem" onclick="SwitchSubMenu('<?=$key?>')" href12="<?=$path?>"><?=$val?></a>
+<?php
+		}
+?>
+</td>
+</tr>
+<?php
+	}
+?>
+</table>
+</span>
+<?php
+}
+?>
 </div>
 </body>
 </html>
