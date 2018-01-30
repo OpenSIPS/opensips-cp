@@ -364,45 +364,4 @@ function show_graph($stat,$box_id){
 
 }
 
-function get_mods() {
-         $modules=array();
-         $mod = array();
-         if ($handle=opendir('../../../tools/admin/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
-           {
-            $modules[$file]=trim(file_get_contents("../../../tools/admin/".$file."/tool.name"));
-           }
-         closedir($handle);
-         $mod['Admin'] = $modules;
-        }
-
-         $modules=array();
-         if ($handle=opendir('../../../tools/users/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
-           {
-            $modules[$file]=trim(file_get_contents("../../../tools/users/".$file."/tool.name"));
-           }
-          closedir($handle);
-          $mod['Users'] = $modules;
-         }
-
-         $modules=array();
-         if ($handle=opendir('../../../tools/system/'))
-         {
-          while (false!==($file=readdir($handle)))
-           if (($file!=".") && ($file!="..") && ($file!="CVS")  && ($file!=".svn"))
-           {
-            $modules[$file]=trim(file_get_contents("../../../tools/system/".$file."/tool.name"));
-           }
-          closedir($handle);
-          $mod['System'] = $modules;
-          }
-     return $mod;
-}
-
-
 ?>
