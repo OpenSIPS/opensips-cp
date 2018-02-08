@@ -124,7 +124,7 @@ function print_custom_combo($name,$value,$display,$default_values,$table,$value_
 
 
 	$dis = ($disabled)?"disabled":"";
-	echo '<select name="'.$name.'" id="'.$name.'" size="1" '.$dis.'>';
+	echo '<select name="'.$name.'" id="'.$name.'" size="1" style="width: 205px" class="dataSelect" '.$dis.'>';
 
 	if ($value!=NULL && $value != "") {
 		$display = (!isset($display) || $display == "")?$value:$display;

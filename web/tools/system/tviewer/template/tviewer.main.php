@@ -91,7 +91,7 @@ else {
 			<!-- SEARCH BOX STARTS HERE -->
 			<?php if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['enabled']) { ?>
 				<form id="" action="<?=$page_name?>?action=dp_act" method="post">
-				<table width="50%" cellspacing="2" cellpadding="2" border="0">
+				<table width="350" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
 						<td colspan="2" height="10" class="tviewerTitle"></td>
 					</tr>
