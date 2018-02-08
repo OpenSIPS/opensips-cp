@@ -85,7 +85,8 @@ Example table: cc_agents
 												"searchable" 		=> true,
 												"disabled" 			=> true,
 												"readonly" 			=> true,
-												"default_value" 	=> NULL
+												"default_value" 	=> NULL,
+												"visible"			=> false
 											), 
 								"agentid"	=> 	array (
 												"header" 			=> "Agent ID",

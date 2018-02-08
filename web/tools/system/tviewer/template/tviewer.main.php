@@ -162,10 +162,10 @@ else {
 			
 			<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 				<tr align="center">
-					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-						<th class="tviewerTitle"><?=$value['header']?></th>
-					<?php } ?>
-					<?php 
+					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+						if ( !isset($value['visible']) || $value['visible']==true)
+							echo('<th class="tviewerTitle">'.$value['header'].'</th>');
+						}
 						if(!$_SESSION['read_only']){ 
 							for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
 								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['show_header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
@@ -180,6 +180,8 @@ else {
 							$row_style = ($i%2 == 1)?"rowOdd":"rowEven";
 							echo "<tr>";
 							foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+								if ( isset($value['visible']) && $value['visible']==false)
+									continue;
 								echo "<td class='".$row_style."'>";
 								echo $resultset[$i][$key];
 								echo "</td>";
