@@ -43,7 +43,7 @@ $link->disconnect();
 						</td>
 					</tr>
 				<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-					<?php if ($value['show_in_add_form'] == true ){ ?>
+					<?php if ($value['show_in_edit_form'] == true ){ ?>
 					<tr>
 						<td class="dataRecord">
 							<label for="<?=$key?>"><?=$value['header']?></label>
