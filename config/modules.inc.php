@@ -108,10 +108,6 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "RTPProxy"
 			),
-			"pdt"				=> array (
-				"enabled"		=> true,
-				"name"			=> "Prefix 2 Domain"
-			),
 			"permissions"		=> array (
 				"enabled"		=> true,
 				"name"			=> "Permissions"
