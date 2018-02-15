@@ -77,7 +77,7 @@ if ($action=="modify")
 		$updatestring="";
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
 			if (isset($_POST[$key])){
-	        	$updatestring=$updatestring.$key."='".$_POST[$key]."',";
+	        	$updatestring=$updatestring.$key."='".mysql_real_escape_string($_POST[$key])."',";
 			}
 		}
 		//trim the ending comma
