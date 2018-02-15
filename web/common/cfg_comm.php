@@ -159,5 +159,13 @@ function inspect_config_mi(){
 }
 
 
+function print_back_button() {
+	$previous = "javascript:history.go(-1)";
+	if(isset($_SERVER['HTTP_REFERER'])) {
+		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
+	}
+	echo("<form method=\"get\" action=\"$previous\"><button class=\"formButton\" type=\"submit\">Back</button></form>");
+}
+
 
 ?>
