@@ -14,7 +14,7 @@
 					
 				if (!isset($custom_config[$module_id]['submenu_items']) || count($custom_config[$module_id]['submenu_items']) == 0) {
 					$_SESSION[$module_id]['submenu_item_id'] = 0;
-					echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+					echo('&nbsp;&nbsp;&nbsp;&nbsp;');
 				}
 				else {
 					if (!isset($_SESSION[$module_id]['submenu_item_id'])){

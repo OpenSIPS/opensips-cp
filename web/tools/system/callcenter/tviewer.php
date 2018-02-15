@@ -23,13 +23,20 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 include("lib/db_connect.php");
+require("../../../common/cfg_comm.php");
 
 
 $current_page="current_page_tviewer";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
-$table=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'];
+if (!isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table']) || $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'] == ""){
+	echo "<font color='red'>THIS MODULE HAS NOT BEEN CONFIGURED YET - PLEASE UPDATE CONFIG FILE:</font> <br> <b> config/tools/".$branch."/".$module_id."/local.inc.php<b>";
+	exit();
+}
+else {
+	$table=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'];
+}
 
 ##############################
 # get current action         #

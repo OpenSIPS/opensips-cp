@@ -20,11 +20,14 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+?>
+<?php
 session_start();
 require("init.php");
 
 require("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
 require("../../../common/mi_comm.php");
+require("../../../common/cfg_comm.php");
 require("lib/functions.inc.php");
 
 require_once("../../../../config/db.inc.php");

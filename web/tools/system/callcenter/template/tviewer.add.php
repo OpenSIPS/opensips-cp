@@ -21,14 +21,10 @@
 */
 
 
-?>
-
-
-<?php
-	if (isset($form_error) && $form_error!="")
-		echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
-	else if (isset($success) && $success!="")
-		echo '<div class="formSuccess" ><strong>Success </strong>'.$success.' ('.$back_link.')</div>';
+if (isset($form_error) && $form_error!="")
+	echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
+else if (isset($success) && $success!="")
+	echo '<div class="formSuccess" ><strong>Success </strong>'.$success.'</div>';
 ?>
 
 			<form id="addnewentry" class="block-content form" action="<?=$page_name?>?action=add_verify" method="post">
@@ -71,13 +67,11 @@
 					</tr>
 
 					<tr height="10">
-						<td colspan="2" class="dataTitle">
+						<td colspan="2" class="searchTitle">
 						<img src="../../../images/share/spacer.gif" width="5" height="5">
 					</td>
 				</tr>
 			</table>
 			</form>
-		<div class="back_link" style="padding-top:25px; width: 50%; margin: 0 auto;text-align: center;">
-                        	<?=$back_link?>
-        </div>
+		<? print_back_button(); ?>
 

@@ -19,8 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-?>
-<?php 
+
+
 // load table content
 
 $where="1 = 1";
@@ -34,8 +34,8 @@ $query_ct = "select count(".$custom_config[$module_id][$_SESSION[$module_id]['su
 			from ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'];
 
 $total_records = $link->queryOne($query_ct);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue total count query, error message : ' . $resultset->getMessage(). "[".$query_ct."]");
+if(PEAR::isError($total_records)) {
+	die('Failed to issue total count query, error message : ' . $total_records->getMessage(). "[".$query_ct."]");
 }
 
 
@@ -44,8 +44,8 @@ $query_fl =	"select count(".$custom_config[$module_id][$_SESSION[$module_id]['su
 		where ".$where;
 
 $filtered_records = $link->queryOne($query_fl);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage(). "[".$query_fl."]");
+if(PEAR::isError($filtered_records)) {
+	die('Failed to issue query, error message : ' . $filtered_records->getMessage(). "[".$query_fl."]");
 }
 //determine the colspan
 if(!$_SESSION['read_only']){
@@ -91,7 +91,7 @@ else {
 			<!-- SEARCH BOX STARTS HERE -->
 			<?php if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['enabled']) { ?>
 				<form id="" action="<?=$page_name?>?action=dp_act" method="post">
-				<table width="50%" cellspacing="2" cellpadding="2" border="0">
+				<table width="350" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
 						<td colspan="2" height="10" class="tviewerTitle"></td>
 					</tr>
@@ -138,34 +138,34 @@ else {
 
 			
 			<!-- ACTION BUTTONS START HERE -->
-			<table width="50%" cellspacing="2" cellpadding="2" border="0"><tr><td>
-				<div id="action-buttons-div" style="height: 40px;">
+			<table align="center" cellspacing="2" cellpadding="4" border="0"><tr>
 				<?php if (!$_SESSION['read_only']) { ?>
 					<?php for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) { ?>
-					<div style="margin-top: 15px;margin-right: 30px; left: <?=(100/(count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'])+1)-5)?>%; position: relative; float: left;">
+					<td align="center">
 						<form action="<?=$page_name?>?action=<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" method="post">
-							<input 	type = "submit" 
+							<input  type = "submit" 
 								name = "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" 
 								value= "<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['text']?>" 
-								class= "searchButton <?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['color']?>"
+								class= "<?php if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['style']))
+											echo($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['style']);
+										else
+											echo ("button ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['color']);?>"
 							>
 						</form>
-					</div>
+					</td>
 					<?php } ?>
 				<?php } ?>
-				</div>
-			</td></tr></table>
-
+			</tr></table>
 			<!-- ACTION BUTTONS END HERE -->
 <br>
 			<!-- TABLE STARTS HERE -->
 			
 			<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 				<tr align="center">
-					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-                    	<th class="tviewerTitle"><?=$value['header']?></th>
-					<?php } ?>
-					<?php 
+					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+						if ( !isset($value['visible']) || $value['visible']==true)
+							echo('<th class="tviewerTitle">'.$value['header'].'</th>');
+						}
 						if(!$_SESSION['read_only']){ 
 							for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
 								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['show_header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
@@ -180,6 +180,8 @@ else {
 							$row_style = ($i%2 == 1)?"rowOdd":"rowEven";
 							echo "<tr>";
 							foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+								if ( isset($value['visible']) && $value['visible']==false)
+									continue;
 								echo "<td class='".$row_style."'>";
 								echo $resultset[$i][$key];
 								echo "</td>";
@@ -232,21 +234,21 @@ else {
 
 											// back block
 											if ($start_page!=1) 
-												echo('&nbsp;<a href="'.$page_name.'?page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
+												echo('&nbsp;<a href="'.$page_name.'?action=dp_act&page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
 
 											// current pages
 											for($i=$start_page;$i<=$end_page;$i++)
 												if ($i==$page) 
 													echo('<font class="pageActive">'.$i.'</font>&nbsp;');
 												else 
-													echo('<a href="'.$page_name.'?page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
+													echo('<a href="'.$page_name.'?action=dp_act&page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
 										
 											// next block
-											if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
+											if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?action=dp_act&page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
 									   }
 									   ?>
 										</th>
-      									<th align="right">
+										<th align="right">
 											Total Records: <?=$filtered_records?>&nbsp;
 										</th>
 									</tr>

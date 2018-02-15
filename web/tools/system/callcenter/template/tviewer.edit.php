@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$id=$_GET['id'];
+$id=$_GET[$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
 
 $sql = "select * from ".$table." where ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."='".$id."'";
 $resultset = $link->queryAll($sql);
@@ -32,10 +32,10 @@ $link->disconnect();
 	if (isset($form_error) && $form_error!="")
 		echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
 	else if (isset($success) && $success!="")
-		echo '<div class="formSuccess" ><strong>Success </strong>'.$success.' ('.$back_link.')</div>';
+		echo '<div class="formSuccess" ><strong>Success </strong>'.$success.'</div>';
 ?>
 
-			<form id="editentry" class="block-content form" action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
+			<form id="editentry" class="block-content form" action="<?=$page_name?>?action=modify&id=<?=$id?>" method="post">
 				<table width="400" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
 						<td colspan="2" class="tviewerTitle">
@@ -43,7 +43,7 @@ $link->disconnect();
 						</td>
 					</tr>
 				<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-					<?php if ($value['show_in_add_form'] == true ){ ?>
+					<?php if ($value['show_in_edit_form'] == true ){ ?>
 					<tr>
 						<td class="dataRecord">
 							<label for="<?=$key?>"><?=$value['header']?></label>
@@ -59,7 +59,7 @@ $link->disconnect();
 									/> 
 									<?php break; ?>	
 							<?php 	case "combo": ?>
-									<?php print_custom_combo($key,$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
+									<?php print_custom_combo($key,isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
 									<?php break; ?>	
 							<?php } ?>
 						</td>
@@ -71,19 +71,17 @@ $link->disconnect();
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Update" class="formButton">
 							<form>
-							<input type="button" value="Reset" class="formButton" onclick="window.location.href='tviewer.php?action=edit&id=<?=$_GET['id']?>'">
+							<input type="button" value="Reset" class="formButton" onclick="window.location.href='tviewer.php?action=edit&id=<?=$id?>'">
 							</form>
 						</td>
 					</tr>
 
 					<tr height="10">
-						<td colspan="2" class="dataTitle">
+						<td colspan="2" class="searchTitle">
 						<img src="../../../images/share/spacer.gif" width="5" height="5">
 					</td>
 				</tr>
 			</table>
 			</form>
-		<div class="back_link" style="padding-top:25px; width: 50%; margin: 0 auto;text-align: center;">
-                        	<?=$back_link?>
-        </div>
+		<? print_back_button(); ?>
 
