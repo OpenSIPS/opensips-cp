@@ -185,7 +185,8 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 												"action" 			=> "delete",
 												"icon"				=> "../../../images/share/trash.gif",
 												"action_script" 	=> "custom_actions/delete.php",
-												"action_template" 	=> "template/custom_templates/delete.php"
+												"action_template" 	=> "template/custom_templates/delete.php",
+												"events"			=> "onclick=\"return confirmDelete()\""
 											)
 							);
 ##############################################

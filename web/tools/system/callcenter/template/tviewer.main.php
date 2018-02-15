@@ -193,7 +193,10 @@ else {
 										$action_link	.= $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['action'];
 										$action_link	.= "&".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=";
 										$action_link	.= $resultset[$i][$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
-										$action_link	.= "'>";
+										$action_link	.= "'";
+										if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['events']))
+											$action_link .= " ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['events'];
+										$action_link	.= ">";
 										$action_link	.= "<img src='".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['icon']."' border='0'>";
 										$action_link	.= "</a>";
 
