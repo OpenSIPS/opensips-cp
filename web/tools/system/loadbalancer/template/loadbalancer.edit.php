@@ -57,4 +57,4 @@ if(PEAR::isError($lb_form)) {
 
 	</table>
 </form>
-<?=$back_link?>
+<? print_back_button(); ?>

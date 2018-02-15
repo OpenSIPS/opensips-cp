@@ -149,5 +149,5 @@ if (!$_SESSION['read_only']) {
 </form>
 
 <br>
-<?=$back_link?>
+<? print_back_button(); ?>
 

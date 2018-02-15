@@ -62,4 +62,4 @@ if($clone =="1"){
  </tr>
 </table>
 </form>
-<?=$back_link?>
+<? print_back_button(); ?>

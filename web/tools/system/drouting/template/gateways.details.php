@@ -84,4 +84,4 @@
  if (strpos($_SERVER['HTTP_REFERER'],"rules.php")!==false)
   echo('<a href="rules.php" class="backLink">Go Back</a>&nbsp;|&nbsp;');
 ?>
-<?=$back_link?>
+<? print_back_button(); ?>

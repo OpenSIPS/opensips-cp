@@ -23,6 +23,8 @@
  
  require("template/header.php");
  include("lib/db_connect.php");
+ require("../../../common/cfg_comm.php");
+
  $table=$config->table_groups;
  $current_page="current_page_groups";
  

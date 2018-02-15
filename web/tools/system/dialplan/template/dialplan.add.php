@@ -148,8 +148,7 @@ $match_op_sel.= '</select>';
  </tr>
 </table>
 </form>
-<?=$back_link?>
-
+<? print_back_button(); ?>
 <?php
 
 function display_attrs_cb()

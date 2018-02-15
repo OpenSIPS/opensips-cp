@@ -44,7 +44,7 @@ $dpid=$_POST['dialplan_id'];
  </tr>
 </table>
 </form>
-<?=$back_link?>
+<? print_back_button(); ?>
 
 <?php/*
  $sql = "SELECT * FROM ".$table.

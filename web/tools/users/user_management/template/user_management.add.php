@@ -79,4 +79,4 @@
 </table>
 </form>
 <br>
-<?=$back_link?>
+<? print_back_button(); ?>

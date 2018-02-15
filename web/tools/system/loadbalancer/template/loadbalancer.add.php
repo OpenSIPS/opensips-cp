@@ -57,5 +57,4 @@
 
 	</table>
 </form>
-<?=$back_link?>
-
+<? print_back_button(); ?>

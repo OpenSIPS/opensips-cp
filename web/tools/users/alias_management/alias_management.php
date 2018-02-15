@@ -24,6 +24,7 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 require("../../../../config/tools/users/alias_management/local.inc.php");
+require("../../../common/cfg_comm.php");
 include("lib/db_connect.php");
 foreach ($config->table_aliases as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);

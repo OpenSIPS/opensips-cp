@@ -23,6 +23,7 @@
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 include("lib/db_connect.php");
+require("../../../common/cfg_comm.php");
 
 $table=$config->table_clusterer;
 $current_page="current_page_address";

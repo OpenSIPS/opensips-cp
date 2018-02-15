@@ -42,4 +42,4 @@
  </tr>
 </table>
 <br>
-<?=$back_link?>
+<? print_back_button(); ?>
