@@ -114,19 +114,6 @@ a.menuItemSelect:hover {
 	text-decoration: none;
 }
 
-.searchTitle {
-	background: #d1e8ff; /* Old browsers */
-	background: -moz-linear-gradient(top, #d1e8ff 0%, #bfe8f9 34%, #8acff2 70%, #5eaeff 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8ff), color-stop(34%,#bfe8f9), color-stop(70%,#8acff2), color-stop(100%,#5eaeff)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1e8ff', endColorstr='#5eaeff',GradientType=0 ); /* IE6-9 */
-	border: #999999 1px solid;
-	background-color: #99ccff;
-	font-weight: bold;
-}
 
 .formInfo {
 	font-style: italic;
@@ -144,62 +131,13 @@ a.menuItemSelect:hover {
 	color: #000000;
 }
 
-.ButtonLink {
-	padding:0px 18px 0px 18px;
-	border-top: 1px solid #ffffff;
-	border: #aaaaaa 1px solid;
-	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#fafafa));
-	background: -moz-linear-gradient(top,  #ececec,  #eaeaea);
-	background-color: #dddddd;
-	font-size: 9px;
-	font-weight: bold;
-	color: #000000;
-	text-shadow: 1px 1px 0px #fff;
-	-moz-border-radius:5px;  
-	border-radius: 5px;  
-	-webkit-border-radius: 5px;
-	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	text-decoration: none;
-}
-
-.ButtonLink:hover {
-	background: #d2d2d2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#d2d2d2), to(#dfdfdf));
-	background: -moz-linear-gradient(top,  #d2d2d2,  #dfdfdf);	
-}
-
 .pageTitle {
    font-size: 12px;
 	color: #ff0000;
 	font-weight: bold;
 }
 
-.searchRecord {
-	padding:2px 14px 2px 14px;
-	border-top: 1px solid #ffffff;
-	border-bottom:1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-
-	background: #f6f6f6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
-	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
-}
-
 .listRecord {
-	padding:2px 14px 2px 14px;
-	border-top: 1px solid #ffffff;
-	border-bottom:1px solid #e0e0e0;
-	border-left: 1px solid #e0e0e0;
-
-	background: #f6f6f6;
-	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
-	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
-}
-
-.dataRecord {
 	padding:2px 14px 2px 14px;
 	border-top: 1px solid #ffffff;
 	border-bottom:1px solid #e0e0e0;
@@ -220,60 +158,11 @@ a.menuItemSelect:hover {
 	color: #000000;
 	width: 200px;
 }
-.searchButton {
-	padding:0px 18px 0px 18px;
-	border-top: 1px solid #ffffff;
-	border: #aaaaaa 1px solid;
-	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#fafafa));
-	background: -moz-linear-gradient(top,  #ececec,  #eaeaea);
-	background-color: #dddddd;
-	font-size: 9px;
-	font-weight: bold;
-	color: #000000;
-	text-shadow: 1px 1px 0px #fff;
-	-moz-border-radius:5px;  
-	border-radius: 5px;  
-	-webkit-border-radius: 5px;
-	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-}
 
-.searchButton:hover {
-	background: #d2d2d2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#d2d2d2), to(#dfdfdf));
-	background: -moz-linear-gradient(top,  #d2d2d2,  #dfdfdf);	
-}
-
-
-.dataTitle {
-	background: #d1e8ff; /* Old browsers */
-	background: -moz-linear-gradient(top, #d1e8ff 0%, #bfe8f9 34%, #8acff2 70%, #5eaeff 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8ff), color-stop(34%,#bfe8f9), color-stop(70%,#8acff2), color-stop(100%,#5eaeff)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* IE10+ */
-	background: linear-gradient(to bottom, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* W3C */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1e8ff', endColorstr='#5eaeff',GradientType=0 ); /* IE6-9 */
-	border: #999999 1px solid;
-	background-color: #99ccff;
-	font-weight: bold;
-}
 
 .timeRecord {
 	font-size: 10px;
 	font-weight: bold;
-}
-.dataInput {
-	border: #999999 1px solid;
-	padding-top: 1px;
-	padding-bottom: 1px;
-	padding-left: 2px;
-	margin: 1px;
-	font-size: 12px;
-	color: #000000;
-	width: 200px;
 }
 .dataInputCustom {
 	border: #999999 1px solid;
@@ -318,40 +207,6 @@ a.pageList:hover {
 	font-size: 10px;
 	color: #ff0000;
 	text-decoration: none;
-}
-
-.formButton {
-	padding:0px 18px 0px 18px;
-	border-top: 1px solid #ffffff;
-	border: #aaaaaa 1px solid;
-	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#fafafa));
-	background: -moz-linear-gradient(top,  #ececec,  #eaeaea);
-	background-color: #dddddd;
-	font-size: 9px;
-	font-weight: bold;
-	color: #000000;
-	text-shadow: 1px 1px 0px #fff;
-	-moz-border-radius:5px;  
-	border-radius: 5px;  
-	-webkit-border-radius: 5px;
-	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-}
-
-.formButton:hover {
-	background: #d2d2d2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#d2d2d2), to(#dfdfdf));
-	background: -moz-linear-gradient(top,  #d2d2d2,  #dfdfdf);	
-}
-
-.formButton:disabled {
-	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#fafafa));
-	background: -moz-linear-gradient(top,  #ececec,  #eaeaea);
-	background-color: #dddddd;
-	color: #aaaaaa;
 }
 
 a.backLink {
@@ -470,4 +325,139 @@ fieldset legend {
     visibility: visible;
     opacity: 1;
 }
+/* ================================================== */
+/* ================================================== */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
 
+body, table {
+    font-family: 'Montserrat', sans-serif;
+    color: #33333;
+    font-size: 12px;
+}
+
+table {
+    width: 600px
+}
+
+table.search-area > tbody > tr > td:first-child{
+	padding-left: 30px;
+}
+table.search-area > tbody > tr > td:last-child{
+	padding-right:  30px;
+}
+.search-acl-line{
+background: #e9ecef;
+    border-bottom: 3px solid #d7dadc;
+}
+.ac-search-lTitle {
+	text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 20px;
+    color: #1cbe9a;
+padding-top: 30px;
+
+}
+
+.addadminTitle, .add-title {
+    text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 20px;
+    color: #1cbe9a;
+}
+
+.ButtonLink, .searchButton, .formButton{
+    padding: 10px 20px;
+    border: 1px solid #1cbe9a;
+    background: #1cbe9a;
+    color: #fff;
+    border-radius: 5px;
+    margin: 20px;
+    box-shadow: 0 3px 5px #d2d9e0;
+    cursor: pointer;
+    font-weight: 600;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+text-decoration: none;
+display: inline-block;
+margin: 20px 0;
+}
+
+    .ButtonLink:hover, .searchButton:hover, .formButton:hover {
+        background: #16a686
+    }
+
+    .searchButton:last-child {
+        background: #fff;
+        color: #1cbe9a;
+        border-color: #fff;
+    }
+
+    .formButton[name="delete"] {
+        background: #f26a60;
+        border-color: #f26a5f;
+	float: right;
+	margin-right: -30px;
+    }
+
+        .formButton[name="delete"]:hover {
+            background: #f6a29a;
+            border-color: #f6a29a;
+        }
+
+    .searchButton:last-child:hover {
+        color: #16a686
+    }
+
+.searchRecord, .dataRecord {
+    font-weight: bold;
+    color: #8194a7;
+}
+
+    .searchRecord:first-child, .dataRecord:first-child {
+        width: 65px;
+    }
+
+.searchInput, .dataSelect, .dataInput {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #e9ecef;
+    width: 100%;
+}
+
+p, li, td, .menu_active, input, button {
+    font-family: 'Montserrat', sans-serif;
+}
+.border-bottom-devider {
+    border-bottom: 3px solid #d7dadc;
+}
+.breadcrumb{
+border-bottom: 1px solid #ccc;
+    padding-bottom: 13px;
+    color: #506c89;
+}
+.menuItem {
+	font-size: 14px;
+}
+a.menuItem {
+	color: #8896a3;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	color: #9869ed;
+	text-decoration: none;
+}
+.menuItemSelect {
+	font-weight: bold;
+font-size: 14px;
+
+}
+a.menuItemSelect {
+	color: #9869ed;
+	text-decoration: none;
+}
+a.menuItemSelect:hover {
+	color: #9869ed;
+	text-decoration: none;
+}

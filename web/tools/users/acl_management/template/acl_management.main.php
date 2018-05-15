@@ -45,32 +45,34 @@ if(!$_SESSION['read_only']){
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table class="search-area" width="50%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<td colspan="2" height="10" class="aclTitle"></td>
+	<td colspan="2" height="10" class="aclTitle ac-search-lTitle">Search Area</td>
 </tr>
 <tr>
-<td class="searchRecord" align="left">Username</td>
-<td class="searchRecord" width="200"><input type="text" name="acl_username"
-value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
-<tr>
-<td class="searchRecord" align="left">Domain</td>
-<td class="searchRecord" width="200"> <?php print_domains("acl_domain",$search_adomain)?></td>
+	<td class="searchRecord">Username</td>
+	<td class="searchRecord"><input type="text" name="acl_username"
+	value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 <tr>
-<td class="searchRecord" align="left">Group</td>
-<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
+	<td class="searchRecord">Domain</td>
+	<td class="searchRecord"> <?php print_domains("acl_domain",$search_adomain)?></td>
 </tr>
+<tr>
+	<td class="searchRecord">Group</td>
+	<td class="searchRecord"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
 </tr>
+
 <tr height="10">
-<td colspan="2" class="searchRecord" align="center">
-<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
+	<td colspan="2" class="searchRecord search-acl-line" align="center">
+		<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
+		<input type="submit" name="show_all" value="Show All" class="searchButton">
+	</td>
 </tr>
 <?
 if(!$_SESSION['read_only']){
-echo('<tr height="10">
-<td colspan="2" class="searchRecord" align="center">
+echo('<tr class="" height="10">
+<td colspan="2" class="searchRecord delete-acl-tr" align="center">
 <input type="submit" class="formButton" name="delete" value="Delete ACL" onclick="return confirmDeleteACL()">
 </td>
 </tr>');
@@ -78,16 +80,14 @@ echo('<tr height="10">
 }
 ?>
 
- <tr height="10">
-  <td colspan="2" class="aclTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
+
 
 </table>
 </form>
 
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New &plus;" class="formButton add-new-btn">') ?>
 </form>
 <br>
 
