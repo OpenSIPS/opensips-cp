@@ -52,8 +52,8 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <td class="searchRecord" width="200"><?php print_aliasType($search_atype,TRUE)?></td>
 </tr>
 </tr>
-<tr height="10">
-<td colspan="2" class="searchRecord" align="center">
+<tr height="10" class="">
+<td colspan="2" class="searchRecord border-bottom-devider" align="center">
 <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
 <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
 </tr>

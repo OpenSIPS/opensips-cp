@@ -43,13 +43,13 @@ if($clone =="1"){
 
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly ";?> type="text" name="username" 
+  <td class="dataRecord"><input <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly ";?> type="text" name="username" 
   value="<?=$username?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Domain:</b></td>
-  <td class="dataRecord" width="275"><?php print_domains("domain",'',FALSE)?></td>
+  <td class="dataRecord"><?php print_domains("domain",'',FALSE)?></td>
   <?php if (isset($_SESSION['fromusrmgmt'])) 
   			if ($_SESSION['fromusrmgmt']){ 
 				echo "<script>\n";
@@ -61,25 +61,23 @@ if($clone =="1"){
 
  <tr>
   <td class="dataRecord"><b>Alias Username:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="alias_username"  value="<?=$alias_username?>"maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="alias_username"  value="<?=$alias_username?>"maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
   <td class="dataRecord"><b>Alias Domain:</b></td>
-  <td class="dataRecord" width="275"><?php print_domains("alias_domain",'',FALSE)?></td>
+  <td class="dataRecord"><?php print_domains("alias_domain",'',FALSE)?></td>
  </tr>
  
  <tr>
   <td class="dataRecord"><b>Alias Type:</b></td>
-  <td class="dataRecord" width="275"><?php print_aliasType('',FALSE)?></td>
+  <td class="dataRecord"><?php print_aliasType('',FALSE)?></td>
  </tr>
   
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
+  <td colspan="2" class="dataRecord" align="right"><input type="submit" name="add" value="Add" class="formButton margin-right-0"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
  </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
+
 </table>
 </form>
 <? print_back_button(); ?>

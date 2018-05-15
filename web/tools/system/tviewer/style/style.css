@@ -557,4 +557,36 @@ article.tabs section:target h2 {
 	height: 200px;
 	margin-top: 62px;
 }
+.breadcrumb{
+border-bottom: 1px solid #ccc;
+    padding-bottom: 13px;
+    color: #506c89;
+}
+.menuItem {
+	font-size: 14px;
+}
+a.menuItem {
+	color: #8896a3;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	color: #9869ed;
+	text-decoration: none;
+}
+.menuItemSelect {
+	font-weight: bold;
+font-size: 14px;
 
+}
+a.menuItemSelect {
+	color: #9869ed;
+	text-decoration: none;
+}
+a.menuItemSelect:hover {
+	color: #9869ed;
+	text-decoration: none;
+}
+.menuItems{
+	padding: 20px 0;
+    text-align: left;	
+}

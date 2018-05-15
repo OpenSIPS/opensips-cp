@@ -1,0 +1,494 @@
+=========================== Release 7.2.3 ==============================
+
+2017-07-05  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [abebb28] :
+
+	Remove ANY option in domain select on ADD and EDIT operations
+
+
+2017-07-05  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [c516a04] :
+
+	Avoid ANY in Group/ACL select in Add and Edit forms.
+
+
+2017-07-05  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [3b8ef55] :
+
+	Better content arrangement in the page.
+	Merge per-section tables into a single table
+	Fix the back page link
+
+
+2017-06-30  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [0c1c2ca] :
+
+	Merge pull request #11 from amendiola/patch-1
+	Fixed typo in local.inc.php
+
+
+2017-06-30  Ander Mendiola  <amendiola008 at gmail dot com>
+	* [c8533ea] :
+
+	Fixed typo in local.inc.php
+	Removed typo in the configuration file
+
+
+2017-06-29  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [cbe3e6e] :
+
+	Create LICENSE
+
+
+2017-06-29  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [4172db8] :
+
+	Remove "ANY" option in edit/add forms for selecting domains and alias types.
+	As there is no full data validation (on form submit), if ANY is selected, the resulting DB query will be broken.
+
+	Reported in #10.
+
+
+2017-06-29  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [6293258] :
+
+	Removed swap file from git :)
+
+
+2017-06-29  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [c1bbf9f] :
+
+	Fixed "LIMIT x,y" queries.
+	As it is not fully SQL compliant (postgres does not like it), such filters were migrated to "LIMTI Y OFFSET X"
+
+	Part of issue #10.
+
+
+2017-06-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [9fd9c4e] :
+
+	Removed old bogus code
+
+
+2017-06-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [77a64a3] :
+
+	Fix queries - use simple quotes for value and not double quotes
+	While mysql works, postgres does not like it.
+
+
+2017-06-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [5fd598f] :
+
+	Fix count(*) queries to work both on mysql and postgres.
+	Avoid using queryAll for count(*) as mysql index it as 'count(*)' while postgres as 'count' (in the resulting assoc array) => replaced with queryOne()
+
+
+2017-06-26  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [879ffde] :
+
+	Fix search paging.
+	As search fields are normally reset during a non-search action, keep the search action in the paging links
+
+
+2017-06-26  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [7a5a3f0] :
+
+	Fixed DB queries for User ACLs displaying.
+	Use count(*) to get the number of records.
+	Remove bogus "order by" and "asc" when doing count(*)
+	Avoid bogus "where" filters as  " column like '%' "
+
+
+2017-06-26  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [7fc7feb] :
+
+	Fixed DB queries for User Aliases displaying.
+	Use count(*) to get the number of records.
+	Remove bogus "order by" and "asc" when doing count(*)
+	Avoid bogus "where" filters as  " column like '%' "
+
+
+2017-06-23  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [53b7d4e] :
+
+	Linker Homer as defaulr tracer for the CDRs in CDRviewer
+
+
+2017-06-23  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [4d2a95c] :
+
+	Avoid "order by" and "asc" when doing select count(*
+
+
+2017-06-22  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [a19abe7] :
+
+	Proper extract and report error on login DB query
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [b77a96b] :
+
+	Fix regexp for matching LB resource
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [283dc0e] :
+
+	Get rid of php notice on unset variable
+
+
+2017-06-21  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [fa9fd04] :
+
+	Merge pull request #8 from modernist/warningfixes
+	fixed some PHP warnings on login page
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [b69c72a] :
+
+	Only JSON is allowed for MI backend
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [4f6de31] :
+
+	Remove unused/bogus files
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [0e4ef99] :
+
+	Make search box larger for better layout
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [75ffa5d] :
+
+	Fix syntax error (related to the prev cleanup)
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [7eaeeb3] :
+
+	Big cleanup on how Copyright text is inserted and removing the $Id$ SVN tokens
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [ad39872] :
+
+	Align dlg_end_dlg to the new interface
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [0af2222] :
+
+	Fix fetching and displaying Carrier status in "details" window
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [11bfabe] :
+
+	Fix button and MI interaction for global on/off tracing switch
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [b9b9654] :
+
+	Removed the $mi_type from the mi_command() prototype
+	More cleanup on the old FIFO related code
+
+
+2017-06-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [5c6f0df] :
+
+	Remove FIFO/XML support for MI - use only JSON from now on.
+
+
+2017-06-20  root  <root@debian>
+	* [b3b920a] :
+
+	Added notification text on delete
+
+
+2017-06-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [36c38a5] :
+
+	Migrated LB to 2.3, tooltips, form validation, common CSS
+	Plus a lot of cleanup and fixes
+	Dropped support for non-json backend
+
+
+2017-06-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [e5ab095] :
+
+	Drop "details" - you cannot provide cluster info from the perspective of a single node. Added In-use field in DB provisioning.
+
+
+2017-06-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [8e2a93a] :
+
+	Added state listing/provisioning for cluster nodes
+
+
+2017-06-16  Kostas Stroggylos  <stroggylos at gmail dot com>
+	* [cd5e3ac] :
+
+	fixed some PHP warnings on login page
+
+
+2017-06-15  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [90797b0] :
+
+	Fix regexp - a dispatcher entry may not have port
+
+
+2017-06-15  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [f6d9c54] :
+
+	More work on migrating to 2.3
+	Fixes
+	Add "max_ping_retries"
+	Align to the new format of the clusterer_reload MI command
+
+
+2017-06-15  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [0c4fb72] :
+
+	Much nicer printing of JSON output of MI cmds
+
+
+2017-06-15  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [5c75282] :
+
+	Fix extra quote
+
+
+2017-06-15  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [60fe6b3] :
+
+	Upgrade "clusterer" module
+	add form validation and tooltip
+	align to the new DB schema
+
+
+2017-06-14  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [b77521c] :
+
+	Fix name of the error variable
+
+
+2017-06-13  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [114f75d] :
+
+	Do not display the DB id (auto-increment) as it is uselessi (tmi)
+
+
+2017-06-13  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [5bbffe5] :
+
+	Fix action logs
+
+
+2017-06-13  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [8559f81] :
+
+	Migrated to shared form lib (tooltips + validation) and shared CSS
+	Fixed DB operations, use IDs rather than domain names as keys
+
+
+2017-06-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [2480cc2] :
+
+	Moved to a common, shared CSS for tools
+
+
+2017-06-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [ad5b821] :
+
+	Cleanup of the dispatcher CSS
+
+
+2017-06-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [811f399] :
+
+	Merge edit and add forms; cleanup main page
+
+
+2017-06-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [ba45c2f] :
+
+	The 'select' element in form may take a default value
+
+
+2017-06-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [33c906b] :
+
+	Share the "dispatcher destination" form between Add and Edit actions
+
+
+2017-06-09  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [a006b41] :
+
+	Migrate the dispatcher add destination to the new form
+
+
+2017-06-09  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [e97cd98] :
+
+	Added collection of generic functions for generating input forms with auto validation and tooltips
+
+
+2017-06-09  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [577c812] :
+
+	Added style for disabled form button and for tooltips
+
+
+2017-06-09  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [690bba4] :
+
+	Added some more images used in form validation
+
+
+2017-03-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f0c8aa6] :
+
+	Fixed error handling and data validation for address records
+
+
+2017-03-17  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [de88330] :
+
+	Remove bogus duplicate tests for address table
+
+
+2017-03-03  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [dca59e9] :
+
+	Fix wrong [in]active.gif to *.png (shared images)
+	Reported by Jeff Wilkie
+
+
+2017-02-21  Răzvan Crainea  <razvan at opensips dot org>
+	* [97ca9f5] :
+
+	dialplan: fix escaping when modifying
+	Fixes *_exp escaping using the mysql_real_escape_string() function, which was passing a bogus $link descriptor.
+
+	Thanks go to @stefancn for reporting this.
+	Closes #4
+
+
+2017-02-15  Liviu Chircu  <liviu at opensips dot org>
+	* [f03fd90] :
+
+	box definition: Fix example JSON connector URL
+
+
+2017-01-06  Razvan Crainea  <razvan at opensips dot org>
+	* [4a60700] :
+
+	lb: remove probing modes from file and add them static
+
+
+2016-12-15  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [05772d1] :
+
+	Add missing include file
+	get_all_proxys_by_assoc_id() is provided by "../../../common/cfg_comm.php"
+
+
+2016-12-09  Razvan Crainea  <razvan at opensips dot org>
+	* [e8d6001] :
+
+	tviewer: use proper key name in edit
+
+
+2016-12-09  Razvan Crainea  <razvan at opensips dot org>
+	* [c699978] :
+
+	permissions: initialize variables
+
+
+2016-12-09  Razvan Crainea  <razvan at opensips dot org>
+	* [8157010] :
+
+	permissions: show error only if exists
+
+
+2016-12-09  Razvan Crainea  <razvan at opensips dot org>
+	* [477e357] :
+
+	web/cfg: verify if system exists
+
+
+2016-12-09  Razvan Crainea  <razvan at opensips dot org>
+	* [c9f6bfb] :
+
+	tviewer: align the look & feal to the other tools
+
+
+2016-12-09  Razvan Crainea  <razvan at opensips dot org>
+	* [315bf79] :
+
+	config: ident module config file
+
+
+2016-12-09  Răzvan Crainea  <razvan at opensips dot org>
+	* [ad629e9] :
+
+	Fix db index name for dr_gateways.
+	Reported by Max Muehlbronner.
+	Close #2.
+
+
+2016-10-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [cccc1e9] :
+
+	Fixed monit tool in reading permissions.
+	get_priv() function was not accessible from the tool anymore.
+	Improve some error reporting when connecting to MONIT web interface.
+
+
+2016-10-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [2f0cce5] :
+
+	Revert some default values.
+	Chnaged by mistake via previous commit
+
+
+2016-10-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [b190b7c] :
+
+	Fixed broken path for spacer images.
+
+
+2016-10-11  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [c38ad72] :
+
+	Better examples for the MI URLs (depending on the backend)
+
+
+2016-10-11  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [abafe75] :
+
+	Update INSTALL
+	libcurl for php is required if using MI JSON backend
+
+
+2016-09-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [264b63c] :
+
+	Set attributes mode by default to string (more generic)
+
+
+2016-09-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [1b012aa] :
+
+	Added HOMER authentication via GET param (versus cookies)
+
+
+=========================== Release 6.2 ==============================

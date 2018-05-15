@@ -3,7 +3,6 @@ body, table {
 	color:#33333;
 	font-size:12px;
 }
-
 select {
    background: #fff;
    border: none;
@@ -165,33 +164,6 @@ a.menuItemSelect:hover {
 	font-size: 9px;
 	font-weight: bold;
 	color: #000000;
-}
-
-.ButtonLink {
-	padding:0px 18px 0px 18px;
-	border-top: 1px solid #ffffff;
-	border: #aaaaaa 1px solid;
-	background: #fafafa;
-	background: -webkit-gradient(linear, left top, left bottom, from(#fcfcfc), to(#fafafa));
-	background: -moz-linear-gradient(top,  #ececec,  #eaeaea);
-	background-color: #dddddd;
-	font-size: 9px;
-	font-weight: bold;
-	color: #000000;
-	text-shadow: 1px 1px 0px #fff;
-	-moz-border-radius:5px;  
-	border-radius: 5px;  
-	-webkit-border-radius: 5px;
-	-webkit-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	-moz-box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
-	text-decoration: none;
-}
-
-.ButtonLink:hover {
-	background: #d2d2d2;
-	background: -webkit-gradient(linear, left top, left bottom, from(#d2d2d2), to(#dfdfdf));
-	background: -moz-linear-gradient(top,  #d2d2d2,  #dfdfdf);	
 }
 
 .pageTitle {
@@ -567,4 +539,149 @@ article.tabs section:target h2 {
 	height: 200px;
 	margin-top: 62px;
 }
+/* ================================================== */
+/* ================================================== */
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,700');
 
+body, table {
+    font-family: 'Montserrat', sans-serif;
+    color: #33333;
+    font-size: 12px;
+}
+
+table {
+    width: 600px
+}
+
+table.search-area > tbody > tr > td:first-child{
+	padding-left: 30px;
+}
+table.search-area > tbody > tr > td:last-child{
+	padding-right:  30px;
+}
+.search-acl-line{
+background: #e9ecef;
+    border-bottom: 3px solid #d7dadc;
+}
+.ac-search-lTitle {
+	text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 20px;
+    color: #1cbe9a;
+padding-top: 30px;
+
+}
+
+.addadminTitle, .add-title {
+    text-align: left;
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 20px;
+    color: #1cbe9a;
+}
+
+.ButtonLink, .searchButton, .formButton{
+    padding: 10px 20px;
+    border: 1px solid #1cbe9a;
+    background: #1cbe9a;
+    color: #fff;
+    border-radius: 5px;
+    margin: 20px;
+    box-shadow: 0 3px 5px #d2d9e0;
+    cursor: pointer;
+    font-weight: 600;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+text-decoration: none;
+display: inline-block;
+margin: 20px 0;
+}
+
+    .ButtonLink:hover, .searchButton:hover, .formButton:hover {
+        background: #16a686
+    }
+
+    .searchButton:last-child{
+        background: #fff;
+        color: #1cbe9a;
+        border-color: #fff;
+    }
+.searchButton:first-child{
+        background: #1cbe9a;
+        color: #fff;
+        border-color: #1cbe9a;
+    }
+    .searchButton:last-child:hover {
+        color: #16a686
+    }
+	.searchButton:first-child:hover{
+        background: #16a686;
+	color: #fff;
+    }
+  .formButton[name="delete"], .searchButton[name="delete"] {
+        background: #f26a60;
+        border-color: #f26a5f;
+	float: right;
+    }
+
+        .formButton[name="delete"]:hover, .searchButton[name="delete"]:hover {
+            background: #f6a29a;
+            border-color: #f6a29a;
+        }
+
+.searchRecord, .dataRecord {
+    font-weight: bold;
+    color: #8194a7;
+}
+
+    .searchRecord:first-child, .dataRecord:first-child {
+        width: 65px;
+    }
+
+.searchInput, .dataSelect, .dataInput {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #e9ecef;
+    width: 100%;
+}
+
+p, li, td, .menu_active, input, button {
+    font-family: 'Montserrat', sans-serif;
+}
+.border-bottom-devider {
+    border-bottom: 3px solid #d7dadc;
+}
+.breadcrumb{
+border-bottom: 1px solid #ccc;
+    padding-bottom: 13px;
+    color: #506c89;
+}
+.menuItem {
+	font-size: 14px;
+}
+a.menuItem {
+	color: #8896a3;
+	text-decoration: none;
+}
+a.menuItem:hover {
+	color: #9869ed;
+	text-decoration: none;
+}
+.menuItemSelect {
+	font-weight: bold;
+font-size: 14px;
+
+}
+a.menuItemSelect {
+	color: #9869ed;
+	text-decoration: none;
+}
+a.menuItemSelect:hover {
+	color: #9869ed;
+	text-decoration: none;
+}
+.menuItems{
+	padding: 20px 0;
+    text-align: left;	
+}
