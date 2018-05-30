@@ -23,7 +23,7 @@
 <form action="<?=$page_name?>?action=add_verify" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="addadminTitle">Add New Admin</td>
+  <td colspan="2" height="10" class="mainTitle">Add New Admin</td>
  </tr>
  <tr>
   <td class="dataRecord" >First Name</td>
