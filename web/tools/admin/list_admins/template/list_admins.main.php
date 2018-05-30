@@ -40,9 +40,9 @@ if(!$_SESSION['read_only']){
 }
 ?>
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="listadminsTitle"></td>
+  <td colspan="2" height="10" class="listTitle"></td>
  </tr>
  <tr>
   <td class="searchRecord">Username</td>
@@ -66,7 +66,7 @@ if(!$_SESSION['read_only']){
  </tr>
 
  <tr height="10">
-  <td colspan="2" class="listadminsTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="listTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -75,14 +75,14 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listadminsTitle">Username</th>
-  <th class="listadminsTitle">Name</th>
-  <th class="listadminsTitle">Access</th>
+  <th class="listTitle">Username</th>
+  <th class="listTitle">Name</th>
+  <th class="listTitle">Access</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="listadminsTitle">Edit Info</th>
-  		<th class="listadminsTitle">Delete</th>');
+  	echo('<th class="listTitle">Edit Info</th>
+  		<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -129,10 +129,10 @@ else
 			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
 		}
 ?>
- <tr align = "center">
+ <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['first_name'].' '.$resultset[$i]['last_name']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $edit_tools_link?></td>
+  <td class="<?=$row_style?>" align="center">&nbsp;<?php print $edit_tools_link?></td>
 <?php
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
@@ -147,11 +147,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="listadminsTitle">
+  <th colspan="<?=$colspan?>" class="listTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

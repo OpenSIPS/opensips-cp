@@ -37,9 +37,11 @@ $permissions=array();
 ?>
 <form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
-
+ <tr align="center">
+ <td colspan="3" height="10" class="mainTitle">Permissions for admin "<?=$_GET['uname']?>"</td>
+ </tr>
   <?php
-	$sql = 'select available_tools,permissions from '. $table .' where username="'.$_GET['uname'].'" limit 1';
+	$sql = 'select username,available_tools,permissions from '. $table .' where username="'.$_GET['uname'].'" limit 1';
 	$resultset = $link->queryAll($sql);
 	if(PEAR::isError($resultset)) {
         	die('Failed to issue query, error message : ' . $resultset->getMessage());
@@ -81,7 +83,7 @@ $permissions=array();
         foreach ($modules as $key => $value) {
   ?>
 	   <tr>
-	     <td colspan="3" class="listadminsTitle" align="center">Tools and Permissions for <?php print $key?> Section: </td>
+	     <td colspan="3" class="listTitle" align="center"><br>Tools and Permissions for <?php print $key?> Section: </td>
 	   </tr>
 	
 	<?php
@@ -136,18 +138,18 @@ if ($_SESSION['read_only']) {
 if (!$_SESSION['read_only']) {
 ?>
   <tr>
-   <td colspan="3" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
+   <td colspan="3">
+    <table cellspacing=20>
+      <tr>
+        <td class="dataRecord" align="right" width="50%"><input type="submit" name="save" value="Save" class="formButton"></td>
+	<td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
   </tr>
 <?php
  }
 ?>
-  <tr height="10">
-   <td colspan="3" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
-  </tr>
   </table>
 
 </form>
-
-<br>
-<? print_back_button(); ?>
 
