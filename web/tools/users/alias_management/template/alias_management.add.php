@@ -38,7 +38,7 @@ if($clone =="1"){
 <form id="addnewalias" action="<?=$page_name?>?action=add_verified&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="aliasTitle">New Alias</td>
+  <td colspan="2" class="mainTitle">New Alias</td>
  </tr>
 
  <tr>
@@ -75,9 +75,14 @@ if($clone =="1"){
  </tr>
   
  <tr>
-  <td colspan="2" class="dataRecord" align="right"><input type="submit" name="add" value="Add" class="formButton margin-right-0"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+	<td class="dataRecord" align="right" width="50%"><input type="submit" name="add" value="Add" class="formButton margin-right-0"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
+        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
  </tr>
 
 </table>
 </form>
-<? print_back_button(); ?>

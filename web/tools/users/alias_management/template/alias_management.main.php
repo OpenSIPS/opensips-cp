@@ -29,9 +29,9 @@ $search_atype=$_SESSION['alias_type'];
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<td colspan="2" height="10" class="aliasTitle"></td>
+<td colspan="2" height="10" class="mainTitle"></td>
 </tr>
 <tr>
 <td class="searchRecord" align="left">Username</td>
@@ -60,28 +60,30 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <tr height="10">
 <td colspan="2" class="aliasTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
 </tr>
-
 </table>
 </form>
+
 <br>
+
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Alias" class="formButton">') ?>
 </form>
+
 <br>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<th class="aliasTitle">ID</th>
-<th class="aliasTitle">Alias Username</th>
-<th class="aliasTitle">Alias Domain</th>
-<th class="aliasTitle">Alias Type</th>
-<th class="aliasTitle">Username</th>
-<th class="aliasTitle">Domain</th>
+<th class="listTitle">ID</th>
+<th class="listTitle">Alias Username</th>
+<th class="listTitle">Alias Domain</th>
+<th class="listTitle">Alias Type</th>
+<th class="listTitle">Username</th>
+<th class="listTitle">Domain</th>
 <?
 if(!$_SESSION['read_only']){
 
-echo('<th class="aliasTitle">Edit</th>
-	<th class="aliasTitle">Delete</th>');
+echo('<th class="listTitle">Edit</th>
+	<th class="listTitle">Delete</th>');
 }
 ?>
 </tr>
@@ -174,11 +176,11 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="aliasTitle">
+  <th colspan="<?=$colspan?>" class="listTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">
-       &nbsp;Page:
+       Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
@@ -203,6 +205,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
       <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
+  </th>
+ </tr>
+</table>
+
 <?php 
 } else {
 
@@ -265,11 +271,11 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="aliasTitle">
+  <th colspan="<?=$colspan?>" class="listTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">
-       &nbsp;Page:
+       Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
