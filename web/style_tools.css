@@ -360,13 +360,12 @@ a.backLink:hover {
 
 .dialog {
 	display: table;
-    position:fixed;
-    background-color:trasparent;
-    z-index:12;
+	position:fixed;
+	background-color:trasparent;
+	z-index:12;
 }
 
 fieldset {
-    font-family: sans-serif;
     border: 2px solid #99ccff;
     background: transparent;
 	background-color: rgba(255,255,255,0.35);
@@ -384,18 +383,11 @@ fieldset {
 }
 
 fieldset legend {
-    background: #99ccff;
-	background: #d1e8ff; /* Old browsers */
-    background: -moz-linear-gradient(top, #d1e8ff 0%, #bfe8f9 34%, #8acff2 70%, #5eaeff 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d1e8ff), color-stop(34%,#bfe8f9), color-stop(70%,#8acff2), color-stop(100%,#5eaeff)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #d1e8ff 0%,#bfe8f9 34%,#8acff2 70%,#5eaeff 100%); /* W3C */
+    background: #1cbe9a;
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d1e8ff', endColorstr='#5eaeff',GradientType=0 ); /* IE6-9 */
-    color: black;
+    color: white;
     padding: 5px 10px ;
-    font-size: 10px;
+    font-size: 12px;
 	font-weight: bold;
 	-moz-border-radius:7px;  
 	border-radius: 7px;  
