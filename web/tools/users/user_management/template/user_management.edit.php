@@ -30,7 +30,7 @@ $link->disconnect();
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
- <td colspan="2" class="listTitle" align="center">Edit User Information</td>
+ <td colspan="2" class="mainTitle" align="center">Edit User Information</td>
  </tr>
 
  <tr>
@@ -69,16 +69,16 @@ $link->disconnect();
   <td class="dataRecord" width="200"><input type="password" name="r_passwd" maxlength="128" class="dataInput"></td>
  </tr>
 
-
- <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
+<tr>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+	<td class="dataRecord" align="right" width="50%"><input type="submit" name="save" value="Save" class="formButton"></td>
+        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
  </tr>
 
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
 </table>
 </form>
-<br>
-<? print_back_button(); ?>
 

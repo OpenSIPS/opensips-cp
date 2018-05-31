@@ -100,10 +100,7 @@ if ( $users == "online_usr" ) {
 }
   ?>
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="350" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="listTitle"></td>
- </tr>
+<table  class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord" align="left">Username</td>
   <td class="searchRecord" width="200"><input type="text" name="lst_uname" 
@@ -137,11 +134,6 @@ if ( $users == "online_usr" ) {
   <td colspan="2" class="searchRecord" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
- </tr>
-
-
- <tr height="10">
-  <td colspan="2" class="listTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -241,8 +233,7 @@ else
 
 <?php
 	foreach ( $config->subs_extra as $key => $value ) {
-    	echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
-		$colspan++;
+    		echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
 	}
 ?>
 
@@ -275,11 +266,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="listTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>" >
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
@@ -301,7 +291,7 @@ else
        }
        ?>
       </th>
-      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
+      <th align="right" >Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
   </th>
