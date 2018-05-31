@@ -147,8 +147,8 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="listTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
       <th align="left">Page:
        <?php

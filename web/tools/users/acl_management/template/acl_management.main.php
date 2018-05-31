@@ -157,11 +157,10 @@ echo('<th class="listTitle">Edit</th>
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="listTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="ageActive">0</font>&nbsp;');
        else {
