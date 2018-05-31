@@ -45,40 +45,32 @@ if(!$_SESSION['read_only']){
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table class="search-area" width="50%" cellspacing="2" cellpadding="2" border="0">
-<tr align="center">
-	<td colspan="2" height="10" class="aclTitle ac-search-lTitle">Search Area</td>
-</tr>
+<table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
 <tr>
-	<td class="searchRecord">Username</td>
-	<td class="searchRecord"><input type="text" name="acl_username"
+	<td class="searchRecord" align="left">Username</td>
+	<td class="searchRecord" width="200"><input type="text" name="acl_username"
 	value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 <tr>
-	<td class="searchRecord">Domain</td>
-	<td class="searchRecord"> <?php print_domains("acl_domain",$search_adomain)?></td>
+	<td class="searchRecord" align="left">Domain</td>
+	<td class="searchRecord" width="200"> <?php print_domains("acl_domain",$search_adomain)?></td>
 </tr>
 <tr>
-	<td class="searchRecord">Group</td>
-	<td class="searchRecord"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
+	<td class="searchRecord" align="left">Group</td>
+	<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
 </tr>
 
 <tr height="10">
-	<td colspan="2" class="searchRecord search-acl-line" align="center">
+	<td colspan="2" class="searchRecord border-bottom-devider" align="center">
 		<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-		<input type="submit" name="show_all" value="Show All" class="searchButton">
-	</td>
-</tr>
+		<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;
 <?
 if(!$_SESSION['read_only']){
-echo('<tr class="" height="10">
-<td colspan="2" class="searchRecord delete-acl-tr" align="center">
-<input type="submit" class="formButton" name="delete" value="Delete ACL" onclick="return confirmDeleteACL()">
-</td>
-</tr>');
-
+	echo('<input type="submit" class="formButton" name="delete" value="Delete" onclick="return confirmDeleteACL()">');
 }
 ?>
+	</td>
+</tr>
 
 
 
@@ -87,21 +79,21 @@ echo('<tr class="" height="10">
 
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New &plus;" class="formButton add-new-btn">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New ACL" class="formButton add-new-btn">') ?>
 </form>
 <br>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<th class="aclTitle">ID</th>
-<th class="aclTitle">Username</th>
-<th class="aclTitle">Domain</th>
-<th class="aclTitle">Group</th>
+<th class="listTitle">ID</th>
+<th class="listTitle">Username</th>
+<th class="listTitle">Domain</th>
+<th class="listTitle">Group</th>
 <?
 if(!$_SESSION['read_only']){
 
-echo('<th class="aclTitle">Edit</th>
-	<th class="aclTitle">Delete</th>');
+echo('<th class="listTitle">Edit</th>
+	<th class="listTitle">Delete</th>');
 }
 ?>
 </tr>
@@ -165,13 +157,13 @@ echo('<th class="aclTitle">Edit</th>
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="aclTitle">
+  <th colspan="<?=$colspan?>" class="listTitle">
     <table width="100%" cellspacing="0" cellpadding="0" border="0">
      <tr>
       <th align="left">
-       &nbsp;Page:
+       Page:
        <?php
-       if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
+       if ($data_no==0) echo('<font class="ageActive">0</font>&nbsp;');
        else {
         $max_pages = $config->results_page_range;
         // start page
