@@ -29,10 +29,7 @@ $search_atype=$_SESSION['alias_type'];
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="350" cellspacing="2" cellpadding="2" border="0">
-<tr align="center">
-<td colspan="2" height="10" class="mainTitle"></td>
-</tr>
+<table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
 <tr>
 <td class="searchRecord" align="left">Username</td>
 <td class="searchRecord" width="200"><input type="text" name="username"
