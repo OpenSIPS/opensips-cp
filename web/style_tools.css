@@ -202,7 +202,6 @@ a.menuItemSelect:hover {
 .formButton[name="delete"] {
 	background: #f26a60;
 	border-color: #f26a5f;
-	float: right;
 	margin-right: -30px;
 }
 
@@ -236,9 +235,16 @@ a.menuItemSelect:hover {
 	padding: 8px;
 	border-radius: 5px;
 	border: 1px solid #e9ecef;
-	width: 100%;
+	width: 100% !important;
+	height: 34px;
 }
 
+.dataSelect {
+	border: #999999 1px solid;
+	font-size: 10px;
+	color: #000000;
+	width: 200px;
+}
 
 
 
