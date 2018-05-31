@@ -69,6 +69,18 @@ table tr:last-child > th:last-child {
 	border-bottom-right-radius:4px;
 }
 */
+
+.pagingTable {
+	width: 100%;
+	font-weight: bold;
+	font-size: 15px;
+	padding-bottom: 10px;
+	padding-bottom: 10px;
+	border-spacing: 0px;
+	border: 0px;
+	color: #1cbe9a;
+}
+
 .ttable th {
 	padding: 1px 0px 1px 10px;
 }
@@ -300,12 +312,12 @@ a.menuItemSelect:hover {
 }
 a.pageList {
 	font-size: 10px;
-	color: #000090;
+	color: #1cbe9a;
 	text-decoration: none;
 }
 a.pageList:hover {
 	font-size: 10px;
-	color: #ff0000;
+	color: #000090;
 	text-decoration: none;
 }
 
