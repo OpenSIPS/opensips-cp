@@ -119,9 +119,11 @@ function show_contacts(username,domain){
     	html = document.documentElement;
 
 		var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+		var width = Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollwidth, html.offsetwidth );
 
 
 		document.getElementById('overlay').style.height = height;
+		document.getElementById('overlay').style.width = width;
 		document.getElementById('overlay').style.display = 'block';
 		document.getElementById('dialog').innerHTML = result;
 		centerMe('dialog')
