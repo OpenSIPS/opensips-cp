@@ -248,6 +248,7 @@ a.menuItemSelect:hover {
 .searchRecord, .dataRecord {
 	font-weight: bold;
 	color: #8194a7;
+	white-space: nowrap;
 }
 
 .searchRecord:first-child, .dataRecord:first-child {
