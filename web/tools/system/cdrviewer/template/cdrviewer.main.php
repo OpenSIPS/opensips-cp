@@ -28,19 +28,7 @@ if ( file_exists("../siptrace") && $config_modules["system"]["modules"]["siptrce
 	$tracer = "siptrace";
 else
 	$tracer = "";
-?>
 
-
-<form action="<?=$page_name?>?action=search" method="post">
-<table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
-<tr>
-    <td align="right"  style="color:#0969b5">
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php print "System / CDRViewer / ".$_SESSION['permission'];?></b>
-    </td>
-</tr>
-</table>
-<hr width="100%" color="#000000">
-<?php
 $search_regexp=$_SESSION['cdrviewer_search_val'];
 $cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
@@ -77,18 +65,15 @@ if 	((($sql_search!=""))) {
 
 ?>
 
-<table width="470" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="searchTitle">Search CDRs by: </td>
- </tr>
-
- 
+<form action="<?=$page_name?>?action=search" method="post">
+<table width="350" class="search-area" cellspacing="2" cellpadding="2" border="0">
 
  <tr>
 
- <td class="searchRecord"><input type="checkbox" name="set_text_regex" value="set" onChange="changeState_cdr_field()" <?php if($search_regexp!="") echo('checked') ?>>CDR field :</td>
+ <td class="searchRecord" style="width:100px!important">
+  <label><input type="checkbox" name="set_text_regex" value="set" onChange="changeState_cdr_field()" <?php if($search_regexp!="") echo('checked') ?>>CDR field</label></td>
   <td class="searchRecord" > 
- <select name="cdr_field" id="select_cdr_field" <?  if ($search_regexp=="") echo 'disabled="true"' ; ?> >
+ <select name="cdr_field" class="dataSelect" style="width:100px!important" id="select_cdr_field" <?  if ($search_regexp=="") echo 'disabled="true"' ; ?> >
  <? if (!isset($cdr_field)) {
 
  } ?>
@@ -109,34 +94,34 @@ if 	((($sql_search!=""))) {
  </select>
 
 
-  <input type="text" name="search_regexp" id="search_regexp" value="<?=$search_regexp?>" maxlength="128" class="searchInput" <?  if ($search_regexp=="")  echo 'disabled="true"' ; ?> ></td>
+  <input type="text" name="search_regexp" style="width:310px!important" id="search_regexp" value="<?=$search_regexp?>" maxlength="128" class="searchInput" <?  if ($search_regexp=="")  echo 'disabled="true"' ; ?> ></td>
 
   </tr>
 
  
  
- <td class="searchRecord"><input type="checkbox" name="set_start" value="set" onChange="changeState('start')" <?php if($search_start!="") echo('checked') ?>>Start Date :</td>
+ <td class="searchRecord"><label><input type="checkbox" name="set_start" value="set" onChange="changeState('start')" <?php if($search_start!="") echo('checked') ?>>Start Date</label?</td>
 
  <td class="searchRecord"><?=print_start_date_time($search_start)?></td>
  
  </tr>
  <tr>
-  <td class="searchRecord"><input type="checkbox" name="set_end" value="set" onChange="changeState('end')" <?php if($search_end!="") echo('checked') ?>>End Date :
+  <td class="searchRecord"><label><input type="checkbox" name="set_end" value="set" onChange="changeState('end')" <?php if($search_end!="") echo('checked') ?>>End Date</label>
   </td>
   <td class="searchRecord"><?=print_end_date_time($search_end)?></td>
  </tr>
 
 
  <tr height="10">
-  <td colspan="3" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="export" value="Export" class="searchButton" onclick="return validate_cdr_export()"></td>
- </tr>
- <tr height="10">
-   <td colspan="2" class="searchTitle"></td>
+  <td colspan="3" class="searchRecord border-bottom-devider" align="center">
+	<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="export" value="Export" class="searchButton" onclick="return validate_cdr_export()">
+ </td>
  </tr>
 
- 
  </table>
-</form><br>
+</form>
 
 <?
 $data_no=$link->queryOne($sql);
@@ -204,12 +189,12 @@ else
  	  <? for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
      
  	  		
- 	  	<th class="Title" align="center"><?echo $show_field[$i][key($show_field[$i])]?></th>
+ 	  	<th class="listTitle" align="center"><?echo $show_field[$i][key($show_field[$i])]?></th>
 
 
  	  <? } ?>
      	   
- 	  	<th class="Title" align="center">Details</th>
+ 	  	<th class="listTitle" align="center">Details</th>
     </tr>
 	
 	<?
@@ -252,11 +237,10 @@ $link->disconnect();
 
 ?>
 <tr>
-  <th colspan="<?print(count($show_field)+1)?>" class="Title">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?print(count($show_field)+1)?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

@@ -84,25 +84,6 @@ if ($export == "Export") {
 
 
 require("lib/".$page_id.".main.js");
-?>
-
-<html>
-
-<head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
-</head>
-
-<body bgcolor="#e9ecef">
-<center>
-
-<table width="705" cellpadding="5" cellspacing="5" border="0">
- <tr valign="top" align="center"> 
-  <td>
-   
-   
-
-
-<?
 require("template/".$page_id.".main.php");
 require("template/footer.php");
 exit();

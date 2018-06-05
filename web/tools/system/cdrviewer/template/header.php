@@ -28,3 +28,21 @@
  $page_id = substr($page_name, 0, strlen($page_name) - 4);
  $no_result = "No Data Found.";
 ?>
+
+<html>
+
+<head>
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
+</head>
+
+<body bgcolor="#e9ecef">
+<center>
+<table width="90%" cellpadding="5" cellspacing="5" border="0">
+ <tr  valign="top" height="20">
+ <td><?php require("template/menu.php") ?></td>
+ </tr>
+ <tr valign="top" align="center"> 
+  <td>
+   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
+   
+
