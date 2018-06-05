@@ -58,11 +58,11 @@ if(!$_SESSION['read_only']){
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add&clone=0" method="post">
   <input type="submit" name="add_new" value="Add New Rule" class="formButton"> &nbsp;&nbsp;&nbsp;
-  <input onclick="apply_changes()" name="reload" class="formButton" value="Submit Changes" type="button"/>
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
 <? } ?>
 
-<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="listTitle">Dialplan ID</th>
   <th class="listTitle">Rule Priority</th>
