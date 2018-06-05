@@ -293,10 +293,15 @@ padding: 4px;
 .menu{
 padding: 20px 30px;
 border-bottom: 1px solid #3e5671;
+cursor: pointer;
 }
 .menu:hover{background-color: #374d66;}
 .menu:active{background-color: #374d66;}
-.menu_active{background-color: #1bbd9b;padding: 20px 30px;}
+.menu_active{
+background-color: #1bbd9b;
+padding: 20px 30px;
+cursor: pointer;
+}
 
 .submenu{border-bottom: 1px solid #3e5671;
 }
