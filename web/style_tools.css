@@ -222,6 +222,17 @@ a.menuItemSelect:hover {
 	border-color: #f6a29a;
 }
 
+.formButton[name="reload"] {
+	background: #f26a60;
+	border-color: #f26a5f;
+	margin-right: -30px;
+}
+
+.formButton[name="reload"]:hover {
+	background: #f6a29a;
+	border-color: #f6a29a;
+}
+
 .searchButton:last-child:hover {
 	color: #16a686
 }
