@@ -65,10 +65,7 @@ if(!$_SESSION['read_only']){
 
 <form action="<?=$page_name?>?action=ds_search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="searchTitle"></td>
- </tr>
-  <tr>
+ <tr>
   <td class="searchRecord">SetID</td>
   <td class="searchRecord" width="200"><input type="text" name="dispatcher_setid" 
   value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
@@ -84,45 +81,38 @@ if(!$_SESSION['read_only']){
  </tr>
  </tr>
   <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
+</table>
+</form>
 
-</table>
-</form>
-<br>
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
-<tr>
-<td align="center">
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add Destination" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-</td>
-</tr>
-</table>
-<br>
+<? } ?>
+
 
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="searchTitle">SetID</th>
-  <th class="searchTitle">Destination</th>
-  <th class="searchTitle">Socket</th>
-  <th class="searchTitle">Weight</th>
-  <th class="searchTitle">Attributes</th>
-  <th class="searchTitle">Description</th>
-  <th class="searchTitle">DB State</th>
+  <th class="listTitle">SetID</th>
+  <th class="listTitle">Destination</th>
+  <th class="listTitle">Socket</th>
+  <th class="listTitle">Weight</th>
+  <th class="listTitle">Attributes</th>
+  <th class="listTitle">Description</th>
+  <th class="listTitle">DB State</th>
   <?
   if(!$_SESSION['read_only']){
-  	echo('<th class="searchTitle">Memory State</th>
+  	echo('<th class="listTitle">Memory State</th>
 
-  	<th class="searchTitle">Edit</th>
-  	<th class="searchTitle">Delete</th>');
+  	<th class="listTitle">Edit</th>
+  	<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -208,11 +198,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="searchTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
