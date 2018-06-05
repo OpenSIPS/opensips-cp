@@ -51,6 +51,12 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 	# if it has no modules, do not print it at all
 	if (!isset($menuitem_config['modules']))
 		continue;
+
+	if (isset($menuitem_config['icon'])) {
+?>
+	<style>#menu<?=$menuitem?>:before { content: url('<?=$menuitem_config['icon']?>');}</style>
+<?php
+	}
 	# check to see if there is a tool within this module that is active
 	if (isset($_SESSION['user_active_tool']) &&
 			in_array($_SESSION['user_active_tool'], $menuitem_config['modules'])){
