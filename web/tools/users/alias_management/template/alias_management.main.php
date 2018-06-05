@@ -67,7 +67,6 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<th class="listTitle">ID</th>
 <th class="listTitle">Alias Username</th>
 <th class="listTitle">Alias Domain</th>
 <th class="listTitle">Alias Type</th>
@@ -101,9 +100,9 @@ if($search_atype !='ANY') {
 } 
 
 if(!$_SESSION['read_only']){
-        $colspan = 8;
+        $colspan = 7;
 }else{
-        $colspan = 6;
+        $colspan = 5;
 }
 
 
@@ -150,7 +149,6 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 }
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$table?></td>
