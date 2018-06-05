@@ -45,14 +45,14 @@ $message = $message['dlg_counter'];
 
 echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';
 echo '<tr align="center">';
-echo '<th class="dialogTitle">Call ID</th>';
-echo '<th class="dialogTitle">From URI</th>';
-echo '<th class="dialogTitle">To URI</th>';
-echo '<th class="dialogTitle">Start Time</th>';
-echo '<th class="dialogTitle">Timeout Time</th>';
-echo '<th class="dialogTitle">State</th>';
+echo '<th class="listTitle">Call ID</th>';
+echo '<th class="listTitle">From URI</th>';
+echo '<th class="listTitle">To URI</th>';
+echo '<th class="listTitle">Start Time</th>';
+echo '<th class="listTitle">Timeout Time</th>';
+echo '<th class="listTitle">State</th>';
 if(!$_SESSION['read_only'])
-	echo('<th class="dialogTitle">Stop Call</th>');
+	echo('<th class="listTitle">Stop Call</th>');
 echo '</tr>';
 
 if ($data_no==0) {
@@ -76,11 +76,10 @@ else {
 
 
 <tr>
-<th colspan="7" class="dialogTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+<th colspan="7">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
