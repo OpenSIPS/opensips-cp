@@ -63,9 +63,6 @@
  if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
 ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="searchTitle">Search Rules by</td>
- </tr>
  <tr>
   <td class="searchRecord">Group ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_groupid" value="<?=$_SESSION['rules_search_groupid']?>" maxlength="64" class="searchInput"></td>
@@ -97,36 +94,33 @@
  <tr height="10">
   <td colspan="2" class="searchRecord border-bottom-devider" align="center">
    <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-   <input type="submit" name="show_all" value="Show All" class="searchButton">
+   <input type="submit" name="show_all" value="Show All" class="searchButton"> &nbsp;&nbsp;&nbsp;
+   <?php if (!$_read_only) echo('<input type="submit" name="delete" value="Delete Matching" class="formButton" onClick="return confirmDeleteSearch()">') ?>
   </td>
- </tr>
-  <td colspan="2" class="searchRecord" align="center">
-   <?php if (!$_read_only) echo('<input type="submit" name="delete" value="Delete Matching" class="searchButton" onClick="return confirmDeleteSearch()">&nbsp;&nbsp;&nbsp;') ?>
-  </td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add Rule" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="dataTitle">ID</th>
-  <th class="dataTitle">Group ID</th>
-  <th class="dataTitle">Prefix</th>
-  <th class="dataTitle">Priority</th>
-  <th class="dataTitle">Route ID</th>
-  <th class="dataTitle">GW List</th>  
-  <th class="dataTitle">Attributes</th>
-  <th class="dataTitle">Description</th>
-  <th class="dataTitle">Details</th>
-  <th class="dataTitle">Edit</th>
-  <th class="dataTitle">Delete</th>
+  <th class="listTitle">ID</th>
+  <th class="listTitle">Group ID</th>
+  <th class="listTitle">Prefix</th>
+  <th class="listTitle">Priority</th>
+  <th class="listTitle">Route ID</th>
+  <th class="listTitle">GW List</th>  
+  <th class="listTitle">Attributes</th>
+  <th class="listTitle">Description</th>
+  <th class="listTitle">Details</th>
+  <th class="listTitle">Edit</th>
+  <th class="listTitle">Delete</th>
  </tr>
 <?php
  if ($sql_search=="") {
@@ -202,11 +196,10 @@
  }
 ?>
  <tr>
-  <th colspan="11" class="dataTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="11">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
@@ -234,8 +227,3 @@
   </th>
  </tr>
 </table>
-<br>
-
-<form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
-</form>

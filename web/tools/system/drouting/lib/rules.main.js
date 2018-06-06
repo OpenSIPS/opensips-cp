@@ -75,33 +75,26 @@ function closeDialog() {
 }
 
 function apply_changes(){
-		url = "apply_changes.php";
-		
-		var http = getHTTPObject();
-		
-		http.open("GET", url, false);
-		http.onreadystatechange = handleHttpResponse(http);
-		http.send(null);
-		result = http.responseText;
-		
-		var body = document.body,
+	url = "apply_changes.php";
+	
+	var http = getHTTPObject();
+	
+	http.open("GET", url, false);
+	http.onreadystatechange = handleHttpResponse(http);
+	http.send(null);
+	result = http.responseText;
+	
+	var body = document.body,
     	html = document.documentElement;
 
-		var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+	var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
 
-
-		document.getElementById('overlay').style.height = height;
-		document.getElementById('overlay').style.display = 'block';
-		document.getElementById('dialog').innerHTML = result;
-		centerMe('dialog')
-		document.getElementById('overlay').onclick = function () {closeDialog();};
-		document.getElementById('dialog').style.display = 'block';
-		return true;
-		
-
-		document.getElementById("content").innerHTML = "whatever";
-		
-		
+	document.getElementById('overlay').style.height = height;
+	document.getElementById('overlay').style.display = 'block';
+	document.getElementById('dialog').innerHTML = result;
+	centerMe('dialog')
+	document.getElementById('overlay').onclick = function () {closeDialog();};
+	document.getElementById('dialog').style.display = 'block';
 	return true;
 }
 </script>

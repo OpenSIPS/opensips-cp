@@ -24,7 +24,7 @@
 <form action="<?=$page_name?>?action=modify&carrierid=<?=$_GET['carrierid']?>" method="post">
 <table width="465" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="dataTitle">Edit Carrier #<?=$_GET['carrierid']?></td>
+  <td colspan="2" class="mainTitle">Edit Carrier #<?=$_GET['carrierid']?></td>
  </tr>
 <?php
  if (isset($form_error)) {
@@ -36,14 +36,15 @@
 <tr>
   <td rowspan="2" class="dataRecord" ><b>Gateway List</b></td>
    <td class="dataRecord">
-            <input type="text"   name="gwlist" id="gwlist" value="<?=$resultset[0]['gwlist']?>" maxlength="255" readonly class="dataInput">
-            <input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('gwlist')"><br>
+            <input type="text"   name="gwlist" id="gwlist" value="<?=$resultset[0]['gwlist']?>" maxlength="255" readonly class="dataInput" style="width:420px!important">
+            <input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:90px!important; margin:0px!important" onclick="clearObject('gwlist')">
    </td>
   </tr>
   <tr>
         <td class="dataRecord">
-            <input type="text"   name="weight" id="weight" value="" maxlength="5" class="dataInput" style="width:38;"> <?=print_gwlist()?>
-            <input type="button" name="add_gwlist" value="Add" class="formButton" style="margin-left:2px;width:50px;" onclick="addElementToObject('gwlist','weight')">
+            <?=print_gwlist()?>
+	    <input type="text"   name="weight" id="weight" value="" maxlength="5" class="dataInput" style="width:40!important;">
+            <input type="button" name="add_gwlist" value="Add" class="formButton" style="margin-left:2px;width:90px;margin:0px!important" onclick="addElementToObject('gwlist','weight')">
         </td>
  </tr>
  <tr>
@@ -84,12 +85,14 @@
   <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Save" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+      <td class="dataRecord" align="right" width="50%">
+      <input type="submit" name="edit" value="Save" class="formButton"></td>
+      <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
  </tr>
 </table>
 </form>
-<br>
-<? print_back_button(); ?>

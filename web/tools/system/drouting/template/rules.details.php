@@ -28,7 +28,7 @@
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dataTitle">Detailed view for Rule #<?=$_GET['id']?></td>
+  <td class="mainTitle">Detailed view for Rule #<?=$_GET['id']?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Rule ID:</b> <?=$resultset[0]['ruleid']?></td>
@@ -61,9 +61,6 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
- </tr>
- <tr height="10">
-  <td class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>

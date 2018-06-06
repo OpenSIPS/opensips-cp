@@ -24,7 +24,7 @@
 <form action="<?=$page_name?>?action=add_verify" method="post">
 <table width="465" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="dataTitle">Add new Rule</td>
+  <td colspan="2" class="mainTitle">Add new Rule</td>
  </tr>
 <?php
  if (isset($form_error)) {
@@ -35,24 +35,25 @@
 ?>
 
  <tr>
-  <td class="dataRecord" rowspan="2"><b>Group ID:</b></td>
-  <td class="dataRecord" >
-    <input type="text" name="groupid" id="groupid" value="<?=$groupid?>" maxlength="64" style="width:230px;" readonly class="dataInput">
-    <input type="button" name="clear_groupid" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('groupid')">
+  <td class="dataRecord">Group ID</td>
+  <td class="dataRecord">
+    <input type="text" name="groupid" id="groupid" value="<?=$groupid?>" maxlength="64" style="width:420px!important" readonly class="dataInput">
+    <input type="button" name="clear_groupid" value="Clear Last" class="inlineButton" style="width:90px;" onclick="clearObject('groupid')">
   </td>
  </tr>
  <tr>
+  <td/>
   <td class="dataRecord">
    <?=print_groupids()?>
-   <input type="button" name="add_groupid" value="Add" class="formButton" style="width:50px;" onclick="addElementToObject('groupid')">
+   <input type="button" name="add_groupid" value="Add ID" class="inlineButton" style="width:90px" onclick="addElementToObject('groupid')">
   </td>
  </tr> 
  <tr>
-  <td class="dataRecord"><b>Prefix:</b></td>
+  <td class="dataRecord">Prefix</td>
   <td class="dataRecord"><input type="text" name="prefix" value="<?=$prefix?>"  style="width:230px;" maxlength="64" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Time Recurrence:</b><br><center><img src="images/info.gif" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
+  <td class="dataRecord">Time Recurrence<br><center><img src="images/info.gif" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
   <td class="dataRecord">
   
    <select name="time_recurrence" class="dataSelect" id="time_recurrence" style="width:230px;"  onChange="optionChange('time_recurrence')">
@@ -63,19 +64,19 @@
   <div id="div_time_recurrence" style="display:none">
   
    <hr>
-   <b>&nbsp;&middot;&nbsp;Start of interval:</b><br>
+   <b>&nbsp;&middot;&nbsp;Start of interval:</b>
    <?=print_date_time("dtstart")?><br><br>
-   
+
    <b>&nbsp;&middot;&nbsp;Duration of interval:</b>
-   <select name="duration" class="dataSelect" id="duration" onChange="optionChange('duration')">
+   <select name="duration" class="dataSelect" id="duration" style="width:150px!important" onChange="optionChange('duration')">
     <option value="0">Forever</option>
     <option value="1">Other</option>
    </select><br>
    
    <div id="div_duration" style="display:none">
-    <?=print_interval("duration")?><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=print_interval("duration")?><br>
     <br><b>&nbsp;&middot;&nbsp;Frequency:</b>
-    <select name="frequency" class="dataSelect" id="frequency" onChange="frequencyChange()">
+    <select name="frequency" class="dataSelect" style="width:150px!important" id="frequency" onChange="frequencyChange()">
      <option value="daily">Daily</option>
      <option value="weekly">Weekly</option>
      <option value="monthly">Monthly</option>
@@ -83,64 +84,64 @@
     </select><br>
     
     <div id="div_daily" style="display:block">
-     <table width="99%" border="0" cellspacing="0" cellpadding="0">
+     <table style="width:99%!important" border="0" cellspacing="0" cellpadding="0">
       <tr>
-       <td class="timeRecord" colspan="2">Every : <input type="text" name="daily_interval" value="1" class="dataInputCustom" size="2"> Day(s)</td>
+       <td class="timeRecord" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every : <input type="text" name="daily_interval" value="1" class="dataInputCustom" size="2"> Day(s)</td>
       </tr>
      </table>
     </div>
     
     <div id="div_weekly" style="display:none">
-     <table width="99%" border="0" cellspacing="0" cellpadding="0">
+     <table style="width:99%!important" border="0" cellspacing="0" cellpadding="0">
       <tr>
-       <td class="timeRecord" colspan="2">Every : <input type="text" name="weekly_interval" value="1" class="dataInputCustom" size="2"> Week(s)</td>
+       <td class="timeRecord" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every : <input type="text" name="weekly_interval" value="1" class="dataInputCustom" size="2"> Week(s)</td>
       </tr>
       <tr>
-       <td class="timeRecord">By Day :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Day :</td>
        <td><input type="text" name="weekly_byday" value="" class="dataInputCustom" size="35"></td>
       </tr>
      </table>
     </div>
     
     <div id="div_monthly" style="display:none">
-     <table width="99%" border="0" cellspacing="0" cellpadding="0">
+     <table style="width:99%!important" border="0" cellspacing="0" cellpadding="0">
       <tr>
-       <td class="timeRecord" colspan="2">Every : <input type="text" name="monthly_interval" value="1" class="dataInputCustom" size="2"> Month(s)</td>
+       <td class="timeRecord" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every : <input type="text" name="monthly_interval" value="1" class="dataInputCustom" size="2"> Month(s)</td>
       </tr>
       <tr>
-       <td class="timeRecord">By Day :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Day :</td>
        <td><input type="text" name="monthly_byday" value="" class="dataInputCustom" size="35"></td>
       </tr>
       <tr>
-       <td class="timeRecord">By Month Day :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Month Day :</td>
        <td><input type="text" name="monthly_bymonthday" value="" class="dataInputCustom" size="35"></td>
       </tr>
      </table>
     </div>
     
     <div id="div_yearly" style="display:none">
-     <table width="99%" border="0" cellspacing="0" cellpadding="0">
+     <table style="width:99%!important" border="0" cellspacing="0" cellpadding="0">
       <tr>
-       <td class="timeRecord" colspan="2">Every : <input type="text" name="yearly_interval" value="1" class="dataInputCustom" size="2"> Year(s)</td>
+       <td class="timeRecord" colspan="2">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Every : <input type="text" name="yearly_interval" value="1" class="dataInputCustom" size="2"> Year(s)</td>
       </tr>
       <tr>
-       <td class="timeRecord">By Day :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Day :</td>
        <td><input type="text" name="yearly_byday" value="" class="dataInputCustom" size="35"></td>
       </tr>
       <tr>
-       <td class="timeRecord">By Month Day :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Month Day :</td>
        <td><input type="text" name="yearly_bymonthday" value="" class="dataInputCustom" size="35"></td>
       </tr>
       <tr>
-       <td class="timeRecord">By Year Day :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Year Day :</td>
        <td><input type="text" name="yearly_byyearday" value="" class="dataInputCustom" size="35"></td>
       </tr>
       <tr>
-       <td class="timeRecord">By Week No :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Week No :</td>
        <td><input type="text" name="yearly_byweekno" value="" class="dataInputCustom" size="35"></td>
       </tr>
       <tr>
-       <td class="timeRecord">By Month :</td>
+       <td class="timeRecord">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;By Month :</td>
        <td><input type="text" name="yearly_bymonth" value="" class="dataInputCustom" size="35"></td>
       </tr>
      </table>
@@ -148,62 +149,68 @@
     
    </div>
    <br><b>&nbsp;&middot;&nbsp;Bound of Recurrence:</b>
-   <select name="bound" class="dataSelect" id="bound" onChange="optionChange('bound')">
+   <select name="bound" class="dataSelect" id="bound" style="width:150px!important" onChange="optionChange('bound')">
     <option value="0">None</option>
     <option value="1">Other</option>
    </select><br>
-   <div id="div_bound" style="display:none"><?=print_date_time("until")?></div>
+   <div id="div_bound" style="display:none">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=print_date_time("until")?></div>
    
   </div>
   
   </td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Priority:</b></td>
+  <td class="dataRecord">Priority</td>
   <td class="dataRecord"><input type="text" name="priority" value="<?=$priority?>" style="width:230px;" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Route ID:</b></td>
+  <td class="dataRecord">Route ID</td>
   <td class="dataRecord"><input type="text" name="routeid" value="" style="width:230px;" maxlength="11" class="dataInput"></td>
  </tr>
+
  <tr>
-  <td class="dataRecord"><b>Gateways List:</b></td>
-  <td class="dataRecord">
-   <input type="text"   name="gw_weight" id="gw_weight" value="" maxlength="5" class="dataInput" style="width:38;"> <?=print_gwlist()?>
-   <input type="button" name="add_gwlist" value="Add" class="formButton" style="margin-left:2px;width:50px;" onclick="addGWElementToObject('gwlist','gw_weight')">
-  </td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>Carriers List:</b></td>
-  <td class="dataRecord">
-   <input type="text"   name="car_weight" id="car_weight" value="" maxlength="5" class="dataInput" style="width:38;"> <?=print_carrierlist()?>
-   <input type="button" name="add_carrier" value="Add" class="formButton" style="margin-left:2px;width:50px;" onclick="addCarElementToObject('gwlist','car_weight')">
-  </td>
- </tr>
- <tr>
-  <td  class="dataRecord" ><b>Gateway List:</b></td>
+  <td  class="dataRecord">Destination's List</td>
    <td class="dataRecord">
-            <input type="text"   name="gwlist" id="gwlist" value="<?=$gwlist?>" style="width:230px;" maxlength="255" readonly class="dataInput">
-            <input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('gwlist')"><br>
+      <input type="text"   name="gwlist" id="gwlist" value="<?=$gwlist?>" style="width:393px!important" maxlength="255" readonly class="dataInput">
+      <input type="button" name="clear_gwlist" value="Clear Last" class="inlineButton" style="width:120px" onclick="clearObject('gwlist')"><br>
    </td>
   </tr>
  <tr>
-  <td class="dataRecord"><b>Attributes:</b></td>
+  <td/>
+  <td class="dataRecord">
+   <?=print_gwlist()?>
+   <input type="text"   name="gw_weight" id="gw_weight" value="" maxlength="5" class="dataInput" style="width:40!important;">
+   <input type="button" name="add_gwlist" value="Add GW" class="inlineButton" style="width:120px;" onclick="addGWElementToObject('gwlist','gw_weight')">
+  </td>
+ </tr>
+ <tr>
+  <td/>
+  <td class="dataRecord">
+   <?=print_carrierlist()?>
+   <input type="text"   name="car_weight" id="car_weight" value="" maxlength="5" class="dataInput" style="width:40!important;">
+   <input type="button" name="add_carrier" value="Add carrier" class="inlineButton" style="width:120px;" onclick="addCarElementToObject('gwlist','car_weight')">
+  </td>
+ </tr>
+ <tr>
+  <td class="dataRecord">Attributes</td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" style="width:230px;" maxlength="128" class="dataInput">
   </td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Description:</b></td>
+  <td class="dataRecord">Description</td>
   <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" style="width:230px;" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2">
+	<table cellspacing=20>
+	<tr>
+	<td class="dataRecord" align="right" width="50%">
+	<input type="submit" name="add" value="Add" class="formButton"></td>
+	<td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+	</tr>
+	</table>
+  </td>
  </tr>
 </table>
 </form>
-<br>
-<? print_back_button(); ?>
