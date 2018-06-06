@@ -40,9 +40,6 @@ if(!$_SESSION['read_only']){
 
 <form action="<?=$page_name?>?action=search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="searchTitle"></td>
- </tr>
   <tr>
   <td class="searchRecord">Cluster ID</td>
   <td class="searchRecord" width="200"><input type="text" name="cl_cid" 
@@ -58,30 +55,29 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add Node" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="searchTitle">Cluster ID</th>
-  <th class="searchTitle">Node ID</th>
-  <th class="searchTitle">BIN URL</th>
-  <th class="searchTitle">Max retries</th>
-  <th class="searchTitle">In Use</th>
-  <th class="searchTitle">Description</th>
+  <th class="listTitle">Cluster ID</th>
+  <th class="listTitle">Node ID</th>
+  <th class="listTitle">BIN URL</th>
+  <th class="listTitle">Max retries</th>
+  <th class="listTitle">In Use</th>
+  <th class="listTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="searchTitle">Edit</th>
-  		<th class="searchTitle">Delete</th>');
+  	echo('<th class="listTitle">Edit</th>
+  		<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -132,10 +128,6 @@ else
 	}
 }
 ?>
- <tr>
-   <th colspan="<?echo($colspan);?>" class="searchTitle"><img src="../../../images/spacer.gif" width="5" height="5"></th>
- </tr>
-
 </table>
 <br>
 
