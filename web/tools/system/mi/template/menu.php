@@ -23,12 +23,12 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
-    <td class="breadcrumb">
+    <td colspan="2" class="breadcrumb">
         <?php print "System / MI Commands / ".$_SESSION['permission']; ?>
     </td>
   </tr>
   <tr>
-    <td align="center" valign="middle">
+    <td align="left">
       <div class="menuItems">
         <?php
         $first_item = true;
@@ -44,6 +44,14 @@
         ?>
       </div>
     </td> 
+    <td align=right>
+      <?php
+	$boxlist=array();
+	$boxlist=inspect_config_mi();
+	$current_box=show_boxes($boxlist,$current_box,'mi_current_box');
+	$_SESSION['mi_current_box']=$current_box;
+      ?>
+    </td>
   </tr>
 </table>
 <br>

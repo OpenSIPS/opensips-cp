@@ -39,7 +39,7 @@ function get_command_list($mi_url)
 function print_command_list()
 {
 	$command = $_SESSION['mi_command_list'];
-	echo('<select name="comm_list" class="formInput" onChange="form.mi_cmd.value=form.comm_list.value">');
+	echo('<select name="comm_list" class="dataSelect" onChange="form.mi_cmd.value=form.comm_list.value">');
 	echo('<option value="">- select -</option>');
 	sort($command);
 	for ($i=0; $i<sizeof($command); $i++)
@@ -54,8 +54,7 @@ function show_boxes($boxen,$current_box,$hold){
 
 	echo ('<form action="'.$page_name.'?action=change_box&box_val="'.$box_val.' method="post" name="boxen_select" >');
 	echo ('<input type="hidden" name="box_val" class="formInput" method="post" value="">');
-	echo ('<table><tr><td>');
-	echo ('<select name="box_list" class="formInput" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
+	echo ('<select name="box_list" class="boxSelect" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
 
 	if (empty($current_box)) {
 		$current_box=key($boxen);
@@ -69,9 +68,7 @@ function show_boxes($boxen,$current_box,$hold){
 		next($boxen);
 	}
 
-	echo ('</select></td><td>');
-	echo $current_box;
-	echo ('</td></table></form>');
+	echo ('</select></form>');
 
 	return $current_box ;
 
