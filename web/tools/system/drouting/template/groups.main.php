@@ -71,7 +71,6 @@
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
   <input type="submit" name="add_new" value="Add Record" class="formButton"> &nbsp;&nbsp;&nbsp;
-  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
 <? } ?>
 
