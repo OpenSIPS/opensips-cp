@@ -280,13 +280,17 @@ a.menuItemSelect:hover {
 }
 
 .dataSelect {
-	border: #999999 1px solid;
 	font-size: 10px;
 	color: #000000;
 	width: 200px;
 }
 
-
+.boxSelect {
+	padding: 1px;
+	border-radius: 5px;
+	border: #999999 1px solid;
+	font-size: 12px;
+}
 
 .pageTitle {
    font-size: 12px;
