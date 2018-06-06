@@ -196,7 +196,23 @@ a.menuItemSelect:hover {
 	margin: 20px 0;
 }
 
-.ButtonLink:hover, .searchButton:hover, .formButton:hover {
+.inlineButton{
+	padding: 7px 0px;
+	border: 1px solid #1cbe9a;
+	background: #1cbe9a;
+	color: #fff;
+	border-radius: 5px;
+	margin: 0px;
+	box-shadow: 0 3px 5px #d2d9e0;
+	cursor: pointer;
+	font-weight: 600;
+	-webkit-transition: all 0.3s;
+	transition: all 0.3s;
+	text-decoration: none;
+	display: inline-block;
+}
+
+.ButtonLink:hover, .searchButton:hover, .formButton:hover, .inlineButton:hover {
 	background: #16a686
 }
 
@@ -363,7 +379,7 @@ a.backLink:hover {
     top:0;
     left:0;
     background-color:#000039;
-    filter:alpha(opacity=10);
+    filter:alpha(opacity=50);
     -moz-opacity:0.5;
     opacity:0.5;
     cursor:pointer;
@@ -378,9 +394,10 @@ a.backLink:hover {
 }
 
 fieldset {
-    border: 2px solid #99ccff;
-    background: transparent;
-	background-color: rgba(255,255,255,0.35);
+	border: 2px solid #99ccff;
+	background: transparent;
+    	opacity:0.8;
+	background-color: #eeeeee;
 	-moz-border-radius:7px;  
 	border-radius: 7px;  
 	-webkit-border-radius: 7px;
