@@ -40,7 +40,10 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 $info="";
 $errors="";
- 
+
+if (isset($_POST['refresh']))
+	$action="";
+
 if ( $_SESSION['read_only'] && 
 ($action=="add" || $action=="do_add" || $action=="edit" || $action=="modify" || $action=="delete" || $action=="toggle") ) {
 	$errors= "User with Read-Only Rights";
