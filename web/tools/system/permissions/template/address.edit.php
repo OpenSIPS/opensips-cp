@@ -39,53 +39,57 @@ $link->disconnect();
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="permissionsTitle">Edit Address</td>
+  <td colspan="2" class="mainTitle">Edit Address rule</td>
  </tr>
 <?php
 ?>
  <tr>
-  <td class="dataRecord"><b>Group:</b></td>
+  <td class="dataRecord">Group</td>
   <td class="dataRecord" width="275"><input type="text" name="grp" value="<?=$resultset[0]['grp']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
-  <td class="dataRecord"><b>IP:</b></td>
+  <td class="dataRecord">IP</td>
   <td class="dataRecord" width="275"><input type="text" name="src_ip" value="<?=$resultset[0]['ip']?>" maxlength="128" class="dataInput"></td>
   </tr>
 
  <tr>
-  <td class="dataRecord"><b>Mask:</b></td>
+  <td class="dataRecord">Mask</td>
   <td class="dataRecord" width="275"><input type="text" name="mask" value="<?=$resultset[0]['mask']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Port:</b></td>
+  <td class="dataRecord">Port</td>
   <td class="dataRecord" width="275"><input type="text" name="port" value="<?=$resultset[0]['port']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Protocol:</b></td>
+  <td class="dataRecord">Protocol</td>
   <td class="dataRecord" width="275"><input type="text" name="proto" value="<?=$resultset[0]['proto']?>" maxlength="128" class="dataInput"></td>
  </tr>
  
 <tr>
-  <td class="dataRecord"><b>From pattern:</b></td>
+  <td class="dataRecord">Pattern</td>
   <td class="dataRecord" width="275"><input type="text" name="from_pattern" value="<?=$resultset[0]['pattern']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
  <tr>
-  <td class="dataRecord"><b>Context Info:</b></td>
+  <td class="dataRecord">Context Info</td>
   <td class="dataRecord" width="275"><input type="text" name="context_info" value="<?=$resultset[0]['context_info']?>" maxlength="128" class="dataInput"></td>
  </tr>
 
 
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+   <td colspan="2">
+	<table cellspacing=20>
+	<tr>
+	<td class="dataRecord" align="right" width="50%">
+	<input type="submit" name="save" value="Save" class="formButton"></td>
+	<td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+	</tr>
+	</table>
+  </td>
  </tr>
 </table>
 </form>
-<? print_back_button(); ?>
 
