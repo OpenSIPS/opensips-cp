@@ -98,8 +98,8 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 		?>
 		<tr>
@@ -110,17 +110,17 @@ else
 			<?
 			$state = ($resultset[$i]["state"]=="1")?"Active":"Inactive";
 			if($_SESSION['read_only']){
-				$state_info= '<img align="center" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'">';
+				$state_info= '<img src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'">';
 			} else {
-			        $state_info= '<a href="'.$page_name.'?action=change_state&state='.$resultset[$i]['state'].'&id='.$resultset[$i]['id'].'"><img align="center" name="status'.$i.'" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'" onclick="return confirmStateChange(\''.$state.'\')" border="0"></a>';
+			        $state_info= '<a href="'.$page_name.'?action=change_state&state='.$resultset[$i]['state'].'&id='.$resultset[$i]['id'].'"><img name="status'.$i.'" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'" onclick="return confirmStateChange(\''.$state.'\')" border="0"></a>';
 			}
 			?>
-			<td class="<?=$row_style?>">&nbsp;<?php echo $state_info?></td>
+			<td class="<?=$row_style."Img"?>" align="center">&nbsp;<?php echo $state_info?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
  			<? 
  			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-		 			<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+				echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+	 			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    			}
 			?>  
 		</tr>  
