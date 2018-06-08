@@ -181,11 +181,11 @@ else {
 				echo "-";
 			} else if ($_SESSION['read_only']) {
 			?>
-				<img align="center" name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
+				<img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
 			<?
 			} else {
 			?>	
-				<a href="<?=$page_name?>?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img align="center" name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
+				<a href="<?=$page_name?>Img?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
 			<?
 			}
 			?>
@@ -193,8 +193,8 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
 			<? 
 			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a></td>');
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a></td>');
+				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a></td>');
    			}
 			?>  
 		</tr>  
