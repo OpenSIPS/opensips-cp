@@ -31,7 +31,7 @@ function display_dialog_table($message){
 
 		if(!$_SESSION['read_only']){
 			if ($message[$i]['children']['state']<5)
-       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['attributes']['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['attributes']['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 			else
 				$delete_link = "n/a";
         	}
@@ -66,7 +66,7 @@ function display_dialog_table($message){
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
 
 		if(!$_SESSION['read_only']){
-			echo('<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+			echo('<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
 		}
   		echo '</tr>';
 	}
