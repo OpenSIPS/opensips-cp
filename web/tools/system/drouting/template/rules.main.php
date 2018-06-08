@@ -170,9 +170,9 @@
    if (strlen($resultset[$i]['description'])>18) $description=substr($resultset[$i]['description'],0,15)."...";
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
-   $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['ruleid'].'" onclick="return confirmDelete(\''.$resultset[$i]['ruleid'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/details.png" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['ruleid'].'" onclick="return confirmDelete(\''.$resultset[$i]['ruleid'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
@@ -184,9 +184,9 @@
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="2"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="2"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="2"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$delete_link?></td>
  </tr>
  <tr>
   <td class="<?=$row_style?>" colspan="<?php print $colspan;?>"><?=parse_timerec_main($resultset[$i]['timerec'])?></td>

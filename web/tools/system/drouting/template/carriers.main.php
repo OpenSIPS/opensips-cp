@@ -174,9 +174,9 @@ for ($j=0; $j<count($message); $j++){
 	case "1" : $state = "Inactive"; break;
    }
 	//edit and delete links					 
-   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/details.png" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
@@ -188,9 +188,9 @@ for ($j=0; $j<count($message); $j++){
   <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>" align="center"><?=$state?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$delete_link?></td>
  </tr>
 <?php
   }

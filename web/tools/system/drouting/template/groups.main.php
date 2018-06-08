@@ -120,10 +120,10 @@
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
    $record_id=$resultset[$i]['username']."@".$resultset[$i]['domain'];
-   $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="../../../images/share/details.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="../../../images/share/details.png" border="0"></a>';
    if(!$_SESSION['read_only']){
-	   $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-	   $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="../../../images/share/trash.gif" border="0"></a>';
+	   $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="../../../images/share/edit.png" border="0"></a>';
+	   $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="../../../images/share/delete.png" border="0"></a>';
    }
 
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
@@ -134,9 +134,9 @@
   <td class="<?=$row_style?>"><?=$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['groupid']?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
-  <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>
  </tr>  
 <?php
   }

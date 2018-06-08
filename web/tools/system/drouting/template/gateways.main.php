@@ -223,9 +223,9 @@ for ($j=0; $j<count($message); $j++){
 	case "1" : $state = "Inactive"; break;
 	case "2" : $state = "Probing"; break;
    }
-   $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="../../../images/share/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="../../../images/share/details.png" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="../../../images/share/delete.png" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
@@ -239,10 +239,10 @@ for ($j=0; $j<count($message); $j++){
   <td class="<?=$row_style?>"><?=$attrs?> </td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$state?></td>
-  <td class="<?=$row_style?>" align="center"><?=$status?></td>
-  <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$status?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>
   </tr>  
 <?php
   }
