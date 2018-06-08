@@ -166,8 +166,8 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 			if ($state[$i]== "-") 
 				$state_link = $state[$i];
 			else
@@ -185,9 +185,9 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$db_state?></td>
   <? 
    if(!$_SESSION['read_only']){
-   	echo '<td class="'.$row_style.'" align="center">'.$state_link.'</td>';
-   	echo '<td class="'.$row_style.'" align="center">'.$edit_link.'</td>';
-	echo '<td class="'.$row_style.'" align="center">'.$delete_link.'</td>';
+   	echo '<td class="'.$row_style.'Img" align="center">'.$state_link.'</td>';
+   	echo '<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>';
+	echo '<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>';
    }
 	?>  
   </tr>  
