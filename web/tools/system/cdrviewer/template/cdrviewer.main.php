@@ -223,9 +223,9 @@ else
 		}
 	   
 	   $this_cdr_id = $result[$j][$cdr_id_field_name];
-	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="../../../images/share/details.gif" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
+	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
 	   ?>
-	   <td class="rowOdd" align="center"><?print $details_cdr?></td>
+	   <td class="<?=$row_style?>Img" align="center"><?print $details_cdr?></td>
 
 	   </tr>
 
