@@ -215,16 +215,16 @@ else
 		else $row_style="rowEven";
 
 		if ($has_acl) {
-			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
+			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="../../../images/share/info.png" border="0"></a>';
 			
 		}
 		if ($has_alias) {
-			$alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
+			$alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="../../../images/share/alias.png" border="0"></a>';
 		}
 
 		if(!$_SESSION['read_only']){
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
  <tr>
@@ -237,25 +237,25 @@ else
 	}
 ?>
 
-  <td class="<?=$row_style?>" align="center">
+  <td class="<?=$row_style."Img"?>" align="center">
     <a href="javascript:;" onclick="show_contacts('<?=$resultset[$i]['username']?>','<?=$resultset[$i]['domain']?>')">
-		<img src="images/contacts.png" border="0">
+		<img src="../../../images/share/phone.png" border="0">
 	</a>
   </td>
 
    <? 
 
 	if ($has_alias){
-		echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
+		echo('<td class="'.$row_style.'Img" align="center">'.$alias_link.'</td>');
 	}
 
 	if ($has_acl){
-		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
+		echo('<td class="'.$row_style.'Img" align="center">'.$group_link.'</td>');
 	}
 
 	if(!$_SESSION['read_only']){
-		echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+		echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
 	}
 ?>  
   </tr>  
