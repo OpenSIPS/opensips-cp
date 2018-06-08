@@ -133,8 +133,8 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
  <tr>
@@ -147,8 +147,8 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['context_info']?></td>
    <? 
    if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+   	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+	  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
 	?>  
   </tr>  
