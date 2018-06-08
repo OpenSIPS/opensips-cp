@@ -121,22 +121,22 @@ else
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
-		$edit_tools_link = '<a href="'.$page_name.'?action=edit_tools&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'"><img src="images/access.png" border="0"></a>';
+		$edit_tools_link = '<a href="'.$page_name.'?action=edit_tools&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'"><img src="../../../images/share/access.png" border="0"></a>';
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['first_name'].' '.$resultset[$i]['last_name']?></td>
-  <td class="<?=$row_style?>" align="center">&nbsp;<?php print $edit_tools_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center">&nbsp;<?php print $edit_tools_link?></td>
 <?php
    if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+   	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
 ?>
   </tr>  
