@@ -2,7 +2,7 @@
 body, table {
 	font-family: 'Montserrat', sans-serif;
 	color:#33333;
-	font-size:12px;
+	font-size:13px;
 }
 
 table {
@@ -100,6 +100,17 @@ table tr:last-child > th:last-child {
 	background: #f6f6f6;
 	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
 	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+
+.ttable td.rowEvenImg {
+	padding:0px;
+	background: #f6f6f6;
+	background: -webkit-gradient(linear, left top, left bottom, from(#f8f8f8), to(#f6f6f6));
+	background: -moz-linear-gradient(top,  #f8f8f8,  #f6f6f6);
+}
+
+.ttable td.rowOddImg {
+	padding:0px;
 }
 
 .ttable {
