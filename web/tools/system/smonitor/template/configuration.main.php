@@ -25,7 +25,7 @@
 <form action="<?=$page_name?>" method="post" name="form">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td class="smonitorTitle" colspan="2">&nbsp;</td>
+  <td class="mainTitle" colspan="2">Charting Settings</td>
  </tr>
  <tr>
   <td class="searchRecord">Sampling Time:</td>
@@ -40,7 +40,7 @@
   <td class="searchRecord">
    <input type="radio" name="chart_history" value="auto" <?php if ($chart_history=="auto") echo("checked") ?> onClick="document.form.chart_history_value.disabled=true">Auto Mode - 3 Days<br>
    <input type="radio" name="chart_history" value="manual" <?php if ($chart_history!="auto") echo("checked") ?> onClick="document.form.chart_history_value.disabled=false">Manual
-   <select name="chart_history_value" class="searchInput" <?php if ($chart_history=="auto") echo("disabled") ?>>
+   <select name="chart_history_value" class="searchInput" style="width:150px!important" <?php if ($chart_history=="auto") echo("disabled") ?>>
     <?php
      for($i=1;$i<32;$i++)
      {

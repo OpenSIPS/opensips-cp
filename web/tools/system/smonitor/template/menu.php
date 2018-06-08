@@ -26,11 +26,16 @@
     <td class="breadcrumb">
         <?php print "System / Statistics Monitor / ".$_SESSION['permission']; ?>
     </td>
+    <td align=right style="border-bottom: 1px solid #ccc!important">
+      <?php
+	require("lib/put_select_boxes.php");
+      ?>
+    </td>
   </tr>	
   <tr>
   </tr>
   <tr>
-    <td align="center" valign="middle">
+    <td colspan="2" align="center" valign="middle">
       <div class="menuItems">
         <?php
          $first_item = true; 

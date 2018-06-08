@@ -25,10 +25,13 @@
 <form action="<?=$page_name?>" method="post">
 <table width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td align="center" class="smonitorTitle">Click a statistic to see its chart</td>
+  <td align="center" class="mainTitle">Click a statistic to see its chart</td>
  </tr>
+</table>
+
+<table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
 <?php
-$sql = "SELECT DISTINCT name FROM ".$table." WHERE (1=1) AND box_id=".$box_id." ORDER BY name ASC";
+$sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id=".$box_id." ORDER BY name ASC";
 $resultset = $link->queryAll($sql);
 if(PEAR::isError($resultset)) {
          die('Failed to issue query, error message : ' . $resultset->getMessage());
@@ -43,7 +46,7 @@ else
  {
   $stat_chart=false;
   $stat=$resultset[$j]['name'];
-  $stat_img="images/variable.gif";
+  $stat_img="../../../images/share/chart.png";
   if ($_SESSION["stat_open"][$i]=="yes") $stat_chart=true;
   $res="SELECT * FROM ".$table." WHERE name='".$stat."' AND box_id=".$box_id." ORDER BY time ASC LIMIT 1";
   $result = $link->queryAll($res); 
@@ -55,8 +58,8 @@ else
   ?>
    <tr>
     <td class="searchRecord">
-     <div id="stat_<?=$stat?>" class="Data" onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?stat_id=<?=$i?>'">
-      <img src="<?=$stat_img?>" width="16" height="14"> <b><?=$stat?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
+     <div id="stat_<?=$stat?>" class="Data"  onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?stat_id=<?=$i?>'">
+      <img src="<?=$stat_img?>"><b><?=$stat?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
      </div>
     </td>
    </tr>
@@ -73,8 +76,6 @@ else
 }
 $link->disconnect();
 ?>
- <tr>
-  <td colspan="2" class="smonitorTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>

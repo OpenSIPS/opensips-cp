@@ -195,10 +195,9 @@ function show_boxes($boxen){
 global $current_box;
 global $page_name ;  
 
-echo ('<form action="'.$page_name.'?action=change_box&box_val="'.$box_val.' method="post" name="boxen_select" >');
+echo ('<form action="'.$page_name.'?action=change_box&box_val="'.$box_val.' method="post" name="boxen_select" style="margin:0px!important">');
 echo ('<input type="hidden" name="box_val" class="formInput" method="post" value="">');
-echo ('<table><tr><td>');
-echo ('<select name="box_list" class="formInput" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
+echo ('<select name="box_list" class="boxSelect" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
 
 if (empty($current_box)){
 
@@ -213,9 +212,7 @@ if (empty($current_box)){
 	    next($boxen);
     }
 
-echo ('</select></td><td>');
-//echo $current_box;
-echo ('</td></table></form>');
+echo ('</select></form>');
 
 return $current_box; 
 }
