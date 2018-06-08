@@ -133,8 +133,8 @@ echo('<th class="listTitle">Edit</th>
                 else $row_style="rowEven";
 
                 if(!$_SESSION['read_only']){
-                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
+                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 
 		}
 ?>
@@ -144,8 +144,8 @@ echo('<th class="listTitle">Edit</th>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['grp']?></td>
    <?
    if(!$_SESSION['read_only']){
-        echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-                          <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+        echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+              <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
         ?>
   </tr>
