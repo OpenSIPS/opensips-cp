@@ -24,21 +24,6 @@
 ### List with all the available modules - you can enable and disable module from here
 
 $config_modules 	= array (
-	"admin"			=> array (
-		"enabled" 	=> true,
-		"name"		=> "Admin",
-		"icon"		=> "images/icon-admin.svg",
-		"modules"	=> array (
-			"add_admin"			=> array (
-				"enabled"		=> true,
-				"name"			=> "Add Admin"
-			),
-			"list_admins"		=> array (
-				"enabled"		=> true,
-				"name"			=> "List Admins"
-			),
-		)
-	),
 	"users"			=> array (
 		"enabled" 	=> true,
 		"name" 		=> "Users",
@@ -55,6 +40,17 @@ $config_modules 	= array (
 			"user_management"	=> array (
 				"enabled"		=> true,
 				"name"			=> "User Management"
+			),
+		)
+	),
+	"test"		=> array (
+		"enabled"	=> true,
+		"name"		=> "Test",
+		"modules"	=> array (
+			"callcenter"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Callcenter",
+				"path"			=> "system/callcenter"
 			),
 		)
 	),
@@ -102,6 +98,10 @@ $config_modules 	= array (
 			"mi"				=> array (
 				"enabled"		=> true,
 				"name"			=> "MI Commands"
+			),
+			"mitrace"			=> array (
+				"enabled"		=> true,
+				"name"			=> "MI Tracer"
 			),
 			"monit"				=> array (
 				"enabled"		=> true,
