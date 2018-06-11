@@ -20,15 +20,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-######################################
-# VERY IMPORTANT - THE MODULE ID     #
-# must be identical with folder name #
-######################################
  require("init.php");
 
  require("../../../common/cfg_comm.php");
  session_start();
- get_priv("tviewer");
+ get_priv($module_id);
  header("Location: tviewer.php");
  
 ?>
