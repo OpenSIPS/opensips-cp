@@ -30,7 +30,7 @@ else if (isset($success) && $success!="")
 			<form id="addnewentry" class="block-content form" action="<?=$page_name?>?action=add_verify" method="post">
 				<table width="400" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
-						<td colspan="2" class="tviewerTitle">
+						<td colspan="2" class="mainTitle">
 							Add New Entry
 						</td>
 					</tr>
@@ -63,15 +63,11 @@ else if (isset($success) && $success!="")
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Add" class="formButton">
 							<input type="button" value="Reset" class="formButton" href="javascript:;" onclick="document.getElementById('addnewentry').reset();">
+							<? print_back_input(); ?>
 						</td>
 					</tr>
 
-					<tr height="10">
-						<td colspan="2" class="searchTitle">
-						<img src="../../../images/share/spacer.gif" width="5" height="5">
-					</td>
 				</tr>
 			</table>
 			</form>
-		<? print_back_button(); ?>
 

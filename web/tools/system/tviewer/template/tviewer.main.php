@@ -138,7 +138,7 @@ else {
 
 			
 			<!-- ACTION BUTTONS START HERE -->
-			<table align="center" cellspacing="2" cellpadding="4" border="0"><tr>
+			<table style="width:1px!important" align="center" cellspacing="2" cellpadding="4" border="0"><tr>
 				<?php if (!$_SESSION['read_only']) { ?>
 					<?php for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) { ?>
 					<td align="center">
@@ -153,8 +153,17 @@ else {
 							>
 						</form>
 					</td>
-					<?php } ?>
-				<?php } ?>
+					<?php
+					}
+					if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['reload']) {
+						echo '<td align="center">';
+						echo '<form action="<?=$page_name?>" method="post">';
+						echo '<input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>';
+						echo '</form>';
+						echo '</td>';
+					}
+
+				} ?>
 			</tr></table>
 			<!-- ACTION BUTTONS END HERE -->
 <br>
@@ -164,12 +173,12 @@ else {
 				<tr align="center">
 					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 						if ( !isset($value['visible']) || $value['visible']==true)
-							echo('<th class="tviewerTitle">'.$value['header'].'</th>');
+							echo('<th class="listTitle">'.$value['header'].'</th>');
 						}
 						if(!$_SESSION['read_only']){ 
 							for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
-								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['show_header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
-								echo "<th class='tviewerTitle'>".$header_name."</th>";
+								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
+								echo "<th class='listTitle'>".$header_name."</th>";
 							}
 						} 
 					?>
@@ -200,7 +209,7 @@ else {
 										$action_link	.= "<img src='".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['icon']."' border='0'>";
 										$action_link	.= "</a>";
 
-										echo "<td class='".$row_style."' align='center'>";
+										echo "<td class='".$row_style."Img' align='center'>";
 										echo $action_link;
 										echo "</td>";
 								}
@@ -214,11 +223,10 @@ else {
 				?>
 						<!-- PAGING STARTS HERE -->
 						<tr>
-							<th colspan="<?=$colspan?>" class="tviewerTitle">
-								<table width="100%" cellspacing="0" cellpadding="0" border="0">
+							<th colspan="<?=$colspan?>">
+								<table class="pagingTable">
 									<tr>
-										<th align="left">
-											&nbsp;Page:
+										<th align="left">Page:
 									   <?php
 										if ($filtered_records==0) 
 											echo('<font class="pageActive">0</font>&nbsp;');

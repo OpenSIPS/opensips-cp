@@ -38,7 +38,7 @@ $link->disconnect();
 			<form id="editentry" class="block-content form" action="<?=$page_name?>?action=modify&id=<?=$id?>" method="post">
 				<table width="400" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
-						<td colspan="2" class="tviewerTitle">
+						<td colspan="2" class="mainTitle">
 							Edit Entry
 						</td>
 					</tr>
@@ -70,18 +70,11 @@ $link->disconnect();
 					<tr>
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Update" class="formButton">
-							<form>
 							<input type="button" value="Reset" class="formButton" onclick="window.location.href='tviewer.php?action=edit&id=<?=$id?>'">
-							</form>
+							<? print_back_input(); ?>
 						</td>
 					</tr>
-
-					<tr height="10">
-						<td colspan="2" class="searchTitle">
-						<img src="../../../images/share/spacer.gif" width="5" height="5">
-					</td>
 				</tr>
 			</table>
 			</form>
-		<? print_back_button(); ?>
 
