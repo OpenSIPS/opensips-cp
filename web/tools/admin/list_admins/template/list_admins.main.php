@@ -65,11 +65,12 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 
- <tr height="10">
-  <td colspan="2" class="listTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-
 </table>
+</form>
+
+<br>
+<form action="<?=$page_name?>?action=add" method="post">
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Admin" class="formButton add-new-btn">') ?>
 </form>
 <br>
 

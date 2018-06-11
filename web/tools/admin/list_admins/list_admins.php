@@ -39,6 +39,78 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+#################
+# start add new #
+#################
+
+if ($action=="add")
+{
+        extract($_POST);
+        if(!$_SESSION['read_only'])
+        {
+                require("template/".$page_id.".add.php");
+                require("template/footer.php");
+                exit();
+        }else {
+                $errors= "User with Read-Only Rights";
+        }
+
+}
+
+#################
+# end add new   #
+#################
+
+
+#################
+# start add new #
+#################
+if ($action=="add_verify")
+{
+  if(!$_SESSION['read_only']){
+	  require("lib/".$page_id.".test.inc.php");
+	  if ($form_valid) {
+                if ($config->admin_passwd_mode==0) {
+                	$ha1  = '';
+                        $add_passwd = $_POST['add_passwd'];
+                } else if ($config->admin_passwd_mode==1) {
+                        $ha1 = md5($add_uname.":".$_POST['add_passwd']);
+                        $add_passwd = '';
+                }
+
+
+		$sql = 'INSERT INTO '.$table.' (last_name,first_name,username,password,ha1) VALUES '. 
+		' (\''.$add_lname.'\',\''.$add_fname.'\',\''. $add_uname . '\',\''. $add_passwd.'\',\''.$ha1.'\')';
+		$resultset = $link->prepare($sql);
+
+		$resultset->execute();
+		$resultset->free();
+
+		$link->disconnect();
+
+		$lname=NULL;
+		$fname=NULL;
+		$uname=NULL;
+		$passwd=NULL;
+		$confirm_passwd=NULL;
+	}
+	  if ($form_valid) {
+		print "New Admin added!";
+		$action="add";
+	  } else {
+		print $form_error;
+		$action="add_verify";
+	  }
+
+ } else {
+ 	$errors= "User with Read-Only Rights";
+	}
+}
+###############
+# end add new #
+###############
+
+
 ##############
 # start edit #
 ##############
