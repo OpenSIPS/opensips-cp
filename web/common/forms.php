@@ -23,6 +23,15 @@
 
 <script language="JavaScript">
 
+function form_init_status() {
+	elem = document.getElementsByTagName("input");
+
+	for(var i = 0; i < elem.length; i++) {
+		if (elem[i].oninput)
+			elem[i].oninput();
+	}
+}
+
 function form_full_check() {
 	elem = document.getElementsByTagName("input");
 	ret = true;
@@ -55,6 +64,30 @@ function validate_input(field, output, regex){
 		document.getElementById(field).setAttribute("valid","ko");
 		ret =-1;
 	} else if (val.match(re) ) {
+		document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
+		document.getElementById(field).setAttribute("valid","ok");
+		ret = 1;
+	} else {
+		document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
+		document.getElementById(field).setAttribute("valid","ko");
+		ret = -1;
+	}
+
+	form_full_check();
+	return ret;
+}
+
+function validate_password(field, output, password){
+	pw1 = document.getElementById(field).value;
+	pw2 = document.getElementById(password).value;
+	if (pw2=="") {
+		if (document.getElementById(field).getAttribute("opt")=="y")
+			document.getElementById(output).innerHTML = '';
+		else
+			document.getElementById(output).innerHTML = '<img src="../../../images/share/must-icon.png">';
+		document.getElementById(field).setAttribute("valid","ko");
+		ret =-1;
+	} else if (pw1 == pw2) {
 		document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
 		document.getElementById(field).setAttribute("valid","ok");
 		ret = 1;
@@ -101,17 +134,60 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 		</tr>");
 }
 
-function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts) {
+function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$opt='y') {
 
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
-	else 
-		$value = "";
-
-	if ($re==null)
-		$validate="";
 	else
-		$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",\"".$re."\")'";
+		$value = "";
+	if ($confirm_val!=null)
+		$confirm_value=" value='".$val."' valid='ok'";
+	else 
+		$confirm_value = "";
+
+	if (!$tip) {
+		$tip = "Password";
+	}
+
+	print("
+		<tr>
+			<td class='dataRecord'>
+				<b>Password</b>
+				<div class='tooltip'><sup>?</sup>
+				<span class='tooltiptext'>Enter ".$tip."<br> (minimum ".$minimum. " characters)</span>
+				</div>
+			</td>
+			<td class='dataRecord' width='250'>
+				<table><tr><td>
+				<input type='password' name='".$title."'".$value." id='".$title."' class='dataInput' opt='".$opt.
+				"' oninput='validate_input(\"".$title."\", \"".$title."_ok\",\".{".$minimum."}.*\")'>
+				</td>
+				<td width='20'>
+				<div id='".$title."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
+				</td></tr></table>
+			</td>
+		</tr>");
+	print("
+		<tr>
+			<td class='dataRecord'>
+				<b>Confirm Password</b>
+				<div class='tooltip'><sup>?</sup>
+				<span class='tooltiptext'>Confirm ".$tip."<br></span>
+				</div>
+			</td>
+			<td class='dataRecord' width='250'>
+				<table><tr><td>
+				<input type='password' name='confirm_".$title."'".$confirm_value." id='confirm_".$title."' class='dataInput' opt='".$opt.
+				"' oninput='validate_password(\"confirm_".$title."\", \"confirm_".$title."_ok\",\"".$title."\")'>
+				</td>
+				<td width='20'>
+				<div id='confirm_".$title."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
+				</td></tr></table>
+			</td>
+		</tr>");
+}
+
+function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
 
 	print("
 		<tr>
@@ -126,7 +202,7 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts) {
 				<select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
 	for($i = 0; $i < count($vals); ++$i){
 		print("
-					<option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".$texts[$i]."</option>");
+					<option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".($texts[$i]?$texts[$i]:$vals[$i])."</option>");
 	}
 	print("
 				</select>
