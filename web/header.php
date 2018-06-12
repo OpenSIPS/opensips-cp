@@ -30,10 +30,23 @@
 </head>
 
 <body topmargin="0" leftmargin="0" bottommargin="0" rightmargin="0">
-<table class="headerTable" width="100%" height="30" background="images/bar.jpg">
- <tr>
-  <td align="left"><div class="headerTitle"><?=$header_title?></div></td>
-  <td align="right"><a href="logout.php" target="_parent" class="headerLogout">Logout</a>&nbsp;&nbsp;&nbsp;</td>
+<table class="headerTable" width="100%" height="30">
+<tr>
+  <td align="left">
+    <div class="headerTitle"><?=$header_title?></div>
+  </td>
+  <td align="right">
+    <table>
+      <tr>
+	<td align="right">
+          <a onclick="top.frames['main_body'].location.href='tools/admin/list_admins/list_admins.php';" href="#" class="headerLogout" id="menu_admin">Users</a>
+	</td>
+	<td align="right">
+	  <a href="logout.php" target="_parent" class="headerLogout" id="menu_logout">Logout</a>
+        </td>
+       </tr>
+    </table>
+  </td>
  </tr>
 </table>
 </body>
