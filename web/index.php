@@ -38,7 +38,7 @@
 <table cellspacing="0" cellpadding="0" border="0" bgcolor="white">
   <tr>
    <td width="8"><img height="25" alt="" src="images/boxtopleft.gif" width="8" border="0"></td>
-   <td background="images/boxtop.gif" align="center"><div class="loginTitle"><?=$login_title?></div></td>
+   <td background="images/boxtop.gif" align="center" class="loginTitle"><?=$login_title?></td>
    <td width="8"><img height="25" alt="" src="images/boxtopright.gif" width="8" border="0"></td>
   </tr>
   <tr>
