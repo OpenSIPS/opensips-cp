@@ -35,20 +35,6 @@ if ($action=="add_verify")
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
 		$_SESSION[$key] = $_POST[$key];	
 
-	//here goes validation
-	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
-		if (isset($value['show_in_add_form']) && $value['show_in_add_form'] == true){
-			if (isset($value['validation_regex'])){
-				if (!preg_match($value['validation_regex'],$_POST[$key])){
-					$form_error = $value['validation_err'];
-					require("template/".$page_id.".add.php");
-					require("template/footer.php");
-					exit();
-				}	
-			}
-		}
-	}
-	
 	// Check Primary, Unique and Multiple Keys 
 	$query = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,NULL);
 
@@ -73,7 +59,7 @@ if ($action=="add_verify")
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
 		if (isset($_POST[$key])){
 			$fields.=$key.",";
-			$values.="'".mysql_real_escape_string($_POST[$key])."',";
+			$values.="'".$_POST[$key]."',";
 		}
 	}
 	//chop the commma at the end :D	

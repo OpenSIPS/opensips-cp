@@ -88,13 +88,11 @@ else {
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
+			
 			<!-- SEARCH BOX STARTS HERE -->
 			<?php if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['enabled']) { ?>
 				<form id="" action="<?=$page_name?>?action=dp_act" method="post">
 				<table width="350" cellspacing="2" cellpadding="2" border="0">
-					<tr align="center">
-						<td colspan="2" height="10" class="tviewerTitle"></td>
-					</tr>
 				<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
 					<?php if ($key != $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key'] && $value['searchable']) { ?>
 					<tr>
@@ -114,7 +112,7 @@ else {
 						<?php case "combo": ?>
 								<?php 	
 									if (isset($_SESSION[$key])) $value['default_value'] = $_SESSION[$key];
-									print_custom_combo($key,$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
+									print_custom_combo( $key, $value, $value['default_value'], TRUE ); ?>	
 								<?php break; ?>	
 						<?php } ?>
  						</td>
@@ -128,9 +126,6 @@ else {
 								<input type="submit" class="searchButton" name="show_all" value="Show All"></td>
 						<?php } ?>
 					</tr>
-					<tr align="center">
-						<td colspan="2" height="10" class="tviewerTitle"></td>
-					</tr>
 				</table>
 				</form>
 			<?php } ?>
@@ -138,7 +133,7 @@ else {
 
 			
 			<!-- ACTION BUTTONS START HERE -->
-			<table align="center" cellspacing="2" cellpadding="4" border="0"><tr>
+			<table style="width:1px!important" align="center" cellspacing="2" cellpadding="4" border="0"><tr>
 				<?php if (!$_SESSION['read_only']) { ?>
 					<?php for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) { ?>
 					<td align="center">
@@ -153,23 +148,41 @@ else {
 							>
 						</form>
 					</td>
-					<?php } ?>
-				<?php } ?>
+					<?php
+					}
+					if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['reload']) {
+						echo '<td align="center">';
+						echo '<form action="<?=$page_name?>" method="post">';
+						echo '<input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>';
+						echo '</form>';
+						echo '</td>';
+					}
+
+				} ?>
 			</tr></table>
 			<!-- ACTION BUTTONS END HERE -->
-<br>
+
+			<!-- PRELOAD combo  STARTS HERE -->
+			<?php
+			$combo_cache = array();
+			foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+				if ($value['type'] == "combo")
+					$combo_cache[ $key ] = get_custom_combo_options($value);
+			}
+			?>
+			<!-- PRELOAD combo  STARTS HERE -->
+
 			<!-- TABLE STARTS HERE -->
-			
 			<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 				<tr align="center">
 					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
-						if ( !isset($value['visible']) || $value['visible']==true)
-							echo('<th class="tviewerTitle">'.$value['header'].'</th>');
+						if ( !isset($value['visible']) || $value['visible']==true)	
+							echo('<th class="listTitle">'.$value['header'].'</th>');
 						}
 						if(!$_SESSION['read_only']){ 
 							for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
-								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['show_header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
-								echo "<th class='tviewerTitle'>".$header_name."</th>";
+								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
+								echo "<th class='listTitle'>".$header_name."</th>";
 							}
 						} 
 					?>
@@ -183,7 +196,15 @@ else {
 								if ( isset($value['visible']) && $value['visible']==false)
 									continue;
 								echo "<td class='".$row_style."'>";
-								echo $resultset[$i][$key];
+								if ($value['type']=="combo") {
+									$text = isset($resultset[$i][$key]) ? $combo_cache[$key][ $resultset[$i][$key] ]['display'] : "";
+								} else {
+									$text = $resultset[$i][$key];
+								}
+								if (isset($value['value_wrapper_func']))
+									echo $value['value_wrapper_func']( $key, $text, $resultset[$i] );
+								else
+									echo $text;
 								echo "</td>";
 							}
 							if(!$_SESSION['read_only']){ 
@@ -195,12 +216,12 @@ else {
 										$action_link	.= $resultset[$i][$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
 										$action_link	.= "'";
 										if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['events']))
-											$action_link .= " ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['events'];
+											$action_link .= " ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['events']; 
 										$action_link	.= ">";
 										$action_link	.= "<img src='".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['icon']."' border='0'>";
 										$action_link	.= "</a>";
 
-										echo "<td class='".$row_style."' align='center'>";
+										echo "<td class='".$row_style."Img' align='center'>";
 										echo $action_link;
 										echo "</td>";
 								}
@@ -214,11 +235,10 @@ else {
 				?>
 						<!-- PAGING STARTS HERE -->
 						<tr>
-							<th colspan="<?=$colspan?>" class="tviewerTitle">
-								<table width="100%" cellspacing="0" cellpadding="0" border="0">
+							<th colspan="<?=$colspan?>">
+								<table class="pagingTable">
 									<tr>
-										<th align="left">
-											&nbsp;Page:
+										<th align="left">Page:
 									   <?php
 										if ($filtered_records==0) 
 											echo('<font class="pageActive">0</font>&nbsp;');

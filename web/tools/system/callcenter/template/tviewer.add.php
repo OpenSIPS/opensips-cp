@@ -19,18 +19,17 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
+require_once("../../../common/forms.php");
 
 if (isset($form_error) && $form_error!="")
 	echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
 else if (isset($success) && $success!="")
 	echo '<div class="formSuccess" ><strong>Success </strong>'.$success.'</div>';
 ?>
-
-			<form id="addnewentry" class="block-content form" action="<?=$page_name?>?action=add_verify" method="post">
+			<form id="addnewentry" action="<?=$page_name?>?action=add_verify" method="post">
 				<table width="400" cellspacing="2" cellpadding="2" border="0">
 					<tr align="center">
-						<td colspan="2" class="tviewerTitle">
+						<td colspan="2" class="mainTitle">
 							Add New Entry
 						</td>
 					</tr>
@@ -38,9 +37,21 @@ else if (isset($success) && $success!="")
 					<?php if ($value['show_in_add_form'] == true ){ ?>
 					<tr>
 						<td class="dataRecord">
-							<label for="<?=$key?>"><?=$value['header']?></label>
+							<label for="<?=$key?>"><b><?=$value['header']?></b></label>
+							<?if (isset($value['tip']) && $value['tip']!="") { ?>
+							<div class='tooltip'><sup>?</sup>
+							<span class='tooltiptext'><?=$value['tip']?></span>
+							</div>
+							<? } ?>
 						</td>
+						<?php if (!isset($value['validation_regex']))
+							$validate="";
+						else
+							$validate=" opt='".$value['is_optional']."' oninput='validate_input(\"".$key."\", \"".$key."_ok\",\"".$value['validation_regex']."\")'";
+						?>
 						<td class="dataRecord" width="275">
+							<table><tr><td>
+
 							<?php switch ($value['type']) { 
 								case "text": ?>
 									<input 	id="<?=$key?>" 
@@ -48,12 +59,20 @@ else if (isset($success) && $success!="")
 										class="dataInput" 
 										type="text" 
 										value="<?=(isset($_SESSION[$key]))?$_SESSION[$key]:((isset($value['default_value']))?$value['default_value']:"")?>" 
+										<?=$validate?>
 									/> 
 									<?php break; ?>	
 							<?php 	case "combo": ?>
-									<?php print_custom_combo($key,$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
+									<?php print_custom_combo($key,$value, $value['default_value'], FALSE); ?>
 									<?php break; ?>	
 							<?php } ?>
+
+							</td>
+							<td width='20'>
+							<?echo("<div id='".$key."_ok'></div>"); ?>
+							</td></tr></table>
+
+
 						</td>
 					</tr>
 						<?php } ?>
@@ -63,15 +82,11 @@ else if (isset($success) && $success!="")
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Add" class="formButton">
 							<input type="button" value="Reset" class="formButton" href="javascript:;" onclick="document.getElementById('addnewentry').reset();">
+							<? print_back_input(); ?>
 						</td>
 					</tr>
 
-					<tr height="10">
-						<td colspan="2" class="searchTitle">
-						<img src="../../../images/share/spacer.gif" width="5" height="5">
-					</td>
-				</tr>
 			</table>
+			<script> form_init_status(); </script>
 			</form>
-		<? print_back_button(); ?>
 

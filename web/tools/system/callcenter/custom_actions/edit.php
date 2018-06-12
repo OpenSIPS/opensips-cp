@@ -9,7 +9,6 @@ if ($action=="edit")
 	if(!$_SESSION['read_only']){
 
 		extract($_POST);
-
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
 			$_SESSION[$key] = $_POST[$key];
 
@@ -39,19 +38,6 @@ if ($action=="modify")
 			$_SESSION[$key] = $_POST[$key];
 
 		//initialize
-		//here goes validation
-		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
-			if (isset($value['show_in_edit_form']) && $value['show_in_edit_form'] == true){
-				if (isset($value['validation_regex'])){
-					if (!preg_match($value['validation_regex'],$_POST[$key])){
-						$form_error = $value['validation_err'];
-						require("template/".$page_id.".edit.php");
-						require("template/footer.php");
-						exit();
-					}
-				}
-			}
-		}
 
 		// Check Primary, Unique and Multiple Keys
 		$query = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,$id);
@@ -77,7 +63,7 @@ if ($action=="modify")
 		$updatestring="";
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
 			if (isset($_POST[$key])){
-	        	$updatestring=$updatestring.$key."='".mysql_real_escape_string($_POST[$key])."',";
+	        	$updatestring=$updatestring.$key."='".$_POST[$key]."',";
 			}
 		}
 		//trim the ending comma
@@ -102,7 +88,6 @@ if ($action=="modify")
 		require("template/".$page_id.".edit.php");
 		require("template/footer.php");
 		exit();
-
 	}
 	else {
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)

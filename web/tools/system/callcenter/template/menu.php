@@ -45,11 +45,3 @@
 	</tr>
 </table>
 
-<div align="right">
-<?php if (!$_SESSION['read_only'])
-		if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['reload'])
-			echo '<a href="javascript:;" onclick="apply_changes()" class="ButtonLink">Apply Changes to Server</a>';
-?>
-</div>
-
-<br>
