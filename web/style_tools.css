@@ -260,8 +260,7 @@ a.menuItemSelect:hover {
 
 .formButton:disabled,
 formButton[disabled]{
-	background: #80f3d9;
-	color: #fff;
+	opacity: 0.4;
 	cursor: not-allowed;
 }
 
