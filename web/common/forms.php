@@ -124,7 +124,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 				</div>
 			</td>
 			<td class='dataRecord' width='250'>
-				<table><tr><td>
+				<table style='width:100%'><tr><td>
 				<input type='text' name='".$id."'".$value." id='".$id."' maxlength='".$mlen."' class='dataInput'".$validate.">
 				</td>
 				<td width='20'>
@@ -158,7 +158,7 @@ function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$
 				</div>
 			</td>
 			<td class='dataRecord' width='250'>
-				<table><tr><td>
+				<table style='width:100%'><tr><td>
 				<input type='password' name='".$title."'".$value." id='".$title."' class='dataInput' opt='".$opt.
 				"' oninput='validate_input(\"".$title."\", \"".$title."_ok\",\".{".$minimum."}.*\")'>
 				</td>
@@ -198,7 +198,7 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
 				</div>
 			</td>
 			<td class='dataRecord' width='250'>
-				<table><tr><td>
+				<table style='width:100%'><tr><td>
 				<select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
 	for($i = 0; $i < count($vals); ++$i){
 		print("

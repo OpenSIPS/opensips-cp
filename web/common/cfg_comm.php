@@ -172,7 +172,7 @@ function print_back_input() {
 	if(isset($_SERVER['HTTP_REFERER'])) {
 		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
 	}
-	echo("<input onclick=\"location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
+	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
 
 
