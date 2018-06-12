@@ -20,6 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require_once("../../../common/forms.php");
+
 $id=$_GET[$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
 
 $sql = "select * from ".$table." where ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."='".$id."'";
@@ -46,9 +48,20 @@ $link->disconnect();
 					<?php if ($value['show_in_edit_form'] == true ){ ?>
 					<tr>
 						<td class="dataRecord">
-							<label for="<?=$key?>"><?=$value['header']?></label>
+							<label for="<?=$key?>"><b><?=$value['header']?></b></label>
+							<?if (isset($value['tip']) && $value['tip']!="") { ?>
+							<div class='tooltip'><sup>?</sup>
+							<span class='tooltiptext'><?=$value['tip']?></span>
+							</div>
+							<? } ?>
 						</td>
+						<?php if (!isset($value['validation_regex']))
+							$validate="";
+						else
+							$validate=" opt='".$value['is_optional']."' valid='ok' oninput='validate_input(\"".$key."\", \"".$key."_ok\",\"".$value['validation_regex']."\")'";
+						?>
 						<td class="dataRecord" width="275">
+							<table><tr><td>
 							<?php switch ($value['type']) { 
 								case "text": ?>
 									<input 	id="<?=$key?>" 
@@ -56,12 +69,19 @@ $link->disconnect();
 										class="dataInput" 
 										type="text" 
 										value="<?php if (isset($_SESSION[$key])) echo $_SESSION[$key]; else echo $resultset[0][$key];?>" 
+										<?=$validate?>
 									/> 
 									<?php break; ?>	
 							<?php 	case "combo": ?>
-									<?php print_custom_combo($key,isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value'],$value['default_display'],$value['combo_default_values'],$value['combo_table'],$value['combo_value_col'],$value['combo_display_col'],$value['disabled']); ?>	
+									<?php print_custom_combo($key, $value, isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value'], FALSE); ?>
 									<?php break; ?>	
 							<?php } ?>
+							</td>
+							<td width='20'>
+							<?echo("<div id='".$key."_ok'></div>"); ?>
+							</td></tr></table>
+
+
 						</td>
 					</tr>
 						<?php } ?>
@@ -74,7 +94,9 @@ $link->disconnect();
 							<? print_back_input(); ?>
 						</td>
 					</tr>
+
 				</tr>
 			</table>
+			<script> form_init_status(); </script>
 			</form>
 
