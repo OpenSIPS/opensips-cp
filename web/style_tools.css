@@ -260,6 +260,13 @@ a.menuItemSelect:hover {
 	border-color: #f6a29a;
 }
 
+.formButton:disabled,
+formButton[disabled]{
+	background: #80f3d9;
+	color: #fff;
+	cursor: not-allowed;
+}
+
 .searchButton:last-child:hover {
 	color: #16a686
 }
@@ -569,6 +576,10 @@ p, li, td, .menu_active, input, button {
     border-bottom: 3px solid #d7dadc;
 }
 
+.textlink {
+	color: inherit;
+	text-decoration: inherit;
+}
 
 /* =================TOOLTIP======================= */
 .tooltip {
