@@ -61,7 +61,7 @@ $link->disconnect();
 							$validate=" opt='".$value['is_optional']."' valid='ok' oninput='validate_input(\"".$key."\", \"".$key."_ok\",\"".$value['validation_regex']."\")'";
 						?>
 						<td class="dataRecord" width="275">
-							<table><tr><td>
+							<table style="width:100%"><tr><td>
 							<?php switch ($value['type']) { 
 								case "text": ?>
 									<input 	id="<?=$key?>" 

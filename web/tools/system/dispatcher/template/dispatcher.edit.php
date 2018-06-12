@@ -56,4 +56,5 @@ $link->disconnect();
  	</tr>
 
 	</table>
+	<script> form_init_status(); </script>
 </form>

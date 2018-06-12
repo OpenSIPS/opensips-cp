@@ -48,7 +48,7 @@ if(PEAR::isError($lb_form)) {
 		<table cellspacing=20>
 		<tr>
 		<td class="dataRecord" align="right" width="50%">
-		<input type="submit" name="add" disabled=true value="Save" class="formButton">
+		<input type="submit" name="add" value="Save" class="formButton">
 		<td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
 		</tr>
 		</table>
@@ -56,4 +56,5 @@ if(PEAR::isError($lb_form)) {
 	</tr>
 
 	</table>
+	<script> form_init_status(); </script>
 </form>
