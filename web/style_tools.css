@@ -241,7 +241,6 @@ a.menuItemSelect:hover {
 .formButton[name="delete"] {
 	background: #f26a60;
 	border-color: #f26a5f;
-	margin-right: -30px;
 }
 
 .formButton[name="delete"]:hover {
@@ -252,7 +251,6 @@ a.menuItemSelect:hover {
 .formButton[name="reload"] {
 	background: #f26a60;
 	border-color: #f26a5f;
-	margin-right: -30px;
 }
 
 .formButton[name="reload"]:hover {
