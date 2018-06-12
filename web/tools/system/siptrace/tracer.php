@@ -39,15 +39,18 @@
  
  if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
  else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
- 
+
+ if (isset($_POST['toggle'])) {
+	 $action="toggle";
+	 $toggle_button=$_POST['toggle'];
+ }
+
  
 if ($action=="toggle") {
 
-	$toggle_button=	$_GET['toggle_button'];
-	
-	if ($toggle_button=="enable") {	
+	if ($toggle_button=="Enable") {	
 		$sip_trace	= "on" ;
-	} else if ($toggle_button=="disable") {	
+	} else if ($toggle_button=="Disable") {	
 		$sip_trace	= "off" ;
 	}
 
@@ -68,9 +71,9 @@ $msg = json_decode($msg, TRUE);
 $state = $msg['global'];
 
 if ($state == "on")
-	$toggle_button = "disable";
+	$toggle_button = "Disable";
 else if ($state == "off")
-	$toggle_button = "enable";
+	$toggle_button = "Enable";
 else 
 	$toggle_button=null;
 
@@ -97,7 +100,7 @@ if ($action=="search")
                               $_SESSION['tracer_search_callid']="";
                               $_SESSION['tracer_search_start']="";
                               $_SESSION['tracer_search_end']="";
-							  $_SESSION['tracer_search_traced_user']=""; 		
+                              $_SESSION['tracer_search_traced_user']=""; 		
   					       }
    else {
          unset($_SESSION['detailed_callid']);

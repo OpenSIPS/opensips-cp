@@ -33,12 +33,12 @@ $no_result = "No Data Found.";
 <html>
 
 <head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef" onload="init_tooltip()">
 <center>
-<table width="705" cellpadding="5" cellspacing="5" border="0">
+<table width="95%" cellpadding="5" cellspacing="5" border="0">
  <tr valign="top" height="20">
   <td><?php require("template/menu.php") ?></td>
  </tr>
