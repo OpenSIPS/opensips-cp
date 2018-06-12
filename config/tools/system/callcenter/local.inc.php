@@ -24,11 +24,11 @@
 # Attention : advanced options !!
 
  //this is a very important parameter
- $module_id = "tviewer";
+ $module_id = "callcenter";
  $custom_config[$module_id] = array ();
 
  // a custom global name for the tool
- $custom_config[$module_id]['custom_name'] = "Callcenter";
+ $custom_config[$module_id]['custom_name'] = "Call Center";
  
  //if you want submenu (horizontal) items add them here:
  $custom_config[$module_id]['submenu_items'] = array(
