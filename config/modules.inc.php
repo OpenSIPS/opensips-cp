@@ -111,6 +111,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "RTPProxy"
 			),
+			"rtpengine"			=> array (
+				"enabled"		=> true,
+				"name"			=> "RTPEngine"
+			),
 			"permissions"		=> array (
 				"enabled"		=> true,
 				"name"			=> "Permissions"
