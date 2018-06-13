@@ -28,9 +28,9 @@ if($search_cid!="") $sql_search.=" and cluster_id=".$search_cid;
 if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
 
 if(!$_SESSION['read_only']){
-	$colspan = 8;
+	$colspan = 10;
 }else{
-	$colspan = 6;
+	$colspan = 8;
 }
 ?>
 
@@ -72,6 +72,8 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">BIN URL</th>
   <th class="listTitle">Max retries</th>
   <th class="listTitle">In Use</th>
+  <th class="listTitle">SIP address</th>
+  <th class="listTitle">Flags</th>
   <th class="listTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
@@ -116,6 +118,8 @@ else
 			}
 			?>
 			<td class="<?=$row_style."Img"?>" align="center">&nbsp;<?php echo $state_info?></td>
+			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['sip_addr']?></td>
+			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['flags']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
  			<? 
  			if(!$_SESSION['read_only']){

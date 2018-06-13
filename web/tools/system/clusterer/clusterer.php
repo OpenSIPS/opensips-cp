@@ -66,10 +66,12 @@ case "do_add":
 	$cln_sid=$_POST['node_id'];
 	$cln_url=$_POST['url'];
 	$cln_ping=$_POST['no_ping'];
+	$cln_sipaddr=$_POST['sip_addr'];
+	$cln_flags=$_POST['flags'];
 	$cln_description=$_POST['description'];
 
-	$sql = "INSERT INTO ".$table." (cluster_id, node_id, url, no_ping_retries, description) VALUES 
-		(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_ping."','".$cln_description."')";
+	$sql = "INSERT INTO ".$table." (cluster_id, node_id, url, no_ping_retries, sip_addr, flags, description) VALUES 
+		(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_ping."','".$cln_sipaddr."','".$cln_flags."','".$cln_description."')";
 	$result = $link->exec($sql);
        	if(PEAR::isError($result)) {
 		$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
@@ -107,9 +109,12 @@ case "modify":
 	$cle_sid=$_POST['node_id'];
 	$cle_url=$_POST['url'];
 	$cle_ping=$_POST['no_ping'];
+	$cle_sipaddr=$_POST['sip_addr'];
+	$cle_flags=$_POST['flags'];
 	$cle_description=$_POST['description'];
 
-	$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", node_id=".$cle_sid.", url='".$cle_url."', no_ping_retries='".$cle_ping."', description='".$cle_description."' where id=".$cle_id;
+	$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", node_id=".$cle_sid.", url='".$cle_url."', no_ping_retries='".$cle_ping.
+		"', sip_addr='".$cle_sipaddr."', flags='".$cle_flags."', description='".$cle_description."' where id=".$cle_id;
 	$result = $link->exec($sql);
        	if(PEAR::isError($result)) {
 		$errors = "Update to DB failed with: ".$result->getUserInfo();

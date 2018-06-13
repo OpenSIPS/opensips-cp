@@ -34,6 +34,12 @@ form_generate_input_text("BIN URL", "The Binary INterface URL for reaching the n
 form_generate_input_text("Max retries", "Maximum number of probes/retries before marking other nodes as unreachable",
 	"no_ping", "n", $cl_form['no_ping_retries'], 128, "^[0-9]+$");
 
+form_generate_input_text("SIP address", "An IP address where this node is receiving the SIP traffic (for certain scenarios, like Federated User Location)",
+	"sip_addr", "y", $cl_form['sip_addr'], 192, $re_ip);
+
+form_generate_input_text("Flags", "Comma separated list of text flags required by modules using the clusterer enging. The only supported right now is 'seed'.",
+	"flags", "y", $cl_form['flags'], 128, "^seed$");
+
 form_generate_input_text("Description", "Description in DB, not used by OpenSIPS",
 	"description", "y", $cl_form['description'], 128, null);
 ?>
