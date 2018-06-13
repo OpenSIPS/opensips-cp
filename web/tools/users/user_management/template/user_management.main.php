@@ -100,10 +100,7 @@ if ( $users == "online_usr" ) {
 }
   ?>
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="350" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="listTitle"></td>
- </tr>
+<table  class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord" align="left">Username</td>
   <td class="searchRecord" width="200"><input type="text" name="lst_uname" 
@@ -134,14 +131,9 @@ if ( $users == "online_usr" ) {
   <td class="searchRecord" align="let">Offline Users</td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
- </tr>
-
-
- <tr height="10">
-  <td colspan="2" class="listTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
@@ -223,16 +215,16 @@ else
 		else $row_style="rowEven";
 
 		if ($has_acl) {
-			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/group.png" border="0"></a>';
+			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="../../../images/share/info.png" border="0"></a>';
 			
 		}
 		if ($has_alias) {
-			$alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="images/alias.gif" border="0"></a>';
+			$alias_link = '<a href="../alias_management/alias_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="../../../images/share/alias.png" border="0"></a>';
 		}
 
 		if(!$_SESSION['read_only']){
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
  <tr>
@@ -241,30 +233,29 @@ else
 
 <?php
 	foreach ( $config->subs_extra as $key => $value ) {
-    	echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
-		$colspan++;
+    		echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
 	}
 ?>
 
-  <td class="<?=$row_style?>" align="center">
+  <td class="<?=$row_style."Img"?>" align="center">
     <a href="javascript:;" onclick="show_contacts('<?=$resultset[$i]['username']?>','<?=$resultset[$i]['domain']?>')">
-		<img src="images/contacts.png" border="0">
+		<img src="../../../images/share/phone.png" border="0">
 	</a>
   </td>
 
    <? 
 
 	if ($has_alias){
-		echo('<td class="'.$row_style.'" align="center">'.$alias_link.'</td>');
+		echo('<td class="'.$row_style.'Img" align="center">'.$alias_link.'</td>');
 	}
 
 	if ($has_acl){
-		echo('<td class="'.$row_style.'" align="center">'.$group_link.'</td>');
+		echo('<td class="'.$row_style.'Img" align="center">'.$group_link.'</td>');
 	}
 
 	if(!$_SESSION['read_only']){
-		echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+		echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
 	}
 ?>  
   </tr>  
@@ -275,11 +266,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="listTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>" >
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
@@ -301,7 +291,7 @@ else
        }
        ?>
       </th>
-      <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
+      <th align="right" >Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
   </th>

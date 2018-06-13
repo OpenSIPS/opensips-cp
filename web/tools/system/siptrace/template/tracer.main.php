@@ -19,38 +19,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-?>
 
-
-<div align="right">
-<form action="<?=$page_name?>?action=toggle&toggle_button=<?php print $toggle_button?>" method="post">
-<?php if (!$_SESSION['read_only']) {
-
-	if  ( $toggle_button == "disable" ) {
-
-		echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #00ff00; ">';
-
-	} else
-	if  ( $toggle_button == "enable" )
-	{
-
-		echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #ff0000; ">';
-	}
-       } else if(isset($toggle_button)) { 
-		echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #939393; " disabled>';
-       }
-?>
-</form>
-</div>
-<form action="<?=$page_name?>?action=search" method="post">
-<?php
 $sql_search="";
 $search_regexp=$_SESSION['tracer_search_regexp'];
 if ($search_regexp!="") $sql_search.=" AND msg REGEXP '".$search_regexp."'";
 $search_callid=$_SESSION['tracer_search_callid'];
 if ($search_callid!="") $sql_search.=" AND callid='".$search_callid."'";
 $search_traced_user=$_SESSION['tracer_search_traced_user'];
-if ($search_traced_user!="") $sql_search.=" AND traced_user='".$search_traced_user."'";
+if ($search_traced_user!="") $sql_search.=" AND trace_attrs='".$search_traced_user."'";
 $search_start=$_SESSION['tracer_search_start'];
 if ($search_start!="") $sql_search.=" AND time_stamp>'".$search_start."'";
 $search_end=$_SESSION['tracer_search_end'];
@@ -58,21 +34,16 @@ if ($search_end!="") $sql_search.=" AND time_stamp<'".$search_end."'";
 
 
 if (isset($_SESSION['delete']) && (isset($sql_search)) ){
-
-
 	$_SESSION['tracer_search_regexp']="";
 	$_SESSION['tracer_search_callid']="";
 	$_SESSION['tracer_search_traced_user']="";
 	$_SESSION['tracer_search_start']="";
 	$_SESSION['tracer_search_end']="";
-
 }
+?>
 
- ?>
+<form action="<?=$page_name?>?action=search" method="post">
 <table width="70%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="searchTitle">Search SIP Traces by</td>
- </tr>
  <tr>
   <td class="searchRecord" width="115">RegExp </td>
   <td class="searchRecord"><input type="text" name="search_regexp" value="<?=$search_regexp?>" id="search_regexp" maxlength="128" class="searchInput"></td>
@@ -99,21 +70,32 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
  
 
  <tr height="10">
-  <td colspan="3" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;<?php if(!$_SESSION['read_only']){ ?> <input type="submit" id="deletebutton" name="delete" value="Delete" class="searchButton" onClick="return confirmDelete()" > <?php } ?>  </td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="3" class="searchRecord" align="center">
+	<input type="submit" name="search" value="Search" class="formButton">&nbsp;&nbsp;&nbsp;
+	<input type="submit" name="show_all" value="Show All" class="formButton">&nbsp;&nbsp;&nbsp;
+	<?php if(!$_SESSION['read_only']){ ?>
+	<input type="submit" id="delete" name="delete" value="Delete Listed" class="formButton" onClick="return confirmDelete()" > &nbsp;&nbsp;&nbsp;
+	<?php if  ( $toggle_button == "Disable" ) {
+		echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton">';
+	} else if  ( $toggle_button == "Enable" ) {
+		echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton" style="background-color: #f26a60; ">';
+        } else if(isset($toggle_button)) { 
+		echo '<input type="submit" name="toggle" value="'.$toggle_button.'" class="formButton"  disabled>';
+        }
+	} ?>
+  </td>
  </tr>
 </table>
-</form><br>
+</form>
+
 
 <table class="ttable" width="600" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <th class="siptraceTitle" align="center">Date Time</th>
-  <th class="siptraceTitle" align="center">Method</th>
-  <th class="siptraceTitle" align="center">Address</th>
-  <th class="siptraceTitle" align="center" width="55">Message</th>
-  <th class="siptraceTitle" align="center" width="45">Call</th>
+  <th class="listTitle" align="center">Date Time</th>
+  <th class="listTitle" align="center">Method</th>
+  <th class="listTitle" align="center">Address</th>
+  <th class="listTitle" align="center" width="55">Message</th>
+  <th class="listTitle" align="center" width="45">Call</th>
  </tr>
 <?php
 
@@ -194,7 +176,7 @@ else
 		}
 			if (($resultset_[0]['from_ip']!="127.0.0.1") && ($resultset_[0]['from_ip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['from_proto'].":".$resultset_[0]['from_ip'].":".$resultset_[0]['from_port'];
 			else $trace_text="to ".get_ip($resultset_[0]['toip']);
-			$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
+			$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
 			$matched_trace_id=$resultset_[0]['id'];
    ?>
    <tr>
@@ -202,7 +184,7 @@ else
    <td ><?=$resultset_[0]['method']?></td>
    <td ><?=$trace_text?></td>
    <td  align="center"><?=$details_msg?></td>
-   <td  align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="../../../images/share/details.gif" border="0"></a></td>
+   <td  align="center"><a href="<?=$page_name.'?id='.$resultset_[0]['id']?>" class="traceLink"><img src="../../../images/share/info.png" border="0"></a></td>
    </tr>
    <?php
    if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
@@ -352,22 +334,22 @@ else
 
      		if ($status=="") {
 
-				$path='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$from_ip.'</strong><br/></span></a>';
+				$path='<div class="tooltip"> <img src="images/server.png"/><span class="tooltiptext"><strong>'.$from_ip.'</strong></span></div>';
 
      			$path.=' <img src="images/arrow_right.png" alt="to"> ';
 
-				$path.='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$to_ip.'</strong><br/></span></a>';
+				$path.='<div class="tooltip"> <img src="images/server.png"/><span class="tooltiptext"><strong>'.$to_ip.'</strong></span></div>';
      		}
 
 
      		if ($status!="") {
 
 
-				$path='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$from_ip.'</strong><br/></span></a>';
+				$path='<div class="tooltip"> <img src="images/server.png"/><span class="tooltiptext"><strong>'.$from_ip.'</strong></span></div>';
 
      			$path.=' <img src="images/arrow_left.png" alt="to"> ';
 
-				$path.='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$to_ip.'</strong><br/></span></a>';
+				$path.='<div class="tooltip"> <img src="images/server.png"/><span class="tooltiptext"><strong>'.$to_ip.'</strong></span></div>';
 
      		}
 
@@ -380,12 +362,12 @@ else
 
 
      		if ($left=="proxy")	 {
-				$path='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$proxy.'</strong><br/></span></a>';
+				$path='<div class="tooltip"> <img src="images/server.png"/><span class="tooltiptext"><strong>'.$proxy.'</strong></span></div>';
 
      		} else
      		if ($left=="caller") {
 
-				$path='<a href="#" class="tooltip"> <img src="images/caller.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$caller.'</strong><br/></span></a>';
+				$path='<div class="tooltip"> <img src="images/caller.png"/><span class="tooltiptext"><strong>'.$caller.'</strong></span></div>';
      		}
 
 
@@ -417,11 +399,11 @@ else
 
      		if ($right=="proxy")	 {
 
-				$path.='<a href="#" class="tooltip"> <img src="images/server.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$proxy.'</strong><br/></span></a>';
+				$path.='<div class="tooltip"> <img src="images/server.png"/><span class="tooltiptext"><strong>'.$proxy.'</strong></span></div>';
 
      		} else if ($right=="callee")  {
 
-				$path.='<a href="#" class="tooltip"> <img src="images/callee.png"/><span><img class="callout" src="images/callout.gif"/><strong>'.$callee.'</strong><br/></span></a>';
+				$path.='<div class="tooltip"> <img src="images/callee.png"/><span class="tooltiptext"><strong>'.$callee.'</strong></span></div>';
 
      		}
 
@@ -429,7 +411,7 @@ else
 
 
 
-     	$details='<a href="details.php?traceid='.$resultset_d[$j]['id'].'"><img src="images/trace.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_d[$j]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
+     	$details='<a href="details.php?traceid='.$resultset_d[$j]['id'].'"><img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_d[$j]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
       ?>
       <tr align="center">
        <td class="<?=$row_style?>"><?=$resultset_d[$j]['time_stamp']?></td>

@@ -25,7 +25,6 @@
 <div id="dialog" class="dialog" style="display:none"></div>
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
-<form action="<?=$page_name?>?action=dp_act" method="post">
 
 <?php
 $sql_search="";
@@ -47,16 +46,14 @@ if($search_port!="") $sql_search.=" and port like '%".$search_port."%'";
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 10;
+	$colspan = 9;
 }else{
-	$colspan = 8;
+	$colspan = 7;
 }
   ?>
+<form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="permissionsTitle"></td>
- </tr>
-  <tr>
+ <tr>
   <td class="searchRecord">IP</td>
   <td class="searchRecord" width="200"><input type="text" name="address_src" 
   value="<?=$search_src?>" maxlength="16" class="searchInput"></td>
@@ -72,37 +69,34 @@ if(!$_SESSION['read_only']){
   value="<?=$search_port?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
-
- <tr height="10">
-  <td colspan="2" class="permissionsTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-
 </table>
 </form>
 
-<form action="<?=$page_name?>?action=add&clone=0" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+<?php if (!$_SESSION['read_only']) { ?>
+<form action="<?=$page_name?>?action=add" method="post">
+  <input type="submit" name="add_new" value="Add Address" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="permissionsTitle">ID</th>
-  <th class="permissionsTitle">Group</th>
-  <th class="permissionsTitle">IP</th>
-  <th class="permissionsTitle">Mask</th>
-  <th class="permissionsTitle">Port</th>
-  <th class="permissionsTitle">Protocol</th>
-  <th class="permissionsTitle">Pattern</th>
-  <th class="permissionsTitle">Context Info</th>
+  <th class="listTitle">Group</th>
+  <th class="listTitle">IP</th>
+  <th class="listTitle">Mask</th>
+  <th class="listTitle">Port</th>
+  <th class="listTitle">Protocol</th>
+  <th class="listTitle">Pattern</th>
+  <th class="listTitle">Context Info</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="permissionsTitle">Edit</th>
-  		<th class="permissionsTitle">Delete</th>');
+  	echo('<th class="listTitle">Edit</th>
+  		<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -139,12 +133,11 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['grp']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['ip']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['mask']?></td>
@@ -154,8 +147,8 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['context_info']?></td>
    <? 
    if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+   	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+	  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
 	?>  
   </tr>  
@@ -164,11 +157,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="permissionsTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

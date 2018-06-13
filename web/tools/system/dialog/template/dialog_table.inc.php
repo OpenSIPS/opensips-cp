@@ -31,7 +31,7 @@ function display_dialog_table($message){
 
 		if(!$_SESSION['read_only']){
 			if ($message[$i]['children']['state']<5)
-       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['attributes']['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['attributes']['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 			else
 				$delete_link = "n/a";
         	}
@@ -45,7 +45,7 @@ function display_dialog_table($message){
 		$entry[$i]['start_time'] = date("Y-m-d H:i:s",$message[$i]['children']['timestart']);
 
 		//expire time
-		$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['children']['expire']);
+		$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['children']['timeout']);
 
 		//toURI
 		$entry[$i]['toURI']=$message[$i]['children']['to_uri'];
@@ -62,11 +62,11 @@ function display_dialog_table($message){
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["fromURI"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["toURI"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["start_time"]."</td>";
-		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["timeout_time"]."</td>";
+		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["expire_time"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
 
 		if(!$_SESSION['read_only']){
-			echo('<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+			echo('<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
 		}
   		echo '</tr>';
 	}

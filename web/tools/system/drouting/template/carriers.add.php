@@ -22,9 +22,9 @@
 ?>
 
 <form action="<?=$page_name?>?action=add_verify" method="post">
-<table width="465" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="dataTitle">Add carrier</td>
+  <td colspan="2" class="mainTitle">Add new carrier</td>
  </tr>
 <?php
  if (isset($form_error)) {
@@ -38,18 +38,20 @@
    <td class="dataRecord"><input type="text" name="carrierid" value="<?=$carrierid;?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td rowspan="2" class="dataRecord" ><b>Gateway List</b></td>
+  <td class="dataRecord" ><b>Gateway List</b></td>
    <td class="dataRecord">
-			<input type="text"   name="gwlist" id="gwlist" value="" maxlength="255" readonly class="dataInput">
-			<input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:50px;" onclick="clearObject('gwlist')"><br>
+	<input type="text"   name="gwlist" id="gwlist" value="" maxlength="255" readonly class="dataInput" style="width:423px!important">
+	<input type="button" name="clear_gwlist" value="Clear Last" class="inlineButton" style="width:90px" onclick="clearObject('gwlist')">
    </td>
   </tr>
   <tr>
-    	<td class="dataRecord">
-			<input type="text"   name="weight" id="weight" value="" maxlength="5" class="dataInput" style="width:38;"> <?=print_gwlist()?>
-			<input type="button" name="add_gwlist" value="Add" class="formButton" style="margin-left:2px;width:50px;" onclick="addElementToObject('gwlist','weight')">
-		</td>
-   </tr>
+   <td/>
+   <td class="dataRecord">
+	<?=print_gwlist()?>
+	<input type="text"   name="weight" id="weight" value="" maxlength="5" class="dataInput" style="width:40!important;">
+	<input type="button" name="add_gwlist" value="Add" class="inlineButton" style="width:90px" onclick="addElementToObject('gwlist','weight')">
+   </td>
+  </tr>
 	
  <tr>
   <td class="dataRecord"><b>Use weights</b></td>
@@ -89,12 +91,14 @@
   <td class="dataRecord"><input type="text" name="description" value="<?=$resultset[0]['description']?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="edit" value="Add" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+      <td class="dataRecord" align="right" width="50%">
+      <input type="submit" name="edit" value="Add" class="formButton"></td>
+      <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
  </tr>
 </table>
 </form>
-<br>
-<? print_back_button(); ?>

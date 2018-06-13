@@ -1,7 +1,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
 	<tr>
-    	<td align="right" style="color:#0969b5">
-        	<b><?php print "System / ".$custom_config[$module_id]['custom_name']." / ".$_SESSION['permission'];?></b>
+    	<td class="breadcrumb">
+        	<?php print "System / ".$custom_config[$module_id]['custom_name']." / ".$_SESSION['permission'];?>
     	</td>
 	</tr>
   	<tr>
@@ -44,13 +44,4 @@
 		</td> 
 	</tr>
 </table>
-<hr width="100%" color="#000000">
 
-<div align="right">
-<?php if (!$_SESSION['read_only'])
-		if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['reload'])
-			echo '<a href="javascript:;" onclick="apply_changes()" class="ButtonLink">Apply Changes to Server</a>';
-?>
-</div>
-
-<br>

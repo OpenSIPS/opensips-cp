@@ -20,6 +20,7 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+
 if (!$_SESSION[read_only]) {
 
 	if ($action=="edit") {
@@ -30,34 +31,34 @@ if (!$_SESSION[read_only]) {
 		$sql='SELECT domain FROM '.$table.' where id='.$_GET['id'];
 		$domain_form = $link->queryRow($sql);
 		$link->disconnect();
-		$button = "Save";
+		$button = "Save Domain";
 	} else {
 		## insert form
 		$url = $page_name."?action=add";
 		$title = "New Domain name";
 		# populate the initial values for the form
 		$domain_form['domain'] = null;
-		$button = "Add";
+		$button = "Add New Domain";
 	}
 	?>
 
 	<form action="<?=$url?>" method="post">
-		<table width="400" cellspacing="2" cellpadding="2" border="0">
+		<table  width="350" cellspacing="2" cellpadding="2" border="0">
 		<tr align="center">
-			<td colspan="2" class="searchTitle">
+			<td colspan="2" class="mainTitle">
 			<?=$title?>
 			</td>
 	 	</tr>
 		<?php
 		require("domains.form.php"); ?>
 		<tr>
-			<td colspan="2" class="dataRecord" align="center">
-			<input type="submit" name="add" disabled=true value="<?=$button?>" class="formButton">
-			</td>
-		</tr>
-		<tr height="10">
-			<td colspan="2" class="dataTitle">
-			<img src="../../../images/share/spacer.gif" width="5" height="5">
+			<td colspan="2" align="center">
+			    <input type="submit" name="add" disabled=true value="<?=$button?>" class="formButton">&nbsp;&nbsp;&nbsp;
+			    <? if ($action=="edit") {?>
+			    <? print_back_input(); ?>
+			    <? } else { ?>
+  			    <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
+			    <? } ?>
 			</td>
 		</tr>
 		</table>
@@ -87,12 +88,12 @@ $link->disconnect();
 
 <br>
 
-<table class="ttable" width="400" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" cellspacing="2" cellpadding="2" border="0">
 	<tr>
-  		<th align="center" class="searchTitle">Domain Name</th>
-  		<th align="center" class="searchTitle">Last Modified</th>
-		<th align="center" class="searchTitle">Edit</th>
-		<th align="center" class="searchTitle">Delete</th>
+  		<th align="center" class="listTitle">Domain Name</th>
+  		<th align="center" class="listTitle">Last Modified</th>
+		<th align="center" class="listTitle">Edit</th>
+		<th align="center" class="listTitle">Delete</th>
 	</tr>
 	<?php
 	if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -102,20 +103,17 @@ $link->disconnect();
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
-		$edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-		$delete_link='<a href="'.$page_name.'?action=delete&id='.$row['id'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
+		$edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+		$delete_link='<a href="'.$page_name.'?action=delete&id='.$row['id'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
 		if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 		?>
 	<tr>
    		<td class="<?=$row_style?>"><?=$row['domain']?></td>
 		<td class="<?=$row_style?>"><?=$row['last_modified']?></td>
-		<td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
-  	 	<td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+		<td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
+  	 	<td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>
   	</tr>
 	<?php
 	}
 	?>
- 	<tr>
-  		<th colspan="4" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
- 	</tr>
 </table>

@@ -23,12 +23,20 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
-    <td align="right" style="color:#0969b5">
-        <b><?php print "System / MI Commands / ".$_SESSION['permission']; ?></b>
+    <td class="breadcrumb">
+        <?php print "System / MI Commands / ".$_SESSION['permission']; ?>
+    </td>
+    <td align=right style="border-bottom: 1px solid #ccc!important">
+      <?php
+	$boxlist=array();
+	$boxlist=inspect_config_mi();
+	$current_box=show_boxes($boxlist,$current_box,'mi_current_box');
+	$_SESSION['mi_current_box']=$current_box;
+      ?>
     </td>
   </tr>
   <tr>
-    <td align="center" valign="middle">
+    <td colspan="2">
       <div class="menuItems">
         <?php
         $first_item = true;
@@ -46,5 +54,4 @@
     </td> 
   </tr>
 </table>
-<hr width="100%" color="#000000">
 <br>

@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../common/cfg_comm.php");
+ require_once("../../../common/cfg_comm.php");
 
  session_start(); 
 
@@ -46,5 +46,5 @@
 
   $current_box=show_boxes($boxlist,$current_box);
   $_SESSION['smon_current_box']=$current_box;
-  
+
 ?>

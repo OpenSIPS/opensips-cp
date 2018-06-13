@@ -29,10 +29,7 @@ $search_atype=$_SESSION['alias_type'];
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
-<tr align="center">
-<td colspan="2" height="10" class="aliasTitle"></td>
-</tr>
+<table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
 <tr>
 <td class="searchRecord" align="left">Username</td>
 <td class="searchRecord" width="200"><input type="text" name="username"
@@ -52,36 +49,34 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <td class="searchRecord" width="200"><?php print_aliasType($search_atype,TRUE)?></td>
 </tr>
 </tr>
-<tr height="10">
-<td colspan="2" class="searchRecord" align="center">
+<tr height="10" class="">
+<td colspan="2" class="searchRecord border-bottom-devider" align="center">
 <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
 <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
 </tr>
-<tr height="10">
-<td colspan="2" class="aliasTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
-</tr>
-
 </table>
 </form>
+
 <br>
+
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Alias" class="formButton">') ?>
 </form>
+
 <br>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<th class="aliasTitle">ID</th>
-<th class="aliasTitle">Alias Username</th>
-<th class="aliasTitle">Alias Domain</th>
-<th class="aliasTitle">Alias Type</th>
-<th class="aliasTitle">Username</th>
-<th class="aliasTitle">Domain</th>
+<th class="listTitle">Alias Username</th>
+<th class="listTitle">Alias Domain</th>
+<th class="listTitle">Alias Type</th>
+<th class="listTitle">Username</th>
+<th class="listTitle">Domain</th>
 <?
 if(!$_SESSION['read_only']){
 
-echo('<th class="aliasTitle">Edit</th>
-	<th class="aliasTitle">Delete</th>');
+echo('<th class="listTitle">Edit</th>
+	<th class="listTitle">Delete</th>');
 }
 ?>
 </tr>
@@ -105,9 +100,9 @@ if($search_atype !='ANY') {
 } 
 
 if(!$_SESSION['read_only']){
-        $colspan = 8;
+        $colspan = 7;
 }else{
-        $colspan = 6;
+        $colspan = 5;
 }
 
 
@@ -148,13 +143,12 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
                 else $row_style="rowEven";
 
                 if(!$_SESSION['read_only']){
-                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
+                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 
 }
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$table?></td>
@@ -162,8 +156,8 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
    <?
    if(!$_SESSION['read_only']){
-        echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-                          <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+        echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+              <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
         ?>
   </tr>
@@ -174,11 +168,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="aliasTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
@@ -203,6 +196,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
       <th align="right">Total Records: <?=$data_no?>&nbsp;</th>
      </tr>
     </table>
+  </th>
+ </tr>
+</table>
+
 <?php 
 } else {
 
@@ -265,11 +262,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="aliasTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

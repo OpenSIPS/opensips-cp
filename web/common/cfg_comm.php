@@ -167,5 +167,13 @@ function print_back_button() {
 	echo("<form method=\"get\" action=\"$previous\"><button class=\"formButton\" type=\"submit\">Back</button></form>");
 }
 
+function print_back_input() {
+	$previous = "javascript:history.go(-1)";
+	if(isset($_SERVER['HTTP_REFERER'])) {
+		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
+	}
+	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
+}
+
 
 ?>

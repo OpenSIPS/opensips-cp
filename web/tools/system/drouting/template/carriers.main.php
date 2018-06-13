@@ -43,9 +43,6 @@
  if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
 ?>
 <table width="35%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="searchTitle">Search carriers by</td>
- </tr>
  <tr>
   <td class="searchRecord"> GW List </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['carriers_search_gwlist']?>" maxlength="255" class="searchInput"></td>
@@ -55,41 +52,35 @@
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['carriers_search_description']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
    <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-   <input type="submit" name="show_all" value="Show All" class="searchButton">
+   <input type="submit" name="show_all" value="Show All" class="searchButton"> &nbsp;&nbsp;&nbsp;
+   <?php if (!$_read_only) echo('<input type="submit" name="delete" value="Delete Matching" class="formButton" onClick="return confirmDeleteSearch()">') ?>
   </td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
-   <?php if (!$_read_only) echo('<input type="submit" name="delete" value="Delete Matching" class="searchButton" onClick="return confirmDeleteSearch()">&nbsp;&nbsp;&nbsp;') ?>
-  </td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">');?>
+  <input type="submit" name="add_new" value="Add Carrier" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<?php 
-?>
+<? } ?>
+
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="dataTitle">ID</th>
-  <th class="dataTitle">Carrier ID</th>
-  <th class="dataTitle">GW List</th>  
-  <th class="dataTitle">Use weights</th>
-  <th class="dataTitle">Use only first</th>
-  <th class="dataTitle">Description</th>
-  <th class="dataTitle">Attributes</th>
-  <th class="dataTitle">DB State</th>
-  <th class="dataTitle">Memory State</th>
-  <th class="dataTitle">Details</th>
-  <th class="dataTitle">Edit</th>
-  <th class="dataTitle">Delete</th>
+  <th class="listTitle">Carrier ID</th>
+  <th class="listTitle">GW List</th>  
+  <th class="listTitle">Use weights</th>
+  <th class="listTitle">Use only first</th>
+  <th class="listTitle">Description</th>
+  <th class="listTitle">Attributes</th>
+  <th class="listTitle">DB State</th>
+  <th class="listTitle">Memory State</th>
+  <th class="listTitle">Details</th>
+  <th class="listTitle">Edit</th>
+  <th class="listTitle">Delete</th>
  </tr>
 
 <?php
@@ -123,7 +114,7 @@ for ($j=0; $j<count($message); $j++){
          die('Failed to issue query count , error message : ' . $resultset->getMessage());
  }
  $data_no=$result;
- if ($data_no==0) echo('<tr><td colspan="12" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=$config->results_per_page;
@@ -183,13 +174,12 @@ for ($j=0; $j<count($message); $j++){
 	case "1" : $state = "Inactive"; break;
    }
 	//edit and delete links					 
-   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="../../../images/share/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/details.png" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
-  <td class="<?=$row_style?>"><?=$resultset[$i]['id']?></td>	
   <td class="<?=$row_style?>"><?=$resultset[$i]['carrierid']?></td>	
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>" align="center"><?=$useweights?></td>
@@ -198,20 +188,19 @@ for ($j=0; $j<count($message); $j++){
   <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>" align="center"><?=$state?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center" rowspan="1"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$delete_link?></td>
  </tr>
 <?php
   }
  }
 ?>
  <tr>
-  <th colspan="12" class="dataTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="11">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
@@ -239,8 +228,3 @@ for ($j=0; $j<count($message); $j++){
   </td>
  </tr>
 </table>
-<br>
-
-<form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
-</form>

@@ -33,7 +33,7 @@
   </tr>
   <tr height="10">
           <td align="right" class="searchRecord" ><b>Value (optional):</b></td>
-          <td align="left" class="searchRecord" ><input name="profile_param" type="text" class="searchInput"></td>
+          <td align="left" class="searchRecord" ><input name="profile_param" type="text"></td>
   </tr>
  <tr height="10">
         <td class="searchRecord" align="center" colspan="2"><input type="checkbox" name="dialogs" > List dialogs in the selected profile</td>
@@ -86,14 +86,14 @@ if (isset($_POST['dialogs'])) {
 
 	echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';
 	echo '<tr align="center">';
-	echo '<th class="dialogTitle">Call ID</th>';
-	echo '<th class="dialogTitle">From URI</th>';
-	echo '<th class="dialogTitle">To URI</th>';
-	echo '<th class="dialogTitle">Start Time</th>';
-	echo '<th class="dialogTitle">Timeout Time</th>';
-	echo '<th class="dialogTitle">State</th>';
+	echo '<th class="listTitle">Call ID</th>';
+	echo '<th class="listTitle">From URI</th>';
+	echo '<th class="listTitle">To URI</th>';
+	echo '<th class="listTitle">Start Time</th>';
+	echo '<th class="listTitle">Timeout Time</th>';
+	echo '<th class="listTitle">State</th>';
 	if(!$_SESSION['read_only'])
-		echo('<th class="dialogTitle">Stop Call</th>');
+		echo('<th class="listTitle">Stop Call</th>');
 	echo '</tr>';
 
 	if ($profile_size=="0")
@@ -114,7 +114,7 @@ if (isset($_POST['dialogs'])) {
 	}
 
 	echo '<tr>';
-	echo '<th colspan="7" class="dialogTitle" align="right">Total Records: '.$profile_size.'&nbsp;</th>';
+	echo '<th colspan="7" class="listTitle">Total Records: '.$profile_size.'&nbsp;</th>';
 	echo '</table>';
  }
 ?>

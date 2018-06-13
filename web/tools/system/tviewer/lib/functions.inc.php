@@ -77,73 +77,82 @@ function search($array, $key, $value){
 }
 
 
-
-function print_custom_combo($name,$value,$display,$default_values,$table,$value_col,$display_col,$disabled=false)
+function get_custom_combo_options($combo)
 {
 	global $config;
 	global $custom_config;
 	global $module_id;
 	global $branch;
 
-        require("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
-        require("../../../../config/db.inc.php");
-        require("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
+        require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+        require_once("../../../../config/db.inc.php");
+        require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
         require("db_connect.php");
 
 	$options = array();
 
-	if ($table != NULL){
-	        $sql="select ".$value_col.", ".$display_col." from ".$table;
+	if ( isset($combo['combo_table']) && $combo['combo_table']!="" ){
+		if (!isset($combo['combo_display_col']) || $combo['combo_display_col']=="")
+			$display_col = $combo['combo_value_col'];
+		else
+			$display_col = $combo['combo_display_col'];
+
+		if (!isset($combo['combo_label_col']) || $combo['combo_label_col']=="")
+			$label_col = NULL;
+		else
+			$label_col = $combo['combo_label_col'];
+
+	        $sql="select ".$combo['combo_value_col'].", ".$display_col.(($label_col==NULL)?"":(", ".$label_col))." from ".$combo['combo_table'];
         	$result = $link->queryAll($sql);
         	if(PEAR::isError($result)) {
                 	die('Failed to issue query, error message : ' . $result->getMessage());
        		}
 		foreach ($result as $k=>$v) {
-			$options[]=array("label"=>$v[$display_col],"value"=>$v[$value_col]);
-			if ($value == $v[$value_col])
-				$display = $v[$display_col];
+			$options[ $v[$combo['combo_value_col']] ]['display'] = $v[$display_col] ;
+			if ($label_col!=NULL)
+				$options[ $v[$combo['combo_value_col']] ]['label'] = $v[$label_col] ;
 		}
-	}
-	if (is_array($default_values) && !empty($default_values)){
-		foreach ($default_values as $k => $v) {
-			if ($table != NULL){
-				if (!count(search($options,"value",$k))){
-					$options[]=array("label"=>$v,"value"=>$k);
-					if ($value == $k)
-						$display = $v;
-				}
-			}
-			else{
-				$options[]=array("label"=>$v,"value"=>$k);
-				if ($value == $k)
-					$display = $v;
-			}
-			
+
+	} else if (isset($combo['combo_default_values']) && $combo['combo_default_values']!=NULL) {
+		foreach ($combo['combo_default_values'] as $k=>$v) {
+			$options[ $k ]['display'] = $v ;
+			if (isset($combo["combo_default_labels"]) && $combo["combo_default_labels"]!=NULL)
+				$options[ $k ]['label'] = $combo["combo_default_labels"][$k] ;
 		}
+
 	}
 
+	return $options;
+}
 
-	$dis = ($disabled)?"disabled":"";
-	echo '<select name="'.$name.'" id="'.$name.'" size="1" style="width: 205px" class="dataSelect" '.$dis.'>';
 
-	if ($value!=NULL && $value != "") {
-		$display = (!isset($display) || $display == "")?$value:$display;
+function print_custom_combo($name, $combo, $init_val, $force_empty=FALSE)
+{
+	$options = get_custom_combo_options($combo);
+
+	$dis = ($combo['disabled'])?"disabled":"";
+
+	echo '<select name="'.$name.'" id="'.$name.'" size="1" style="width: 205px" class="dataSelect" '.
+		(isset($combo['events'])?$combo['events'].' ':'').$dis.'>';
+	if ((isset($combo['is_optional']) && $combo['is_optional']=='y') || $force_empty==TRUE)
 		echo '<option value="">Empty...</option>';
-		echo '<option value="'.$value. '" selected > '.$display.'</option>';
-	} else {
-		echo '<option value="" selected >Empty...</option>';
-	}
 
-	for ($i=0;$i<sizeof($options);$i++){
-		if ((string)$options[$i]['value'] != (string)$value) {
-			echo('<option value="'.$options[$i]['value']. '"> '.$options[$i]['label'].'</option>');
+	$selected_set = false;
+	foreach ($options as $k=>$v) {
+		if ((string)$k != (string)$init_val) {
+			echo('<option value="'.$k.(isset($v['label'])?('" label="'.$v['label']):"").'"> '.$v['display'].'</option>');
+		} else {
+			echo('<option value="'.$k.(isset($v['label'])?('" label="'.$v['label']):"").'" selected>'.$v['display'].'</option>');
+			$selected_set=true;
 		}
 	}
-	
+
+	if ($selected_set==false && isset($init_val) && $init_val != "") {
+		echo '<option value="'.$init_val. '" selected >['.$init_val.']</option>';
+	}
 	
 	echo '</select>';
 }
-
 
 
 ?>

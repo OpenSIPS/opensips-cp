@@ -32,7 +32,7 @@
 <html>
 
 <head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
  <!--META HTTP-EQUIV=REFRESH CONTENT=5-->
 </head>
 

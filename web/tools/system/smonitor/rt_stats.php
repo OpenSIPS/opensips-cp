@@ -31,14 +31,12 @@
  
  session_start(); 
  
- require("lib/put_select_boxes.php");
-
+ require("template/header.php");
 
  $box_id=get_box_id($current_box); 
  
  print_r(get_mi_modules($current_box));
 
- require("template/header.php");
  $table=$config->table_monitored;
  
  if ($_GET['var']!=null)

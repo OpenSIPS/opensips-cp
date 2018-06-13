@@ -78,9 +78,9 @@ $match_op_sel.= '</select>';
 
 ?>
 <form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
-<table width="400" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="dialplanTitle">Add new Translation Rule</td>
+  <td colspan="2" class="mainTitle">Add new Translation Rule</td>
  </tr>
 <?php
 ?>
@@ -141,14 +141,19 @@ $match_op_sel.= '</select>';
  </tr>
 
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+	<td class="dataRecord" align="right" width="50%">
+	<input type="submit" name="add" value="Add" class="formButton"></td>
+        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
+  </td>
  </tr>
 </table>
 </form>
-<? print_back_button(); ?>
+
 <?php
 
 function display_attrs_cb()

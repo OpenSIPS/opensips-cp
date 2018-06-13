@@ -64,20 +64,17 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
         $sql_search.=" and attrs like '%".$search_attrs."%'";
 
 ?>
-<table width="35%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="searchTitle">Search Gateways by</td>
- </tr>
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr>
-  <td class="searchRecord">GWID </td>
+  <td class="searchRecord">Gateway ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwid" value="<?=$search_gwid?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Type </td>
+  <td class="searchRecord">GW Type </td>
   <td class="searchRecord" width="200"><?=get_types("search_type", $search_type)?></td>
  </tr>
  <tr>
-  <td class="searchRecord">Address </td>
+  <td class="searchRecord">SIP Address </td>
   <td class="searchRecord" width="200"><input type="text" name="search_address" value="<?=$search_address?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
@@ -105,35 +102,34 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$search_description?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">'); ?>
+  <input type="submit" name="add_new" value="Add Gateway" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="dataTitle">ID</th>
-  <th class="dataTitle">GWID</th>
-  <th class="dataTitle">Type</th>
-  <th class="dataTitle">Address</th>
-  <th class="dataTitle">Strip</th>
-  <th class="dataTitle">PRI Prefix</th>
-  <th class="dataTitle">Probe Mode</th>
-  <th class="dataTitle">Socket</th>
-  <th class="dataTitle">Attributes</th>
-  <th class="dataTitle">Description</th>
-  <th class="dataTitle">DB State</th>
-  <th class="dataTitle">Memory State</th>
-  <th class="dataTitle">Details</th>
-  <th class="dataTitle">Edit</th>
-  <th class="dataTitle">Delete</th>
+  <th class="listTitle">GWID</th>
+  <th class="listTitle">Type</th>
+  <th class="listTitle">Address</th>
+  <th class="listTitle">Strip</th>
+  <th class="listTitle">PRI Prefix</th>
+  <th class="listTitle">Probe Mode</th>
+  <th class="listTitle">Socket</th>
+  <th class="listTitle">Attributes</th>
+  <th class="listTitle">Description</th>
+  <th class="listTitle">DB State</th>
+  <th class="listTitle">Memory State</th>
+  <th class="listTitle">Details</th>
+  <th class="listTitle">Edit</th>
+  <th class="listTitle">Delete</th>
  </tr>
 <?php
 
@@ -227,13 +223,12 @@ for ($j=0; $j<count($message); $j++){
 	case "1" : $state = "Inactive"; break;
 	case "2" : $state = "Probing"; break;
    }
-   $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="../../../images/share/details.gif" border="0"></a>';
-   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="../../../images/share/trash.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="../../../images/share/details.png" border="0"></a>';
+   $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="../../../images/share/delete.png" border="0"></a>';
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>
-  <td class="<?=$row_style?>"><?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['gwid']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['type']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['address']?></td>
@@ -244,21 +239,20 @@ for ($j=0; $j<count($message); $j++){
   <td class="<?=$row_style?>"><?=$attrs?> </td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$state?></td>
-  <td class="<?=$row_style?>" align="center"><?=$status?></td>
-  <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$status?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>
   </tr>  
 <?php
   }
  }
 ?>
  <tr>
-  <th colspan="15" class="dataTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="14">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
@@ -286,8 +280,3 @@ for ($j=0; $j<count($message); $j++){
   </th>
  </tr>
 </table>
-<br>
-
-<form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
-</form>

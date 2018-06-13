@@ -23,7 +23,7 @@
 
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td class="dataTitle">Detailed view for List #<?=$_GET['id']?></td>
+  <td class="mainTitle">Detailed view for List #<?=$_GET['id']?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>List ID:</b> <?=$resultset[0]['id']?></td>
@@ -57,9 +57,6 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
- </tr>
- <tr height="10">
-  <td class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 </table>
 <br>

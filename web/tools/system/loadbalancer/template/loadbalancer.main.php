@@ -40,9 +40,6 @@ if(!$_SESSION['read_only']){
 
 <form action="<?=$page_name?>?action=search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="searchTitle"></td>
- </tr>
   <tr>
   <td class="searchRecord">Group ID</td>
   <td class="searchRecord" width="200"><input type="text" name="lb_groupid" 
@@ -59,52 +56,37 @@ if(!$_SESSION['read_only']){
   value="<?=$search_resources?>" maxlength="128" class="searchInput"></td>
  </tr>
   <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
-
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-
 </table>
 </form>
 
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
-<tr>
-<td align="center">
+
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New LB Entry" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add Destination" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input type="submit" name="refresh" value="Refresh from Server" class="searchButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-</td>
-</tr>
-</table>
-
-<form action="<?=$page_name?>?action=refresh" method="post">
-<table width="95%" cellspacing="2" cellpadding="2" border="0">
-	<tr height="10">
-		<td colspan="3"  align="right"><input type="submit" name="refresh" value="Refresh from Cache" class="searchButton"></td>
-	</tr>
-</table>
-</form>
-
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="searchTitle">ID</th>
-  <th class="searchTitle">Group ID</th>
-  <th class="searchTitle">SIP URI</th>
-  <th class="searchTitle">Resources</th>
-  <th class="searchTitle">Probe Mode</th>
-  <th class="searchTitle">Auto Re-enable</th>
-  <th class="searchTitle">Status</th>
-  <th class="searchTitle">Description</th>
+  <th class="listTitle">ID</th>
+  <th class="listTitle">Group ID</th>
+  <th class="listTitle">SIP URI</th>
+  <th class="listTitle">Resources</th>
+  <th class="listTitle">Probe Mode</th>
+  <th class="listTitle">Auto Re-enable</th>
+  <th class="listTitle">Status</th>
+  <th class="listTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="searchTitle">Edit</th>
-  		<th class="searchTitle">Delete</th>');
+  	echo('<th class="listTitle">Edit</th>
+  		<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -149,7 +131,7 @@ else {
 			$resource .= "<td>".$res[$j]['value']."=".$res[$j]['attributes']['load']."/".$res[$j]['attributes']['max']."</td>";
 			$resource .= "</tr>";
 		}
-		$lb_res[$id] = "<table>".$resource."</table>";
+		$lb_res[$id] = "<table style=\"width:100%!important;\">".$resource."</table>";
 		$lb_state[$id] = ($message[$i]['attributes']['enabled']=="yes")?"enabled":"disabled";
 		$lb_auto[$id] = $message[$i]['attributes']['auto-reenable'];
 	}
@@ -199,11 +181,11 @@ else {
 				echo "-";
 			} else if ($_SESSION['read_only']) {
 			?>
-				<img align="center" name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
+				<img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
 			<?
 			} else {
 			?>	
-				<a href="<?=$page_name?>?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img align="center" name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
+				<a href="<?=$page_name?>Img?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
 			<?
 			}
 			?>
@@ -211,8 +193,8 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
 			<? 
 			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a></td>');
-				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a></td>');
+				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a></td>');
+				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a></td>');
    			}
 			?>  
 		</tr>  
@@ -221,11 +203,10 @@ else {
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="searchTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

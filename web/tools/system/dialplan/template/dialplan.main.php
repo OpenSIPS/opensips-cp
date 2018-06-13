@@ -41,47 +41,43 @@ if(!$_SESSION['read_only']){
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
 <table width="350" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="dialplanTitle"></td>
- </tr>
   <tr>
   <td class="searchRecord">Dialplan ID :</td>
   <td class="searchRecord" width="200"><input type="text" name="dialplan_id" 
   value="<?=$search_dpid?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
- </tr>
-
- <tr height="10">
-  <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
  </tr>
 
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add&clone=0" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Rule" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add New Rule" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
+<? } ?>
 
-<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
+<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="dialplanTitle">Dialplan ID</th>
-  <th class="dialplanTitle">Rule Priority</th>
-  <th class="dialplanTitle">Matching Operator</th>
-  <th class="dialplanTitle">Matching Regular Expression</th>
-  <th class="dialplanTitle">Matching Flags</th>
-  <th class="dialplanTitle">Substitution Regular Expression</th>
-  <th class="dialplanTitle">Replacement Expression</th>
-  <th class="dialplanTitle">Atrributes</th>
+  <th class="listTitle">Dialplan ID</th>
+  <th class="listTitle">Rule Priority</th>
+  <th class="listTitle">Matching Operator</th>
+  <th class="listTitle">Matching Regular Expression</th>
+  <th class="listTitle">Matching Flags</th>
+  <th class="listTitle">Substitution Regular Expression</th>
+  <th class="listTitle">Replacement Expression</th>
+  <th class="listTitle">Atrributes</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="dialplanTitle">Edit</th>
-  		<th class="dialplanTitle">Delete</th>
-    	<th class="dialplanTitle">Clone</th>');
+  	echo('<th class="listTitle">Edit</th>
+  		<th class="listTitle">Delete</th>
+    	<th class="listTitle">Clone</th>');
   }
   ?>
  </tr>
@@ -128,9 +124,9 @@ else
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
-			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row[$i]['id'].'"><img src="../../../images/share/clone.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row[$i]['id'].'"><img src="../../../images/share/add.png" border="0"></a>';
 		}
 ?>
  <tr>
@@ -144,9 +140,9 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$attrs?></td>
    <? 
    if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$clone_link.'</td>');
+   	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+	      <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>
+	      <td class="'.$row_style.'Img" align="center">'.$clone_link.'</td>');
    }
 	?>  
   </tr>  
@@ -155,11 +151,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="dialplanTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable" >
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

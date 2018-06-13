@@ -24,7 +24,7 @@
 <form action="<?=$page_name?>?action=add_verify" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="dataTitle">Add new User</td>
+  <td colspan="2" class="mainTitle">Add new Group Record</td>
  </tr>
 <?php
  if (isset($form_error)) {
@@ -34,27 +34,31 @@
                          }
 ?>
  <tr>
-  <td class="dataRecord"><b>Username:</b></td>
+  <td class="dataRecord">Username</td>
   <td class="dataRecord" width="275"><input type="text" name="username" value="<?=$username?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Domain:</b></td>
+  <td class="dataRecord">Domain</td>
   <td class="dataRecord"><input type="text" name="domain" value="<?=$domain?>" maxlength="64" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Group ID:</b></td>
+  <td class="dataRecord">Group ID</td>
   <td class="dataRecord"><input type="text" name="groupid" value="<?=$groupid?>" maxlength="11" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Description:</b></td>
+  <td class="dataRecord">Description</td>
   <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="add" value="Add" class="formButton"></td>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+      <td class="dataRecord" align="right" width="50%">
+	<input type="submit" name="add" value="Add" class="formButton"></td>
+      <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
  </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
+
 </table>
 </form>
-<? print_back_button(); ?>

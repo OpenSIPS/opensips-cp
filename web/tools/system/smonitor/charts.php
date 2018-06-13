@@ -27,11 +27,10 @@
  require("lib/functions.inc.php");
 
  session_start();  
- require("lib/put_select_boxes.php"); 
+ require("template/header.php");
  include("lib/db_connect.php"); 
  
  $box_id=get_box_id($current_box); 
- require("template/header.php");
  $table=$config->table_monitoring;
  $name_table=$config->table_monitored;
 

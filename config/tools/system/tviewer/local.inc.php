@@ -34,115 +34,121 @@
 //if you want submenu (horizontal) items add them here:
 
 // $custom_config[$module_id]['submenu_items'] = array(
-// 												"0"	=> "Submenu1",
-// 												"1"	=> "Submenu2"
-//												);
+// 					"0"	=> "Submenu1",
+//	 				"1"	=> "Submenu2"
+//				);
+
+
 
 
 /* config for each submenu item */
 
 /*
-Example table: cc_agents
+Example table: table1
 +---------------+------------------+------+-----+---------+----------------+
 | Field         | Type             | Null | Key | Default | Extra          |
 +---------------+------------------+------+-----+---------+----------------+
 | id            | int(10) unsigned | NO   | PRI | NULL    | auto_increment | 
-| agentid       | char(128)        | NO   | UNI |         |                | 
-| location      | char(128)        | NO   |     |         |                | 
-| logstate      | int(10) unsigned | NO   |     | 0       |                | 
-| skills        | char(255)        | NO   |     |         |                | 
-| last_call_end | int(11)          | NO   |     | 0       |                | 
+| name          | char(128)        | NO   | UNI |         |                | 
+| address       | char(128)        | NO   |     |         |                | 
+| age           | int(10) unsigned | NO   |     | 0       |                | 
+| married       | int(10) unsigned | NO   |     | 0       |                | 
 +---------------+------------------+------+-----+---------+----------------+
-*/
 
 ####################################################################################
 #																				   #
 # Uncomment bellow this line - follow the example and adapt it to your DB table    #
 #																				   #
 ####################################################################################
+*/
+
+// $custom_config[$module_id][0]['custom_table'] = "table1";
+// $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
+// $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
+// $custom_config[$module_id][0]['per_page'] = 25;
+// $custom_config[$module_id][0]['page_range'] = 3;
 
 /*
- $custom_config[$module_id][0]['custom_table'] = "cc_agents";
- $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
- $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
- $custom_config[$module_id][0]['per_page'] = 5;
- $custom_config[$module_id][0]['page_range'] = 3;
+ Columns definition:
+	- header - the header title used to label this column (mandatory)
+	- type - how to display/handle the data - text / combo (mandatory)
+	- key - the key restrictions for this column (they will be checked prior to DB op) - PRI/UNI (optional)
+	- tip - tip/explanation to be attached to this column in the add/edit forms (optional)
+	- validation_regex - a regular expression to check the inserted value; only for text type (optional)
+	- is_optional - if a value must be provided or not for the column (mandatory)
 
- //column types definitions 
- // in forms - should be text / combo / datetime / checkbox = right now implemented are text and combo
- // as a comment: if you have a column that is readonly you should set a default value for it ... or not - perhaps if it's readonly you should choose not to display it in edit and/or add
- // do not forget that as disable the value is not submitted in forms
+	- show_in_add_form - if to be shown in the add form (optional)
+	- show_in_edit_form - if to be shown in the edit form (optional)
+	- searchable - if to be listed as field in the search form (optional)
+	- disabled - if the disabled attribute should be set to this column (optional)
+	- readonly - if the readonly attribute should be set to this column (optional)
+	- visible - if the column should be displayed in the table (optional)
+	- value_wrapper_func - php function like func($key, $text, $link) to return 
+		a custom string to be displayed instead of the real value; parameters are:
+		- $key - the name of the column
+		- $text - the value of the column
+		- $link - an assoc array with all the values of the DB row( i.e $text = $link[$key] )
+		This function can be use to build links or images around the values to be displayed (optional).
+
+	- default_value - optional default value to pre-populate the column in the add form
+	- default_display - a default display text corresponding to the default value if the type is COMBO
+	- combo_default_values - assoc array (value -> display) for definiting static COMBOs
+		Example: array("1"=>"Yes","0"=>"No")
+	- combo_table, combo_value_col, combo_display_col, combo_label_col - set of attributes for
+		defininig dynamic combos, with data from DB; table and value are mandatory in this
+		configuration; display may be optionaly used; similar the label - this has no impact
+		over the display of the combo; it simply creates a label attribute inside the
+		"option" html tag, which may be used by JS function to enable/disable/remove 
+		the value during runtime.
+	
+	- events - a string that optionaly may define JS events for the input/select field
+		Example: "onChange=\"runJSfunction();\" "
  
+*/
+
+ /*
  $custom_config[$module_id][0]['custom_table_column_defs'] = array (	
-								"id" 		=> 	array (
-												"header" 			=> "ID",
-												"type"				=> "text",
-												"key"				=> "PRI",
-												"validation_regex" 	=> "/^\d+$/",
-												"validation_err" 	=> "Invalid ID",
-												"show_in_add_form" 	=> false,
-												"show_in_edit_form"	=> false,
-												"searchable" 		=> true,
-												"disabled" 			=> true,
-												"readonly" 			=> true,
-												"default_value" 	=> NULL,
-												"visible"			=> false
-											), 
-								"agentid"	=> 	array (
-												"header" 			=> "Agent ID",
-												"type"				=> "text",
-												"key"				=> "UNI",
-												"validation_regex" 	=> "/^\d+$/",
-												"validation_regex" 	=> "/^[a-zA-Z0-9_]+$/",
-												"validation_err" 	=> "Invalid Agent ID - only alphanumeric and underscore allowed ",
-												"show_in_add_form" 	=> true,
-												"show_in_edit_form"	=> true,
-												"searchable" 		=> true,
-												"disabled" 			=> false,
-												"readonly" 			=> false,
-												"default_value" 	=> NULL
-											), 
-								"location" 	=> 	array (
-												"header" 			=> "Location",
-												"type"				=> "text",
-												"key"				=> NULL,
-												"validation_regex" 	=> "/^\d+$/",
-												"validation_regex" 	=> "/^.+$/",
-												"validation_err" 	=> "Invalid location",
-												"show_in_add_form" 	=> true,
-												"show_in_edit_form"	=> true,
-												"searchable" 		=> true,
-												"disabled" 			=> false,
-												"readonly" 			=> false,
-												"default_value" 	=> NULL
-											),
-								"logstate"  =>	array (       
-												"header" 			=> "Log State",
-												"type"  			=> "text",
-												"key"				=> NULL,
-												"validation_regex" 	=> "/^\d$/",
-												"validation_err" 	=> "Invalid log state",
-												"show_in_add_form" 	=> true,
-												"show_in_edit_form"	=> true,
-												"searchable" 		=> true,
-												"disabled" 			=> false,
-												"readonly" 			=> false,
-												"default_value" 	=> NULL
-											),
-								"skills" 	=>	array (       
-												"header" 			=> "Skills",
-												"type"  			=> "text",
-												"key"				=> NULL,
-												"validation_regex" 	=> "/^.*$/",
-												"validation_err" 	=> "Invalid Skills",
-												"show_in_add_form" 	=> true,
-												"show_in_edit_form"	=> true,
-												"searchable" 		=> false,
-												"disabled" 			=> false,
-												"readonly" 			=> false,
-												"default_value" 	=> NULL
-											)
-							);
+			"id" 		=> 	array (
+					"header" 			=> "ID",
+					"type"				=> "text",
+					"key"				=> "PRI",
+					"show_in_add_form" 	=> false,
+					"show_in_edit_form"	=> false,
+					"searchable" 		=> false,
+					"visible"			=> false
+			), 
+			"name"	=> 	array (
+					"header" 			=> "Full Name",
+					"type"				=> "text",
+					"key"				=> "UNI",
+					"tip"				=> "The full name (as name and surname) of the person.",
+					"validation_regex" 	=> "^[a-zA-Z]+ [a-zA-Z]+$",
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> true
+			), 
+			"age" 	=> 	array (
+					"header" 			=> "Age",
+					"type"				=> "text",
+					"key"				=> NULL,
+					"tip"				=> "The age of the person.",
+					"validation_regex" 	=> "^[0-9]+$",
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> false,
+					"default_value" 	=> NULL
+			),
+			"married"  =>	array (       
+					"header" 			=> "Married state",
+					"type"  			=> "combo",
+					"key"				=> NULL,
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> true,
+					"combo_default_values"=>array("1"=>"Yes","0"=>"No")
+					"default_value" 	=> "0"
+			)
+	);
 
 
 
@@ -150,11 +156,7 @@ Example table: cc_agents
  $custom_config[$module_id][0]['reload'] = 1;
 
  //if you need reload please specify the MI command to be ran
- $custom_config[$module_id][0]['custom_mi_command'] = "cc_reload";
-
- // what system to talk to for MI functions
- $talk_to_this_assoc_id = 1 ;
-
+ $custom_config[$module_id][0]['custom_mi_command'] = "do_reload";
 
 
 ##############################################

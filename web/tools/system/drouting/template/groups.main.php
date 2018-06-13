@@ -24,7 +24,6 @@
 <div id="dialog" class="dialog" style="display:none"></div>
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
-<form action="<?=$page_name?>?action=search" method="post">
 <?php
  $sql_search="";
  $search_username=$_SESSION['groups_search_username'];
@@ -44,10 +43,9 @@
  $search_description=$_SESSION['groups_search_description'];
  if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
 ?>
+
+<form action="<?=$page_name?>?action=search" method="post">
 <table width="35%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" class="searchTitle">Search Groups by</td>
- </tr>
  <tr>
   <td class="searchRecord">Username </td>
   <td class="searchRecord" width="200"><input type="text" name="search_username" value="<?=$search_username?>" maxlength="128" class="searchInput"></td>
@@ -65,27 +63,26 @@
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$search_description?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr height="10">
-  <td colspan="2" class="searchRecord" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center"><input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add Record" class="formButton"> &nbsp;&nbsp;&nbsp;
 </form>
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="dataTitle">Username</th>
-  <th class="dataTitle">Domain</th>
-  <th class="dataTitle">Group ID</th>
-  <th class="dataTitle">Description</th>
-  <th class="dataTitle">Details</th>
-  <th class="dataTitle">Edit</th>
-  <th class="dataTitle">Delete</th>
+  <th class="listTitle">Username</th>
+  <th class="listTitle">Domain</th>
+  <th class="listTitle">Group ID</th>
+  <th class="listTitle">Description</th>
+  <th class="listTitle">Details</th>
+  <th class="listTitle">Edit</th>
+  <th class="listTitle">Delete</th>
  </tr>
 <?php
  if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by username, domain asc";
@@ -123,10 +120,10 @@
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
    $record_id=$resultset[$i]['username']."@".$resultset[$i]['domain'];
-   $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="../../../images/share/details.gif" border="0"></a>';
+   $details_link='<a href="'.$page_name.'?action=details&id='.$record_id.'"><img src="../../../images/share/details.png" border="0"></a>';
    if(!$_SESSION['read_only']){
-	   $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-	   $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="../../../images/share/trash.gif" border="0"></a>';
+	   $edit_link='<a href="'.$page_name.'?action=edit&id='.$record_id.'"><img src="../../../images/share/edit.png" border="0"></a>';
+	   $delete_link='<a href="'.$page_name.'?action=delete&id='.$record_id.'" onclick="return confirmDelete(\''.$record_id.'\')"><img src="../../../images/share/delete.png" border="0"></a>';
    }
 
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
@@ -137,20 +134,19 @@
   <td class="<?=$row_style?>"><?=$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['groupid']?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
-  <td class="<?=$row_style?>" align="center"><?=$details_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$edit_link?></td>
-  <td class="<?=$row_style?>" align="center"><?=$delete_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$details_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>
  </tr>  
 <?php
   }
  }
 ?>
  <tr>
-  <th colspan="7" class="dataTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="7" >
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
@@ -180,6 +176,3 @@
 </table>
 <br>
 
-<form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_read_only) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
-</form>

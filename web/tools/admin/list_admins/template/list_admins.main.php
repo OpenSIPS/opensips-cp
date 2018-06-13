@@ -40,9 +40,9 @@ if(!$_SESSION['read_only']){
 }
 ?>
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
+<table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="listadminsTitle"></td>
+  <td colspan="2" height="10" class="listTitle"></td>
  </tr>
  <tr>
   <td class="searchRecord">Username</td>
@@ -60,29 +60,30 @@ if(!$_SESSION['read_only']){
   value="<?=$search_lname?>" maxlength="32" class="searchInput"></td>
  </tr>
   <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
 
- <tr height="10">
-  <td colspan="2" class="listadminsTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-
 </table>
+</form>
+
+<br>
+<form action="<?=$page_name?>?action=add" method="post">
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Admin" class="formButton add-new-btn">') ?>
 </form>
 <br>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listadminsTitle">Username</th>
-  <th class="listadminsTitle">Name</th>
-  <th class="listadminsTitle">Access</th>
+  <th class="listTitle">Username</th>
+  <th class="listTitle">Name</th>
+  <th class="listTitle">Access</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="listadminsTitle">Edit Info</th>
-  		<th class="listadminsTitle">Delete</th>');
+  	echo('<th class="listTitle">Edit Info</th>
+  		<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -121,22 +122,22 @@ else
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 
-		$edit_tools_link = '<a href="'.$page_name.'?action=edit_tools&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'"><img src="images/access.png" border="0"></a>';
+		$edit_tools_link = '<a href="'.$page_name.'?action=edit_tools&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'"><img src="../../../images/share/access.png" border="0"></a>';
 
 		if(!$_SESSION['read_only']){
 
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
- <tr align = "center">
+ <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['first_name'].' '.$resultset[$i]['last_name']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $edit_tools_link?></td>
+  <td class="<?=$row_style."Img"?>" align="center">&nbsp;<?php print $edit_tools_link?></td>
 <?php
    if(!$_SESSION['read_only']){
-   	echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+   	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
 ?>
   </tr>  
@@ -147,11 +148,10 @@ else
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="listadminsTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {

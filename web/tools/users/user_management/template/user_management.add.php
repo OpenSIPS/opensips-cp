@@ -23,60 +23,68 @@
 <form action="<?=$page_name?>?action=add_verify&id=<?=$_GET['id']?>" method="post">
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" height="10" class="listTitle">Add New User</td>
+  <td colspan="2" height="10" class="mainTitle">Add New User</td>
  </tr>
  <tr>
-  <td class="listRecord" >Username</td>
-  <td class="listRecord" width="200"><input type="text" name="uname" value="" class="searchInput"></td>
+  <td class="dataRecord" >Username</td>
+  <td class="dataRecord" width="200"><input type="text" name="uname" value="" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="listRecord" >Domain</td>
-  <td class="listRecord" width="200"><?php print_domains("domain",'',FALSE)?></td>
+  <td class="dataRecord" >Domain</td>
+  <td class="dataRecord" width="200"><?php print_domains("domain",'',FALSE)?></td>
  </tr>
  <tr>
-  <td class="listRecord" >Email</td>
-  <td class="listRecord" width="200"><input type="text" name="email" value="" class="searchInput"></td>
+  <td class="dataRecord" >Email</td>
+  <td class="dataRecord" width="200"><input type="text" name="email" value="" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="listRecord" >Alias Username</td>
-  <td class="listRecord" width="200"><input type="text" name="alias" value="" class="searchInput" maxlength=5></td>
+  <td class="dataRecord" >Alias Username</td>
+  <td class="dataRecord" width="200"><input type="text" name="alias" value="" class="dataInput" maxlength=5></td>
  </tr>
  <tr>
-  <td class="listRecord" >Alias Type</td>
-  <td class="listRecord" width="200"><?php print_aliasType(0)?></td>
+  <td class="dataRecord" >Alias Type</td>
+  <td class="dataRecord" width="200"><?php print_aliasType(0)?></td>
  </tr>
 
 <?php
 	foreach ( $config->subs_extra as $key => $value ) {
 ?>
  <tr>
-  <td class="listRecord"><?=$value?></td>
-  <td class="listRecord" width="200"><input type="text" name="extra_<?=$key?>" value="" maxlength="128" class="searchInput"></td>
+  <td class="dataRecord"><?=$value?></td>
+  <td class="dataRecord" width="200"><input type="text" name="extra_<?=$key?>" value="" maxlength="128" class="dataInput"></td>
  </tr>
 <?php
 	}
 ?>
 
  <tr>
-  <td class="listRecord" >Password</td>
-  <td class="listRecord" width="200"><input type="password" name="passwd" value="" class="searchInput"></td>
+  <td class="dataRecord" >Password</td>
+  <td class="dataRecord" width="200"><input type="password" name="passwd" value="" class="dataInput"></td>
  </tr>
+
  <tr>
-  <td class="listRecord" >Confirm Password</td>
-  <td class="listRecord" width="200"><input type="password" name="confirm_passwd" value="" class="searchInput"></td>
+  <td class="dataRecord" >Confirm Password</td>
+  <td class="dataRecord" width="200"><input type="password" name="confirm_passwd" value="" class="dataInput"></td>
  </tr>
+
+ <tr>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+	<td class="dataRecord" align="right" width="50%">
+ 	<?php if (!$_SESSION['read_only']) {
+		echo('<input type="submit" name="adduser" value="Register" class="formButton">&nbsp;&nbsp;&nbsp;');
+	}?>
+	</td>
+        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
+ </tr>
+
+
  <tr align="center">
-  <td colspan="2" class="listRecord" >
-  <?php if (!$_SESSION['read_only']) {
-	  echo('<input type="submit" name="adduser" value="Register" class="formButton">&nbsp;&nbsp;&nbsp;');
-	}
- ?>
- </tr>
- <tr>
-  <td colspan="2" class="listTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+  <td colspan="2" class="dataRecord" >
  </tr>
 
 </table>
 </form>
-<br>
-<? print_back_button(); ?>

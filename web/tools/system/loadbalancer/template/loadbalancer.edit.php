@@ -34,7 +34,7 @@ if(PEAR::isError($lb_form)) {
 	<table width="420" cellspacing="2" cellpadding="2" border="0">
 	
 	<tr align="center">
-		<td colspan="2" class="searchTitle">
+		<td colspan="2" class="mainTitle">
 			Edit LB Destination
 		</td>
 	 </tr>
@@ -44,17 +44,17 @@ if(PEAR::isError($lb_form)) {
 	?>
 
 	<tr>
-		<td colspan="2" class="dataRecord" align="center">
-			<input type="submit" name="add" disabled=true value="Save" class="formButton">
-		</td>
-	</tr>
-
-	<tr height="10">
-		<td colspan="2" class="dataTitle">
-			<img src="../../../images/share/spacer.gif" width="5" height="5">
-		</td>
+	<td colspan="2">
+		<table cellspacing=20>
+		<tr>
+		<td class="dataRecord" align="right" width="50%">
+		<input type="submit" name="add" value="Save" class="formButton">
+		<td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+		</tr>
+		</table>
+  	</td>
 	</tr>
 
 	</table>
+	<script> form_init_status(); </script>
 </form>
-<? print_back_button(); ?>

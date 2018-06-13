@@ -37,71 +37,62 @@ if ($sql_search!="")
 	$sql_search = " where ".substr($sql_search,4);
 
 if(!$_SESSION['read_only']){
-        $colspan = 8;
+        $colspan = 7;
 }else{
-        $colspan = 6;
+        $colspan = 5;
 }
 
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
-<tr align="center">
-<td colspan="2" height="10" class="aclTitle"></td>
+<table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
+<tr>
+	<td class="searchRecord" align="left">Username</td>
+	<td class="searchRecord" width="200"><input type="text" name="acl_username"
+	value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 <tr>
-<td class="searchRecord" align="left">Username</td>
-<td class="searchRecord" width="200"><input type="text" name="acl_username"
-value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
-<tr>
-<td class="searchRecord" align="left">Domain</td>
-<td class="searchRecord" width="200"> <?php print_domains("acl_domain",$search_adomain)?></td>
+	<td class="searchRecord" align="left">Domain</td>
+	<td class="searchRecord" width="200"> <?php print_domains("acl_domain",$search_adomain)?></td>
 </tr>
 <tr>
-<td class="searchRecord" align="left">Group</td>
-<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
+	<td class="searchRecord" align="left">Group</td>
+	<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
 </tr>
-</tr>
+
 <tr height="10">
-<td colspan="2" class="searchRecord" align="center">
-<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
-<input type="submit" name="show_all" value="Show All" class="searchButton"></td>
-</tr>
+	<td colspan="2" class="searchRecord border-bottom-devider" align="center">
+		<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
+		<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;
 <?
 if(!$_SESSION['read_only']){
-echo('<tr height="10">
-<td colspan="2" class="searchRecord" align="center">
-<input type="submit" class="formButton" name="delete" value="Delete ACL" onclick="return confirmDeleteACL()">
-</td>
-</tr>');
-
+	echo('<input type="submit" class="formButton" name="delete" value="Delete" onclick="return confirmDeleteACL()">');
 }
 ?>
+	</td>
+</tr>
 
- <tr height="10">
-  <td colspan="2" class="aclTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
+
 
 </table>
 </form>
 
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New ACL" class="formButton add-new-btn">') ?>
 </form>
 <br>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
 <tr align="center">
-<th class="aclTitle">ID</th>
-<th class="aclTitle">Username</th>
-<th class="aclTitle">Domain</th>
-<th class="aclTitle">Group</th>
+<th class="listTitle">Username</th>
+<th class="listTitle">Domain</th>
+<th class="listTitle">Group</th>
 <?
 if(!$_SESSION['read_only']){
 
-echo('<th class="aclTitle">Edit</th>
-	<th class="aclTitle">Delete</th>');
+echo('<th class="listTitle">Edit</th>
+	<th class="listTitle">Delete</th>');
 }
 ?>
 </tr>
@@ -142,20 +133,19 @@ echo('<th class="aclTitle">Edit</th>
                 else $row_style="rowEven";
 
                 if(!$_SESSION['read_only']){
-                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
+                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['grp']?></td>
    <?
    if(!$_SESSION['read_only']){
-        echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-                          <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+        echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+              <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    }
         ?>
   </tr>
@@ -165,13 +155,12 @@ echo('<th class="aclTitle">Edit</th>
 }
 ?>
  <tr>
-  <th colspan="<?=$colspan?>" class="aclTitle">
-    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+  <th colspan="<?=$colspan?>">
+    <table class="pagingTable">
      <tr>
-      <th align="left">
-       &nbsp;Page:
+      <th align="left">Page:
        <?php
-       if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
+       if ($data_no==0) echo('<font class="ageActive">0</font>&nbsp;');
        else {
         $max_pages = $config->results_page_range;
         // start page

@@ -97,7 +97,7 @@ function print_groupids()
    $content[] = trim(substr($buffer, $pos, strlen($buffer)));
   }
   fclose($handle);
-  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:230px; margin-left:1px; margin-top:2px;">');
+  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:420px!important; margin-left:1px;margin-top:2px;">');
   for ($i=0; $i<sizeof($values); $i++)
    if($values[$i]!="")
 	echo('<option value="'.$values[$i].'">'.$values[$i].' - '.$content[$i].'</option>');
@@ -143,7 +143,7 @@ function print_gwlist()
  $start_index = 0;
  $end_index = sizeof($array_values);
 ?>
- <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect" style="width:186px; margin-left:1px;margin-top:2px;">
+ <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect" style="width:350px!important">
  <?php
   for ($i=$start_index;$i<$end_index;$i++)
   {
@@ -162,7 +162,7 @@ function print_carrierlist()
  $start_index = 0;
  $end_index = sizeof($array_values);
 ?>
- <select name="carrierlist_value" id="carrierlist_value" size="1" class="dataSelect" style="width:186px; margin-left:1px;margin-top:2px;">
+ <select name="carrierlist_value" id="carrierlist_value" size="1" class="dataSelect" style="width:350px!important;">
  <?php
   for ($i=$start_index;$i<$end_index;$i++)
   {
@@ -178,8 +178,9 @@ function print_carrierlist()
 
 function print_object($obj_name, $start_value, $end_value, $select_value)
 {
+ $width = 50 + (preg_match("/year/",$obj_name)?12:0);
 ?>
- <select name="<?=$obj_name?>" id="<?=$obj_name?>" size="1" class="dataSelect">
+ <select name="<?=$obj_name?>" id="<?=$obj_name?>" style="width:<?=$width?>px!important" size="1" class="dataSelect">
  <?php
   for ($i=$start_value;$i<=$end_value;$i++)
   {

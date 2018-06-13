@@ -23,14 +23,19 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
-    <td align="right" style="color:#0969b5">
-        <b><?php print "System / Statistics Monitor / ".$_SESSION['permission']; ?></b>
+    <td class="breadcrumb">
+        <?php print "System / Statistics Monitor / ".$_SESSION['permission']; ?>
+    </td>
+    <td align=right style="border-bottom: 1px solid #ccc!important">
+      <?php
+	require("lib/put_select_boxes.php");
+      ?>
     </td>
   </tr>	
   <tr>
   </tr>
   <tr>
-    <td align="center" valign="middle">
+    <td colspan="2" align="center" valign="middle">
       <div class="menuItems">
         <?php
          $first_item = true; 
@@ -46,7 +51,6 @@
     </td> 
   </tr>
 </table>
-<hr width="100%" color="#000000">
 <div align="right">
 <?php
  if ($page_id=="rt_stats") echo('<button type="button" class="formButton" onClick="window.location.href=\'rt_stats.php\'">Refresh Statistics Values</button><br>');

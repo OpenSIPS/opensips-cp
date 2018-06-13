@@ -40,9 +40,6 @@ if(!$_SESSION['read_only']){
 
 <form action="<?=$page_name?>?action=search" method="post">
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="searchTitle"></td>
- </tr>
   <tr>
   <td class="searchRecord">Cluster ID</td>
   <td class="searchRecord" width="200"><input type="text" name="cl_cid" 
@@ -54,34 +51,33 @@ if(!$_SESSION['read_only']){
   value="<?=$search_url?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr height="10">
-  <td colspan="2" class="searchRecord" align="center">
+  <td colspan="2" class="searchRecord border-bottom-devider" align="center">
   <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
   <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
  </tr>
- <tr height="10">
-  <td colspan="2" class="searchTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-
 </table>
 </form>
 
+<?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New" class="formButton">') ?>
+  <input type="submit" name="add_new" value="Add Node" class="formButton"> &nbsp;&nbsp;&nbsp;
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
+<? } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="searchTitle">Cluster ID</th>
-  <th class="searchTitle">Node ID</th>
-  <th class="searchTitle">BIN URL</th>
-  <th class="searchTitle">Max retries</th>
-  <th class="searchTitle">In Use</th>
-  <th class="searchTitle">Description</th>
+  <th class="listTitle">Cluster ID</th>
+  <th class="listTitle">Node ID</th>
+  <th class="listTitle">BIN URL</th>
+  <th class="listTitle">Max retries</th>
+  <th class="listTitle">In Use</th>
+  <th class="listTitle">Description</th>
   <?
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="searchTitle">Edit</th>
-  		<th class="searchTitle">Delete</th>');
+  	echo('<th class="listTitle">Edit</th>
+  		<th class="listTitle">Delete</th>');
   }
   ?>
  </tr>
@@ -102,8 +98,8 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.gif" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 		?>
 		<tr>
@@ -114,17 +110,17 @@ else
 			<?
 			$state = ($resultset[$i]["state"]=="1")?"Active":"Inactive";
 			if($_SESSION['read_only']){
-				$state_info= '<img align="center" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'">';
+				$state_info= '<img src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'">';
 			} else {
-			        $state_info= '<a href="'.$page_name.'?action=change_state&state='.$resultset[$i]['state'].'&id='.$resultset[$i]['id'].'"><img align="center" name="status'.$i.'" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'" onclick="return confirmStateChange(\''.$state.'\')" border="0"></a>';
+			        $state_info= '<a href="'.$page_name.'?action=change_state&state='.$resultset[$i]['state'].'&id='.$resultset[$i]['id'].'"><img name="status'.$i.'" src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'" onclick="return confirmStateChange(\''.$state.'\')" border="0"></a>';
 			}
 			?>
-			<td class="<?=$row_style?>">&nbsp;<?php echo $state_info?></td>
+			<td class="<?=$row_style."Img"?>" align="center">&nbsp;<?php echo $state_info?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
  			<? 
  			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
-		 			<td class="'.$row_style.'" align="center">'.$delete_link.'</td>');
+				echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
+	 			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
    			}
 			?>  
 		</tr>  
@@ -132,10 +128,6 @@ else
 	}
 }
 ?>
- <tr>
-   <th colspan="<?echo($colspan);?>" class="searchTitle"><img src="../../../images/spacer.gif" width="5" height="5"></th>
- </tr>
-
 </table>
 <br>
 

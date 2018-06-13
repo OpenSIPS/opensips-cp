@@ -36,7 +36,7 @@
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>&table=<?=$_GET['table']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="aliasTitle">Edit Alias</td>
+  <td colspan="2" class="mainTitle">Edit Alias</td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Username:</b></td>
@@ -63,12 +63,15 @@
  </tr>
 
  <tr>
-  <td colspan="2" class="dataRecord" align="center"><input type="submit" name="save" value="Save" class="formButton"></td>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+	<td class="dataRecord" align="right" width="50%"><input type="submit" name="save" value="Save" class="formButton"></td>
+        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      </tr>
+    </table>
  </tr>
- <tr height="10">
-  <td colspan="2" class="dataTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
+
 </table>
 </form>
-<? print_back_button(); ?>
 

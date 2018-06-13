@@ -29,18 +29,16 @@ $page_name = basename($_SERVER['PHP_SELF']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 $no_result = "No Data Found.";
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html>
 
 <head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef" id="list_admins">
 <center>
-<table width="705" cellpadding="5" cellspacing="5" border="0">
+<table width="90%" cellpadding="5" cellspacing="5" border="0">
  <tr  valign="top" height="20">
   <td><?php require("template/menu.php") ?></td>
  </tr>

@@ -119,4 +119,24 @@ function apply_changes(){
 		
 	return true;
 }
+
+function updatePeerCombo(peer,customer)
+{
+    var ct = document.getElementById(customer);
+    var forValue = ct.options[ct.selectedIndex].text;
+    var PeerDrop = document.getElementById(peer),i,val;
+
+     for(i = 0; i < PeerDrop.length; i++) {
+       val = PeerDrop[i];
+       if (forValue!="Empty..." && val.label!="Empty..." && val.label!=forValue) {
+          val.hidden = true;
+         if (val.selected)
+                val.selected=false;
+          //alert(val.label);
+       } else {
+          val.hidden = false;
+        }
+     }
+}
+
 </script>

@@ -63,12 +63,12 @@ if (isset($_SESSION['user_active_tool'])) {
  <title><?=$page_title?></title>
 </head>
 
-<frameset border="0" frameborder="0" framespacing="0" rows="35,*,25">
+<frameset border="0" frameborder="0" framespacing="0" rows="30,*,25">
 
  <frame noresize scrolling="no" src="header.php" name="main_header">
 
  <frameset border="0" frameborder="0" framespacing="0" cols="180,*">
-  <frame noresize scrolling="no" src="menu.php" name="main_menu">
+  <frame noresize scrolling="no" src="menu.php" name="main_menu" id="side-bar" class="side-menu" style=" background: #2d3e4f">
   <frame noresize scrolling="auto" src="<?=$main_body?>" name="main_body">
  </frameset>
 

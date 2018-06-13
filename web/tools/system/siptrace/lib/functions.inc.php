@@ -23,8 +23,9 @@
 
 function print_object($obj_name, $start_value, $end_value, $select_value, $disabled)
 {
+ $width = 56 + (preg_match("/year/",$obj_name)?20:0);
 ?>
- <select name="<?=$obj_name?>" id="<?=$obj_name?>" size="1" class="dataSelect" <?=$disabled?>>
+ <select name="<?=$obj_name?>" id="<?=$obj_name?>" style="width:<?=$width?>px!important" size="1" class="dataSelect" <?=$disabled?>>
  <?php
   for ($i=$start_value;$i<=$end_value;$i++)
   {

@@ -23,8 +23,8 @@
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
-    <td align="right" style="color:#0969b5">
-        <b><?php print "Users / User Management / ".$_SESSION['permission'];?></b>
+    <td class="breadcrumb">
+        <?php print "Users / User Management / ".$_SESSION['permission'];?>
     </td>
   </tr>
   <tr>
@@ -46,5 +46,4 @@
     </td> 
   </tr>
 </table>
-<hr width="100%" color="#000000">
 <br>

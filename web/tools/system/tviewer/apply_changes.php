@@ -25,7 +25,7 @@
 session_start();
 require("init.php");
 
-require("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 require("lib/functions.inc.php");
