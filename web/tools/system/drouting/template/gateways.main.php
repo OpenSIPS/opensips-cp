@@ -137,6 +137,8 @@ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
 $gw_statuses = Array ();
 
 $command="dr_gw_status";
+if (isset($config->routing_partition) && $config->routing_partition != "")
+	$command .= " ". $config->routing_partition;
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 $message=mi_command($command, $mi_connectors[0], $errors, $status);
 

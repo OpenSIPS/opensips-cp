@@ -54,7 +54,10 @@
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3)) ? "Yes" : "No";
 
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-  $command="dr_carrier_status ".$_GET['carrierid'];
+  $command="dr_carrier_status ";
+  if (isset($config->routing_partition) && $config->routing_partition != "")
+	  $command .= $config->routing_partition . " ";
+  $command.= $_GET['carrierid'];
 
   $message=mi_command($command,$mi_connectors[0], $errors, $status);
   $message = json_decode($message,true);
@@ -74,7 +77,10 @@
 #########################
 if ($action=="enablecar"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    $command="dr_carrier_status ".$_GET['carrierid']." 1";
+    $command="dr_carrier_status ";
+    if (isset($config->routing_partition) && $config->routing_partition != "")
+	    $command .= $config->routing_partition . " ";
+    $command.= $_GET['carrierid']. " 1";
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command($command, $mi_connectors[$i], $errors, $status);
@@ -92,7 +98,10 @@ if ($action=="enablecar"){
 #########################
 if ($action=="disablecar"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    $command="dr_carrier_status ".$_GET['carrierid']." 0";
+    $command="dr_carrier_status ";
+    if (isset($config->routing_partition) && $config->routing_partition != "")
+	    $command .= $config->routing_partition . " ";
+    $command.= $_GET['carrierid']. " 0";
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command($command, $mi_connectors[$i], $errors, $status);

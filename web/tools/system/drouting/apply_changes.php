@@ -26,6 +26,8 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 
 $command="dr_reload";
+if (isset($config->routing_partition) && $config->routing_partition != "")
+	$command .= " ". $config->routing_partition;
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

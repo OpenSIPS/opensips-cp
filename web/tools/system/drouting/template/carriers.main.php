@@ -89,6 +89,8 @@ $carrier_statuses = Array ();
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 $command="dr_carrier_status";
+if (isset($config->routing_partition) && $config->routing_partition != "")
+	$command .= " ". $config->routing_partition;
 
 $message=mi_command($command, $mi_connectors[0], $errors, $status);
 

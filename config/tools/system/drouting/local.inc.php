@@ -39,6 +39,9 @@
  // default domain
  $config->default_domain = "yourdomain.net";
 
+ # Partition used to query status - if not set, or "", default is used
+ $config->routing_partition = "";
+
 ###############################################################################
 
  //database tables

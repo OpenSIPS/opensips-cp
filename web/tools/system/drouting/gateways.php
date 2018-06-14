@@ -61,7 +61,10 @@
 ######################
 if ($action=="enablegw"){
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$command="dr_gw_status ".$_GET['gwid']." 1";
+	$command="dr_gw_status ";
+	if (isset($config->routing_partition) && $config->routing_partition != "")
+		$command .= $config->routing_partition . " ";
+	$command.= $_GET['gwid']. " 1";
 
     	for ($i=0;$i<count($mi_connectors);$i++){
 		$message=mi_command($command, $mi_connectors[$i], $errors, $status);
@@ -79,7 +82,10 @@ if ($action=="enablegw"){
 #######################
 if ($action=="disablegw"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    $command="dr_gw_status ".$_GET['gwid']." 0";
+    $command="dr_gw_status ";
+    if (isset($config->routing_partition) && $config->routing_partition != "")
+	    $command .= $config->routing_partition . " ";
+    $command.= $_GET['gwid']. " 0";
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command($command, $mi_connectors[$i], $errors, $status);
@@ -96,7 +102,10 @@ if ($action=="disablegw"){
 ######################
 if ($action=="probegw"){
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$command="dr_gw_status ".$_GET['gwid']." 2";
+	$command="dr_gw_status ";
+	if (isset($config->routing_partition) && $config->routing_partition != "")
+		$command .= $config->routing_partition . " ";
+	$command.= $_GET['gwid']. " 2";
 
 	for ($i=0;$i<count($mi_connectors);$i++){
 		$message=mi_command($command, $mi_connectors[$i], $errors, $status);
