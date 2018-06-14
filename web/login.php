@@ -21,6 +21,8 @@
  */
 
  session_start();
+ $config = (object)array();
+
  include("db_connect.php"); 
  require("../config/globals.php");
  global $config;	
@@ -45,34 +47,24 @@
 $login_ok = false;
 
 if ($config->admin_passwd_mode==0) {
-    $ha1  = '';
-
-    $sql = "select * from ocp_admin_privileges where username = ? and password = ?";
-
-    $sth = $link->prepare($sql);
-    $credentials = array($name,$password);
-    $result1 = $sth->execute($credentials);
-    if(PEAR::isError($result1)) {
-        die('Failed to issue query, error message : ' . $result1->getMessage());
-    }
-    $resultset = $result1->fetchAll();
-    $sth->free();
+  $stmt = $link->prepare("SELECT * FROM ocp_admin_privileges WHERE username = ? and password = ?");
+  $credentials = array($name, $password);
 
 } else if ($config->admin_passwd_mode==1) {
-    $ha1 = md5($name.":".$password);
-    $password='';
+  $ha1 = md5($name.":".$password);
+  $password='';
 
-    $sql = "SELECT * FROM ocp_admin_privileges WHERE username= ? AND ha1= ?";
-
-    $sth = $link->prepare($sql,MDB2_PREPARE_RESULT);
-    $credentials = array($name,$ha1);
-    $result2 = $sth->execute($credentials);
-    if(PEAR::isError($result2)) {
-        die('Failed to issue query, error message : ' . $result2->getMessage());
-    }
-    $resultset = $result2->fetchAll();
-    $sth->free();
+  $stmt = $link->prepare("SELECT * FROM ocp_admin_privileges WHERE username = ? AND ha1 = ?");
+  $credentials = array($name, $ha1);
 }
+
+if (!$stmt->execute($credentials)) {
+	print_r("Failed to fetch credentials!");
+	error_log(print_r($stmt->errorInfo(), true));
+	die;
+}
+
+$resultset = $stmt->fetchAll();
 
 if (isset($resultset) && count($resultset)==0) {
     $log = "[NOK] [".date("d-m-Y")." ".date("H:i:s")."] '$name' / '$password' from '".$_SERVER['REMOTE_ADDR']."'\n";
