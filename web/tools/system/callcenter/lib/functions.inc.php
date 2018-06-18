@@ -103,10 +103,11 @@ function get_custom_combo_options($combo)
 			$label_col = $combo['combo_label_col'];
 
 	        $sql="select ".$combo['combo_value_col'].", ".$display_col.(($label_col==NULL)?"":(", ".$label_col))." from ".$combo['combo_table'];
-        	$result = $link->queryAll($sql);
-        	if(PEAR::isError($result)) {
-                	die('Failed to issue query, error message : ' . $result->getMessage());
+        	$stm = $link->query($sql);
+        	if($stm === false) {
+                	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
        		}
+			$result = $stm->fetchAll();
 		foreach ($result as $k=>$v) {
 			$options[ $v[$combo['combo_value_col']] ]['display'] = $v[$display_col] ;
 			if ($label_col!=NULL)

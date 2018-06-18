@@ -39,15 +39,16 @@ if ($action=="add_verify")
 	$query = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,NULL);
 
 	if ($query != NULL){
-		$count = $link->queryOne($query);
-		if(PEAR::isError($count)) {
-			$form_error=$count->getMessage();
+		$count = $link->query($query);
+		if($count === false) {
+			error_log(print_r($link->errorInfo(), true));
+			$form_error=print_r($link->errorInfo(), true);
 			require("template/".$page_id.".add.php");
 			require("template/footer.php");
 			exit();
 		}
 
-		if ($count > 0){
+		if ($count->fetchColumn(0) > 0){
 			$form_error="Key Constraint violation - Record with same key(s) already exists";
 			require("template/".$page_id.".add.php");
 			require("template/footer.php");
@@ -73,8 +74,8 @@ if ($action=="add_verify")
 				(".$fields.") VALUES
 				(".$values.") ";
 				$result = $link->exec($sql);
-				if(PEAR::isError($result)) {
-                	$form_error=$result->getMessage();
+				if ($result === false) {
+                	$form_error=print_r($link->errorInfo(), true);
 					require("template/".$page_id.".add.php");
 					require("template/footer.php");
                 	exit();

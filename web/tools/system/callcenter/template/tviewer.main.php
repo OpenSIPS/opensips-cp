@@ -33,9 +33,9 @@ foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['c
 $query_ct = "select count(".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key'].") 
 			from ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'];
 
-$total_records = $link->queryOne($query_ct);
-if(PEAR::isError($total_records)) {
-	die('Failed to issue total count query, error message : ' . $total_records->getMessage(). "[".$query_ct."]");
+$total_records = $link->query($query_ct);
+if($total_records === false) {
+	die('Failed to issue total count query, error message : ' . print_r($link->errorInfo(), true). "[".$query_ct."]");
 }
 
 
@@ -43,10 +43,12 @@ $query_fl =	"select count(".$custom_config[$module_id][$_SESSION[$module_id]['su
 		from ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table']."
 		where ".$where;
 
-$filtered_records = $link->queryOne($query_fl);
-if(PEAR::isError($filtered_records)) {
-	die('Failed to issue query, error message : ' . $filtered_records->getMessage(). "[".$query_fl."]");
+$stm = $link->query($query_fl);
+if($stm === false) {
+	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true). "[".$query_fl."]");
 }
+$filtered_records = $stm->fetchColumn(0);
+
 //determine the colspan
 if(!$_SESSION['read_only']){
 	$colspan = count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'])+count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']);
@@ -72,10 +74,11 @@ if ($filtered_records > 0) {
 		LIMIT ".$res_no." 
 		OFFSET ".$start_limit;
 	
-	$resultset = $link->queryAll($query);
-	if(PEAR::isError($resultset)) {
-		die('Failed to issue query, error message : ' . $resultset->getMessage(). "[".$query."]");
+	$stm = $link->query($query);
+	if($stm === false) {
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true). "[".$query."]");
 	}
+	$resultset= $stm->fetchAll();
 
 }
 else {

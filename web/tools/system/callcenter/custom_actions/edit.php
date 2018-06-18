@@ -43,15 +43,15 @@ if ($action=="modify")
 		$query = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,$id);
 
 		if ($query != NULL){
-			$count = $link->queryOne($query);
-			if(PEAR::isError($count)) {
-				$form_error=$count->getMessage();
+			$count = $link->query($query);
+			if($count === false) {
+				$form_error=print_r($link->errorInfo(), true);
 				require("template/".$page_id.".edit.php");
 				require("template/footer.php");
 				exit();
 			}
 
-			if ($count > 0){
+			if ($count->fetchColumn(0) > 0){
 				$form_error="Key Constraint violation - Record with same key(s) already exists";
 				require("template/".$page_id.".edit.php");
 				require("template/footer.php");
@@ -71,9 +71,8 @@ if ($action=="modify")
 
 		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=".$id;
 		$result = $link->exec($sql);
-
-		if(PEAR::isError($result)) {
-			$form_error=$result->getMessage();
+		if($result === false) {
+			$form_error=print_r($link->errorInfo(), true);
 			require("template/".$page_id.".edit.php");
 			require("template/footer.php");
 			exit();
