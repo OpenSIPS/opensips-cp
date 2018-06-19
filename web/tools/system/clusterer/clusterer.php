@@ -73,12 +73,11 @@ case "do_add":
 	$sql = "INSERT INTO ".$table." (cluster_id, node_id, url, no_ping_retries, sip_addr, flags, description) VALUES 
 		(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_ping."','".$cln_sipaddr."','".$cln_flags."','".$cln_description."')";
 	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-		$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+    if ($result === false) {
+		$errors = "Add/Insert to DB failed with: ".print_r($link->errorInfo(), true);
 	} else {
 		$info="The new cluster node was added";
 	}
-	$link->disconnect();
 
 	break;
 ##############
@@ -116,12 +115,11 @@ case "modify":
 	$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", node_id=".$cle_sid.", url='".$cle_url."', no_ping_retries='".$cle_ping.
 		"', sip_addr='".$cle_sipaddr."', flags='".$cle_flags."', description='".$cle_description."' where id=".$cle_id;
 	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-		$errors = "Update to DB failed with: ".$result->getUserInfo();
+	if ($result === false) {
+		$errors = "Update to DB failed with: ".print_r($link->errorInfo(), true);
 	} else {
 		$info="Cluster Node has been updated";
 	}
-	$link->disconnect();
 
 	break;
 #################
@@ -137,7 +135,6 @@ case "delete":
 
 	$sql = "DELETE FROM ".$table." WHERE id=".$id;
 	$link->exec($sql);
-	$link->disconnect();
 	$info="Record has been deleted";
 
 	break;
@@ -162,12 +159,11 @@ case "change_state":
 
 	$sql = "UPDATE ".$table." set state='".$desired_state."' where id=".$id;
 	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-		$errors = "Update to DB failed with: ".$result->getUserInfo();
+	if ($result === false) {
+		$errors = "Update to DB failed with: ".print_r($link->errorInfo(), true);
 	} else {
 		$info="Cluster Node has been updated";
 	}
-	$link->disconnect();
 
 	break;
 ####################

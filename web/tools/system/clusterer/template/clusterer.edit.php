@@ -23,8 +23,11 @@
 $id=$_GET['id'];
 	
 $sql = "select * from ".$table." where id='".$id."'";
-$cl_form = $link->queryRow($sql);
-$link->disconnect();
+$stm = $link->query($sql);
+if ($stm === false) {
+	die('Failed to issue query, error message: ' . print_r($link->errorInfo(), true));
+}
+$cl_form = $stm->fetch();
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
