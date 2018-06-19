@@ -26,10 +26,11 @@ require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
 $table=$config->cdr_table;
 $sql = "SELECT * FROM ".$table." WHERE ".$cdr_id_field_name."='".$_GET['cdr_id']."'";
-$row = $link->queryAll($sql);
-if(PEAR::isError($row)) {
-        die('Failed to issue query, error message : ' . $row->getMessage());
+$stm = $link->query($sql);
+if ($stm === false) {
+        die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 }
+$row = $stm->fetch();
 ?>
 	
 <html>
@@ -44,7 +45,7 @@ if(PEAR::isError($row)) {
 <table width="480" cellpadding="5" cellspacing="5" border="0" align="center">
 <?php
 $k=0;
-foreach($row[0] as $key=>$value) {
+foreach($row as $key=>$value) {
  if ( $k%2 == 0 ) $row_style="rowOdd";
  else $row_style="rowEven";
 	

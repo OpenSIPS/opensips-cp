@@ -44,13 +44,13 @@ $sql  = "select count(*) from ".$cdr_table. " where (1=1) ";
 
 if (($search_start!="")) {
 
-	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(\"time\")";
+	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(time)";
 
 }
 
 if ($search_end!="") {
 
-	$sql.=" and unix_timestamp(\"time\") <= unix_timestamp('" . $search_end ."')";
+	$sql.=" and unix_timestamp(time) <= unix_timestamp('" . $search_end ."')";
 
 }
 
@@ -124,10 +124,11 @@ if 	((($sql_search!=""))) {
 </form>
 
 <?
-$data_no=$link->queryOne($sql);
-if(PEAR::isError($data_no)) {
-	die('Failed to issue query, error message : ' . $data_no->getMessage());
+$stm = $link->query($sql);
+if ($stm === false) {
+	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 }
+$data_no = $stm->fetchColumn(0);
 
 if ($data_no==0) {
 
@@ -173,10 +174,11 @@ else
 	$sql .= " order by time desc " ;
 	$sql.=" LIMIT ".$config->results_per_page." OFFSET ".$start_limit;
 
-	$result=$link->queryAll($sql);
-	if(PEAR::isError($result)) {
-		die('Failed to issue query, error message : ' . $result->getMessage());
+	$stm = $link->query($sql);
+	if ($stm === false) {
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	}
+	$result = $stm->fetchAll();
 
 	?>
 
@@ -233,7 +235,7 @@ else
 $k++ ;
 	}
 }
-$link->disconnect();
+$link = NULL;
 
 ?>
 <tr>

@@ -6,7 +6,6 @@
 	require_once("../../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
 	require_once("../../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 	require_once("../../../../../config/db.inc.php");
-	require_once("MDB2.php");
 	
         global $config;
 	global $custom_config;
@@ -33,14 +32,15 @@
 		}
         }
 
-       
-	$dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name;
-        $link = & MDB2::connect($dsn);
-        if(PEAR::isError($link)) {
-		die("Error while connecting : " . $link->getMessage());
-        }	
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
-	
+	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+	try {
+	       $link = new PDO($dsn, $config->db_user, $config->db_pass);
+	} catch (PDOException $e) {
+	       error_log(print_r("Failed to connect to: ".$dsn, true));
+	       print "Error!: " . $e->getMessage() . "<br/>";
+	       die();
+	}
+
 	/* DB table to use */
 	$sTable = $custom_config[$module_id]['custom_table'];
 	
@@ -60,15 +60,6 @@
 		die( $sErrorMessage );
 	}
 
-	
-	/* 
-	 * MySQL connection
-	 */
-	if(PEAR::isError($link)){
-		fatal_error( 'Could not open connection to server' );
-	}
-	
-	
 	/* 
 	 * Paging
 	 */
