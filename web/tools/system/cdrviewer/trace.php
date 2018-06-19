@@ -58,7 +58,6 @@ if ($tracer=="siptrace") {
 
 	if (!(is_numeric($siptraceid))) {
 		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Sorry , sip trace for this call is unavailable<br><br></td></tr>');
-		$link = NULL;
 		exit();
 	}
 
@@ -70,7 +69,6 @@ if ($tracer=="siptrace") {
 	$resultset = $stm->fetchAll();
 
 	$data_no=count($resultset);
-	$link = NULL;
 	$page_no = ceil($data_no/$config->results_per_page)  ;
 
 	$_SESSION['tracer_search_regexp']="";

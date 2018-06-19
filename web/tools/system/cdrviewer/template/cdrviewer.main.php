@@ -235,7 +235,6 @@ else
 $k++ ;
 	}
 }
-$link = NULL;
 
 ?>
 <tr>

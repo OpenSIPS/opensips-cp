@@ -77,7 +77,6 @@ if ($export == "Export") {
 
 	if (($search_start != "" ) ||  ($search_start != "" ) || ($sql_search!="" ))  {
 		cdr_put_to_download($search_start,$search_end,$sql_search,"cdr-temp.csv");
-		$link = NULL;
 	}
 	exit();
 }
