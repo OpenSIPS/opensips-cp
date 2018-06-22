@@ -111,31 +111,39 @@ if ($action=="modify")
 						$ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
 						$passwd = "";
 					}
-					$sql = "UPDATE ".$table." SET username='".$uname."', domain='".$domain."',
-						 email_address= '".$email."',password='".$passwd."',ha1='".$ha1."', ha1b='".$ha1b."'";
-					foreach ( $config->subs_extra as $key => $value )
-						$sql .= ", ".$key."='".$_POST["extra_".$key]."'";
-					$sql .= " WHERE id=".$id;
-					$resultset = $link->prepare($sql);
-					$resultset->execute();
-					$resultset->free();
+					$sql = "UPDATE ".$table." SET username=?, domain=?,
+						 email_address=?, password=?, ha1=?, ha1b=?";
+					$sql_vals = array($uname,$domain,$email,$passwd,$ha1,$ha1b);
+					foreach ( $config->subs_extra as $key => $value ) {
+						$sql .= ", ".$key."=?";
+						array_push( $sql_vals, $_POST["extra_".$key]);
+					}
+					$sql .= " WHERE id=?";
+					array_push( $sql_vals, $id);
+
+					$stm = $link->prepare($sql);
+					if ($stm === false) {
+						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+					}
+					$stm->execute( $sql_vals );
 					print "The user's info was modified";
-					$link->disconnect();
 				}	
 			} else {
-				$sql = "UPDATE ".$table." SET username='".$uname."', domain='".$domain."',
-					 email_address= '".$email."'";
-				foreach ( $config->subs_extra as $key => $value )
-					$sql .= ", ".$key."='".$_POST["extra_".$key]."'";
-				$sql .= " WHERE id=".$id;
-				$resultset = $link->prepare($sql);
-				 if(PEAR::isError($resultset)) {
-					die('Failed to issue query ['.$sql.'], error message : ' . $resultset->getMessage());
+				$sql = "UPDATE ".$table." SET username=?, domain=?, email_address=?";
+				$sql_vals = array($uname,$domain,$email);
+				foreach ( $config->subs_extra as $key => $value ) {
+					$sql .= ", ".$key."=?";
+					array_push( $sql_vals, $_POST["extra_".$key]);
 				}
-				$resultset->execute();
-				$resultset->free();
+				$sql .= " WHERE id=?";
+				array_push( $sql_vals, $id);
+
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
+				$stm->execute( $sql_vals );
 				print "The user's info was modified, password not changed";
-				$link->disconnect();
 			}
 		}
 	}else{
@@ -180,16 +188,28 @@ if ($action=="delete")
 		$uname = $_GET['uname'];
 		$domain = $_GET['domain'];
 
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-		$link->exec($sql);
+		$sql = "DELETE FROM ".$table." WHERE id=?";
+		$stm = $link->prepare($sql);
+		if ($stm===FALSE) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($id) );
+
 		for($i=0;$i<count($options);$i++){
 			$alias_table = $options[$i]['value'];
-	                $sql = "DELETE FROM ".$alias_table." WHERE username='".$uname."' AND domain='".$domain."'";
-	                $link->exec($sql);
-
+	                $sql = "DELETE FROM ".$alias_table." WHERE username=? AND domain=?";
+			$stm = $link->prepare($sql);
+			if ($stm===FALSE) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($uname, $domain) );
 		}
-		$sql = "DELETE FROM grp WHERE username='".$uname."' AND domain='".$domain."'";
-		$link->exec($sql);
+		$sql = "DELETE FROM grp WHERE username=? AND domain=?";
+		$stm = $link->prepare($sql);
+		if ($stm===FALSE) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($uname, $domain) );
 		
 	}else{
 
@@ -261,31 +281,32 @@ if ($action=="add_verify")
           if ($form_valid) {
                 if ($config->passwd_mode==1) $passwd="";
                 $sql = 'INSERT INTO '.$table.' (username,domain,password,email_address,ha1,ha1b';
-				foreach ( $config->subs_extra as $key => $value )
-					if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
-						$sql .= ','.$key;
-				$sql .= ') VALUES (\''. $uname . '\',\'' . $domain.'\',\''. $passwd.'\',\''.
-                $email.'\',\''.$ha1.'\',\''.$ha1b.'\'';
-				foreach ( $config->subs_extra as $key => $value )
-					if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
-						$sql .= ',\''.$_POST['extra_'.$key].'\'';
-				$sql .= ')';
+		foreach ( $config->subs_extra as $key => $value )
+			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
+				$sql .= ','.$key;
+		$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
+		$sql_vals = array($uname,$domain,$passwd,$email,$ha1,$ha1b);
+		foreach ( $config->subs_extra as $key => $value )
+			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
+				$sql .= ', ?';
+				array_push( $sql_vals, $_POST["extra_".$key]);
+			}
+		$sql .= ')';
 
-                $resultset = $link->prepare($sql);
+                $stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( $sql_vals );
 
-                $resultset->execute();
-                $resultset->free();
-
-				if ($alias!="") {
-	                $sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES '.
-    	            ' (\''. $uname . '\',\'' . $domain.'\',\''. $alias.'\',\''.$domain.'\')';
-
-        	        $resultset = $link->prepare($sql);
-    	            $resultset->execute();
-        	        $resultset->free();
-				}
-
-                $link->disconnect();
+		if ($alias!="") {
+			$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
+        	        $stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($uname,$domain,$alias,$domain) );
+		}
 
                 $lname=NULL;
                 $fname=NULL;
