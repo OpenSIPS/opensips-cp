@@ -34,10 +34,11 @@ function print_domains($type,$value)
         $table_domains=$config->table_domains;
 
         $sql="select domain from $table_domains";
-        $result = $link->queryAll($sql);
-        if(PEAR::isError($result)) {
-                die('Failed to issue query, error message : ' . $result->getMessage());
-        }
+        $stm = $link->query($sql);
+	if ($stm === FALSE)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$result = $stm->fetchAll();
+
         foreach ($result as $k=>$v) {
                 $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);
         }
