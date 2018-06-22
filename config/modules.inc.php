@@ -43,17 +43,6 @@ $config_modules 	= array (
 			),
 		)
 	),
-	"test"		=> array (
-		"enabled"	=> true,
-		"name"		=> "Test",
-		"modules"	=> array (
-			"callcenter"		=> array (
-				"enabled"		=> true,
-				"name"			=> "Callcenter",
-				"path"			=> "system/callcenter"
-			),
-		)
-	),
 	"system"		=> array (
 		"enabled"	=> true,
 		"name"		=> "System",
@@ -98,10 +87,6 @@ $config_modules 	= array (
 			"mi"				=> array (
 				"enabled"		=> true,
 				"name"			=> "MI Commands"
-			),
-			"mitrace"			=> array (
-				"enabled"		=> true,
-				"name"			=> "MI Tracer"
 			),
 			"monit"				=> array (
 				"enabled"		=> true,
