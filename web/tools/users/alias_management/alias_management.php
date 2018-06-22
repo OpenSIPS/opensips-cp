@@ -73,29 +73,24 @@ if ($action=="add_verified")
                 $domain = $_POST['domain'];
 
                 
-				for($i=0; $i<count($options);$i++){
-					if ($alias_type == $options[$i]['label']) 
-						$table = $options[$i]['value']; 
-				}						
-                                $sql = "INSERT INTO ".$table."
-                                (alias_username, alias_domain, username, domain) VALUES
-                                ('".$alias_username."','".$alias_domain."','". $username."','".$domain."')";
-                                $resultset = $link->prepare($sql);
-                                $resultset->execute();
-                                $resultset->free();
-                                $info="The new record was added";
-                        //}
-                        $link->disconnect();
-                  print "New Alias added!";
-		}
-        
-              
-       
-				
+		for($i=0; $i<count($options);$i++){
+			if ($alias_type == $options[$i]['label']) 
+				$table = $options[$i]['value']; 
+		}						
 
-				
+                $sql = "INSERT INTO ".$table."
+                (alias_username, alias_domain, username, domain) VALUES (?, ?, ?, ?)";
+                $stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($alias_username,$alias_domain,$username,$domain) );
+
+                $info="The new record was added";
+                print "New Alias added!";
+	}
         else
-			print "User with Read-Only Rights";
+		print "User with Read-Only Rights";
 }
 
 
@@ -144,24 +139,27 @@ if ($action=="modify")
                 $username = $_POST['username'];
                 $domain= $_POST['domain'];
 
-                if ($alias_username=="" || $alias_domain=="" || $username=="" || $domain==""){
+                if ($alias_username=="" || $alias_domain=="" || $username=="" || $domain=="") {
                         $errors = "Invalid data, the entry was not modified in the database";
-                }
-                if ($errors=="") {
-	                $sql = "SELECT * FROM ".$user_table." WHERE alias_username='" .$alias_username. "' AND alias_domain='".$alias_domain. "' AND id!=".$id;
-                        $resultset = $link->queryAll($sql);
-               	        if(PEAR::isError($resultset)) {
-                       	        die('Failed to issue query, error message : ' . $resultset->getMessage());
-			}
+                } else {
+			$sql = "SELECT count(*) FROM ".$user_table." WHERE alias_username=? AND alias_domain=? AND id!=?";
+			$stm = $link->prepare($sql);
+			if ($stm === FALSE)
+				die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+			$stm->execute(array($alias_username, $alias_domain, $id));
+			
+			if ($stm->fetchColumn(0)>0) {
+				$errors = "Alias already exists!";
+			} else {
 
-                        $sql = "UPDATE ".$user_table." SET alias_username='".$alias_username."', alias_domain = '".$alias_domain.
-                        "', username='".$username."', domain ='".$domain."' WHERE id=".$id;
-                        $resultset = $link->prepare($sql);
-                        $resultset->execute();
-                        $resultset->free();
-                        $info="The alias was modified";
-           
-                        $link->disconnect();
+	                        $sql = "UPDATE ".$user_table." SET alias_username=?, alias_domain=?, username=?, domain=? WHERE id=?";
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
+				$stm->execute(array($alias_username, $alias_domain, $username, $domain, $id));
+                        	$info="The alias was modified";
+			}
                 }
         }else{
 
@@ -182,13 +180,13 @@ if ($action=="dp_act")
 {
 
 
-		if (isset($_GET['fromusrmgmt'])) {
+	if (isset($_GET['fromusrmgmt'])) {
 
-		    $fromusrmgmt=$_GET['fromusrmgmt'];
-			$_SESSION['fromusrmgmt']=1;
-			$_SESSION['username']=$_GET['username'];
-			$_SESSION['alias_domain']=$_GET['domain'];
-		}
+		$fromusrmgmt=$_GET['fromusrmgmt'];
+		$_SESSION['fromusrmgmt']=1;
+		$_SESSION['username']=$_GET['username'];
+		$_SESSION['alias_domain']=$_GET['domain'];
+	}
 
         $_SESSION['alias_id']=$_POST['alias_id'];
 
@@ -210,64 +208,7 @@ if ($action=="dp_act")
 
                 $errors= "User with Read-Only Rights";
 
-        }else if($delete=="Delete Alias"){
-                $sql_query = "";
-                if( $_POST['alias_username'] != " " ) {
-                        $alias_username = $_POST['alias_username'];
-                        $sql_query .= " AND alias_username like '%".$alias_username."%'";
-                }
-                if( ($_POST['alias_domain'] == "ANY") ||($_POST['alias_domain'] == " ") ) {
-			$sql_query .= " AND alias_domain like '%'";
-	        } else {
-			$alias_domain = $_POST['alias_domain'];
-                        $sql_query .= " AND alias_domain like '%".$alias_domain . "%'";
-		}
-
-                if($_POST['alias_type'] != "ANY" ) {
-			for ($i=0;count($options)>$i;$i++){
-	                        if($_POST['alias_type']==$options[$i]['label'])
-	                        $table =  $options[$i]['value'];
-			}
-
-	                $sql = "SELECT * FROM ".$table.
-        	        " WHERE (1=1) " . $sql_query;
-                	$resultset = $link->queryAll($sql);
-	                if(PEAR::isError($resultset)) {
-        	                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                	}
-	                if (count($resultset)==0) {
-        	                $errors="No such Alias";
-                	        $_SESSION['alias_username']="";
-                        	$_SESSION['alias_domain']="";
-
-	                }else{
-
-        	                $sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
-                	        $link->exec($sql);
-                	}		
-		} else {
-			for($i=0;$i<count($options);$i++){
-				$table = $options[$i]['value'];
-	                        $sql = "SELECT * FROM ".$table.
-        	                " WHERE (1=1) " . $sql_query;
-                	        $resultset = $link->queryAll($sql);
-                        	if(PEAR::isError($resultset)) {
-                                	die('yyFailed to issue query, error message : ' . $resultset->getMessage());
-                        	}
-	                        if (count($resultset)==0) {
-        	                        $errors="No such Alias";
-                	                $_SESSION['alias_username']="";
-                        	        $_SESSION['alias_domain']="";
-        	                }else{
-	
-                	                $sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
-                        	        $link->exec($sql);
-
-				}
-		}
-                $link->disconnect();
         }
-	}
 }
 ##############
 # end search #
@@ -283,9 +224,12 @@ if ($action=="delete")
                 $id=$_GET['id'];
 		$table=$_GET['table'];
 
-                $sql = "DELETE FROM ".$table." WHERE id=".$id;
-                $link->exec($sql);
-                $link->disconnect();
+                $sql = "DELETE FROM ".$table." WHERE id=?";
+		$stm = $link->prepare($sql);
+		if ($stm===FALSE) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($id) );
         }else{
 
                 $errors= "User with Read-Only Rights";
