@@ -87,11 +87,11 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." order by dpid, pr, match_op, match_exp asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-$stm = $link->prepare($sql_command);
+if ($sql_search=="") $sql_command="from ".$table." order by dpid, pr, match_op, match_exp asc";
+else $sql_command="from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+$stm = $link->prepare("select count(*) ".$sql_command);
 if ($stm===FALSE) {
-	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
 $stm->execute( $sql_vals );
 $data_no = $stm->fetchColumn(0);
@@ -110,9 +110,9 @@ else
 
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-	$stm = $link->prepare($sql_command);
+	$stm = $link->prepare("select * ".$sql_command);
 	if ($stm===FALSE) {
-		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+		die('Failed to issue query [select * '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
 	$stm->execute( $sql_vals );
 	$row = $stm->fetchAll();

@@ -185,9 +185,8 @@ if ($action=="add_verify_dp")
 			} else {
 				for ($i=0; $i<count($resultset);$i++)
 				{
-					$sql = "INSERT INTO ".$table.
-					"(dpid, pr, match_op, match_exp, match_flags, subst_exp,
-					repl_exp, attrs) VALUES (?,?,?,?,?,?,?,?)");
+					$sql = "INSERT INTO ".$table."(dpid, pr, match_op, match_exp, match_flags, subst_exp, repl_exp, attrs) ".
+						"VALUES (?,?,?,?,?,?,?,?)";
 					$stm = $link->prepare($sql);
 					if ($stm === false) {
 						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -276,7 +275,7 @@ if ($action=="modify")
 			if ($stm===FALSE) {
 				die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
 			}
-			$stm->execute( array($dpid,$match_exp) )d;
+			$stm->execute( array($dpid,$match_exp) );
 			if ($stm->fetchColumn(0)>0 ) {
 				$errors="Duplicate rule";
 			} else {
