@@ -25,18 +25,21 @@
 <table width="350" cellspacing="2" cellpadding="2" border="0">
 
 <?php
- if (isset($form_error)) {
+if (isset($form_error)) {
                           echo(' <tr align="center">');
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
-                         }
-	$id=$_GET['id'];
-	
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
-	if(PEAR::isError($resultset)) {
-        	die('Failed to issue query, error message : ' . $resultset->getMessage());
-	}
+}
+$id=$_GET['id'];
+
+$sql = "select * from ".$table." where id=?";
+$stm = $link->prepare($sql);
+if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+}
+$stm->execute( array($id) );
+$resultset = $stm->fetchAll();
+
 	$index_row=0;
 
 	$match_op_sel ='<select name="match_op" id="match_op" size="1" class="dataSelect">';
