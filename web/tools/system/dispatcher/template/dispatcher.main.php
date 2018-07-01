@@ -45,12 +45,24 @@ for ($j=0; $j<count($message); $j++){
 
 
 $sql_search="";
+$sql_vals=array();
+
 $search_setid=$_SESSION['dispatcher_setid'];
 $search_dest=$_SESSION['dispatcher_dest'];
 $search_descr=$_SESSION['dispatcher_descr'];
-if($search_setid !="") $sql_search.=" and setid=" . $search_setid;
-if($search_dest !="") $sql_search.=" and destination like '%".$search_dest."%'";
-if($search_descr !="") $sql_search.=" and description like '%".$search_descr."%'";
+
+if($search_setid !="") {
+	$sql_search.=" and setid=?";
+	array_push( $sql_vals, $search_setid);
+}
+if($search_dest !="") {
+	$sql_search.=" and destination like ?";
+	array_push( $sql_vals, "%",$search_dest."%");
+}
+if($search_descr !="") {
+	$sql_search.=" and description like ?";
+	array_push( $sql_vals, "%",$search_descr."%");
+}
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
@@ -117,13 +129,14 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-$resultset = $link->queryAll($sql_command);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage());
+if ($sql_search=="") $sql_command="from ".$table." order by id asc";
+else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
+$stm = $link->prepare("select count(*) ".$sql_command);
+if ($stm===FALSE) {
+	die('Failed to issue query [select count (*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
-$data_no=count($resultset);
+$stm->execute( $sql_vals );
+$data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -139,10 +152,11 @@ else
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
 
-	$resultset = $link->queryAll($sql_command);
-        if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
+	$stm = $link->prepare("select * ".$sql_command);
+	if ($stm===FALSE)
+		die('Failed to issue query [select * '.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+	$resultset = $stm->fetchAll();
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;
