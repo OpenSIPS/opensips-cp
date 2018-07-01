@@ -86,9 +86,11 @@ if ($action=="do_add")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description) );
-
-		$info="The new record was added";
+		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description) ) == FALSE) {
+			$errors="Adding record to DB failed with: ". print_r($stm->errorInfo(), true);
+		} else {
+			$info="The new record was added";
+		}
 	}
 
 }
@@ -144,9 +146,11 @@ if ($action=="modify")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description,$id) );
-		$result = $link->exec($sql);
-		$info="Record has been updated";
+		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description,$id) )==FALSE) {
+			$errors="Updating record to DB failed with: ". print_r($stm->errorInfo(), true);
+		} else {
+			$info="Record has been updated";
+		}
 	}
 
 }
