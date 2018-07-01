@@ -80,13 +80,12 @@ if ($action=="add_verify")
 
 
 		$sql = 'INSERT INTO '.$table.' (last_name,first_name,username,password,ha1) VALUES '. 
-		' (\''.$add_lname.'\',\''.$add_fname.'\',\''. $add_uname . '\',\''. $add_passwd.'\',\''.$ha1.'\')';
-		$resultset = $link->prepare($sql);
-
-		$resultset->execute();
-		$resultset->free();
-
-		$link->disconnect();
+			' (?, ?, ?, ?, ?)';
+                $stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($add_lname, $add_fname, $add_uname, $add_passwd, $ha1) );
 
 		$lname=NULL;
 		$fname=NULL;
@@ -146,11 +145,12 @@ if ($action=="modify")
           if ($form_valid) {
 	  	if (($_POST['listpasswd']=="") || ($_POST['conf_passwd']=="")) {
 
-			$sql = "UPDATE ".$table." SET username='".$listuname."', first_name='".$listfname."', last_name = '".$listlname.
-				"' WHERE id=".$id;
-			$resultset = $link->prepare($sql);
-			$resultset->execute();
-			$resultset->free();
+			$sql = "UPDATE ".$table." SET username=?, first_name=?, last_name=? WHERE id=?";
+                	$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($listuname,$listfname,$listlname,$id) );
 			print "Admins info was modified, but password remained the same!\n";
 
 		} else if (($_POST['listpasswd']!="") && ($_POST['conf_passwd']!="")) {
@@ -162,11 +162,12 @@ if ($action=="modify")
 				$listpasswd = '';	
 			}
 
-			$sql = "UPDATE ".$table." SET username='".$listuname."', first_name='".$listfname."', last_name = '".$listlname.
-				"', password='".$listpasswd."', ha1='".addslashes($ha1)."' WHERE id=".$id;
-			$resultset = $link->prepare($sql);
-			$resultset->execute();
-			$resultset->free();
+			$sql = "UPDATE ".$table." SET username=?, first_name=?, last_name=?, password=?, ha1=? WHERE id=?";
+                	$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($listuname,$listfname,$listlname,$listpasswd,$ha1,$id) );
 			print "Admin's info was modified!\n";
 		}
 
@@ -273,22 +274,12 @@ if ($action=="modify_tools")
 		$tools = "";
 		$permiss = "";
 	}
-	$sql = "SELECT * FROM ".$table." where id=".$_GET['id']." AND username='".$_GET['uname']."' LIMIT 1";
-	$result = $link->queryAll($sql);
-	if(PEAR::isError($result)) {
-        	die('Failed to issue query, error message : ' . $result->getMessage());
-        }
-	$uname=$result[0]['username'];
-	$fname=$result[0]['first_name'];
-	$lname=$result[0]['last_name'];
-	$pass=$result[0]['password'];
-	$ha1=$result[0]['ha1'];
-
-        $sql = "UPDATE $table SET username='$uname', first_name='$fname', last_name = '$lname'".
-    	       ", password='$pass', ha1='$ha1', available_tools='$tools', permissions='$permiss'  WHERE id=$id";
-        $resultset = $link->prepare($sql);
-        $resultset->execute();
-        $resultset->free();
+        $sql = "UPDATE $table SET available_tools=?, permissions=?  WHERE id=?";
+      	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute( array($tools,$permiss,$id) );
         $info="Admin credentials were modified";
 
                 $link->disconnect();
@@ -312,17 +303,13 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id = $_GET['id'];
-		$uname = $_GET['uname'];
-		$domain = $_GET['domain'];
 
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-		$link->exec($sql);
-		for($i=0;$i<count($options);$i++){
-			$alias_table = $options[$i]['value'];
-	                $sql = "DELETE FROM ".$alias_table." WHERE username='".$uname."' AND domain='".$domain."' AND id=".$id;
-	                $link->exec($sql);
-
+		$sql = "DELETE FROM ".$table." WHERE id=?";
+      		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
+		$stm->execute( array($id) );
 	}else{
 
 		$errors= "User with Read-Only Rights";

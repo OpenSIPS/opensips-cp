@@ -23,7 +23,6 @@
 
 require_once("../../../../config/tools/admin/list_admins/db.inc.php");
 require_once("../../../../config/db.inc.php");
-require_once("MDB2.php");
 
         global $config;
         if (isset($config->db_host_list_admins) && isset($config->db_user_list_admins) && isset($config->db_name_list_admins) ) {
@@ -33,10 +32,12 @@ require_once("MDB2.php");
                 $config->db_pass = $config->db_pass_list_admins;
                 $config->db_name = $config->db_name_list_admins;
         }
-        $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
-        $link = & MDB2::connect($dsn);
-        if(PEAR::isError($link)) {
-            die("Error while connecting : " . $link->getMessage());
-        }
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
+	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+	try {
+		$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	} catch (PDOException $e) {
+		error_log(print_r("Failed to connect to: ".$dsn, true));
+		print "Error!: " . $e->getMessage() . "<br/>";
+		die();
+	}
 ?>

@@ -20,19 +20,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- if (isset($form_error)) {
+if (isset($form_error)) {
                           echo(' <tr align="center">');
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-	$id=$_GET['id'];
+$id=$_GET['id'];
 	
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
-    $index_row=0;
-	$link->disconnect();
+$sql = "select * from ".$table." where id=?";
+$stm = $link->prepare($sql);
+if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+}
+$stm->execute( array($id) );
+$resultset = $stm->fetchAll();
+$link=NULL;
 
+$index_row=0;
 ?>
+
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
