@@ -69,7 +69,7 @@
 			$sql = "select count(*) from ".$alias_type." where alias_username=? and alias_domain=?";
 			$stm = $link->prepare($sql);
 			if ($stm === FALSE)
-				die('Failed to issue query, error message : ' . $data_no->getMessage());
+				die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 			$stm->execute(array($alias, $domain));
 			$data_no = $stm->fetchColumn(0);;
 			if ($data_no!=0) {
