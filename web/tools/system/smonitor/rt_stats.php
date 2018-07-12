@@ -42,21 +42,22 @@
  if ($_GET['var']!=null)
  {
   $var_name = $_GET['var'];
-  $sql = "SELECT * FROM ".$table." WHERE name='".$var_name."'"." AND box_id=".$box_id;
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
-  }
+  $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ?";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($var_name, $box_id)) === false)
+  	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+  $resultset = $stm->fetchAll();
   if (count($resultset)==0){
-	$sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('".$var_name."','','".$box_id."') ";
-	$resultset = $link->prepare($sql);
-	$resultset->execute();
-	$resultset->free();
+	$sql = "INSERT INTO ".$table." (name, extra, box_id) VALUES (?, '', ?)";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($var_name, $box_id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   } else {
-	$sql = "DELETE FROM ".$table." WHERE name='".$var_name."' AND box_id='".$box_id."'";
-	$link->exec($sql);
+	$sql = "DELETE FROM ".$table." WHERE name = ? AND box_id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($var_name, $box_id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	}
-  $link->disconnect();
  }
  
  if ($_GET['module_id']!=null)

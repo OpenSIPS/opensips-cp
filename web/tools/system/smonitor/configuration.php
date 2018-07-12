@@ -33,73 +33,68 @@
  if ($_POST['set']!=null)
  {
   extract($_POST);
-  $sql = "SELECT * FROM ".$table." WHERE name='sampling_time' AND box_id=".$box_id." LIMIT 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
-  }
+  $sql = "SELECT * FROM ".$table." WHERE name='sampling_time' AND box_id = ? LIMIT 1";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($box_id)) === false)
+  	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+  $resultset = $stm->fetchAll();
   if ($sampling_time!=$resultset[0]['extra'])
   {
-   $sql =  "UPDATE ".$table." SET extra='".$sampling_time."' WHERE name='sampling_time' AND box_id=".$box_id." LIMIT 1";
-   $resultset_ = $link->prepare($sql);
-   $resultset_->execute();
-   $resultset_->free();	
+   $sql =  "UPDATE ".$table." SET extra = ? WHERE name='sampling_time' AND box_id = ? LIMIT 1";
+   $stm = $link->prepare($sql);
+   if ($stm->execute(array($sampling_time, $box_id)) === false)
+      die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 
-   $sql = "TRUNCATE TABLE ".$config->table_monitoring;
-   $resultset_d = $link->prepare($sql);
-   $resultset_d->execute();
-   $resultset_d->free();
+   $link->query("TRUNCATE TABLE " . $config->table_monitoring);
   }
 
-  $sql = "UPDATE ".$table." SET extra='".$chart_size."' WHERE name='chart_size' AND box_id=".$box_id." LIMIT 1";
-  $result = $link->prepare($sql);
-  $result->execute();
-  $result->free();
+  $sql = "UPDATE ".$table." SET extra = ? WHERE name='chart_size' AND box_id = ? LIMIT 1";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($chart_size, $box_id)) === false)
+  	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
  
   if ($chart_history=="auto") $chart_history_value="auto";
-  $sql = "UPDATE ".$table." SET extra='".$chart_history_value."' WHERE name='chart_history' AND box_id=".$box_id." LIMIT 1";
-  $result_ = $link->prepare($sql);
-  $result_->execute();
-  $result_->free();
-
-  $link->disconnect();
-
+  $sql = "UPDATE ".$table." SET extra = ? WHERE name='chart_history' AND box_id = ? LIMIT 1";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($chart_history_value, $box_id)) === false)
+  	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
  }
  
- $sql = "SELECT * FROM ".$table." WHERE extra!='' AND box_id=".$box_id;
- $resultset = $link->queryAll($sql);
- if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
- }
+ $sql = "SELECT * FROM ".$table." WHERE extra != '' AND box_id = ?";
+ $stm = $link->prepare($sql);
+ if ($stm->execute(array($box_id)) === false)
+ 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+ $resultset = $stm->fetchAll();
  for($i=0;count($resultset)>$i;$i++)
  {
   if ($resultset[$i]['name']=="sampling_time") $sampling_time=$resultset[$i]['extra'];
   if ($resultset[$i]['name']=="chart_size") $chart_size=$resultset[$i]['extra'];
   if ($resultset[$i]['name']=="chart_history") $chart_history=$resultset[$i]['extra'];
  }
- if ($sampling_time==null) {
-                            $sampling_time=$config->sampling_time;
-			    $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('sampling_time','".$sampling_time."',".$box_id.")";
-			    $resultset = $link->prepare($sql);
-			    $resultset->execute();
- 			    $resultset->free();
-                           }
- if ($chart_size==null) {
-                         $chart_size=$config->chart_size;
-                         $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('chart_size','".$chart_size."',".$box_id.")";
-			 $resultset = $link->prepare($sql);
-			 $resultset->execute();
-		  	 $resultset->free();
-                        }
- if ($chart_history==null) {
-                            $chart_history=$config->chart_history;
-                            $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('chart_history','".$chart_history."',".$box_id.")";
-			    $resultset = $link->prepare($sql);
-			    $resultset->execute();
-			    $resultset->free();
-                           }
 
- $link->disconnect();
+ if ($sampling_time==null) {
+  $sampling_time=$config->sampling_time;
+  $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('sampling_time', ?, ?)";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($sampling_time, $box_id)) === false)
+   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+ }
+
+ if ($chart_size==null) {
+  $chart_size=$config->chart_size;
+  $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('chart_size', ?, ?)";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($chart_size, $box_id)) === false)
+   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+ }
+
+ if ($chart_history==null) {
+  $chart_history=$config->chart_history;
+  $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('chart_history', ?, ?)";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($chart_history, $box_id)) === false)
+   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+ }
 
  require("template/".$page_id.".main.php");
  require("template/footer.php");

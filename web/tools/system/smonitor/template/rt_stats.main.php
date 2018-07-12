@@ -46,11 +46,11 @@
    {
     $var_name=$module.":".$vars[0][$k];
     $var_checked=""; $bold_=""; $_bold="";
-    $sql = "SELECT * FROM ".$table." WHERE name='".$var_name."' AND box_id=".$box_id;
-    $resultset = $link->queryAll($sql);
-    if(PEAR::isError($resultset)) {
-             //die('Failed to issue query, error message : ' . $resultset->getMessage());
-    }	
+    $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($var_name, $box_id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll();
     if (count($resultset)>0) {
                                     $var_checked="checked"; $bold_="<b>"; $_bold="</b>";
                                    }
