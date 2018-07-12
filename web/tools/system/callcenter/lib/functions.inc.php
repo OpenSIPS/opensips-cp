@@ -15,7 +15,7 @@
 * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 * GNU General Public License for more details.
 *
-* You should hav$modules$modulese received a copy of the GNU General Public License
+* You should have received a copy of the GNU General Public License
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
@@ -23,28 +23,35 @@
 function build_unique_check_query($custom_config,$table,$post_data,$id=NULL){
 	$build_query = NULL;
 	$build_mul = NULL;
+	$query_vals = array();
+	$mul_vals = array();
 	foreach ($custom_config['custom_table_column_defs'] as $key => $value){
 		if (isset($value['show_in_add_form']) && $value['show_in_add_form'] == true && isset($value['key']) && in_array($value['key'],array("PRI","UNI","MUL")) ){
 			switch ($value['key']) {
 				case "PRI":
-					$build_query = ($build_query == NULL) ? " ".$key."='".$post_data[$key]."'" : " OR ".$key."='".$post_data[$key]."'";
+					$build_query = ($build_query == NULL) ? " ".$key."=?" : " OR ".$key."=?";
+					$query_vals[] = $post_data[$key];
 					break;
 
 				case "UNI":
-					$build_query = ($build_query == NULL) ? " ".$key."='".$post_data[$key]."'" : " OR ".$key."='".$post_data[$key]."'";
+					$build_query = ($build_query == NULL) ? " ".$key."=?" : " OR ".$key."=?";
+					$query_vals[] = $post_data[$key];
 					break;
 
 				case "MUL":
-					$build_mul .= ($build_mul == NULL) ? " ( ".$key."='".$post_data[$key]."'" : " AND ".$key."='".$post_data[$key]."'";
-
+					$build_mul .= ($build_mul == NULL) ? " ( ".$key."=?" : " AND ".$key."=?";
+					$mul_vals[] = $post_data[$key];
 			}
 		}
 	}
 
 	//build check query
 	$query = NULL;
-	if ($build_mul != NULL) 
+	if ($build_mul != NULL) {
 		$build_mul .= " )";
+		$query_vals = array_merge($query_vals, $mul_vals);
+	}
+
 	if ($build_query != NULL || $build_mul != NULL){
 		$query = "select count(*) from ".$table." where"; 
 		$query .= $build_query;
@@ -57,7 +64,7 @@ function build_unique_check_query($custom_config,$table,$post_data,$id=NULL){
 		}
 	}
 
-	return $query;
+	return array($query, $query_vals);
 }
 
 

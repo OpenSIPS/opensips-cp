@@ -1,7 +1,6 @@
 <?php
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
-require_once("MDB2.php");
         global $config;
         if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_host']) && isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_user']) && isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_name']) ) {
                 $config->db_host = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_host'];
@@ -13,10 +12,12 @@ require_once("MDB2.php");
 			$config->db_host = $config->db_host.":".$config->db_port;
         }
 	
-        $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
-        $link = & MDB2::connect($dsn);
-        if(PEAR::isError($link)) {
-            die("Error while connecting : " . $link->getMessage());
-        }
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
+		$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+		try {
+			$link = new PDO($dsn, $config->db_user, $config->db_pass);
+		} catch (PDOException $e) {
+			error_log(print_r("Failed to connect to: ".$dsn, true));
+			print "Error!: " . $e->getMessage() . "<br/>";
+			die;
+		}
 ?>

@@ -24,10 +24,12 @@ require_once("../../../common/forms.php");
 
 $id=$_GET[$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
 
-$sql = "select * from ".$table." where ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."='".$id."'";
-$resultset = $link->queryAll($sql);
-$link->disconnect();
+$sql = "select * from ".$table." where ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=?";
 
+$stm = $link->prepare($sql);
+if ($stm->execute(array($id)) === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$resultset = $stm->fetchAll();
 ?>
 
 <?php

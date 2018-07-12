@@ -24,10 +24,13 @@
 // load table content
 
 $where="1 = 1";
+$qvalues = array();
 foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 	if (isset($_SESSION[$key]))
-		if ($_SESSION[$key] != "")
-			$where.=" and ".$key." like '%".$_SESSION[$key]."%'";
+		if ($_SESSION[$key] != "") {
+			$where.=" and ".$key." like ?";
+			$qvalues[] = "%".$_SESSION[$key]."%";
+		}
 }
 
 $query_ct = "select count(".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key'].") 
@@ -43,9 +46,9 @@ $query_fl =	"select count(".$custom_config[$module_id][$_SESSION[$module_id]['su
 		from ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table']."
 		where ".$where;
 
-$stm = $link->query($query_fl);
-if($stm === false) {
-	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true). "[".$query_fl."]");
+$stm = $link->prepare($query_fl);
+if ($stm->execute($qvalues) === false) {
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true). "[".$query_fl."]");
 }
 $filtered_records = $stm->fetchColumn(0);
 
@@ -74,9 +77,9 @@ if ($filtered_records > 0) {
 		LIMIT ".$res_no." 
 		OFFSET ".$start_limit;
 	
-	$stm = $link->query($query);
-	if($stm === false) {
-		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true). "[".$query."]");
+	$stm = $link->prepare($query);
+	if($stm->execute($qvalues) === false) {
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true). "[".$query."]");
 	}
 	$resultset= $stm->fetchAll();
 
