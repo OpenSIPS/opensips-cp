@@ -96,9 +96,7 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select count(*) from ".$table." order by id asc";
-else $sql_command="select count(*) from ".$table." where (1=1) ".$sql_search." order by id asc";
-
+$sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
 $stm = $link->prepare( $sql_command );
 if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
@@ -118,8 +116,9 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	if ($start_limit==0) $sql_command.=" limit ".$res_no;
-	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
+	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc limit ".$res_no;
+	if ($start_limit!=0)
+		$sql_command.=" OFFSET " . $start_limit;
 	$stm = $link->prepare( $sql_command );
 	if ($stm===FALSE)
 	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
