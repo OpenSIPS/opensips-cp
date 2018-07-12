@@ -282,7 +282,6 @@ if ($action=="modify_tools")
 	$stm->execute( array($tools,$permiss,$id) );
         $info="Admin credentials were modified";
 
-                $link->disconnect();
   } else {
           $errors= "User with Read-Only Rights";
          } 
