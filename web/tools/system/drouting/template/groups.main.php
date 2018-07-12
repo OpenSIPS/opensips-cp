@@ -123,7 +123,7 @@
   $start_limit=($page-1)*$res_no;
 
   $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by username, domain asc limit ".$res_no;
-  if ($start_limit==0) 
+  if ($start_limit!=0) 
   	$sql_command.=" OFFSET " . $start_limit;
   $stm = $link->prepare($sql_command);
   if ($stm===FALSE) {
