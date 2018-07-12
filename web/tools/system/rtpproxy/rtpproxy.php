@@ -98,7 +98,6 @@ if ($action=="add_verify")
 
 		if ($errors=="") {
 			$sql = "SELECT * FROM ".$table." WHERE set_id = ? AND rtpproxy_sock = ?";
-			error_log(print_r($sql, true));
 			$stm = $link->prepare($sql);
 			if ($stm->execute(array($set_id, $rtpproxy_sock)) === false)
 				die('Failed to issue query, error message : ' .
@@ -110,7 +109,6 @@ if ($action=="add_verify")
 			} else {
 				$sql_command = "INSERT INTO ".$table."
 				(set_id, rtpproxy_sock) VALUES (?, ?)";
-				error_log(print_r($sql_command, true));
 				$stm = $link->prepare($sql_command);
 				if ($stm->execute(array($set_id, $rtpproxy_sock)) === false)
 					die('Failed to issue query, error message : ' .
@@ -286,8 +284,11 @@ $query="";
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if (!empty($errors)) {
+	echo "Error stack: ";
+	print_r($errors);
+}
+
 require("template/footer.php");
 exit();
 
