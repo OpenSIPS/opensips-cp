@@ -156,11 +156,13 @@ if (!empty($lists)) $gwlist=$lists;
                            }
                      
                     }
-                    $sql="select * from ".$table." where groupid='".$groupid."' and prefix='".$prefix."' and timerec='".$timerec."' and priority='".$priority."' and routeid='".$routeid."' and gwlist='".$gwlist."'";
-		    $result=$link->queryAll($sql);
-		    if(PEAR::isError($result)) {
-                               die('Failed to issue query, error message : ' . $result->getMessage());
-                    }
+                    $sql="select * from ".$table." where groupid=? and prefix=? and timerec=? and priority=? and routeid=? and gwlist=?";
+		    $stm=$link->prepare($sql);
+		    if ($stm === false) {
+		    	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		    }
+		    $stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist) );
+		    $result = $stm->fetchAll();
                     $data_rows=count($result);
                     if (($data_rows>0) && ($result[0]['ruleid']!=$_GET['id']))
                     {

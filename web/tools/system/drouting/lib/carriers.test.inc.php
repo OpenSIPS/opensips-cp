@@ -33,12 +33,13 @@
                     if (substr($gwlist,strlen($gwlist)-1,1)==",") $gwlist=substr($gwlist,0,strlen($gwlist)-1);
   }
   if ($action != "edit"){
-                    $sql="select count(*) from ".$table." where carrierid='".$gwlist."'";
-				    $result = $link->queryOne($sql);
-				    if(PEAR::isError($result)) {
-	                    die('Failed to issue query, error message : ' . $result->getMessage());
-                    }	
-                    $data_rows=$result;
+                    $sql="select count(*) from ".$table." where carrierid=?";
+		    $stm = $link->prepare($sql);
+		    if ($stm===FALSE) {
+		    	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
+		    }
+		    $stm->execute( array($gwlist) );
+		    $data_rows = $stm->fetchColumn(0);
                     if (($data_rows>0))
                     {
                      $form_valid=false;

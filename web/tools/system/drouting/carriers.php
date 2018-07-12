@@ -42,13 +42,13 @@
 #################
  if ($action=="details")
  {
-  $sql = "select * from ".$table." where carrierid='".$_GET['carrierid']."' limit 1";
-  $resultset = $link->queryAll($sql);
-
-  if(PEAR::isError($resultset)) {
-	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where carrierid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
-  $link->disconnect();
+  $stm->execute( array($_GET['carrierid']) );
+  $resultset = $stm->fetchAll();
 
   $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3)) ? "Yes" : "No";
@@ -121,15 +121,17 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-			$flags = bindec($useonlyfirst.$useweights);
+	$flags = bindec($useonlyfirst.$useweights);
 		
 
-            $sql = "update ".$table." set gwlist='".$gwlist."', flags= (flags | ".$flags.") & ".$flags.", state='".$state."', description='".$description."', attrs='".$attrs."' where carrierid='".$_GET['carrierid']."'";
-		    $resultset = $link->prepare($sql);
-		    $resultset->execute();
-		    $resultset->free();	
-                    $link->disconnect();
-                   }
+	$sql = "update ".$table." set gwlist=?, flags=?, state=?, description=?, attrs=? where carrierid=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array($gwlist,$flags,$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
+		echo "Updating DB record failed with: ". print_r($stm->errorInfo(), true);
+  }
   if ($form_valid) $action="";
    else $action="edit";
  }
@@ -142,18 +144,18 @@ if ($action=="disablecar"){
 ##############
  if ($action=="edit")
  {
-  $sql = "select * from ".$table." where carrierid='".$_GET['carrierid']."' limit 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where carrierid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
-//  $link->disconnect();
-  
+  $stm->execute( array($_GET['carrierid']) );
+  $resultset = $stm->fetchAll();
+
   if (is_numeric((int)$resultset[$i]['flags'])) {
         $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,3));
         $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2));
         $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,1));
-		//print_r($resultset[0]);
     }
     else{
         $resultset[0]['useweights'] = "error";
@@ -177,27 +179,19 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-  					$flags = bindec($enabled.$useonlyfirst.$useweights);
+ 	$flags = bindec($enabled.$useonlyfirst.$useweights);
                     
-					$_SESSION['rules_search_gwlist']="";
-                    $_SESSION['rules_search_description']="";
-                    
-					$sql = "insert into ".$table." (carrierid, gwlist, flags, state, description,attrs) values ('".$carrierid."', '".$gwlist."', '".$flags."', '".$state."', '".$description."','".$attrs."')";
-
-					$resultset = $link->prepare($sql);
-				    $resultset->execute();
-				    $resultset->free();
-                    
-					$sql = "select count(*) from ".$table." where (1=1)";
-                    $result = $link->queryOne($sql);
-                    if(PEAR::isError($resultset)) {
-	                    die('Failed to issue query, error message : ' . $resultset->getMessage());
-                    }	
-                    $data_no=$result;
-                    $link->disconnect();
-                    $page_no=ceil($data_no/10);
-                    $_SESSION[$current_page]=$page_no;
-                   }
+	$_SESSION['rules_search_gwlist']="";
+        $_SESSION['rules_search_description']="";
+                  
+	$sql = "insert into ".$table." (carrierid, gwlist, flags, state, description,attrs) values (?,?,?,?,?,?)";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array($carrierid,$gwlist,$flags,$state,$description,$attrs) ) == FALSE)
+		echo "Inserting the record into DB failed with: ". print_r($stm->errorInfo(), true);
+  }
   if ($form_valid) $action="";
    else $action="add";
  }
@@ -225,11 +219,12 @@ if ($action=="disablecar"){
 ################
  if ($action=="delete"){
   $del_id = $_GET['carrierid'];
-  $sql = "delete from ".$table." where carrierid='".$del_id."'";
-  $result = $link->exec($sql);
-  if(PEAR::isError($result)) {
-	die('Failed to issue query, error message : ' . $result->getMessage());
+  $sql = "delete from ".$table." where carrierid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($stm->errorInfo(), true));
   }
+  $stm->execute( array($del_id) );
 
     $sql_regex = "'(^#".$del_id."(=[^,]+)?,)|(,#".$del_id."(=[^,]+)?$)|(^#".$del_id."(=[^,]+)?$)|(,#".$del_id."(=[^,]+)?,)'";
 
@@ -238,14 +233,22 @@ if ($action=="disablecar"){
 
     //remove Carriers from dr_rules
     if ($config->db_driver == "mysql")
-        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ".$sql_regex;
+        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ?";
     else if ($config->db_driver == "pgsql")
-        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ".$sql_regex;
+        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ?";
 
-    $resultset = $link->queryAll($sql);
+    $stm = $link->prepare($sql);
+    if ($stm === false) {
+    	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+    }
+    $stm->execute( array($sql_regex) );
+    $resultset = $stm->fetchAll();
 
-    if(PEAR::isError($resultset)) {
-        die('Failed to issue query, error message : ' . $resultset->getMessage());
+
+    $sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
+    $stm = $link->prepare($sql);
+    if ($stm === false) {
+       die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
     }
     for($i=0;count($resultset)>$i;$i++){
         $list=$resultset[$i]['gwlist'];
@@ -253,16 +256,9 @@ if ($action=="disablecar"){
             $list = preg_replace($sql_regex,'',$list);
         else if (preg_match($preg_exp2,$list))
             $list = preg_replace($sql_regex,',',$list);
-        $sql = "update ".$config->table_rules." set gwlist='".$list."' where ruleid='".$resultset[$i]['ruleid']."' limit 1";
-        $result = $link->exec($sql);
-        if(PEAR::isError($result)) {
-            die('Failed to issue query, error message : ' . $result->getMessage());
-        }
+	if ($stm->execute( array($list,$resultset[$i]['ruleid']) ) == FALSE)
+		echo "Updating DB record failed with: ". print_r($stm->errorInfo(), true);
     }  
-
-
-
-  $link->disconnect();
 
  }
 ##############

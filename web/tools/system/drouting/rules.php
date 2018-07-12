@@ -42,11 +42,13 @@
  if ($action=="details")
  {
 
-  $sql = "select * from ".$table." where ruleid='".$_GET['id']."' limit 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where ruleid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
+  $stm->execute( array($_GET['id']) );
+  $resultset = $stm->fetchAll();
   require("template/".$page_id.".details.php");
   require("template/footer.php");
   exit();
@@ -62,11 +64,14 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    $sql = "update ".$table." set groupid='".$groupid."', prefix='".$prefix."', timerec='".$timerec."', priority='".$priority."', routeid='".$routeid."', gwlist='".$gwlist."', attrs='".$attrs."',description='".$description."' where ruleid='".$_GET['id']."'";
- 		    $resultset = $link->prepare($sql);
-		    $resultset->execute();
-		    $resultset->free();	
-                   }
+        $sql = "update ".$table." set groupid=?, prefix=?, timerec=?, priority=?, routeid=?, gwlist=?, attrs=?, description=? where ruleid=?";
+  	$stm = $link->prepare($sql);
+  	if ($stm === false) {
+  		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+  	}
+	if ($stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist,$attrs,$description,$_GET['id']) ) == FALSE)
+		echo 'Failed to update the record in DB : ' . print_r($stm->errorInfo(), true);
+  }
   if ($form_valid) $action="";
    else $action="edit";
  }
@@ -79,11 +84,13 @@
 ##############
  if ($action=="edit")
  {
-  $sql = "select * from ".$table." where ruleid='".$_GET['id']."' limit 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-	  die('Failed to issue query, error message : ' . $resultset->getMessage());
-  }  
+  $sql = "select * from ".$table." where ruleid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+  }
+  $stm->execute( array($_GET['id']) );
+  $resultset = $stm->fetchAll();
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -107,18 +114,13 @@
                     $_SESSION['rules_search_gwlist']="";
 		    $_SESSION['rules_search_attrs']="";
                     $_SESSION['rules_search_description']="";
-                    $sql = "insert into ".$table." (groupid, prefix, timerec, priority, routeid, gwlist, attrs, description) values ('".$groupid."', '".$prefix."', '".$timerec."', '".$priority."', '".$routeid."', '".$gwlist."', '".$attrs."', '".$description."')";
-		    $resultset = $link->prepare($sql);
-		    $resultset->execute();
-		    $resultset->free();	
-                    $sql = "select count(*) from ".$table." where (1=1)";
-                    $result = $link->queryOne($sql);
-                    if(PEAR::isError($result)) {
-	                    die('Failed to issue query, error message : ' . $result->getMessage());
+		    $sql = "insert into ".$table." (groupid, prefix, timerec, priority, routeid, gwlist, attrs, description) values (?, ?, ?, ?, ?, ?, ?, ?)";
+		    $stm = $link->prepare($sql);
+  		    if ($stm === false) {
+  			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
                     }
-                    $data_no=$result;
-                    $page_no=ceil($data_no/10);
-                    $_SESSION[$current_page]=$page_no;
+		    if ($stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist,$attrs,$description) ) == FALSE)
+			echo 'Failed to insert the record in DB : ' . print_r($stm->errorInfo(), true);
                    }
   if ($form_valid) $action="";
    else $action="add";
@@ -151,8 +153,12 @@
 ################
  if ($action=="delete")
  {
-  $sql = "delete from ".$table." where ruleid='".$_GET['id']."'";
-  $link->exec($sql);
+  $sql = "delete from ".$table." where ruleid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+  }
+  $stm->execute( array($_GET['id']) );
  }
 ##############
 # end delete #

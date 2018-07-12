@@ -32,35 +32,54 @@
 	$colspan=7;
  }
  $sql_search="";
+ $sql_vals=array();
  $search_groupid=$_SESSION['rules_search_groupid'];
  if ($search_groupid!="") {
                            $id=$search_groupid;
                            $id=str_replace("*",".*",$id);
                            $id=str_replace("%",".*",$id);
-			   if ($config->db_driver == "mysql" )
-	                           $sql_search.=" and groupid regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
-			   else if ($config->db_driver == "pgsql" )
-	                           $sql_search.=" and groupid ~* '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
-                          }
+			   if ($config->db_driver == "mysql" ) {
+	                           $sql_search.=" and groupid regexp ?";
+				   array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
+			   } else if ($config->db_driver == "pgsql" ) {
+				   $sql_search.=" and groupid ~* ?";
+				   array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
+			   }
+ }
  $search_prefix=$_SESSION['rules_search_prefix'];
  if ($search_prefix!="") {
                           $pos=strpos($search_prefix,"*");
-                          if ($pos===false) $sql_search.=" and prefix='".$search_prefix."'";
-                           else $sql_search.=" and prefix like '".str_replace("*","%",$search_prefix)."'";
-                          }
+			  if ($pos===false) {
+				  $sql_search.=" and prefix=?";
+				  array_push( $sql_vals, $search_prefix);
+                          } else {
+				  $sql_search.=" and prefix like ?";
+				  array_push( $sql_vals, str_replace("*","%",$search_prefix));
+			  }
+ }
  $search_priority=$_SESSION['rules_search_priority'];
- if ($search_priority!="") $sql_search.=" and priority='".$search_priority."'";
+ if ($search_priority!="") {
+	 $sql_search.=" and priority=?";
+	 array_push( $sql_vals, $search_priority);
+ }
  $search_routeid=$_SESSION['rules_search_routeid'];
- if ($search_routeid!="") $sql_search.=" and routeid='".$search_routeid."'";
+ if ($search_routeid!="") {
+	 $sql_search.=" and routeid=?";
+	 array_push( $sql_vals, $search_routeid);
+ }
  $search_gwlist=$_SESSION['rules_search_gwlist'];
  if ($search_gwlist!="") {
                           $id=$search_gwlist;
                           $id=str_replace("*",".*",$id);
                           $id=str_replace("%",".*",$id);
-                          $sql_search.=" and gwlist regexp '(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'";
+                          $sql_search.=" and gwlist regexp ?";
+			  array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
                          }
  $search_description=$_SESSION['rules_search_description'];
- if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
+ if ($search_description!="") {
+	 $sql_search.=" and description like ?";
+	 array_push( $sql_vals, "%".$search_description."%");
+ }
 ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr>
@@ -124,15 +143,20 @@
  </tr>
 <?php
  if ($sql_search=="") {
-	$sql_command="select * from ".$table." where (1=1) order by ruleid asc";
-	$sql_count="select count(*) from ".$table." where (1=1)";
+	$sql_command="select * from ".$table." order by ruleid asc";
+	$sql_count="select count(*) from ".$table;
  }
  else {
 	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by ruleid asc";
 	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search;
  }
- $data_no = $link->queryOne($sql_count);
- 
+ $stm= $link->prepare($sql_count);
+ if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_count.'], error message : ' . $link->errorInfo()[2]);
+ }
+ $stm->execute( $sql_vals );
+ $data_no = $stm->fetchColumn(0);
+
  if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
@@ -147,10 +171,12 @@
   //$sql_command.=" limit ".$start_limit.", ".$res_no;
   if ($start_limit==0) $sql_command.=" limit ".$res_no;
   else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-  $resultset = $link->queryAll($sql_command);
-  if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $stm= $link->prepare($sql_command);
+  if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
   }
+  $stm->execute( $sql_vals );
+  $resultset = $stm->fetchAll();
   require("lib/".$page_id.".main.js");
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)

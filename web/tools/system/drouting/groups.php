@@ -46,12 +46,13 @@
 #################
  if ($action=="details")
  {
-  $sql = "select * from ".$table." where username='".$id_username."' and domain='".$id_domain."' limit 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-	  die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where username=? and domain=? limit 1";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
-  $link->disconnect();
+  $stm->execute( array($id_username,$id_domain) );
+  $resultset = $stm->fetchAll();
   require("template/".$page_id.".details.php");
   require("template/footer.php");
   exit();
@@ -67,12 +68,14 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                    $sql = "update ".$table." set username='".$username."', domain='".$domain."', groupid='".$groupid."', description='".$description."' where username='".$id_username."' and domain='".$id_domain."'";
-                    $resultset = $link->prepare($sql);
-		    $resultset->execute();
-		    $resultset->free();
-		    $link->disconnect();		
-                   }
+                   $sql = "update ".$table." set username=?, domain=?, groupid=?, description=? where username=? and domain=?";
+		   $stm = $link->prepare($sql);
+		   if ($stm === false) {
+		  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		   }
+		   if ($stm->execute( array($username,$domain,$groupid,$description,$id_username,$id_domain) ) == FALSE)
+			  echo 'Updating the record into DB failed : ' . print_r($stm->errorInfo(), true);
+  }
   if ($form_valid) $action="";
    else $action="edit";
  }
@@ -85,12 +88,13 @@
 ##############
  if ($action=="edit")
  {
-  $sql = "select * from ".$table." where username='".$id_username."' and domain='".$id_domain."' limit 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
- 	 die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where username=? and domain=? limit 1";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
-  $link->disconnect();
+  $stm->execute( array($id_username,$id_domain) );
+  $resultset = $stm->fetchAll();
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
   exit();
@@ -110,14 +114,14 @@
                     $_SESSION['groups_search_domain']="";
                     $_SESSION['groups_search_groupid']="";
                     $_SESSION['groups_search_description']="";
-                    $sql = "insert into ".$table." (username, domain, groupid, description) values ('".$username."', '".$domain."', '".$groupid."', '".$description."')";
-		    $resultset = $link->prepare($sql);
-		    $resultset->execute();
-		    $resultset->free();	
-                    $link->disconnect();
-                    $page_no=1;
-                    $_SESSION[$current_page]=$page_no;
-                   }
+                    $sql = "insert into ".$table." (username, domain, groupid, description) values (?,?,?,?)";
+		    $stm = $link->prepare($sql);
+		    if ($stm === false) {
+		  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		    }
+		    if ($stm->execute( array($username,$domain,$groupid,$description) ) == FALSE)
+			  echo 'Inserting the record into DB failed : ' . print_r($stm->errorInfo(), true);
+   }
   if ($form_valid) $action="";
    else $action="add";
  }
@@ -148,9 +152,12 @@
 ################
  if ($action=="delete")
  {
-  $sql = "delete from ".$table." where username='".$id_username."' and domain='".$id_domain."'";
-  $link->exec($sql);	
-  $link->disconnect();
+  $sql = "delete from ".$table." where username=? and domain=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+  }
+  $stm->execute( array($id_username,$id_domain) );
  }
 ##############
 # end delete #

@@ -27,41 +27,50 @@
 <form action="<?=$page_name?>?action=search" method="post">
 <?php
  $sql_search="";
+ $sql_vals=array();
 
  $search_gwid=$_SESSION['gateways_search_gwid'];
  if ($search_gwid!="") {
-     $sql_search.=" and gwid like '%" . $search_gwid . "%' ";
+     $sql_search.=" and gwid like ? ";
+     array_push( $sql_vals, "%".$search_gwid."%");
  }
 
 
  $search_type=$_SESSION['gateways_search_type'];
- if ($search_type!="") $sql_search.=" and type='".$search_type."'";
-	 $search_address=$_SESSION['gateways_search_address'];
+ if ($search_type!="") {
+	 $sql_search.=" and type=?";
+	 array_push( $sql_vals, $search_type);
+ }
 
  $search_address=$_SESSION['gateways_search_address'];
  if ($search_address!="") {
-	 $sql_search.=" and address like '%" . $search_address . "%' ";
+	 $sql_search.=" and address like ? ";
+	 array_push( $sql_vals, "%".$search_address."%");
  } 
  
  $search_pri_prefix=$_SESSION['gateways_search_pri_prefix'];
- 
- if ($search_pri_prefix!="") 
-	$sql_search.=" and pri_prefix='".$search_pri_prefix."'";
+ if ($search_pri_prefix!="") {
+	 $sql_search.=" and pri_prefix=?";
+	 array_push( $sql_vals, $search_pri_prefix);
+ }
 
-$search_probe_mode=$_SESSION['gateways_search_probe_mode'];
-
- if ($search_probe_mode!="")
-     $sql_search.=" and probe_mode='".$search_probe_mode."'";
+ $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
+ if ($search_probe_mode!="") {
+	$sql_search.=" and probe_mode=?";
+	array_push( $sql_vals, $search_probe_mode);
+ }
 
  $search_description=$_SESSION['gateways_search_description'];
-
- if ($search_description!="") 
-	$sql_search.=" and description like '%".$search_description."%'";
+ if ($search_description!="") { 
+	$sql_search.=" and description like ?";
+	array_push( $sql_vals, "%".$search_description."%");
+ }
 
  $search_attrs=$_SESSION['gateways_search_attrs'];
-
- if ($search_attrs!="")
-        $sql_search.=" and attrs like '%".$search_attrs."%'";
+ if ($search_attrs!="") {
+        $sql_search.=" and attrs like ?";
+	array_push( $sql_vals, "%".$search_attrs."%");
+ }
 
 ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
@@ -157,10 +166,12 @@ for ($j=0; $j<count($message); $j++){
 	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
 	$sql_count="select count(*) from ".$table." where (1=1) ".$sql_search;
  }
- $data_no = $link->queryOne($sql_count);
-  if(PEAR::isError($data_no)) {
- 	 die('Failed to issue query, error message : ' . $data_no->getMessage());
-  }
+ $stm = $link->prepare($sql_count);
+ if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_count.'], error message : ' . $link->errorInfo()[2]);
+ }
+ $stm->execute( $sql_vals );
+ $data_no = $stm->fetchColumn(0);
  if ($data_no==0) 
  	echo('<tr><td colspan="15" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
@@ -176,10 +187,14 @@ for ($j=0; $j<count($message); $j++){
   //$sql_command.=" limit ".$start_limit.", ".$res_no;
  if ($start_limit==0) $sql_command.=" limit ".$res_no;
  else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-  $resultset = $link->queryAll($sql_command);
-  if(PEAR::isError($resultset)) {
-  	die('Failed to issue query, error message : ' . $resultset->getMessage());
-  }
+
+ $stm = $link->prepare($sql_command);
+ if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+ }
+ $stm->execute( $sql_vals );
+ $resultset = $stm->fetchAll();
+
   require("lib/".$page_id.".main.js");
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)
