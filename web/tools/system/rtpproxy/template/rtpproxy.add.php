@@ -1,6 +1,6 @@
 <?php
 /*
-* Copyright (C) 2011 OpenSIPS Project
+* Copyright (C) 2018 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
 * OpenSIPS SIP server.
@@ -25,11 +25,12 @@ $clone=$_GET['clone'];
 if($clone =="1"){
 	$id=$_GET['id'];
 
-	$sql = "select * from ".$table." where id='".$id."'";
-	$row = $link->queryAll($sql);
-	if(PEAR::isError($row)) {
-        	 die('Failed to issue query, error message : ' . $row->getMessage());
-	}
+	$sql = "select * from ".$table." where id=?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$row = $stm->fetchAll();
+
 	$rtpproxy_sock = $row[0]['rtpproxy_sock'];
 	$set_id = $row[0]['set_id'];
 }

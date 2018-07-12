@@ -1,6 +1,6 @@
 <?php
 /*
-* Copyright (C) 2011 OpenSIPS Project
+* Copyright (C) 2018 OpenSIPS Project
 *
 * This file is part of opensips-cp, a free Web Control Panel Application for
 * OpenSIPS SIP server.
@@ -97,25 +97,27 @@ if ($action=="add_verify")
 		}
 
 		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE set_id=" .$set_id . " AND rtpproxy_sock='".$rtpproxy_sock."'";
-			$row = $link->queryAll($sql);
-			if(PEAR::isError($row)) {
-			         die('Failed to issue query, error message : ' . $row->getMessage());
-			}
+			$sql = "SELECT * FROM ".$table." WHERE set_id = ? AND rtpproxy_sock = ?";
+			error_log(print_r($sql, true));
+			$stm = $link->prepare($sql);
+			if ($stm->execute(array($set_id, $rtpproxy_sock)) === false)
+				die('Failed to issue query, error message : ' .
+					print_r($stm->errorInfo(), true));
+			$row = $stm->fetchAll();
+
 			if (count($row)>0) {
 				$errors="Duplicate rule";
 			} else {
 				$sql_command = "INSERT INTO ".$table."
-				(set_id, rtpproxy_sock) VALUES 
-				(".$set_id.", '".$rtpproxy_sock."') ";
-	                         $result = $link->prepare($sql_command);
-                                 $result->bindParam('domain', $domain);
-                                 $result->execute();
-                                 $result->free();
+				(set_id, rtpproxy_sock) VALUES (?, ?)";
+				error_log(print_r($sql_command, true));
+				$stm = $link->prepare($sql_command);
+				if ($stm->execute(array($set_id, $rtpproxy_sock)) === false)
+					die('Failed to issue query, error message : ' .
+						print_r($stm->errorInfo(), true));
 
 				$info="The new record was added";
 			}
-			$link->disconnect();	
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -166,26 +168,22 @@ if ($action=="modify")
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
 		if ($errors=="") {
-			$sql = "SELECT * FROM ".$table." WHERE set_id=" .$set_id. " AND rtpproxy_sock='".$rtpproxy_sock."' AND id!=".$id;
-                        $row = $link->queryAll($sql);
-                        if(PEAR::isError($row)) {
-                                 die('Failed to issue query, error message : ' . $row->getMessage());
-                        }
+			$sql = "SELECT * FROM ".$table." WHERE set_id = ? AND rtpproxy_sock = ? AND id != ?";
+			$stm = $link->prepare($sql);
+			if ($stm->execute(array($set_id, $rtpproxy_sock, $id)) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+			$row = $stm->fetchAll();
 
 			if (count($row)>0) {
 				$errors="Duplicate rule";
 			} else {
-
-				$sql_command = "UPDATE ".$table." SET set_id=".$set_id.", rtpproxy_sock = '".$rtpproxy_sock.
-				"' WHERE id=".$id;
-                                 $result = $link->prepare($sql_command);
-                                 $result->bindParam('domain', $domain);
-                                 $result->execute();
-                                 $result->free();
+				$sql_command = "UPDATE ".$table." SET set_id = ?, rtpproxy_sock = ? WHERE id = ?";
+				$stm = $link->prepare($sql_command);
+				if ($stm->execute(array($set_id, $rtpproxy_sock, $id)) === false)
+					die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 
 				$info="The new rule was modified";
 			}
-			$link->disconnect();
 		}
 	}else{
 
@@ -207,9 +205,10 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id=$_GET['id'];
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-	        $link->exec($sql);
-		$link->disconnect();
+		$sql = "DELETE FROM ".$table." WHERE id = ?";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($id)) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -244,31 +243,37 @@ $query="";
 	}else if($delete=="Delete RTPproxy Sock"){
 		$set_id = $_POST['rtpproxy_setid'];
 		$rtpproxy_sock = $_POST['rtpproxy_sock'];
+		$qvalues = array();
+
 		if($rtpproxy_sock =="") { 
-			$query .= " AND rtpproxy_sock like %";
+			$query .= " AND rtpproxy_sock LIKE %";
 		}else {
-			$query .= " AND rtpproxy_sock like '%" . $rtpproxy_sock."%'"; 
+			$query .= " AND rtpproxy_sock LIKE ?"; 
+			$qvalues[] = "%" . $rtpproxy_sock . "%";
 		}
+
 		if ($set_id!=""){
-			$query .=" AND set_id=".$set_id;
+			$query .= " AND set_id = ?";
+			$qvalues[] = $set_id;
 		}
-			$sql = "SELECT * FROM ".$table.
-			" WHERE (1=1) ". $query;
-	                $row = $link->queryAll($sql);
-                        if(PEAR::isError($row)) {
-                                 die('Failed to issue query, error message : ' . $row->getMessage());
-                        }
 
-			if (count($row)==0) {
-				$errors="No Rule with such RTPproxy Sock ID";
-				$_SESSION['rtpproxy_setid']="";
-				$_SESSION['rtpproxy_sock']="";
+		$sql = "SELECT * FROM " . $table . " WHERE (1=1) " . $query;
+		$stm = $link->prepare($sql);
+		if ($stm->execute($qvalues) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$row = $stm->fetchAll();
 
-			}else{
-				$sql = "DELETE FROM ".$table." WHERE (1=1) " .$query;
-		                $link->exec($sql);				
-			}
-			$link->disconnect();
+		if (count($row)==0) {
+			$errors="No Rule with such RTPproxy Sock ID";
+			$_SESSION['rtpproxy_setid']="";
+			$_SESSION['rtpproxy_sock']="";
+
+		}else{
+			$sql = "DELETE FROM ".$table." WHERE (1=1) " .$query;
+			$stm = $link->prepare($sql);
+			if ($stm->execute($qvalues) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		}
 		print $result;
 	}
 }
