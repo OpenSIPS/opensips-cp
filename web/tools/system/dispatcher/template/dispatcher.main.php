@@ -57,11 +57,11 @@ if($search_setid !="") {
 }
 if($search_dest !="") {
 	$sql_search.=" and destination like ?";
-	array_push( $sql_vals, "%",$search_dest."%");
+	array_push( $sql_vals, "%".$search_dest."%");
 }
 if($search_descr !="") {
 	$sql_search.=" and description like ?";
-	array_push( $sql_vals, "%",$search_descr."%");
+	array_push( $sql_vals, "%".$search_descr."%");
 }
 require("lib/".$page_id.".main.js");
 
