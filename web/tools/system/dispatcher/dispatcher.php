@@ -140,7 +140,7 @@ if ($action=="modify")
 
 
 		$sql = "UPDATE ".$table." SET ". 
-			"setid=?, destination = ?, socket = ?, state = ?, weight = ?, attrs = ?', description = ?".
+			"setid=?, destination = ?, socket = ?, state = ?, weight = ?, attrs = ?, description = ?".
 			"WHERE id=?";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
