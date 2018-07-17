@@ -1,0 +1,11 @@
+CREATE TABLE `ocp_admin_privileges` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `first_name` varchar(64) NOT NULL default '',
+  `last_name` varchar(64) NOT NULL default '',
+  `username` varchar(64) NOT NULL default '',
+  `password` varchar(64) NOT NULL default '',
+  `ha1` varchar(256) default '',
+  `available_tools` varchar(512) NOT NULL default '',
+  `permissions` varchar(512) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
