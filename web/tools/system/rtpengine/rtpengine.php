@@ -92,24 +92,22 @@ if ($action=="add_verify")
 		$rtpengine_sock=$_POST['rtpengine_sock'];
 		$set_id=$_POST['set_id'];
 
-		$sql = "SELECT * FROM ".$table." WHERE set_id=" .$set_id . " AND socket='".$rtpengine_sock."'";
-		$row = $link->queryAll($sql);
-		if(PEAR::isError($row)) {
-			 die('Failed to issue query, error message : ' . $row->getMessage());
-		}
+		$sql = "SELECT * FROM ".$table." WHERE set_id = ? AND socket = ?";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($set_id, $rtpengine_sock)) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$row = $stm->fetchAll();
 		if (count($row)>0) {
 			$errors="Duplicate RTPEngine entry";
 		} else {
 			$sql_command = "INSERT INTO ".$table."
-				(set_id, socket) VALUES 
-				(".$set_id.", '".$rtpengine_sock."') ";
-			$result = $link->prepare($sql_command);
-			$result->execute();
-			$result->free();
+				(set_id, socket) VALUES (?, ?) ";
+			$stm = $link->prepare($sql_command);
+			if ($stm->execute(array($set_id, $rtpengine_sock)) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 
 			$info="The new RTPengine was added";
 		}
-		$link->disconnect();	
 	}else{
 		$errors= "User with Read-Only Rights";
 	}
@@ -156,25 +154,23 @@ if ($action=="modify")
 		$rtpengine_sock=$_POST['rtpengine_sock'];
 		$id=$_GET['id'];
 
-		$sql = "SELECT * FROM ".$table." WHERE set_id=" .$set_id. " AND socket='".$rtpengine_sock."' AND id!=".$id;
-		$row = $link->queryAll($sql);
-		if(PEAR::isError($row)) {
-	       		die('Failed to issue query, error message : ' . $row->getMessage());
-		}
+		$sql = "SELECT * FROM ".$table." WHERE set_id = ? AND socket = ? AND id != ?";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($set_id, $rtpengine_sock, $id)) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$row = $stm->fetchAll();
+
 
 		if (count($row)>0) {
 			$errors="Duplicate RTPEngine socket";
 		} else {
-
-			$sql_command = "UPDATE ".$table." SET set_id=".$set_id.", socket = '".$rtpengine_sock.
-				"' WHERE id=".$id;
-			 $result = $link->prepare($sql_command);
-			 $result->execute();
-			 $result->free();
+			$sql_command = "UPDATE ".$table." SET set_id = ?, socket = ? WHERE id = ?";
+			$stm = $link->prepare($sql_command);
+			if ($stm->execute(array($set_id, $rtpengine_sock, $id)) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 
 			$info="The RTPEngine socket was modified";
 		}
-		$link->disconnect();
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -195,9 +191,10 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id=$_GET['id'];
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-		$link->exec($sql);
-		$link->disconnect();
+		$sql = "DELETE FROM ".$table." WHERE id= ?";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($id)) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -232,20 +229,25 @@ if ($action=="search")
 	}else if ($delete=="Delete RTPproxy Sock"){
 		$set_id = $_POST['rtpengine_setid'];
 		$rtpengine_sock = $_POST['rtpengine_sock'];
+		$qvalues = array();
+
 		if($rtpengine_sock =="") { 
-			$query .= " AND socket like %";
+			$query .= " AND socket LIKE %";
 		}else {
-			$query .= " AND socket like '%" . $rtpengine_sock."%'"; 
+			$query .= " AND socket LIKE ?"; 
+			$qvalues[] = "%" . $rtpengine_sock . "%";
 		}
+
 		if ($set_id!=""){
-			$query .=" AND set_id=".$set_id;
+			$query .= " AND set_id = ?";
+			$qvalues[] = $set_id;
 		}
-		$sql = "SELECT * FROM ".$table.
-			" WHERE (1=1) ". $query;
-		$row = $link->queryAll($sql);
-		if(PEAR::isError($row)) {
-			 die('Failed to issue query, error message : ' . $row->getMessage());
-		}
+
+		$sql = "SELECT * FROM " . $table . " WHERE (1=1) " . $query;
+		$stm = $link->prepare($sql);
+		if ($stm->execute($qvalues) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$row = $stm->fetchAll();
 
 		if (count($row)==0) {
 			$errors="No Rule with such RTPEngine Sock ID";
@@ -254,9 +256,10 @@ if ($action=="search")
 
 		}else{
 			$sql = "DELETE FROM ".$table." WHERE (1=1) " .$query;
-			$link->exec($sql);				
+			$stm = $link->prepare($sql);
+			if ($stm->execute($qvalues) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 		}
-		$link->disconnect();
 		print $result;
 	}
 }
@@ -269,8 +272,11 @@ if ($action=="search")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if (!empty($errors)) {
+	echo "Error stack: ";
+	print_r($errors);
+}
+
 require("template/footer.php");
 exit();
 
