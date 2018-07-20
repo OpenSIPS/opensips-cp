@@ -171,7 +171,6 @@ if ($action=="modify")
 			print "Admin's info was modified!\n";
 		}
 
-		$link->disconnect();
 	   }
           if ($form_valid) {
                 $action="edit";

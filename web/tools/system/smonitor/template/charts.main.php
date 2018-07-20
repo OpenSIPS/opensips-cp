@@ -74,7 +74,6 @@ else
   $i++;
  }
 }
-$link->disconnect();
 ?>
  </tr>
 </table>

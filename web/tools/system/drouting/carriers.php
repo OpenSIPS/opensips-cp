@@ -292,7 +292,6 @@ if ($action=="disablecar"){
                                          $link->exec($sql);
                                         }
        }
-       $link->disconnect();
  }
 ##############
 # end search #

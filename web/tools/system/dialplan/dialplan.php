@@ -198,7 +198,6 @@ if ($action=="add_verify_dp")
 				}
 				$info="The dialplan was cloned";
 			}
-			$link->disconnect();
 		}
 	}else{
 
@@ -302,7 +301,6 @@ if ($action=="modify")
 		
 				$info="The new rule was modified";
 			}
-			$link->disconnect();
 		}
 	}else{
 
