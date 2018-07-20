@@ -32,10 +32,13 @@
                          }
 	$id=$_GET['id'];
 	
-	$sql = "select * from ".$table." where id='".$id."'";
+	$sql = "select * from ".$table." where id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll();
+
 	$index_row=0;
-	$resultset = $link->queryAll($sql);
-$link->disconnect();
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">

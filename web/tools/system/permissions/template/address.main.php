@@ -28,6 +28,8 @@
 
 <?php
 $sql_search="";
+$qvalues = array();
+
 if (isset($_SESSION['address_src']))
 	$search_src=$_SESSION['address_src'];
 else
@@ -40,9 +42,22 @@ if (isset($_SESSION['address_port']))
 	$search_port=$_SESSION['address_port'];
 else
 	$search_port="";
-if($search_src!="") $sql_search.=" and ip like '%".$search_src."%'";
-if($search_proto!="") $sql_search.=" and proto like '%".$search_proto."%'";
-if($search_port!="") $sql_search.=" and port like '%".$search_port."%'";
+
+if ($search_src != "") {
+	$sql_search .= " and ip like ?";
+	$qvalues[] = "%" . $search_src . "%";
+}
+
+if ($search_proto != "") {
+	$sql_search .= " and proto like ?";
+	$qvalues[] = "%" . $search_proto . "%";
+}
+
+if ($search_port != "") {
+	$sql_search .= " and port like ?";
+	$qvalues[] = "%" . $search_port . "%";
+}
+
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
@@ -101,13 +116,14 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1)";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search;
-$resultset = $link->query($sql_command);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
-$data_no=$resultset->numRows();
+
+$sql_command="select * from ".$table." where (1=1) ".$sql_search;
+$stm = $link->prepare($sql_command);
+if ($stm->execute($qvalues) === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$resultset = $stm->fetchAll();
+
+$data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -122,7 +138,10 @@ else
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
         if ($start_limit==0) $sql_command.=" limit ".$res_no;
         else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-	$resultset = $link->queryAll($sql_command);
+	$stm = $link->prepare($sql_command);
+	if ($stm->execute($qvalues) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll();
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	for ($i=0;count($resultset)>$i;$i++)

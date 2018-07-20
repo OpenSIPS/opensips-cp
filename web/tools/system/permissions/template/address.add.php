@@ -25,12 +25,12 @@ $clone=$_GET['clone'];
 if($add_verify =="1"){
 	$id=$_GET['id'];
 
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
-        if(PEAR::isError($resultset)) {
-		die('Failed to issue query, error message : ' . $resultset->getMessage());	
-	}
-	
+	$sql = "select * from ".$table." where id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll();
+
 	$grp = $resultset[0]['grp'];
 	$src_ip = $resultset[0]['src_ip'];
 	$mask = $resultset[0]['mask'];
