@@ -60,7 +60,8 @@ function build_unique_check_query($custom_config,$table,$post_data,$id=NULL){
 		}
 		$query .= $build_mul;
 		if ($id != NULL){
-			$query .= " AND ".$custom_config['custom_table_primary_key']." != ".$id;
+			$query .= " AND ".$custom_config['custom_table_primary_key']." != ?";
+			$query_vals[] = $id;
 		}
 	}
 
