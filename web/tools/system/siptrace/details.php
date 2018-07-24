@@ -24,12 +24,16 @@ require_once("../../../../config/tools/system/siptrace/db.inc.php");
 require_once("../../../../config/tools/system/siptrace/local.inc.php");
 require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
+
 $table=$config->table_trace;
-$sql = "SELECT * FROM ".$table." WHERE id='".$_GET['traceid']."'";
-$row = $link->queryAll($sql);
-if(PEAR::isError($row)) {
-	die('Failed to issue query, error message : ' . $row->getMessage());
+$sql = "SELECT * FROM ".$table." WHERE id=?";
+$stm = $link->prepare($sql);
+if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 }
+$stm->execute( array($_GET['traceid']) );
+$row = $stm->fetchAll();
+
 $message=htmlspecialchars(trim($row[0]['msg']));
 // from highlight
 $message=str_replace("From:","<span style='background-color:".$config->from_bgcolor."'><font color='".$config->from_color."'>From:",$message);

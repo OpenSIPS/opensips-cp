@@ -21,16 +21,32 @@
  */
 
 $sql_search="";
+$sql_vals=array();
 $search_regexp=$_SESSION['tracer_search_regexp'];
-if ($search_regexp!="") $sql_search.=" AND msg REGEXP '".$search_regexp."'";
+if ($search_regexp!="") {
+	$sql_search.=" AND msg REGEXP ?";
+	array_push( $sql_vals, $search_regexp);
+}
 $search_callid=$_SESSION['tracer_search_callid'];
-if ($search_callid!="") $sql_search.=" AND callid='".$search_callid."'";
+if ($search_callid!="") {
+	$sql_search.=" AND callid=?";
+	array_push( $sql_vals, $search_callid);
+}
 $search_traced_user=$_SESSION['tracer_search_traced_user'];
-if ($search_traced_user!="") $sql_search.=" AND trace_attrs='".$search_traced_user."'";
+if ($search_traced_user!="") {
+	$sql_search.=" AND trace_attrs=?";
+	array_push( $sql_vals, $search_traced_user);
+}
 $search_start=$_SESSION['tracer_search_start'];
-if ($search_start!="") $sql_search.=" AND time_stamp>'".$search_start."'";
+if ($search_start!="") {
+	$sql_search.=" AND time_stamp>?";
+	array_push( $sql_vals, $search_start);
+}
 $search_end=$_SESSION['tracer_search_end'];
-if ($search_end!="") $sql_search.=" AND time_stamp<'".$search_end."'";
+if ($search_end!="") {
+	$sql_search.=" AND time_stamp<?";
+	array_push( $sql_vals, $search_end);
+}
 
 
 if (isset($_SESSION['delete']) && (isset($sql_search)) ){
@@ -104,12 +120,12 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
 	$sql="delete from ".$table." where (1=1) ".$sql_search;
-	
-	$resultset = $link->exec($sql);
-	if(PEAR::isError($resultset)) {
-        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-
+	$stm->execute( $sql_vals );
+	
 	unset($_SESSION['delete']);
 
 	unset($sql_search);
@@ -121,34 +137,29 @@ if ($_SESSION['grouped_results']) {
 
 	if ($config->db_driver == "mysql") {
 
-		if ($sql_search=="") 
-
-			$sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY id DESC";
-
-		else $sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
+		$sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
 
 	} else if ($config->db_driver = "pgsql") {
 
-		if ($sql_search=="") 
+		$sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
 
-			$sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in' ORDER BY callid DESC";
-
-		else $sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
-
-		}
+	}
 			
 } else {
 
-	if ($sql_search=="") $sql="SELECT id FROM ".$table." WHERE (1=1) ORDER BY id DESC";
+	if ($sql_search=="") $sql="SELECT id FROM ".$table." ORDER BY id DESC";
 
-	else $sql="SELECT id FROM ".$table." WHERE (1=1)".$sql_search." ORDER BY id DESC";
+	else $sql="SELECT id FROM ".$table." WHERE (1=1) ".$sql_search." ORDER BY id DESC";
 
 }
 
-$resultset = $link->queryAll($sql);
-if(PEAR::isError($resultset)) {
-     	die('Failed to issue query, error message : ' . $resultset->getMessage());
+$stm = $link->prepare($sql);
+if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
+$stm->execute( $sql_vals );
+$resultset = $stm->fetchAll();
+
 $data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
@@ -162,22 +173,26 @@ else
 	$start_limit=($page-1)*$config->results_per_page;
         if ($start_limit==0) $sql.=" limit ".$config->results_per_page;
         else $sql.=" limit ".$config->results_per_page." OFFSET " . $start_limit;
-	$resultset = $link->queryAll($sql);
-	if(PEAR::isError($resultset)) {
-     		die('Failed to issue query, error message : ' . $resultset->getMessage());
+	$stm = $link->prepare($sql);
+	if ($stm===FALSE) {
+		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
+	$stm->execute( $sql_vals );
+	$resultset = $stm->fetchAll();
 	for($i=0; count($resultset)>$i;$i++)
 	{
 		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
 		else $sql_="SELECT * FROM ".$table." WHERE id='".$resultset[$i]['id']."'".$sql_search." ORDER BY id LIMIT 1";
-		$resultset_ = $link->queryAll($sql_);
-		if(PEAR::isError($resultset_)) {
-		     	die('Failed to issue query, error message : ' . $resultset_->getMessage());
+		$stm_ = $link->prepare($sql_);
+		if ($stm_===FALSE) {
+			die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 		}
-			if (($resultset_[0]['from_ip']!="127.0.0.1") && ($resultset_[0]['from_ip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['from_proto'].":".$resultset_[0]['from_ip'].":".$resultset_[0]['from_port'];
-			else $trace_text="to ".get_ip($resultset_[0]['toip']);
-			$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
-			$matched_trace_id=$resultset_[0]['id'];
+		$stm_->execute( $sql_vals );
+		$resultset_ = $stm_->fetchAll();
+		if (($resultset_[0]['from_ip']!="127.0.0.1") && ($resultset_[0]['from_ip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['from_proto'].":".$resultset_[0]['from_ip'].":".$resultset_[0]['from_port'];
+		else $trace_text="to ".get_ip($resultset_[0]['toip']);
+		$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
+		$matched_trace_id=$resultset_[0]['id'];
    ?>
    <tr>
    <td ><?=$resultset_[0]['time_stamp']?></td>
@@ -189,11 +204,13 @@ else
    <?php
    if (in_array($resultset_[0]['id'],$_SESSION['detailed_callid']))
    {
-   	$sql_d="SELECT * FROM ".$table." WHERE callid='".$resultset_[0]['callid']."' ORDER BY id ASC";
-	$resultset_d = $link->queryAll($sql_d);
-	if(PEAR::isError($resultset_d)) {
-	     	die('Failed to issue query, error message : ' . $resultset_d->getMessage());
+   	$sql_d="SELECT * FROM ".$table." WHERE callid=? ORDER BY id ASC";
+	$stm_d = $link->prepare($sql_d);
+	if ($stm_d===FALSE) {
+		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
+	$stm_d->execute( array($resultset_[0]['callid']) );
+	$resultset_d = $stm_d->fetchAll();
     ?>
     <tr><td colspan="5" align="center" >
     <table width="650" cellspacing="1" cellpadding="1" border="0" align="right">
