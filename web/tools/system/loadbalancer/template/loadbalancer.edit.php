@@ -22,11 +22,13 @@
 
 $id=$_GET['id'];
 	
-$sql = "select * from ".$table." where id='".$id."'";
-$lb_form = $link->queryRow($sql);
-if(PEAR::isError($lb_form)) {
-       	 die('Failed to issue query, error message : ' . $row->getMessage());
+$sql = "select * from ".$table." where id=?";
+$stm = $link->prepare($sql);
+if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 }
+$stm->execute( array($id) );
+$lb_form = $stm->fetchAll()[0];
 
 ?>
 

@@ -22,6 +22,7 @@
 
 
 $sql_search="";
+$sql_vals=array();
 $search_groupid=$_SESSION['lb_groupid'];
 $search_dsturi=$_SESSION['lb_dsturi'];
 $search_resources=$_SESSION['lb_resources'];
@@ -93,20 +94,25 @@ if(!$_SESSION['read_only']){
 
 <?php
 if($search_groupid!="") { 
-	$sql_search.=" and group_id=".$search_groupid;
+	$sql_search.=" and group_id=?";
+	array_push( $sql_vals, $search_groupid);
 }
 if ( $search_dsturi!="" ) {
-	$sql_search.=" and dst_uri like '%".$search_dsturi."%'";
+	$sql_search.=" and dst_uri like ?";
+	array_push( $sql_vals, "%".$search_dsturi."%");
 }
 if ( $search_resources!="" ) {
-	$sql_search.=" and resources like '%".$search_resources."%'";
+	$sql_search.=" and resources like ?";
+	array_push( $sql_vals, "%".$search_resources."%");
 }
 
 $sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
-$data_no = $link->queryOne($sql_command);
-if(PEAR::isError($data_no)) {
-         die('Failed to issue query, error message : ' . $data_no->getMessage());
+$stm = $link->prepare($sql_command);
+if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
+$stm->execute( $sql_vals );
+$data_no = $stm->fetchColumn(0);
 
 if ($data_no==0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -148,10 +154,13 @@ else {
 	$sql_command = "select * from ".$table." where (1=1) ".$sql_search." order by id asc";
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-	$result = $link->queryAll($sql_command);
-	if(PEAR::isError($result)) {
-		die('Failed to issue query, error message : ' . $resultset->getMessage());
+
+	$stm = $link->prepare($sql_command);
+	if ($stm===FALSE) {
+		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
+	$stm->execute( $sql_vals );
+	$result = $stm->fetchAll();
 
 	// display the resulting rows in the table
 	$index_row=0;
