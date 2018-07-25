@@ -22,10 +22,17 @@
 
 
 $sql_search="";
+$sql_vals=array();
 $search_cid=$_SESSION['cl_cid'];
 $search_url=$_SESSION['cl_url'];
-if($search_cid!="") $sql_search.=" and cluster_id=".$search_cid;
-if($search_url!="") $sql_search.=" and url like '%".$search_url."%'";
+if($search_cid!="") {
+	$sql_search.=" and cluster_id=?";
+	array_push( $sql_vals, $search_cid);
+}
+if($search_url!="") {
+	$sql_search.=" and url like ?";
+	array_push( $sql_vals, "%".$search_url."%");
+}
 
 if(!$_SESSION['read_only']){
 	$colspan = 10;
@@ -86,11 +93,12 @@ if(!$_SESSION['read_only']){
 <?php
 if ($sql_search=="") $sql_command="select * from ".$table;
 else $sql_command="select * from ".$table." where (1=1) ".$sql_search;
-$stm = $link->query($sql_command);
+$stm = $link->prepare($sql_command);
 if ($stm === false) {
 	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 }
-$resultset = $stm->fetchAll();
+$stm->execute( $sql_vals );
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 if (count($resultset)==0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
