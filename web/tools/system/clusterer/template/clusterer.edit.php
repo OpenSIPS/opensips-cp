@@ -22,12 +22,13 @@
 
 $id=$_GET['id'];
 	
-$sql = "select * from ".$table." where id='".$id."'";
-$stm = $link->query($sql);
+$sql = "select * from ".$table." where id=?";
+$stm = $link->prepare($sql);
 if ($stm === false) {
 	die('Failed to issue query, error message: ' . print_r($link->errorInfo(), true));
 }
-$cl_form = $stm->fetch();
+$stm->execute( array($id) );
+$cl_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
