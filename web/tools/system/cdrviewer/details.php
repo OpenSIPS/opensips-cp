@@ -25,12 +25,14 @@ require_once("../../../../config/tools/system/cdrviewer/local.inc.php");
 require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
 $table=$config->cdr_table;
-$sql = "SELECT * FROM ".$table." WHERE ".$cdr_id_field_name."='".$_GET['cdr_id']."'";
-$stm = $link->query($sql);
+
+$sql = "SELECT * FROM ".$table." WHERE ".$cdr_id_field_name."=?";
+$stm = $link->prepare($sql);
 if ($stm === false) {
         die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 }
-$row = $stm->fetch();
+$stm->execute( array($_GET['cdr_id']) );
+$row = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 ?>
 	
 <html>
@@ -56,6 +58,7 @@ $k++;
 }
 ?>	
 </table>
+</center>
 </body>
 
 </html>
