@@ -29,10 +29,14 @@ require_once("../../../common/cfg_comm.php");
                          }
 	$id=$_GET['id'];
 	
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
+	$sql = "select * from ".$table." where id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+	  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute( array($id) );
+	$resultset = $stm->fetchAll();
         $index_row=0;
-	$link->disconnect();
 $permissions=array();
 ?>
 <form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
@@ -41,11 +45,14 @@ $permissions=array();
  <td colspan="3" height="10" class="mainTitle">Permissions for admin "<?=$_GET['uname']?>"</td>
  </tr>
   <?php
-	$sql = 'select username,available_tools,permissions from '. $table .' where username="'.$_GET['uname'].'" limit 1';
-	$resultset = $link->queryAll($sql);
-	if(PEAR::isError($resultset)) {
-        	die('Failed to issue query, error message : ' . $resultset->getMessage());
+	$sql = 'select username,available_tools,permissions from '. $table .' where username=? limit 1';
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+	  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
+	$stm->execute( array($_GET['uname']) );
+	$resultset = $stm->fetchAll();
+
         $modules=get_modules();
 	
 	foreach($modules['Admin'] as $key=>$value) {

@@ -50,13 +50,15 @@ include("db_connect.php");
                              $form_error="- <b>Socket</b> is invalid -";
                             }
   if ($form_valid && $action!="modify") {
-                    $sql="select * from ".$table." where address='".$address."' and type='".$type."' and strip='".$strip."' and pri_prefix='".$pri_prefix."'";
-                    $result=$link->queryAll($sql);
-		    if(PEAR::isError($result)) {
-                    	die('Failed to issue query, error message : ' . $result->getMessage());
-                    }
-		    $data_rows=count($result); 	
-                    if (($data_rows>0) && ($result[0]['gwid']!=$_GET['id']))
+	$sql="select * from ".$table." where address=? and type=? and strip=? and pri_prefix=?";
+
+	$stm = $link->prepare($sql);
+	if ($stm === FALSE)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute(array($address,$type,$strip,$pri_prefix));
+	$result = $stm->fetchAll();
+	$data_rows = count($result);
+	if (($data_rows>0) && ($result[0]['gwid']!=$_GET['id']))
                     {
                      $form_valid=false;
                      $form_error="- this is already a valid gateway -";
@@ -65,14 +67,15 @@ include("db_connect.php");
 
                    }
 	if ($form_valid && $action!="modify") {
-		$sql="select count(*) from ".$table." where gwid = '".$gwid."'";
-		$result=$link->queryOne($sql);
-		if(PEAR::isError($result)) {
-			die('Failed to issue query, error message : ' . $result->getMessage());
-		}
+		$sql="select count(*) from ".$table." where gwid = ?";
+		$stm = $link->prepare($sql);
+		if ($stm === FALSE)
+			die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+		$stm->execute(array($gwid));
+		$result = $stm->fetchColumn(0);
 		if ($result > 0) {
 			$form_valid=false;
-            $form_error="- GWID already exists -";
+			$form_error="- GWID already exists -";
 		}
 
 	}

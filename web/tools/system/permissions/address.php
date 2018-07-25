@@ -87,13 +87,13 @@ if ($action=="add_verify")
 			$errors = "Invalid IP address, the entry was not modified in the database";
 		} else {
 			$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
-				('".$grp."','".$src_ip."','".$mask."','".$port."','".$proto."','".$from_pattern."','".$context_info."')";
-			$resultset = $link->exec($sql);
-			if(PEAR::isError($resultset)) {
-				die('Failed to issue query, error message : ' . $resultset->getMessage());
+				(?, ?, ?, ?, ?, ?, ?)";
+			$stm = $link->prepare($sql);
+			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info)) === false) {
+				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));	
+			} else {
+				$info="The new record was added";
 			}
-			$info="The new record was added";
-			$link->disconnect();
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -149,14 +149,14 @@ if ($action=="modify")
 		} else if ( !preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $src_ip) ){
 			$errors = "Invalid IP address, the entry was not modified in the database";
 		} else {
-			$sql = "UPDATE ".$table." SET grp=".$grp.", ip='".$src_ip."', mask=".$mask.", port=".$port.", proto = '".$proto.
-				"', pattern= '".$from_pattern."', context_info='".$context_info."' WHERE id=".$id;
-			$resultset = $link->prepare($sql);
-			$resultset->execute();
-			$resultset->free();
-
-			$info="The new rule was modified";
-			$link->disconnect();
+			$sql = "UPDATE ".$table." SET grp = ?, ip = ?, mask = ?, port = ?, proto = ?" .
+				", pattern = ?, context_info = ? WHERE id = ?";
+			$stm = $link->prepare($sql);
+			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info, $id)) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				$info="The new rule was modified";
+			}
 		}
 	}else{
 
@@ -179,9 +179,10 @@ if ($action=="delete")
 
 		$id=$_GET['id'];
 
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-		$link->exec($sql);
-		$link->disconnect();
+		$sql = "DELETE FROM ".$table." WHERE id = ?";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($id)) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -217,21 +218,27 @@ if ($action=="dp_act")
 
 	}else if($delete=="Delete Address"){
 		$sql_query="";
+		$qvalues = array();
 		if ( $_POST['address_src'] != "" ) {
 			$src_ip = $_POST['address_src'];
-			$sql_query .= " AND ip like '%" . $src_ip . "%'"; 
+			$sql_query .= " AND ip like ?";
+			$qvalues[] = $src_ip;
 		}
 		if ( $_POST['address_proto'] != "" ) {
 			$proto = $_POST['address_proto'];
-			$sql_query .= " AND proto like '%" . $proto . "%'"; 
+			$sql_query .= " AND proto like ?";
+			$qvalues[] = $proto;
 		}
 		if ( $_POST['address_port'] != "" ) {
 			$proto = $_POST['address_port'];
-			$sql_query .= " AND port like '%" . $port . "%'"; 
+			$sql_query .= " AND port like ?";
+			$qvalues[] = $port;
 		}
-		$sql = "SELECT * FROM ".$table.
-		" WHERE (1=1) " .$sql_query;
-		$resultset = $link->queryAll($sql);
+		$sql = "SELECT * FROM ".$table." WHERE (1=1) " .$sql_query;
+		$stm = $link->prepare($sql);
+		if ($stm->execute($qvalues) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$resultset = $stm->fetchAll();
 		if (count($resultset)==0) {
 			$errors="No such rule";
 			$_SESSION['address_src']="";
@@ -240,9 +247,10 @@ if ($action=="dp_act")
 
 		}else{
 			$sql = "DELETE FROM ".$table." WHERE (1=1) ".$sql_query;
-			$link->exec($sql);
+			$stm = $link->prepare($sql);
+			if ($stm->execute($qvalues) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 		}
-		$link->disconnect();
 	
 	}
 	

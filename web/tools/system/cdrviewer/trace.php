@@ -48,25 +48,27 @@ if ($tracer=="siptrace") {
 
 	// get the id from siptrace table .
 	$sql = "select id from ".$config->table_trace." where callid='".$callid."'";
-	$row = $link->queryAll($sql);
-	if(PEAR::isError($row)) {
-		die('Failed to issue query, error message : ' . $row->getMessage());
+	$stm = $link->query($sql);
+	if ($stm === false) {
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	}
-	$siptraceid = $row[0]['id'];
+	$row = $stm->fetch();
+
+	$siptraceid = $row['id'];
 
 	if (!(is_numeric($siptraceid))) {
 		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Sorry , sip trace for this call is unavailable<br><br></td></tr>');
-		$link->disconnect();
 		exit();
 	}
 
 	$sql = "select distinct callid from (select * from ".$config->table_trace." where id < ".$siptraceid.") as foo" ;
-	$resultset=$link->queryAll($sql);
-	if(PEAR::isError($resultset)) {
-		die('Failed to issue query, error message : ' . $resultset->getMessage());
+	$stm = $link->query($sql);
+	if ($stm === false) {
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	}
+	$resultset = $stm->fetchAll();
+
 	$data_no=count($resultset);
-	$link->disconnect();
 	$page_no = ceil($data_no/$config->results_per_page)  ;
 
 	$_SESSION['tracer_search_regexp']="";

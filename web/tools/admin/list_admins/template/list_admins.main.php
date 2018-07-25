@@ -21,15 +21,23 @@
  */
 
 $sql_search="";
+$sql_vals=array();
+
 $search_uname = $_SESSION['list_uname'];
 $search_fname = $_SESSION['list_fname'];
 $search_lname = $_SESSION['list_lname'];
-if($search_uname !="") $sql_search.=" AND username like '" . $search_uname."%'";
-else $sql_search.=" AND username like '%'";
-if($search_fname !="") $sql_search.=" and first_name like '".$search_fname."%'";
-else $sql_search.=" and first_name like '%'";
-if($search_lname !="") $sql_search.=" and last_name like '".$search_lname."%'";
-else $sql_search.=" and last_name like '%'";
+if($search_uname !="") {
+	$sql_search.=" AND username like ?";
+	array_push( $sql_vals, $search_uname."%");
+}
+if($search_fname !="") {
+	$sql_search.=" and first_name like ?";
+	array_push( $sql_vals, $search_fname."%");
+}
+if($search_lname !="") {
+	$sql_search.=" and last_name like ?";
+	array_push( $sql_vals, $search_lname."%");
+}
 
 require("lib/".$page_id.".main.js");
 
@@ -88,13 +96,14 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by id asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-$resultset = $link->queryAll($sql_command);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage());
+$sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
+$stm = $link->prepare( $sql_command );
+if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
-$data_no=count($resultset);
+$stm->execute( $sql_vals );
+$data_no = $stm->fetchColumn(0);
+
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -107,12 +116,14 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	if ($start_limit==0) $sql_command.=" limit ".$res_no;
-	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-	$resultset = $link->queryAll($sql_command);
-        if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
+	$sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc limit ".$res_no;
+	if ($start_limit!=0)
+		$sql_command.=" OFFSET " . $start_limit;
+	$stm = $link->prepare( $sql_command );
+	if ($stm===FALSE)
+	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+	$resultset = $stm->fetchAll();
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;

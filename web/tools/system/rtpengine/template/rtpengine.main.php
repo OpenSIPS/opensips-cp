@@ -60,11 +60,15 @@ for ($i=0; $i<count($message);$i++) {
 $sql_search="";
 $search_setid=$_SESSION['rtpengine_setid'];
 $search_sock=$_SESSION['rtpengine_sock'];
+
 if($search_setid!="") { 
-	$sql_search.="and set_id=".$search_setid;
+	$sql_search.="and set_id = ?";
+	$sql_values[] = $search_setid;
 }
+
 if ( $search_sock!="" ) {
-	$sql_search.=" and socket like '%".$search_sock."%'";
+	$sql_search.=" and socket like ?";
+	$sql_values[] = "%".$search_sock."%";
 } else {
 	$sql_search.=" and socket like '%'";		
 }
@@ -121,32 +125,37 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where(1=1) order by id asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by id asc";
-$result = $link->queryAll($sql_command);
-if(PEAR::isError($result)) {
-         die('Failed to issue query, error message : ' . $result->getMessage());
+
+$sql_command = "select * from ".$table." where (1=1) ".$sql_search." order by id asc";
+$stm = $link->prepare($sql_command);
+if ($stm->execute($sql_values) === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$result = $stm->fetchAll();
+
+$data_no = count($result);
+if ($data_no == 0)
+	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+else {
+
+$res_no = $config->results_per_page;
+$page = $_SESSION[$current_page];
+$page_no = ceil($data_no / $res_no);
+if ($page > $page_no) {
+	$page = $page_no;
+	$_SESSION[$current_page] = $page;
 }
 
-$data_no=count($result);
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else
-{
-$res_no=$config->results_per_page;
-$page=$_SESSION[$current_page];
-$page_no=ceil($data_no/$res_no);
-if ($page>$page_no) {
-$page=$page_no;
-$_SESSION[$current_page]=$page;
-}
-$start_limit=($page-1)*$res_no;
-//$sql_command.=" limit ".$start_limit.", ".$res_no;
-if ($start_limit==0) $sql_command.=" limit ".$res_no;
-else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-$result = $link->queryAll($sql_command);
-if(PEAR::isError($result)) {
-	  die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
+$sql_command .= " LIMIT " . $res_no;
+
+$start_limit = ($page - 1) * $res_no;
+if ($start_limit != 0)
+	$sql_command .= " OFFSET " . $start_limit;
+
+$stm = $link->prepare($sql_command);
+if ($stm->execute($sql_values) === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$result = $stm->fetchAll();
+
 require("lib/".$page_id.".main.js");
 $index_row=0;
 for ($i=0;count($result)>$i;$i++)

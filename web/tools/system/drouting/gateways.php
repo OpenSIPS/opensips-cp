@@ -40,12 +40,13 @@
 #################
  if ($action=="details")
  {
-  $sql = "select * from ".$table." where gwid='".$_GET['gwid']."'";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-  	die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where gwid=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+    die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
-  $link->disconnect();
+  $stm->execute( array($_GET['gwid']) );
+  $resultset = $stm->fetchAll();
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".details.php");
   require("template/footer.php");
@@ -126,12 +127,14 @@ if ($action=="probegw"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-                $sql = "update ".$table." set gwid='".$gwid."',type='".$type."', attrs='".$attrs."',address='".$address."', strip='".$strip."', pri_prefix='".$pri_prefix."', probe_mode='".$probe_mode."', socket='".$socket."',state='".$state."', description='".$description."' where id='".$_GET['id']."'";
-		$resultset = $link->prepare($sql);
-		$resultset->execute();
-		$resultset->free();		
-                $link->disconnect();
-                   }
+                $sql = "update ".$table." set gwid=?, type=?, attrs=?, address=?, strip=?, pri_prefix=?, probe_mode=?, socket=?, state=?, description=? where id=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($gwid,$type,$attrs,$address,$strip,$pri_prefix,$probe_mode,$socket,$state,$description,$_GET['id']) )==NULL)
+			echo 'Gateway DB update failed : ' . print_r($stm->errorInfo(), true);
+  }
   if ($form_valid) $action="";
    else $action="edit";
  }
@@ -144,12 +147,13 @@ if ($action=="probegw"){
 ##############
  if ($action=="edit")
  {
-  $sql = "select * from ".$table." where id='".$_GET['id']."' limit 1";
-  $resultset = $link->queryAll($sql);
-  if(PEAR::isError($resultset)) {
-  	die('Failed to issue query, error message : ' . $resultset->getMessage());
+  $sql = "select * from ".$table." where id=?";
+  $stm = $link->prepare($sql);
+  if ($stm === false) {
+    die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
-  $link->disconnect();
+  $stm->execute( array($_GET['id']) );
+  $resultset = $stm->fetchAll();
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -173,23 +177,14 @@ if ($action=="probegw"){
 	$_SESSION['gateways_search_probe_mode']="";
 	$_SESSION['gateways_search_description']="";
 	$_SESSION['gateways_search_attrs']="";
-	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, probe_mode, socket, state, description) values ('".$gwid."','".$type."', '".$address."','".$attrs."', '".$strip."', '".$pri_prefix."', '".$probe_mode."','".$socket."','".$state."', '".$description."')";
-	
-	$result = $link->exec($sql);
-	if(PEAR::isError($result)) {
-		die('Failed to issue query, error message : ' . $result->getMessage());
+	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, probe_mode, socket, state, description) ".
+		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-
-	$sql = "select count(*) from ".$table." where (1=1)";
-	$result = $link->queryOne($sql);
-	if(PEAR::isError($result)) {
-			 die('Failed to issue query, error message : ' . $result->getMessage());
-	}	
-
-	$data_no=$result;
-	$link->disconnect();
-	$page_no=ceil($data_no/10);
-	$_SESSION[$current_page]=$page_no;
+	if ($stm->execute( array($gwid,$type,$address,$attrs,$strip,$pri_prefix,$probe_mode,$socket,$state,$description) )==NULL)
+		echo 'Gateway DB update failed : ' . print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
    else $action="add";
@@ -219,8 +214,12 @@ if ($action=="probegw"){
 ################
 if ($action=="delete"){
 	$del_id=$_GET['gwid'];
-	$sql = "delete from ".$table." where gwid='".$del_id."'";
-	$link->exec($sql);	
+	$sql = "delete from ".$table." where gwid=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute( array($del_id) ); 
 
 	$sql_regex = "'(^".$del_id."(=[^,]+)?,)|(,".$del_id."(=[^,]+)?$)|(^".$del_id."(=[^,]+)?$)|(,".$del_id."(=[^,]+)?,)'";
 
@@ -229,53 +228,60 @@ if ($action=="delete"){
 
 	//remove GW from dr_rules
 	if ($config->db_driver == "mysql") 
-		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ".$sql_regex;
+		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ?";
 	else if ($config->db_driver == "pgsql")
-		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ".$sql_regex;
+		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ?";
 
-  	$resultset = $link->queryAll($sql);
-
-  	if(PEAR::isError($resultset)) {
- 		die('Failed to issue query, error message : ' . $resultset->getMessage());
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
+	$stm->execute( array($sql_regex) );
+	$resultset = $stm->fetchAll();
+
 	for($i=0;count($resultset)>$i;$i++){
   		$list=$resultset[$i]['gwlist'];
 		if (preg_match($preg_exp1,$list))
 		  	$list = preg_replace($sql_regex,'',$list);
 		else if (preg_match($preg_exp2,$list))
 			$list = preg_replace($sql_regex,',',$list);
-		$sql = "update ".$config->table_rules." set gwlist='".$list."' where ruleid='".$resultset[$i]['ruleid']."' limit 1";
-		$result = $link->exec($sql);
-		if(PEAR::isError($result)) {
-			die('Failed to issue query, error message : ' . $result->getMessage());
+		$sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
+		if ($stm->execute( array($list,$resultset[$i]['ruleid']) )==NULL)
+			echo 'Rule DB update failed : ' . print_r($stm->errorInfo(), true);
   	}
 	
 	//remove GW from dr_carriers
-    if ($config->db_driver == "mysql")
-        $sql = "select carrierid,gwlist from ".$config->table_carriers." where gwlist regexp ".$sql_regex;
-    else if ($config->db_driver == "pgsql")
-        $sql = "select carrierid,gwlist from ".$config->table_rules." where gwlist ~* ".$sql_regex;
+	if ($config->db_driver == "mysql")
+		$sql = "select carrierid,gwlist from ".$config->table_carriers." where gwlist regexp ?";
+	else if ($config->db_driver == "pgsql")
+		$sql = "select carrierid,gwlist from ".$config->table_rules." where gwlist ~* ?";
 
-    $resultset = $link->queryAll($sql);
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute( array($sql_regex) );
+	$resultset = $stm->fetchAll();
 
-    if(PEAR::isError($resultset)) {
-        die('Failed to issue query, error message : ' . $resultset->getMessage());
-    }
-    for($i=0;count($resultset)>$i;$i++){
-        $list = $resultset[$i]['gwlist'];
+
+	for($i=0;count($resultset)>$i;$i++){
+		$list = $resultset[$i]['gwlist'];
 		if (preg_match($preg_exp1,$list))
-            $list = preg_replace($sql_regex,'',$list);
-        else if (preg_match($preg_exp2,$list))
-            $list = preg_replace($sql_regex,',',$list);
-        $sql = "update ".$config->table_carriers." set gwlist='".$list."' where carrierid='".$resultset[$i]['carrierid']."' limit 1";
-        $result = $link->exec($sql);
-        if(PEAR::isError($result)) {
-            die('Failed to issue query, error message : ' . $result->getMessage());
-        }
-    }
-		
-	$link->disconnect();
+			$list = preg_replace($sql_regex,'',$list);
+		else if (preg_match($preg_exp2,$list))
+			$list = preg_replace($sql_regex,',',$list);
+		$sql = "update ".$config->table_carriers." set gwlist=? where carrierid=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($list,$resultset[$i]['carrierid']) )==NULL)
+			echo 'Carrier DB update failed : ' . print_r($stm->errorInfo(), true);
+	}
 }
 ##############
 # end delete #

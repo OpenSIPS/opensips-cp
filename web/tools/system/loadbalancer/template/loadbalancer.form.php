@@ -32,8 +32,8 @@ form_generate_input_text("Resources", "The list of resources (ans their capacity
 	"resources", "n", $lb_form['resources'], 256, "^((([a-zA-Z0-9]+=[0-9]+)(;[a-zA-Z0-9]+=[0-9]+)*)|([a-zA-Z0-9]+=$re_fs_url))$");
 
 form_generate_select("Probe Mode", "When the destination should be probed/pinged via SIP messages (for availability)",
-	"probe_mode", 200, $ds_form['probe_mode'], array("0","1","2"),$lb_probing_modes);
+	"probe_mode", 200, $lb_form['probe_mode'], array("0","1","2"),$lb_probing_modes);
 
 form_generate_input_text("Description", "Description in DB, not used by OpenSIPS",
-	"description", "y", $ds_form['description'], 128, null);
+	"description", "y", $lb_form['description'], 128, null);
 ?>

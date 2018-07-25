@@ -19,23 +19,9 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
-$clone=$_GET['clone'];
-
-if($clone =="1"){
-	$id=$_GET['id'];
-
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
-	$link->disconnect();
-	$setid = $resultset[0]['setid'];
-	$destination = $resultset[0]['destination'];
-	$flags =$resultset[0]['flags'];
-	$description =$resultset[0]['description'];
-}
-
 ?>
-<form id="addnewalias" action="<?=$page_name?>?action=add_verified&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
+
+<form id="addnewalias" action="<?=$page_name?>?action=add_verified&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="mainTitle">New Alias</td>

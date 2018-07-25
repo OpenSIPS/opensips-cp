@@ -54,20 +54,24 @@
 			$ha1b = md5($uname."@".$domain.":".$domain.":".$passwd);
 		}	
   		// check for SIP account duplicate
-		$sql="select count(*) from ".$table." where username='".$uname."' and domain='".$domain."'";
-		$data_no = $link->queryOne($sql);
-		if(PEAR::isError($data_no))
-			die('Failed to issue query, error message : ' . $data_no->getMessage());
+		$sql="select count(*) from ".$table." where username=? and domain=?";
+		$stm = $link->prepare($sql);
+		if ($stm === FALSE)
+			die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+		$stm->execute(array($uname, $domain));
+		$data_no = $stm->fetchColumn(0);;
 		if ($data_no!=0) {
 			$form_valid=false;
 			$new_id=$uname."@".$domain;
 			$form_error="- <b>".$new_id."</b> is already a valid user -";
 		} else if ($alias!=""){
   			// check for SIP alias duplicate
-			$sql = "select count(*) from ".$alias_type." where alias_username='".$alias."' and alias_domain='".$domain."'";
-			$data_no = $link->queryOne($sql);
-			if(PEAR::isError($data_no))
-				die('Failed to issue query, error message : ' . $data_no->getMessage());
+			$sql = "select count(*) from ".$alias_type." where alias_username=? and alias_domain=?";
+			$stm = $link->prepare($sql);
+			if ($stm === FALSE)
+				die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+			$stm->execute(array($alias, $domain));
+			$data_no = $stm->fetchColumn(0);;
 			if ($data_no!=0) {
 				$form_valid=false;
 				$new_id=$alias."@".$domain;

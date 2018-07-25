@@ -40,18 +40,19 @@ if ($action=="modify")
 		//initialize
 
 		// Check Primary, Unique and Multiple Keys
-		$query = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,$id);
+		list ($query, $qvalues) = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,$id);
 
 		if ($query != NULL){
-			$count = $link->queryOne($query);
-			if(PEAR::isError($count)) {
-				$form_error=$count->getMessage();
+			$stm = $link->prepare($query);
+			if($stm->execute($qvalues) === false) {
+				error_log(print_r($stm->errorInfo(), true));
+				$form_error=print_r($stm->errorInfo(), true);
 				require("template/".$page_id.".edit.php");
 				require("template/footer.php");
 				exit();
 			}
 
-			if ($count > 0){
+			if ($stm->fetchColumn(0) > 0){
 				$form_error="Key Constraint violation - Record with same key(s) already exists";
 				require("template/".$page_id.".edit.php");
 				require("template/footer.php");
@@ -61,19 +62,23 @@ if ($action=="modify")
 
 		//build update string
 		$updatestring="";
+		$qvalues = array();
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
 			if (isset($_POST[$key])){
-	        	$updatestring=$updatestring.$key."='".$_POST[$key]."',";
+	        	$updatestring=$updatestring.$key."=?,";
+				$qvalues[] = $_POST[$key];
 			}
 		}
 		//trim the ending comma
 		$updatestring = substr($updatestring,0,-1);
 
-		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=".$id;
-		$result = $link->exec($sql);
+		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=?";
+		$qvalues[] = $id;
 
-		if(PEAR::isError($result)) {
-			$form_error=$result->getMessage();
+		$stm = $link->prepare($sql);
+		if($stm->execute($qvalues) === false) {
+			error_log(print_r($stm->errorInfo(), true));
+			$form_error=print_r($stm->errorInfo(), true);
 			require("template/".$page_id.".edit.php");
 			require("template/footer.php");
 			exit();

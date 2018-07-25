@@ -28,9 +28,13 @@ if (!$_SESSION[read_only]) {
 		$url = $page_name."?action=save&id=".$_GET['id'];
 		$title = "Edit Domain name";
 		# populate the initial values for the form
-		$sql='SELECT domain FROM '.$table.' where id='.$_GET['id'];
-		$domain_form = $link->queryRow($sql);
-		$link->disconnect();
+		$sql='SELECT domain FROM '.$table.' where id=?';
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($_GET['id']) );
+		$domain_form = $stm->fetchAll()[0];
 		$button = "Save Domain";
 	} else {
 		## insert form
@@ -70,16 +74,14 @@ if (!$_SESSION[read_only]) {
 
 
 
-$index_row=0;
 $sql='SELECT * FROM '.$table.' ORDER BY domain ASC';
-$resultset = $link->query($sql);
-if(PEAR::isError($resultset)) {
-	$errors = 'Failed to issue query, error message : ' . $resultset->getMessage();
-	$data_no = 0;
-} else {
-	$data_no = $resultset->numRows();
-}
-$link->disconnect();
+$stm = $link->prepare( $sql );
+if ($stm===FALSE)
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+$stm->execute( array() );
+$resultset = $stm->fetchAll();
+$data_no = count($resultset);
+$link=NULL;
 
 ?>
 <div id="dialog" class="dialog" style="display:none"></div>
@@ -96,11 +98,12 @@ $link->disconnect();
 		<th align="center" class="listTitle">Delete</th>
 	</tr>
 	<?php
+	$index_row=0;
 	if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
 	else
-	while($row = $resultset->fetchRow())
+	while( $index_row<$data_no )
 	{
-		$index_row++;
+		$row = $resultset[$index_row++];
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 		$edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';

@@ -53,7 +53,7 @@ function validate_cdr_export() {
 
 	if (document.getElementById("search_regexp").value == "") {
 
-		alert("You cannot export without using a search filter1!");
+		alert("You cannot export without using a search filter!");
 
 		return false ;
 

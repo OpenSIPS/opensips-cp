@@ -27,18 +27,17 @@ function print_domains($type,$value,$has_any)
 	global $config;
 
 	require("../../../../config/db.inc.php");
-	require("../../../../config/tools/system/domains/local.inc.php");
-	require("../../../../config/tools/users/user_management/local.inc.php");
+        require("../../../../config/tools/system/domains/local.inc.php");
         require("../../../../config/tools/system/domains/db.inc.php");
         require("db_connect.php");
 
         $table_domains=$config->table_domains;
 
-        $sql="select domain from $table_domains";
-        $result = $link->queryAll($sql);
-        if(PEAR::isError($result)) {
-                die('Failed to issue query, error message : ' . $result->getMessage());
-        }
+        $sql="select domain from ".$table_domains;
+        $stm= $link->query($sql);
+	if ($stm === FALSE)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$result = $stm->fetchAll();
 
 	if ($has_any)
 	        $options[]=array("label"=>"ANY","value"=>"ANY");

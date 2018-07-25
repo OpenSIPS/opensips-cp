@@ -24,8 +24,13 @@
 require("lib/".$page_id.".main.js");
 
 $sql_search="";
+$sql_vals=array();
+
 $search_dpid=$_SESSION['dialplan_id'];
-if($search_dpid!="") $sql_search.="and dpid='".$search_dpid."'";
+if($search_dpid!="") {
+	$sql_search.="and dpid=?";
+	array_push( $sql_vals, $search_dpid);
+}
 
 if(!$_SESSION['read_only']){
 	$colspan = 11;
@@ -82,14 +87,14 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by dpid, pr, match_op, match_exp asc";
-else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-$row = $link->queryAll($sql_command);
- if(PEAR::isError($row)) {
-         die('Failed to issue query, error message : ' . $row->getMessage());
- }
-
-$data_no=count($row);
+if ($sql_search=="") $sql_command="from ".$table." order by dpid, pr, match_op, match_exp asc";
+else $sql_command="from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+$stm = $link->prepare("select count(*) ".$sql_command);
+if ($stm===FALSE) {
+	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+}
+$stm->execute( $sql_vals );
+$data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -105,10 +110,13 @@ else
 
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-	$row = $link->queryAll($sql_command);
-	if(PEAR::isError($row)) {
-        	ie('Failed to issue query, error message : ' . $row->getMessage());
-	 }
+	$stm = $link->prepare("select * ".$sql_command);
+	if ($stm===FALSE) {
+		die('Failed to issue query [select * '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+	}
+	$stm->execute( $sql_vals );
+	$row = $stm->fetchAll();
+
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	for ($i=0;count($row)>$i;$i++)

@@ -23,7 +23,6 @@
 
 require_once("../../../../config/tools/system/drouting/db.inc.php");
 require_once("../../../../config/db.inc.php");
-require_once("MDB2.php");
         global $config;
         if (isset($config->db_host_drouting) && isset($config->db_user_drouting) && isset($config->db_name_drouting) ) {
                 $config->db_host = $config->db_host_drouting;
@@ -32,10 +31,12 @@ require_once("MDB2.php");
                 $config->db_pass = $config->db_pass_drouting;
                 $config->db_name = $config->db_name_drouting;
         }
-        $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
-        $link = & MDB2::factory($dsn);
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
-        if(PEAR::isError($link)) {
-            die("Error while connecting : " . $link->getMessage());
-        }
+	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+	try {
+		$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	} catch (PDOException $e) {
+		error_log(print_r("Failed to connect to: ".$dsn, true));
+		print "Error!: " . $e->getMessage() . "<br/>";
+		die();
+	}
 ?>

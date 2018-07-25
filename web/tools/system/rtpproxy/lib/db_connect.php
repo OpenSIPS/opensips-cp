@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2018 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
  * OpenSIPS SIP server.
@@ -20,24 +20,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-
 require_once("../../../../config/tools/system/rtpproxy/db.inc.php");
 require_once("../../../../config/db.inc.php");
 
-require_once("MDB2.php");
-        global $config;
-        if (isset($config->db_host_rtpproxy) && isset($config->db_user_rtpproxy) && isset($config->db_name_rtpproxy) ) {
-                $config->db_host = $config->db_host_rtpproxy;
-                $config->db_port = $config->db_port_rtpproxy;
-                $config->db_user = $config->db_user_rtpproxy;
-                $config->db_pass = $config->db_pass_rtpproxy;
-                $config->db_name = $config->db_name_rtpproxy;
-        }
-        $dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name.'';
-        $link = & MDB2::connect($dsn);
-        if(PEAR::isError($link)) {
-            die("Error while connecting : " . $link->getMessage());
-        }
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
+global $config;
+if (isset($config->db_host_rtpproxy) && isset($config->db_user_rtpproxy) && isset($config->db_name_rtpproxy) ) {
+	$config->db_host = $config->db_host_rtpproxy;
+	$config->db_port = $config->db_port_rtpproxy;
+	$config->db_user = $config->db_user_rtpproxy;
+	$config->db_pass = $config->db_pass_rtpproxy;
+	$config->db_name = $config->db_name_rtpproxy;
+}
+
+$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+try {
+	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+} catch (PDOException $e) {
+	error_log(print_r("Failed to connect to: ".$dsn, true));
+	print "Error!: " . $e->getMessage() . "<br/>";
+	die;
+}
+
 ?>

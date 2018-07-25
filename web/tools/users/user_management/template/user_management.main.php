@@ -33,6 +33,8 @@ if ($keepoverlay){
 }
 
 $sql_search="";
+$sql_vals=array();
+
 $search_uname = $_SESSION['lst_uname'];
 $search_domain = $_SESSION['lst_domain'];
 $search_email = $_SESSION['lst_email'];
@@ -56,18 +58,21 @@ else
 
 if ($search_uname !="") {
 	if (strpos($search_uname,"%")===false)
-		$sql_search.=" AND s.username = '".$search_uname."'";
+		$sql_search.=" AND s.username = ?";
 	else
-		$sql_search.=" AND s.username like '".$search_uname."'";
+		$sql_search.=" AND s.username like ?";
+	array_push( $sql_vals, $search_uname);
 }
 if (($search_domain!="ANY") && ($search_domain!="")) {
-		$sql_search.=" AND s.domain = '".$search_domain."'";
+	$sql_search.=" AND s.domain = ?";
+	array_push( $sql_vals, $search_domain);
 }
 if ($search_email!="") {
 	if (strpos($search_email,"%")===false)
-		$sql_search.=" AND s.email_address = '".$search_email."'";
+		$sql_search.=" AND s.email_address = ?";
 	else
-		$sql_search.=" AND s.email_address like '".$search_email."'";
+		$sql_search.=" AND s.email_address like ?";
+	array_push( $sql_vals, $search_email);
 }
 
 if(!$_SESSION['read_only']){
@@ -185,10 +190,12 @@ if ($users=="all_usr" || $users=="") {
 	$sql_order=" order by s.id asc";
 }
 
-$data_no = $link->queryOne("select count(*) ".$sql_command);
-if(PEAR::isError($data_no)) {
-	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $data_no->getMessage());
-} 
+$stm = $link->prepare("select count(*) ".$sql_command);
+if ($stm===FALSE) {
+	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+}
+$stm->execute( $sql_vals );
+$data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -202,10 +209,11 @@ else
 	$start_limit=($page-1)*$res_no;
 	if ($start_limit==0) $sql_order.=" limit ".$res_no;
 	else $sql_order.=" limit ".$res_no." OFFSET " . $start_limit;
-	$resultset = $link->queryAll("select * ".$sql_command.$sql_order);
-        if(PEAR::isError($resultset)) {
-                die('Failed to issue query [select * '.$sql_command.$sql_order.'], error message : ' . $resultset->getMessage());
-        }
+	$stm = $link->prepare("select * ".$sql_command.$sql_order);
+        if ($stm===FALSE)
+                die('Failed to issue query [select * '.$sql_command.$sql_order.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+        $resultset = $stm->fetchAll();
 	$index_row=0;
 	$i=0;
 	while (count($resultset)>$i)

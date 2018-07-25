@@ -40,11 +40,13 @@ function get_groupids()
  global $config;
  $index = 0;
  $values = array();
- $sql="select distinct groupid from ".$config->table_groups." where (1=1) order by groupid asc";
- $resultset = $link->queryAll($sql);
- if(PEAR::isError($resultset)) {
-	 die('Failed to issue query, error message : ' . $resultset->getMessage());
- } 
+ $sql="select distinct groupid from ".$config->table_groups." order by groupid asc";
+ $stm = $link->prepare($sql);
+ if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
+ }
+ $stm->execute( array() );
+ $resultset = $stm->fetchAll();
  for($i=0;count($resultset)>$i;$i++)
  {
   $values[$index] = $resultset[$i]['groupid'];
@@ -60,11 +62,13 @@ function get_gwlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_gateways." where (1=1) order by gwid asc";
- $resultset = $link->queryAll($sql);
- if(PEAR::isError($resultset)) {
- 	die('Failed to issue query, error message : ' . $resultset->getMessage());
+ $sql="select * from ".$config->table_gateways." order by gwid asc";
+ $stm = $link->prepare($sql);
+ if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
  }
+ $stm->execute( array() );
+ $resultset = $stm->fetchAll();
  for($i=0;count($resultset)>$i;$i++)
  {
   $values[$index][0] = $resultset[$i]['gwid'];
@@ -329,10 +333,12 @@ function get_lists()
  $index = 0;
  $values = array();
  $sql="select * from ".$config->table_lists." where (1=1)";
- $resultset = $link->queryAll($sql);
- if(PEAR::isError($resultset)) {
-	 die('Failed to issue query, error message : ' . $resultset->getMessage());
+ $stm = $link->prepare($sql);
+ if ($stm===FALSE) {
+	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
  }
+ $stm->execute( array() );
+ $resultset = $stm->fetchAll();
  for($i=0;count($resultset)>$i;$i++)
  {
   $values[$index][0] = $resultset[$i]['id'];

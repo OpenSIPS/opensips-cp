@@ -138,10 +138,10 @@ function cdr_export($start_time,  $end_time ) {
 
 	$sql .= " order by time desc " ;
 
-	$result =$link->queryAll($sql);
-	if(PEAR::isError($result))
-        	die('Failed to issue query, error message : ' . $result->getMessage());
-	
+	$stm = $link->query($sql);
+	if ($stm === false)
+        	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$result = $stm->fetchAll();
 
 
 	$num_rows = count($result);
@@ -245,10 +245,10 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 	$sql .= " order by time desc " ;
 	
-	$result = $link->queryAll($sql);
-	if(PEAR::isError($result)) {
-        	die('Failed to issue query, error message : ' . $result->getMessage());
-	}
+	$stm = $link->query($sql);
+	if ($stm === false)
+        	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$result = $stm->fetchAll();
 
 
 	$num_rows = count($result);

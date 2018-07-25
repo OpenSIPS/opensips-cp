@@ -28,19 +28,27 @@
 <?php
 
  $sql_search="";
+ $sql_vals=array();
+
  $search_gwlist=$_SESSION['carriers_search_gwlist'];
  if ($search_gwlist!="") {
                           $id=$search_gwlist;
                           $id=str_replace("*",".*",$id);
                           $id=str_replace("%",".*",$id);
-			if ( $config->db_driver == "mysql" )
-                          $sql_search.=" and gwlist regexp '(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'";
-			else if ( $config->db_driver == "pgsql" )
-                          $sql_search.=" and gwlist ~* '(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'";
-                         }
+			if ( $config->db_driver == "mysql" ) {
+                          $sql_search.=" and gwlist regexp ?";
+			  array_push( $sql_vals, "'(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'");
+			} else if ( $config->db_driver == "pgsql" ) {
+                          $sql_search.=" and gwlist ~* ?";
+			  array_push( $sql_vals, "'(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'");
+			}
+ }
 
  $search_description=$_SESSION['carriers_search_description'];
- if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
+ if ($search_description!="") {
+	 $sql_search.=" and description like ?";
+	 array_push( $sql_vals, "%".$search_description."%");
+ }
 ?>
 <table width="35%" cellspacing="2" cellpadding="2" border="0">
  <tr>
@@ -111,11 +119,13 @@ for ($j=0; $j<count($message); $j++){
  }
  $sql_command = "select * ".$sql_command;
 
- $result=$link->queryOne($sql_command_count);
- if(PEAR::isError($result)) {
-         die('Failed to issue query count , error message : ' . $resultset->getMessage());
+ $stm = $link->prepare($sql_command_count);
+ if ($stm===FALSE) {
+ 	die('Failed to issue query ['.$sql_command_count.'], error message : ' . $link->errorInfo()[2]);
  }
- $data_no=$result;
+ $stm->execute( $sql_vals );
+ $data_no = $stm->fetchColumn(0);
+
  if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
@@ -129,10 +139,12 @@ for ($j=0; $j<count($message); $j++){
   $start_limit=($page-1)*$res_no;
   if ($start_limit==0) $sql_command.=" limit ".$res_no;
   else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
-  $resultset=$link->queryAll($sql_command);
-  if(PEAR::isError($resultset)) {
-          die('Failed to issue query select, error message : ' . $resultset->getMessage());
+  $stm = $link->prepare($sql_command);
+  if ($stm===FALSE) {
+ 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
   }
+  $stm->execute( $sql_vals );
+  $resultset = $stm->fetchAll();
   require("lib/".$page_id.".main.js");
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)

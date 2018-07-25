@@ -26,6 +26,7 @@ require("../../../../config/globals.php");
 require("../../../../config/tools/users/acl_management/local.inc.php");
 require("../../../common/cfg_comm.php");
 include("lib/db_connect.php");
+
 $table=$config->table_acls;
 $errors='';
 
@@ -71,24 +72,22 @@ if ($action=="add_verified")
                 $acl_grp = $_POST['acl_grp'];
 
                 
-                                $sql = "INSERT INTO ".$table."
-                                (username, domain, grp, last_modified) VALUES
-                                ('".$acl_username."','".$acl_domain."','". $acl_grp."',NOW())";
-                                $resultset = $link->prepare($sql);
-                                $resultset->execute();
-                                $resultset->free();
-                                $info="The new record was added";
-                        $link->disconnect();
-                  print "New ACL added!";
+                $sql = "INSERT INTO ".$table.
+                       "(username, domain, grp, last_modified) VALUES ".
+		       "(?, ?, ?, NOW())";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-        
-              
-       
-				
-
-				
+		if ($stm->execute( array($acl_username, $acl_domain, $acl_grp) ) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+		} else {
+               		$info="The new record was added";
+                	print "New ACL added!";
+		}
+	}
         else
-			print "User with Read-Only Rights";
+                $errors= "User with Read-Only Rights";
 }
 
 
@@ -137,35 +136,43 @@ if ($action=="modify")
 
                 if ($acl_username=="" || $acl_domain=="" || $acl_grp==""){
                         $errors = "Invalid data, the entry was not modified in the database";
-                }
+                } else {
 				
-				$sql_command = "select * from subscriber where username = '".$acl_username."'";
-				$resultset = $link->queryAll($sql_command);
-				if(PEAR::isError($resultset)) {
-				    die('Failed to issue query, error message : ' . $resultset->getMessage());
+			$sql = "select count(*) from subscriber where username=? and domain=?";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($acl_username, $acl_domain) );
+			if ($stm->fetchColumn(0)<1) {
+				$errors="This user does not exist !!!";
+			} else {
+	
+	                	$sql = "SELECT * FROM ".$table." WHERE username=? AND domain=? AND grp=? AND id!=?";
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
+				$stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) );
+				if ($stm->fetchColumn(0)>0) {
+					$errors="The ACL already exists for this user !!!";
+				}
+			}
+		}
 
-				if (count($resultset)<1) {
-					$errors="This user does not exist !!!";
-				}
                 if ($errors=="") {
-	                $sql = "SELECT * FROM ".$table." WHERE username='" .$acl_username. "' AND domain='".$acl_domain. "' AND grp='".$acl_grp."' AND id!=".$id;
-                        $resultset = $link->queryAll($sql);
-               	        if(PEAR::isError($resultset)) {
-                       	        die('Failed to issue query, error message : ' . $resultset->getMessage());
-				}
-
-                        $sql = "UPDATE ".$table." SET username='".$acl_username."', domain = '".$acl_domain.
-                        "', grp='".$acl_grp."' WHERE id=".$id;
-                        $resultset = $link->prepare($sql);
-                        $resultset->execute();
-                        $resultset->free();
-                        $info="The ACL was modified";
-           
-                        $link->disconnect();
+                        $sql = "UPDATE ".$table." SET username=?, domain=?, grp=? WHERE id=?";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) ) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+                        	$info="The ACL was modified";
+			}
                 }
         }else{
-
                 $errors= "User with Read-Only Rights";
         }
 
@@ -181,14 +188,14 @@ if ($action=="modify")
 ################
 if ($action=="dp_act")
 {
-		if (isset($_GET['fromusrmgmt'])) {
+	if (isset($_GET['fromusrmgmt'])) {
 		
-			$fromusrmgmt=$_GET['fromusrmgmt'];
+		$fromusrmgmt=$_GET['fromusrmgmt'];
 			
-			$_SESSION['fromusrmgmt']=1;
-			$_SESSION['acl_username']=$_GET['username'];
+		$_SESSION['fromusrmgmt']=1;
+		$_SESSION['acl_username']=$_GET['username'];
 	        $_SESSION['acl_domain']=$_GET['domain'];
-		}
+	}
 
         $_SESSION['acl_id']=$_POST['acl_id'];
 
@@ -208,64 +215,29 @@ if ($action=="dp_act")
 
         }else if($delete=="Delete ACL"){
                 $sql_query = "";
+		$sql_vals = array();
                 if( $_POST['acl_username'] != "" ) {
                         $acl_username = $_POST['acl_username'];
-                        $sql_query .= " AND username like '%".$acl_username."%'";
+                        $sql_query .= " AND username like ?";
+			array_push( $sql_vals, "%".$acl_username."%");
                 }
-                if( ($_POST['acl_domain'] == "ANY") ||($_POST['acl_domain'] == "") ) {
-			$sql_query .= " AND acl_domain like '%'";
-	        } else {
+                if( ($_POST['acl_domain']!="ANY") && ($_POST['acl_domain']!="") ) {
 			$acl_domain = $_POST['acl_domain'];
-                        $sql_query .= " AND domain like '%".$acl_domain . "%'";
+                        $sql_query .= " AND domain like ?";
+			array_push( $sql_vals, $acl_domain);
 		}
-
-				if ($_POST['acl_grp']=="ANY"){
-					$sql_query .= " AND grp like '%'";
-				}
-				else{
-					$acl_grp = $_POST['acl_grp'];
-					$sql_query .= "AND grp ='".$acl_grp."'";
-				}
-                if($_POST['acl_grp'] != "ANY" ) {
-
-	                $sql = "SELECT * FROM ".$table.
-        	        " WHERE (1=1) " . $sql_query;
-                	$resultset = $link->queryAll($sql);
-	                if(PEAR::isError($resultset)) {
-        	                die('Failed to issue query, error message : ' . $resultset->getMessage());
-                	}
-	                if (count($resultset)==0) {
-        	                $errors="No such ACL";
-                	        $_SESSION['acl_username']="";
-                        	$_SESSION['acl_domain']="";
-							$_SESSION['acl_grp']="";
-
-	                }else{
-
-        	                $sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
-                	        $link->exec($sql);
-                	}		
-		} else {
-//			for($i=0;$i<count($options);$i++){
-	                        $sql = "SELECT * FROM ".$table." WHERE (1=1) ".$sql_query;
-                	        $resultset = $link->queryAll($sql);
-                        	if(PEAR::isError($resultset)) {
-                                	die('Failed to issue query, error message : '.$resultset->getMessage());
-                        	}
-	                        if (count($resultset)==0) {
-        	                        $errors="No such ACL";
-                	                $_SESSION['acl_username']="";
-                        	        $_SESSION['acl_domain']="";
-        	                }else{
-	
-                	                $sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
-                        	        $link->exec($sql);
-
-				}
-		//}
-                $link->disconnect();
+		if ($_POST['acl_grp']!="ANY"){
+			$acl_grp = $_POST['acl_grp'];
+			$sql_query .= "AND grp =?";
+			array_push( $sql_vals, $acl_grp);
+		}
+        	$sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
+                $stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( $acl_vals );
         }
-	}
 }
 ##############
 # end search #
@@ -281,9 +253,12 @@ if ($action=="delete")
                 $id=$_GET['id'];
 		$table=$_GET['table'];
 
-                $sql = "DELETE FROM ".$table." WHERE id=".$id;
-                $link->exec($sql);
-                $link->disconnect();
+                $sql = "DELETE FROM ".$table." WHERE id=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($id) );
         }else{
 
                 $errors= "User with Read-Only Rights";

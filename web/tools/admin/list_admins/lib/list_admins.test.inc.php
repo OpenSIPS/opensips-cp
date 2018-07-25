@@ -72,17 +72,17 @@
 
 
   if ($form_valid) {
-                    $sql="select * from ".$table." where username='".$add_uname."'";
-		    $resultset = $link->queryAll($sql);
-                    if(PEAR::isError($resultset)) {
-                    	die('Failed to issue query, error message : ' . $resultset->getMessage());
-                    }
-                    $data_rows=count($resultset);
-                    if (($data_rows>0) && ($resultset[0]['username']==$add_uname) )
+                    $sql="select count(*) from ".$table." where username=?";
+		    $stm = $link->prepare($sql);
+		    if ($stm === FALSE)
+		    	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+		    $stm->execute(array($add_uname));
+		    $data_no = $stm->fetchColumn(0);;
+                    if ( $data_no>0 )
                     {
                      $form_valid=false;
                      $new_id=$add_uname;
-                     $form_error="- <b>".$new_id."</b> is already a valid admin -";
+                     $form_error="- <b>".$new_id."</b> is already exists as admin -";
                     }
                    }
 

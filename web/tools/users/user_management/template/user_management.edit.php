@@ -22,9 +22,14 @@
 
 $id=$_GET['id'];
 	
-$sql = "select * from ".$table." where id='".$id."'";
-$resultset = $link->queryAll($sql);
-$link->disconnect();
+$sql = "select * from ".$table." where id=?";
+$stm = $link->prepare($sql);
+if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+}
+$stm->execute( array($id) );
+$resultset = $stm->fetchAll();
+$link=NULL;
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">

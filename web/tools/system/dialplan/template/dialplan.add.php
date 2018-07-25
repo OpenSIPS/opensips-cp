@@ -26,12 +26,13 @@ if($clone =="1"){
 
 	$id=$_GET['id'];
 
-	$sql = "select * from ".$table." where id='".$id."'";
-	$resultset = $link->queryAll($sql);
-	if(PEAR::isError($resultset)) {
-        	die('Failed to issue query, error message : ' . $resultset->getMessage());
-	}
-	$link->disconnect;
+	$sql = "select * from ".$table." where id=?";
+        $stm = $link->prepare($sql);
+	if ($stm === FALSE)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( array($id) );
+	$resultet= $stm->fetchAll();
+
 	$dpid = $resultset[0]['dpid'];
 	$pr = $resultset[0]['pr'];
 	$match_exp =$resultset[0]['match_exp'];

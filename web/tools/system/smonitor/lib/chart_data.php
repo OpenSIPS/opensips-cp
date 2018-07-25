@@ -42,11 +42,11 @@ for($k=1; $k<=$chart_size; $k++)
 }
 
 $index = $chart_size;
-$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT ".$index;
-$row = $link->queryAll($sql);
-if(PEAR::isError($row)) {
-        die('Failed to issue query, error message : ' . $row->getMessage());
-}
+$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? and box_id = ? ORDER BY time DESC LIMIT ".$index;
+$stm = $link->prepare($sql);
+if ($stm->execute(array($var, $box_id)) === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$row = $stm->fetchAll();
 
 
 $normal_chart = false ;

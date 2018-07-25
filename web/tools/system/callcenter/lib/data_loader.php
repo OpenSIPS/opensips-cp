@@ -6,7 +6,6 @@
 	require_once("../../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
 	require_once("../../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 	require_once("../../../../../config/db.inc.php");
-	require_once("MDB2.php");
 	
         global $config;
 	global $custom_config;
@@ -33,14 +32,15 @@
 		}
         }
 
-       
-	$dsn = $config->db_driver.'://' . $config->db_user.':'.$config->db_pass . '@' . $config->db_host . '/'. $config->db_name;
-        $link = & MDB2::connect($dsn);
-        if(PEAR::isError($link)) {
-		die("Error while connecting : " . $link->getMessage());
-        }	
-        $link->setFetchMode(MDB2_FETCHMODE_ASSOC);
-	
+	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+	try {
+	       $link = new PDO($dsn, $config->db_user, $config->db_pass);
+	} catch (PDOException $e) {
+	       error_log(print_r("Failed to connect to: ".$dsn, true));
+	       print "Error!: " . $e->getMessage() . "<br/>";
+	       die();
+	}
+
 	/* DB table to use */
 	$sTable = $custom_config[$module_id]['custom_table'];
 	
@@ -60,15 +60,6 @@
 		die( $sErrorMessage );
 	}
 
-	
-	/* 
-	 * MySQL connection
-	 */
-	if(PEAR::isError($link)){
-		fatal_error( 'Could not open connection to server' );
-	}
-	
-	
 	/* 
 	 * Paging
 	 */
@@ -152,37 +143,35 @@
 		$sLimit
 		";
 
-	$rResult = $link->queryAll( $sQuery );
-	
-	
-	
-	if(PEAR::isError($rResult)) {
-		fatal_error( 'SQL Error: ' . $rResult->getMessage() );
+	$rResult = $link->query( $sQuery );
+	if($rResult === false) {
+		fatal_error( 'SQL Error: ' . $link->errorInfo()[2] );
 	}
 
+	$rResult = $rResult->fetchAll();
 	
 	
 	/* Data set length after filtering */
 	$sQuery = "
 		SELECT FOUND_ROWS()
 	";
-	$rResultFilterTotal = $link->queryOne( $sQuery );
-	if(PEAR::isError($rResultFilterTotal)) {
-		fatal_error( 'SQL Error: ' . $rResultFilterTotal->getMessage() );
+	$rResultFilterTotal = $link->query( $sQuery );
+	if($rResultFilterTotal === false) {
+		fatal_error( 'SQL Error: ' . $link->errorInfo()[2] );
 	}
 	
-	$iFilteredTotal = $rResultFilterTotal;
+	$iFilteredTotal = $rResultFilterTotal->fetchColumn(0);
 	
 	/* Total data set length */
 	$sQuery = "
 		SELECT COUNT(`".$sIndexColumn."`)
 		FROM   $sTable
 	";
-	$rResultTotal = $link->queryOne( $sQuery ); 
-	if(PEAR::isError($rResultTotal)) {
-		fatal_error( 'SQL Error: ' . $rResultTotal->getMessage() );
+	$rResultTotal = $link->query( $sQuery ); 
+	if($rResultTotal === false) {
+		fatal_error( 'SQL Error: ' . $link->errorInfo()[2] );
 	}
-	$iTotal = $rResultTotal;
+	$iTotal = $rResultTotal->fetchColumn(0);
 	
 	
 	/*
@@ -205,11 +194,11 @@
 			{
 				if ($custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['type'] == "combo" && $custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_table'] != NULL){
 					$query = "select ".$custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_display_col'] ." from ".$custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_table'] ." where ".$custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_value_col'] ." = '".$rResult[$i][ $aColumns[$j] ]."'";
-					$translated_value = $link->queryOne( $query );
-					if(PEAR::isError($translated_value)) {
-         					fatal_error( 'SQL Error: ' . $translated_value->getMessage() );
+					$translated_value = $link->query( $query );
+					if($translated_value) {
+         					fatal_error( 'SQL Error: ' . $link->errorInfo()[2] );
         				}
-					$row[] = $translated_value;
+					$row[] = $translated_value->fetchColumn(0);
 				} else if (isset($custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_default_values']) && is_array($custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_default_values']) && count($custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_default_values'])){
 					foreach ( $custom_config[$module_id]['custom_table_column_defs'][$aColumns[$j]]['combo_default_values'] as $k => $v){
 						if ($k == $rResult[$i][ $aColumns[$j]])

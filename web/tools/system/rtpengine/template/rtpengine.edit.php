@@ -32,11 +32,12 @@
                          }
 	$id=$_GET['id'];
 	
-	$sql = "select * from ".$table." where id='".$id."'";
-	$row = $link->queryAll($sql);
-	if(PEAR::isError($row)) {
-        	 die('Failed to issue query, error message : ' . $row->getMessage());
-	}
+	$sql = "select * from ".$table." where id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$row = $stm->fetchAll();
+
 	$index_row=0;
 
 ?>

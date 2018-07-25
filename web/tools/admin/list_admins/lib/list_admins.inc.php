@@ -56,17 +56,16 @@
 
 
   if ($form_valid) {
-                    $sql="select * from ".$table." where username='".$listuname."'";
-		    $resultset = $link->queryAll($sql);
-                    if(PEAR::isError($resultset)) {
-                    	die('Failed to issue query, error message : ' . $resultset->getMessage());
-                    }
-                    $data_rows=count($resultset);
-                    if (($data_rows>0) && ($resultset[0]['username']==$listuname) && ($resultset[0]['first_name']==$listfname) && ($resultset[0]['last_name']==$listlname) &&($resultset[0]['password']==$listpasswd) )
-                    {
+                    $sql="select count(*) from ".$table." where username=?";
+		    $stm = $link->prepare($sql);
+		    if ($stm === FALSE)
+			die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+		    $stm->execute(array($listuname));
+		    $data_rows = $stm->fetchColumn(0);
+		    if ($data_rows>0) {
                      $form_valid=false;
                      $new_id=$uname;
-                     $form_error="- <b>".$new_id."</b> is already a valid admin -";
+                     $form_error="- <b>".$new_id."</b> is already an existing admin -";
                     }
                    }
 

@@ -80,20 +80,22 @@ if ($action=="add_verify")
 
 
 		$sql = 'INSERT INTO '.$table.' (last_name,first_name,username,password,ha1) VALUES '. 
-		' (\''.$add_lname.'\',\''.$add_fname.'\',\''. $add_uname . '\',\''. $add_passwd.'\',\''.$ha1.'\')';
-		$resultset = $link->prepare($sql);
-
-		$resultset->execute();
-		$resultset->free();
-
-		$link->disconnect();
-
-		$lname=NULL;
-		$fname=NULL;
-		$uname=NULL;
-		$passwd=NULL;
-		$confirm_passwd=NULL;
-	}
+			' (?, ?, ?, ?, ?)';
+                $stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($add_lname, $add_fname, $add_uname, $add_passwd, $ha1) ) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+			$form_valid=false;
+		} else {
+			$lname=NULL;
+			$fname=NULL;
+			$uname=NULL;
+			$passwd=NULL;
+			$confirm_passwd=NULL;
+		}
+	  }
 	  if ($form_valid) {
 		print "New Admin added!";
 		$action="add";
@@ -146,12 +148,16 @@ if ($action=="modify")
           if ($form_valid) {
 	  	if (($_POST['listpasswd']=="") || ($_POST['conf_passwd']=="")) {
 
-			$sql = "UPDATE ".$table." SET username='".$listuname."', first_name='".$listfname."', last_name = '".$listlname.
-				"' WHERE id=".$id;
-			$resultset = $link->prepare($sql);
-			$resultset->execute();
-			$resultset->free();
-			print "Admins info was modified, but password remained the same!\n";
+			$sql = "UPDATE ".$table." SET username=?, first_name=?, last_name=? WHERE id=?";
+                	$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($listuname,$listfname,$listlname,$id) ) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				print "Admins info was modified, but password remained the same!\n";
+			}
 
 		} else if (($_POST['listpasswd']!="") && ($_POST['conf_passwd']!="")) {
 			if ($config->admin_passwd_mode==0) {
@@ -162,15 +168,18 @@ if ($action=="modify")
 				$listpasswd = '';	
 			}
 
-			$sql = "UPDATE ".$table." SET username='".$listuname."', first_name='".$listfname."', last_name = '".$listlname.
-				"', password='".$listpasswd."', ha1='".addslashes($ha1)."' WHERE id=".$id;
-			$resultset = $link->prepare($sql);
-			$resultset->execute();
-			$resultset->free();
-			print "Admin's info was modified!\n";
+			$sql = "UPDATE ".$table." SET username=?, first_name=?, last_name=?, password=?, ha1=? WHERE id=?";
+                	$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($listuname,$listfname,$listlname,$listpasswd,$ha1,$id) ) == false ) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				print "Admin's info was modified!\n";
+			}
 		}
 
-		$link->disconnect();
 	   }
           if ($form_valid) {
                 $action="edit";
@@ -273,25 +282,17 @@ if ($action=="modify_tools")
 		$tools = "";
 		$permiss = "";
 	}
-	$sql = "SELECT * FROM ".$table." where id=".$_GET['id']." AND username='".$_GET['uname']."' LIMIT 1";
-	$result = $link->queryAll($sql);
-	if(PEAR::isError($result)) {
-        	die('Failed to issue query, error message : ' . $result->getMessage());
-        }
-	$uname=$result[0]['username'];
-	$fname=$result[0]['first_name'];
-	$lname=$result[0]['last_name'];
-	$pass=$result[0]['password'];
-	$ha1=$result[0]['ha1'];
+        $sql = "UPDATE $table SET available_tools=?, permissions=?  WHERE id=?";
+      	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array($tools,$permiss,$id) ) == false) {
+		$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+	} else {
+	        $info="Admin credentials were modified";
+	}
 
-        $sql = "UPDATE $table SET username='$uname', first_name='$fname', last_name = '$lname'".
-    	       ", password='$pass', ha1='$ha1', available_tools='$tools', permissions='$permiss'  WHERE id=$id";
-        $resultset = $link->prepare($sql);
-        $resultset->execute();
-        $resultset->free();
-        $info="Admin credentials were modified";
-
-                $link->disconnect();
   } else {
           $errors= "User with Read-Only Rights";
          } 
@@ -312,17 +313,13 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id = $_GET['id'];
-		$uname = $_GET['uname'];
-		$domain = $_GET['domain'];
 
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-		$link->exec($sql);
-		for($i=0;$i<count($options);$i++){
-			$alias_table = $options[$i]['value'];
-	                $sql = "DELETE FROM ".$alias_table." WHERE username='".$uname."' AND domain='".$domain."' AND id=".$id;
-	                $link->exec($sql);
-
+		$sql = "DELETE FROM ".$table." WHERE id=?";
+      		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
+		$stm->execute( array($id) );
 	}else{
 
 		$errors= "User with Read-Only Rights";

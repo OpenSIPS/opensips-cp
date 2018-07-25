@@ -79,15 +79,18 @@ if ($action=="do_add")
 		$attrs = $_POST['attrs'];
 		$description = $_POST['description'];
 
-		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES 
-			('". $setid ."','". $destination ."','".$socket."','".$state."','".$weight."','".$attrs."','".$description."') ";
-		$result = $link->exec($sql);
-        	if(PEAR::isError($result)) {
-	        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
-       		} else {
+		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES ".
+			"(?, ?, ?, ?, ?, ?, ?)";
+
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description) ) == FALSE) {
+			$errors="Adding record to DB failed with: ". print_r($stm->errorInfo(), true);
+		} else {
 			$info="The new record was added";
 		}
-		$link->disconnect();
 	}
 
 }
@@ -136,22 +139,18 @@ if ($action=="modify")
 		$description = $_POST['description'];
 
 
-		$sql = "UPDATE ".$table." SET 
-			setid=".$setid.", 
-			destination = '".$destination."', 
-			socket = '".$socket."', 
-			state = ".$state.", 
-			weight = ".$weight.", 
-			attrs = '".$attrs."', 
-			description = '".$description."' 
-			WHERE id=".$id;
-		$result = $link->exec($sql);
-        	if(PEAR::isError($result)) {
-	        	$errors = "Update to DB failed with: ".$result->getUserInfo();
-       		} else {
+		$sql = "UPDATE ".$table." SET ". 
+			"setid=?, destination = ?, socket = ?, state = ?, weight = ?, attrs = ?, description = ?".
+			"WHERE id=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description,$id) )==FALSE) {
+			$errors="Updating record to DB failed with: ". print_r($stm->errorInfo(), true);
+		} else {
 			$info="Record has been updated";
 		}
-		$link->disconnect();
 	}
 
 }
@@ -170,8 +169,12 @@ if ($action=="delete")
 
 		$id=$_GET['id'];
 
-		$sql = "DELETE FROM ".$table." WHERE id=".$id;
-		$link->exec($sql);
+		$sql = "DELETE FROM ".$table." WHERE id=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($id) );
 		$info="Record has been deleted";
 	}else{
 		$errors= "User with Read-Only Rights";

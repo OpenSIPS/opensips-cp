@@ -40,14 +40,16 @@ $errors="";
 if ($action=="add")
 {
 	$domain=$_POST['domain'];
-	$sql = "INSERT INTO ".$table." (domain, last_modified) VALUES ('".$domain."', NOW())";
-	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-        	$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+	$sql = "INSERT INTO ".$table." (domain, last_modified) VALUES (? , NOW())";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array($domain) )==FALSE ) {
+        	$errors = "Add/Insert to DB failed with: ". print_r($stm->errorInfo(), true);
 	} else {
 		$info="Domain Name has been inserted";
 	}
-	$link->disconnect();
 }
 ###############
 # end add new #
@@ -60,14 +62,16 @@ if ($action=="save")
 {
 	$id=$_GET['id'];
 	$domain=$_POST['domain'];
-	$sql = "UPDATE ".$table." SET domain='".$domain."', last_modified=NOW() WHERE id='".$id."' ";
-	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-        	$errors = "Update to DB failed with: ".$result->getUserInfo();
+	$sql = "UPDATE ".$table." SET domain=?, last_modified=NOW() WHERE id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array($domain,$id) )==FALSE ) {
+        	$errors = "Update to DB failed with: ". print_r($stm->errorInfo(), true);
 	} else {
 		$info="Domain name has been modified";
 	}
-	$link->disconnect();
 }
 ############
 # end save #
@@ -92,9 +96,12 @@ if ($action=="edit")
 if ($action=="delete")
 {
 	$id=$_GET['id'];
-	$sql = "DELETE FROM ".$table." WHERE id='".$id."'";
-	$link->exec($sql);	
-	$link->disconnect();
+	$sql = "DELETE FROM ".$table." WHERE id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($stm->errorInfo(), true));
+	}
+	$stm->execute( array($id) );
 	$info = "Domain name has been deleted";
 }
 ##############

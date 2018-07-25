@@ -86,10 +86,12 @@ if(!$_SESSION['read_only']){
 <?php
 if ($sql_search=="") $sql_command="select * from ".$table;
 else $sql_command="select * from ".$table." where (1=1) ".$sql_search;
-$resultset = $link->queryAll($sql_command);
-if(PEAR::isError($resultset)) {
-	die('Failed to issue query, error message : ' . $resultset->getMessage());
+$stm = $link->query($sql_command);
+if ($stm === false) {
+	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 }
+$resultset = $stm->fetchAll();
+
 if (count($resultset)==0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else

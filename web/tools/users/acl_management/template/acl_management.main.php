@@ -27,12 +27,21 @@ $search_agrp=$_SESSION['acl_grp'];
 
 
 $sql_search="";
-if ($search_ausername !="")
-	$sql_search.=" and username like '%" . $search_ausername."%'";
-if (($search_adomain != 'ANY') && ($search_adomain != ""))
-	$sql_search.=" and domain='".$search_adomain."'";
-if (($search_agrp !='ANY') && ($search_agrp !=""))
-	$sql_search.=" and grp='".$search_agrp."'"; 
+$sql_vals=array();
+
+if ($search_ausername !="") {
+	$sql_search.=" and username like ?";
+	array_push( $sql_vals, "%".$search_ausername."%");
+}
+if (($search_adomain != 'ANY') && ($search_adomain != "")) {
+	$sql_search.=" and domain=?";
+	array_push( $sql_vals, $search_adomain);
+}
+if (($search_agrp !='ANY') && ($search_agrp !="")) {
+	$sql_search.=" and grp=?"; 
+	array_push( $sql_vals, $search_agrp);
+}
+
 if ($sql_search!="")
 	$sql_search = " where ".substr($sql_search,4);
 
@@ -102,10 +111,13 @@ echo('<th class="listTitle">Edit</th>
         require("../../../../config/tools/users/acl_management/local.inc.php");
 
 	$sql_command="from ".$table.$sql_search;
-	$data_no = $link->queryOne("select count(*) ".$sql_command);
-	if(PEAR::isError($data_no)) {
-	        die('Failed to issue query, error message : ' . $data_no->getMessage());
-	}	
+	$stm = $link->prepare("select count(*) ".$sql_command);
+	if ($stm===FALSE) {
+		die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+	}
+	$stm->execute( $sql_vals );
+	$data_no = $stm->fetchColumn(0);
+
 	if ($data_no==0)
 		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 	else { 
@@ -120,10 +132,12 @@ echo('<th class="listTitle">Edit</th>
         $start_limit=($page-1)*$res;
         if ($start_limit==0) $sql_command.=" order by id asc limit ".$res;
         else $sql_command.=" order by id asc limit ".$res." OFFSET " . $start_limit;
-        $resultset = $link->queryAll("select * ".$sql_command);
-        if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
+	$stm = $link->prepare("select * ".$sql_command);
+	if ($stm===FALSE)
+		die('Failed to issue query [select * '.$sql_command.$sql_order.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+	$resultset = $stm->fetchAll();
+
         $index_row=0;
         $i=0;
         while (count($resultset)>$i)

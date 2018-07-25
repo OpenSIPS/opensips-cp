@@ -74,17 +74,18 @@ case "do_add":
 	$description=$_POST['description'];
 	$probe_mode = $_POST['probe_mode'];
 
-	$sql = "INSERT INTO ".$table."
-		(group_id, dst_uri,resources,probe_mode,description) VALUES 
-		(".$group_id.", '".$dst_uri."','".$resources."',".$probe_mode.",'".$description."') ";
+	$sql = "INSERT INTO ".$table.
+		"(group_id, dst_uri,resources,probe_mode,description) VALUES (?,?,?,?,?)";
 
-	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-		$errors = "Add/Insert to DB failed with: ".$result->getUserInfo();
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute(array($group_id,$dst_uri,$resources,$probe_mode,$description))==FALSE) {
+		$errors = "Inserting the record into DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="The new LB destination was added";
 	}
-	$link->disconnect();	
 
 	break;
 ##############
@@ -118,15 +119,16 @@ case "modify":
 	$probe_mode = $_POST['probe_mode'];
 	$description=$_POST['description'];
 
-	$sql = "UPDATE ".$table." SET group_id=".$group_id.", dst_uri = '".$dst_uri.
-		"', resources='".$resources."', probe_mode=".$probe_mode.", description='".$description."' WHERE id=".$id;
-	$result = $link->exec($sql);
-       	if(PEAR::isError($result)) {
-		$errors = "Update to DB failed with: ".$result->getUserInfo();
+	$sql = "UPDATE ".$table." SET group_id=?, dst_uri=?, resources=?, probe_mode=?, description=? WHERE id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute(array($group_id,$dst_uri,$resources,$probe_mode,$description,$id))==FALSE) {
+		$errors = "Updating the record into DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="LB destination has been updated";
 	}
-	$link->disconnect();
 
 	break;
 #################
@@ -163,9 +165,12 @@ case "toggle":
 ################
 case "delete":
 	$id=$_GET['id'];
-	$sql = "DELETE FROM ".$table." WHERE id=".$id;
-        $link->exec($sql);
-	$link->disconnect();
+	$sql = "DELETE FROM ".$table." WHERE id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute( array($id) );
 	$info="Record has been deleted";
 
 	break;

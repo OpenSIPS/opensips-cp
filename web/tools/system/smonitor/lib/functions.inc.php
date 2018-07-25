@@ -32,16 +32,18 @@ require_once("../../../../config/tools/system/smonitor/db.inc.php");
 
 function get_config_var($var_name,$box_id)
 {
-include("db_connect.php");
- global $config;
- $sql="SELECT * FROM ".$config->table_monitored." WHERE name='".$var_name."' and box_id=".$box_id;
- $resultset=$link->queryAll($sql);	
- if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
-  }
- $value=$resultset[0]['extra'];
- if ($value==null) $value=$config->$var_name;
- return $value;
+	include("db_connect.php");
+	global $config;
+
+	$sql="SELECT * FROM ".$config->table_monitored." WHERE name = ? AND box_id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($var_name, $box_id)) == false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll();
+
+	$value=$resultset[0]['extra'];
+	if ($value==null) $value=$config->$var_name;
+	return $value;
 }
 
 function get_mi_modules($mi_url)
@@ -181,9 +183,10 @@ function clean_stats_table(){
 			$last_date -= 60*60*date("H",$current_time);
 			$last_date -= 60*date("i",$current_time);
 			$last_date -= date("s",$current_time);
-			$sql="DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
-			//echo "DELETE FROM ".$config->table_monitoring." WHERE time<'".$last_date."' and box_id=".$box_id;
-			$link->exec($sql);
+			$sql="DELETE FROM ".$config->table_monitoring." WHERE time < ? AND box_id = ?";
+			$stm = $link->prepare($sql);
+			if ($stm->execute(array($last_date, $box_id)) === false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 			$i++;
 		}
 	}
@@ -271,11 +274,11 @@ function show_graph($stat,$box_id){
 	}
 	
 	$index = $chart_size;
-	$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name='".$var."' and box_id=".$box_id." ORDER BY time DESC LIMIT ".$index;
-	$row=$link->queryAll($sql);
-	if(PEAR::isError($row)) {
-        	die('Failed to issue query, error message : ' . $row->getMessage());
-	}	
+	$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? AND box_id = ? ORDER BY time DESC LIMIT ".$index;
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array($var, $box_id)) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$row = $stm->fetchAll();
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
@@ -294,14 +297,11 @@ function show_graph($stat,$box_id){
 		}
 	
 	} else {
-	
 		$prev_field_val =  ""; 		
-		$result = $link->queryAll($sql) ;
-	        if(PEAR::isError($result)) {
-        	        die('Failed to issue query, error message : ' . $result->getMessage());
-        	} 
+		if ($stm->execute(array($var, $box_id)) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$result = $stm->fetchAll();
 		$prev_field_val = $result[0]['value'];
-	
 	
 		for($i=0;count($result)>$i;$i++)
 		{

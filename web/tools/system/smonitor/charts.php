@@ -45,9 +45,10 @@
  
  if ($_POST['flush']!=null)
  {
-  $sql = "delete from ".$config->table_monitoring." where box_id=".$box_id;
-  $link->exec($sql);
-  $link->disconnect();
+  $sql = "DELETE FROM ".$config->table_monitoring." WHERE box_id = ?";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($box_id)) === false)
+  	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
  }
  
  $expanded=false;

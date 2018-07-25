@@ -31,11 +31,11 @@
 
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
 <?php
-$sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id=".$box_id." ORDER BY name ASC";
-$resultset = $link->queryAll($sql);
-if(PEAR::isError($resultset)) {
-         die('Failed to issue query, error message : ' . $resultset->getMessage());
-}
+$sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";
+$stm = $link->prepare($sql);
+if ($stm->execute(array($box_id)) === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$resultset = $stm->fetchAll();
 $data_no=count($resultset);
 if ($data_no==0) echo ('<tr><td class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
@@ -48,11 +48,11 @@ else
   $stat=$resultset[$j]['name'];
   $stat_img="../../../images/share/chart.png";
   if ($_SESSION["stat_open"][$i]=="yes") $stat_chart=true;
-  $res="SELECT * FROM ".$table." WHERE name='".$stat."' AND box_id=".$box_id." ORDER BY time ASC LIMIT 1";
-  $result = $link->queryAll($res); 
-  if(PEAR::isError($result)) {
-          die('Failed to issue query, error message : ' . $result->getMessage());
-  }
+  $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
+  $stm = $link->prepare($sql);
+  if ($stm->execute(array($stat, $box_id)) === false)
+    die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+  $result = $stm->fetchAll();
   $from_time=date('j M Y, H:i:s',$result[0]['time']);
   echo $result['time'];
   ?>
@@ -74,7 +74,6 @@ else
   $i++;
  }
 }
-$link->disconnect();
 ?>
  </tr>
 </table>

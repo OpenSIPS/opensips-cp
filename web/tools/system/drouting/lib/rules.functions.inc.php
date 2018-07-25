@@ -26,11 +26,13 @@ function get_groupids()
  global $config;
  $index = 0;
  $values = array();
- $sql="select distinct groupid from ".$config->table_groups." where (1=1) order by groupid asc";
- $result=$link->queryAll($sql);
- if(PEAR::isError($result)) {
- 	die('Failed to issue query, error message : ' . $result->getMessage());
+ $sql="select distinct groupid from ".$config->table_groups." order by groupid asc";
+ $stm = $link->prepare($sql);
+ if ($stm === false) {
+ 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
+ $stm->execute( array() );
+ $result= $stm->fetchAll();
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index] = $result[$i]['groupid'];
@@ -46,11 +48,13 @@ function get_gwlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_gateways." where (1=1) order by gwid asc";
- $result=$link->queryAll($sql);
- if(PEAR::isError($result)) {
- 	die('Failed to issue query, error message : ' . $result->getMessage());
+ $sql="select * from ".$config->table_gateways." order by gwid asc";
+ $stm = $link->prepare($sql);
+ if ($stm === false) {
+ 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
+ $stm->execute( array() );
+ $result= $stm->fetchAll();
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index][0] = $result[$i]['gwid'];
@@ -68,11 +72,13 @@ function get_carrierlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_carriers." where (1=1) order by carrierid asc";
- $result=$link->queryAll($sql);
- if(PEAR::isError($result)) {
-    die('Failed to issue query, error message : ' . $result->getMessage());
+ $sql="select * from ".$config->table_carriers." order by carrierid asc";
+ $stm = $link->prepare($sql);
+ if ($stm === false) {
+ 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
+ $stm->execute( array() );
+ $result= $stm->fetchAll();
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index][0] = $result[$i]['carrierid'];
@@ -361,11 +367,13 @@ function get_lists()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_lists." where (1=1) ";
- $result=$link->queryAll($sql);
- if(PEAR::isError($result)) {
- 	die('Failed to issue query, error message : ' . $result->getMessage());
+ $sql="select * from ".$config->table_lists;
+ $stm = $link->prepare($sql);
+ if ($stm === false) {
+ 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
+ $stm->execute( array() );
+ $result= $stm->fetchAll();
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index][0] = $result[$i]['id'];

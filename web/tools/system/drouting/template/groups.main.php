@@ -26,22 +26,40 @@
 <div id="content" style="display:none"></div>
 <?php
  $sql_search="";
+ $sql_vals=array();
+
  $search_username=$_SESSION['groups_search_username'];
  if ($search_username!="") {
                             $pos=strpos($search_username,"*");
-                            if ($pos===false) $sql_search.=" and username='".$search_username."'";
-                             else $sql_search.=" and username like '".str_replace("*","%",$search_username)."'";
-                           }
+			    if ($pos===false) {
+				    $sql_search.=" and username=?";
+				    array_push( $sql_vals, $search_username);
+			    } else {
+				    $sql_search.=" and username like ?";
+				    array_push( $sql_vals, str_replace("*","%",$search_username));
+			    }
+ }
  $search_domain=$_SESSION['groups_search_domain'];
  if ($search_domain!="") {
                           $pos=strpos($search_domain,"*");
-                          if ($pos===false) $sql_search.=" and domain='".$search_domain."'";
-                           else $sql_search.=" and domain like '".str_replace("*","%",$search_domain)."'";
-                         }
+			  if ($pos===false) {
+				  $sql_search.=" and domain=?";
+				  array_push( $sql_vals, $search_domain);
+			  } else {
+				  $sql_search.=" and domain like ?";
+				  array_push( $sql_vals, str_replace("*","%",$search_domain));
+                          }
+ }
  $search_groupid=$_SESSION['groups_search_groupid'];
- if ($search_groupid!="") $sql_search.=" and groupid='".$search_groupid."'";
+ if ($search_groupid!="") {
+	 $sql_search.=" and groupid=?";
+	 array_push( $sql_vals, $search_groupid);
+ }
  $search_description=$_SESSION['groups_search_description'];
- if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
+ if ($search_description!="") {
+	 $sql_search.=" and description like ?";
+	 array_push( $sql_vals, str_replace("*","%",$search_description));
+ }
 ?>
 
 <form action="<?=$page_name?>?action=search" method="post">
@@ -85,13 +103,13 @@
   <th class="listTitle">Delete</th>
  </tr>
 <?php
- if ($sql_search=="") $sql_command="select * from ".$table." where (1=1) order by username, domain asc";
-  else $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by username, domain asc";
- $resultset = $link->queryAll($sql_command);
- if(PEAR::isError($resultset)) {
-         die('Failed to issue query, error message : ' . $resultset->getMessage());
+ $sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
+ $stm = $link->prepare($sql_command);
+ if ($stm===FALSE) {
+ 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
  }
- $data_no=count($resultset);
+ $stm->execute( $sql_vals );
+ $data_no = $stm->fetchColumn(0);
  if ($data_no==0) echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
@@ -103,12 +121,16 @@
                        $_SESSION[$current_page]=$page;
                       }
   $start_limit=($page-1)*$res_no;
-  if ($start_limit==0) $sql_command.=" limit ".$res_no;
-  else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
-  $resultset = $link->queryAll($sql_command);
-  if(PEAR::isError($resultset)) {
-          die('Failed to issue query, error message : ' . $resultset->getMessage());
+
+  $sql_command="select * from ".$table." where (1=1) ".$sql_search." order by username, domain asc limit ".$res_no;
+  if ($start_limit!=0) 
+  	$sql_command.=" OFFSET " . $start_limit;
+  $stm = $link->prepare($sql_command);
+  if ($stm===FALSE) {
+ 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
   }
+  $stm->execute( $sql_vals );
+  $resultset = $stm->fetchAll();
   require("lib/".$page_id.".main.js");
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)
