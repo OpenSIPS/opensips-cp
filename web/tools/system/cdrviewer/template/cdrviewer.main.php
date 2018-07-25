@@ -29,39 +29,30 @@ if ( file_exists("../siptrace") && $config_modules["system"]["modules"]["siptrce
 else
 	$tracer = "";
 
+$search_start=$_SESSION['cdrviewer_search_start'];
+$search_end=$_SESSION['cdrviewer_search_end'];
 $search_regexp=$_SESSION['cdrviewer_search_val'];
 $cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
-
-if (($cdr_field!="") && ($search_regexp!="")) $sql_search.=' and "'.$cdr_field.'" like \'%'.$search_regexp.'%\'' ;
-
-
-$search_start=$_SESSION['cdrviewer_search_start'];
-$search_end=$_SESSION['cdrviewer_search_end'];
-
 $cdr_table = $config->cdr_table;
-$sql  = "select count(*) from ".$cdr_table. " where (1=1) ";
+
+$sql_search  = " from ".$cdr_table. " where (1=1) ";
+$sql_vals = array();
 
 if (($search_start!="")) {
-
-	$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(time)";
-
+	$sql_search.=" and unix_timestamp( ? )  <= unix_timestamp(time)";
+	array_push( $sql_vals, $search_start);
 }
 
 if ($search_end!="") {
-
-	$sql.=" and unix_timestamp(time) <= unix_timestamp('" . $search_end ."')";
-
+	$sql_search.=" and unix_timestamp(time) <= unix_timestamp( ? )";
+	array_push( $sql_vals, $search_end);
 }
 
-
-
-if 	((($sql_search!=""))) {
-
-	$sql .=$sql_search ;
-
+if (($cdr_field!="") && ($search_regexp!="")) {
+	$sql_search.=' and '.$cdr_field.' like ?' ;
+	array_push( $sql_vals, "%".$search_regexp."%");
 }
-
 
 ?>
 
@@ -124,10 +115,11 @@ if 	((($sql_search!=""))) {
 </form>
 
 <?
-$stm = $link->query($sql);
+$stm = $link->prepare("select count(*) ".$sql_search);
 if ($stm === false) {
 	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 }
+$stm->execute( $sql_vals );
 $data_no = $stm->fetchColumn(0);
 
 if ($data_no==0) {
@@ -150,35 +142,18 @@ else
 	}
 	$start_limit=($page-1)*$config->results_per_page;
 
-	$sql = "select * " ;
+	$sql = "select * ".$sql_search." order by time desc " ;
+	if ($start_limit==0)
+		$sql.=" LIMIT ".$config->results_per_page;
+	else
+		$sql.=" LIMIT ".$config->results_per_page." OFFSET ".$start_limit;
 
-	$sql.=" from ".$cdr_table . " where (1=1) ";
-
-	if (($search_start!="") && ($search_end!="")) {
-
-		$sql.=" and unix_timestamp('".$search_start ."')  <= unix_timestamp(time) and  ";
-		$sql.="unix_timestamp(time) <= unix_timestamp('" . $search_end ."')"   ;
-
-		$sql .=$sql_search ;
-
-
-	}
-
-	if (($sql_search!="")) {
-
-		$sql .=$sql_search ;
-
-	}
-
-
-	$sql .= " order by time desc " ;
-	$sql.=" LIMIT ".$config->results_per_page." OFFSET ".$start_limit;
-
-	$stm = $link->query($sql);
+	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	}
-	$result = $stm->fetchAll();
+	$stm->execute( $sql_vals );
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	?>
 
