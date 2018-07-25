@@ -55,7 +55,7 @@
 		    	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		    }
 		    $stm->execute( array($username,$domain) );
-		    $resultset = $stm->fetchAll();
+		    $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
                     $data_rows=count($resultset);
                     if (($data_rows>0) && (($resultset[0]['username']!=$id_username) || ($resultset[0]['domain']!=$id_domain)))
                     {

@@ -48,7 +48,7 @@
   	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
   $stm->execute( array($_GET['carrierid']) );
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
   $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3)) ? "Yes" : "No";
@@ -150,7 +150,7 @@ if ($action=="disablecar"){
   	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
   $stm->execute( array($_GET['carrierid']) );
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
   if (is_numeric((int)$resultset[$i]['flags'])) {
         $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,3));
@@ -242,7 +242,7 @@ if ($action=="disablecar"){
     	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
     }
     $stm->execute( array($sql_regex) );
-    $resultset = $stm->fetchAll();
+    $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
     $sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";

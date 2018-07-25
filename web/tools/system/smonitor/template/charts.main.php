@@ -35,7 +35,7 @@ $sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC"
 $stm = $link->prepare($sql);
 if ($stm->execute(array($box_id)) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$resultset = $stm->fetchAll();
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 $data_no=count($resultset);
 if ($data_no==0) echo ('<tr><td class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
@@ -52,7 +52,7 @@ else
   $stm = $link->prepare($sql);
   if ($stm->execute(array($stat, $box_id)) === false)
     die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-  $result = $stm->fetchAll();
+  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   $from_time=date('j M Y, H:i:s',$result[0]['time']);
   echo $result['time'];
   ?>

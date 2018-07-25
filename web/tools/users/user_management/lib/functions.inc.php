@@ -71,7 +71,7 @@ function print_domains($type,$value,$has_any)
         $stm = $link->query($sql);
         if ($stm === FALSE)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$result = $stm->fetchAll();
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	if ($has_any)
 	        $options[]=array("label"=>"ANY","value"=>"ANY");

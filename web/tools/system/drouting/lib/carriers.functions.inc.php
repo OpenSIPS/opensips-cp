@@ -46,7 +46,7 @@ function get_groupids()
 	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
  }
  $stm->execute( array() );
- $resultset = $stm->fetchAll();
+ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($resultset)>$i;$i++)
  {
   $values[$index] = $resultset[$i]['groupid'];
@@ -68,7 +68,7 @@ function get_gwlist()
 	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
  }
  $stm->execute( array() );
- $resultset = $stm->fetchAll();
+ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($resultset)>$i;$i++)
  {
   $values[$index][0] = $resultset[$i]['gwid'];
@@ -338,7 +338,7 @@ function get_lists()
 	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
  }
  $stm->execute( array() );
- $resultset = $stm->fetchAll();
+ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($resultset)>$i;$i++)
  {
   $values[$index][0] = $resultset[$i]['id'];

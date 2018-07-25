@@ -39,7 +39,7 @@ function get_config_var($var_name,$box_id)
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($var_name, $box_id)) == false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$value=$resultset[0]['extra'];
 	if ($value==null) $value=$config->$var_name;
@@ -278,7 +278,7 @@ function show_graph($stat,$box_id){
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($var, $box_id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$row = $stm->fetchAll();
+	$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
@@ -300,7 +300,7 @@ function show_graph($stat,$box_id){
 		$prev_field_val =  ""; 		
 		if ($stm->execute(array($var, $box_id)) === false)
 			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-		$result = $stm->fetchAll();
+		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 		$prev_field_val = $result[0]['value'];
 	
 		for($i=0;count($result)>$i;$i++)

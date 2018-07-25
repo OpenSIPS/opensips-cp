@@ -121,7 +121,7 @@ $sql_command="select * from ".$table." where (1=1) ".$sql_search;
 $stm = $link->prepare($sql_command);
 if ($stm->execute($qvalues) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$resultset = $stm->fetchAll();
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -141,7 +141,7 @@ else
 	$stm = $link->prepare($sql_command);
 	if ($stm->execute($qvalues) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	for ($i=0;count($resultset)>$i;$i++)

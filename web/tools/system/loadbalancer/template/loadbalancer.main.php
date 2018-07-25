@@ -160,7 +160,7 @@ else {
 		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
 	$stm->execute( $sql_vals );
-	$result = $stm->fetchAll();
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	// display the resulting rows in the table
 	$index_row=0;

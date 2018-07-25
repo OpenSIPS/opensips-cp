@@ -81,7 +81,7 @@ if ($filtered_records > 0) {
 	if($stm->execute($qvalues) === false) {
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true). "[".$query."]");
 	}
-	$resultset= $stm->fetchAll();
+	$resultset= $stm->fetchAll(PDO::FETCH_ASSOC);
 
 }
 else {

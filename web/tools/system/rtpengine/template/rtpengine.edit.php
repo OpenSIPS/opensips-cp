@@ -36,7 +36,7 @@
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$row = $stm->fetchAll();
+	$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$index_row=0;
 

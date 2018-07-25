@@ -46,7 +46,7 @@ $sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? and box_id = 
 $stm = $link->prepare($sql);
 if ($stm->execute(array($var, $box_id)) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$row = $stm->fetchAll();
+$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
 $normal_chart = false ;

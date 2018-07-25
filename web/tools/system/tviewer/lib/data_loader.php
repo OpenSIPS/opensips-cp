@@ -148,7 +148,7 @@
 		fatal_error( 'SQL Error: ' . $link->errorInfo()[2] );
 	}
 
-	$rResult = $rResult->fetchAll();
+	$rResult = $rResult->fetchAll(PDO::FETCH_ASSOC);
 	
 	
 	/* Data set length after filtering */

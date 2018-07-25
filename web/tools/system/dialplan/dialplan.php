@@ -180,7 +180,7 @@ if ($action=="add_verify_dp")
 			if ($stm === FALSE)
 				die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 			$stm->execute(array($src_dpid));
-			$resultset = $stm->fetchAll();
+			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 			if (count($resultset)==0) {
 				$errors="No rules to duplicate";

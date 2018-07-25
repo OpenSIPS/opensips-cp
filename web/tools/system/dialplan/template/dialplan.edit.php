@@ -38,7 +38,7 @@ if ($stm === false) {
 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 }
 $stm->execute( array($id) );
-$resultset = $stm->fetchAll();
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$index_row=0;
 

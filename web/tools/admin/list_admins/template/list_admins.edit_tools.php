@@ -35,7 +35,7 @@ require_once("../../../common/cfg_comm.php");
 	  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
 	$stm->execute( array($id) );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
         $index_row=0;
 $permissions=array();
 ?>
@@ -51,7 +51,7 @@ $permissions=array();
 	  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
 	$stm->execute( array($_GET['uname']) );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
         $modules=get_modules();
 	

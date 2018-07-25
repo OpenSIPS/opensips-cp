@@ -136,7 +136,7 @@ echo('<th class="listTitle">Edit</th>
 	if ($stm===FALSE)
 		die('Failed to issue query [select * '.$sql_command.$sql_order.'], error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute( $sql_vals );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
         $index_row=0;
         $i=0;

@@ -29,7 +29,7 @@ $sql = "select * from ".$table." where ".$custom_config[$module_id][$_SESSION[$m
 $stm = $link->prepare($sql);
 if ($stm->execute(array($id)) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$resultset = $stm->fetchAll();
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <?php

@@ -33,7 +33,7 @@ if ($stm === false) {
 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 }
 $stm->execute( array($_GET['traceid']) );
-$row = $stm->fetchAll();
+$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $message=htmlspecialchars(trim($row[0]['msg']));
 // from highlight

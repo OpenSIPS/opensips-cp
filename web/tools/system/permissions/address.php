@@ -238,7 +238,7 @@ if ($action=="dp_act")
 		$stm = $link->prepare($sql);
 		if ($stm->execute($qvalues) === false)
 			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-		$resultset = $stm->fetchAll();
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 		if (count($resultset)==0) {
 			$errors="No such rule";
 			$_SESSION['address_src']="";

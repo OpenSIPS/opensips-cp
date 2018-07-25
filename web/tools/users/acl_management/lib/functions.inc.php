@@ -37,7 +37,7 @@ function print_domains($type,$value)
         $stm = $link->query($sql);
 	if ($stm === FALSE)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$result = $stm->fetchAll();
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($result as $k=>$v) {
                 $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);

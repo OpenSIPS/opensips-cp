@@ -123,7 +123,7 @@ else
 	if ($stm===FALSE)
 	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute( $sql_vals );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;

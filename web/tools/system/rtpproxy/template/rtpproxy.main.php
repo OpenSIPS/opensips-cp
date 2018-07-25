@@ -131,7 +131,7 @@ $sql_command = "select * from ".$table." where (1=1) ".$sql_search." order by id
 $stm = $link->prepare($sql_command);
 if ($stm->execute($sql_values) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$result = $stm->fetchAll();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $data_no = count($result);
 if ($data_no == 0)
@@ -155,7 +155,7 @@ if ($start_limit != 0)
 $stm = $link->prepare($sql_command);
 if ($stm->execute($sql_values) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$result = $stm->fetchAll();
+$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 require("lib/".$page_id.".main.js");
 $index_row=0;

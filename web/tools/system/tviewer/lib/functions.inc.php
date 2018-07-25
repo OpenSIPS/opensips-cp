@@ -115,7 +115,7 @@ function get_custom_combo_options($combo)
         	if($stm === false) {
                 	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
        		}
-			$result = $stm->fetchAll();
+			$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($result as $k=>$v) {
 			$options[ $v[$combo['combo_value_col']] ]['display'] = $v[$display_col] ;
 			if ($label_col!=NULL)

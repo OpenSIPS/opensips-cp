@@ -52,7 +52,7 @@
   	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
   $stm->execute( array($id_username,$id_domain) );
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
   require("template/".$page_id.".details.php");
   require("template/footer.php");
   exit();
@@ -94,7 +94,7 @@
   	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
   $stm->execute( array($id_username,$id_domain) );
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
   exit();

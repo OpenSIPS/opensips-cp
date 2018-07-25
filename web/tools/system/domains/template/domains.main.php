@@ -34,7 +34,7 @@ if (!$_SESSION[read_only]) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		$stm->execute( array($_GET['id']) );
-		$domain_form = $stm->fetchAll()[0];
+		$domain_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 		$button = "Save Domain";
 	} else {
 		## insert form
@@ -79,7 +79,7 @@ $stm = $link->prepare( $sql );
 if ($stm===FALSE)
 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 $stm->execute( array() );
-$resultset = $stm->fetchAll();
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 $data_no = count($resultset);
 $link=NULL;
 

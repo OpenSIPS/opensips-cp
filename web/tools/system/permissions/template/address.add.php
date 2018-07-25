@@ -29,7 +29,7 @@ if($add_verify =="1"){
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$grp = $resultset[0]['grp'];
 	$src_ip = $resultset[0]['src_ip'];

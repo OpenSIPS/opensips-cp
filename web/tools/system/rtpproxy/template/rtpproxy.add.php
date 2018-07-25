@@ -29,7 +29,7 @@ if($clone =="1"){
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$row = $stm->fetchAll();
+	$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$rtpproxy_sock = $row[0]['rtpproxy_sock'];
 	$set_id = $row[0]['set_id'];

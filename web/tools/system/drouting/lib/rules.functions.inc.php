@@ -32,7 +32,7 @@ function get_groupids()
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
  $stm->execute( array() );
- $result= $stm->fetchAll();
+ $result= $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index] = $result[$i]['groupid'];
@@ -54,7 +54,7 @@ function get_gwlist()
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
  $stm->execute( array() );
- $result= $stm->fetchAll();
+ $result= $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index][0] = $result[$i]['gwid'];
@@ -78,7 +78,7 @@ function get_carrierlist()
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
  $stm->execute( array() );
- $result= $stm->fetchAll();
+ $result= $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index][0] = $result[$i]['carrierid'];
@@ -373,7 +373,7 @@ function get_lists()
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
  }
  $stm->execute( array() );
- $result= $stm->fetchAll();
+ $result= $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($result)>$i;$i++)
  {
   $values[$index][0] = $result[$i]['id'];

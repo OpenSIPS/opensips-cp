@@ -115,7 +115,7 @@ else
 		die('Failed to issue query [select * '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
 	$stm->execute( $sql_vals );
-	$row = $stm->fetchAll();
+	$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	require("lib/".$page_id.".main.js");
 	$index_row=0;

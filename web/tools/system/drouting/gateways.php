@@ -46,7 +46,7 @@
     die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
   $stm->execute( array($_GET['gwid']) );
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".details.php");
   require("template/footer.php");
@@ -153,7 +153,7 @@ if ($action=="probegw"){
     die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   }
   $stm->execute( array($_GET['id']) );
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".edit.php");
   require("template/footer.php");
@@ -237,7 +237,7 @@ if ($action=="delete"){
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
 	$stm->execute( array($sql_regex) );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	for($i=0;count($resultset)>$i;$i++){
   		$list=$resultset[$i]['gwlist'];
@@ -265,7 +265,7 @@ if ($action=="delete"){
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
 	$stm->execute( array($sql_regex) );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
 	for($i=0;count($resultset)>$i;$i++){

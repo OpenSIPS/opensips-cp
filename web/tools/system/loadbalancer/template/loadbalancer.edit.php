@@ -28,7 +28,7 @@ if ($stm === false) {
 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 }
 $stm->execute( array($id) );
-$lb_form = $stm->fetchAll()[0];
+$lb_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 
 ?>
 

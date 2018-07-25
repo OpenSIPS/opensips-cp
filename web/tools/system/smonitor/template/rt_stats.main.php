@@ -50,7 +50,7 @@
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($var_name, $box_id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
     if (count($resultset)>0) {
                                     $var_checked="checked"; $bold_="<b>"; $_bold="</b>";
                                    }

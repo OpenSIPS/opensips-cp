@@ -37,7 +37,7 @@
   $stm = $link->prepare($sql);
   if ($stm->execute(array($box_id)) === false)
   	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-  $resultset = $stm->fetchAll();
+  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
   if ($sampling_time!=$resultset[0]['extra'])
   {
    $sql =  "UPDATE ".$table." SET extra = ? WHERE name='sampling_time' AND box_id = ? LIMIT 1";
@@ -64,7 +64,7 @@
  $stm = $link->prepare($sql);
  if ($stm->execute(array($box_id)) === false)
  	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
- $resultset = $stm->fetchAll();
+ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
  for($i=0;count($resultset)>$i;$i++)
  {
   if ($resultset[$i]['name']=="sampling_time") $sampling_time=$resultset[$i]['extra'];

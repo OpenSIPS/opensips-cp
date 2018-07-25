@@ -56,7 +56,7 @@ include("db_connect.php");
 	if ($stm === FALSE)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute(array($address,$type,$strip,$pri_prefix));
-	$result = $stm->fetchAll();
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 	$data_rows = count($result);
 	if (($data_rows>0) && ($result[0]['gwid']!=$_GET['id']))
                     {
