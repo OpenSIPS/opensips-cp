@@ -158,7 +158,7 @@ if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
 $stm->execute( $sql_vals );
-$resultset = $stm->fetchAll();
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -178,7 +178,7 @@ else
 		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
 	$stm->execute( $sql_vals );
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	for($i=0; count($resultset)>$i;$i++)
 	{
 		if ($_SESSION['grouped_results']) $sql_="SELECT * FROM ".$table." WHERE callid='".$resultset[$i]['callid']."'".$sql_search." ORDER BY id ASC LIMIT 1";
@@ -188,7 +188,7 @@ else
 			die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 		}
 		$stm_->execute( $sql_vals );
-		$resultset_ = $stm_->fetchAll();
+		$resultset_ = $stm_->fetchAll(PDO::FETCH_ASSOC);
 		if (($resultset_[0]['from_ip']!="127.0.0.1") && ($resultset_[0]['from_ip']!="255.255.255.255")) $trace_text="from ".$resultset_[0]['from_proto'].":".$resultset_[0]['from_ip'].":".$resultset_[0]['from_port'];
 		else $trace_text="to ".get_ip($resultset_[0]['toip']);
 		$details_msg='<a href="details.php?traceid='.$resultset_[0]['id'].'"><img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?traceid='.$resultset_[0]['id'].'&regexp='.$search_regexp.'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></a>';
@@ -210,7 +210,7 @@ else
 		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 	}
 	$stm_d->execute( array($resultset_[0]['callid']) );
-	$resultset_d = $stm_d->fetchAll();
+	$resultset_d = $stm_d->fetchAll(PDO::FETCH_ASSOC);
     ?>
     <tr><td colspan="5" align="center" >
     <table width="650" cellspacing="1" cellpadding="1" border="0" align="right">
