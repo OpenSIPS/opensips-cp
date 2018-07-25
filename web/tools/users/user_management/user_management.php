@@ -125,8 +125,11 @@ if ($action=="modify")
 					if ($stm === false) {
 						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 					}
-					$stm->execute( $sql_vals );
-					print "The user's info was modified";
+					if ($stm->execute( $sql_vals )==false) {
+						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+					} else {
+						print "The user's info was modified";
+					}
 				}	
 			} else {
 				$sql = "UPDATE ".$table." SET username=?, domain=?, email_address=?";
@@ -142,8 +145,11 @@ if ($action=="modify")
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				$stm->execute( $sql_vals );
-				print "The user's info was modified, password not changed";
+				if ($stm->execute( $sql_vals ) == false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				} else {
+					print "The user's info was modified, password not changed";
+				}
 			}
 		}
 	}else{
@@ -297,27 +303,32 @@ if ($action=="add_verify")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( $sql_vals );
+		if ($stm->execute( $sql_vals ) == false) {
+			$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true));
+		} else {
 
-		if ($alias!="") {
-			$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
-        	        $stm = $link->prepare($sql);
-			if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			if ($alias!="") {
+				$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
+        	       		$stm = $link->prepare($sql);
+				if ($stm === false) {
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
+				if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
+					$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true));
+				}
 			}
-			$stm->execute( array($uname,$domain,$alias,$domain) );
+
+ 	        	$lname=NULL;
+       	        	$fname=NULL;
+       	        	$uname=NULL;
+                	$email=NULL;
+                	$alias=NULL;
+                	$passwd=NULL;
+                	$confirm_passwd=NULL;
+
+                	print "New User added!";
+                	$action="add";
 		}
-
-                $lname=NULL;
-                $fname=NULL;
-                $uname=NULL;
-                $email=NULL;
-                $alias=NULL;
-                $passwd=NULL;
-                $confirm_passwd=NULL;
-
-                print "New User added!";
-                $action="add";
           } else {
                 print $form_error;
                 $action="add_verify";

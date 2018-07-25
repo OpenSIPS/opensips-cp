@@ -137,9 +137,11 @@ if ($action=="add_verify")
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				$stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs) );
-
-				$info="The new rule was added";
+				if ($stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs) ) == false ) {
+					$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+				} else {
+					$info="The new rule was added";
+				}
 			}
 		}
 	}else{
@@ -191,9 +193,12 @@ if ($action=="add_verify_dp")
 					if ($stm === false) {
 						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 					}
-					$stm->execute( array($dst_dpid,$resultset[$i]['pr'],$resultset[$i]['match_op'],$resultset[$i]['match_exp'],
-						$resultset[$i]['match_flags'],$resultset[$i]['subst_exp'],$resultset[$i]['repl_exp'],
-						$resultset[$i]['attrs']) );
+					if ($stm->execute( array($dst_dpid,$resultset[$i]['pr'],$resultset[$i]['match_op'],$resultset[$i]['match_exp'],
+					$resultset[$i]['match_flags'],$resultset[$i]['subst_exp'],$resultset[$i]['repl_exp'],
+					$resultset[$i]['attrs']) ) == false )
+						$errors .= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+
+
 
 				}
 				$info="The dialplan was cloned";
@@ -297,9 +302,11 @@ if ($action=="modify")
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				$stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs,$id) );
-		
-				$info="The new rule was modified";
+				if ($stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs,$id) ) == false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				} else {
+					$info="The new rule was modified";
+				}
 			}
 		}
 	}else{

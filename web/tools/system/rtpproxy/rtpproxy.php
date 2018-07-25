@@ -110,11 +110,11 @@ if ($action=="add_verify")
 				$sql_command = "INSERT INTO ".$table."
 				(set_id, rtpproxy_sock) VALUES (?, ?)";
 				$stm = $link->prepare($sql_command);
-				if ($stm->execute(array($set_id, $rtpproxy_sock)) === false)
-					die('Failed to issue query, error message : ' .
-						print_r($stm->errorInfo(), true));
-
-				$info="The new record was added";
+				if ($stm->execute(array($set_id, $rtpproxy_sock)) === false) {
+					$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+				} else{
+					$info="The new record was added";
+				}
 			}
 		}
 	}else{
@@ -177,10 +177,11 @@ if ($action=="modify")
 			} else {
 				$sql_command = "UPDATE ".$table." SET set_id = ?, rtpproxy_sock = ? WHERE id = ?";
 				$stm = $link->prepare($sql_command);
-				if ($stm->execute(array($set_id, $rtpproxy_sock, $id)) === false)
-					die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-
-				$info="The new rule was modified";
+				if ($stm->execute(array($set_id, $rtpproxy_sock, $id)) === false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				} else {
+					$info="The new rule was modified";
+				}
 			}
 		}
 	}else{

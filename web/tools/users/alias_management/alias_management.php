@@ -84,10 +84,12 @@ if ($action=="add_verified")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( array($alias_username,$alias_domain,$username,$domain) );
-
-                $info="The new record was added";
-                print "New Alias added!";
+		if ($stm->execute( array($alias_username,$alias_domain,$username,$domain) ) == false) {
+                	$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+		} else {
+	                $info="The new record was added";
+        	        print "New Alias added!";
+		}
 	}
         else
 		print "User with Read-Only Rights";
@@ -157,8 +159,11 @@ if ($action=="modify")
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				$stm->execute(array($alias_username, $alias_domain, $username, $domain, $id));
-                        	$info="The alias was modified";
+				if ($stm->execute(array($alias_username, $alias_domain, $username, $domain, $id)) == false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				} else {
+	                        	$info="The alias was modified";
+				}
 			}
                 }
         }else{

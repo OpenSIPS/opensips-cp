@@ -85,14 +85,17 @@ if ($action=="add_verify")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( array($add_lname, $add_fname, $add_uname, $add_passwd, $ha1) );
-
-		$lname=NULL;
-		$fname=NULL;
-		$uname=NULL;
-		$passwd=NULL;
-		$confirm_passwd=NULL;
-	}
+		if ($stm->execute( array($add_lname, $add_fname, $add_uname, $add_passwd, $ha1) ) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+			$form_valid=false;
+		} else {
+			$lname=NULL;
+			$fname=NULL;
+			$uname=NULL;
+			$passwd=NULL;
+			$confirm_passwd=NULL;
+		}
+	  }
 	  if ($form_valid) {
 		print "New Admin added!";
 		$action="add";
@@ -150,8 +153,11 @@ if ($action=="modify")
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			$stm->execute( array($listuname,$listfname,$listlname,$id) );
-			print "Admins info was modified, but password remained the same!\n";
+			if ($stm->execute( array($listuname,$listfname,$listlname,$id) ) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				print "Admins info was modified, but password remained the same!\n";
+			}
 
 		} else if (($_POST['listpasswd']!="") && ($_POST['conf_passwd']!="")) {
 			if ($config->admin_passwd_mode==0) {
@@ -167,8 +173,11 @@ if ($action=="modify")
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			$stm->execute( array($listuname,$listfname,$listlname,$listpasswd,$ha1,$id) );
-			print "Admin's info was modified!\n";
+			if ($stm->execute( array($listuname,$listfname,$listlname,$listpasswd,$ha1,$id) ) == false ) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				print "Admin's info was modified!\n";
+			}
 		}
 
 	   }
@@ -278,8 +287,11 @@ if ($action=="modify_tools")
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	$stm->execute( array($tools,$permiss,$id) );
-        $info="Admin credentials were modified";
+	if ($stm->execute( array($tools,$permiss,$id) ) == false) {
+		$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+	} else {
+	        $info="Admin credentials were modified";
+	}
 
   } else {
           $errors= "User with Read-Only Rights";

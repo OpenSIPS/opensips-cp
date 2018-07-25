@@ -89,10 +89,11 @@ if ($action=="add_verify")
 			$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
 				(?, ?, ?, ?, ?, ?, ?)";
 			$stm = $link->prepare($sql);
-			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info)) === false)
-				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-
-			$info="The new record was added";
+			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info)) === false) {
+				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));	
+			} else {
+				$info="The new record was added";
+			}
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -151,9 +152,11 @@ if ($action=="modify")
 			$sql = "UPDATE ".$table." SET grp = ?, ip = ?, mask = ?, port = ?, proto = ?" .
 				", pattern = ?, context_info = ? WHERE id = ?";
 			$stm = $link->prepare($sql);
-			$stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info, $id));
-
-			$info="The new rule was modified";
+			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info, $id)) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				$info="The new rule was modified";
+			}
 		}
 	}else{
 

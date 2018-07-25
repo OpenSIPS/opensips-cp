@@ -103,10 +103,11 @@ if ($action=="add_verify")
 			$sql_command = "INSERT INTO ".$table."
 				(set_id, socket) VALUES (?, ?) ";
 			$stm = $link->prepare($sql_command);
-			if ($stm->execute(array($set_id, $rtpengine_sock)) === false)
-				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-
-			$info="The new RTPengine was added";
+			if ($stm->execute(array($set_id, $rtpengine_sock)) === false) {
+				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				$info="The new RTPengine was added";
+			}
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -166,10 +167,11 @@ if ($action=="modify")
 		} else {
 			$sql_command = "UPDATE ".$table." SET set_id = ?, socket = ? WHERE id = ?";
 			$stm = $link->prepare($sql_command);
-			if ($stm->execute(array($set_id, $rtpengine_sock, $id)) === false)
-				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-
-			$info="The RTPEngine socket was modified";
+			if ($stm->execute(array($set_id, $rtpengine_sock, $id)) === false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+				$info="The RTPEngine socket was modified";
+			}
 		}
 	}else{
 

@@ -79,12 +79,15 @@ if ($action=="add_verified")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( array($acl_username, $acl_domain, $acl_grp) );
-                $info="The new record was added";
-                print "New ACL added!";
+		if ($stm->execute( array($acl_username, $acl_domain, $acl_grp) ) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+		} else {
+               		$info="The new record was added";
+                	print "New ACL added!";
+		}
 	}
         else
-		print "User with Read-Only Rights";
+                $errors= "User with Read-Only Rights";
 }
 
 
@@ -163,8 +166,11 @@ if ($action=="modify")
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			$stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) );
-                        $info="The ACL was modified";
+			if ($stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) ) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+			} else {
+                        	$info="The ACL was modified";
+			}
                 }
         }else{
                 $errors= "User with Read-Only Rights";

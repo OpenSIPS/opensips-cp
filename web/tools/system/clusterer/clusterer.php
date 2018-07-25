@@ -73,7 +73,7 @@ case "do_add":
 	$sql = "INSERT INTO ".$table." (cluster_id, node_id, url, no_ping_retries, sip_addr, flags, description) VALUES 
 		(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_ping."','".$cln_sipaddr."','".$cln_flags."','".$cln_description."')";
 	$result = $link->exec($sql);
-    if ($result === false) {
+        if ($result === false) {
 		$errors = "Add/Insert to DB failed with: ".print_r($link->errorInfo(), true);
 	} else {
 		$info="The new cluster node was added";
