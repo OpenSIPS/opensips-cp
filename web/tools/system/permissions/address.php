@@ -90,7 +90,7 @@ if ($action=="add_verify")
 				(?, ?, ?, ?, ?, ?, ?)";
 			$stm = $link->prepare($sql);
 			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info)) === false) {
-				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));	
+				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);	
 			} else {
 				$info="The new record was added";
 			}
@@ -153,7 +153,7 @@ if ($action=="modify")
 				", pattern = ?, context_info = ? WHERE id = ?";
 			$stm = $link->prepare($sql);
 			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info, $id)) == false) {
-				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
 				$info="The new rule was modified";
 			}

@@ -85,7 +85,7 @@ if ($action=="add_verified")
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		if ($stm->execute( array($alias_username,$alias_domain,$username,$domain) ) == false) {
-                	$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+                	$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 		} else {
 	                $info="The new record was added";
         	        print "New Alias added!";
@@ -160,7 +160,7 @@ if ($action=="modify")
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
 				if ($stm->execute(array($alias_username, $alias_domain, $username, $domain, $id)) == false) {
-					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 				} else {
 	                        	$info="The alias was modified";
 				}

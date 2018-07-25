@@ -104,7 +104,7 @@ if ($action=="add_verify")
 				(set_id, socket) VALUES (?, ?) ";
 			$stm = $link->prepare($sql_command);
 			if ($stm->execute(array($set_id, $rtpengine_sock)) === false) {
-				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
 				$info="The new RTPengine was added";
 			}
@@ -168,7 +168,7 @@ if ($action=="modify")
 			$sql_command = "UPDATE ".$table." SET set_id = ?, socket = ? WHERE id = ?";
 			$stm = $link->prepare($sql_command);
 			if ($stm->execute(array($set_id, $rtpengine_sock, $id)) === false) {
-				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
 				$info="The RTPEngine socket was modified";
 			}

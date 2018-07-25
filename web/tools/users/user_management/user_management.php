@@ -126,7 +126,7 @@ if ($action=="modify")
 						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 					}
 					if ($stm->execute( $sql_vals )==false) {
-						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 					} else {
 						print "The user's info was modified";
 					}
@@ -146,7 +146,7 @@ if ($action=="modify")
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
 				if ($stm->execute( $sql_vals ) == false) {
-					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 				} else {
 					print "The user's info was modified, password not changed";
 				}
@@ -304,7 +304,7 @@ if ($action=="add_verify")
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		if ($stm->execute( $sql_vals ) == false) {
-			$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true));
+			$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true);
 		} else {
 
 			if ($alias!="") {
@@ -314,7 +314,7 @@ if ($action=="add_verify")
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
 				if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
-					$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true));
+					$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true);
 				}
 			}
 

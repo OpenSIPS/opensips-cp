@@ -80,7 +80,7 @@ if ($action=="add_verified")
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		if ($stm->execute( array($acl_username, $acl_domain, $acl_grp) ) == false) {
-			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 		} else {
                		$info="The new record was added";
                 	print "New ACL added!";
@@ -167,7 +167,7 @@ if ($action=="modify")
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 			if ($stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) ) == false) {
-				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
                         	$info="The ACL was modified";
 			}

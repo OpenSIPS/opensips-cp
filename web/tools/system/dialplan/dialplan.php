@@ -138,7 +138,7 @@ if ($action=="add_verify")
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
 				if ($stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs) ) == false ) {
-					$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+					$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 				} else {
 					$info="The new rule was added";
 				}
@@ -196,7 +196,7 @@ if ($action=="add_verify_dp")
 					if ($stm->execute( array($dst_dpid,$resultset[$i]['pr'],$resultset[$i]['match_op'],$resultset[$i]['match_exp'],
 					$resultset[$i]['match_flags'],$resultset[$i]['subst_exp'],$resultset[$i]['repl_exp'],
 					$resultset[$i]['attrs']) ) == false )
-						$errors .= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true));
+						$errors .= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 
 
 
@@ -303,7 +303,7 @@ if ($action=="modify")
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
 				if ($stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs,$id) ) == false) {
-					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true));
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 				} else {
 					$info="The new rule was modified";
 				}
