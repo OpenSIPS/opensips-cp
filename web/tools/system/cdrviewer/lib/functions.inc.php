@@ -132,16 +132,17 @@ function cdr_export($start_time,  $end_time ) {
 
 	$sql.=" from ".$cdr_table . " where  ";
 
-	$sql.=" unix_timestamp('".$start_time ."') - ".$delay."  <= unix_timestamp(time)  and  ";
+	$sql.=" unix_timestamp( ? ) - ".$delay."  <= unix_timestamp(time)  and  ";
 
-	$sql.="unix_timestamp(time) <= unix_timestamp('" . $end_time  ."') - ".$delay   ;
+	$sql.="unix_timestamp(time) <= unix_timestamp( ? ) - ".$delay   ;
 
 	$sql .= " order by time desc " ;
 
-	$stm = $link->query($sql);
+	$stm = $link->prepare($sql);
 	if ($stm === false)
-        	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$result = $stm->fetchAll();
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( array($start_time,$end_time) );
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
 	$num_rows = count($result);
@@ -223,21 +224,20 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	$cdr_table = $config->cdr_table ;
 
 	$sql = "select * " ;
+	$sql_vals=array();
 
 	$sql.=" from ".$cdr_table . " where (1=1) ";
 
 
 	if (($start_time !="")) {
-
-		$sql.=" and unix_timestamp('".$start_time ."')  <= unix_timestamp(time)";
-
+		$sql.=" and unix_timestamp( ? )  <= unix_timestamp(time)";
+		array_push( $sql_vals, $start_time);
 	}
 
 
 	if (($end_time !="")){
-
-		$sql.=" and unix_timestamp(time) <= unix_timestamp('" . $end_time  ."')"   ;
-
+		$sql.=" and unix_timestamp(time) <= unix_timestamp( ? )"   ;
+		array_push( $sql_vals, $end_time);
 	}
 
 
@@ -245,11 +245,11 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 	$sql .= " order by time desc " ;
 	
-	$stm = $link->query($sql);
+	$stm = $link->prepare($sql);
 	if ($stm === false)
-        	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$result = $stm->fetchAll();
-
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$num_rows = count($result);
 

@@ -47,12 +47,13 @@ if ($tracer=="siptrace") {
 	$_SESSION['user_active_tool'] = "siptrace";
 
 	// get the id from siptrace table .
-	$sql = "select id from ".$config->table_trace." where callid='".$callid."'";
-	$stm = $link->query($sql);
+	$sql = "select id from ".$config->table_trace." where callid=?";
+	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	}
-	$row = $stm->fetch();
+	$stm->execute( array($callid) );
+	$row = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 
 	$siptraceid = $row['id'];
 
@@ -66,7 +67,7 @@ if ($tracer=="siptrace") {
 	if ($stm === false) {
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	}
-	$resultset = $stm->fetchAll();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$data_no=count($resultset);
 	$page_no = ceil($data_no/$config->results_per_page)  ;
