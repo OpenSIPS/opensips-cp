@@ -20,6 +20,7 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require_once("../../../../config/session.inc.php");
 require_once("../../../../config/tools/system/siptrace/db.inc.php");
 require_once("../../../../config/tools/system/siptrace/local.inc.php");
 require_once("lib/functions.inc.php");
