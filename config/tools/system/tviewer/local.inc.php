@@ -157,6 +157,9 @@ Example table: table1
 
  //if you need reload please specify the MI command to be ran
  $custom_config[$module_id][0]['custom_mi_command'] = "do_reload";
+ 
+ //the system ID to send the reload MI command to
+ $talk_to_this_assoc_id = 1;
 
 
 ##############################################
