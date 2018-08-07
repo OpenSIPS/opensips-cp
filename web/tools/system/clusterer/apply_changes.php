@@ -24,6 +24,7 @@
 
 <?php
 
+require_once("../../../../config/session.inc.php");
 require("../../../../config/tools/system/clusterer/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");

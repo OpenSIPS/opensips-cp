@@ -22,6 +22,7 @@
 
 
 require_once("../../../../config/tools/system/siptrace/local.inc.php");
+require_once("../../../../config/session.inc.php");
 require("../../../../config/tools/system/siptrace/db.inc.php");
 require("../../../../config/db.inc.php");
 require("../../../common/cfg_comm.php");
