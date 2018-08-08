@@ -47,31 +47,24 @@ $dpid=$_POST['dialplan_id'];
 <? print_back_button(); ?>
 
 <?php/*
- $sql = "SELECT * FROM ".$table.
-	" WHERE dpid=" .$dpid;
-        $resultset = $link->queryAll($sql);
-print ($resultset);
-        if(PEAR::isError($resulset)) {
-        	die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
-print $sql;
+ $sql = "SELECT * FROM ".$table." WHERE dpid=?";
+ $stm = $link->prepare($sql);
+ if ($stm === false) {
+ 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+ }
+ $stm->execute( array($dpid) );
+ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
  if (count($resultset)==0) {
  	$errors="No rules to duplicate";
  } 
-	$sql = "INSERT INTO ".$table.
-               "(dpid, pr, match_op, match_exp, match_flags, subst_exp,
-               repl_exp, attrs) VALUES (".$dest_dpid.", ".
-               $resultset[0]['pr'].", ".$resultset[0]['match_op'].
-               ", '".$resultset[0]['match_exp']."', ".$resultset[0]['match_flags'].
-               ", '" .$resultset[0]['subst_exp']."', '".$resultset[0]['repl_exp'].
-               "', '".$resultset[0]['attrs']."')";
-print $sql;
-               $result = $link->prepare($sql);
-               if(PEAR::isError($result)) {
-          	     die('Failed to issue query, error message: ' . $result->getMessage());
-               }
-               $result->execute();
-               $result->free();
+	$sql = "INSERT INTO ".$table." (dpid, pr, match_op, match_exp, match_flags, subst_exp,repl_exp, attrs) VALUES (?,?,?,?,?,?,?,?)";
+        $stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array($dest_dpid,$resultset[0]['pr'],$resultset[0]['match_op'],$resultset[0]['match_exp'],$resultset[0]['match_flags'],$resultset[0]['subst_exp'],$resultset[0]['repl_exp'],$resultset[0]['attrs']) )==false ){
+		$errors.="Inserting new DP rule failed: ".print_r($stm->errorInfo(), true);
+	}
 
-                                $info="The dialplan was cloned";
+        $info="The dialplan was cloned";
 */?>
