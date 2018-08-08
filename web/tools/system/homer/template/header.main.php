@@ -25,7 +25,7 @@
 <html>
 
 <head>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef">
@@ -33,17 +33,23 @@
 <table width="705" cellpadding="2" cellspacing="2" border="0">
 	<tr  valign="center" height="20">
 		<td style="color:#0969b5">
-			<table width="100%" cellpadding="0" cellspacing="0" border="0">
-				<tr valign="center">
-					<td align="left">
-						<form action="<?=$page_name?>?action=Hjump" method="post">
-							<input type="submit" name="action" value="Open in new window" class="searchButton">
-						</form>
-					</td>
-					<td align="right">
-	          			<b><?php print "System / Homer / ".$_SESSION['permission'];?></b>
-					</td>
-				<tr>
+			<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center">
+			<tr>
+				<td class="breadcrumb">
+	          			<?php print "System / Homer / ".$_SESSION['permission'];?> </td>
+    				<td align=right style="border-bottom: 1px solid #ccc!important">
+					<form action="<?=$page_name?>?action=Hjump" method="post" style="margin:0px!important" >
+					<input type="submit" name="action" value="Open in new window" class="inlineButton" style="padding:0px!important">
+					</form>
+				</td>
+			</tr>
+
+			<tr>
+				<td colspan="2">
+					<div class="menuItems">
+					<font class="menuItemSelect">&nbsp;</font>      </div>
+				</td> 
+			</tr>
 			</table>
 		</td>
 	</tr>
