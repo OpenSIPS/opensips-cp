@@ -59,7 +59,7 @@ $message=str_replace("\n","<br>",$message);
 
 <head>
  <title>SIP Trace Details: #<?=$_GET['traceid']?></title>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef">
