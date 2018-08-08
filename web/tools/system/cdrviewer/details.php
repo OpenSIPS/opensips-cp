@@ -40,7 +40,7 @@ $row = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 
 <head>
  <title>CDR Details: #<?=$_GET['cdr_id']?></title>
- <link href="style/style.css" type="text/css" rel="StyleSheet">
+ <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
 <body bgcolor="#e9ecef">
@@ -53,7 +53,7 @@ foreach($row as $key=>$value) {
  else $row_style="rowEven";
 	
 ?>
- <tr><td class="<?php print $row_style?>"><b><?php print "$key:"?></b><?php print "$value"?></td></tr>
+ <tr><td class="<?php print $row_style?>"><b><?php print "$key:"?> </b><?php print "$value"?></td></tr>
 <?php
 $k++;
 }
