@@ -37,12 +37,13 @@ foreach ($boxes as $idx => $ar){
 		$sampling_time=get_config_var('sampling_time',$idx);
 
 		// Get the name of the needed statistics
-		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=".$idx." ORDER BY name ASC";
-		$resultset = $link->queryAll($sql);
-
-		if(PEAR::isError($resultset)){
-			die('Failed to issue query, error message : ' . $resultset->getMessage());
+		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=? ORDER BY name ASC";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
+		$stm->execute( array($idx) );
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 		// Compile the list and fetch them via MI
 		$stats_name = "";
@@ -53,21 +54,26 @@ foreach ($boxes as $idx => $ar){
 		}
 		if ($stats_name == "")
 			return;
+
 		$stats = get_all_vars( $ar['mi']['conn'] , $stats_name );
 
 		// insert values into DB
 		preg_match_all("/(.+):: ([0-9]*)/i", $stats, $regs);
+
+		$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES (?,?,?,?)";
+		$stm = $link->prepare($sql);
+                if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+               	}
+
 		for ($i=0;count($regs[0])>$i;$i++) {
 			$var_value=$regs[2][$i];
-			if ($var_value==NULL) 
-				$var_value="0"; 
-			$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES ('".$regs[1][$i]."','".$var_value."','".$time."',".$idx.")";
-			$result = $link->exec($sql);
-			if(PEAR::isError($result)) {
-				die('Failed to issue query, error message : ' . $resultset->getMessage());
-			}
+			if ($var_value==NULL)
+				$var_value="0";
+			$stm->execute( array($regs[1][$i],$var_value,$time,$idx) );
+
 		}
 	}
-} 
+}
 
 ?>
