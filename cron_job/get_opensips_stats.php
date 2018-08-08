@@ -70,7 +70,9 @@ foreach ($boxes as $idx => $ar){
 			$var_value=$regs[2][$i];
 			if ($var_value==NULL)
 				$var_value="0";
-			$stm->execute( array($regs[1][$i],$var_value,$time,$idx) );
+			if ($stm->execute( array($regs[1][$i],$var_value,$time,$idx) ) == false ) {
+				error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+			}
 
 		}
 	}
