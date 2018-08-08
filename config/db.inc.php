@@ -23,7 +23,8 @@
 if (!isset($config)) $config = new stdClass();
 
  //database driver mysql or pgsql
- $config->db_driver = "mysql";	
+//with PHP7.0 mysql plugin has been depricated, must use mysqli
+ $config->db_driver = "mysqli";	
 
  //database host
  $config->db_host = "localhost";
