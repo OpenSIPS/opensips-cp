@@ -50,7 +50,7 @@ if ($search_end!="") {
 }
 
 if (($cdr_field!="") && ($search_regexp!="")) {
-	$sql_search.=' and '.$cdr_field.' like ?' ;
+	$sql_search.=" and '".$cdr_field."' like ?" ;
 	array_push( $sql_vals, "%".$search_regexp."%");
 }
 
