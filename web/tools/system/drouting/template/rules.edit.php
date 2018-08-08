@@ -54,7 +54,7 @@
   <td class="dataRecord"><input type="text" name="prefix" value="<?=$resultset[0]['prefix']?>" style="width:230px;" maxlength="64" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord">Time Recurrence<br><br><center><img src="images/info.gif" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
+  <td class="dataRecord">Time Recurrence<br><br><center><img src="../../../images/share/info.png" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
   <td class="dataRecord">
    
    <?=parse_timerec($resultset[0]['timerec'],0)?><hr>
