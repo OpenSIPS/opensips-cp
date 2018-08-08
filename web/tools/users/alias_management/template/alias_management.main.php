@@ -215,10 +215,11 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 } else {
 
 	$sql_command="from ".$table.$sql_search;
-	$data_no = $link->queryOne("select count(*) ".$sql_command);
-	if(PEAR::isError($data_no)) {
-	        die('Failed to issue query, error message : ' . $data_no->getMessage());
-	}	
+	$stm = $link->prepare("select count(*) ".$sql_command);
+	if ($stm === FALSE)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+	$data_no = $stm->fetchColumn(0);;
 	if ($data_no==0)
 		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 	else { 
@@ -233,10 +234,11 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
         $start_limit=($page-1)*$res;
         if ($start_limit==0) $sql_command.=" order by id asc limit ".$res;
         else $sql_command.=" limit ".$res." order by id asc OFFSET " . $start_limit;
-        $resultset = $link->queryAll("select * ".$sql_command);
-        if(PEAR::isError($resultset)) {
-                die('Failed to issue query, error message : ' . $resultset->getMessage());
-        }
+	$stm = $link->prepare("select * ".$sql_command);
+	if ($stm === FALSE)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute( $sql_vals );
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
         $index_row=0;
         $i=0;
         while (count($resultset)>$i)

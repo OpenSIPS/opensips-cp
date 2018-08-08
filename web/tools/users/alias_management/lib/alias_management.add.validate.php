@@ -56,11 +56,14 @@ foreach ($config->table_aliases as $key=>$value) {
 		$table =  $options[$i]['value'];
 }
 
-$sql_command = "select * from ".$table." where alias_username = '".$alias_username."'";
-$resultset = $link->queryAll($sql_command);
-if(PEAR::isError($resultset)) {
-    die('Failed to issue query, error message : ' . $resultset->getMessage());
-}	
+$sql_command = "select * from ".$table." where alias_username = ?";
+$stm = $link->prepare($sql_command);
+if ($stm === false) {
+	die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+}
+$stm->execute( array($alias_username) );
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+
 $aliasexists=0;
 
 if (count($resultset)>0) {
