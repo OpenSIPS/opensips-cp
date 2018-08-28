@@ -58,9 +58,11 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 							<?php } ?>
 						</td>
 						<?php if (!isset($value['validation_regex']))
-							$validate="";
+							$regex = "null";
 						else
-							$validate=" opt='".$value['is_optional']."' valid='ok' oninput='validate_input(\"".$key."\", \"".$key."_ok\",\"".$value['validation_regex']."\")'";
+							$regex = '"'.$value['validation_regex'].'"';
+						$opt = isset($value['is_optional'])?$value['is_optional']:"y";
+						$validate=" opt='".$opt."' valid='ok' oninput='validate_input(\"".$key."\", \"".$key."_ok\",".$regex.")'";
 						?>
 						<td class="dataRecord" width="275">
 							<table style="width:100%"><tr><td>
@@ -76,6 +78,14 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 									<?php break; ?>	
 							<?php 	case "combo": ?>
 									<?php print_custom_combo($key, $value, isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value'], FALSE); ?>
+									<?php break; ?>	
+							<?php case "textarea": ?>
+								<textarea id="<?=$key?>" 
+									name="<?=$key?>" 
+									class="dataInput" 
+									style="height:100px"
+									<?=$validate?>
+									><?php if (isset($_SESSION[$key])) echo $_SESSION[$key]; else echo $resultset[0][$key];?></textarea>
 									<?php break; ?>	
 							<?php } ?>
 							</td>

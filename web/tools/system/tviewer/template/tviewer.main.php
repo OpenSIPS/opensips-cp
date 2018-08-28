@@ -104,7 +104,8 @@ else {
 					<tr>
 						<td class="searchRecord"><?=$value['header']?></td>
 						<td class="searchRecord" width="200">
-						<?php switch ($value['type']) { 
+						<?php switch ($value['type']) {
+							case "textarea":
 							case "text": ?>
 								<input 	id="<?=$key?>" 
 										name="<?=$key?>" 
@@ -202,10 +203,23 @@ else {
 								if ( isset($value['visible']) && $value['visible']==false)
 									continue;
 								echo "<td class='".$row_style."'>";
-								if ($value['type']=="combo") {
+								switch ($value['type']) {
+								case "combo":
 									$text = isset($resultset[$i][$key]) ? $combo_cache[$key][ $resultset[$i][$key] ]['display'] : "";
-								} else {
+									break;
+								case "text":
 									$text = $resultset[$i][$key];
+									break;
+								case "textarea":
+									if (isset($value['textarea_display_size']))
+										$size = $value['textarea_display_size'];
+									else
+										$size = 50;
+									if (strlen($resultset[$i][$key]) > ($size + 3/* ... */))
+										$text = substr($resultset[$i][$key], 0, $size)."...";
+									else
+										$text = $resultset[$i][$key];
+									break;
 								}
 								if (isset($value['value_wrapper_func']))
 									echo $value['value_wrapper_func']( $key, $text, $resultset[$i] );

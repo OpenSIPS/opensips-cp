@@ -71,7 +71,7 @@ Example table: table1
 /*
  Columns definition:
 	- header - the header title used to label this column (mandatory)
-	- type - how to display/handle the data - text / combo (mandatory)
+	- type - how to display/handle the data - text / combo / textarea (mandatory)
 	- key - the key restrictions for this column (they will be checked prior to DB op) - PRI/UNI (optional)
 	- tip - tip/explanation to be attached to this column in the add/edit forms (optional)
 	- validation_regex - a regular expression to check the inserted value; only for text type (optional)
@@ -104,6 +104,8 @@ Example table: table1
 	- events - a string that optionaly may define JS events for the input/select field
 		Example: "onChange=\"runJSfunction();\" "
  
+	- textarea_display_size - optional value used when a textarea_label_column is not specified, and
+		 indicates how many characters should be shown from the text area content. Default is 50.
 */
 
  /*

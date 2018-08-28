@@ -23,8 +23,22 @@
 
 <script language="JavaScript">
 
+function get_elements() {
+	var arr=[];
+
+	/* we need to support elements from both inputs and textareas now */
+	var inputs = document.getElementsByTagName('input');
+	var textareas = document.getElementsByTagName('textarea');
+
+	for (var i = 0; i < inputs.length; i++)
+		arr.push(inputs[i]);
+	for (var i = 0; i < textareas.length; i++)
+		arr.push(textareas[i]);
+	return arr;
+}
+
 function form_init_status() {
-	elem = document.getElementsByTagName("input");
+	elem = get_elements();
 
 	for(var i = 0; i < elem.length; i++) {
 		if (elem[i].oninput)
@@ -33,7 +47,7 @@ function form_init_status() {
 }
 
 function form_full_check() {
-	elem = document.getElementsByTagName("input");
+	elem = get_elements();
 	ret = true;
 	button = null;
 
@@ -55,7 +69,6 @@ function form_full_check() {
 
 function validate_input(field, output, regex){
 	val = document.getElementById(field).value;
-	re = new RegExp( regex,"g");
 	if (val=="") {
 		if (document.getElementById(field).getAttribute("opt")=="y")
 			document.getElementById(output).innerHTML = '';
@@ -63,7 +76,7 @@ function validate_input(field, output, regex){
 			document.getElementById(output).innerHTML = '<img src="../../../images/share/must-icon.png">';
 		document.getElementById(field).setAttribute("valid","ko");
 		ret =-1;
-	} else if (val.match(re) ) {
+	} else if (regex == null || val.match(new RegExp( regex,"g")) ) {
 		document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
 		document.getElementById(field).setAttribute("valid","ok");
 		ret = 1;

@@ -45,13 +45,14 @@ else if (isset($success) && $success!="")
 							<?php } ?>
 						</td>
 						<?php if (!isset($value['validation_regex']))
-							$validate="";
+							$regex = "null";
 						else
-							$validate=" opt='".$value['is_optional']."' oninput='validate_input(\"".$key."\", \"".$key."_ok\",\"".$value['validation_regex']."\")'";
+							$regex = '"'.$value['validation_regex'].'"';
+						$opt = isset($value['is_optional'])?$value['is_optional']:"y";
+						$validate=" opt='".$opt."' oninput='validate_input(\"".$key."\", \"".$key."_ok\",".$regex.")'";
 						?>
 						<td class="dataRecord" width="275">
 							<table style="width:100%"><tr><td>
-
 							<?php switch ($value['type']) { 
 								case "text": ?>
 									<input 	id="<?=$key?>" 
@@ -65,8 +66,15 @@ else if (isset($success) && $success!="")
 							<?php 	case "combo": ?>
 									<?php print_custom_combo($key,$value, $value['default_value'], FALSE); ?>
 									<?php break; ?>	
+							<?php case "textarea": ?>
+								<textarea id="<?=$key?>" 
+									name="<?=$key?>" 
+									class="dataInput" 
+									style="height:100px"
+									<?=$validate?>
+									></textarea>
+									<?php break; ?>	
 							<?php } ?>
-
 							</td>
 							<td width='20'>
 							<?php echo("<div id='".$key."_ok'></div>"); ?>
