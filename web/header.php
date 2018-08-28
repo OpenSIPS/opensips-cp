@@ -39,7 +39,7 @@
     <table>
       <tr>
 	<td align="right">
-          <a onclick="top.frames['main_body'].location.href='tools/admin/list_admins/list_admins.php';" href="#" class="headerLogout" id="menu_admin">Users</a>
+          <a onclick="top.frames['main_body'].location.href='tools/admin/list_admins/index.php';" href="#" class="headerLogout" id="menu_admin">Users</a>
 	</td>
 	<td align="right">
 	  <a href="logout.php" target="_parent" class="headerLogout" id="menu_logout">Logout</a>
