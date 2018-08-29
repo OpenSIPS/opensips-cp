@@ -90,7 +90,7 @@
 				next($pointList);
 
 				$label = $point->getX();
-				if ($i%100 == 0||$i == $pointcount-1)
+				if ($i%100 == 0||$i == $pointCount-1)
 				$text->printDiagonal($img, $x - 5, $graphArea->y2 + 10, $this->plot->getTextColor(), $label);
 			}
 		}
