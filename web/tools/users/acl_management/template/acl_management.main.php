@@ -73,7 +73,7 @@ if(!$_SESSION['read_only']){
 	<td colspan="2" class="searchRecord border-bottom-devider" align="center">
 		<input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
 		<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;
-<?
+<?php
 if(!$_SESSION['read_only']){
 	echo('<input type="submit" class="formButton" name="delete" value="Delete" onclick="return confirmDeleteACL()">');
 }
@@ -97,7 +97,7 @@ if(!$_SESSION['read_only']){
 <th class="listTitle">Username</th>
 <th class="listTitle">Domain</th>
 <th class="listTitle">Group</th>
-<?
+<?php
 if(!$_SESSION['read_only']){
 
 echo('<th class="listTitle">Edit</th>
@@ -156,7 +156,7 @@ echo('<th class="listTitle">Edit</th>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['grp']?></td>
-   <?
+   <?php
    if(!$_SESSION['read_only']){
         echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
               <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');

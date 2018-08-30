@@ -116,14 +116,14 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
  <tr>
   <td class="dataRecord"><b>Attributes:</b></td>
-	<? if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {  ?>	
+	<?php if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {  ?>	
   	<td class="dataRecord"><?=$check_boxes?></td>
-	<? } else if ($dialplan_attributes_mode == 1 ) {  ?>	
+	<?php } else if ($dialplan_attributes_mode == 1 ) {  ?>	
 
 	  <td class="dataRecord" width="275"><input type="text" name="attrs" 
   	value="<?=$resultset[0]['attrs']?>" maxlength="128" class="dataInput"></td>
 
-	<? } ?>
+	<?php } ?>
  </tr>
 
  <tr>
@@ -132,7 +132,7 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
       <tr>
 	<td class="dataRecord" align="right" width="50%">
 <input type="submit" name="save" value="Save" class="formButton"></td>
-        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+        <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
   </td>

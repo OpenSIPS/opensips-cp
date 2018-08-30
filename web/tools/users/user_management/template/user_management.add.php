@@ -76,7 +76,7 @@
 		echo('<input type="submit" name="adduser" value="Register" class="formButton">&nbsp;&nbsp;&nbsp;');
 	}?>
 	</td>
-        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+        <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
  </tr>

@@ -90,7 +90,7 @@
 <form action="<?=$page_name?>?action=add" method="post">
   <input type="submit" name="add_new" value="Add Record" class="formButton"> &nbsp;&nbsp;&nbsp;
 </form>
-<? } ?>
+<?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">

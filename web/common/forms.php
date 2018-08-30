@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * Copyright (C) 2017 OpenSIPS Project
 *

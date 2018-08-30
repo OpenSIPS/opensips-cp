@@ -65,7 +65,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="add_new" value="Add New Rule" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<? } ?>
+<?php } ?>
 
 <table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -77,7 +77,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Substitution Regular Expression</th>
   <th class="listTitle">Replacement Expression</th>
   <th class="listTitle">Atrributes</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit</th>
@@ -146,7 +146,7 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['subst_exp']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['repl_exp']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$attrs?></td>
-   <? 
+   <?php 
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
 	      <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>

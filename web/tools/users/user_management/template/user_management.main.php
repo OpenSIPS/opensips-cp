@@ -154,7 +154,7 @@ if ( $users == "online_usr" ) {
   <th class="listTitle">Username</th>
   <th class="listTitle">Email Address</th>
   
-  <?
+  <?php
 	foreach ( $config->subs_extra as $key => $value ) {
     	echo ('<th class="listTitle">'.$value.'</th>');
 		$colspan++;
@@ -251,7 +251,7 @@ else
 	</a>
   </td>
 
-   <? 
+   <?php 
 
 	if ($has_alias){
 		echo('<td class="'.$row_style.'Img" align="center">'.$alias_link.'</td>');

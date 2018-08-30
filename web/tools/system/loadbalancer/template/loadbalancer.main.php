@@ -71,7 +71,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="refresh" value="Refresh from Server" class="searchButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<? } ?>
+<?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -83,7 +83,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Auto Re-enable</th>
   <th class="listTitle">Status</th>
   <th class="listTitle">Description</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit</th>
@@ -185,22 +185,22 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$lb_probing_modes[$result[$i]['probe_mode']]?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$lb_auto[$id]?></td>
 			<td class="<?=$row_style?>">&nbsp;
-			<? 
+			<?php 
                         if ($lb_state[$id]==NULL) {
 				echo "-";
 			} else if ($_SESSION['read_only']) {
 			?>
 				<img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
-			<?
+			<?php
 			} else {
 			?>	
 				<a href="<?=$page_name?>Img?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
-			<?
+			<?php
 			}
 			?>
 			</td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
-			<? 
+			<?php 
 			if(!$_SESSION['read_only']){
 				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a></td>');
 				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a></td>');

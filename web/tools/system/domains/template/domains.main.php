@@ -58,11 +58,11 @@ if (!$_SESSION[read_only]) {
 		<tr>
 			<td colspan="2" align="center">
 			    <input type="submit" name="add" disabled=true value="<?=$button?>" class="formButton">&nbsp;&nbsp;&nbsp;
-			    <? if ($action=="edit") {?>
-			    <? print_back_input(); ?>
-			    <? } else { ?>
+			    <?php if ($action=="edit") {?>
+			    <?php print_back_input(); ?>
+			    <?php } else { ?>
   			    <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
-			    <? } ?>
+			    <?php } ?>
 			</td>
 		</tr>
 		</table>

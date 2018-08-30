@@ -64,28 +64,28 @@ if (($cdr_field!="") && ($search_regexp!="")) {
  <td class="searchRecord" style="width:100px!important">
   <label><input type="checkbox" name="set_text_regex" value="set" onChange="changeState_cdr_field()" <?php if($search_regexp!="") echo('checked') ?>>CDR field</label></td>
   <td class="searchRecord" > 
- <select name="cdr_field" class="dataSelect" style="width:100px!important" id="select_cdr_field" <?  if ($search_regexp=="") echo 'disabled="true"' ; ?> >
- <? if (!isset($cdr_field)) {
+ <select name="cdr_field" class="dataSelect" style="width:100px!important" id="select_cdr_field" <?php  if ($search_regexp=="") echo 'disabled="true"' ; ?> >
+ <?php if (!isset($cdr_field)) {
 
  } ?>
  
- <? for ($i =0 ; $i < count($show_field) ; $i++) { 
+ <?php for ($i =0 ; $i < count($show_field) ; $i++) { 
 
  	if ($cdr_field == key($show_field[$i]) ) { 		?>
 
- 	 <option value=<?echo key($show_field[$i]) ?>  selected > <?echo $show_field[$i][key($show_field[$i])]?></option>
+ 	 <option value=<?php echo key($show_field[$i]) ?>  selected > <?php echo $show_field[$i][key($show_field[$i])]?></option>
 
- 	 <? } else { ?>
+ 	 <?php } else { ?>
  
- <option value=<?echo key($show_field[$i]) ?> > <?echo $show_field[$i][key($show_field[$i])]?></option>
+ <option value=<?php echo key($show_field[$i]) ?> > <?php echo $show_field[$i][key($show_field[$i])]?></option>
            
- <? } ?>  
- <? } ?>
+ <?php } ?>  
+ <?php } ?>
 
  </select>
 
 
-  <input type="text" name="search_regexp" style="width:310px!important" id="search_regexp" value="<?=$search_regexp?>" maxlength="128" class="searchInput" <?  if ($search_regexp=="")  echo 'disabled="true"' ; ?> ></td>
+  <input type="text" name="search_regexp" style="width:310px!important" id="search_regexp" value="<?=$search_regexp?>" maxlength="128" class="searchInput" <?php  if ($search_regexp=="")  echo 'disabled="true"' ; ?> ></td>
 
   </tr>
 
@@ -114,7 +114,7 @@ if (($cdr_field!="") && ($search_regexp!="")) {
  </table>
 </form>
 
-<?
+<?php
 $stm = $link->prepare("select count(*) ".$sql_search);
 if ($stm === false) {
 	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
@@ -163,18 +163,18 @@ else
 	<table class="ttable" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">
      <tr align="center">
 
- 	  <? for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
+ 	  <?php for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
      
  	  		
- 	  	<th class="listTitle" align="center"><?echo $show_field[$i][key($show_field[$i])]?></th>
+ 	  	<th class="listTitle" align="center"><?php echo $show_field[$i][key($show_field[$i])]?></th>
 
 
- 	  <? } ?>
+ 	  <?php } ?>
      	   
  	  	<th class="listTitle" align="center">Details</th>
     </tr>
 	
-	<?
+	<?php
 
 
 	$k = 0 ;
@@ -202,18 +202,18 @@ else
 	   $this_cdr_id = $result[$j][$cdr_id_field_name];
 	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
 	   ?>
-	   <td class="<?=$row_style?>Img" align="center"><?print $details_cdr?></td>
+	   <td class="<?=$row_style?>Img" align="center"><?php print $details_cdr?></td>
 
 	   </tr>
 
-<?      		
+<?php      		
 $k++ ;
 	}
 }
 
 ?>
 <tr>
-  <th colspan="<?print(count($show_field)+1)?>">
+  <th colspan="<?php print(count($show_field)+1)?>">
     <table class="pagingTable">
      <tr>
       <th align="left">Page:

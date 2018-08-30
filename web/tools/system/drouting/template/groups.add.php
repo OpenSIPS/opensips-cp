@@ -55,7 +55,7 @@
       <tr>
       <td class="dataRecord" align="right" width="50%">
 	<input type="submit" name="add" value="Add" class="formButton"></td>
-      <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
  </tr>

@@ -51,7 +51,7 @@ $lb_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 		<tr>
 		<td class="dataRecord" align="right" width="50%">
 		<input type="submit" name="add" value="Save" class="formButton">
-		<td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+		<td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
 		</tr>
 		</table>
   	</td>

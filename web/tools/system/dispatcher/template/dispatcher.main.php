@@ -106,7 +106,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="add_new" value="Add Destination" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<? } ?>
+<?php } ?>
 
 
 
@@ -119,7 +119,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Attributes</th>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
   	echo('<th class="listTitle">Memory State</th>
 
@@ -197,7 +197,7 @@ else
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['attrs']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['description']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$db_state?></td>
-  <? 
+  <?php 
    if(!$_SESSION['read_only']){
    	echo '<td class="'.$row_style.'Img" align="center">'.$state_link.'</td>';
    	echo '<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>';

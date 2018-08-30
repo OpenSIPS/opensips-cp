@@ -87,7 +87,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Username</th>
   <th class="listTitle">Name</th>
   <th class="listTitle">Access</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit Info</th>
