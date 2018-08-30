@@ -51,11 +51,11 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 					<tr>
 						<td class="dataRecord">
 							<label for="<?=$key?>"><b><?=$value['header']?></b></label>
-							<?if (isset($value['tip']) && $value['tip']!="") { ?>
+							<?php if (isset($value['tip']) && $value['tip']!="") { ?>
 							<div class='tooltip'><sup>?</sup>
 							<span class='tooltiptext'><?=$value['tip']?></span>
 							</div>
-							<? } ?>
+							<?php } ?>
 						</td>
 						<?php if (!isset($value['validation_regex']))
 							$validate="";
@@ -80,7 +80,7 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 							<?php } ?>
 							</td>
 							<td width='20'>
-							<?echo("<div id='".$key."_ok'></div>"); ?>
+							<?php echo("<div id='".$key."_ok'></div>"); ?>
 							</td></tr></table>
 
 
@@ -93,7 +93,7 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Update" class="formButton">
 							<input type="button" value="Reset" class="formButton" onclick="window.location.href='tviewer.php?action=edit&id=<?=$id?>'">
-							<? print_back_input(); ?>
+							<?php print_back_input(); ?>
 						</td>
 					</tr>
 

@@ -108,7 +108,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="add_new" value="Add RTPproxy" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<? } ?>
+<?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -117,7 +117,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Setid</th>
   <th class="listTitle">Weight</th>
   <th class="listTitle">Ticks</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
   	echo('<th class="listTitle">Memory State</th>');
   	echo('<th class="listTitle">Edit</th>'); 
@@ -177,7 +177,7 @@ if(!$_SESSION['read_only']){
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['set_id']?></td>
 <td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['weight'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['weight']:"n/a"?></td>
 <td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['ticks'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['ticks']:"n/a"?></td>
-<? 
+<?php 
 if(!$_SESSION['read_only']){
 ?>
 <td class="<?=$row_style?>Img" align="center"><?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['state_link'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['state_link']:"n/a"?></td>

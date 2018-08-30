@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * Copyright (C) 2011 OpenSIPS Project
 *
@@ -38,11 +38,11 @@ else if (isset($success) && $success!="")
 					<tr>
 						<td class="dataRecord">
 							<label for="<?=$key?>"><b><?=$value['header']?></b></label>
-							<?if (isset($value['tip']) && $value['tip']!="") { ?>
+							<?php if (isset($value['tip']) && $value['tip']!="") { ?>
 							<div class='tooltip'><sup>?</sup>
 							<span class='tooltiptext'><?=$value['tip']?></span>
 							</div>
-							<? } ?>
+							<?php } ?>
 						</td>
 						<?php if (!isset($value['validation_regex']))
 							$validate="";
@@ -69,7 +69,7 @@ else if (isset($success) && $success!="")
 
 							</td>
 							<td width='20'>
-							<?echo("<div id='".$key."_ok'></div>"); ?>
+							<?php echo("<div id='".$key."_ok'></div>"); ?>
 							</td></tr></table>
 
 
@@ -82,7 +82,7 @@ else if (isset($success) && $success!="")
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Add" class="formButton">
 							<input type="button" value="Reset" class="formButton" href="javascript:;" onclick="document.getElementById('addnewentry').reset();">
-							<? print_back_input(); ?>
+							<?php print_back_input(); ?>
 						</td>
 					</tr>
 

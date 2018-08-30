@@ -72,7 +72,7 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <th class="listTitle">Alias Type</th>
 <th class="listTitle">Username</th>
 <th class="listTitle">Domain</th>
-<?
+<?php
 if(!$_SESSION['read_only']){
 
 echo('<th class="listTitle">Edit</th>
@@ -165,7 +165,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
   <td class="<?=$row_style?>">&nbsp;<?=$table?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
-   <?
+   <?php
    if(!$_SESSION['read_only']){
         echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
               <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
@@ -261,7 +261,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
   <td class="<?=$row_style?>">&nbsp;<?=$table?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
-   <?
+   <?php
    if(!$_SESSION['read_only']){
         echo('<td class="'.$row_style.'" align="center">'.$edit_link.'</td>
                           <td class="'.$row_style.'" align="center">'.$delete_link.'</td>');

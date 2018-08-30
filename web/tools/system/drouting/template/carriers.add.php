@@ -77,8 +77,8 @@
 	</td>
 	<td class="dataRecord" width="200">
 		<select id="state" name="state" class="dataSelect" style="width: 275px;">
-			<option value="0" <? if (isset($state) && $state == 0) echo "selected"; ?>>0 - Active</option>
-			<option value="1" <? if (isset($state) && $state == 1) echo "selected"; ?>>1 - Inactive</option>
+			<option value="0" <?php if (isset($state) && $state == 0) echo "selected"; ?>>0 - Active</option>
+			<option value="1" <?php if (isset($state) && $state == 1) echo "selected"; ?>>1 - Inactive</option>
 		</select>
 	</td>
  </tr>
@@ -96,7 +96,7 @@
       <tr>
       <td class="dataRecord" align="right" width="50%">
       <input type="submit" name="edit" value="Add" class="formButton"></td>
-      <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+      <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
  </tr>

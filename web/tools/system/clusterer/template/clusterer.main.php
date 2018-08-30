@@ -70,7 +70,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="add_new" value="Add Node" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<? } ?>
+<?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -82,7 +82,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">SIP address</th>
   <th class="listTitle">Flags</th>
   <th class="listTitle">Description</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit</th>
@@ -119,7 +119,7 @@ else
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['node_id']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['url']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['no_ping_retries']?></td>
-			<?
+			<?php
 			$state = ($resultset[$i]["state"]=="1")?"Active":"Inactive";
 			if($_SESSION['read_only']){
 				$state_info= '<img src="../../../images/share/'.strtolower($state).'.png" alt="'.$state.'">';
@@ -131,7 +131,7 @@ else
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['sip_addr']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['flags']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['description']?></td>
- 			<? 
+ 			<?php 
  			if(!$_SESSION['read_only']){
 				echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
 	 			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');

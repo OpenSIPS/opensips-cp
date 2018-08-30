@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * Copyright (C) 2011 OpenSIPS Project
 *
@@ -130,14 +130,14 @@ $match_op_sel.= '</select>';
  <tr>
   <td class="dataRecord"><b>Attributes</b></td>
 
-  <? if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {  ?>	
+  <?php if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {  ?>	
   	<td class="dataRecord"><?=$check_boxes?></td>
-	<? } else if ($dialplan_attributes_mode == 1 ) {  ?>	
+	<?php } else if ($dialplan_attributes_mode == 1 ) {  ?>	
 
 	  <td class="dataRecord" width="275"><input type="text" name="attrs" 
   	value="<?=$row['attrs']?>" maxlength="128" class="dataInput"></td>
 
-	<? } ?>
+	<?php } ?>
   
  </tr>
 
@@ -147,7 +147,7 @@ $match_op_sel.= '</select>';
       <tr>
 	<td class="dataRecord" align="right" width="50%">
 	<input type="submit" name="add" value="Add" class="formButton"></td>
-        <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+        <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
   </td>

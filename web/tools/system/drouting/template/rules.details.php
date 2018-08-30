@@ -64,4 +64,4 @@
  </tr>
 </table>
 <br>
-<? print_back_button(); ?>
+<?php print_back_button(); ?>

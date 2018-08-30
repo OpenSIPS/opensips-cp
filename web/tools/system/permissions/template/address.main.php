@@ -96,7 +96,7 @@ if(!$_SESSION['read_only']){
   <input type="submit" name="add_new" value="Add Address" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
-<? } ?>
+<?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -107,7 +107,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Protocol</th>
   <th class="listTitle">Pattern</th>
   <th class="listTitle">Context Info</th>
-  <?
+  <?php
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit</th>
@@ -164,7 +164,7 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['proto']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['pattern']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['context_info']?></td>
-   <? 
+   <?php 
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
 	  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');

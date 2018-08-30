@@ -1,4 +1,4 @@
-<?
+<?php
 /*
 * Copyright (C) 2011 OpenSIPS Project
 *
@@ -44,7 +44,7 @@ $dpid=$_POST['dialplan_id'];
  </tr>
 </table>
 </form>
-<? print_back_button(); ?>
+<?php print_back_button(); ?>
 
 <?php/*
  $sql = "SELECT * FROM ".$table." WHERE dpid=?";

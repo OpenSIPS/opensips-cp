@@ -78,20 +78,20 @@
 	</td>
 	<td class="dataRecord" width="200">
 		<select id="state" name="state" class="dataSelect" style="width: 275px;">
-			<option value="0" <? if (isset($resultset[0]['state']) && $resultset[0]['state'] == 0) echo "selected"; ?>>0 - Active</option>
-			<option value="1" <? if (isset($resultset[0]['state']) && $resultset[0]['state'] == 1) echo "selected"; ?>>1 - Inactive</option>
-			<option value="2" <? if (isset($resultset[0]['state']) && $resultset[0]['state'] == 2) echo "selected"; ?>>2 - Probing</option>
+			<option value="0" <?php if (isset($resultset[0]['state']) && $resultset[0]['state'] == 0) echo "selected"; ?>>0 - Active</option>
+			<option value="1" <?php if (isset($resultset[0]['state']) && $resultset[0]['state'] == 1) echo "selected"; ?>>1 - Inactive</option>
+			<option value="2" <?php if (isset($resultset[0]['state']) && $resultset[0]['state'] == 2) echo "selected"; ?>>2 - Probing</option>
 		</select>
 	</td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Attributes</b></td>
-  <td class="dataRecord"><input type="text" name="attrs" value="<? echo htmlspecialchars($resultset[0]['attrs']);?>" maxlength="16" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?php echo htmlspecialchars($resultset[0]['attrs']);?>" maxlength="16" class="dataInput"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Description</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<? echo htmlspecialchars($resultset[0]['description']);?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><input type="text" name="description" value="<?php echo htmlspecialchars($resultset[0]['description']);?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td colspan="2">
@@ -99,7 +99,7 @@
     <tr>
     <td class="dataRecord" align="right" width="50%">
     <input type="submit" name="edit" value="Save" class="formButton"></td>
-    <td class="dataRecord" align="left" width="50%"><? print_back_input(); ?></td>
+    <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
     </tr>
     </table>
  </tr>
