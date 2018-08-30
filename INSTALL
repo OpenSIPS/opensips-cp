@@ -70,10 +70,6 @@ Check if these extensions are enabled :
     for redhat check /etc/php.d/ for mysql.ini, gd.ini, xmlrpc.in
 
 If these are not there plese check if you have installed them correctly.
-
-Do not forget to set in your php.ini (usaully /etc/php5/apache2/php.ini ) :
-
-	short_open_tag = On ;
 	
 
 MDB2 pear needs to be installed with the appropriate DB driver (mysql / postgresql / mssql / sqlite etc.)
