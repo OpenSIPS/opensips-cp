@@ -44,6 +44,7 @@ $link=NULL;
 
 	<?php
 	require("dispatcher.form.php");
+	$link=NULL;
 	?>
 
 

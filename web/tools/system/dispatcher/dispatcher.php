@@ -191,18 +191,32 @@ if ($action=="delete")
 if ($action=="ds_search")
 {
 
-	$_SESSION['dispatcher_id']=$_POST['dispatcher_id'];
-
 	$_SESSION[$current_page]=1;
+	extract($_GET);
 	extract($_POST);
 	if ($show_all=="Show All") {
 		$_SESSION['dispatcher_setid']="";
 		$_SESSION['dispatcher_dest']="";
 		$_SESSION['dispatcher_descr']="";
 	} else if($search=="Search"){
-		$_SESSION['dispatcher_setid']=$_POST['dispatcher_setid'];
-		$_SESSION['dispatcher_dest']=$_POST['dispatcher_dest'];
-		$_SESSION['dispatcher_descr']=$_POST['dispatcher_descr'];
+		if (isset($_GET['dispatcher_setid']))
+			$_SESSION['dispatcher_setid']=$_GET['dispatcher_setid'];
+		else if (isset($_POST['dispatcher_setid']))
+			$_SESSION['dispatcher_setid']=$_POST['dispatcher_setid'];
+		else
+			$_SESSION['dispatcher_setid']="";
+		if (isset($_GET['dispatcher_dest']))
+			$_SESSION['dispatcher_dest']=$_GET['dispatcher_dest'];
+		else if (isset($_POST['dispatcher_dest']))
+			$_SESSION['dispatcher_dest']=$_POST['dispatcher_dest'];
+		else
+			$_SESSION['dispatcher_dest']="";
+		if (isset($_GET['dispatcher_descr']))
+			$_SESSION['dispatcher_descr']=$_GET['dispatcher_descr'];
+		else if (isset($_POST['dispatcher_descr']))
+			$_SESSION['dispatcher_descr']=$_POST['dispatcher_descr'];
+		else
+			$_SESSION['dispatcher_descr']="";
 	}
 }
 ##############

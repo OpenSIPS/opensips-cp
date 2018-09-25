@@ -51,10 +51,58 @@ $search_setid=$_SESSION['dispatcher_setid'];
 $search_dest=$_SESSION['dispatcher_dest'];
 $search_descr=$_SESSION['dispatcher_descr'];
 
-if($search_setid !="") {
+if (isset($config->dispatcher_groups)) {
+	/* cache sets in set_cache */
+	$set_cache = array();
+	switch ($config->dispatcher_groups['type']) {
+	case "database":
+		$query = "SELECT " .
+			$config->dispatcher_groups['id'] . " AS id, " .
+			$config->dispatcher_groups['name'] . " AS name " .
+			"FROM " . $config->dispatcher_groups['table'];
+
+		$set_values = array();
+		// fetch only the subset we need  for the groups that might match
+		if ($search_setid !="") {
+			$query .= " WHERE " . $config->dispatcher_groups['name'] . " LIKE ?";
+			array_push($set_values, "%".$search_setid."%");
+		}
+		$stm = $link->prepare($query);
+		if ($stm===FALSE) {
+			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
+		}
+		$stm->execute($set_values);
+		$results = $stm->fetchAll();
+		foreach ($results as $key => $value)
+			$set_cache[$value['id']] = $value['name'];
+		break;
+
+	case "array":
+		if ($search_setid !="") {
+			foreach ($config->dispatcher_groups['array'] as $key => $value) {
+				if (strpos($value, $search_setid) !== false)
+					$set_cache[$key] = $value;
+			}
+		} else
+			$set_cache = $config->dispatcher_groups['array'];
+		break;
+	}
+	if ($search_setid !="" && count($set_cache) != 0) {
+		/* here set_cache contains all the values */
+		$results_no = count($set_cache);
+		if ($results_no > 1) {
+			$inclause=implode(',',array_fill(0,$results_no,'?'));
+			$sql_search.=" and setid IN (" . $inclause . ")";
+		} else
+			$sql_search.=" and setid=?";
+		foreach ($set_cache as $key => $value)
+			array_push($sql_vals, $key);
+	}
+} else if ($search_setid != "") {
 	$sql_search.=" and setid=?";
 	array_push( $sql_vals, $search_setid);
 }
+
 if($search_dest !="") {
 	$sql_search.=" and destination like ?";
 	array_push( $sql_vals, "%".$search_dest."%");
@@ -129,14 +177,18 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="from ".$table." order by id asc";
-else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
-$stm = $link->prepare("select count(*) ".$sql_command);
-if ($stm===FALSE) {
+if (isset($config->dispatcher_groups) && count($set_cache) == 0) {
+	$data_no = 0; /* didn't find any available set :(, no need to query anything */
+} else {
+	if ($sql_search=="") $sql_command="from ".$table." order by id asc";
+	else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
+	$stm = $link->prepare("select count(*) ".$sql_command);
+	if ($stm===FALSE) {
 	die('Failed to issue query [select count (*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
+	}
+	$stm->execute( $sql_vals );
+	$data_no = $stm->fetchColumn(0);
 }
-$stm->execute( $sql_vals );
-$data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -190,7 +242,14 @@ else
 
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['setid']?></td>
+  <td class="<?=$row_style?>">&nbsp;
+<?php
+		if (isset($config->dispatcher_groups) && isset($set_cache[$resultset[$i]['setid']])) {
+			echo ($set_cache[$resultset[$i]['setid']]);
+		} else {
+			echo ($resultset[$i]['setid']);
+		}
+?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['destination']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['socket']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['weight']?></td>
