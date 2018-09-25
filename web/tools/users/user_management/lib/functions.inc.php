@@ -20,18 +20,21 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+function get_alias_types()
+{
+        global $config;
+        require("../../../../config/globals.php");
+	$aliases = array();
+        foreach ($config->table_aliases as $key=>$value)
+                $aliases[]=array("label"=>$key,"value"=>$value);
+	return $aliases;
+}
 
 function print_aliasType($value)
 {
-
-        global $config;
         $domain = $value;
-        require("../../../../config/globals.php");
-        foreach ($config->table_aliases as $key=>$value) {
-                $options[]=array("label"=>$key,"value"=>$value);
-        }
+	$options = get_alias_types();
         $start_index = 0;
-	$temp = '';
         $end_index = sizeof($options);
 ?>
         <select name="alias_type" id="alias_type" size="1" style="width: 205px" class="dataSelect">
@@ -57,46 +60,27 @@ function print_aliasType($value)
 
 function print_domains($type,$value,$has_any)
 {
+	require("../../../../web/tools/system/domains/lib/functions.inc.php");
+	$domains = get_domains("user_management", $has_any);
 
-        global $config;
-
-	require("../../../../config/db.inc.php");
-        require("../../../../config/tools/system/domains/local.inc.php");
-        require("../../../../config/tools/system/domains/db.inc.php");
-        require("db_connect.php");
-
-        $table_domains=$config->table_domains;
-
-        $sql="select domain from $table_domains";
-        $stm = $link->query($sql);
-        if ($stm === FALSE)
-		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-	if ($has_any)
-	        $options[]=array("label"=>"ANY","value"=>"ANY");
-        foreach ($result as $k=>$v) {
-                $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);
-        }
-
-        $start_index = 0;
+	$start_index = 0;
 	$temp = '';
-        $end_index = sizeof($options);
+	$end_index = sizeof($domains);
 
-		echo('<select name='.$type.' id='.$type.' size="1" style="width: 205px" class="dataSelect">');
-		if ($value!=NULL && $value!="") {
-			echo('<option value="'.$value. '" selected > '.$value.'</option>');
-			$temp = $value;
-			$value = '';
+	echo('<select name='.$type.' id='.$type.' size="1" style="width: 205px" class="dataSelect">');
+	if ($value!=NULL && $value!="") {
+		echo('<option value="'.$value. '" selected > '.$value.'</option>');
+		$temp = $value;
+		$value = '';
+	}
+	for ($i=$start_index;$i<$end_index;$i++) {
+		if ($domains[$i] == $temp) {
+			continue;
+		} else {
+			echo('<option value="'.$domains[$i]. '"> '.$domains[$i].'</option>');
 		}
-		for ($i=$start_index;$i<$end_index;$i++) {
-			if ($options[$i]['value'] == $temp) {
-				continue;
-			} else {
-				echo('<option value="'.$options[$i]['value']. '"> '.$options[$i]['value'].'</option>');
-			}
-		}
-		echo('</select>');
+	}
+	echo('</select>');
 }
 
 function secs2hms($secs) {

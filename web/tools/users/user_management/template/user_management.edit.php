@@ -38,41 +38,16 @@ $link=NULL;
  <td colspan="2" class="mainTitle" align="center">Edit User Information</td>
  </tr>
 
- <tr>
-  <td class="dataRecord"><b>Username</b></td>
-  <td class="dataRecord" width="200"><input type="text" name="uname" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
- </tr>
- 
- <tr>
-  <td class="dataRecord"><b>Domain</b></td>
-  <td class="dataRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'],FALSE)?></td>
- </tr>
- 
- <tr>
-  <td class="dataRecord"><b>Email</b></td>
-  <td class="dataRecord" width="200"><input type="text" name="email" value="<?=$resultset[0]['email_address']?>" maxlength="128" class="dataInput"></td>
- </tr>
-
 <?php
-	foreach ( $config->subs_extra as $key => $value ) {
+$um_edit = true;
+$um_form['username'] = $resultset[0]['username'];
+$um_form['domain'] = $resultset[0]['domain'];
+foreach ($config->subs_extra as $key => $value)
+	$um_form['extra_'.$key] = $resultset[0][$key];
+$um_form['passwd'] = null;
+$um_form['confirm_passwd'] = null;
+require("user_management.form.php");
 ?>
- <tr>
-  <td class="dataRecord"><b><?=$value?></b></td>
-  <td class="dataRecord" width="200"><input type="text" name="extra_<?=$key?>" value="<?=$resultset[0][$key]?>" maxlength="128" class="dataInput"></td>
- </tr>
-<?php
-    }
-?>
-
- <tr>
-  <td class="dataRecord"><b>New Password</b></td>
-  <td class="dataRecord" width="200"><input type="password" name="passwd" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord"><b>Retype Password</b></td>
-  <td class="dataRecord" width="200"><input type="password" name="r_passwd" maxlength="128" class="dataInput"></td>
- </tr>
 
 <tr>
   <td colspan="2">

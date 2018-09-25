@@ -37,7 +37,6 @@ $sql_vals=array();
 
 $search_uname = $_SESSION['lst_uname'];
 $search_domain = $_SESSION['lst_domain'];
-$search_email = $_SESSION['lst_email'];
 
 ## check what other tools are available
 require("../../../../config/modules.inc.php");
@@ -67,12 +66,13 @@ if (($search_domain!="ANY") && ($search_domain!="")) {
 	$sql_search.=" AND s.domain = ?";
 	array_push( $sql_vals, $search_domain);
 }
-if ($search_email!="") {
-	if (strpos($search_email,"%")===false)
-		$sql_search.=" AND s.email_address = ?";
-	else
-		$sql_search.=" AND s.email_address like ?";
-	array_push( $sql_vals, $search_email);
+foreach ($config->subs_extra as $key => $value) {
+	if (!isset($value["searchable"]) || !$value["searchable"])
+		continue;
+	if (isset($_SESSION['extra_'.$key])) {
+		$sql_search.=" AND s.".$key." like ?";
+		array_push( $sql_vals, '%'.$_SESSION['extra_'.$key].'%');
+	}
 }
 
 if(!$_SESSION['read_only']){
@@ -111,15 +111,23 @@ if ( $users == "online_usr" ) {
   <td class="searchRecord" width="200"><input type="text" name="lst_uname" 
   value="<?=$search_uname?>" maxlength="16" class="searchInput"></td>
  </tr>
- <tr>	
-  <td class="searchRecord" align="left">Domain</td>
-  <td class="searchRecord" width="200"><?php print_domains("lst_domain",$search_domain,TRUE);?> 
- </tr>
  <tr>
-  <td class="searchRecord" align="left">Email</td>
-  <td class="searchRecord" width="200"><input type="text" name="lst_email" 
-  value="<?=$search_email?>" maxlength="16" class="searchInput"></td>
+  <td class="searchRecord" align="left">Domain</td>
+  <td class="searchRecord" width="200"><?php print_domains("lst_domain",$search_domain,TRUE);?></td>
  </tr>
+<?php
+foreach ($config->subs_extra as $key => $value) {
+	if (!isset($value["searchable"]) || !$value["searchable"])
+		continue;
+?>
+ <tr>
+  <td class="searchRecord" align="left"><?=$value["header"]?></td>
+  <td class="searchRecord" width="200"><input type="text" name="extra_<?=$key?>"
+  value="<?=isset($_SESSION['extra_'.$key])?$_SESSION['extra_'.$key]:''?>" maxlength="16" class="searchInput"></td>
+ </tr>
+<?php
+}
+?>
  <tr>
   <td align="right" class="searchRecord"><input type="radio" name="users" 
   value="all_usr" <?php if ($users=="all_usr") echo "checked=\"true\"";?> ></td>
@@ -152,15 +160,16 @@ if ( $users == "online_usr" ) {
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="listTitle">Username</th>
-  <th class="listTitle">Email Address</th>
-  
+
   <?php
 	foreach ( $config->subs_extra as $key => $value ) {
-    	echo ('<th class="listTitle">'.$value.'</th>');
+		if (isset($value["show_in_main_form"]) && !$value["show_in_main_form"])
+			continue;
+		echo ('<th class="listTitle">'.$value['header'].'</th>');
 		$colspan++;
 	}
 	
-    echo ('<th class="listTitle">Contacts</th>');
+	echo ('<th class="listTitle">Contacts</th>');
 
 	if ($has_alias) {
 		echo('<th class="listTitle">Alias</th>');
@@ -237,11 +246,12 @@ else
 ?>
  <tr>
   <td class="<?=$row_style?>"><?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
-  <td class="<?=$row_style?>"><?=$resultset[$i]['email_address']?></td>
 
 <?php
 	foreach ( $config->subs_extra as $key => $value ) {
-    		echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
+		if (isset($value["show_in_main_form"]) && !$value["show_in_main_form"])
+			continue;
+		echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
 	}
 ?>
 

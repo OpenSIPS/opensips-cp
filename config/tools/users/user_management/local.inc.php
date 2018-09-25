@@ -45,7 +45,41 @@
 
 	// Array with optional extra fields for 'subscriber' table
 	// Key is the column name, the value is the Display name
-	$config->subs_extra = array();
-	//$config->subs_extra['first_name'] = "First Name" ;
-	//$config->subs_extra['last_name']  = "Last Name" ;
+	$config->subs_extra = array(
+	/*
+		"first_name" => array(
+			"header"		=> "First Name",
+			"info"			=> "User's first name",
+			"show_in_main_form" 	=> true,
+			"show_in_add_form" 	=> true,
+			"show_in_edit_form"	=> true,
+			"is_optional"           => "y",
+			"searchable"            => true,
+			"validation_regex" 	=> "^.*$",
+			"default_value" 	=> NULL,
+		),
+		"last_name" => array(
+			"header"		=> "Last Name",
+			"info"			=> "User's last name",
+			"show_in_main_form" 	=> true,
+			"show_in_add_form" 	=> true,
+			"show_in_edit_form"	=> true,
+			"is_optional"           => "y",
+			"searchable"            => true,
+			"validation_regex" 	=> "^.*$",
+			"default_value" 	=> NULL,
+		),
+		"email_address" => array(
+			"header"		=> "Email",
+			"info"			=> "User's email address",
+			"show_in_main_form" 	=> true,
+			"show_in_add_form" 	=> true,
+			"show_in_edit_form"	=> true,
+			"is_optional"           => "y",
+			"searchable"            => true,
+			"validation_regex" 	=> "^.*$",
+			"default_value" 	=> NULL,
+		),
+	*/
+	);
 ?>

@@ -99,41 +99,37 @@ if ($action=="modify")
 			$errors = "Invalid data (username and domain are mandatory)! No DataBase change performed";
 		} else {
 			if ($_POST['passwd']!="") {
-				if (($r_passwd=="")||($_POST['passwd']!=$r_passwd)) {
-					$errors = "The new passwords do not match!! No update performed";
-				} else {
-					if ($config->passwd_mode==0) {
-						$ha1  = "";
-						$ha1b = "";
-						$passwd = $_POST['passwd'];
-					} else if ($config->passwd_mode==1) {
-						$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
-						$ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
-						$passwd = "";
-					}
-					$sql = "UPDATE ".$table." SET username=?, domain=?,
-						 email_address=?, password=?, ha1=?, ha1b=?";
-					$sql_vals = array($uname,$domain,$email,$passwd,$ha1,$ha1b);
-					foreach ( $config->subs_extra as $key => $value ) {
-						$sql .= ", ".$key."=?";
-						array_push( $sql_vals, $_POST["extra_".$key]);
-					}
-					$sql .= " WHERE id=?";
-					array_push( $sql_vals, $id);
+				if ($config->passwd_mode==0) {
+					$ha1  = "";
+					$ha1b = "";
+					$passwd = $_POST['passwd'];
+				} else if ($config->passwd_mode==1) {
+					$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
+					$ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
+					$passwd = "";
+				}
+				$sql = "UPDATE ".$table." SET username=?, domain=?,
+					 password=?, ha1=?, ha1b=?";
+				$sql_vals = array($uname,$domain,$passwd,$ha1,$ha1b);
+				foreach ( $config->subs_extra as $key => $value ) {
+					$sql .= ", ".$key."=?";
+					array_push( $sql_vals, $_POST["extra_".$key]);
+				}
+				$sql .= " WHERE id=?";
+				array_push( $sql_vals, $id);
 
-					$stm = $link->prepare($sql);
-					if ($stm === false) {
-						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-					}
-					if ($stm->execute( $sql_vals )==false) {
-						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
-					} else {
-						print "The user's info was modified";
-					}
-				}	
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
+				if ($stm->execute( $sql_vals )==false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
+				} else {
+					print "The user's info was modified";
+				}
 			} else {
-				$sql = "UPDATE ".$table." SET username=?, domain=?, email_address=?";
-				$sql_vals = array($uname,$domain,$email);
+				$sql = "UPDATE ".$table." SET username=?, domain=?";
+				$sql_vals = array($uname,$domain);
 				foreach ( $config->subs_extra as $key => $value ) {
 					$sql .= ", ".$key."=?";
 					array_push( $sql_vals, $_POST["extra_".$key]);
@@ -233,22 +229,30 @@ if ($action=="delete")
 if ($action=="dp_act")
 {
 
-	$_SESSION['list_id']=$_POST['list_id'];
-
 	$_SESSION[$current_page]=1;
 	extract($_POST);
 	if ($show_all=="Show All") {
 		$_SESSION['lst_uname']="";
 		$_SESSION['lst_domain']="";
-		$_SESSION['lst_email']="";
 		$_SESSION['users']="";
+		foreach ($config->subs_extra as $key => $value)
+			$_SESSION['extra_'.$key] = "";
 	} else if($search=="Search"){
-		$_SESSION['lst_uname']=$_POST['lst_uname'];
-		$_SESSION['lst_domain']=$_POST['lst_domain'];
-		$_SESSION['lst_email']=$_POST['lst_email'];
+		$_SESSION['lst_uname']=isset($_POST['lst_uname'])?$_POST['lst_uname']:"";
+		$_SESSION['lst_domain']=isset($_POST['lst_domain'])?$_POST['lst_domain']:"";
 		$_SESSION['users']=$_POST['users'];
+		foreach ($config->subs_extra as $key => $value)
+			if ((isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!=''))
+				$_SESSION['extra_'.$key] = $_POST['extra_'.$key];
 	} 
 }
+
+if ($action=="users") {
+	$_SESSION['lst_uname']="";
+	$_SESSION['lst_domain']="";
+	$_SESSION['users']="";
+}
+
 ##############
 # end search #
 ##############
@@ -286,12 +290,12 @@ if ($action=="add_verify")
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
                 if ($config->passwd_mode==1) $passwd="";
-                $sql = 'INSERT INTO '.$table.' (username,domain,password,email_address,ha1,ha1b';
+                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1b';
 		foreach ( $config->subs_extra as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
 				$sql .= ','.$key;
-		$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
-		$sql_vals = array($uname,$domain,$passwd,$email,$ha1,$ha1b);
+		$sql .= ') VALUES (?, ?, ?, ?, ? ';
+		$sql_vals = array($uname,$domain,$passwd,$ha1,$ha1b);
 		foreach ( $config->subs_extra as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
 				$sql .= ', ?';
@@ -318,13 +322,12 @@ if ($action=="add_verify")
 				}
 			}
 
- 	        	$lname=NULL;
-       	        	$fname=NULL;
-       	        	$uname=NULL;
-                	$email=NULL;
-                	$alias=NULL;
-                	$passwd=NULL;
-                	$confirm_passwd=NULL;
+			$lname=NULL;
+			$fname=NULL;
+			$uname=NULL;
+			$alias=NULL;
+			$passwd=NULL;
+			$confirm_passwd=NULL;
 
                 	print "New User added!";
                 	$action="add";
@@ -334,7 +337,7 @@ if ($action=="add_verify")
                 $action="add_verify";
           }
 
- } else {
+} else {
         $errors= "User with Read-Only Rights";
         }
 }
@@ -348,8 +351,7 @@ if ($action=="add_verify")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if($errors) echo($errors);
 require("template/footer.php");
 exit();
 

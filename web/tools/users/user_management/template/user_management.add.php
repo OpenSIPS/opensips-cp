@@ -20,52 +20,22 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 ?>
-<form action="<?=$page_name?>?action=add_verify&id=<?=$_GET['id']?>" method="post">
+<form action="<?=$page_name?>?action=add_verify&id=<?=(isset($_GET['id'])?$_GET['id']:"")?>" method="post">
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Add New User</td>
  </tr>
- <tr>
-  <td class="dataRecord" >Username</td>
-  <td class="dataRecord" width="200"><input type="text" name="uname" value="" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord" >Domain</td>
-  <td class="dataRecord" width="200"><?php print_domains("domain",'',FALSE)?></td>
- </tr>
- <tr>
-  <td class="dataRecord" >Email</td>
-  <td class="dataRecord" width="200"><input type="text" name="email" value="" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord" >Alias Username</td>
-  <td class="dataRecord" width="200"><input type="text" name="alias" value="" class="dataInput" maxlength=5></td>
- </tr>
- <tr>
-  <td class="dataRecord" >Alias Type</td>
-  <td class="dataRecord" width="200"><?php print_aliasType(0)?></td>
- </tr>
 
 <?php
-	foreach ( $config->subs_extra as $key => $value ) {
+$um_edit = false;
+$um_form['username'] = null;
+$um_form['domain'] = null;
+foreach ($config->subs_extra as $key => $value)
+	$um_form['extra_'.$key] = null;
+$um_form['passwd'] = null;
+$um_form['confirm_passwd'] = null;
+require("user_management.form.php");
 ?>
- <tr>
-  <td class="dataRecord"><?=$value?></td>
-  <td class="dataRecord" width="200"><input type="text" name="extra_<?=$key?>" value="" maxlength="128" class="dataInput"></td>
- </tr>
-<?php
-	}
-?>
-
- <tr>
-  <td class="dataRecord" >Password</td>
-  <td class="dataRecord" width="200"><input type="password" name="passwd" value="" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord" >Confirm Password</td>
-  <td class="dataRecord" width="200"><input type="password" name="confirm_passwd" value="" class="dataInput"></td>
- </tr>
 
  <tr>
   <td colspan="2">
