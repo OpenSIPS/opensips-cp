@@ -29,7 +29,6 @@ if ($stm === false) {
 }
 $stm->execute( array($id) );
 $ds_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
-$link=NULL;
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$id?>" method="post">
