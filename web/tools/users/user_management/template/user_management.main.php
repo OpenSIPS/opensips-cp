@@ -69,7 +69,7 @@ if (($search_domain!="ANY") && ($search_domain!="")) {
 foreach ($config->subs_extra as $key => $value) {
 	if (!isset($value["searchable"]) || !$value["searchable"])
 		continue;
-	if (isset($_SESSION['extra_'.$key])) {
+	if (isset($_SESSION['extra_'.$key]) && $_SESSION['extra_'.$key] != "") {
 		$sql_search.=" AND s.".$key." like ?";
 		array_push( $sql_vals, '%'.$_SESSION['extra_'.$key].'%');
 	}
