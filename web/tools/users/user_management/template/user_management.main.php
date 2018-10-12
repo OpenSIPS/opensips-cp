@@ -88,7 +88,8 @@ if ($has_acl){
 if ($has_alias){
 	$colspan++;
 }
-$users = '';
+if (!isset($users))
+	$users = '';
 if ( $users == "online_usr" ) {
 	$checkedAll="";
 	$checkedOnline="checked";
