@@ -180,7 +180,7 @@ if(!$_SESSION['read_only']){
 if (isset($config->dispatcher_groups) && count($set_cache) == 0) {
 	$data_no = 0; /* didn't find any available set :(, no need to query anything */
 } else {
-	if ($sql_search=="") $sql_command="from ".$table." order by id asc";
+	if ($sql_search=="") $sql_command="from ".$table." order by setid asc";
 	else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
 	$stm = $link->prepare("select count(*) ".$sql_command);
 	if ($stm===FALSE) {
