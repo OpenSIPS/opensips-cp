@@ -31,7 +31,7 @@ if($clone =="1"){
 	if ($stm === FALSE)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute( array($id) );
-	$resultet= $stm->fetchAll(PDO::FETCH_ASSOC);
+	$resultset= $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$dpid = $resultset[0]['dpid'];
 	$pr = $resultset[0]['pr'];
