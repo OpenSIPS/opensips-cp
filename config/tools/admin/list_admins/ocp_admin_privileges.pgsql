@@ -18,3 +18,6 @@ CREATE FUNCTION unix_timestamp(time_str varchar(19) ) RETURNS integer AS $$
 CREATE FUNCTION unix_timestamp(time_str TIMESTAMP ) RETURNS integer AS $$
   SELECT (date_part('epoch',time_str))::integer;
   $$ LANGUAGE SQL IMMUTABLE;
+
+INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','opensips','Super','Admin',md5('admin:opensips'),'all','all');
+
