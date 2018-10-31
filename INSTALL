@@ -9,7 +9,7 @@ What do you need for running OCP?
     PHP and some of it's extensions
     A DB server (mysql/postgres/sqlite/oracle etc)
 
-This tutorial assumes that your web directory is /var/www/ and the OCP files are located in /var/www/opensips-cp/ folder. Your web directory may depend on your Operating System or on the used web server.
+This tutorial assumes that your web directory is /var/www/html/ and the OCP files are located in /var/www/html/opensips-cp/ folder. Your web directory may depend on your Operating System or on the used web server.
 
 1. Apache
 ----------
@@ -19,7 +19,7 @@ This tutorial assumes that your web directory is /var/www/ and the OCP files are
 
 Depending on your Linux distro, do:
 
-    Debian-like: apt-get install apache2 libapache2-mod-php5 php5-curl
+    Debian-like: apt-get install apache2 libapache2-mod-php php-curl
     Redhat-like: yum install httpd
 
 1.2 Configure Apache
@@ -27,19 +27,19 @@ Depending on your Linux distro, do:
 
 Add the configuration below into one of Apache's existent VHOSTs or create a new one.
 
-	<Directory /var/www/opensips-cp/web>
+	<Directory /var/www/html/opensips-cp/web>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
 		Order allow,deny
 		allow from all
 	</Directory>
-	<Directory /var/www/opensips-cp>
+	<Directory /var/www/html/opensips-cp>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
 		Order deny,allow
 		deny from all
 	</Directory>
-	Alias /cp /var/www/opensips-cp/web
+	Alias /cp /var/www/html/opensips-cp/web
 
 	
 
@@ -50,9 +50,8 @@ You can read more about Apache's VHOSTS here -> http://httpd.apache.org/docs/cur
 
 Apache is going to need write permissions on some files / folders in the opensips-cp directory, so you can do:
 
-    for debian: chown -R www-data:www-data /var/www/opensips-cp/
-    for redhat: chown -R apache:apache /var/www/opensips-cp/
-
+    for debian: chown -R www-data:www-data /var/www/html/opensips-cp/
+    for redhat: chown -R apache:apache /var/www/html/opensips-cp/
 
 
 
@@ -61,7 +60,7 @@ Apache is going to need write permissions on some files / folders in the opensip
 
 You must have PHP installed and enabled in the web server. In order to do that you will have to install php and some of it's extensions.
 
-    for debian: apt-get install php5 php5-gd php5-mysql php5-xmlrpc php-pear php5-cli php-apc
+    for debian: apt-get install php5 php-gd php-mysql php-pear php-cli php-apcu
     for redhat: yum install php php-gd php-mysql php-xmlrpc php-pear php-pecl-apc
 
 Check if these extensions are enabled :
@@ -70,17 +69,8 @@ Check if these extensions are enabled :
     for redhat check /etc/php.d/ for mysql.ini, gd.ini, xmlrpc.in
 
 If these are not there plese check if you have installed them correctly.
-	
-
-MDB2 pear needs to be installed with the appropriate DB driver (mysql / postgresql / mssql / sqlite etc.)
-
-	pear install MDB2
-	pear install MDB2#mysql //should you choose to go with the mysql database
-	pear install log
-	
 
 Do not forge to restart Apache after all the php changes!!!
-
 
 
 
@@ -97,32 +87,24 @@ While for the first case you need to create some extra table (usually you can cr
 The OpenSIPS Control Panel can connect to a remote database server, so the DB server can be used from the SIP Server machine or another machine in the network.
 
 
-3.1 User access and privileges
-------------------------------
-
-For the admin tools (create and list) you must add a new table. The admin users are the login users into OCP.
-
-Install the ocp_admin_privileges table schema (we only provide the schema for mysql and pgsql). From the opensips-cp/ folder run:
-
-	mysql -Dopensips -p < config/tools/admin/add_admin/ocp_admin_privileges.mysql
-	or
-	psql -h host_name -U postgres_username -d opensips < config/tools/admin/add_admin/ocp_admin_privileges.pgsql
-	
-
-This will create the ocp_admin_privileges table into the opensips database. Next step is to insert a first login user into the table (user 'admin' with password 'admin' with full privileges):
-
-	INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','admin','admin','admin',md5('admin:admin'),'all','all');
-	
-
-3.2 Statistics Monitor tool
+3.1 Creating the OCP tables
 ---------------------------
 
-For the Statistics Monitor (smonitor) tool you must add two tables to the OpenSIPS database:
+Before trying to login into OCP, you must create the tables specific to OCP.
 
-	mysql -Dopensips -p < config/tools/system/smonitor/tables.mysql
+From the opensips-cp/ folder run:
+
+	mysql -Dopensips -p < config/db_schema.mysql
 	or
-	psql -h host_name -U postgres_username -d opensips < config/tools/system/smonitor/tables.pgsql
+	psql -h host_name -U postgres_username -d opensips < config/db_schema.pgsql
 	
+
+This will create the OCP specific tables into the "opensips" database and add a first access user, the "admin" user with the "opensips" password.
+
+
+
+4. Cron jobs
+------------
 
 In order to allow OCP to sample the statistics from the OpenSIPS boxes, you need to install some cron jobs. First edit the config/tools/system/smonitor/opensips_stats_cron file and change/correct the path to your OpenSIPS Control Panel installation:
 
