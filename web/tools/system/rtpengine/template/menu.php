@@ -24,7 +24,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print "System / RTPProxy / ".$_SESSION['permission'];?>
+        <?php print "System / RTPEngine / ".$_SESSION['permission'];?>
     </td>
   </tr>
   <tr>
