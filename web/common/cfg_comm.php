@@ -95,6 +95,11 @@ function get_priv($my_tool) {
 					$_SESSION['read_only'] = false;
 					$_SESSION['permission'] = "Read-Write";
 				}
+			} else {
+				$_SESSION['permission'] = "No permissions";
+				require("template/header.php");
+				print("<b>You do not have permissions to access this tool</b>");
+				exit();
 			}
 		}
 
