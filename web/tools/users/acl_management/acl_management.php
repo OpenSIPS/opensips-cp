@@ -153,7 +153,7 @@ if ($action=="modify")
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				$stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) );
+				$stm->execute( array($acl_username, $acl_domain, $acl_grp, $id) );
 				if ($stm->fetchColumn(0)>0) {
 					$errors="The ACL already exists for this user !!!";
 				}
@@ -166,7 +166,7 @@ if ($action=="modify")
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			if ($stm->execute( array($acl_username, $acl_domaini, $acl_grp, $id) ) == false) {
+			if ($stm->execute( array($acl_username, $acl_domain, $acl_grp, $id) ) == false) {
 				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
                         	$info="The ACL was modified";
