@@ -56,15 +56,15 @@
 
 
   if ($form_valid) {
-                    $sql="select count(*) from ".$table." where username=?";
+                    $sql="select count(*) from ".$table." where username=? and id!=?";
 		    $stm = $link->prepare($sql);
 		    if ($stm === FALSE)
 			die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-		    $stm->execute(array($listuname));
+		    $stm->execute(array($listuname,$id));
 		    $data_rows = $stm->fetchColumn(0);
 		    if ($data_rows>0) {
                      $form_valid=false;
-                     $new_id=$uname;
+                     $new_id=$listuname;
                      $form_error="- <b>".$new_id."</b> is already an existing admin -";
                     }
                    }
