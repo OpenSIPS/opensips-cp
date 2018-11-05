@@ -21,7 +21,7 @@
 */
 
 
-if (!$_SESSION[read_only]) {
+if (!$_SESSION['read_only']) {
 
 	if ($action=="edit") {
 		## edit form
