@@ -87,7 +87,7 @@ if ($action=="search")
   $_SESSION[$current_page]=1;
   extract($_POST);
 
-  if ($delete=="Delete") {
+  if ($delete=="Delete Listed") {
   		
   		  	$_SESSION['delete'] = "1";
   }
