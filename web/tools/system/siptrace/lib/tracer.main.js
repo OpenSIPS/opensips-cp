@@ -47,8 +47,10 @@ function confirmDelete()
 
  	if ((document.getElementById("search_regexp").value=="") && 
  		(document.getElementById("search_callid").value=="") &&
-		(document.getElementById("search_traced_user").value=="")) 
-			{
+		(document.getElementById("search_traced_user").value=="") &&
+		(document.getElementById("set_start").value=="") &&
+		(document.getElementById("set_end").value=="")
+		) {
  				
  			
 		
