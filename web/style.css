@@ -165,8 +165,8 @@ body, table {
     font-size: 12px;
 }
 html, body{
-font-family: 'Montserrat', sans-serif;
-
+	font-family: 'Montserrat', sans-serif;
+	background-color: #374d66;
 }
 
 .headerTable{
