@@ -55,21 +55,14 @@ $permissions=array();
 
         $modules=get_modules();
 	
-	foreach($modules['Admin'] as $key=>$value) {
-		$all_tools[$key] = $key; 
-	}
-	foreach($modules['Users'] as $key=>$value) {
-		$all_tools[$key] = $key; 
-	}
-	foreach($modules['System'] as $key=>$value) {
-		$all_tools[$key] = $key; 
-	}
-	if($resultset[0]['available_tools']!="all") {
+	foreach ($modules as $module => $tools)
+		foreach ($tools as $key => $value)
+			$all_tools[$key] = $key;
+
+	if($resultset[0]['available_tools']!="all")
 		$available_tabs=explode(",",$resultset[0]['available_tools']);
-		
-	} else {
+	else
 		$available_tabs=$all_tools;
-	}
 	
 	if ($resultset[0]['permissions']!="all") {
 		$perms=explode(",",$resultset[0]['permissions']);
