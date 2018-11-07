@@ -52,6 +52,10 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 	if (!isset($menuitem_config['modules']))
 		continue;
 
+	# do not display settings modules
+	if (isset($menuitem_config['settings']) && $menuitem_config['settings'])
+		continue;
+
 	if (isset($menuitem_config['icon'])) {
 ?>
 	<style>#menu<?=$menuitem?>:before { content: url('<?=$menuitem_config['icon']?>');}</style>
