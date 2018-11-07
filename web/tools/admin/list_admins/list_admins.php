@@ -229,54 +229,31 @@ if ($action=="modify_tools")
 	$id = $_GET['id'];
 	$uname = $_GET['uname'];
 	$perm = "";
-	$tool = "";
+	$tool_perm = "";
         $modules=get_modules();
 	$state=$_POST['state'];
- 	foreach($modules['Admin'] as $key=>$value ){
-		$permissionKey = "permission_$key";
-		//if (!empty($_POST["$permissionKey"])) {
-			$perms[$key] = $_POST["$permissionKey"];
-		//}
-	}	
- 	foreach($modules['Users'] as $key=>$value ){
-		$permissionKey = "permission_$key";
-		//if (isset($_POST["$permissionKey"])) {
-			$perms[$key] = $_POST["$permissionKey"];
-		//}
-	}		
- 	foreach($modules['System'] as $key=>$value ){
-		$permissionKey = "permission_$key";
-		//if (isset($_POST["$permissionKey"])) {
-			$perms[$key] = $_POST["$permissionKey"];
-		//}
-	}
-	$modules_nr = count($modules['Admin'])+count($modules['Users'])+count($modules['System']);
+	$perms = array();
+	$modules_nr = 0;
+	foreach($modules as $module => $tools)
+		foreach($tools as $tool => $value) {
+			$perms[$tool] = $_POST["permission_".$tool];
+			$modules_nr++;
+		}
 	if($modules_nr==count($state)) {
 		$tools="all";
 		if (!in_array('read-only',$perms)) {
 			$permiss="all";
 		} else {	
 			foreach ($state as $key=>$val)
-			{
-				foreach($perms as $k=>$v)	
-				if ($key==$k) {
-					$perm .= $perms[$key].",";
-				}
-			
-			}
+				$perm .= $perms[$key].",";
 			$permiss=substr($perm,0,-1);
 		}	
 	} else if (count($state)>0 && count($state)<$modules_nr) {
-		foreach ($state as $key=>$val)
-		{
-			foreach($perms as $k=>$v)	
-				if ($key==$k) {
-					$perm .= $v.",";
-					$tool .= $key.",";
-			}
-			
+		foreach ($state as $key=>$val) {
+			$perm .= $perms[$key].",";
+			$tool_perm .= $key.",";
 		}
-		$tools=substr($tool,0,-1);
+		$tools=substr($tool_perm,0,-1);
 		$permiss=substr($perm,0,-1);
 	} else if (count($state)==0) {
 		$tools = "";
@@ -359,8 +336,7 @@ if ($action=="dp_act")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if($errors) echo($errors);
 require("template/footer.php");
 exit();
 
