@@ -40,7 +40,7 @@ else
 	<script type="text/javascript" src="menu.js"></script>
 </head>
 
-<body>
+<body style="background-color: #374d66;">
 <!-- Keep all menus within masterdiv-->
 <div id="masterdiv">
 <?php
