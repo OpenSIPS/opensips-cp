@@ -24,6 +24,17 @@
 ### List with all the available modules - you can enable and disable module from here
 
 $config_modules 	= array (
+	"admin"                 => array (
+		"enabled"       => true,
+		"settings"      => true,
+		"name"          => "Admin",
+		"modules"       => array (
+			"list_admins"	=> array (
+				"enabled"	=> true,
+				"name"		=> "Admins"
+			),
+		),
+	),
 	"users"			=> array (
 		"enabled" 	=> true,
 		"name" 		=> "Users",
