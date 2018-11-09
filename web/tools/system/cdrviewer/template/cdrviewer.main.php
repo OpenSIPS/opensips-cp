@@ -24,7 +24,7 @@ require("../../../../config/modules.inc.php");
 if ( file_exists("../homer") && $config_modules["system"]["modules"]["homer"]["enabled"]==true )
 	$tracer = "homer";
 else
-if ( file_exists("../siptrace") && $config_modules["system"]["modules"]["siptrce"]["enabled"]==true )
+if ( file_exists("../siptrace") && $config_modules["system"]["modules"]["siptrace"]["enabled"]==true )
 	$tracer = "siptrace";
 else
 	$tracer = "";
