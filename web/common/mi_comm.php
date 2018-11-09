@@ -53,11 +53,11 @@ function write2json($command, $json_url, &$errors, &$status){
 
 	//search for errors inside the reply
 	$err = json_decode($response,true);
-	if (isset($err["error"]) && $err["error"]) {
+	if (array_key_exists("error", $err) && $err["error"]) {
 		// error is reported
 		$errors[] = "Error code ".$err["error"]["code"]." (".$err["error"]["message"].")";
 	}
-	
+
 	return $response;
 }
 
