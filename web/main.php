@@ -62,6 +62,18 @@ if (isset($_SESSION['user_active_tool'])) {
 <head>
  <title><?=$page_title?></title>
 </head>
+<script>
+function onXloadfunction() {
+	var path = top.frames['main_body'].location.pathname;
+	var items = path.split('/');
+	if (items.length>4 && items[items.length-4]=="tools") {
+		var tool = items[items.length-2];
+		var section = items[items.length-3];
+		top.frames['main_menu'].UpdateWholeMenu(tool);
+	}
+}
+
+</script>
 
 <frameset border="0" frameborder="0" framespacing="0" rows="30,*,25">
 
@@ -69,7 +81,7 @@ if (isset($_SESSION['user_active_tool'])) {
 
  <frameset border="0" frameborder="0" framespacing="0" cols="180,*">
   <frame noresize scrolling="no" src="menu.php" name="main_menu" id="side-bar" class="side-menu">
-  <frame noresize scrolling="auto" src="<?=$main_body?>" name="main_body">
+  <frame noresize scrolling="auto" src="<?=$main_body?>" name="main_body" onload="onXloadfunction();">
  </frameset>
 
  <frame noresize scrolling="no" src="footer.php" name="main_footer">
