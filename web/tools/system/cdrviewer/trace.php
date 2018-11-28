@@ -39,13 +39,10 @@ $tracer	=	$_GET['tracer'];
 
 if ($tracer=="homer") {
 
-	$_SESSION['user_active_tool'] = "homer";
 	header ('Location: ../homer/homer.php?callid='.$callid);
 
 } else
 if ($tracer=="siptrace") {
-
-	$_SESSION['user_active_tool'] = "siptrace";
 
 	// get the id from siptrace table .
 	$sql = "select id from ".$config->table_trace." where callid=?";
@@ -63,23 +60,13 @@ if ($tracer=="siptrace") {
 		exit();
 	}
 
-	$sql = "select distinct callid from (select * from ".$config->table_trace." where id < ".$siptraceid.") as foo" ;
-	$stm = $link->query($sql);
-	if ($stm === false) {
-		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	}
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-	$data_no=count($resultset);
-	$page_no = ceil($data_no/$config->results_per_page)  ;
-
 	$_SESSION['tracer_search_regexp']="";
-	$_SESSION['tracer_search_callid']="";
+	$_SESSION['tracer_search_callid']=$callid;
 	$_SESSION['tracer_search_start']="";
 	$_SESSION['tracer_search_end']="";
 	$_SESSION['tracer_search_traced_user']="";
 
-	header ('Location: ../siptrace/tracer.php?id='.$siptraceid."&page=".$page_no);
+	header ('Location: ../siptrace/tracer.php?id='.$siptraceid);
 
 } else {
 
