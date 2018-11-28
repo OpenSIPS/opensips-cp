@@ -13,6 +13,29 @@ document.write('.submenu{display: none;}\n')
 document.write('</style>\n')
 }
 
+
+function UpdateWholeMenu(tool){
+	var spans = document.getElementById('masterdiv').getElementsByTagName('span');
+	var obj;
+
+	for(var i = 0, l = spans.length; i < l; i++){
+		links = document.getElementById(spans[i].id).getElementsByTagName('a');
+		for(var j = 0, k = links.length; j < k; j++){
+			if (links[j].id == tool){
+				links[j].className = "submenuItemActive"
+				obj = spans[i].id;
+			}
+			else {
+				links[j].className = "submenuItem"
+			}
+		}
+	}
+
+	if (document.getElementById(obj).style.display == "none")
+		SwitchMenu(obj);
+}
+
+
 function SwitchSubMenu(tool){
 	var spans = document.getElementById('masterdiv').getElementsByTagName('span');
 	var obj = {};
