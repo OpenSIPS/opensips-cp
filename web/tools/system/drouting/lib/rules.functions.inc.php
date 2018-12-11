@@ -21,26 +21,6 @@
  */
 
 
-function get_groupids()
-{
- global $config;
- $index = 0;
- $values = array();
- $sql="select distinct groupid from ".$config->table_groups." order by groupid asc";
- $stm = $link->prepare($sql);
- if ($stm === false) {
- 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
- }
- $stm->execute( array() );
- $result= $stm->fetchAll(PDO::FETCH_ASSOC);
- for($i=0;count($result)>$i;$i++)
- {
-  $values[$index] = $result[$i]['groupid'];
-  $index++;
- }
- return($values);
-}
-
 function get_gwlist()
 {
  //include("db_connect.php");
@@ -88,59 +68,49 @@ function get_carrierlist()
  return($values);
 }
 
+function get_groupids()
+{
+	global $config;
+	$i = 0;
+	$values = array();
+	if ($config->group_id_method=="static") {
+		$filename = "../../../../config/tools/system/drouting/group_ids.txt";
+		$handle = fopen($filename, "r");
+		while (!feof($handle))
+		{
+			$buffer = fgets($handle, 4096);
+			$pos = strpos($buffer, " ");
+			$value = trim(substr($buffer, 0, $pos));
+			if ($value == "")
+				continue;
+			$descr = trim(substr($buffer, $pos, strlen($buffer)));
+			if ($descr == "")
+				$descr = $value;
+			$values[$i]['groupid'] = $value;
+			$values[$i]['description'] = $descr;
+			$i++;
+		}
+		fclose($handle);
+	} else {
+		global $link;
+		$sql="select distinct groupid,description from ".$config->table_groups." order by groupid asc";
+		$stm = $link->prepare($sql);
+		if ($stm===FALSE) {
+			die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
+		}
+		$stm->execute(array());
+		$values = $stm->fetchAll(PDO::FETCH_ASSOC);
+	}
+	return $values;
+}
 
 function print_groupids()
 {
- global $config;
- if ($config->group_id_method=="static") {
-  $filename = "../../../../config/tools/system/drouting/group_ids.txt";
-  $handle = fopen($filename, "r");
-  while (!feof($handle))
-  {
-   $buffer = fgets($handle, 4096);
-   $pos = strpos($buffer, " ");
-   $values[] = trim(substr($buffer, 0, $pos));
-   $content[] = trim(substr($buffer, $pos, strlen($buffer)));
-  }
-  fclose($handle);
-  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:420px!important; margin-left:1px;margin-top:2px;">');
-  for ($i=0; $i<sizeof($values); $i++)
-   if($values[$i]!="")
-	echo('<option value="'.$values[$i].'">'.$values[$i].' - '.$content[$i].'</option>');
-  echo('</select>');
- }
- if ($config->group_id_method=="dynamic") {
-  $values = get_groupids();
-  sort($values);
-  echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:230px; margin-left:1px; margin-top:2px;">');
-  for ($i=0; $i<sizeof($values); $i++)
-   echo('<option value="'.$values[$i].'">'.$values[$i].'</option>');
-  echo('</select>');
- }
-}
-
-function get_groups($list)
-{
- $group = explode(",", $list);
- $filename = "../../../../config/tools/system/drouting/group_ids.txt";
- $handle = fopen($filename, "r");
- while (!feof($handle))
- {
-  $buffer = fgets($handle, 4096);
-  $pos = strpos($buffer, " ");
-  $value[] = trim(substr($buffer, 0, $pos));
-  $content[] = trim(substr($buffer, $pos, strlen($buffer))); 
- }
- fclose($handle);
- $result="";
- for ($i=0; $i<sizeof($group); $i++)
- {
-  for ($j=0; $j<sizeof($value); $j++)
-   if ($value[$j]!="" && $value[$j]==$group[$i]) $result.=$value[$j]." - ".$content[$j].", ";
- }
- $n = strlen($result);
- echo(substr($result, 0, $n-2));
- return;
+	$values = get_groupids();
+	echo('<select name="groupid_value" id="groupid_value" size="1" class="dataSelect" style="width:420px!important; margin-left:1px;margin-top:2px;">');
+	for ($i=0; $i<sizeof($values); $i++)
+		echo('<option value="'.$values[$i]['groupid'].'">'.$values[$i]['groupid'].' - '.$values[$i]['description'].'</option>');
+	echo('</select>');
 }
 
 function print_gwlist()

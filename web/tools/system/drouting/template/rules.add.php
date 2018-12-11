@@ -53,7 +53,7 @@
   <td class="dataRecord"><input type="text" name="prefix" value="<?=$prefix?>"  style="width:230px;" maxlength="64" class="dataInput"></td>
  </tr>
  <tr>
-  <td class="dataRecord">Time Recurrence<br><center><img src="../../../images/share/info.png" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center></td>
+  <td class="dataRecord">Time Recurrence<!--<br><center><img src="../../../images/share/info.png" onMouseOver="this.style.cursor='pointer'" onClick="window.open('info.html','info','width=500,height=400')"></center>--></td>
   <td class="dataRecord">
   
    <select name="time_recurrence" class="dataSelect" id="time_recurrence" style="width:230px;"  onChange="optionChange('time_recurrence')">
