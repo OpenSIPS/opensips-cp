@@ -25,10 +25,6 @@ require("../../../common/cfg_comm.php");
 require("../../../../config/tools/system/mi/local.inc.php");
 require("lib/functions.inc.php");
 
-require("template/header.php");
-session_start();
-get_priv("mi");
-
 $current_box=$_SESSION['mi_current_box'];
 if (empty($current_box))
 $current_box="";
@@ -37,6 +33,10 @@ if (!empty($_POST['box_val'])) {
 	$current_box=$_POST['box_val'];
 	$_SESSION['mi_current_box']=$current_box ;
 }
+
+require("template/header.php");
+session_start();
+get_priv("mi");
 
 if (!empty($_SESSION['mi_current_box']) && empty($current_box)) {
 	$current_box=$_SESSION['mi_current_box'];
