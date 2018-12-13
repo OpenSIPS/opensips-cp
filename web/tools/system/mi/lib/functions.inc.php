@@ -60,12 +60,11 @@ function show_boxes($boxen,$current_box,$hold){
 		$current_box=key($boxen);
 		$_SESSION[$hold]=$current_box ;
 	}
-	foreach ( $boxen as $val )
+	foreach ( $boxen as $key => $val )
 	if (!empty($val)) {
-		echo '<option value="'.key($boxen).'"' ;
-		if ((key($boxen))==$current_box) echo ' selected';
+		echo '<option value="'.$key.'"' ;
+		if ($key==$current_box) echo ' selected';
 		echo '>'.$val.'</option>';
-		next($boxen);
 	}
 
 	echo ('</select></form>');
