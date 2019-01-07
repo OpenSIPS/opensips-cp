@@ -28,8 +28,14 @@ $qvalues = array();
 foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 	if (isset($_SESSION[$key]))
 		if ($_SESSION[$key] != "") {
-			$where.=" and ".$key." like ?";
-			$qvalues[] = "%".$_SESSION[$key]."%";
+			if ($value["type"] == "text") {
+				$where.=" and ".$key." like ?";
+				$qvalues[] = "%".$_SESSION[$key]."%";
+			} else {
+				$where.=" and ".$key." = ?";
+				$qvalues[] = $_SESSION[$key];
+			}
+
 		}
 }
 
