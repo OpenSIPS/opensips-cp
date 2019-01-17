@@ -48,7 +48,7 @@ function print_command_list()
 	return;
 }
 
-function show_boxes($boxen,$current_box,$hold){
+function show_boxes($boxen,$current_box){
 
 	global $page_name ;
 
@@ -56,10 +56,6 @@ function show_boxes($boxen,$current_box,$hold){
 	echo ('<input type="hidden" name="box_val" class="formInput" method="post" value="">');
 	echo ('<select name="box_list" class="boxSelect" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
 
-	if (empty($current_box)) {
-		$current_box=key($boxen);
-		$_SESSION[$hold]=$current_box ;
-	}
 	foreach ( $boxen as $key => $val )
 	if (!empty($val)) {
 		echo '<option value="'.$key.'"' ;
