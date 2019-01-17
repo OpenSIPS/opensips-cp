@@ -25,22 +25,18 @@ require("../../../common/cfg_comm.php");
 require("../../../../config/tools/system/mi/local.inc.php");
 require("lib/functions.inc.php");
 
-$current_box=$_SESSION['mi_current_box'];
-if (empty($current_box))
-$current_box="";
-
-if (!empty($_POST['box_val'])) {
+session_start();
+if ($_GET['action']=="change_box" && !empty($_POST['box_val'])) {
 	$current_box=$_POST['box_val'];
 	$_SESSION['mi_current_box']=$current_box ;
+} else if (!empty($_SESSION['mi_current_box'])) {
+	$current_box=$_SESSION['mi_current_box'];
+} else {
+	$current_box="";
 }
 
 require("template/header.php");
-session_start();
 get_priv("mi");
-
-if (!empty($_SESSION['mi_current_box']) && empty($current_box)) {
-	$current_box=$_SESSION['mi_current_box'];
-}
 
 if (empty($_SESSION['mi_command_list']))
 	get_command_list( $current_box );
@@ -59,7 +55,7 @@ if ($_GET['action']=="execute")
 		$message=str_replace($goodtags,$stupidtags,$message);
 
 		$_SESSION['mi_time'][]=date("H:i:s");
-		$_SESSION['mi_command'][]=$command." ".$arguments;
+		$_SESSION['mi_command'][]=$command;
 		$_SESSION['mi_box'][]=$current_box ;
 
 		if (count($errors)>0) {
@@ -83,15 +79,8 @@ if ($_GET['action']=="clear_history")
 {
 	unset($_SESSION['mi_time']);
 	unset($_SESSION['mi_command']);
+	unset($_SESSION['mi_box']);
 	unset($_SESSION['mi_response']);
-}
-
-if ($_GET['action']=="change_box")
-{
-
-	$current_box=$_POST['box_val'];
-	$_SESSION['mi_current_box']=$current_box;
-	get_command_list($current_box);
 }
 
 require("template/".$page_id.".main.php");

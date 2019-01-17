@@ -30,8 +30,7 @@
       <?php
 	$boxlist=array();
 	$boxlist=inspect_config_mi();
-	$current_box=show_boxes($boxlist,$current_box,'mi_current_box');
-	$_SESSION['mi_current_box']=$current_box;
+	$current_box=show_boxes($boxlist,$current_box);
       ?>
     </td>
   </tr>
