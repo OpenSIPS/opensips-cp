@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_cdrviewer = "opensips";
  
- //if ($config->db_port_cdrviewer != "") $config->db_host_cdrviewer = $config->db_host_cdrviewer . ":" . $config->db_port_cdrviewer;
+ //if ($config->db_port_cdrviewer != "") $config->db_host_cdrviewer = $config->db_host_cdrviewer . ";port=" . $config->db_port_cdrviewer;
  
 ?>

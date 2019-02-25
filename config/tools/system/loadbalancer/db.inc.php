@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_loadbalancer = "opensips";
  
- //if ($config->db_port_loadbalancer != "") $config->db_host_loadbalancer = $config->db_host_loadbalancer . ":" . $config->db_port_loadbalancer;
+ //if ($config->db_port_loadbalancer != "") $config->db_host_loadbalancer = $config->db_host_loadbalancer . ";port=" . $config->db_port_loadbalancer;
  
 ?>

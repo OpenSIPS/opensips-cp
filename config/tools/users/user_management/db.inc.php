@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_user_management = "opensips";
  
- //if ($config->db_port_user_management != "") $config->db_host_user_management = $config->db_host_user_management . ":" . $config->db_port_user_management;
+ //if ($config->db_port_user_management != "") $config->db_host_user_management = $config->db_host_user_management . ";port=" . $config->db_port_user_management;
  
 ?>

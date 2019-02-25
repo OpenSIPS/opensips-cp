@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_dialplan = "opensips";
  
- //if ($config->db_port_dialplan != "") $config->db_host_dialplan = $config->db_host_dialplan . ":" . $config->db_port_dialplan;
+ //if ($config->db_port_dialplan != "") $config->db_host_dialplan = $config->db_host_dialplan . ";port=" . $config->db_port_dialplan;
  
 ?>

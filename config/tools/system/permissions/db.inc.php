@@ -37,6 +37,6 @@
  //database name
  //$config->db_name_permissions = "opensips";
  
- //if ($config->db_port_permissions != "") $config->db_host_permissions = $config->db_host_permissions . ":" . $config->db_port_permissions;
+ //if ($config->db_port_permissions != "") $config->db_host_permissions = $config->db_host_permissions . ";port=" . $config->db_port_permissions;
  
 ?>

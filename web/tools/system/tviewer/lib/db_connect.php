@@ -11,7 +11,7 @@ if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['
 	$config->db_name = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_name'];
 
 	if (isset($config->db_port) && is_int((int)$config->db_port) && 1 < $config->db_port && $config->db_port < 65535) 
-		$config->db_host = $config->db_host.":".$config->db_port;
+		$config->db_host = $config->db_host.";port=".$config->db_port;
 }
 
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;

@@ -37,6 +37,6 @@
  //database name
  //$config->db_name_dispatcher = "opensips";
  
- //if ($config->db_port_dispatcher != "") $config->db_host_dispatcher = $config->db_host_dispatcher .":" . $config->db_port_dispatcher;
+ //if ($config->db_port_dispatcher != "") $config->db_host_dispatcher = $config->db_host_dispatcher .";port=" . $config->db_port_dispatcher;
  
 ?>

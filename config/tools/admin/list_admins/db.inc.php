@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_list_admin = "opensips";
  
- //if ($config->db_port_list_admin != "") $config->db_host_list_admin = $config->db_host_list_admin . ":" . $config->db_port_list_admin;
+ //if ($config->db_port_list_admin != "") $config->db_host_list_admin = $config->db_host_list_admin . ";port=" . $config->db_port_list_admin;
  
 ?>
