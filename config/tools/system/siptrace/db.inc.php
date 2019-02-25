@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_siptrace = "opensips_1_4";
  
- //if ($config->db_port_siptrace != "") $config->db_host_siptrace = $config->db_host_siptrace . ":" . $config->db_port_siptrace;
+ //if ($config->db_port_siptrace != "") $config->db_host_siptrace = $config->db_host_siptrace . ";port=" . $config->db_port_siptrace;
  
 ?>

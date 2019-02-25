@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_domains = "opensips";
  
- //if ($config->db_port_domains != "") $config->db_host_domains = $config->db_host_domains . ":" . $config->db_port_domains;
+ //if ($config->db_port_domains != "") $config->db_host_domains = $config->db_host_domains . ";port=" . $config->db_port_domains;
  
 ?>

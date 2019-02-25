@@ -37,6 +37,6 @@
  //database name
  //$config->db_name_drouting = "opensips";
  
- //if ($config->db_port_drouting != "") $config->db_host_drouting = $config->db_host_drouting . ":" . $config->db_port_drouting;
+ //if ($config->db_port_drouting != "") $config->db_host_drouting = $config->db_host_drouting . ";port=" . $config->db_port_drouting;
  
 ?>

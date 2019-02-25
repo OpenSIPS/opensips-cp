@@ -35,6 +35,6 @@
  //database name
  //$config->db_name_clusterer = "opensips";
  
- //if ($config->db_port_clusterer != "") $config->db_host_clusterer = $config->db_host_clusterer . ":" . $config->db_port_clusterer;
+ //if ($config->db_port_clusterer != "") $config->db_host_clusterer = $config->db_host_clusterer . ";port=" . $config->db_port_clusterer;
  
 ?>

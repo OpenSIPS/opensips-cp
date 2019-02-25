@@ -36,6 +36,6 @@
  //database name
  //$config->db_name_rtpproxy = "opensips";
  
- //if ($config->db_port_rtpproxy != "") $config->db_host_rtpproxy = $config->db_host_rtpproxy . ":" . $config->db_port_rtpproxy;
+ //if ($config->db_port_rtpproxy != "") $config->db_host_rtpproxy = $config->db_host_rtpproxy . ";port=" . $config->db_port_rtpproxy;
  
 ?>
