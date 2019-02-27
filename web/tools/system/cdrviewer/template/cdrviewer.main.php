@@ -187,15 +187,20 @@ else
 		echo '<tr align="center">';
 
 		for ($i = 0 ; $i < count($show_field)  ; $i++) {
+			$value = $result[$j][key($show_field[$i])];
 			if ($sip_call_id_field_name==key($show_field[$i])) {
 				// link the "callid" field to the tracer module
 				if ($tracer=="") {
-					echo '<td class="'.$row_style.'">'.$result[$j][key($show_field[$i])].'</td>';
+					if (isset($display_fields[key($show_field[$i])]))
+						$value = $display_fields[key($show_field[$i])]($value);
+					echo '<td class="'.$row_style.'">'.$value.'</td>';
 				} else {
-					echo '<td class="'.$row_style.'">'.'&nbsp;<a href="trace.php?tracer='.$tracer.'&callid='.($result[$j][key($show_field[$i])]).'" class="menuItem" onClick="select_dot()" > <b>'.($result[$j][key($show_field[$i])]).'</b></a>&nbsp;'.'</td>';
+					echo '<td class="'.$row_style.'">'.'&nbsp;<a href="trace.php?tracer='.$tracer.'&callid='.$value.'" class="menuItem" onClick="select_dot()" > <b>'.$value.'</b></a>&nbsp;'.'</td>';
 				}
 			} else {
-				echo '<td class="'.$row_style.'">'.$result[$j][key($show_field[$i])].'</td>';
+				if (isset($display_fields[key($show_field[$i])]))
+					$value = $display_fields[key($show_field[$i])]($value);
+				echo '<td class="'.$row_style.'">'.$value.'</td>';
 			}
 		}
 	   

@@ -69,6 +69,17 @@
  $export_csv[7]['from_tag'] = "Sip From Tag" ; 
  $export_csv[8]['to_tag'] = "Sip To Tag";
 
+ /* array that may contain functions that can change the way
+  * a field is displayed */
+// $display_fields = array(
+// 	'callid' => display_callid_field
+// );
+
+ /* function receives the actual value and returns the new one */
+//function display_callid_field($value) {
+//	return "<b>".$value."</b>";
+//}
+
  // where to dump the files (cron job)
  $cdr_repository_path = '/var/lib/opensips_cdrs' ; 
 
