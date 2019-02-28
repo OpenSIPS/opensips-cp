@@ -31,7 +31,7 @@ function UpdateWholeMenu(tool){
 		}
 	}
 
-	if (document.getElementById(obj).style.display == "none")
+	if (obj != null && document.getElementById(obj).style.display == "none")
 		SwitchMenu(obj);
 }
 
