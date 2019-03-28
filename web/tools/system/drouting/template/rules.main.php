@@ -40,10 +40,10 @@
                            $id=str_replace("%",".*",$id);
 			   if ($config->db_driver == "mysql" ) {
 	                           $sql_search.=" and groupid regexp ?";
-				   array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
+				   array_push( $sql_vals, "(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)");
 			   } else if ($config->db_driver == "pgsql" ) {
 				   $sql_search.=" and groupid ~* ?";
-				   array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
+				   array_push( $sql_vals, "(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)");
 			   }
  }
  $search_prefix=$_SESSION['rules_search_prefix'];
