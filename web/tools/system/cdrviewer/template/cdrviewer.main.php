@@ -40,12 +40,12 @@ $sql_search  = " from ".$cdr_table. " where (1=1) ";
 $sql_vals = array();
 
 if (($search_start!="")) {
-	$sql_search.=" and unix_timestamp( ? )  <= unix_timestamp(time)";
+	$sql_search.=" and ? <= time ";
 	array_push( $sql_vals, $search_start);
 }
 
 if ($search_end!="") {
-	$sql_search.=" and unix_timestamp(time) <= unix_timestamp( ? )";
+	$sql_search.=" and time <= ? ";
 	array_push( $sql_vals, $search_end);
 }
 
