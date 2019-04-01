@@ -132,9 +132,9 @@ function cdr_export($start_time,  $end_time ) {
 
 	$sql.=" from ".$cdr_table . " where  ";
 
-	$sql.=" unix_timestamp( ? ) - ".$delay."  <= unix_timestamp(time)  and  ";
+	$sql.=" DATE_SUB( ?, INTERVAL ".$delay." SECOND) <= time  and  ";
 
-	$sql.="unix_timestamp(time) <= unix_timestamp( ? ) - ".$delay   ;
+	$sql.="time <= DATE_SUB( ?, INTERVAL ".$delay." SECOND)"   ;
 
 	$sql .= " order by time desc " ;
 
@@ -230,13 +230,13 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 
 	if (($start_time !="")) {
-		$sql.=" and unix_timestamp( ? )  <= unix_timestamp(time)";
+		$sql.=" and ?  <= time ";
 		array_push( $sql_vals, $start_time);
 	}
 
 
 	if (($end_time !="")){
-		$sql.=" and unix_timestamp(time) <= unix_timestamp( ? )"   ;
+		$sql.=" and time <= ? "   ;
 		array_push( $sql_vals, $end_time);
 	}
 
