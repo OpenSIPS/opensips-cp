@@ -52,11 +52,10 @@ if ($search_end!="") {
 if (($cdr_field!="") && ($search_regexp!="")) {
 	if (strpos($search_regexp, "%") !== false) {
 		$sql_search.=' and '.$cdr_field.' like ?' ;
-		array_push( $sql_vals, "%".$search_regexp."%");
 	} else {
 		$sql_search.=' and '.$cdr_field.' = ?' ;
-		array_push( $sql_vals, $search_regexp);
 	}
+	array_push( $sql_vals, $search_regexp);
 }
 
 ?>
