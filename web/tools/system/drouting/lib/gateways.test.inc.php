@@ -23,6 +23,12 @@
 include("db_connect.php");
   extract($_POST);
   $form_valid=true;
+
+  if ($form_valid)
+   if (!preg_match('/^[0-9a-zA-Z_\-]+$/',$gwid)){
+                      $form_valid=false;
+                      $form_error="- <b>GWID</b> is invalid, must contain alpha-numeric chars or '_' or '-' -";
+                     }
   if ($form_valid)
    if ($address=="") {
                       $form_valid=false;
