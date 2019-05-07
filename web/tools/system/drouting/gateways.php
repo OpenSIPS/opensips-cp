@@ -235,14 +235,10 @@ if ($action=="delete"){
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	print_r("running |".$sql.$sql_regex."|");
-	##$stm->execute( array($sql_regex) );
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	print_r($resultset);
 
 	for($i=0;count($resultset)>$i;$i++){
 		$list=$resultset[$i]['gwlist'];
-		print_r("handling }".$list."|...");
 		$new_list = preg_replace($repl_regex1,',',$list);
 		$new_list = preg_replace($repl_regex2,'',$new_list);
 		if ($new_list!=$list) {
