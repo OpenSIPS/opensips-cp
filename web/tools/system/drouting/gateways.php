@@ -221,10 +221,8 @@ if ($action=="delete"){
 	}
 	$stm->execute( array($del_id) ); 
 
-	$sql_regex = "'(^".$del_id."(=[^,]+)?,)|(,".$del_id."(=[^,]+)?$)|(^".$del_id."(=[^,]+)?$)|(,".$del_id."(=[^,]+)?,)'";
-
-	$preg_exp1 = "'(^".$del_id."(=[^,]+)?,)|(,".$del_id."(=[^,]+)?$)|(^".$del_id."(=[^,]+)?$)'";
-	$preg_exp2 = "'(,".$del_id."(=[^,]+)?,)'";
+	$sql_regex = "'(^|,)".$del_id."(=|,|$)'";
+	$repl_regex = "'((^|,)".$del_id."(=[^,]+)?(,|$))'"
 
 	//remove GW from dr_rules
 	if ($config->db_driver == "mysql") 
@@ -240,20 +238,19 @@ if ($action=="delete"){
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	for($i=0;count($resultset)>$i;$i++){
-  		$list=$resultset[$i]['gwlist'];
-		if (preg_match($preg_exp1,$list))
-		  	$list = preg_replace($sql_regex,'',$list);
-		else if (preg_match($preg_exp2,$list))
-			$list = preg_replace($sql_regex,',',$list);
-		$sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		$list=$resultset[$i]['gwlist'];
+		$new_list = preg_replace($repl_regex,'',$list);
+		if ($new_list!=$list) {
+			$sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($new_list,$resultset[$i]['ruleid']) )==NULL)
+				echo 'Rule DB update failed : ' . print_r($stm->errorInfo(), true);
 		}
-		if ($stm->execute( array($list,$resultset[$i]['ruleid']) )==NULL)
-			echo 'Rule DB update failed : ' . print_r($stm->errorInfo(), true);
-  	}
-	
+	}
+
 	//remove GW from dr_carriers
 	if ($config->db_driver == "mysql")
 		$sql = "select carrierid,gwlist from ".$config->table_carriers." where gwlist regexp ?";
@@ -267,20 +264,18 @@ if ($action=="delete"){
 	$stm->execute( array($sql_regex) );
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-
 	for($i=0;count($resultset)>$i;$i++){
 		$list = $resultset[$i]['gwlist'];
-		if (preg_match($preg_exp1,$list))
-			$list = preg_replace($sql_regex,'',$list);
-		else if (preg_match($preg_exp2,$list))
-			$list = preg_replace($sql_regex,',',$list);
-		$sql = "update ".$config->table_carriers." set gwlist=? where carrierid=?";
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		$new_list = preg_replace($repl_regex,'',$list);
+		if ($new_list!=$list) {
+			$sql = "update ".$config->table_carriers." set gwlist=? where carrierid=?";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($list,$resultset[$i]['carrierid']) )==NULL)
+				echo 'Carrier DB update failed : ' . print_r($stm->errorInfo(), true);
 		}
-		if ($stm->execute( array($list,$resultset[$i]['carrierid']) )==NULL)
-			echo 'Carrier DB update failed : ' . print_r($stm->errorInfo(), true);
 	}
 }
 ##############
