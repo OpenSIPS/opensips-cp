@@ -222,24 +222,29 @@ if ($action=="delete"){
 	$stm->execute( array($del_id) ); 
 
 	$sql_regex = "'(^|,)".$del_id."(=|,|$)'";
-	$repl_regex = "'((^|,)".$del_id."(=[^,]+)?(,|$))'"
+	$repl_regex1 = "'(,".$del_id."(=[^,]+)?,)'";
+	$repl_regex2 = "'((^|,)".$del_id."(=[^,]+)?(,|$))'";
 
 	//remove GW from dr_rules
 	if ($config->db_driver == "mysql") 
-		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ?";
+		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ";
 	else if ($config->db_driver == "pgsql")
 		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ?";
 
-	$stm = $link->prepare($sql);
+	$stm = $link->query($sql.$sql_regex);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	$stm->execute( array($sql_regex) );
+	print_r("running |".$sql.$sql_regex."|");
+	##$stm->execute( array($sql_regex) );
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	print_r($resultset);
 
 	for($i=0;count($resultset)>$i;$i++){
 		$list=$resultset[$i]['gwlist'];
-		$new_list = preg_replace($repl_regex,'',$list);
+		print_r("handling }".$list."|...");
+		$new_list = preg_replace($repl_regex1,',',$list);
+		$new_list = preg_replace($repl_regex2,'',$new_list);
 		if ($new_list!=$list) {
 			$sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
 			$stm = $link->prepare($sql);
@@ -266,7 +271,8 @@ if ($action=="delete"){
 
 	for($i=0;count($resultset)>$i;$i++){
 		$list = $resultset[$i]['gwlist'];
-		$new_list = preg_replace($repl_regex,'',$list);
+		$new_list = preg_replace($repl_regex1,',',$list);
+		$new_list = preg_replace($repl_regex2,'',$new_list);
 		if ($new_list!=$list) {
 			$sql = "update ".$config->table_carriers." set gwlist=? where carrierid=?";
 			$stm = $link->prepare($sql);
