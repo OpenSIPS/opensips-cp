@@ -85,7 +85,7 @@
 	</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Attributes</b></td>
+  <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?php echo htmlspecialchars($resultset[0]['attrs']);?>" maxlength="16" class="dataInput"></td>
  </tr>
 

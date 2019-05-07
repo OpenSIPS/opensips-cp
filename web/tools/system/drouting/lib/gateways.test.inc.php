@@ -86,4 +86,10 @@ include("db_connect.php");
 
 	}
 
+	if ($form_valid && isset($config->gw_attributes) && isset($config->gw_attributes['validation_regexp']) )
+	  	if (!preg_match('/'.$config->gw_attributes['validation_regexp'].'/i',$attrs)) {
+			$form_valid=false;
+			$form_error="- <b>".$config->gw_attributes['display_name']."</b> value is invalid: ".$config->gw_attributes['validation_error'];
+		}
+
 ?>

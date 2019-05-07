@@ -85,7 +85,8 @@
 	</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Attributes</b></td>
+ <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b></td>
+  <?php if (isset($attrs) || $attrs=="") $attrs=$config->gw_attributes["add_prefill_value"] ?>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>

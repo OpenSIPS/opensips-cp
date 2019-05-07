@@ -52,4 +52,11 @@
  
  $talk_to_this_assoc_id = 1 ;
 
+ $config->gw_attributes = array(
+	 "display_name" => "Attributes",
+	 "add_prefill_value" => "",
+	 "validation_regexp" => NULL,
+	 "validation_error" => NULL,
+ );
+
 ?>

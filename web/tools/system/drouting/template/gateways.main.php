@@ -101,7 +101,7 @@
   </td>
 </tr>
  <tr>
-  <td class="searchRecord">Attributes </td>
+ <td class="searchRecord"><?=$config->gw_attributes["display_name"] ?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
@@ -132,7 +132,7 @@
   <th class="listTitle">PRI Prefix</th>
   <th class="listTitle">Probe Mode</th>
   <th class="listTitle">Socket</th>
-  <th class="listTitle">Attributes</th>
+  <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
   <th class="listTitle">Memory State</th>
