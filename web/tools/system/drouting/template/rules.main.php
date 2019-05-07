@@ -103,7 +103,7 @@
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Attributes </td>
+  <td class="searchRecord"><?=$config->gw_attributes["display_name"] ?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$_SESSION['rules_search_attrs']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
@@ -135,7 +135,7 @@
   <th class="listTitle">Priority</th>
   <th class="listTitle">Route ID</th>
   <th class="listTitle">GW List</th>  
-  <th class="listTitle">Attributes</th>
+  <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
   <th class="listTitle">Description</th>
   <th class="listTitle">Details</th>
   <th class="listTitle">Edit</th>

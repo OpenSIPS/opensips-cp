@@ -83,7 +83,7 @@
   <th class="listTitle">Use weights</th>
   <th class="listTitle">Use only first</th>
   <th class="listTitle">Description</th>
-  <th class="listTitle">Attributes</th>
+  <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
   <th class="listTitle">DB State</th>
   <th class="listTitle">Memory State</th>
   <th class="listTitle">Details</th>

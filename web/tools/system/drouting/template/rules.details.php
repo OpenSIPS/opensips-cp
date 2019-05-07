@@ -57,7 +57,7 @@
   <td class="dataRecord"><b>Gateway List:</b> <?=$gwlist?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Attributes:</b> <?=$resultset[0]['attrs']?></td>
+  <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b> <?=$resultset[0]['attrs']?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
