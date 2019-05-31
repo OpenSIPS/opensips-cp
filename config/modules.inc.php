@@ -115,6 +115,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Permissions"
 			),
+			"sip_trunk"			=> array (
+				"enabled"		=> true,
+				"name"			=> "SIP Trunk"
+			),
 			"siptrace"			=> array (
 				"enabled"		=> true,
 				"name"			=> "SIP Trace"
