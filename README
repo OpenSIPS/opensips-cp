@@ -58,6 +58,8 @@ OpenSIPS Control Panel currently features 3 main categories:
 
 	RTPProxy - provision and manage the RTPproxy instances used by OpenSIPS
 
+	SIP Trunk - provision and manage registrant instances via the SIP Trunk module
+
 	SIP Trace - viewer of the SIP data captured via the siptrace module
 
 	Statistics Monitor - viewer and charter for the statistics provided by OpenSIPS
