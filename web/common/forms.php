@@ -116,7 +116,7 @@
  </script>
 
  <?php
- function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
+  function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 
      if ($val!=null)
 	 $value=" value='".$val."' valid='ok'";

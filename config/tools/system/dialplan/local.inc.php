@@ -3,7 +3,7 @@
  * $Id$
  * Copyright (C) 2011 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -24,27 +24,35 @@
 ###############################################################################
 # Attention : advanced options !!
 
- 
+
  //database tables
  $config->table_dialplan = "dialplan";
+
+ // system to talk to via MI ?
+ $talk_to_this_assoc_id = 1 ;
+
+ // how to order result records
  $config->results_per_page = 20;
  $config->results_page_range = 5;
 
+ /*
+  * callback array for dialplan attributes
+  * (right now hardcoded in dailplan.form.php)
+  */
  $config->attrs_cb=array(
-					// name , description
-					array("a","Descr a"),
-					array("b","Descr b"),
-					array("c","Descr c"),
-					array("d","Descr d"),
-					array("e","Descr e"),
-					array("f","Descr f"),
-					);
+	 // name , description
+	 array("a", "Descr a"),
+	 array("b", "Descr b"),
+	 array("c", "Descr c"),
+	 array("d", "Descr d"),
+	 array("e", "Descr e"),
+	 array("f", "Descr f"),
+ );
  $config->cb_per_row = 3;
- $talk_to_this_assoc_id = 1 ;
 
-// Dialplan - Add/Edit new Translation Rule - Attributes input type 
-// 0 - checkboxes 
-// 1 - text
-$dialplan_attributes_mode = 1 ;
- 
+ // Dialplan - Add/Edit new Translation Rule - Attributes input type
+ // 0 - checkboxes
+ // 1 - text
+ $dialplan_attributes_mode = 1 ;
+
 ?>

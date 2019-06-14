@@ -21,76 +21,56 @@
 */
 
 require("template/header.php");
-require("lib/".$page_id.".main.js");
+require("lib/" . $page_id . ".main.js");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 include("lib/db_connect.php");
-$table=$config->table_dialplan;
 
-$current_page="current_page_dialplan";
+$table = $config->table_dialplan;
+$current_page = "current_page_dialplan";
 
-if (isset($_POST['action'])) $action=$_POST['action'];
-else if (isset($_GET['action'])) $action=$_GET['action'];
-else $action="";
+if ( isset($_POST['action']) )
+	$action=$_POST['action'];
+else
+	if ( isset($_GET['action']) )
+		$action=$_GET['action'];
+else
+	$action="";
 
-if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
-else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
-
+if ( isset($_GET['page']) )
+	$_SESSION[$current_page] = $_GET['page'];
+else
+	if ( !isset($_SESSION[$current_page]) )
+		$_SESSION[$current_page]=1;
 
 #################
 # start add new #
 #################
 
-if ($action=="add")
+if ( $action == "add" )
 {
 	extract($_POST);
-	if(!$_SESSION['read_only'])
+	if ( !$_SESSION['read_only'] )
 	{
 		require("template/".$page_id.".add.php");
 		require("template/footer.php");
 		exit();
-	}else {
-		$errors= "User with Read-Only Rights";
+	} else {
+		$errors = "User with Read-Only Rights";
 	}
-
 }
-
 #################
 # end add new   #
 #################
 
-###############
-# start clone #
-###############
-
-if ($action=="clone")
-{
-	if(!$_SESSION['read_only']){
-		extract($_POST);
-		require("template/".$page_id.".add.php");
-		require("template/footer.php");
-		exit();
-	}else{
-		$errors= "User with Read-Only Rights";
-	}
-
-}
-
-###############
-# end clone   #
-###############
-
-
 ####################
 # start add verify #
 ####################
-if ($action=="add_verify")
-{
-	$info="";
-	$errors="";
+if ( $action == "add_verify" ) {
+	$info = "";
+	$errors = "";
 
-	if(!$_SESSION['read_only']){
-
+	if( !$_SESSION['read_only'] ) {
 		$dpid=$_POST['dpid'];
 		$pr=$_POST['pr'];
 		$match_op = $_POST['match_op'];
@@ -99,57 +79,51 @@ if ($action=="add_verify")
 		$subst_exp= $_POST['subst_exp'];
 		$repl_exp= $_POST['repl_exp'];
 		if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
-
 			$attrs= "";
-
-		} else if ($dialplan_attributes_mode == 1 ) {
-
+		} else if ( $dialplan_attributes_mode == 1 ) {
 			$attrs= $_POST['attrs'];
-
 		}
 
-		if ($dpid=="" || $pr=="" || $match_exp==""){
+		if ( $dpid=="" || $pr=="" || $match_exp=="" ) {
 			$errors = "Invalid data, the entry was not inserted in the database";
 		}
-		if($match_flags==NULL)
-		$match_flags = 0;
+		if( $match_flags == NULL )
+			$match_flags = 0;
 
-		if ($errors=="") {
+		if ( $errors == "" ) {
 			$sql = "SELECT count(*) FROM ".$table." WHERE dpid=? AND match_exp= ?";
 			$stm = $link->prepare($sql);
-			if ($stm === FALSE)
+			if ( $stm === FALSE )
 				die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 			$stm->execute(array($dpid, $match_exp));
 			if ( $stm->fetchColumn(0) > 0 ) {
 				$errors="Duplicate rule";
 			} else {
-				for($i = 0; $i<sizeof($config->attrs_cb); $i++)
-				{
-					$attrs.=!isset($_POST[$config->attrs_cb[$i][0]])?
+				for( $i = 0; $i<sizeof($config->attrs_cb); $i++ ) {
+					$attrs .= !isset($_POST[$config->attrs_cb[$i][0]])?
 					"": $config->attrs_cb[$i][0];
-					#$attrs.=' ';
+					#$attrs .= ' ';
 				}
 
-				$sql = "INSERT INTO ".$table."
-				(dpid, pr, match_op, match_exp, match_flags, subst_exp, 
-				repl_exp, attrs) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"; 
-				$stm = $link->prepare($sql);
+				$sql_command = "INSERT INTO " . $table .
+				"(dpid, pr, match_op, match_exp, match_flags, subst_exp, " .
+				"repl_exp, attrs) " .
+					 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+				$stm = $link->prepare($sql_command);
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				if ($stm->execute( array($dpid,$pr,$match_op,$match_exp,$match_flags,$subst_exp,$repl_exp,$attrs) ) == false ) {
+				if ($stm->execute( array($dpid, $pr, $match_op, $match_exp, $match_flags, $subst_exp, $repl_exp,$attrs) ) == false ) {
 					$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 				} else {
 					$info="The new rule was added";
 				}
 			}
 		}
-	}else{
+	} else {
 		$errors= "User with Read-Only Rights";
 	}
-
 }
-
 ##################
 # end add verify #
 ##################
@@ -157,13 +131,11 @@ if ($action=="add_verify")
 ##############################
 # start add verify cloned dp #
 ##############################
-if ($action=="add_verify_dp")
-{
-	$info="";
-	$errors="";
+if ( $action == "add_verify_dp" ) {
+	$info = "";
+	$errors = "";
 
-	if(!$_SESSION['read_only']){
-
+	if( !$_SESSION['read_only'] ) {
 		$src_dpid=$_POST['src'];
 		$dst_dpid=$_POST['dst'];
 
@@ -174,7 +146,6 @@ if ($action=="add_verify_dp")
 		}
 
 		if ($errors=="") {
-
 			$sql = "SELECT * FROM ".$table." WHERE dpid=?";
 			$stm = $link->prepare($sql);
 			if ($stm === FALSE)
@@ -197,38 +168,68 @@ if ($action=="add_verify_dp")
 					$resultset[$i]['match_flags'],$resultset[$i]['subst_exp'],$resultset[$i]['repl_exp'],
 					$resultset[$i]['attrs']) ) == false )
 						$errors .= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
-
-
-
 				}
 				$info="The dialplan was cloned";
 			}
 		}
-	}else{
-
+	} else {
 		$errors= "User with Read-Only Rights";
 	}
-
 }
-
 ############################
 # end add verify cloned dp #
 ############################
 
+###############
+# start clone #
+###############
+if ( $action == "clone" ) {
+	if( !$_SESSION['read_only'] ) {
+		extract($_POST);
+		//require("template/" . $page_id . ".clone.php");
+		require("template/" . $page_id . ".add.php");
+		require("template/footer.php");
+		exit();
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
+}
+###############
+# end clone   #
+###############
+
+################
+# start delete #
+################
+if ( $action == "delete" ) {
+	if ( !$_SESSION['read_only'] ) {
+		$id=$_GET['id'];
+
+		$sql = "DELETE FROM " . $table . " WHERE id=?";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($id) );
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
+}
+##############
+# end delete #
+##############
+
 #################
 # start edit	#
 #################
-if ($action=="edit")
-{
-
-	if(!$_SESSION['read_only']){
-
+if ( $action == "edit" ) {
+	if ( !$_SESSION['read_only'] ) {
 		extract($_POST);
 
-		require("template/".$page_id.".edit.php");
+		require("template/" . $page_id . ".edit.php");
 		require("template/footer.php");
 		exit();
-	}else{
+	} else {
 		$errors= "User with Read-Only Rights";
 	}
 }
@@ -239,14 +240,11 @@ if ($action=="edit")
 #################
 # start modify	#
 #################
-if ($action=="modify")
-{
-
-	$info="";
-	$errors="";
+if ( $action == "modify" ) {
+	$info = "";
+	$errors = "";
 
 	if(!$_SESSION['read_only']){
-
 		$id = $_GET['id'];
 		$dpid=$_POST['dpid'];
 		$pr=$_POST['pr'];
@@ -257,44 +255,35 @@ if ($action=="modify")
 		$repl_exp= $_POST['repl_exp'];
 
 		if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
-
 			$attrs= "";
-
 		} else if ($dialplan_attributes_mode == 1 ) {
-
 			$attrs= $_POST['attrs'];
-
 		}
 
 		if ($dpid=="" || $pr=="" || $match_exp==""){
 			$errors = "Invalid data, the entry was not modified in the database";
 		}
-		if($match_flags==NULL)
-		$match_flags = 0;
+		if ( $match_flags == NULL )
+			$match_flags = 0;
 
 		if ($errors=="") {
-
 			$sql = "SELECT * FROM ".$table." WHERE dpid=? AND match_exp=? AND id!=?";
 			$stm = $link->prepare($sql);
-			if ($stm===FALSE) {
+			if ($stm === FALSE ) {
 				die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
 			}
-			$stm->execute( array($dpid,$match_exp) );
+			$stm->execute( array($dpid, $match_exp) );
 			if ($stm->fetchColumn(0)>0 ) {
 				$errors="Duplicate rule";
 			} else {
-
 				if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
-					for($i = 0; $i<sizeof($config->attrs_cb); $i++)
-					{
+					for($i = 0; $i<sizeof($config->attrs_cb); $i++)	{
 						$attrs.=!isset($_POST[$config->attrs_cb[$i][0]])
 						?"": $config->attrs_cb[$i][0];
 						#$attrs.=' ';
 					}
 				} else if ($dialplan_attributes_mode == 1 ) {
 					//
-
-
 				}
 				$sql = "UPDATE ".$table." SET dpid=?, pr = ?, ".
 				"match_op=?, match_exp =?, match_flags=?, subst_exp=?, repl_exp=?, attrs=? WHERE id=?";
@@ -309,52 +298,22 @@ if ($action=="modify")
 				}
 			}
 		}
-	}else{
-
+	} else {
 		$errors= "User with Read-Only Rights";
 	}
-
 }
 #################
 # end modify	#
 #################
 
-
-
-################
-# start delete #
-################
-if ($action=="delete")
-{
-	if(!$_SESSION['read_only']){
-
-		$id=$_GET['id'];
-
-		$sql = "DELETE FROM ".$table." WHERE id=?";
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		$stm->execute( array($id) );
-	}else{
-
-		$errors= "User with Read-Only Rights";
-	}
-}
-##############
-# end delete #
-##############
-
-
 ################
 # start search #
 ################
-if ($action=="dp_act")
+if ( $action == "search" )
 {
+	$_SESSION['dialplan_id'] = $_POST['dialplan_id'];
 
-	$_SESSION['dialplan_id']=$_POST['dialplan_id'];
-
-	$_SESSION[$current_page]=1;
+	$_SESSION[$current_page] = 1;
 	extract($_POST);
 	if ($show_all=="Show All") {
 		$_SESSION['dialplan_id']="";
@@ -370,9 +329,12 @@ if ($action=="dp_act")
 # start main #
 ##############
 
-require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+require("template/" . $page_id . ".main.php");
+if( !empty($errors) ) {
+	echo "Error stack: ";
+	print_r($errors);
+}
+
 require("template/footer.php");
 exit();
 
