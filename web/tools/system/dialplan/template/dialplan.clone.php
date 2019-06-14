@@ -23,30 +23,32 @@
 $dpid=$_POST['dialplan_id'];
 ?>
 
-<form action="<?=$page_name?>?action=dp_act=<?php echo $_GET['dest_dpid']?>" method="post">
-<table width="50%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <td colspan="2" height="10" class="dialplanTitle"></td>
- </tr>
- <tr>
-  <td class="searchRecord">Dialplan Source ID :</td>
-  <td class="searchRecord" width="200"><input type="text" name="src_dpid" value="<?=$dpid?>" maxlength="16" class="searchInput"></td>
- </tr>
- <tr height="10">
-  <td class="searchRecord">Dialplan Dest ID :</td>
-  <td class="searchRecord" width="200"><input type="text" name="dest_dpid" maxlength="16" class="searchInput"></td>
- </tr>
- <tr height="10">
-  <td colspan=2 align="center"><input type="submit" name="clone" value="Clone Dialplan" class="formButton"></td>
- </tr>
- <tr height="10">
-  <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
- </tr>
-</table>
+<form action="<?=$page_name?>?action=dp_search=<?php echo $_GET['dest_dpid']?>" method="post">
+    <table width="50%" cellspacing="2" cellpadding="2" border="0">
+        <tr align="center">
+            <td colspan="2" height="10" class="dialplanTitle"></td>
+        </tr>
+        <tr>
+            <td class="searchRecord">Dialplan Source ID :</td>
+            <td class="searchRecord" width="200"><input type="text" name="src_dpid" value="<?=$dpid?>" maxlength="16" class="searchInput"></td>
+        </tr>
+        <tr height="10">
+            <td class="searchRecord">Dialplan Dest ID :</td>
+            <td class="searchRecord" width="200"><input type="text" name="dest_dpid" maxlength="16" class="searchInput"></td>
+        </tr>
+        <tr height="10">
+            <td colspan=2 align="center"><input type="submit" name="clone" value="Clone Dialplan" class="formButton"></td>
+        </tr>
+        <tr height="10">
+            <td colspan="2" class="dialplanTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></td>
+        </tr>
+    </table>
 </form>
+
 <?php print_back_button(); ?>
 
-<?php/*
+/*
+<?php
  $sql = "SELECT * FROM ".$table." WHERE dpid=?";
  $stm = $link->prepare($sql);
  if ($stm === false) {
@@ -67,4 +69,5 @@ $dpid=$_POST['dialplan_id'];
 	}
 
         $info="The dialplan was cloned";
-*/?>
+?>
+*/

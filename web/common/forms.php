@@ -1,134 +1,134 @@
-<?php
-/*
-* Copyright (C) 2017 OpenSIPS Project
-*
-* This file is part of opensips-cp, a free Web Control Panel Application for
-* OpenSIPS SIP server.
-*
-* opensips-cp is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* opensips-cp is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
-?>
+ <?php
+ /*
+  * Copyright (C) 2017 OpenSIPS Project
+  *
+  * This file is part of opensips-cp, a free Web Control Panel Application for
+  * OpenSIPS SIP server.
+  *
+  * opensips-cp is free software; you can redistribute it and/or modify
+  * it under the terms of the GNU General Public License as published by
+  * the Free Software Foundation; either version 2 of the License, or
+  * (at your option) any later version.
+  *
+  * opensips-cp is distributed in the hope that it will be useful,
+  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  * GNU General Public License for more details.
+  *
+  * You should have received a copy of the GNU General Public License
+  * along with this program; if not, write to the Free Software
+  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+  */
+ ?>
 
-<script language="JavaScript">
+ <script language="JavaScript">
 
-function get_elements() {
-	var arr=[];
+  function get_elements() {
+      var arr=[];
 
-	/* we need to support elements from both inputs and textareas now */
-	var inputs = document.getElementsByTagName('input');
-	var textareas = document.getElementsByTagName('textarea');
+      /* we need to support elements from both inputs and textareas now */
+      var inputs = document.getElementsByTagName('input');
+      var textareas = document.getElementsByTagName('textarea');
 
-	for (var i = 0; i < inputs.length; i++)
-		arr.push(inputs[i]);
-	for (var i = 0; i < textareas.length; i++)
-		arr.push(textareas[i]);
-	return arr;
-}
+      for (var i = 0; i < inputs.length; i++)
+	  arr.push(inputs[i]);
+      for (var i = 0; i < textareas.length; i++)
+	  arr.push(textareas[i]);
+      return arr;
+  }
 
-function form_init_status() {
-	elem = get_elements();
+  function form_init_status() {
+      elem = get_elements();
 
-	for(var i = 0; i < elem.length; i++) {
-		if (elem[i].oninput)
-			elem[i].oninput();
-	}
-}
+      for(var i = 0; i < elem.length; i++) {
+	  if (elem[i].oninput)
+	      elem[i].oninput();
+      }
+  }
 
-function form_full_check() {
-	elem = get_elements();
-	ret = true;
-	button = null;
+  function form_full_check() {
+      elem = get_elements();
+      ret = true;
+      button = null;
 
-	for(var i = 0; i < elem.length; i++) {
-		if (elem[i].getAttribute("opt")!=null && elem[i].getAttribute("opt")!="") {
-			if ( !(elem[i].getAttribute("opt")=="y" && elem[i].value=="") &&
-				!(elem[i].getAttribute("valid")=="ok") )
-				ret = false;
-		} else if (elem[i].type=="submit")
-			button = elem[i];
-	}
-	if (button!=null) {
-		if ( ret )
-			button.disabled = false;
-		else
-			button.disabled = true;
-	}
-}
+      for(var i = 0; i < elem.length; i++) {
+	  if (elem[i].getAttribute("opt")!=null && elem[i].getAttribute("opt")!="") {
+	      if ( !(elem[i].getAttribute("opt")=="y" && elem[i].value=="") &&
+		   !(elem[i].getAttribute("valid")=="ok") )
+		  ret = false;
+	  } else if (elem[i].type=="submit")
+	      button = elem[i];
+      }
+      if (button!=null) {
+	  if ( ret )
+	      button.disabled = false;
+	  else
+	      button.disabled = true;
+      }
+  }
 
-function validate_input(field, output, regex){
-	val = document.getElementById(field).value;
-	if (val=="") {
-		if (document.getElementById(field).getAttribute("opt")=="y")
-			document.getElementById(output).innerHTML = '';
-		else
-			document.getElementById(output).innerHTML = '<img src="../../../images/share/must-icon.png">';
-		document.getElementById(field).setAttribute("valid","ko");
-		ret =-1;
-	} else if (regex == null || val.match(new RegExp( regex,"g")) ) {
-		document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
-		document.getElementById(field).setAttribute("valid","ok");
-		ret = 1;
-	} else {
-		document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
-		document.getElementById(field).setAttribute("valid","ko");
-		ret = -1;
-	}
+  function validate_input(field, output, regex){
+      val = document.getElementById(field).value;
+      if (val=="") {
+	  if (document.getElementById(field).getAttribute("opt")=="y")
+	      document.getElementById(output).innerHTML = '';
+	  else
+	      document.getElementById(output).innerHTML = '<img src="../../../images/share/must-icon.png">';
+	  document.getElementById(field).setAttribute("valid","ko");
+	  ret =-1;
+      } else if (regex == null || val.match(new RegExp( regex,"g")) ) {
+	  document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
+	  document.getElementById(field).setAttribute("valid","ok");
+	  ret = 1;
+      } else {
+	  document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
+	  document.getElementById(field).setAttribute("valid","ko");
+	  ret = -1;
+      }
 
-	form_full_check();
-	return ret;
-}
+      form_full_check();
+      return ret;
+  }
 
-function validate_password(field, output, password){
-	pw1 = document.getElementById(field).value;
-	pw2 = document.getElementById(password).value;
-	if (pw2=="") {
-		if (document.getElementById(field).getAttribute("opt")=="y")
-			document.getElementById(output).innerHTML = '';
-		else
-			document.getElementById(output).innerHTML = '<img src="../../../images/share/must-icon.png">';
-		document.getElementById(field).setAttribute("valid","ko");
-		ret =-1;
-	} else if (pw1 == pw2) {
-		document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
-		document.getElementById(field).setAttribute("valid","ok");
-		ret = 1;
-	} else {
-		document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
-		document.getElementById(field).setAttribute("valid","ko");
-		ret = -1;
-	}
+  function validate_password(field, output, password){
+      pw1 = document.getElementById(field).value;
+      pw2 = document.getElementById(password).value;
+      if (pw2=="") {
+	  if (document.getElementById(field).getAttribute("opt")=="y")
+	      document.getElementById(output).innerHTML = '';
+	  else
+	      document.getElementById(output).innerHTML = '<img src="../../../images/share/must-icon.png">';
+	  document.getElementById(field).setAttribute("valid","ko");
+	  ret =-1;
+      } else if (pw1 == pw2) {
+	  document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
+	  document.getElementById(field).setAttribute("valid","ok");
+	  ret = 1;
+      } else {
+	  document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
+	  document.getElementById(field).setAttribute("valid","ko");
+	  ret = -1;
+      }
 
-	form_full_check();
-	return ret;
-}
-</script>
+      form_full_check();
+      return ret;
+  }
+ </script>
 
-<?php
-function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
+ <?php
+  function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 
-	if ($val!=null)
-		$value=" value='".$val."' valid='ok'";
-	else 
-		$value = "";
+     if ($val!=null)
+	 $value=" value='".$val."' valid='ok'";
+     else
+	 $value = "";
 
-	if ($re==null)
-		$validate="";
-	else
-		$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",\"".$re."\")'";
+     if ($re==null)
+	 $validate="";
+     else
+	 $validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",\"".$re."\")'";
 
-	print("
+     print("
 		<tr>
 			<td class='dataRecord'>
 				<b>".$title."</b>
