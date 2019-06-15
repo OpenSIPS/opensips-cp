@@ -20,9 +20,14 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+if ( isset($_GET['id']) )
+	$id = $_GET['id'];
+else
+	$id = "";
+
 ?>
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
-	<table width="400" cellspacing="2" cellpadding="2" border="0">
+<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$id?>" method="post">
+	<table width="200" cellspacing="2" cellpadding="2" border="0">
 
 	<tr align="center">
 		<td colspan="2" class="mainTitle">
@@ -34,6 +39,7 @@
 	# populate the initial values for the form
 	$ds_form['registrar'] = null;
 	$ds_form['proxy'] = null;
+	$ds_form['registrar_mode'] = null;
 	$ds_form['aor'] = null;
 	$ds_form['third_party_registrant'] = null;
 	$ds_form['username'] = null;
@@ -48,15 +54,15 @@
 	?>
 
 	<tr>
-	    <td colspan="2">
-		    <table cellspacing=20>
-		        <tr>
-		            <td class="dataRecord" align="right" width="50%">
-		                <input type="submit" name="add" disabled=true value="Add" class="formButton"></td>
-		            <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
-		        </tr>
-		    </table>
-	    </td>
+		<td colspan="2">
+			<table cellspacing=20>
+				<tr>
+					<td class="dataRecord" align="right" width="50%">
+						<input type="submit" name="add" disabled=true value="Add" class="formButton"></td>
+					<td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
+				</tr>
+			</table>
+		</td>
 	</tr>
 
 	</table>

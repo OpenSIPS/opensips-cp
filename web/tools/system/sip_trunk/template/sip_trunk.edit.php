@@ -6,7 +6,7 @@
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
+ * it under the terms of the GNU GenPeral Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
@@ -40,14 +40,15 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $index_row=0;
 ?>
-    <table width="350" cellspacing="2" cellpadding="2" border="0">
-	    <tr align="center">
-		     <td colspan="2" class="mainTitle">Edit SIP Trunk</td>
-	    </tr>
+	<table width="350" cellspacing="2" cellpadding="2" border="0">
+		<tr align="center">
+			 <td colspan="2" class="mainTitle">Edit SIP Trunk</td>
+		</tr>
 <?php
 	# populate row values to the form fields
 	$ds_form['registrar'] = $resultset[0]['registrar'];
 	$ds_form['proxy'] = $resultset[0]['proxy'];
+	$ds_form['registrar_mode'] = $resultset[0]['registrar_mode'];
 	$ds_form['aor'] = $resultset[0]['aor'];
 	$ds_form['third_party_registrant'] = $resultset[0]['third_party_registrant'];
 	$ds_form['username'] = $resultset[0]['username'];
@@ -61,16 +62,16 @@ $index_row=0;
 	require("sip_trunk.form.php");
 ?>
 
-	    <tr>
-		    <td colspan="2">
-			    <table cellspacing=20>
-				    <tr>
-					    <td class="dataRecord" align="right" width="50%">
-					       <input type="submit" name="save" value="Save" class="formButton"></td>
-					    <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
-				    </tr>
-			    </table>
-		    </td>
-	    </tr>
-    </table>
+		<tr>
+			<td colspan="2">
+				<table cellspacing=20>
+					<tr>
+						<td class="dataRecord" align="right" width="50%">
+						   <input type="submit" name="save" value="Save" class="formButton"></td>
+						<td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
 </form>

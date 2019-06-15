@@ -50,9 +50,9 @@ if( $search_aor != "") {
 }
 
 if( !$_SESSION['read_only'] ) {
-    $colspan = 14;
+    $colspan = 15;
 }else{
-    $colspan = 12;
+    $colspan = 13;
 }
 ?>
 
@@ -99,6 +99,7 @@ if( !$_SESSION['read_only'] ) {
     <tr align="center">
 	<th class="listTitle">Registrar</th>
 	<th class="listTitle">Proxy</th>
+	<th class="listTitle">Registrar Mode</th>
 	<th class="listTitle">Address of Registrant</th>
 	<th class="listTitle">3rd Party Registrant</th>
 	<th class="listTitle">Username</th>
@@ -221,6 +222,7 @@ if( !$_SESSION['read_only'] ) {
     <tr>
 	<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['registrar']?></td>
 	<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['proxy']?></td>
+	<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['registrar_mode']?></td>
 	<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['aor']?></td>
 	<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['third_party_registrant']?></td>
 	<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['username']?></td>

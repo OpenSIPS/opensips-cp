@@ -33,4 +33,9 @@
  $config->results_per_page = 20;
  $config->results_page_range = 5;
 
+ // callback array for sip_trunk registration mode
+ $config->registration_mode=array(
+	 // type , description
+	 array("RFC6140", "Static Mode (RFC 6140)"),
+	 array("RFC3261", "Registration Mode (RFC 3261)") );
 ?>
