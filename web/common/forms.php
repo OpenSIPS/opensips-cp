@@ -227,7 +227,6 @@
 		</tr>");
  }
 
-
  // Helpers to build complet validation regexp
 
  # FreeSWITCH url (fs://[username]:password@host[:port])
@@ -270,19 +269,19 @@
 
  # RegEx matching URI's: ipv4addr or ipv6addr or fqdn
  $re_uris = "(" . $re_ipv4 .
-	    "|" . $re_ipv6 .
+	    "|" . + "[" . $re_ipv6 . "]" .
 	    "|" . $re_fqdn .
 	    ")?";
 
  # RegEx IP's: ipv4addr or ipv6addr
  $re_ips = "(" . $re_ipv4 .
-	   "|" . $re_ipv6 .
+	   "|" . "[" . $re_ipv6 . "]" .
 	   ")?";
 
  # RegEx SIP URI's: sip or sips : ipv4addr or ipv6addr or fqdn
  $re_sip_uris = "sip(s)?:" .
 		"(" . $re_ipv4 .
-		"|" . $re_ipv6 .
+		"|" . "[" . $re_ipv6 . "]" .
 		"|" . $re_fqdn .
 		")?";
 
