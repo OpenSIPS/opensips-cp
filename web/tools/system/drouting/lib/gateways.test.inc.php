@@ -49,23 +49,6 @@ include("db_connect.php");
                              $form_valid=false;
                              $form_error="- <b>Socket</b> is invalid -";
                             }
-  if ($form_valid && $action!="modify") {
-	$sql="select * from ".$table." where address=? and type=? and strip=? and pri_prefix=?";
-
-	$stm = $link->prepare($sql);
-	if ($stm === FALSE)
-		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$stm->execute(array($address,$type,$strip,$pri_prefix));
-	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-	$data_rows = count($result);
-	if (($data_rows>0) && ($result[0]['gwid']!=$_GET['id']))
-                    {
-                     $form_valid=false;
-                     $form_error="- this is already a valid gateway -";
-                    }
-
-
-                   }
 	if ($form_valid && $action!="modify") {
 		$sql="select count(*) from ".$table." where gwid = ?";
 		$stm = $link->prepare($sql);
