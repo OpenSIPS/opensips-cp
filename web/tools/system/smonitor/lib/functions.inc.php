@@ -50,11 +50,10 @@ function get_mi_modules($mi_url)
 {
 	global $config;
  
-	$message=mi_command("get_statistics all", $mi_url, $errors, $status);
-	if ($errors)
+	$message=mi_command("get_statistics", array("statistics"=>array("all")), $mi_url, $errors);
+	if (!empty($errors))
 		return;
 
-	$message = json_decode($message,true);
 	ksort($message);
 
 	$temp = array();
@@ -72,7 +71,7 @@ function get_mi_modules($mi_url)
 	for ($i=0;$i<sizeof($regs[0])+1;$i++){
 		
 		if ($modules[0][$a]!=$regs[1][$i]){
-            $modules[1][$a]=$j ; 
+		    $modules[1][$a]=$j ; 
 		    $a++ ; 
 		    $modules[0][$a]=$regs[1][$i] ;
 		    $j=0;	
@@ -96,12 +95,10 @@ function get_vars($module, $mi_url)
 {
 	global $config;
 
-	$command="get_statistics ".$module.":";
-	$message=mi_command($command,$mi_url,$errors,$status);
-	if ($errors)
+	$message=mi_command( "get_statistics", array("statistics"=>array($module.":")), $mi_url, $errors);
+	if (!empty($errors))
 		return;
 
-	$message = json_decode($message,true);
 	ksort($message);
 
 	$temp = array();
@@ -119,13 +116,12 @@ function get_vars_type( $mi_url )
 {
 	global $config;
  
-	$message=mi_command("list_statistics", $mi_url, $errors,$status);
-	if ($errors)
+	$message=mi_command("list_statistics", NULL, $mi_url, $errors);
+	if (!empty($errors))
 		return;
 
 	$gauge_arr = array();
 
-	$message = json_decode($message,true);
 	ksort($message);
 	foreach ($message as $module_stat => $value){
 		if ($value == "non-incremental"){
@@ -141,14 +137,14 @@ function get_all_vars( $mi_url , $stats_list)
 	global $config;
 
 	if ( strlen($stats_list)==0 ) {
-		$message=mi_command("get_statistics all", $mi_url, $errors, $status);
+		$list = array("all");
 	} else {
-		$message=mi_command("get_statistics ".$stats_list, $mi_url, $errors,$status);
+		$list = explode(" ",$stats_list);
 	}
-	if ($errors) 
+	$message=mi_command( "get_statistics", array("statistics"=>$list), $mi_url, $errors);
+	if (!empty($errors)) 
 		return;
 
-	$message = json_decode($message,true);
 	ksort($message);
 
 	$temp = array();
@@ -164,7 +160,7 @@ function reset_var($stats, $mi_url)
 {
  	global $config;
  
- 	$message=mi_command("reset_statistics ".$stats, $mi_url, $errors,$status);
+ 	$message=mi_command("reset_statistics", array("statistics"=>array($stats)), $mi_url, $errors);
 
 	return;
 }
