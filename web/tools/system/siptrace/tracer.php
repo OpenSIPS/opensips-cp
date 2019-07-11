@@ -54,11 +54,11 @@ if ($action=="toggle") {
 		$sip_trace	= "off" ;
 	}
 
-	$command="sip_trace"." ".$sip_trace;
+	$command="trace";
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 	for ($i=0;$i<count($mi_connectors);$i++){	
-		mi_command($command,$mi_connectors[$i],$errors,$status);
+		mi_command( $command, array("mode"=>$sip_trace) ,$mi_connectors[$i],$errors);
 	}
 
 }
@@ -66,9 +66,11 @@ if ($action=="toggle") {
 
 // get the current status of the tracing engine
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-$msg = mi_command( "sip_trace", $mi_connectors[0], $errors, $status);
-$msg = json_decode($msg, TRUE);
-$state = $msg['global'];
+$msg = mi_command( "trace", NULL, $mi_connectors[0], $errors);
+if (!is_null($msg)) {
+	$state = $msg['global'];
+} else
+	$state="off";
 
 if ($state == "on")
 	$toggle_button = "Disable";
