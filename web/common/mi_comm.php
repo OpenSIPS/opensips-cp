@@ -21,25 +21,25 @@
  */
 
 
-function write2json($command, $json_url, &$errors, &$status){
+function write2json($command, $params_array, $json_url, &$errors){
 	global $config;
 
-	$first_space = strpos($command, ' ');
-	if ($first_space === false){
-		$cmd = trim($command);
-		$args = "";
-	}
-	else {
-		$cmd = substr($command, 0, $first_space);
-		$args = "?params=".str_replace(" ","," ,substr($command, $first_space+1, strlen($command)));
-	}
-	
-	$url = $json_url."/".$cmd.$args;
+	$args = array( "jsonrpc" => "2.0", "id"=> 1 );
+	$args['method'] = trim($command);
+	if ( isset($params_array) && !empty($params_array)) 
+		$args['params'] = $params_array;
+	$data_string = json_encode($args);
 
 	$ch = curl_init();
-	curl_setopt($ch, CURLOPT_URL, $url);
-	curl_setopt($ch, CURLOPT_HEADER, FALSE);
+	curl_setopt($ch, CURLOPT_URL, $json_url);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
+	curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+	curl_setopt($ch, CURLOPT_HEADER, FALSE);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Content-Type: application/json',                                                                                
+		'Content-Length: ' . strlen($data_string))                                                                       
+	);
 	$response = curl_exec($ch);
 
 	if($response === false){
@@ -47,22 +47,29 @@ function write2json($command, $json_url, &$errors, &$status){
 		return false;
 	}
 
-	$status = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+	$status = curl_getinfo($ch, CURLINFO_RESPONSE_CODE);
 
 	curl_close($ch);
 
-	//search for errors inside the reply
-	$err = json_decode($response,true);
-	if (array_key_exists("error", $err) && $err["error"]) {
-		// error is reported
-		$errors[] = "Error code ".$err["error"]["code"]." (".$err["error"]["message"].")";
+	if ($status>=300) {
+		$errors[] = "MI HTTP request failed with ".$status." reply";
+		return NULL;
 	}
 
-	return $response;
+	//search for errors inside the reply
+	$res = json_decode($response,true);
+	if ( $res["error"]!=NULL) {
+		// error is reported
+		$errors[] = "MI command failed with code ".$res["error"]["code"]." (".$res["error"]["message"].")";
+		return NULL;
+	}
+
+	return $res['result'];
 }
 
 
-function mi_command($command, $mi_url, &$errors, &$status){
+function mi_command($command, $params_array, $mi_url, &$errors)
+{
 
 	/* identify and break down the MI URL */
 	$a=explode(":",$mi_url);
@@ -77,19 +84,13 @@ function mi_command($command, $mi_url, &$errors, &$status){
 		return;
 	}
 
-	$output = write2json( trim($command), substr($mi_url,5)/*URL*/, $errors, $status);
-
-	if ($status && preg_match("/([0-9][0-9][0-9])/",$status,$matches) ) {
-		if ( $matches[0] >=300) { 
-			$errors[] = "MI command failed with ".$status;
-		}
-	}
+	$output = write2json( trim($command), $params_array, substr($mi_url,5)/*URL*/, $errors);
 
 	if ($errors) {
 		echo "<font color='red'>".$errors[0]."</font>";
 	}
 
-    return $output; 
+	return $output; 
 }
 
 ?>
