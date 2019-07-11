@@ -36,7 +36,7 @@ $mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
-	$message=mi_command( "ds_reload", $mi_connectors[$i], $errors, $status);
+	$message=mi_command( "ds_reload", NULL, $mi_connectors[$i], $errors);
 
 	if (!$errors) {
 		echo "<font color='green'><b>Success</b></font>";

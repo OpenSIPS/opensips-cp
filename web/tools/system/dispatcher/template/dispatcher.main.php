@@ -27,22 +27,22 @@ $sipURI = array();
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 // date input from the first box only
-$message=mi_command('ds_list',$mi_connectors[0], $errors,$status);
+$message=mi_command('ds_list', NULL, $mi_connectors[0], $errors);
 
-$message = json_decode($message,true);
-if ($message['PARTITION'])
-	$message = $message['PARTITION'][0]['children'];
-$message = $message['SET'];
+if ($message!=NULL) {
+	if ($message['PARTITIONS'])
+		$message = $message['PARTITIONS'][0];
+	$message = $message['SETS'];
 
-# iterate through the SETs
-for ($j=0; $j<count($message); $j++){
-	# interate though the destinations from the set
-	for ($i=0; $i<count($message[$j]['children']['URI']); $i++){
-		$sipURI[] = $message[$j]['children']['URI'][$i]['value'];
-		$flag[]   = $message[$j]['children']['URI'][$i]['attributes']['state'];
+	# iterate through the SETs
+	for ($j=0; $j<count($message); $j++){
+		# interate though the destinations from the set
+		for ($i=0; $i<count($message[$j]['Destinations']); $i++){
+			$sipURI[] = $message[$j]['Destinations'][$i]['URI'];
+			$flag[] = $message[$j]['Destinations'][$i]['state'];
+		}
 	}
 }
-
 
 $sql_search="";
 $sql_vals=array();
