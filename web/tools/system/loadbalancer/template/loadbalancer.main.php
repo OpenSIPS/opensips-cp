@@ -119,27 +119,28 @@ if ($data_no==0)
 else {
 	// get in memory status for the entries we want to list
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$message = mi_command('lb_list', $mi_connectors[0], $errors,$status);
+	$message = mi_command('lb_list', NULL, $mi_connectors[0], $errors);
 
 	$lb_state = array();
 	$lb_res = array();
 	$lb_auro = array();
 
-	$message = json_decode($message,true);
-	$message = $message['Destination'];
-	for ($i=0; $i<count($message);$i++) {
-		$id 		= $message[$i]['attributes']['id'];
+	if (!is_null($message)) {
+		$message = $message['Destinations'];
+		for ($i=0; $i<count($message);$i++) {
+			$id 		= $message[$i]['id'];
 
-		$resource="";
-		$res = $message[$i]['children']['Resources']['children']['Resource'];
-		for ($j=0;$j<count($res);$j++) {
-			$resource .= "<tr>";
-			$resource .= "<td>".$res[$j]['value']."=".$res[$j]['attributes']['load']."/".$res[$j]['attributes']['max']."</td>";
-			$resource .= "</tr>";
+			$resource="";
+			$res = $message[$i]['Resources'];
+			for ($j=0;$j<count($res);$j++) {
+				$resource .= "<tr>";
+				$resource .= "<td>".$res[$j]['name']."=".$res[$j]['load']."/".$res[$j]['max']."</td>";
+				$resource .= "</tr>";
+			}
+			$lb_res[$id] = "<table style=\"width:100%!important;\">".$resource."</table>";
+			$lb_state[$id] = ($message[$i]['enabled']=="yes")?"enabled":"disabled";
+			$lb_auto[$id] = $message[$i]['auto-reenable'];
 		}
-		$lb_res[$id] = "<table style=\"width:100%!important;\">".$resource."</table>";
-		$lb_state[$id] = ($message[$i]['attributes']['enabled']=="yes")?"enabled":"disabled";
-		$lb_auto[$id] = $message[$i]['attributes']['auto-reenable'];
 	}
 
 	$res_no=$config->results_per_page;
@@ -194,7 +195,7 @@ else {
 			<?php
 			} else {
 			?>	
-				<a href="<?=$page_name?>Img?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
+				<a href="<?=$page_name?>?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
 			<?php
 			}
 			?>
@@ -202,8 +203,8 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
 			<?php 
 			if(!$_SESSION['read_only']){
-				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a></td>');
-				echo('<td class="'.$row_style.'Img" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a></td>');
+				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a></td>');
    			}
 			?>  
 		</tr>  
