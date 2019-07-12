@@ -54,13 +54,12 @@
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3)) ? "Yes" : "No";
 
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-  $command="dr_carrier_status ";
-  if (isset($config->routing_partition) && $config->routing_partition != "")
-	  $command .= $config->routing_partition . " ";
-  $command.= $_GET['carrierid'];
 
-  $message=mi_command($command,$mi_connectors[0], $errors, $status);
-  $message = json_decode($message,true);
+  $params = array("carrier_id"=>$_GET['carrierid']);
+  if (isset($config->routing_partition) && $config->routing_partition != "")
+    $params['partition_name'] = $config->routing_partition;
+
+  $message=mi_command( "dr_carrier_status", $params, $mi_connectors[0], $errors);
   $resultset[0]['enabled'] = $message['Enabled']=="yes"?"enabled":"disabled";
 
   require("template/".$page_id.".details.php");
@@ -77,16 +76,16 @@
 #########################
 if ($action=="enablecar"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    $command="dr_carrier_status ";
+
+    $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"1");
     if (isset($config->routing_partition) && $config->routing_partition != "")
-	    $command .= $config->routing_partition . " ";
-    $command.= $_GET['carrierid']. " 1";
+       $params['partition_name'] = $config->routing_partition;
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command($command, $mi_connectors[$i], $errors, $status);
+        $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
     }
-    if (substr(trim($status),0,3)!="200")
-        echo "Error while enabling carrier ".$_GET['carrierid'];
+    if (!empty($errors))
+        echo "Error while enabling carrier ".$_GET['carrierid']." (".$errors[0].")";
 }
 ######################
 # end enable carrier #
@@ -98,16 +97,16 @@ if ($action=="enablecar"){
 #########################
 if ($action=="disablecar"){
     $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    $command="dr_carrier_status ";
+
+    $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"0");
     if (isset($config->routing_partition) && $config->routing_partition != "")
-	    $command .= $config->routing_partition . " ";
-    $command.= $_GET['carrierid']. " 0";
+       $params['partition_name'] = $config->routing_partition;
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command($command, $mi_connectors[$i], $errors, $status);
+        $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
     }
-    if (substr(trim($status),0,3)!="200")
-        echo "Error while disabling carrier ".$_GET['carrierid'];
+    if (!empty($errors))
+        echo "Error while enabling carrier ".$_GET['carrierid']." (".$errors[0].")";
 }
 ########################
 # end disable carrier  #

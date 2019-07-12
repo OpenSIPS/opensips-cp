@@ -62,16 +62,16 @@
 ######################
 if ($action=="enablegw"){
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$command="dr_gw_status ";
+
+	$params = array("gw_id"=>$_GET['gwid'],"status"=>"1");
 	if (isset($config->routing_partition) && $config->routing_partition != "")
-		$command .= $config->routing_partition . " ";
-	$command.= $_GET['gwid']. " 1";
+		$params['partition_name'] = $config->routing_partition;
 
     	for ($i=0;$i<count($mi_connectors);$i++){
-		$message=mi_command($command, $mi_connectors[$i], $errors, $status);
+		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
 	}
-	if (substr(trim($status),0,3)!="200")
-		echo "Error while enabling gateway ".$_GET['gwid'];
+	if (!empty($errors))
+		echo "Error while enabling gateway ".$_GET['gwid']." (".$errors[0].")";
 }
 ##################
 # end enable gw  #
@@ -82,17 +82,17 @@ if ($action=="enablegw"){
 # start disable gw    #
 #######################
 if ($action=="disablegw"){
-    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-    $command="dr_gw_status ";
-    if (isset($config->routing_partition) && $config->routing_partition != "")
-	    $command .= $config->routing_partition . " ";
-    $command.= $_GET['gwid']. " 0";
+	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
-    for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command($command, $mi_connectors[$i], $errors, $status);
-    }
-    if (substr(trim($status),0,3)!="200")
-        echo "Error while disabling gateway ".$_GET['gwid'];
+	$params = array("gw_id"=>$_GET['gwid'],"status"=>"0");
+	if (isset($config->routing_partition) && $config->routing_partition != "")
+		$params['partition_name'] = $config->routing_partition;
+
+    	for ($i=0;$i<count($mi_connectors);$i++){
+		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
+	}
+	if (!empty($errors))
+		echo "Error while enabling gateway ".$_GET['gwid']." (".$errors[0].")";
 }
 ##################
 # end disable gw  #
@@ -103,17 +103,16 @@ if ($action=="disablegw"){
 ######################
 if ($action=="probegw"){
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-	$command="dr_gw_status ";
+
+	$params = array("gw_id"=>$_GET['gwid'],"status"=>"2");
 	if (isset($config->routing_partition) && $config->routing_partition != "")
-		$command .= $config->routing_partition . " ";
-	$command.= $_GET['gwid']. " 2";
+		$params['partition_name'] = $config->routing_partition;
 
-	for ($i=0;$i<count($mi_connectors);$i++){
-		$message=mi_command($command, $mi_connectors[$i], $errors, $status);
+    	for ($i=0;$i<count($mi_connectors);$i++){
+		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
 	}
-
-    if (substr(trim($status),0,3)!="200")
-		echo "Error while probing gateway ".$_GET['gwid'];
+	if (!empty($errors))
+		echo "Error while enabling gateway ".$_GET['gwid']." (".$errors[0].")";
 }
 ##################
 # end probing gw #

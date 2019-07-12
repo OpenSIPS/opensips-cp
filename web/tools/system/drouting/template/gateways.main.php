@@ -145,18 +145,18 @@
 //get status for all the gws (from the first server only)
 $gw_statuses = Array ();
 
-$command="dr_gw_status";
+$params = NULL;
 if (isset($config->routing_partition) && $config->routing_partition != "")
-	$command .= " ". $config->routing_partition;
+	$params['partition_name'] = $config->routing_partition;
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-$message=mi_command($command, $mi_connectors[0], $errors, $status);
+$message=mi_command( "dr_gw_status", $params, $mi_connectors[0], $errors);
 
-$message = json_decode($message,true);
-$message = $message['ID'];
-for ($j=0; $j<count($message); $j++){
-	$gw_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['State']);
+if (!is_null($message)) {
+	$message = $message['Gateways'];
+	for ($j=0; $j<count($message); $j++){
+		$gw_statuses[$message[$j]['ID']]= trim($message[$j]['State']);
+	}
 }
-//end get status
 
  if ($sql_search=="") {
 	$sql_command="select * from ".$table." where (1=1)";

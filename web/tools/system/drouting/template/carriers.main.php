@@ -96,16 +96,17 @@
 $carrier_statuses = Array ();
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-$command="dr_carrier_status";
+
+$params = NULL;
 if (isset($config->routing_partition) && $config->routing_partition != "")
-	$command .= " ". $config->routing_partition;
+	$params['partition_name'] = $config->routing_partition;
 
-$message=mi_command($command, $mi_connectors[0], $errors, $status);
+$message=mi_command( "dr_carrier_status", $params, $mi_connectors[0], $errors);
 
-$message = json_decode($message,true);
-$message = $message['ID'];
-for ($j=0; $j<count($message); $j++){
-	$carrier_statuses[$message[$j]['value']]= trim($message[$j]['attributes']['Enabled']);
+if (!is_null($message)) {
+	$message = $message['Carriers'];
+	for ($j=0; $j<count($message); $j++)
+		$carrier_statuses[$message[$j]['ID']]= trim($message[$j]['Enabled']);
 }
 //end get status
 
