@@ -32,28 +32,29 @@
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 // fetch data from the first box only
-$message = mi_command('rtpproxy_show',$mi_connectors[0], $errors,$status);
+$message = mi_command('rtpproxy_show', NULL, $mi_connectors[0], $errors);
 
-$message = json_decode($message,true);
-$message = $message['Set'];
-$data_no = count($message);
+if (!is_null($message)) {
+	$data_no = count($message);
+} else
+	$data_no = 0;
 
 $rtpproxies_cache = array();
 
 // $message is an array of sets right now
 for ($i=0; $i<count($message);$i++) {
 	// get each node from the SET
-	$set = $message[$i]['value'];
-	for ($j=0; $j<count($message[$i]['children']['node']); $j++){
-		$node = $message[$i]['children']['node'][$j];
-		$rtpproxies_cache[ $set ][ $node['value'] ]['status'] = $node['attributes']['disabled'];
-		$rtpproxies_cache[ $set ][ $node['value'] ]['weight'] = $node['attributes']['weight'];
-		$rtpproxies_cache[ $set ][ $node['value'] ]['ticks']  = $node['attributes']['recheck_ticks'];
+	$set = $message[$i]['Set'];
+	for ($j=0; $j<count($message[$i]['Nodes']); $j++){
+		$node = $message[$i]['Nodes'][$j];
+		$rtpproxies_cache[ $set ][ $node['url'] ]['status'] = $node['disabled'];
+		$rtpproxies_cache[ $set ][ $node['url'] ]['weight'] = $node['weight'];
+		$rtpproxies_cache[ $set ][ $node['url'] ]['ticks']  = $node['recheck_ticks'];
 		
-		if ($node['attributes']['disabled'] == 1){
-			$rtpproxies_cache[ $set ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
-		} else if ($node['attributes']['disabled'] == 0){
-			$rtpproxies_cache[ $set ][ $node['value'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['attributes']['disabled'].'&sock='.$node['value'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['attributes']['disabled'].'" onclick="return confirmStateChange(\''.$node['attributes']['disabled'].'\')" border="0"></a>';
+		if ($node['disabled'] == 1){
+			$rtpproxies_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
+		} else if ($node['disabled'] == 0){
+			$rtpproxies_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
 		}
 	}
 } 	
