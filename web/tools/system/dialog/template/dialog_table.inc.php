@@ -25,13 +25,13 @@ function display_dialog_table($message){
 
 	unset($entry);
 
-	for ($i=1;$i<count($message);$i++) {
+	for ($i=0;$i<count($message);$i++) {
 	
 		$row_style = ($i%2==1)?"rowOdd":"rowEven";
 
 		if(!$_SESSION['read_only']){
-			if ($message[$i]['children']['state']<5)
-       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['attributes']['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			if ($message[$i]['state']<5)
+       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 			else
 				$delete_link = "n/a";
         	}
@@ -39,22 +39,22 @@ function display_dialog_table($message){
 		echo '<tr>';
 
 		$state_values = array(1 => "Unconfirmed Call", 2 => "Early Call", 3 => "Confirmed Not Acknoledged Call", 4 => "Confirmed Call", 5 => "Deleted Call");
-		$entry[$i]['state'] = $state_values[$message[$i]['children']['state']];
+		$entry[$i]['state'] = $state_values[$message[$i]['state']];
 
 		//timestart
-		$entry[$i]['start_time'] = date("Y-m-d H:i:s",$message[$i]['children']['timestart']);
+		$entry[$i]['start_time'] = date("Y-m-d H:i:s",$message[$i]['timestart']);
 
 		//expire time
-		$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['children']['timeout']);
+		$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['timeout']);
 
 		//toURI
-		$entry[$i]['toURI']=$message[$i]['children']['to_uri'];
+		$entry[$i]['toURI']=$message[$i]['to_uri'];
 
 		//fromURI
-		$entry[$i]['fromURI']=$message[$i]['children']['from_uri'];
+		$entry[$i]['fromURI']=$message[$i]['from_uri'];
 
 		//callID
-		$entry[$i]['callID']=$message[$i]['children']['callid'];
+		$entry[$i]['callID']=$message[$i]['callid'];
 
 		unset($res);
 

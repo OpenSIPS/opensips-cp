@@ -40,16 +40,17 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($action=="delete")
 {
-        if(!$_SESSION['read_only']){
+	if(!$_SESSION['read_only']){
 
-                $h_entry=trim($_GET['h_entry']);
-                $h_id=trim($_GET['h_id']);
-                $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-                mi_command("dlg_end_dlg ".$h_entry." ".$h_id, $mi_connectors[0], $errors, $status);
-        }else{
+		$id=trim($_GET['id']);
+	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+        	for ($i=0;$i<count($mi_connectors);$i++){
+				mi_command( "dlg_end_dlg", array("dialog_id"=>$id),  $mi_connectors[$i], $errors);
+			}
+	}else{
 
-                $errors= "User with Read-Only Rights";
-        }
+		$errors= "User with Read-Only Rights";
+	}
 }
 ##############
 # end delete #

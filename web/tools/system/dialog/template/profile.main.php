@@ -64,14 +64,13 @@ if (isset($_POST['submit'])) {
 		$profile = $_POST['profile'];
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		// get status from the first one only
-		if ($profile_param == "")
-			$msg=mi_command("profile_get_size $profile", $mi_connectors[0], $errors , $status);
-		else
-			$msg=mi_command("profile_get_size $profile $profile_param", $mi_connectors[0], $errors , $status);
+		$params = array("profile"=>$profile);
+		if (!empty($profile_param))
+			$params["value"] = $profile_param;
+		$msg=mi_command("profile_get_size", $params, $mi_connectors[0], $errors);
 
 		if (!empty($msg)) {
-			$msg = json_decode($msg,true);
-			$profile_size = $msg[profile][attributes][count];
+			$profile_size = $msg["Profile"]["count"];
 			echo ('Number of dialogs in profile <b>'.$profile. '</b> is <b>' . $profile_size .'</b>');
 			unset($_SESSION['profile_size']);
 		}
@@ -101,12 +100,10 @@ if (isset($_POST['dialogs'])) {
 	else {
 		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 		// get status from the first one only
-		$message=mi_command("profile_list_dlgs $profile", $mi_connectors[0], $errors , $status);
+		$message=mi_command("profile_list_dlgs", array("profile"=>$profile), $mi_connectors[0], $errors);
 
 		if (!empty($msg)) {
-			$message = json_decode($message,true);
-			$dialogs = $message['dialog'];
-			array_unshift($dialogs, "dummy");
+			$dialogs = $message['Dialogs'];
 			display_dialog_table($dialogs);
 		} else {
 			echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');

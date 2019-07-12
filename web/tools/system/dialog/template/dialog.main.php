@@ -35,12 +35,14 @@ include "dialog_table.inc.php";
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
 // get status from the first one only
-$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
-$message=mi_command($comm , $mi_connectors[0], $errors , $status);
+$message=mi_command( "dlg_list", array("index"=>$start_limit,"counter"=>$config->results_per_page) , $mi_connectors[0], $errors);
 
-$message = json_decode($message,true);
-$data_no = $message['dlg_counter'][0]['value'];
-$message = $message['dlg_counter'];
+if (!is_null($message)) {
+	$data_no = $message['count'];
+	$message = $message['Dialogs'];
+} else {
+	$data_no = 0;
+}
 
 
 echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';

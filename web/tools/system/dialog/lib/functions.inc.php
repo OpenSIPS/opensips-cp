@@ -25,12 +25,11 @@ require ("../../../../config/tools/system/dialog/local.inc.php");
 
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 	// get status from the first one only
-	$message=mi_command("list_all_profiles", $mi_connectors[0], $errors , $status);
+	$message=mi_command("list_all_profiles", NULL, $mi_connectors[0], $errors);
 
-	$message = json_decode($message,true);
-	foreach($message as $prof => $type ){
-		$options[]=array("label"=>$prof,"value"=>$prof);
-        }
+	if (!empty($message))
+		for( $i=0 ; $i<sizeof($message['Profiles']) ; $i++) 
+			$options[]=array("label"=>$message['Profiles'][$i]['name'],"value"=>$message['Profiles'][$i]['name']);
 
 	$start_index = 0;
 	$end_index = sizeof($options);
