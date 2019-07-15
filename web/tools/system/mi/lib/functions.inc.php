@@ -56,6 +56,8 @@ function show_boxes($boxen,$current_box){
 	echo ('<input type="hidden" name="box_val" class="formInput" method="post" value="">');
 	echo ('<select name="box_list" class="boxSelect" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
 
+	if (empty($current_box)) $current_box=key($boxen);
+
 	foreach ( $boxen as $key => $val )
 	if (!empty($val)) {
 		echo '<option value="'.$key.'"' ;
