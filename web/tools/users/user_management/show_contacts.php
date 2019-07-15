@@ -7,27 +7,20 @@ require_once("lib/functions.inc.php");
 
 
 $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
-$comm = "ul_show_contact location ".$_GET["username"]."@".$_GET["domain"];
-$message=mi_command($comm,$mi_connectors[0], $errors,$status);
-$status = trim($status);
+$message=mi_command( "ul_show_contact", array("table_name"=>"location","aor"=>$_GET["username"]."@".$_GET["domain"]), $mi_connectors[0], $errors);
 
 unset($contact);
-if ($message != NULL) {
-
-	$stupidtags = array("&lt;","&gt;");
-	$goodtags = array("<",">");
-	$message=str_replace($stupidtags,$goodtags,$message);
-
-	$message = json_decode($message,true);
-	$aor = $message['AOR'][0]['value'];
-	$message = $message['AOR'][0]['children']['Contact'];
+if (!is_null($message)) {
+	syslog(LOG_ERR,print_r($message,TRUE));
+	$aor = $message['AOR'];
+	$message = $message['Contacts'];
 	for ($j=0; $j < count($message); $j++){
-		$contact[$j] = $message[$j]['value'];
+		$contact[$j] = $message[$j]['Contact'];
 
-		$q[$j]=$message[$j]['attributes']['Q'];
+		$q[$j]=$message[$j]['Q'];
 		if ($q[$j]=="") $q[$j]="n/a";
 
-		$exp=$message[$j]['children']['Expires'];
+		$exp=$message[$j]['Expires'];
 		if (is_numeric($exp)){
 			$expires[$j]=secs2hms($exp);
 		}
@@ -35,12 +28,13 @@ if ($message != NULL) {
 			$expires[$j]=$exp;
 		}	
 
-		$flags[$j]	= decbin(hexdec($message[$j]['children']['Flags']));
+		$flags[$j]	= decbin(hexdec($message[$j]['Flags']));
+		$cflags[$j]	= $message[$j]['Cflags'];
 		
-		$socket[$j] = $message[$j]['children']['Socket'];
+		$socket[$j] = $message[$j]['Socket'];
 		if ($socket[$j]=="") $socket[$j]="n/a";
 
-		$methods[$j] = decbin(hexdec($message[$j]['children']['Methods']));
+		$methods[$j] = $message[$j]['Methods'];
 		if ($methods[$j] <= 65535){
 			$methods[$j] = decbin(hexdec($methods[$j]));
 		}
@@ -51,13 +45,13 @@ if ($message != NULL) {
 			$methods[$j] = "invalid methods";
 		}
 
-		$received[$j] = $message[$j]['children']['Received'];
+		$received[$j] = $message[$j]['Received'];
 		if ($received[$j]=="") $received[$j]="n/a";
 		
-		$state[$j] = $message[$j]['children']['State'];
+		$state[$j] = $message[$j]['State'];
 		if ($state[$j]=="") $state[$j]="n/a";
 
-		$useragent[$j] = $message[$j]['children']['User-agent'];
+		$useragent[$j] = $message[$j]['User-agent'];
 		if ($useragent[$j]=="") $useragent[$j]="n/a";
 	}
 }
