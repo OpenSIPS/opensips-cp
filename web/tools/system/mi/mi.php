@@ -43,33 +43,87 @@ if (empty($_SESSION['mi_command_list']))
 
 if ($_GET['action']=="execute")
 {
+	$mi_func_exception = array (
+		"fs_subscribe" => array(1, "events"),
+		"fs_unsubscribe" => array(1, "events"),
+		"b2b_trigger_scenario" => array(1, "scenario_params"),
+		"dlg_push_var" => array(2, "DID"),
+		"get_statistics" => array(0, "statistics"),
+		"trace_start" => array(0, "filter")
+	);
+
 	$error=false;
-	$command=$_POST['mi_cmd'];
-	if ($command=="") $error=true;
-	if (!$error ) {
+	$input=$_POST['mi_cmd'];
+	$input = preg_replace("/\s+/", " ", $input);
+	$input = preg_replace("/\s+=\s+/", "=", $input);
 
-		$message=mi_command($command,$current_box,$errors,$status);
+	$tokens = explode(" ", $input);
 
-		$stupidtags = array("&lt;","&gt;");
-		$goodtags = array("<",">");
-		$message=str_replace($goodtags,$stupidtags,$message);
+	$command = array_shift( $tokens );
 
-		$_SESSION['mi_time'][]=date("H:i:s");
-		$_SESSION['mi_command'][]=$command;
-		$_SESSION['mi_box'][]=$current_box ;
+	if (!empty($command)) {
 
-		if (count($errors)>0) {
-			$_SESSION['mi_response'][]="<font color='red'>".$errors[0]."</font>";
-		} else {
-			if ($message!="") {
-				$res = json_decode($message,true);
-				if (count($res) == 0){
-					$_SESSION['mi_response'][]="Successfully executed, no output generated";
+		$has_name=FALSE;
+		$params = array();
+
+		for( $i=0 ; $i<count($tokens) ; $i++ ) {
+			
+			if (strpos( $tokens[$i], '=') !== false) {
+				// param with name
+				if (!$has_name) {
+					if ($i!=0) {
+						$errors[]="You cannot mix parameters with and without name";
+						break;
+					}
+					$has_name=TRUE;
+				}
+				$p = explode("=",$tokens[$i]);
+				if ( array_key_exists( $command, $mi_func_exception) && $p[0]=$mi_func_exception[$command][1]) {
+					$ar = array( $p[1] );
+					$params[ $p[0] ] = array_merge( $ar, array_slice($tokens, $i) ); 
+					$i = count($tokens);
 				} else {
-					$_SESSION['mi_response'][]=json_encode($res,JSON_PRETTY_PRINT);
+					$params[ $p[0] ] = $p[1]; 
 				}
 			} else {
-				$_SESSION['mi_response'][]="Successfully executed, no output generated";
+				// param without name
+				if ($has_name) {
+					if ($i!=0) {
+						$errors[]="You cannot mix parameters with and without name";
+						break;
+					}
+				}
+				array_push($params,$tokens[$i]);
+			}	
+		}
+
+		if ( array_key_exists( $command, $mi_func_exception) ) {
+			if ($has_name==FALSE) {
+				// positional params, no names
+				$new_params = array_slice($params, 0, $mi_func_exception[$command][0]);
+				$params = array_merge( $new_params, array(array_slice($params, $mi_func_exception[$command][0])));
+			}
+		}
+
+		if (empty($params))
+			$params = NULL;	
+
+		if (!empty($errors)) {
+			echo "<font color='red'>".$errors[0]."</font>";
+		} else {
+			$message=mi_command($command,$params,$current_box,$errors);
+
+			if (!empty($message)) {
+
+				$_SESSION['mi_time'][]=date("H:i:s");
+				$_SESSION['mi_command'][]=$input;
+				$_SESSION['mi_box'][]=$current_box ;
+
+				if (count($message) == 0){
+					$_SESSION['mi_response'][]="Successfully executed, no output generated";
+				} else {
+					$_SESSION['mi_response'][]=json_encode($message,JSON_PRETTY_PRINT);
+				}
 			}
 		}
 	}

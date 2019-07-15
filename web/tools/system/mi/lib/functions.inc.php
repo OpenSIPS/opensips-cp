@@ -23,14 +23,11 @@
 
 function get_command_list($mi_url)
 {
-	$message = mi_command( "which", $mi_url, $errors, $status);
+	$message = mi_command( "which", NULL, $mi_url, $errors);
 
-	$message = json_decode($message,true);
-	//TODO - this might change 
-	$message = $message[null];
 	$cmds = array();
 	for ($i=0;$i<count($message);$i++){
-		$cmds [] = $message[$i]['value'];
+		$cmds [] = $message[$i];
 	}
 	$_SESSION['mi_command_list'] = $cmds;
 	return;
