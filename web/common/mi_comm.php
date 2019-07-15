@@ -58,7 +58,7 @@ function write2json($command, $params_array, $json_url, &$errors){
 
 	//search for errors inside the reply
 	$res = json_decode($response,true);
-	if ( $res["error"]!=NULL) {
+	if ( array_key_exists( "error", $res) ) {
 		// error is reported
 		$errors[] = "MI command failed with code ".$res["error"]["code"]." (".$res["error"]["message"].")";
 		return NULL;
