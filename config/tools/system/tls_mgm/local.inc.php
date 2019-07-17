@@ -129,6 +129,17 @@ $custom_config[$module_id][0]['page_range'] = 3;
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> true
 			),
+			"address"	=> 	array (
+					"header" 			=> "Network address",
+					"type"				=> "text",
+					"key"				=> NULL,
+					"tip"				=> "Network address in \"ip:port\" format, required for server domains but can be NULL for client domains",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> "^([0-9.]+:[0-9]{1-5})$",
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> true
+			),
 			"type" 	=> 	array (
 					"header" 		=> "Type",
 					"type"			=> "combo",
