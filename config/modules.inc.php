@@ -131,6 +131,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "TLS Management"
 			),
+			"uac_registrant"		=> array (
+				"enabled"		=> true,
+				"name"			=> "UAC Registrant"
+			),
 			"tviewer"			=> array (
 				"enabled"		=> true,
 				"name"			=> "TViewer"
