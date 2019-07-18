@@ -108,6 +108,7 @@
 					"tip"			=> "SIP URI pointing to the outbond proxy",
 					"is_optional" 		=> "y",
 					"validation_regex" 	=> $re_sip_uri,
+					"visible"		=> false,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> true
@@ -130,6 +131,7 @@
 					"tip"			=> "SIP URI defining as sender/registrant (From header) something else than actual registered account (AOR)",
 					"is_optional" 		=> "y",
 					"validation_regex" 	=> $re_sip_uri,
+					"visible"		=> false,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> false
@@ -154,7 +156,7 @@
 					"validation_regex" 	=> NULL,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
-					"visible"		=> true,
+					"visible"		=> false,
 					"searchable" 		=> false
 			),
 			"binding_URI"	=> 	array (
@@ -188,6 +190,7 @@
 					"tip"			=> "OpenSIPS SIP socket/listener to be used for doing this registration",
 					"is_optional" 		=> "y",
 					"validation_regex" 	=> $re_socket,
+					"visible"		=> false,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> false
@@ -199,6 +202,7 @@
 					"tip"			=> "A cluster sharing tag (as [tag_name/custer_id]) used to control this registration in clustering scenarios",
 					"is_optional" 		=> "y",
 					"validation_regex" 	=> "^[a-z0-9A-Z_-]+/[0-9]+$",
+					"visible"		=> false,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> false
@@ -230,23 +234,32 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 
  $custom_config[$module_id][0]['custom_action_columns'] = 	array (
 									"0" 	=> 	array(
-												"header" 			=> "Edit",
+												"header" 		=> "Details",
 												"show_header" 		=> false,
-												"type"				=> "link",
-												"action" 			=> "edit",
-												"icon"				=> "../../../images/share/edit.png",
+												"type"			=> "link",
+												"action" 		=> "details",
+												"icon"			=> "../../../images/share/details.png",
+												"action_script" 	=> "custom_actions/details.php",
+												"action_template" 	=> "template/custom_templates/details.php"
+											),
+									"1" 	=> 	array(
+												"header" 		=> "Edit",
+												"show_header" 		=> false,
+												"type"			=> "link",
+												"action" 		=> "edit",
+												"icon"			=> "../../../images/share/edit.png",
 												"action_script" 	=> "custom_actions/edit.php",
 												"action_template" 	=> "template/custom_templates/edit.php"
 											),
-									"1" 	=> 	array(
-												"header" 			=> "Delete",
+									"2" 	=> 	array(
+												"header" 		=> "Delete",
 												"show_header" 		=> false,
-												"type"				=> "link",
-												"action" 			=> "delete",
-												"icon"				=> "../../../images/share/delete.png",
+												"type"			=> "link",
+												"action" 		=> "delete",
+												"icon"			=> "../../../images/share/delete.png",
 												"action_script" 	=> "custom_actions/delete.php",
 												"action_template" 	=> "template/custom_templates/delete.php",
-												"events"			=> "onclick=\"return confirmDelete()\""
+												"events"		=> "onclick=\"return confirmDelete()\""
 											)
 							);
 ##############################################
