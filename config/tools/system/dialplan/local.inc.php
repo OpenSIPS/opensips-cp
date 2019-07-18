@@ -30,21 +30,18 @@
  $config->results_per_page = 20;
  $config->results_page_range = 5;
 
+ // Dialplan - Add/Edit new Translation Rule - Attributes input type
+ // 0 - checkboxes
+ // 1 - text
+ $dialplan_attributes_mode = 1 ;
+ 
  $config->attrs_cb=array(
-					// name , description
-					array("a","Descr a"),
-					array("b","Descr b"),
-					array("c","Descr c"),
-					array("d","Descr d"),
-					array("e","Descr e"),
-					array("f","Descr f"),
-					);
- $config->cb_per_row = 3;
+	// name , description
+	"a" => "Descr a",
+	"b" => "Descr b",
+	"c" => "Descr c",
+ );
+
  $talk_to_this_assoc_id = 1 ;
 
-// Dialplan - Add/Edit new Translation Rule - Attributes input type 
-// 0 - checkboxes 
-// 1 - text
-$dialplan_attributes_mode = 1 ;
- 
 ?>

@@ -44,7 +44,7 @@ if(!$_SESSION['read_only']){
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
-<form action="<?=$page_name?>?action=dp_act" method="post">
+<form action="<?=$page_name?>?action=search" method="post">
 <table width="350" cellspacing="2" cellpadding="2" border="0">
   <tr>
   <td class="searchRecord">Dialplan ID :</td>

@@ -31,122 +31,37 @@ if($clone =="1"){
 	if ($stm === FALSE)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute( array($id) );
-	$resultset= $stm->fetchAll(PDO::FETCH_ASSOC);
+	$dp_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 
-	$dpid = $resultset[0]['dpid'];
-	$pr = $resultset[0]['pr'];
-	$match_exp =$resultset[0]['match_exp'];
-	$match_flags =$resultset[0]['match_flags'];
-	$subst_exp =$resultset[0]['subst_exp'];
-	$repl_exp  =$resultset[0]['repl_exp'];
-	$attrs = $resultset[0]['attrs'];
+} else {
+
+	$dp_form['dpid'] = NULL;
+	$dp_form['pr'] = "0";
+	$dp_form['match_exp'] = NULL;
+	$dp_form['match_flags'] = "0";
+	$dp_form['subst_exp'] = NULL;
+	$dp_form['repl_exp'] = NULL;
+	$dp_form['attrs'] = "";
+
 }
-
-if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
-	$chech_boxes = "";
-	for($i=0; $i<sizeof($config->attrs_cb); $i++)
-	{
-		if(($i% $config->cb_per_row==0) && ($i!=0))
-		$check_boxes.='<br>';
-
-		$check_boxes.='<input type="checkbox" name="'.$config->attrs_cb[$i][0];
-		$check_boxes.='" value="'.$config->attrs_cb[$i][1];
-		if($clone=="1" && stristr($row['attrs'],$config->attrs_cb[$i][0])){
-			$check_boxes.='" checked>';
-		}else{
-			$check_boxes.='">';
-		}
-
-		$check_boxes.=$config->attrs_cb[$i][1];
-	}
-}
-
-$match_op_sel ='<select name="match_op" id="match_op" size="1" class="dataSelect">';
-if($clone=="1"){
-	if($row['match_op']==1){
-		$match_op_sel.='<option value="1" selected>REGEX</option>';
-		$match_op_sel.= '<option value="0" >EQUAL</option>';
-	} else {
-		$match_op_sel.='<option value="1" >REGEX</option>';
-		$match_op_sel.= '<option value="0" selected>EQUAL</option>';
-	}
-}else{
-	$match_op_sel.='<option value="1" >REGEX</option>';
-	$match_op_sel.= '<option value="0" >EQUAL</option>';
-}
-$match_op_sel.= '</select>';
-
 
 ?>
-<form action="<?=$page_name?>?action=add_verify&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
+<form action="<?=$page_name?>?action=add_do&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="mainTitle">Add new Translation Rule</td>
  </tr>
-<?php
-?>
- <tr>
-  <td class="dataRecord"><b>Dialplan ID</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="dpid" 
-  value="<?=$dpid?>"maxlength="128" class="dataInput"></td>
-  </tr>
 
- <tr>
-  <td class="dataRecord"><b>Rule Priority</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="pr" 
-  value="<?=$pr?>" maxlength="128" class="dataInput"></td>
- </tr>
- 
-<tr>
-  <td class="dataRecord"><b>Matching Operator</b></td>
-  <td class="dataRecord" width="275"><?=$match_op_sel?></td>
- </tr>
-
-
-<tr>
-  <td class="dataRecord"><b>Matching Regular Expression</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="match_exp" 
-  value="<?=$match_exp?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord"><b>Matching Flags</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="match_exp_flags" 
-  value="<?=$match_flags?>" maxlength="128" class="dataInput"></td>
- </tr>
-
-<tr>
-  <td class="dataRecord"><b>Substitution Regular Expression</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="subst_exp" 
-  value="<?=$subst_exp?>" maxlength="128" class="dataInput"></td>
- </tr>
-
-<tr>
-  <td class="dataRecord"><b>Replacement Expression</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="repl_exp" 
-  value="<?=$repl_exp?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord"><b>Attributes</b></td>
-
-  <?php if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {  ?>	
-  	<td class="dataRecord"><?=$check_boxes?></td>
-	<?php } else if ($dialplan_attributes_mode == 1 ) {  ?>	
-
-	  <td class="dataRecord" width="275"><input type="text" name="attrs" 
-  	value="<?=$row['attrs']?>" maxlength="128" class="dataInput"></td>
-
-	<?php } ?>
-  
- </tr>
+ <?php
+ require("dialplan.form.php");
+ ?>
 
  <tr>
   <td colspan="2">
     <table cellspacing=20>
       <tr>
 	<td class="dataRecord" align="right" width="50%">
-	<input type="submit" name="add" value="Add" class="formButton"></td>
+	<input type="submit" name="add" disabled=true value="Add" class="formButton"></td>
         <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
@@ -154,16 +69,4 @@ $match_op_sel.= '</select>';
  </tr>
 </table>
 </form>
-
-<?php
-
-function display_attrs_cb()
-{
-	for($i=0; $i<sizeof($config->attrs_cb); $i++)
-	{
-		echo(' <input type="checkbox" name="'.$config->attrs_cb[$i][0].'" value="'.$config->attrs_cb[$i][1].'">'
-		.$config->attrs_cb[$i][1]);
-	}
-}
-?>
 
