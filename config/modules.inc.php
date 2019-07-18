@@ -75,7 +75,7 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Dialplan"
 			),
-			"dispatcher"		=> array (
+			"dispatcher"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Dispatcher"
 			),
@@ -91,7 +91,7 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Clusterer"
 			),
-			"loadbalancer"		=> array (
+			"loadbalancer"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Load Balancer"
 			),
@@ -111,7 +111,7 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "RTPEngine"
 			),
-			"permissions"		=> array (
+			"permissions"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Permissions"
 			),
