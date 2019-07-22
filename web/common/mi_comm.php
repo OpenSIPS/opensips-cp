@@ -60,7 +60,7 @@ function write2json($command, $params_array, $json_url, &$errors){
 	$res = json_decode($response,true);
 	if ( array_key_exists( "error", $res) ) {
 		// error is reported
-		$errors[] = "MI command failed with code ".$res["error"]["code"]." (".$res["error"]["message"].")";
+		$errors = $res["error"];
 		return NULL;
 	}
 
@@ -86,8 +86,9 @@ function mi_command($command, $params_array, $mi_url, &$errors)
 
 	$output = write2json( trim($command), $params_array, substr($mi_url,5)/*URL*/, $errors);
 
-	if ($errors) {
-		echo "<font color='red'>".$errors[0]."</font>";
+	/* print here only the errors from MI level (bad param, no cmd, etc), but not errors from cmd level */
+	if ($errors && $errors["code"]<0) {
+		echo "<font color='red'>"."MI command failed with code ".$errors["code"]." (".$errors["message"].")"."</font>";
 	}
 
 	return $output; 
