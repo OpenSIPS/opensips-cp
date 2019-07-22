@@ -1,1119 +1,463 @@
-2018-10-31  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [220470a] :
+2019-07-22  Bogdan Iancu  <bogdan at opensips dot org>
+	* [c3ac573] :
 
-	Updated INSTALL and Changelog
-	(cherry picked from commit e2949772ef0472bfdf513831a01500450d81c055)
+	Automatically print only error from the MI level, and skip errors from cmd level.
+	Errors related to the execution of the cmd are to be handled (and eventually printed) by the code that triggered the MI cmd.
 
 
-2018-10-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9cd40b6] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [20f53d4] :
 
-	Update copyright years
+	[dialplan] Added tooltip and validation support
+	Based on the initial pull request #65 from @rzerres
 
 
-2018-10-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ec6b264] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [1e5df2f] :
 
-	Fix tool name
+	Added support for input:checkbox in the generic forms
 
 
-2018-10-31  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [8e3aa37] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [43d1852] :
 
-	Merge the monitoring tables into the global schema
+	Added new "SMS Gateway" tool
+	Closing #70
 
 
-2018-10-31  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [d62a664] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [d0b90d9] :
 
-	Start merging all the DB scripts into a single global one
+	Moved some of the fields form the main display to the "details" display
 
 
-2018-10-31  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [19eb857] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [71f2913] :
 
-	Create a default access user when creating the admin table
+	Restore missing files for implementing "Details" button
 
 
-2018-10-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [3c76a15] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [9d955fd] :
 
-	Use setid for ordering (versus id)
+	Just identation
 
 
-2018-10-30  root  <root at opensips dot org>
-	* [e316010] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [4278591] :
 
-	Fix typo in variable name
+	Added the "UAC Registrant" tool
+	Part of #70
 
 
-2018-10-12  Razvan Crainea  <razvan at opensips dot org>
-	* [1c5735c] :
+2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [23cef63] :
 
-	user_management: don't consider empty values on search
+	Moved validation regexp for sockets into the "forms" file for reusage purposes
 
 
-2018-10-12  Razvan Crainea  <razvan at opensips dot org>
-	* [59400a9] :
+2019-07-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [af96d54] :
 
-	user_management: don't overwrite users if set
+	[tls_mgm] Align with the new DB schema
 
 
-2018-10-01  Liviu Chircu  <liviu at opensips dot org>
-	* [1df0e8a] :
+2019-07-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [3772207] :
 
-	dispatcher: Fix "Edit" destination
-	Make sure we have a DB connection when we import dispatcher.form.php
+	[Permissions] Added validation for IPv6 also
+	Closes #61
 
 
-2018-09-25  Razvan Crainea  <razvan at opensips dot org>
-	* [7c20bbd] :
+2019-07-16  Bogdan Iancu  <bogdan at opensips dot org>
+	* [9061922] :
 
-	user_management: support for more flexible extras
-	Add support for more flexible extra values, similar to the tviewer
-	support.
+	Better test for existing array key
 
 
-2018-09-25  Razvan Crainea  <razvan at opensips dot org>
-	* [0bcfe29] :
+2019-07-16  Bogdan Iancu  <bogdan at opensips dot org>
+	* [03755b7] :
 
-	dispatcher: use names for groups instead of ids
-	This feature provides the ability to specify names for the group ids
-	provisioned in the dispatcher module. These mappings can be static, in
-	an array, or can be dynamic, provisioned in a database.
+	[user_management] Migrated to new MI command prototype
 
 
-2018-09-12  Razvan Crainea  <razvan at opensips dot org>
-	* [d2ba529] :
+2019-07-15  Bogdan Iancu  <bogdan at opensips dot org>
+	* [e0d7c06] :
 
-	Add TLS_MGM module based on tviewer
-	This module provides a provisioning interface for the tls_mgm module. It
-	has support for adding all the fields that can be provisioned in DB,
-	including textareas for certificates and keys.
+	[mi] Migrated to new MI command prototype
 
 
-2018-09-12  Razvan Crainea  <razvan at opensips dot org>
-	* [bdeb573] :
+2019-07-15  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [92d80ba] :
 
-	fix tviewer images in the example
-	provide an existing path for the edit and delete icons
+	Merge pull request #69 from bduverger/master
+	Fix 'System/MI commands' when no box selected
 
 
-2018-09-12  Razvan Crainea  <razvan at opensips dot org>
-	* [5d01dae] :
+2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [828938f] :
 
-	tviewer: provide a way to provision texarea fields
+	[drouting] Migrated to new MI command prototype
 
 
-2018-09-12  Razvan Crainea  <razvan at opensips dot org>
-	* [ebccfec] :
+2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [39161f6] :
 
-	user_management: remove unused images
+	[drouting] Migrated to new MI command prototype
 
 
-2018-08-30  Bogdan Andrei IANCU  <bogdan at opensips dot org>
-	* [236d968] :
+2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [6394a8a] :
 
-	Merge pull request #48 from cleberb/remove_short_tags
-	Remove short tags
+	[loadbalancer] Migrated to new MI command prototype
 
 
-2018-08-30  cleberb  <cleberson_batista at yahoo.com dot br>
-	* [2146a43] :
+2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [848975d] :
 
-	Removed short tags config in INSTALL
-	Actions to apply issues hint https://github.com/OpenSIPS/opensips-cp/issues/47 .
+	[rtpengine] Migrated to new MI command prototype
 
 
-2018-08-30  cleberb  <cleberson_batista at yahoo.com dot br>
-	* [37f7f33] :
+2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [98c5c76] :
 
-	Removed short tags
-	Actions to apply issues hint https://github.com/OpenSIPS/opensips-cp/issues/47 .
+	[rtpproxy] Migrated to new MI command prototype
 
 
-2018-08-29  Răzvan Crainea  <razvan at opensips dot org>
-	* [ece2b59] :
+2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [0f10495] :
 
-	Fix typo in smonitor graph library
-	Thanks go to @cleberb for reporting this.
-	Close #46.
+	[dialog] Migrated to new MI command prototype
 
 
-2018-08-28  Razvan Crainea  <razvan at opensips dot org>
-	* [6f93486] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [c9941fd] :
 
-	Restore lost ocp_admin_privileges.pgsql schema file
-	Thanks go to cleberb on GitHub for reporting this in ticket #45
+	[smonitor] Migrated to new MI command prototype
 
 
-2018-08-28  Razvan Crainea  <razvan at opensips dot org>
-	* [cae91c9] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f6ec7a0] :
 
-	Load user's privileges before showing admin's tab
-	This commit ensures the user has the privileges loaded before showing
-	the admin's content. It also ensures the user has the right credentials
-	for accessing the tool.
+	[domains] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [034da4d] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [0b3c3df] :
 
-	Migrated to the new shared images
+	[dialplan] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [63ead30] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [b2eadf5] :
 
-	Removed useless local CSS
+	[tviewer] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [158ef80] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [bdb26d8] :
 
-	Removed ref to local CSS
+	[permissions] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f3e5585] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [1df32b8] :
 
-	Removed the local CSS
+	[siptrace]  Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [8e54393] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [97ae8d5] :
 
-	Remove the local CSS
+	[tls_mgm] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [af227bd] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [fb27fc4] :
 
-	Revert "Escape $cdr_field column as it may be reserved val in Postgres"
-	This reverts commit bee2c0b8b91b563a59bf6af6e3553226f39bb8d2.
+	[clusterer] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [bee2c0b] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [e301001] :
 
-	Escape $cdr_field column as it may be reserved val in Postgres
-	Related to #37Xx
+	[callcenter] Migrated to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [b6d650d] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f978bd6] :
 
-	Migrated missed MDB2 code to PDO
+	Ported dispatcher tool to new MI command prototype
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [cf880dd] :
+2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [6d047c0] :
 
-	Ported missed MDB2 code to PDO
+	Aligned MI connector to the new mi_http/json format for OpenSIPS 3.0
 
 
-2018-08-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [fa99819] :
+2019-07-10  Benoit Duverger  <bduverger at atwtech dot com>
+	* [e13cee9] :
 
-	Added error log when inserting stats into DB (cron triggerred)
+	Fix 'System/MI commands' when no box selected
 
 
-2018-08-08  Razvan Crainea  <razvan at opensips dot org>
-	* [15fd1cf] :
+2019-06-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [b88eeb9] :
 
-	Enforce session check for all files
-	This prevents an attacker from running reload commands without being
-	authenticated.
+	Relax the GW checkes on "add".
+	It is perfectly ok to have multiple gw definitions with the same IP/group/strip/prefix - there is no consistency issue here and such "duplicates" may be useful when using different attributes per gw
 
 
-2018-08-08  Bogdan Andrei IANCU  <bogdan at opensips dot org>
-	* [fb1c2ea] :
+2019-05-07  Razvan Crainea  <razvan at opensips dot org>
+	* [967de76] :
 
-	Merge pull request #43 from artkos/master
-	Fix Statics monitor cron job to use PDO
+	drouting: fill in attributes for all tools
 
 
-2018-08-08  artkos  <art666 at hotmail dot com>
-	* [146863f] :
+2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
+	* [a619287] :
 
-	Changing smonitor stats cronjob script to use PDO. Modified DB config to remove PHP warning.
+	Added support for configurable purpose for 'attributes' field
+	Via conf, the way the attrs DB filed is displaied and handled may be customised as:
+	        * display_name
+	        * add_prefill_value
+	        * validation_regexp
+	        * validation_error
 
 
-2018-07-26  Bogdan Andrei IANCU  <bogdan at opensips dot org>
-	* [c8b4442] :
+2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
+	* [2e80d1c] :
 
-	Add missing param for MI reload option
+	Add gateway ID verification (as format)
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [8838315] :
+2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
+	* [4304f97] :
 
-	Mass introduction of PDO::FETCH_ASSOC for fetchAll()
-	This will save data as the returned cols will be structured only in an assoc array (and not into an index one too)
+	Cleanup - removed some debugging code/prints
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [1d88ebf] :
+2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f52ff9a] :
 
-	Use PDO::FETCH_ASSOC
+	Fix replacing when token in the middle of the list.
+	Related to prev 9b88d1e4b837b7b036c890813daa5b6979680622 commit
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7347b48] :
+2019-05-07  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [9b88d1e] :
 
-	Use prepare statement for security reason. Use PDO::FETCH_ASSOC only
+	Improve the removal of GWs from rules/carriers
+	Use a better/faster regexp and logic.
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ab2b03c] :
+2019-04-24  Razvan Crainea  <razvan at opensips dot org>
+	* [08f2419] :
 
-	Use prepare statement for security reason. Use PDO::FETCH_ASSOC only
+	cdrviewer: no need % when searching like-wise
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [59d45d0] :
+2019-04-10  Razvan Crainea  <razvan at opensips dot org>
+	* [5e0d7c4] :
 
-	Use prepare statement for security reason. Use PDO::FETCH_ASSOC only
+	cdrviewer: search LIKE'wise only of % is specified in search field
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [97d0bfa] :
+2019-04-01  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [67e6467] :
 
-	Use prepare statement for security reason. Use PDO::FETCH_ASSOC only
+	Remove more useless unix_timestamp()
+	This is a follow up of 74b3b875f2e04fc85e028adf6bcd102829117523
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9a5d7bb] :
+2019-04-01  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [74b3b87] :
 
-	Use prepare statement for security reason. Use PDO::FETCH_ASSOC for fetching in order to get rid of the 0-indexed array (we need only column indexed assoc array)
+	Get rid of unix_timestamp()
+	Makes no sense to test by converting both input and DB value to timestamp (from datatime) as the convertion is done by DB server (so, with the same TZ).
+	And using the unix_timestamp() in the query breaks the indexing and makes the queries realy slow.
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [dcfee0f] :
+2019-03-28  Razvan Crainea  <razvan at opensips dot org>
+	* [5fa43ae] :
 
-	Fixed syntax error in error log (introduced with prev commit)
+	drouting: do not escape regexp values
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [0a0575c] :
+2019-02-28  Razvan Crainea  <razvan at opensips dot org>
+	* [622b6fb] :
 
-	Test with isset to avoid annoying warnings
+	add reset and up images
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7e4a043] :
+2019-02-28  Razvan Crainea  <razvan at opensips dot org>
+	* [7859ff0] :
 
-	Force session checking when a message details are accessed
+	menu: allow disabled tools
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [6ee408d] :
+2019-02-27  Razvan Crainea  <razvan at opensips dot org>
+	* [941464b] :
 
-	Merged PDO migration branch
+	cdrviewer: add display_fields array
+	This array may be used to pretty print certain values in the CDR tab
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7f92f93] :
+2019-02-25  Bogdan Iancu  <bogdan at opensips dot org>
+	* [bc10a67] :
 
-	Added checks for failed INSERT/UPDATE ops
+	Fixed wrong port handling in PDO connection
+	Fixes #59
 
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [966814d] :
+2019-01-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f543f28] :
 
-	Migrated to PDO with prepared statements
+	Fixed multi box support in MI tool.
+	Proper init for the current boc based on the session value and the selected value.
+	Fix history cleanup.
 
+	Reported by @calliotel.
+	Fixes #58
 
-2018-07-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [5b0a534] :
 
-	Migrated to PDO with prepared statements
+2019-01-07  Razvan Crainea  <razvan at opensips dot org>
+	* [b725447] :
 
+	tviewer: don't use like when searching combos
 
-2018-07-23  Razvan Crainea  <razvan at opensips dot org>
-	* [68d558c] :
 
-	tviewer: fix unique key computation
+2019-01-07  Razvan Crainea  <razvan at opensips dot org>
+	* [e064292] :
 
+	drouting: rework group printing
 
-2018-07-20  Liviu Chircu  <liviu at opensips dot org>
-	* [ca5d7f6] :
 
-	Remove left-over "$link->disconnect()" code
+2018-12-13  root  <root at opensips dot org>
+	* [0931e6c] :
 
+	Fixed selection of boxes in MI tool
 
-2018-07-20  Liviu Chircu  <liviu at opensips dot org>
-	* [9e2c073] :
 
-	permissions: Migrate to PDO
+2018-11-28  Bogdan Iancu  <bogdan at opensips dot org>
+	* [e3d8403] :
 
+	Added JS function to auto re-update the whole menu tree based on the page change in the main frame.
 
-2018-07-19  Liviu Chircu  <liviu at opensips dot org>
-	* [6a46680] :
 
-	rtpengine: Migrate to PDO
+2018-11-28  Bogdan Iancu  <bogdan at opensips dot org>
+	* [0917f78] :
 
+	Fixed expending the siptrace when jumping from cdrviewer
+	Credits go to John Quick. Also many thanks for the support with troubleshooting.
 
-2018-07-17  Liviu Chircu  <liviu at opensips dot org>
-	* [ed0d9df] :
 
-	Move previously added file to config/ dir
+2018-11-09  Bogdan Iancu  <bogdan at opensips dot org>
+	* [d505031] :
 
+	Fixed typo in tool name when detecting the tracer to use (homer versus siptrace)
+	Issue reported by John Quick
 
-2018-07-17  Liviu Chircu  <liviu at opensips dot org>
-	* [f8aabf8] :
 
-	Restore lost ocp_admin_privileges.mysql schema file
+2018-11-09  Razvan Crainea  <razvan at opensips dot org>
+	* [c9f9562] :
 
+	mi: proper error check
 
-2018-07-16  Razvan Crainea  <razvan at opensips dot org>
-	* [4069b6d] :
 
-	dispatcher: fix typo in update
+2018-11-09  Razvan Crainea  <razvan at opensips dot org>
+	* [d0a90ca] :
 
+	callcenter: use prepared statements for unique id
 
-2018-07-13  Razvan Crainea  <razvan at opensips dot org>
-	* [3712184] :
 
-	dispatcher: fix search string for dst and descr
+2018-11-07  Razvan Crainea  <razvan at opensips dot org>
+	* [4c8788c] :
 
+	add 'settings' module property
+	This commit adds a new property for the module, namely 'settings', that
+	is used to indicate the module should not be displayed in the menu list,
+	but it should be treated like all the other tools (such as displayed in
+	the access list tabs).
+	This commit fixes #56
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [924fb96] :
 
-	alias management: Migrate DB connection code to PDO
+2018-11-07  Razvan Crainea  <razvan at opensips dot org>
+	* [8325538] :
 
+	menu: proper fix for background color
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [146b4b8] :
 
-	statistics monitor: Migrate to PDO
+2018-11-07  Razvan Crainea  <razvan at opensips dot org>
+	* [9f277c8] :
 
+	Revert "style: ensure the menu is colored"
+	This reverts commit 6e95e2c0999f0111207beacf88452d080f82e613.
 
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [194547e] :
 
-	Fixed missing DB queries during migration
+2018-11-07  Razvan Crainea  <razvan at opensips dot org>
+	* [9c97c99] :
 
+	list_admins: display all tabs in edit form
+	Close #54
 
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e54d5a9] :
 
-	Fixed wrong condition on OFFSET when building DB query
+2018-11-07  Razvan Crainea  <razvan at opensips dot org>
+	* [6e95e2c] :
 
+	style: ensure the menu is colored
 
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [3f62329] :
 
-	Fixed query for listing admins
+2018-11-07  Razvan Crainea  <razvan at opensips dot org>
+	* [c14f9d9] :
 
+	list_admins: rework permissions display
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [c4ffaf7] :
 
-	rtpproxy: Some error logging/printing cleanup
+2018-11-06  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [3d0e8f2] :
 
+	Added missing entry for tls_mgm tool
+	Reported by John Quick
+	(cherry picked from commit 2170f52ed72963394a2e85acfa04c3286a982b07)
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [410fd4b] :
 
-	tviewer: Fix code indendation
+2018-11-06  Bogdan Iancu  <bogdan at opensips dot org>
+	* [82a5f26] :
 
+	Fixed delete of selected traces.
+	Reported by @zzz3z
+	Closes #55.
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [a24fc10] :
 
-	rtpproxy: Migrate to PDO
+2018-11-06  Bogdan Iancu  <bogdan at opensips dot org>
+	* [64f942c] :
 
+	Fixed missing quotes in accessing session variable
+	Credits go to John Quick
+	Closes #53
 
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [b62a352] :
 
-	Migrated to PDO with prepared statements
+2018-11-05  Bogdan Iancu  <bogdan at opensips dot org>
+	* [90df3ec] :
 
+	Do not grant access to the tool if not enabled.
+	Fast work around for #51
+	Credits go to John Quick for the report and understanding the issue.
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [43dcc7a] :
 
-	Migrate tviewer and callcenter to PDO
+2018-11-05  Bogdan Iancu  <bogdan at opensips dot org>
+	* [66d16e0] :
 
+	Fix test of admin colision (id must be involved).
+	Reported by John Quick
+	Closes #50
 
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [ed990c9] :
 
-	Rework connection clean-ups
-	Although "$link = NULL;" seems to preserve the old behavior (force a
-	disconnect), it actually breaks it, since $link cannot be reused
-	anymore, as opposed to the MDB2 version.
+2018-11-05  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [683ea25] :
 
-	The fix is to simply let PDO close the connection once $link is no
-	longer referenced.
-
-
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [0483706] :
-
-	Clusterer: Port to PDO
-
-
-2018-07-12  Bogdan Andrei IANCU  <bogdan at opensips dot org>
-	* [0bc54d0] :
-
-	Fix wrong way of extracting info on DB error
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d13cf3d] :
-
-	Improve error messages on failed DB queries
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [b483416] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [506c272] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [934deb4] :
-
-	Push synyax and DB query fixes
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [86f5ea8] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ca551d8] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7dfc90e] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9a30351] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [10a3587] :
-
-	Migrated to PDO with prepared statements
-
-
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [594c383] :
-
-	CDR Viewer: Port to PDO
-
-
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [93a9c07] :
-
-	Call Center: port to PDO
-
-
-2018-07-12  Liviu Chircu  <liviu at opensips dot org>
-	* [8090f3a] :
-
-	Port login flow to PDO API
-
-
-2018-06-22  Razvan Crainea  <razvan at opensips dot org>
-	* [bfab5c8] :
-
-	remove bogus tools from config
-
-
-2018-06-14  Razvan Crainea  <razvan at opensips dot org>
-	* [d69add9] :
-
-	drouting: add partition support
-
-
-2018-06-14  Bogdan Iancu  <bogdan at opensips dot org>
-	* [faccbe3] :
-
-	Added rtpengine tool
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7741517] :
-
-	Align the clusterer tool to the 2.4 DB schema
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [8903950] :
-
-	Added RE for IP
-
-
-2018-06-13  root  <root at opensips dot org>
-	* [763a5ee] :
-
-	Merge branch 'feature/new-ui-design'
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [eeb15cc] :
-
-	Added the logout button
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [957eecf] :
-
-	update the docs and example for the tviewer tool
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [3474978] :
-
-	Migrated to new CSS and icons
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [8b4ba8d] :
-
-	Use opacity rather than a different color for diabled buttons
-
-
-2018-06-13  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d045a08] :
-
-	Fix left margin for delete button
-
-
-2018-06-12  Razvan Crainea  <razvan at opensips dot org>
-	* [7892eed] :
-
-	add admin tool in the header bar
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [02a715b] :
-
-	Fix layout of the login form
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d9e05b0] :
-
-	Fixed sizing of add/input forms and edit form pre-validation
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [cb7150e] :
-
-	Fix sizing of form inputs
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e7c7ff9] :
-
-	Fix some ids (errors resulted from updating callcenter from tviewer
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ec7c60c] :
-
-	Added more form related functions required by the new Tviewer
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [b8d1d22] :
-
-	Call Center tool updated from TViewer
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e0985da] :
-
-	More styles added
-
-
-2018-06-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [88902e0] :
-
-	Upgrade of the tviewer tool
-	Added support for:
-	* tooltips
-	* realtime data validation
-	* custom events on action buttons
-	* custom data wrapping in table listing (in order to create links)
-	* better combo type support (for listing inside table too)
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9abca15] :
-
-	Fixed reading permissions for the tviewer based tools
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d5a5441] :
-
-	Made tviewer to accept GET params too
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9dff8bf] :
-
-	Migrated to new CSS and new icons
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f0a77e2] :
-
-	Delete cfg for old add_admin tool
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [df82097] :
-
-	More icons uploaded
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [151764a] :
-
-	Removed the "admin" section from the menu
-
-
-2018-06-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7fc7d11] :
-
-	Merged "add users" into "list users" tool
-
-
-2018-06-09  Bogdan Iancu  <bogdan at opensips dot org>
-	* [fd974e1] :
-
-	Removed old icons
-
-
-2018-06-09  Bogdan Iancu  <bogdan at opensips dot org>
-	* [65a7966] :
-
-	Migrated to new CSS & icons
-
-
-2018-06-09  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ba02f00] :
-
-	Migrated to new icons
-
-
-2018-06-09  Bogdan Iancu  <bogdan at opensips dot org>
-	* [97bf4f7] :
-
-	Migrated to new icons
-
-
-2018-06-09  Bogdan Iancu  <bogdan at opensips dot org>
-	* [61b9bc0] :
-
-	Fix menu area, the box selector mainly
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [163ddcc] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [67f65bf] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9f3d0fb] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [dcfd84b] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [6d055a9] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f59cbf2] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ffdbc90] :
-
-	New add icon added
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [2b2ade6] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [6478e87] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d3e7a2a] :
-
-	Migrate to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [4616195] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [5f7231f] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ed68731] :
-
-	New icons added
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [938b8f8] :
-
-	Migrated to new icons
-
-
-2018-06-08  Bogdan Iancu  <bogdan at opensips dot org>
-	* [1df8c47] :
-
-	Added ispecial styles for images embedded in tables
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [3033211] :
-
-	Migrated to the new CSS
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [a322100] :
-
-	Migrated to the new CSS
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [51882be] :
-
-	Added the boxSelect style
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [62c7fce] :
-
-	Migrated to the new CSS
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d454834] :
-
-	Migrated to new CSS
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [5661a1d] :
-
-	Migrated to the new CSS
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e319f9b] :
-
-	Groups do not require reload
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [a1b4e93] :
-
-	Updated fields style, added inlineButton style
-
-
-2018-06-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [8e574de] :
-
-	Migrated to the new CSS
-
-
-2018-06-06  Razvan Crainea  <razvan at opensips dot org>
-	* [8f3df62] :
-
-	fix default icon in firefox for menu entry
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [662053c] :
-
-	Migrated to the new CSS
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [ba1f435] :
-
-	Fix tooltip text wrapping
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [eac8cbc] :
-
-	Change the name of the button
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [419ca47] :
-
-	Migrated to the new CSS
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [5b24ee7] :
-
-	Avoid text wrapping in data fields
-
-
-2018-06-05  Razvan Crainea  <razvan at opensips dot org>
-	* [5c804cc] :
-
-	make menu entry as pointer
-
-
-2018-06-05  Razvan Crainea  <razvan at opensips dot org>
-	* [03876d6] :
-
-	add default icons for menus
-
-
-2018-06-05  Razvan Crainea  <razvan at opensips dot org>
-	* [e64ca68] :
-
-	move menu icons in files
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [c03a77e] :
-
-	Removed old per-tool CSS
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [15d49f5] :
-
-	More styles added (for Reload button)
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [7c50478] :
-
-	Do not display the table IDs
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [cd71455] :
-
-	Migrated to the new CSS
-
-
-2018-06-05  Razvan Crainea  <razvan at opensips dot org>
-	* [77b2f41] :
-
-	add support for custom images in menu
-
-
-2018-06-05  Razvan Crainea  <razvan at opensips dot org>
-	* [23b44b9] :
-
-	speficy default svg for unknown menus
-
-
-2018-06-05  Razvan Crainea  <razvan at opensips dot org>
-	* [92dcc42] :
-
-	fix icons on firefox
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [cc38011] :
-
-	migrated to CSS
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [1f3132d] :
-
-	Migrated to new CSS
-
-
-2018-06-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d2a725b] :
-
-	Small fixes
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [89fe99c] :
-
-	Removed old per tool CSS files
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d5f5c3a] :
-
-	Small style update for fieldset tag
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [99a9676] :
-
-	Migrated to the new CSS + various fixes
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [41a8e84] :
-
-	Fix the style for the paging footer
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [b9459aa] :
-
-	Added style for the paging table
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e9c191f] :
-
-	Removed useless table line
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [543eb09] :
-
-	Fix sizing of dataInput by removing the DOCTYPE...this is a bit of a voodoo
-
-
-2018-05-31  root  <root at opensips dot org>
-	* [c2429df] :
-
-	Fix bottom spacer
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d4f4a2f] :
-
-	Migrated to the new CSS
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e21edca] :
-
-	Migrated to the new CSS
-
-
-2018-05-31  Bogdan Iancu  <bogdan at opensips dot org>
-	* [0c25397] :
-
-	CSS updated with more properties
-
-
-2018-05-30  Bogdan Iancu  <bogdan at opensips dot org>
-	* [24962ab] :
-
-	migrated to the new global CSS
-
-
-2018-05-30  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f765325] :
-
-	migrated to the new global CSS
-
-
-2018-05-30  Bogdan Iancu  <bogdan at opensips dot org>
-	* [2435e19] :
-
-	merge the global css with the admin section css
-
-
-2018-05-30  Bogdan Iancu  <bogdan at opensips dot org>
-	* [665fd53] :
-
-	Removed the local css, to be removed with a global one
-
-
-2018-05-30  Bogdan Iancu  <bogdan at opensips dot org>
-	* [3774c32] :
-
-	added new function to print "back" button as 'input' in a form
-
-
-2018-05-15  Razvan Crainea  <razvan at opensips dot org>
-	* [909eaa1] :
-
-	do not sort tools in menus
-
-
-2018-05-15  Razvan Crainea  <razvan at opensips dot org>
-	* [bff7c60] :
-
-	do not sort tools in menus
-
-
-2018-05-15  Răzvan Crainea  <razvan at opensips dot org>
-	* [859b825] :
-
-	Merge pull request #42 from voicenter/master
-	Add a new UI design
-
-
-2018-05-15  adivjoseph  <martin.horne at arm dot com>
-	* [96e64d9] :
-
-	functions.inc.php
-	remove error "Undefined property: stdClass::$table_aliases"
-
-
-2018-05-15  Shlomi Gutman  <shlomi at voicenter dot com>
-	* [d5b3cfe] :
-
-	1st commit of new web-design of the opensips portal
+	Fix bogus variable name.
+	Credits go to Yuriy to report it.
 
