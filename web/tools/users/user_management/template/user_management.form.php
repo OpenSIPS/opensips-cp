@@ -25,7 +25,7 @@ require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
 
 form_generate_input_text("Username", "The name of the user", "uname",
-	"n", $um_form['username'], 128, "^[a-zA-Z0-9&=+$,;?/%]+$");
+	"n", $um_form['username'], 128, (isset($config->user_format)?$config->user_format:"^[a-zA-Z0-9&=+$,;?/%]+$"));
 
 $domains = get_domains("user_management", false);
 form_generate_select("Domain", "Users's domain", "domain", 200,
