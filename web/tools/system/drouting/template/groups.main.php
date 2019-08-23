@@ -108,6 +108,7 @@
  if ($stm===FALSE) {
  	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
  }
+ require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
  if ($data_no==0) echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -131,7 +132,6 @@
   }
   $stm->execute( $sql_vals );
   $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-  require("lib/".$page_id.".main.js");
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)
   {
