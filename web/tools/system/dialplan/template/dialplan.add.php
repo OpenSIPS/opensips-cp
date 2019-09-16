@@ -35,6 +35,7 @@ if($clone =="1"){
 
 	$dpid = $resultset[0]['dpid'];
 	$pr = $resultset[0]['pr'];
+	$match_op =$resultset[0]['match_op'];
 	$match_exp =$resultset[0]['match_exp'];
 	$match_flags =$resultset[0]['match_flags'];
 	$subst_exp =$resultset[0]['subst_exp'];
@@ -51,7 +52,7 @@ if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
 
 		$check_boxes.='<input type="checkbox" name="'.$config->attrs_cb[$i][0];
 		$check_boxes.='" value="'.$config->attrs_cb[$i][1];
-		if($clone=="1" && stristr($row['attrs'],$config->attrs_cb[$i][0])){
+		if($clone=="1" && stristr($attrs,$config->attrs_cb[$i][0])){
 			$check_boxes.='" checked>';
 		}else{
 			$check_boxes.='">';
@@ -63,7 +64,7 @@ if ( ($dialplan_attributes_mode == 0) || (!isset($dialplan_attributes_mode))) {
 
 $match_op_sel ='<select name="match_op" id="match_op" size="1" class="dataSelect">';
 if($clone=="1"){
-	if($row['match_op']==1){
+	if($match_op==1){
 		$match_op_sel.='<option value="1" selected>REGEX</option>';
 		$match_op_sel.= '<option value="0" >EQUAL</option>';
 	} else {
@@ -135,7 +136,7 @@ $match_op_sel.= '</select>';
 	<?php } else if ($dialplan_attributes_mode == 1 ) {  ?>	
 
 	  <td class="dataRecord" width="275"><input type="text" name="attrs" 
-  	value="<?=$row['attrs']?>" maxlength="128" class="dataInput"></td>
+  	value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
 
 	<?php } ?>
   
