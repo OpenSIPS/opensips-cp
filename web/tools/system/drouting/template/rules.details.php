@@ -36,8 +36,7 @@
  <tr>
   <td class="dataRecord"><b>Group ID:</b> 
   <?php 
-   if ($config->group_id_method=="static") get_groups($resultset[0]['groupid']);
-   if ($config->group_id_method=="dynamic") echo($resultset[0]['groupid']);
+   echo (get_groupid($resultset[0]['groupid']));
   ?>
   </td>
  </tr>

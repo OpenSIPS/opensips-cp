@@ -68,6 +68,16 @@ function get_carrierlist()
  return($values);
 }
 
+function get_groupid($group)
+{
+	$values = get_groupids();
+	for ($i=0; $i<sizeof($values); $i++)
+		if ($values[$i]['groupid'] == $group)
+			return $values[$i]['groupid'].' - '.$values[$i]['description'];
+	return "";
+}
+
+
 function get_groupids()
 {
 	global $config;
