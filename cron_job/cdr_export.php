@@ -22,7 +22,7 @@
  */
 
 
-$path_to_cdrviewer="/var/www/opensips-cp/web/tools/system/cdrviewer";
+$path_to_cdrviewer="/var/www/html/opensips-cp/web/tools/system/cdrviewer";
 chdir($path_to_smonitor);
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/cdrviewer/local.inc.php");
