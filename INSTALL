@@ -60,15 +60,8 @@ Apache is going to need write permissions on some files / folders in the opensip
 
 You must have PHP installed and enabled in the web server. In order to do that you will have to install php and some of it's extensions.
 
-    for debian: apt-get install php5 php-gd php-mysql php-pear php-cli php-apcu
+    for debian: apt-get install php php-gd php-mysql php-pear php-cli php-apcu
     for redhat: yum install php php-gd php-mysql php-xmlrpc php-pear php-pecl-apc
-
-Check if these extensions are enabled :
-
-    for debian check /etc/php5/conf.d/ for mysql.ini, gd.ini, xmlrpc.ini
-    for redhat check /etc/php.d/ for mysql.ini, gd.ini, xmlrpc.in
-
-If these are not there plese check if you have installed them correctly.
 
 Do not forge to restart Apache after all the php changes!!!
 
