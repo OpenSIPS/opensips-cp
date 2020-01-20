@@ -39,7 +39,9 @@ Add the configuration below into one of Apache's existent VHOSTs or create a new
 	</Directory>
 	Alias /cp /var/www/html/opensips-cp/web
 
-	
+	<DirectoryMatch "/var/www/html/opensips-cp/web/tools/.*/.*/(template|custom_actions|lib)/">
+		Require all denied
+	</DirectoryMatch>
 
 You can read more about Apache's VHOSTS here -> http://httpd.apache.org/docs/current/vhosts/examples.html.
 
