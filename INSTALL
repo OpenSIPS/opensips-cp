@@ -30,14 +30,12 @@ Add the configuration below into one of Apache's existent VHOSTs or create a new
 	<Directory /var/www/html/opensips-cp/web>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
-		Order allow,deny
-		allow from all
+		Require all granted
 	</Directory>
 	<Directory /var/www/html/opensips-cp>
 		Options Indexes FollowSymLinks MultiViews
 		AllowOverride None
-		Order deny,allow
-		deny from all
+		Require all denied
 	</Directory>
 	Alias /cp /var/www/html/opensips-cp/web
 
