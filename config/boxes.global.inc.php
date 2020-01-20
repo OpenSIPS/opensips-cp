@@ -26,7 +26,7 @@
 $box_id=0;
 
 //  MI connector (via JSON backend):   json:host:port/json
-$boxes[$box_id]['mi']['conn']="json:127.0.0.1:8888/json";
+$boxes[$box_id]['mi']['conn']="json:127.0.0.1:8888/mi";
 
 // monit host:port
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
