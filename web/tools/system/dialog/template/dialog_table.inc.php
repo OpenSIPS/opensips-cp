@@ -41,8 +41,18 @@ function display_dialog_table($message){
 		$state_values = array(1 => "Unconfirmed Call", 2 => "Early Call", 3 => "Confirmed Not Acknoledged Call", 4 => "Confirmed Call", 5 => "Deleted Call");
 		$entry[$i]['state'] = $state_values[$message[$i]['state']];
 
-		//timestart
-		$entry[$i]['start_time'] = date("Y-m-d H:i:s",$message[$i]['timestart']);
+		//timestart and duration
+		if ($message[$i]['timestart'] == 0) {
+			$entry[$i]['start_time'] = "n/a";
+			$entry[$i]['duration'] = 0;
+		} else {
+			$entry[$i]['start_time'] = date("Y-m-d H:i:s",$message[$i]['timestart']);
+
+			if ((time() - $message[$i]['timestart']) < 3600)
+				$entry[$i]['duration'] = gmdate("i:s",(time()-$message[$i]['timestart']));
+			else
+				$entry[$i]['duration'] = gmdate("H:i:s",(time()-$message[$i]['timestart']));
+		}
 
 		//expire time
 		$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['timeout']);
@@ -56,6 +66,7 @@ function display_dialog_table($message){
 		//callID
 		$entry[$i]['callID']=$message[$i]['callid'];
 
+
 		unset($res);
 
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["callID"]."</td>";
@@ -63,6 +74,7 @@ function display_dialog_table($message){
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["toURI"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["start_time"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["expire_time"]."</td>";
+		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["duration"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
 
 		if(!$_SESSION['read_only']){

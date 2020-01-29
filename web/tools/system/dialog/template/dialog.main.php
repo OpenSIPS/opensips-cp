@@ -52,6 +52,7 @@ echo '<th class="listTitle">From URI</th>';
 echo '<th class="listTitle">To URI</th>';
 echo '<th class="listTitle">Start Time</th>';
 echo '<th class="listTitle">Timeout Time</th>';
+echo '<th class="listTitle">Duration</th>';
 echo '<th class="listTitle">State</th>';
 if(!$_SESSION['read_only'])
 	echo('<th class="listTitle">Stop Call</th>');
