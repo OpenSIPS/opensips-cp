@@ -55,7 +55,10 @@ function display_dialog_table($message){
 		}
 
 		//expire time
-		$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['timeout']);
+		if ($message[$i]['timeout'] == 0)
+			$entry[$i]['expire_time'] = "n/a";
+		else
+			$entry[$i]['expire_time'] = date("Y-m-d H:i:s",$message[$i]['timeout']);
 
 		//toURI
 		$entry[$i]['toURI']=$message[$i]['to_uri'];
@@ -65,7 +68,6 @@ function display_dialog_table($message){
 
 		//callID
 		$entry[$i]['callID']=$message[$i]['callid'];
-
 
 		unset($res);
 
