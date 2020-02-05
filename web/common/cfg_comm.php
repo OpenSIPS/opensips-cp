@@ -30,11 +30,11 @@ function get_proxys_by_assoc_id($my_assoc_id){
 
 	$mi_connectors=array();
 
-	for ($i=0;$i<count($boxes);$i++){
+	foreach($boxes as $box) {
 
-		if ($boxes[$i]['assoc_id']==$my_assoc_id){
+		if ($box['assoc_id']==$my_assoc_id){
 
-			$mi_connectors[]=$boxes[$i]['mi']['conn'];
+			$mi_connectors[]=$box['mi']['conn'];
 
 		}
 
@@ -51,11 +51,11 @@ function get_all_proxys_by_assoc_id($my_assoc_id){
 
 	$mi_connectors=array();
 
-	for ($i=0;$i<count($boxes);$i++){
+	foreach($boxes as $box) {
 
-		if ($boxes[$i]['assoc_id']==$my_assoc_id){
+		if ($box['assoc_id']==$my_assoc_id){
 
-			$mi_connectors[]=$boxes[$i]['mi']['conn'];
+			$mi_connectors[]=$box['mi']['conn'];
 
 		}
 
