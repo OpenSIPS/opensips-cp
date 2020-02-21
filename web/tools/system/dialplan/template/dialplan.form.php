@@ -29,7 +29,7 @@ form_generate_input_text("Rule priority", "Priority value/level assigned to the 
 	"pr", "n", $dp_form['pr'], 128, "^[0-9]+$");
 
 form_generate_select("Matching operator", "What method will be used for matching",
-	"match_op", 128, $dp_form['match_op'], array("0", "1"), array("REGEX", "EQUAL"));
+	"match_op", 128, $dp_form['match_op'], array("1", "0"), array("REGEX", "EQUAL"));
 
 form_generate_input_text("Matching Regular Expression", "Regular expresion used to match and select this rule",
 	"match_exp", "n", $dp_form['match_exp'], 128, "^[^@]+$");
