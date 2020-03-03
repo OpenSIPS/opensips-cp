@@ -134,33 +134,24 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
 
 if ($_SESSION['grouped_results']) {
+	if ($config->db_driver == "mysql")
+		$sql = "SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
+	else if ($config->db_driver == "pgsql")
+		$sql = "SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
 
-	if ($config->db_driver == "mysql") {
-
-		$sql="SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
-
-	} else if ($config->db_driver = "pgsql") {
-
-		$sql="SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
-
-	}
-			
+	$sql_cnt = "SELECT COUNT(DISTINCT(callid)) FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
 } else {
-
-	if ($sql_search=="") $sql="SELECT id FROM ".$table." ORDER BY id DESC";
-
-	else $sql="SELECT id FROM ".$table." WHERE (1=1) ".$sql_search." ORDER BY id DESC";
-
+	$sql = "SELECT id FROM ".$table." WHERE (1=1) ".$sql_search." ORDER BY id DESC";
+	$sql_cnt = "SELECT COUNT(*) FROM ".$table." WHERE (1=1) ".$sql_search;
 }
 
-$stm = $link->prepare($sql);
+$stm = $link->prepare($sql_cnt);
 if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
 $stm->execute( $sql_vals );
-$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+$data_no = $stm->fetchColumn(0);
 
-$data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
