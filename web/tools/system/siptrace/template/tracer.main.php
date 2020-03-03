@@ -139,7 +139,7 @@ if ($_SESSION['grouped_results']) {
 	else if ($config->db_driver == "pgsql")
 		$sql = "SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
 
-	$sql_cnt = "SELECT COUNT(DISTINCT(callid)) FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
+	$sql_cnt = "SELECT COUNT(DISTINCT(callid)) FROM ".$table." WHERE (1=1) ".$sql_search;
 } else {
 	$sql = "SELECT id FROM ".$table." WHERE (1=1) ".$sql_search." ORDER BY id DESC";
 	$sql_cnt = "SELECT COUNT(*) FROM ".$table." WHERE (1=1) ".$sql_search;
