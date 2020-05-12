@@ -134,11 +134,8 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
 
 if ($_SESSION['grouped_results']) {
-	if ($config->db_driver == "mysql")
-		$sql = "SELECT DISTINCT callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY id DESC";
-	else if ($config->db_driver == "pgsql")
-		$sql = "SELECT DISTINCT ON (callid) callid FROM ".$table." WHERE status='' AND direction='in'".$sql_search." ORDER BY callid DESC";
-
+	$sql = "SELECT callid, MAX(id) AS mid FROM ".$table.
+				" WHERE status='' AND direction='in'".$sql_search." GROUP BY callid ORDER BY mid DESC";
 	$sql_cnt = "SELECT COUNT(DISTINCT(callid)) FROM ".$table." WHERE (1=1) ".$sql_search;
 } else {
 	$sql = "SELECT id FROM ".$table." WHERE (1=1) ".$sql_search." ORDER BY id DESC";
