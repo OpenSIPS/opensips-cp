@@ -62,12 +62,12 @@ $index_row=0;
  
  <tr>
   <td class="dataRecord"><b>Password</b></td>
-  <td class="dataRecord" width="275"><input type="password" name="listpasswd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="password" name="listpasswd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput" autocomplete="off"></td>
  </tr>
 
  <tr>
   <td class="dataRecord"><b>Confirm Password</b></td>
-  <td class="dataRecord" width="275"><input type="password" name="conf_passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord" width="275"><input type="password" name="conf_passwd" value="<?=$resultset[0]['password']?>" maxlength="128" class="dataInput" autocomplete="off"></td>
  </tr>
 
  <tr>

@@ -193,7 +193,7 @@ function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
-				<input type='password' name='".$title."'".$value." id='".$title."' class='dataInput' opt='".$opt.
+				<input type='password' name='".$title."'".$value." id='".$title."' class='dataInput' autocomplete=\"off\" opt='".$opt.
 				"' oninput='validate_input(\"".$title."\", \"".$title."_ok\",\".{".$minimum."}.*\")'>
 				</td>
 				<td width='20'>
@@ -211,7 +211,7 @@ function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$
 			</td>
 			<td class='dataRecord' width='250'>
 				<table><tr><td>
-				<input type='password' name='confirm_".$title."'".$confirm_value." id='confirm_".$title."' class='dataInput' opt='".$opt.
+				<input type='password' name='confirm_".$title."'".$confirm_value." id='confirm_".$title."' class='dataInput' autocomplete=\"off\" opt='".$opt.
 				"' oninput='validate_password(\"confirm_".$title."\", \"confirm_".$title."_ok\",\"".$title."\")'>
 				</td>
 				<td width='20'>
