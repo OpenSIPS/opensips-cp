@@ -43,12 +43,12 @@
  <tr>
   <td class="dataRecord" >Password</td>
   <td class="dataRecord" width="275"><input type="password" name="add_passwd"
-  value="<?=$passwd?>" class="dataInput"></td>
+  value="<?=$passwd?>" class="dataInput" autocomplete="off"></td>
  </tr>
  <tr>
   <td class="dataRecord" >Confirm Password</td>
   <td class="dataRecord" width="275"><input type="password" name="confirm_passwd"
-  value="<?=$confirm_passwd?>" class="dataInput"></td>
+  value="<?=$confirm_passwd?>" class="dataInput" autocomplete="off"></td>
  </tr>
  <tr>
   <td colspan="2">
