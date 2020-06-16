@@ -61,7 +61,7 @@
       <tr>
        <td width="40" align="right" valign="middle"><img height="10" src="images/arrow.gif" width="5" border="0">&nbsp;</td>
        <td width="90" align="right"><b class="loginLabel"><?php echo($login_pass) ?>&nbsp;</b></td>
-       <td><input type="password" name="password" class="loginInput"></td>
+       <td><input type="password" name="password" class="loginInput" autocomplete="off"></td>
       </tr>
       <tr>
        <td colspan="3"><hr></td>
