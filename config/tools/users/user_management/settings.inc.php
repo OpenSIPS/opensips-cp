@@ -89,6 +89,19 @@ $config->user_management = array(
     }
 }"
 	),
+	"subs_extra_actions" => array(
+		"default" => array(),
+		"name"    => "Extra actions",
+		"tip"     => "This option allow you to define extra action buttons (along with the extra fields) in the main page of the tool, for each user; one can specify either an action function, which should contain a function that expands to the url to be used, or an actual url, as a string.",
+		"type"    => "json",
+		"example" => "{
+    \"ip\": {
+        \"header\": \"IP\",
+        \"icon\": \"../../../images/share/tools.png\",
+	\"action_func\": \"function (\$result) { return \\\"../../system/dispatcher/dispatcher.php?action=ds_search&dispatcher_setid=\\\".\$result[\\\"id\\\"];}\"
+    }
+}"
+	),
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,
 		"name"    => "System name",

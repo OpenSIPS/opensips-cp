@@ -88,6 +88,11 @@ if ($has_acl){
 if ($has_alias){
 	$colspan++;
 }
+
+$subs_extra_actions = get_settings_value("subs_extra_actions");
+if (isset($subs_extra_actions))
+	$colspan += count($subs_extra_actions);
+
 if (!isset($users))
 	$users = '';
 if ( $users == "online_usr" ) {
@@ -184,6 +189,11 @@ foreach (get_settings_value("subs_extra") as $key => $value) {
 		echo('<th class="listTitle">Group</th>');
 	}
 	
+	if (isset($subs_extra_actions)) {
+		foreach ($subs_extra_actions as $key => $value ) {
+			echo('<th class="listTitle">'.$value['header'].'</th>');
+		}
+	}
 	if(!$_SESSION['read_only']){
 		echo('<th class="listTitle">Edit</th>
 			<th class="listTitle">Delete</th>');
@@ -265,10 +275,12 @@ else
 			$text = isset($resultset[$i][$key]) ?
 				$combo_cache[$key][ $resultset[$i][$key] ]['display'] : "";
 		}
-		if (isset($value['value_wrapper_func']))
-			echo $value['value_wrapper_func']( $key, $text, $resultset[$i] );
-		else
+		if (isset($value['value_wrapper_func'])) {
+			eval("\$func = ".$value['value_wrapper_func']);
+			echo $func($key, $text, $resultset[$i]);
+		} else {
 			echo $text;
+		}
 		echo "</td>";
 	}
 ?>
@@ -287,6 +299,31 @@ else
 
 	if ($has_acl){
 		echo('<td class="'.$row_style.'Img" align="center">'.$group_link.'</td>');
+	}
+
+	if (isset($subs_extra_actions)) {
+		foreach ( $subs_extra_actions as $key => $value ) {
+			if (isset($value['action_func']) && $value['action_func'] != NULL) {
+				eval("\$func = ". $value['action_func'].';');
+				$custom_extra_action = $func($resultset[$i]);
+			} else if (isset($value['action_url']) && $value['action_url'] != NULL) {
+				$custom_extra_action = $value['action_url'];
+			} else {
+				$custom_extra_action = "";
+			}
+			if (isset($value['icon_func']) && $value['icon_func'] != NULL)
+				$custom_extra_icon = $value['icon_func']($resultset[$i]);
+			else if (isset($value['icon']) && $value['icon'] != NULL)
+				$custom_extra_icon = '<img src="'.$value['icon'].'" border="0">';
+			else
+				$custom_extra_icon = "";
+
+			if ($custom_extra_action != "")
+				$custom_extra_link ='<a href="'. $custom_extra_action . '">'.$custom_extra_icon.'</a>';
+			else
+				$custom_extra_link = $custom_extra_icon;
+			echo('<td class="'.$row_style.'Img" align="center">'.$custom_extra_link.'</td>');
+		}
 	}
 
 	if(!$_SESSION['read_only']){
