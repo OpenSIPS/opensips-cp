@@ -8,4 +8,4 @@ CREATE TABLE `ocp_admin_privileges` (
   `available_tools` varchar(512) NOT NULL default '',
   `permissions` varchar(512) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=55 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
