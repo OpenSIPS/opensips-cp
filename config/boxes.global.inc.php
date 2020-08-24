@@ -50,7 +50,7 @@ $boxes[$box_id]['smonitor']['charts']=1;
 $box_id=1;
 
 //  MI connector (via JSON backend):   json:host:port/json
-$boxes[$box_id]['mi']['conn']="json:127.0.0.2:8080/json";
+$boxes[$box_id]['mi']['conn']="json:127.0.0.2:8888/json";
 
 
 // monit host:port
