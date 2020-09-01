@@ -87,9 +87,15 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="from ".$table." order by dpid, pr, match_op, match_exp asc";
-else $sql_command="from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
-$stm = $link->prepare("select count(*) ".$sql_command);
+if ($sql_search=="") {
+  $sql_command="from ".$table." order by dpid, pr, match_op, match_exp asc";
+  $sql_command_count="from ".$table." where (1=1) ";
+}
+else {
+  $sql_command="from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+  $sql_command_count="from ".$table." where (1=1) ".$sql_search;
+}
+$stm = $link->prepare("select count(*) ".$sql_command_count);
 if ($stm===FALSE) {
 	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
