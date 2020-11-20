@@ -76,6 +76,17 @@ if ($export == "Export") {
 	$search_end=$_SESSION['cdrviewer_search_end'];
 
 	if (($search_start != "" ) ||  ($search_start != "" ) || ($sql_search!="" ))  {
+		register_shutdown_function(function(){
+			$error = error_get_last();
+			if(null !== $error)
+			{
+				require("../../../../web/common/cfg_comm.php");
+				echo "Not enough memory to export the selected CDRs!<br>";
+				echo "Please use a filter that will return fewer results<br>";
+				print_back_input();
+				exit();
+			}
+		});
 		cdr_put_to_download($search_start,$search_end,$sql_search,"cdr-temp.csv");
 	}
 	exit();
