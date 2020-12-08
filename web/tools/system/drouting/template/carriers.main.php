@@ -155,13 +155,12 @@ if (!is_null($message)) {
     else $row_style="rowEven";
    if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.png" alt="No GW List"></center>';
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
+	$useweights   = ($resultset[$i]['sort_alg']=="W") ? "Yes" : "No" ;
 	//handle flags
 	if (is_numeric($resultset[$i]['flags'])) {
-		$useweights   = (fmt_binary($resultset[$i]['flags'],4,4)) ? "Yes" : "No" ;
-		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],4,3)) ? "Yes" : "No" ;
+		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],4,4)) ? "Yes" : "No" ;
 	}
 	else{
-		$useweights = "error";
 		$usefirstonly = "error";
 		$enabled = "error";
 	}

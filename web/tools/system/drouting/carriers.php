@@ -50,8 +50,8 @@
   $stm->execute( array($_GET['carrierid']) );
   $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-  $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
-  $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3)) ? "Yes" : "No";
+  $resultset[0]['useweights']   = ($resultset[0]['sort_alg']=="W") ? "Yes" : "No";
+  $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
 
   $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
 
@@ -120,15 +120,15 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-	$flags = bindec($useonlyfirst.$useweights);
+	$flags = bindec($useonlyfirst);
 		
 
-	$sql = "update ".$table." set gwlist=?, flags=?, state=?, description=?, attrs=? where carrierid=?";
+	$sql = "update ".$table." set gwlist=?, flags=?, sort_alg=?, tate=?, description=?, attrs=? where carrierid=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($gwlist,$flags,$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
+	if ($stm->execute( array($gwlist,$flags,$useweights?"W":"N",$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
 		echo "Updating DB record failed with: ". print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
@@ -151,13 +151,13 @@ if ($action=="disablecar"){
   $stm->execute( array($_GET['carrierid']) );
   $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
+  $resultset[0]['useweights']   = ($resultset[0]['sort_alg']=="W")?1:0;
+
   if (is_numeric((int)$resultset[$i]['flags'])) {
-        $resultset[0]['useweights']   = (fmt_binary((int)$resultset[0]['flags'],3,3));
-        $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],3,2));
-        $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],3,1));
+        $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3));
+        $resultset[0]['enabled']      = (fmt_binary((int)$resultset[0]['flags'],4,4));
     }
     else{
-        $resultset[0]['useweights'] = "error";
         $resultset[0]['useonlyfirst'] = "error";
         $resultset[0]['enabled'] = "error";
     }
@@ -178,17 +178,17 @@ if ($action=="disablecar"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
- 	$flags = bindec($enabled.$useonlyfirst.$useweights);
+ 	$flags = bindec($enabled.$useonlyfirst);
                     
 	$_SESSION['rules_search_gwlist']="";
         $_SESSION['rules_search_description']="";
                   
-	$sql = "insert into ".$table." (carrierid, gwlist, flags, state, description,attrs) values (?,?,?,?,?,?)";
+	$sql = "insert into ".$table." (carrierid, gwlist, flags, sort_alg, state, description,attrs) values (?,?,?,?,?,?,?)";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($carrierid,$gwlist,$flags,$state,$description,$attrs) ) == FALSE)
+	if ($stm->execute( array($carrierid,$gwlist,$flags,$useweights?"W":"N",$state,$description,$attrs) ) == FALSE)
 		echo "Inserting the record into DB failed with: ". print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
