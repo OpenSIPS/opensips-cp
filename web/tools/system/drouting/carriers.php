@@ -123,7 +123,7 @@ if ($action=="disablecar"){
 	$flags = bindec($useonlyfirst);
 		
 
-	$sql = "update ".$table." set gwlist=?, flags=?, sort_alg=?, tate=?, description=?, attrs=? where carrierid=?";
+	$sql = "update ".$table." set gwlist=?, flags=?, sort_alg=?, state=?, description=?, attrs=? where carrierid=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
