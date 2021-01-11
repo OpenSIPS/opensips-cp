@@ -23,6 +23,7 @@
 
  require("template/header.php");
  include("lib/db_connect.php");
+ require("lib/common.functions.inc.php");
  require ("../../../common/mi_comm.php");
  require("../../../common/cfg_comm.php");
  $table=$config->table_carriers;
@@ -128,7 +129,7 @@ if ($action=="disablecar"){
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($gwlist,$flags,$useweights?"W":"N",$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
+	if ($stm->execute( array($gwlist,$flags,$list_sort,$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
 		echo "Updating DB record failed with: ". print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
@@ -150,8 +151,6 @@ if ($action=="disablecar"){
   }
   $stm->execute( array($_GET['carrierid']) );
   $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-  $resultset[0]['useweights']   = ($resultset[0]['sort_alg']=="W")?1:0;
 
   if (is_numeric((int)$resultset[$i]['flags'])) {
         $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,3));
@@ -188,7 +187,7 @@ if ($action=="disablecar"){
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($carrierid,$gwlist,$flags,$useweights?"W":"N",$state,$description,$attrs) ) == FALSE)
+	if ($stm->execute( array($carrierid,$gwlist,$flags,$list_sort,$state,$description,$attrs) ) == FALSE)
 		echo "Inserting the record into DB failed with: ". print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";

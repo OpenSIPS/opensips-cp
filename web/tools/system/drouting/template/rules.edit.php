@@ -194,6 +194,10 @@
   </td>
  </tr>
  <tr>
+  <td class="dataRecord">List Sorting</td>
+  <td class="dataRecord"><select name="list_sort" id="list_sort" style="width:230px;" class="dataSelect"><?php dr_get_options_of_list_sort($resultset[0]['sort_alg'])?></select></td>
+ </tr>
+ <tr>
   <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$resultset[0]['attrs']?>" style="width:230px;" maxlength="128" class="dataInput"></td>
  </tr>

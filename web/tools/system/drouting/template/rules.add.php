@@ -191,6 +191,12 @@
    <input type="button" name="add_carrier" value="Add carrier" class="inlineButton" style="width:120px;" onclick="addCarElementToObject('gwlist','car_weight')">
   </td>
  </tr>
+
+ <tr>
+  <td class="dataRecord">List Sorting</td>
+  <td class="dataRecord"><select name="list_sort" id="list_sort" style="width:230px;" class="dataSelect"><?php dr_get_options_of_list_sort(NULL)?></select></td>
+ </tr>
+
  <tr>
   <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b></td>
    <?php if (isset($attrs) || $attrs=="") $attrs=$config->gw_attributes["add_prefill_value"] ?>

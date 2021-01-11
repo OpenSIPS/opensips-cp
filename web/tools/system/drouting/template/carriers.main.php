@@ -80,7 +80,7 @@
  <tr align="center">
   <th class="listTitle">Carrier ID</th>
   <th class="listTitle">GW List</th>  
-  <th class="listTitle">Use weights</th>
+  <th class="listTitle">List Sort</th>
   <th class="listTitle">Use only first</th>
   <th class="listTitle">Description</th>
   <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
@@ -155,7 +155,6 @@ if (!is_null($message)) {
     else $row_style="rowEven";
    if ($resultset[$i]['gwlist']=="") $gwlist='<center><img src="../../../images/share/inactive.png" alt="No GW List"></center>';
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
-	$useweights   = ($resultset[$i]['sort_alg']=="W") ? "Yes" : "No" ;
 	//handle flags
 	if (is_numeric($resultset[$i]['flags'])) {
 		$useonlyfirst = (fmt_binary($resultset[$i]['flags'],4,4)) ? "Yes" : "No" ;
@@ -196,7 +195,7 @@ if (!is_null($message)) {
  <tr>
   <td class="<?=$row_style?>"><?=$resultset[$i]['carrierid']?></td>	
   <td class="<?=$row_style?>"><?=$gwlist?></td>
-  <td class="<?=$row_style?>" align="center"><?=$useweights?></td>
+  <td class="<?=$row_style?>"><?=dr_get_name_of_sort_alg($resultset[$i]['sort_alg'])?></td>
   <td class="<?=$row_style?>" align="center"><?=$useonlyfirst?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$attrs?></td>

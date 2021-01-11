@@ -22,6 +22,7 @@
 
 
  require("template/header.php");
+ require("lib/common.functions.inc.php");
  require("../../../common/cfg_comm.php");
 
  $table=$config->table_rules;
@@ -64,12 +65,12 @@
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
-        $sql = "update ".$table." set groupid=?, prefix=?, timerec=?, priority=?, routeid=?, gwlist=?, attrs=?, description=? where ruleid=?";
+        $sql = "update ".$table." set groupid=?, prefix=?, timerec=?, priority=?, routeid=?, gwlist=?, sort_alg=?, attrs=?, description=? where ruleid=?";
   	$stm = $link->prepare($sql);
   	if ($stm === false) {
   		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
   	}
-	if ($stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist,$attrs,$description,$_GET['id']) ) == FALSE)
+	if ($stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist,$list_sort,$attrs,$description,$_GET['id']) ) == FALSE)
 		echo 'Failed to update the record in DB : ' . print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
@@ -114,12 +115,12 @@
                     $_SESSION['rules_search_gwlist']="";
 		    $_SESSION['rules_search_attrs']="";
                     $_SESSION['rules_search_description']="";
-		    $sql = "insert into ".$table." (groupid, prefix, timerec, priority, routeid, gwlist, attrs, description) values (?, ?, ?, ?, ?, ?, ?, ?)";
+		    $sql = "insert into ".$table." (groupid, prefix, timerec, priority, routeid, gwlist, sort_alg, attrs, description) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		    $stm = $link->prepare($sql);
   		    if ($stm === false) {
   			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
                     }
-		    if ($stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist,$attrs,$description) ) == FALSE)
+		    if ($stm->execute( array($groupid,$prefix,$timerec,$priority,$routeid,$gwlist,$list_sort,$attrs,$description) ) == FALSE)
 			echo 'Failed to insert the record in DB : ' . print_r($stm->errorInfo(), true);
                    }
   if ($form_valid) $action="";

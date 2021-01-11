@@ -95,10 +95,6 @@
   <td class="searchRecord" width="200"><input type="text" name="search_priority" value="<?=$_SESSION['rules_search_priority']?>" maxlength="11" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord">Route ID </td>
-  <td class="searchRecord" width="200"><input type="text" name="search_routeid" value="<?=$_SESSION['rules_search_routeid']?>" maxlength="11" class="searchInput"></td>
- </tr>
- <tr>
   <td class="searchRecord">Gateway List </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
  </tr>
@@ -133,8 +129,8 @@
   <th class="listTitle">Group ID</th>
   <th class="listTitle">Prefix</th>
   <th class="listTitle">Priority</th>
-  <th class="listTitle">Route ID</th>
   <th class="listTitle">GW List</th>  
+  <th class="listTitle">List Sort</th>  
   <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
   <th class="listTitle">Description</th>
   <th class="listTitle">Details</th>
@@ -191,8 +187,6 @@
     else $gwlist=parse_gwlist($resultset[$i]['gwlist']);
    if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
     else $attrs="&nbsp;";
-   if ($resultset[$i]['routeid']!="") $routeid=$resultset[$i]['routeid'];
-    else $routeid="&nbsp;";
    if (strlen($resultset[$i]['description'])>18) $description=substr($resultset[$i]['description'],0,15)."...";
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
@@ -206,8 +200,8 @@
   <td class="<?=$row_style?>"><?=$resultset[$i]['groupid']?></td>
   <td class="<?=$row_style?>"><?=$prefix?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['priority']?></td>
-  <td class="<?=$row_style?>"><?=$routeid?></td>
   <td class="<?=$row_style?>"><?=$gwlist?></td>
+  <td class="<?=$row_style?>"><?=dr_get_name_of_sort_alg($resultset[$i]['sort_alg'])?></td>
   <td class="<?=$row_style?>"><?=$attrs?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$details_link?></td>

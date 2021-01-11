@@ -47,15 +47,12 @@
             <input type="button" name="add_gwlist" value="Add" class="formButton" style="margin-left:2px;width:90px;margin:0px!important" onclick="addElementToObject('gwlist','weight')">
         </td>
  </tr>
+
  <tr>
-  <td class="dataRecord"><b>Use weights</b></td>
-    <td class="dataRecord">
-		<select id="useweights" name="useweights" class="dataSelect" style="width: 275px;">
-			<option value="0" <?php if ($resultset[0]['useweights']==0) echo "selected";?>>0 - No</option>
-     		<option value="1" <?php if ($resultset[0]['useweights']==1) echo "selected";?>>1 - Yes</option>
-    	</select>	
-	</td>
-  </tr>
+  <td class="dataRecord">List Sorting</td>
+  <td class="dataRecord"><select name="list_sort" id="list_sort" style="width:275px;" class="dataSelect"><?php dr_get_options_of_list_sort($resultset[0]['sort_alg'])?></select></td>
+ </tr>
+
  <tr>
   <td class="dataRecord"><b>Use only first</b></td>
     <td class="dataRecord">
