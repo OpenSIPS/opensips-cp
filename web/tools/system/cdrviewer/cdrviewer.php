@@ -54,8 +54,13 @@ if ($action=="search")
 	}
 
 	else {
-		$_SESSION['cdrviewer_search_val']=$search_regexp;
-		$_SESSION['cdrviewer_search_cdr_field'] = $cdr_field ;
+		if ($cdr_field=="none") {
+			$_SESSION['cdrviewer_search_val']="";
+			$_SESSION['cdrviewer_search_cdr_field']="";
+		} else {
+			$_SESSION['cdrviewer_search_val']=$search_regexp;
+			$_SESSION['cdrviewer_search_cdr_field'] = $cdr_field ;
+		}
 		if ($set_start=="set") $_SESSION['cdrviewer_search_start']=$start_year."-".$start_month."-".$start_day." ".$start_hour.":".$start_minute.":".$start_second;
 		else $_SESSION['cdrviewer_search_start']="";
 		if ($set_end=="set") $_SESSION['cdrviewer_search_end']=$end_year."-".$end_month."-".$end_day." ".$end_hour.":".$end_minute.":".$end_second;

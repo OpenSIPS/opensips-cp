@@ -33,18 +33,10 @@ function changeState(id)
 
 function changeState_cdr_field(){
 
-	if (document.getElementById("search_regexp").disabled==true) newState=false;
-	else newState=true;
+	if (document.getElementById("select_cdr_field").value=="none") newState=true;
+	else newState=false;
 
-	document.getElementById("search_regexp").disabled=newState ;
-
-	if (document.getElementById("select_cdr_field").disabled==true) newState=false;
-	else newState=true;
-
-	document.getElementById("select_cdr_field").disabled=newState ;
-
-
-
+	document.getElementById("search_regexp").disabled = newState ;
 }
 
 

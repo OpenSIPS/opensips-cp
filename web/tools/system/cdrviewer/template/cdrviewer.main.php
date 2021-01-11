@@ -65,36 +65,28 @@ if (($cdr_field!="") && ($search_regexp!="")) {
 
  <tr>
 
- <td class="searchRecord" style="width:100px!important">
-  <label><input type="checkbox" name="set_text_regex" value="set" onChange="changeState_cdr_field()" <?php if($search_regexp!="") echo('checked') ?>>CDR field</label></td>
+  <td class="searchRecord">CDR field</td>
   <td class="searchRecord" > 
- <select name="cdr_field" class="dataSelect" style="width:100px!important" id="select_cdr_field" <?php  if ($search_regexp=="") echo 'disabled="true"' ; ?> >
- <?php if (!isset($cdr_field)) {
-
- } ?>
- 
- <?php for ($i =0 ; $i < count($show_field) ; $i++) { 
-
- 	if ($cdr_field == key($show_field[$i]) ) { 		?>
-
- 	 <option value=<?php echo key($show_field[$i]) ?>  selected > <?php echo $show_field[$i][key($show_field[$i])]?></option>
-
- 	 <?php } else { ?>
- 
- <option value=<?php echo key($show_field[$i]) ?> > <?php echo $show_field[$i][key($show_field[$i])]?></option>
-           
- <?php } ?>  
- <?php } ?>
-
- </select>
+  <select name="cdr_field" class="dataSelect" id="select_cdr_field" style="width:100px!important" onChange="changeState_cdr_field()">
+	<?php
+	$has_selected = false;
+	for ($i =0 ; $i < count($show_field) ; $i++) { 
+ 		if ($cdr_field == key($show_field[$i]) ) {
+			print("<option value='".key($show_field[$i])."' selected >".$show_field[$i][key($show_field[$i])]."</option>");
+			$has_selected=true;
+		} else {
+ 			print("<option value='".key($show_field[$i])."'>".$show_field[$i][key($show_field[$i])]."</option>");
+           	}
+	}
+	print("<option value='none' ".($has_selected?"":"selected")." >None</option>");
+ 	?>
+  </select>
+  <input type="text" name="search_regexp" style="width:310px!important" id="search_regexp" value="<?=$search_regexp?>" <?=($has_selected?"":"disabled")?> maxlength="128" class="searchInput">
+  </td>
+ </tr>
 
 
-  <input type="text" name="search_regexp" style="width:310px!important" id="search_regexp" value="<?=$search_regexp?>" maxlength="128" class="searchInput" <?php  if ($search_regexp=="")  echo 'disabled="true"' ; ?> ></td>
-
-  </tr>
-
- 
- 
+ <tr>
  <td class="searchRecord"><label><input type="checkbox" name="set_start" value="set" onChange="changeState('start')" <?php if($search_start!="") echo('checked') ?>>Start Date</label?</td>
 
  <td class="searchRecord"><?=print_start_date_time($search_start)?></td>
