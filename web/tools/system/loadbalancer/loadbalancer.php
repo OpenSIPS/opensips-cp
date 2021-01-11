@@ -71,17 +71,18 @@ case "do_add":
 	$group_id=$_POST['group_id'];
 	$dst_uri=$_POST['dst_uri'];
 	$resources=$_POST['resources'];
+	$attrs=$_POST['attrs'];
 	$description=$_POST['description'];
 	$probe_mode = $_POST['probe_mode'];
 
 	$sql = "INSERT INTO ".$table.
-		"(group_id, dst_uri,resources,probe_mode,description) VALUES (?,?,?,?,?)";
+		"(group_id, dst_uri,resources,probe_mode,attrs,description) VALUES (?,?,?,?,?,?)";
 
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute(array($group_id,$dst_uri,$resources,$probe_mode,$description))==FALSE) {
+	if ($stm->execute(array($group_id,$dst_uri,$resources,$probe_mode,$attrs,$description))==FALSE) {
 		$errors = "Inserting the record into DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="The new LB destination was added";
@@ -117,14 +118,15 @@ case "modify":
 	$dst_uri=$_POST['dst_uri'];
 	$resources=$_POST['resources'];
 	$probe_mode = $_POST['probe_mode'];
+	$attrs=$_POST['attrs'];
 	$description=$_POST['description'];
 
-	$sql = "UPDATE ".$table." SET group_id=?, dst_uri=?, resources=?, probe_mode=?, description=? WHERE id=?";
+	$sql = "UPDATE ".$table." SET group_id=?, dst_uri=?, resources=?, probe_mode=?, attrs=?, description=? WHERE id=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute(array($group_id,$dst_uri,$resources,$probe_mode,$description,$id))==FALSE) {
+	if ($stm->execute(array($group_id,$dst_uri,$resources,$probe_mode,$attrs,$description,$id))==FALSE) {
 		$errors = "Updating the record into DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="LB destination has been updated";

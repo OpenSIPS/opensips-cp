@@ -38,6 +38,7 @@
 	$lb_form['dst_uri'] = null;
 	$lb_form['resources'] = null;
 	$lb_form['probe_mode'] = 0;
+	$lb_form['attrs'] = null;
 	$lb_form['description'] = null;
 
 	require("loadbalancer.form.php");

@@ -34,6 +34,9 @@ form_generate_input_text("Resources", "The list of resources (ans their capacity
 form_generate_select("Probe Mode", "When the destination should be probed/pinged via SIP messages (for availability)",
 	"probe_mode", 200, $lb_form['probe_mode'], array("0","1","2"),$lb_probing_modes);
 
+form_generate_input_text("Attributes", "String of custom Attributes, to be passed to the OpenSIPS script",
+	"attrs", "y", $lb_form['attrs'], 128, null);
+
 form_generate_input_text("Description", "Description in DB, not used by OpenSIPS",
 	"description", "y", $lb_form['description'], 128, null);
 ?>

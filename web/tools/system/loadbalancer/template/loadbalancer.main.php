@@ -82,6 +82,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Probe Mode</th>
   <th class="listTitle">Auto Re-enable</th>
   <th class="listTitle">Status</th>
+  <th class="listTitle">Attributes</th>
   <th class="listTitle">Description</th>
   <?php
   if(!$_SESSION['read_only']){
@@ -200,6 +201,7 @@ else {
 			}
 			?>
 			</td>
+			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['attrs']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
 			<?php 
 			if(!$_SESSION['read_only']){
