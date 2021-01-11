@@ -123,6 +123,7 @@ function cdr_export($start_time,  $end_time ) {
 	global $export_csv;
 	global $cdr_repository_path ;
 	global $cdr_set_field_names;
+	global $cdr_export_time_limit;
 	global $delay;
 
 
@@ -137,6 +138,9 @@ function cdr_export($start_time,  $end_time ) {
 	$sql.="time <= DATE_SUB( ?, INTERVAL ".$delay." SECOND)"   ;
 
 	$sql .= " order by time desc " ;
+
+	if (isset($cdr_export_time_limit))
+		set_time_limit ($cdr_export_time_limit);
 
 	$stm = $link->prepare($sql);
 	if ($stm === false)
@@ -219,6 +223,7 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	global $config ;
 	global $export_csv;
 	global $cdr_set_field_names;
+	global $cdr_export_time_limit;
 	global $link;
 
 	$cdr_table = $config->cdr_table ;
@@ -242,6 +247,10 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 
 	if ($sql_search!="") $sql.=  $sql_search  ;
+	if ($config->db_driver == "mysql")
+		$link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
+	if (isset($cdr_export_time_limit))
+		set_time_limit ($cdr_export_time_limit);
 
 	$sql .= " order by time desc " ;
 	
@@ -249,10 +258,6 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	if ($stm === false)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute( $sql_vals );
-	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-	$num_rows = count($result);
-
 
 	$f = fopen($outfile, "w");
 
@@ -262,7 +267,6 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	if ($cdr_set_field_names == 1 ) {
 
 		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
-
 
 			$line .= $export_csv[$i][key($export_csv[$i])];
 
@@ -274,17 +278,18 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 		$line .=  $line_terminator ;
 
 		fwrite($f , $line , strlen($line));
-
 	}
-	for ($j=0;count($result)>$j;$j++) {
+
+	while ($row = $stm->fetch(PDO::FETCH_ASSOC)) {
+
 		if ( function_exists("process_cdr_line_for_export") )
-			process_cdr_line_for_export( $result[$j] );
+			process_cdr_line_for_export( $row );
 		$line = "";
 
 		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
 
 
-			$line .= $result[$j][key($export_csv[$i])];
+			$line .= $row[key($export_csv[$i])];
 
 			if  ($i < count($export_csv) - 1 )
 
@@ -292,14 +297,13 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 		}
 
-
 		$line .=  $line_terminator ;
 
 		fwrite($f , $line , strlen($line));
 	}
 
-
 	fclose($f);
+	$stm->closeCursor();
 
 
 	//	put to download

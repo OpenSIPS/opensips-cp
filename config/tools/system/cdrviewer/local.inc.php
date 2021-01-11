@@ -86,6 +86,10 @@
  //	1 == on ,  0 == off
  $cdr_set_field_names = 1 ;
 
+
+ // optional, increase the export execution limit
+ // $cdr_export_time_limit = 60;
+
  $delay=3600 ; 
 
  /* Optional function that may implement custom processing for the

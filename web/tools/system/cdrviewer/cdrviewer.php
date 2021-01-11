@@ -81,8 +81,9 @@ if ($export == "Export") {
 			if(null !== $error)
 			{
 				require("../../../../web/common/cfg_comm.php");
-				echo "Not enough memory to export the selected CDRs!<br>";
+				echo "Not enough resources to export the selected CDRs!<br>";
 				echo "Please use a filter that will return fewer results<br>";
+				echo "If that is not possible, consider increasing your PHP memory allocated and/or execution time<br>";
 				print_back_input();
 				exit();
 			}
