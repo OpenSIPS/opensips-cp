@@ -54,12 +54,16 @@ echo '<th class="listTitle">Start Time</th>';
 echo '<th class="listTitle">Timeout Time</th>';
 echo '<th class="listTitle">Duration</th>';
 echo '<th class="listTitle">State</th>';
-if(!$_SESSION['read_only'])
+if(!$_SESSION['read_only']) {
 	echo('<th class="listTitle">Stop Call</th>');
+	$colspan=8;
+} else {
+	$colspan=7;
+}
 echo '</tr>';
 
 if ($data_no==0) {
-	echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 }
 else {
 	// here goes the paging stuff
@@ -79,7 +83,7 @@ else {
 
 
 <tr>
-<th colspan="7">
+<th colspan="<?=$colspan?>">
     <table class="pagingTable">
      <tr>
       <th align="left">Page:
