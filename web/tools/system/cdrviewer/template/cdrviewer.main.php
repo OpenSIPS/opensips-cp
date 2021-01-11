@@ -87,15 +87,13 @@ if (($cdr_field!="") && ($search_regexp!="")) {
 
 
  <tr>
- <td class="searchRecord"><label><input type="checkbox" name="set_start" value="set" onChange="changeState('start')" <?php if($search_start!="") echo('checked') ?>>Start Date</label?</td>
-
- <td class="searchRecord"><?=print_start_date_time($search_start)?></td>
- 
+  <td class="searchRecord">Start Date</td>
+  <td class="searchRecord"><?=print_cdr_filter_date_time($search_start, "start")?></td>
  </tr>
+
  <tr>
-  <td class="searchRecord"><label><input type="checkbox" name="set_end" value="set" onChange="changeState('end')" <?php if($search_end!="") echo('checked') ?>>End Date</label>
-  </td>
-  <td class="searchRecord"><?=print_end_date_time($search_end)?></td>
+  <td class="searchRecord">End Date</td>
+  <td class="searchRecord"><?=print_cdr_filter_date_time($search_end, "end")?></td>
  </tr>
 
 

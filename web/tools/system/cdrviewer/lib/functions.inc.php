@@ -22,13 +22,16 @@
 
 
 
-function print_object($obj_name, $start_value, $end_value, $select_value, $disabled)
+function print_object($obj_name, $start_value, $end_value, $select_value, $disabled, $disabler, $extra)
 {
  $width = 56 + (preg_match("/year/",$obj_name)?20:0);
-?>
- <select name="<?=$obj_name?>" id="<?=$obj_name?>" style="width:<?=$width?>px!important" size="1" class="dataSelect" <?=$disabled?>>
- <?php
- for ($i=$start_value;$i<=$end_value;$i++)
+ echo('<select name="'.$obj_name.'" id="'.$obj_name.'" style="width:'.$width.'px!important" size="1" class="dataSelect" '.($disabled&&(!$disabler)?"disabled":"").$extra.'>');
+
+ if ($disabler) {
+	echo('<option value="none" '.($disabled?"selected":"").'>----</option>');
+	if ($disabled) $select_value="";
+ }
+ for ($i=$end_value;$i>=$start_value;$i--)
  {
  	if ($i<10) $value="0".$i;
  	else $value=$i;
@@ -41,49 +44,19 @@ function print_object($obj_name, $start_value, $end_value, $select_value, $disab
 <?php
 }
 
-function print_start_date_time($datetime)
+function print_cdr_filter_date_time($datetime,$obj_name)
 {
-	$obj_name="start";
 	if ($datetime=="") {
-		$status="disabled";
-		$a=1;
-		$b=1;
-		$c=date("Y");
-		$d=0;
-		$e=0;
-		$f=0;
-	}
-	else {
-		$status="";
-		$a=substr($datetime,8,2);
-		$b=substr($datetime,5,2);
-		$c=substr($datetime,0,4);
-		$d=substr($datetime,11,2);
-		$e=substr($datetime,14,2);
-		$f=substr($datetime,17,2);;
-	}
-	print_object($obj_name."_year",date("Y")-5,date("Y")+5,$c,$status); echo("<b>-</b>");
-	print_object($obj_name."_month",1,12,$b,$status); echo("<b>-</b>");
-	print_object($obj_name."_day",1,31,$a,$status); echo("&nbsp;&nbsp;");
-	print_object($obj_name."_hour",0,23,$d,$status); echo("<b>:</b>");
-	print_object($obj_name."_minute",0,59,$e,$status); echo("<b>:</b>");
-	print_object($obj_name."_second",0,59,$f,$status);
-}
-
-function print_end_date_time($datetime)
-{
-	$obj_name="end";
-	if ($datetime=="") {
-		$status="disabled";
+		$disabled=true;
 		$a=date("d");
 		$b=date("m");
 		$c=date("Y");
-		$d=23;
-		$e=59;
-		$f=59;
+		$d=date("H");
+		$e=date("i");
+		$f=date("s");
 	}
 	else {
-		$status="";
+		$disabled=false;
 		$a=substr($datetime,8,2);
 		$b=substr($datetime,5,2);
 		$c=substr($datetime,0,4);
@@ -91,12 +64,14 @@ function print_end_date_time($datetime)
 		$e=substr($datetime,14,2);
 		$f=substr($datetime,17,2);;
 	}
-	print_object($obj_name."_year",date("Y")-5,date("Y")+5,$c,$status); echo("<b>-</b>");
-	print_object($obj_name."_month",1,12,$b,$status); echo("<b>-</b>");
-	print_object($obj_name."_day",1,31,$a,$status); echo("&nbsp;&nbsp;");
-	print_object($obj_name."_hour",0,23,$d,$status); echo("<b>:</b>");
-	print_object($obj_name."_minute",0,59,$e,$status); echo("<b>:</b>");
-	print_object($obj_name."_second",0,59,$f,$status);
+	print_object($obj_name."_year",date("Y")-5,date("Y"),$c,$disabled,true, ' onChange="changeState(\''.$obj_name.'\')"' ); echo("<b>-</b>");
+	
+	print_object($obj_name."_month",1,12,$b,$disabled); echo("<b>-</b>");
+	print_object($obj_name."_day",1,31,$a,$disabled); echo("&nbsp;&nbsp;");
+	print_object($obj_name."_hour",0,23,$d,$disabled); echo("<b>:</b>");
+	print_object($obj_name."_minute",0,59,$e,$disabled); echo("<b>:</b>");
+	print_object($obj_name."_second",0,59,$f,$disabled);
+	echo("<script>changeState('".$obj_name."')</script>");
 }
 
 
