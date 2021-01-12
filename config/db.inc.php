@@ -23,7 +23,7 @@
 if (!isset($config)) $config = new stdClass();
 
  //database driver mysql or pgsql
- $config->db_driver = "mysql";	
+ $config->db_driver = "mysql";
 
  //database host
  $config->db_host = "localhost";

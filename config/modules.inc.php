@@ -124,7 +124,7 @@ $config_modules 	= array (
 				"name"			=> "Statistics Monitor"
 			),
 			"homer"				=> array (
-				"enabled"		=> true,
+				"enabled"		=> false,
 				"name"			=> "Homer"
 			),
 			"tls_mgm"			=> array (

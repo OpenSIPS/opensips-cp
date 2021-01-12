@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2011-2021 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
  * OpenSIPS SIP server.
@@ -25,8 +25,8 @@
 
 $box_id=0;
 
-//  MI connector (via JSON backend):   json:host:port/json
-$boxes[$box_id]['mi']['conn']="json:127.0.0.1:8888/json";
+//  MI connector (via JSON backend):   json:host:port/mi
+$boxes[$box_id]['mi']['conn']="json:127.0.0.1:8888/mi";
 
 // monit host:port
 $boxes[$box_id]['monit']['conn']="127.0.0.1:2812";
@@ -49,7 +49,7 @@ $boxes[$box_id]['smonitor']['charts']=1;
 /*---------------------------------------------------------------------------
 $box_id=1;
 
-//  MI connector (via JSON backend):   json:host:port/json
+//  MI connector (via JSON backend):   json:host:port/mi
 $boxes[$box_id]['mi']['conn']="json:127.0.0.2:8888/mi";
 
 
