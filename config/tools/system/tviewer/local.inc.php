@@ -147,7 +147,7 @@ Example table: table1
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> true,
-					"combo_default_values"=>array("1"=>"Yes","0"=>"No")
+					"combo_default_values"=>array("1"=>"Yes","0"=>"No"),
 					"default_value" 	=> "0"
 			)
 	);
