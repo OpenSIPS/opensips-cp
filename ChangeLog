@@ -1,463 +1,327 @@
-2019-07-22  Bogdan Iancu  <bogdan at opensips dot org>
-	* [c3ac573] :
+2021-01-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [c4028b6] :
 
-	Automatically print only error from the MI level, and skip errors from cmd level.
-	Errors related to the execution of the cmd are to be handled (and eventually printed) by the code that triggered the MI cmd.
+	[dialplan] fix locating attributes with number values.
+	If the array of attributes contains numberical keys like, the strpos fails. According to docs -> if needle is not a string, it is converted to an integer and applied as the ordinal value of a character.
+	Reported by Flavio Goncalves.
+	Example of failing configuration:
 
+	$config->attrs_cb=array(
+	                 // name , description
+	                "3" => "usrloc",
+	                "4" => "pstn",
+	                "5" => "media",
+	         );
+	Note the numerical keys!
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [20f53d4] :
 
-	[dialplan] Added tooltip and validation support
-	Based on the initial pull request #65 from @rzerres
+2021-01-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [4beace3] :
 
+	[cdrtool] get rid of checkbox for "Start/End time"
+	Make the usage of the "Start/End time" filters interactive, based on year value <- better user experience
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [1e5df2f] :
 
-	Added support for input:checkbox in the generic forms
+2021-01-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [908225f] :
 
+	[cdrtool] get rid of checkbox for "CDR field"
+	Make the usage of the "CDR field" filter interactive, based on its value <- better user experience
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [43d1852] :
 
-	Added new "SMS Gateway" tool
-	Closing #70
+2021-01-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [c72da0a] :
 
+	[dialplan] Fix the counting DB query (no ordering)
+	The "order" in the counting query breaks the SQL query.
+	Closes #84
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d0b90d9] :
 
-	Moved some of the fields form the main display to the "details" display
+2021-01-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [fb23993] :
 
+	Small cfg updates/fixes
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [71f2913] :
 
-	Restore missing files for implementing "Details" button
+2021-01-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [536af22] :
 
+	Fix syntax in example
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9d955fd] :
 
-	Just identation
+2021-01-11  Razvan Crainea  <razvan at opensips dot org>
+	* [4f85156] :
 
+	cdrviewer: handle large amounts of exported CDRs
+	When a large number of CDRs are exported, apache would crash due to
+	memory exhaustion, or execution timeout. This commit improves the
+	exporter's behavior by:
+	 * fetching the CDRs row by row, lowering the memory usage
+	 * disable query buffering, to ensure release after a new row is fetched
+	 * add behavior of setting a custom execution time, by configuring the
+	   `$cdr_export_time_limit` variable
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [4278591] :
 
-	Added the "UAC Registrant" tool
-	Part of #70
+2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [782acf2] :
 
+	bump the copyright time window
 
-2019-07-18  Bogdan Iancu  <bogdan at opensips dot org>
-	* [23cef63] :
 
-	Moved validation regexp for sockets into the "forms" file for reusage purposes
+2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [bbb66a1] :
 
+	[call_center] add new opensips 3.1 specific columns
+	Also reduce the number or flow properties displaied in the main view and do the full description via the "details" tab.
 
-2019-07-17  Bogdan Iancu  <bogdan at opensips dot org>
-	* [af96d54] :
 
-	[tls_mgm] Align with the new DB schema
+2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [85131dc] :
 
+	[drouting] add missing file with some common funcs for sort alg
+	related to 5b7b00e4f39b913f6e4adc10c7d62633c4e08aab
 
-2019-07-17  Bogdan Iancu  <bogdan at opensips dot org>
-	* [3772207] :
 
-	[Permissions] Added validation for IPv6 also
-	Closes #61
+2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f041a81] :
 
+	[dialog] fix column spanning
 
-2019-07-16  Bogdan Iancu  <bogdan at opensips dot org>
-	* [9061922] :
 
-	Better test for existing array key
+2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [5b7b00e] :
 
+	[drouting] added full support for rules/carries sort algoritms
+	Both the rule and carrier records may have the None, Weight or Quality sorting algorithms
 
-2019-07-16  Bogdan Iancu  <bogdan at opensips dot org>
-	* [03755b7] :
 
-	[user_management] Migrated to new MI command prototype
+2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
+	* [cb1ff97] :
 
+	[load_balancer] Added the new "attrs" column
+	(part of migration to OpenSIPS 3.1)
 
-2019-07-15  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e0d7c06] :
 
-	[mi] Migrated to new MI command prototype
+2020-12-10  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [c99c4ee] :
 
+	[drouting] Fix typo in column name
 
-2019-07-15  Bogdan Andrei IANCU  <bogdan at opensips dot org>
-	* [92d80ba] :
 
-	Merge pull request #69 from bduverger/master
-	Fix 'System/MI commands' when no box selected
+2020-12-08  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [836cc9e] :
 
+	[Dynamic routing] Fix provisioning the flags and sort algorithm for carriers
+	The sort alg is now a separate column.
+	The flags shifted with one position to the right.
 
-2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [828938f] :
 
-	[drouting] Migrated to new MI command prototype
+2020-11-20  Razvan Crainea  <razvan at opensips dot org>
+	* [bb67bf6] :
 
+	cdrviewer: print an errro if memory gets exhausted
 
-2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [39161f6] :
 
-	[drouting] Migrated to new MI command prototype
+2020-08-27  Liviu Chircu  <liviu at opensips dot org>
+	* [4402206] :
 
+	Load Balancer: Complete d95ef7c2ad
+	(cherry picked from commit b2a0db7a69534f70c2e0a707bad9e11b64207725)
 
-2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [6394a8a] :
 
-	[loadbalancer] Migrated to new MI command prototype
+2020-08-24  Liviu Chircu  <liviu at opensips dot org>
+	* [81bf1ee] :
 
+	boxes.inc.php: Fix box #1 default JSON-RPC connector
+	(cherry picked from commit 5396b541f160eab67eb887c5277fe3023af31c81)
 
-2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [848975d] :
 
-	[rtpengine] Migrated to new MI command prototype
+2020-08-24  Liviu Chircu  <liviu at opensips dot org>
+	* [7f0cf46] :
 
+	Load Balancer: Allow "/b" and "/s" profile definitions
+	(cherry picked from commit d95ef7c2adbb0d400cf2e3b62ecc50f215435a11)
 
-2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [98c5c76] :
 
-	[rtpproxy] Migrated to new MI command prototype
+2020-08-06  Liviu Chircu  <liviu at opensips dot org>
+	* [c0cdd12] :
 
+	DB schema: Remove AUTO_INCREMENT
 
-2019-07-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [0f10495] :
 
-	[dialog] Migrated to new MI command prototype
+2020-06-16  Bogdan Iancu  <bogdan at opensips dot org>
+	* [cc0aea8] :
 
+	Added index files to redirect dir browsings to home page
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [c9941fd] :
 
-	[smonitor] Migrated to new MI command prototype
+2020-06-16  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [0e2e6ec] :
 
+	Added autocomplete="off" for all password inputs
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f6ec7a0] :
 
-	[domains] Migrated to new MI command prototype
+2020-05-12  Liviu Chircu  <liviu at opensips dot org>
+	* [e2c4246] :
 
+	SIP Trace:  Improve "group by Call-ID" query
+	    * be compatible with any SQL mode.  This fixes:
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [0b3c3df] :
+		SELECT DISTINCT callid FROM sip_trace WHERE status='' AND
+		    direction='in' ORDER BY id DESC;
 
-	[dialplan] Migrated to new MI command prototype
+		ERROR 3065 (HY000): Expression #1 of ORDER BY clause is not in
+		    SELECT list, references column 'opensips.sip_trace.id' which
+		    is not in SELECT list; this is incompatible with DISTINCT
 
+	    * be consistent across different backends (e.g. don't sort the
+		results differently with MySQL vs. Postgres)
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [b2eadf5] :
+	Fixes #83
 
-	[tviewer] Migrated to new MI command prototype
 
+2020-03-03  Liviu Chircu  <liviu at opensips dot org>
+	* [54f52c9] :
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [bdb26d8] :
+	Further improve commit c85bee61a88
+	The status/direction filtering is redundant (and SLOW, since these
+	columns are not indexed), as the calls are already grouped by Call-ID!
 
-	[permissions] Migrated to new MI command prototype
 
+2020-03-03  Liviu Chircu  <liviu at opensips dot org>
+	* [c85bee6] :
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [1df32b8] :
+	SIP Trace: Optimize very wasteful "SELECT COUNT(*)" query
+	Do not pull all the data just to count the number of results, as the
+	"sip_trace" table can easily grow to over tens of GB, and the query will
+	take 5 minutes to run...
 
-	[siptrace]  Migrated to new MI command prototype
+	Just use COUNT(*) !!!
 
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [97ae8d5] :
+2020-02-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [74f00e6] :
 
-	[tls_mgm] Migrated to new MI command prototype
+	Fixed swapped value for REGEX/EQUAL
+	Credits go to Flavio Goncalves for reporting
+	(cherry picked from commit 78324983abd43c002ca75aadf4528d7305e68d9c)
 
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [fb27fc4] :
+2020-02-18  Razvan Crainea  <razvan at opensips dot org>
+	* [11d9cdb] :
 
-	[clusterer] Migrated to new MI command prototype
+	use php SCRIPT_NAME instead of PHP_SELF
+	This fixes broken PHP_SELF variable populated by nginx fpm
+	(issue 55208: https://bugs.php.net/bug.php?id=55208)
+	Fixes #81
 
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e301001] :
+2020-02-05  Liviu Chircu  <liviu at opensips dot org>
+	* [11233cc] :
 
-	[callcenter] Migrated to new MI command prototype
+	Merge branch 'petekelly-master'
 
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f978bd6] :
+2020-02-05  Peter Kelly  <pkelly at gmail dot com>
+	* [85a17eb] :
 
-	Ported dispatcher tool to new MI command prototype
+	boxes iteration: Change the for loop to a foreach
+	The for loop was assuming that the user was using array keys
+	sequentially in the boxes array.  While this would normally be the case,
+	the example code encourages you to skip a key as the example for
+	'Presence Server' used a commented out key of '1' - the symptom here was
+	that the mi_connectors array was not built correctly.
 
 
-2019-07-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [6d047c0] :
+2020-01-29  Razvan Crainea  <razvan at opensips dot org>
+	* [0c5ba59] :
 
-	Aligned MI connector to the new mi_http/json format for OpenSIPS 3.0
+	dialog: don't show timeout if not specified
 
 
-2019-07-10  Benoit Duverger  <bduverger at atwtech dot com>
-	* [e13cee9] :
+2020-01-29  Razvan Crainea  <razvan at opensips dot org>
+	* [8b4d1a5] :
 
-	Fix 'System/MI commands' when no box selected
+	dialog: add duration column in displayed fields
 
 
-2019-06-28  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [b88eeb9] :
+2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [35aa885] :
 
-	Relax the GW checkes on "add".
-	It is perfectly ok to have multiple gw definitions with the same IP/group/strip/prefix - there is no consistency issue here and such "duplicates" may be useful when using different attributes per gw
+	Removed SVN Ids
 
 
-2019-05-07  Razvan Crainea  <razvan at opensips dot org>
-	* [967de76] :
+2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [47b38b3] :
 
-	drouting: fill in attributes for all tools
+	Remove SVN ids
 
 
-2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
-	* [a619287] :
+2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [8a63d7e] :
 
-	Added support for configurable purpose for 'attributes' field
-	Via conf, the way the attrs DB filed is displaied and handled may be customised as:
-	        * display_name
-	        * add_prefill_value
-	        * validation_regexp
-	        * validation_error
+	Make php installing version independent.
+	Credits go to @sdwru
+	Related to #77
 
 
-2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
-	* [2e80d1c] :
+2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [d510d92] :
 
-	Add gateway ID verification (as format)
+	Added more restrictive Directory permissions
 
 
-2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
-	* [4304f97] :
+2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [1680765] :
 
-	Cleanup - removed some debugging code/prints
+	update file permission format to apache 2.4
+	Credits go to @sdwru
+	Part of #77
+	(cherry picked from commit 39d6ba58471c929895710f192729420b2fd3f25e)
 
 
-2019-05-07  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f52ff9a] :
+2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [e686329] :
 
-	Fix replacing when token in the middle of the list.
-	Related to prev 9b88d1e4b837b7b036c890813daa5b6979680622 commit
+	Fix root web directory to /var/www/html/
+	Fix part of #77
+	(cherry picked from commit 1efe57bc362e6ccad8fef1d77f39a78ad70fe23b)
 
 
-2019-05-07  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [9b88d1e] :
+2019-11-13  Razvan Crainea  <razvan at opensips dot org>
+	* [5613750] :
 
-	Improve the removal of GWs from rules/carriers
-	Use a better/faster regexp and logic.
+	drouting: fix rules group details
+	Bug introduced in commit e0642920fd
 
 
-2019-04-24  Razvan Crainea  <razvan at opensips dot org>
-	* [08f2419] :
+2019-08-23  Razvan Crainea  <razvan at opensips dot org>
+	* [cbd44bd] :
 
-	cdrviewer: no need % when searching like-wise
+	user_management: make user format configurable
 
 
-2019-04-10  Razvan Crainea  <razvan at opensips dot org>
-	* [5e0d7c4] :
+2019-08-23  Razvan Crainea  <razvan at opensips dot org>
+	* [22037e4] :
 
-	cdrviewer: search LIKE'wise only of % is specified in search field
+	drouting: load js even if no data is found
 
 
-2019-04-01  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [67e6467] :
+2019-07-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [f670a29] :
 
-	Remove more useless unix_timestamp()
-	This is a follow up of 74b3b875f2e04fc85e028adf6bcd102829117523
+	Merge pull request #71 from pfournier/edit-gateways-attrs-maxlength
+	Allow 128 characters for attributes when editing drouting gateways
 
 
-2019-04-01  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [74b3b87] :
+2019-07-24  Patrice Fournier  <patrice.fournier at t38fax dot com>
+	* [7ac8541] :
 
-	Get rid of unix_timestamp()
-	Makes no sense to test by converting both input and DB value to timestamp (from datatime) as the convertion is done by DB server (so, with the same TZ).
-	And using the unix_timestamp() in the query breaks the indexing and makes the queries realy slow.
+	Allow 128 characters for attributes when editing drouting gateways
 
 
-2019-03-28  Razvan Crainea  <razvan at opensips dot org>
-	* [5fa43ae] :
+2019-07-22  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [81ad830] :
 
-	drouting: do not escape regexp values
-
-
-2019-02-28  Razvan Crainea  <razvan at opensips dot org>
-	* [622b6fb] :
-
-	add reset and up images
-
-
-2019-02-28  Razvan Crainea  <razvan at opensips dot org>
-	* [7859ff0] :
-
-	menu: allow disabled tools
-
-
-2019-02-27  Razvan Crainea  <razvan at opensips dot org>
-	* [941464b] :
-
-	cdrviewer: add display_fields array
-	This array may be used to pretty print certain values in the CDR tab
-
-
-2019-02-25  Bogdan Iancu  <bogdan at opensips dot org>
-	* [bc10a67] :
-
-	Fixed wrong port handling in PDO connection
-	Fixes #59
-
-
-2019-01-17  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f543f28] :
-
-	Fixed multi box support in MI tool.
-	Proper init for the current boc based on the session value and the selected value.
-	Fix history cleanup.
-
-	Reported by @calliotel.
-	Fixes #58
-
-
-2019-01-07  Razvan Crainea  <razvan at opensips dot org>
-	* [b725447] :
-
-	tviewer: don't use like when searching combos
-
-
-2019-01-07  Razvan Crainea  <razvan at opensips dot org>
-	* [e064292] :
-
-	drouting: rework group printing
-
-
-2018-12-13  root  <root at opensips dot org>
-	* [0931e6c] :
-
-	Fixed selection of boxes in MI tool
-
-
-2018-11-28  Bogdan Iancu  <bogdan at opensips dot org>
-	* [e3d8403] :
-
-	Added JS function to auto re-update the whole menu tree based on the page change in the main frame.
-
-
-2018-11-28  Bogdan Iancu  <bogdan at opensips dot org>
-	* [0917f78] :
-
-	Fixed expending the siptrace when jumping from cdrviewer
-	Credits go to John Quick. Also many thanks for the support with troubleshooting.
-
-
-2018-11-09  Bogdan Iancu  <bogdan at opensips dot org>
-	* [d505031] :
-
-	Fixed typo in tool name when detecting the tracer to use (homer versus siptrace)
-	Issue reported by John Quick
-
-
-2018-11-09  Razvan Crainea  <razvan at opensips dot org>
-	* [c9f9562] :
-
-	mi: proper error check
-
-
-2018-11-09  Razvan Crainea  <razvan at opensips dot org>
-	* [d0a90ca] :
-
-	callcenter: use prepared statements for unique id
-
-
-2018-11-07  Razvan Crainea  <razvan at opensips dot org>
-	* [4c8788c] :
-
-	add 'settings' module property
-	This commit adds a new property for the module, namely 'settings', that
-	is used to indicate the module should not be displayed in the menu list,
-	but it should be treated like all the other tools (such as displayed in
-	the access list tabs).
-	This commit fixes #56
-
-
-2018-11-07  Razvan Crainea  <razvan at opensips dot org>
-	* [8325538] :
-
-	menu: proper fix for background color
-
-
-2018-11-07  Razvan Crainea  <razvan at opensips dot org>
-	* [9f277c8] :
-
-	Revert "style: ensure the menu is colored"
-	This reverts commit 6e95e2c0999f0111207beacf88452d080f82e613.
-
-
-2018-11-07  Razvan Crainea  <razvan at opensips dot org>
-	* [9c97c99] :
-
-	list_admins: display all tabs in edit form
-	Close #54
-
-
-2018-11-07  Razvan Crainea  <razvan at opensips dot org>
-	* [6e95e2c] :
-
-	style: ensure the menu is colored
-
-
-2018-11-07  Razvan Crainea  <razvan at opensips dot org>
-	* [c14f9d9] :
-
-	list_admins: rework permissions display
-
-
-2018-11-06  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [3d0e8f2] :
-
-	Added missing entry for tls_mgm tool
-	Reported by John Quick
-	(cherry picked from commit 2170f52ed72963394a2e85acfa04c3286a982b07)
-
-
-2018-11-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [82a5f26] :
-
-	Fixed delete of selected traces.
-	Reported by @zzz3z
-	Closes #55.
-
-
-2018-11-06  Bogdan Iancu  <bogdan at opensips dot org>
-	* [64f942c] :
-
-	Fixed missing quotes in accessing session variable
-	Credits go to John Quick
-	Closes #53
-
-
-2018-11-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [90df3ec] :
-
-	Do not grant access to the tool if not enabled.
-	Fast work around for #51
-	Credits go to John Quick for the report and understanding the issue.
-
-
-2018-11-05  Bogdan Iancu  <bogdan at opensips dot org>
-	* [66d16e0] :
-
-	Fix test of admin colision (id must be involved).
-	Reported by John Quick
-	Closes #50
-
-
-2018-11-05  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [683ea25] :
-
-	Fix bogus variable name.
-	Credits go to Yuriy to report it.
+	Updates for 8.3.0 version
 
