@@ -28,7 +28,7 @@ $sql_vals=array();
 
 $search_dpid=$_SESSION['dialplan_id'];
 if($search_dpid!="") {
-	$sql_search.="and dpid=?";
+	$sql_search.="dpid=?";
 	array_push( $sql_vals, $search_dpid);
 }
 
@@ -87,8 +87,11 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="from ".$table." order by dpid, pr, match_op, match_exp asc";
-else $sql_command="from ".$table." where (1=1) ".$sql_search." order by dpid, pr, match_op, match_exp asc";
+if ($sql_search=="")
+	$sql_command="from ".$table;
+else
+	$sql_command="from ".$table." where ".$sql_search;
+
 $stm = $link->prepare("select count(*) ".$sql_command);
 if ($stm===FALSE) {
 	die('Failed to issue query [select count(*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
@@ -106,7 +109,7 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	//$sql_command.=" limit ".$start_limit.", ".$res_no;
+	$sql_command.=" order by dpid, pr, match_op, match_exp asc";
 
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ". $res_no . " OFFSET " . $start_limit;
