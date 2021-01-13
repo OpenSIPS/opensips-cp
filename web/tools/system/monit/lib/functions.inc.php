@@ -51,6 +51,7 @@ function show_boxes($boxen){
 	global $page_name ;
 	global $box_val;
 
+	require_once("../../../common/forms.php");
 
 	echo ('<table allign=left cellspacing=0 cellpadding=3 border=0 width="20%"><tr><td>');
 	echo ('<form action="'.$page_name.'?box_val="'.$box_val.' method="post" name="boxen_select" >');
