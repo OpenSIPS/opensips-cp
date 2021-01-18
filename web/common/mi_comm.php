@@ -63,12 +63,16 @@ function write2json($command, $json_url, &$errors, &$status){
 
 
 function mi_command($command, $mi_url, &$errors, &$status){
+	if (empty($mi_url)) {
+		$errors[] = "Failed to send MI command to an empty-string MI URL!";
+		return;
+	}
 
 	/* identify and break down the MI URL */
 	$a=explode(":",$mi_url);
 
 	if ($a[0]!="json") {
-		$errors[] = "Unknwon/Unsupported type[".$a[0]."] for MI URL <".$mi_url.">";
+		$errors[] = "Unknown/Unsupported type[".$a[0]."] for MI URL <".$mi_url.">";
 		return;
 	}
 
