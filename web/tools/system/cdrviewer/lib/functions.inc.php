@@ -66,11 +66,11 @@ function print_cdr_filter_date_time($datetime,$obj_name)
 	}
 	print_object($obj_name."_year",date("Y")-5,date("Y"),$c,$disabled,true, ' onChange="changeState(\''.$obj_name.'\')"' ); echo("<b>-</b>");
 	
-	print_object($obj_name."_month",1,12,$b,$disabled); echo("<b>-</b>");
-	print_object($obj_name."_day",1,31,$a,$disabled); echo("&nbsp;&nbsp;");
-	print_object($obj_name."_hour",0,23,$d,$disabled); echo("<b>:</b>");
-	print_object($obj_name."_minute",0,59,$e,$disabled); echo("<b>:</b>");
-	print_object($obj_name."_second",0,59,$f,$disabled);
+	print_object($obj_name."_month",1,12,$b,$disabled,false,NULL); echo("<b>-</b>");
+	print_object($obj_name."_day",1,31,$a,$disabled,false,NULL); echo("&nbsp;&nbsp;");
+	print_object($obj_name."_hour",0,23,$d,$disabled,false,NULL); echo("<b>:</b>");
+	print_object($obj_name."_minute",0,59,$e,$disabled,false,NULL); echo("<b>:</b>");
+	print_object($obj_name."_second",0,59,$f,$disabled,false,NULL);
 	echo("<script>changeState('".$obj_name."')</script>");
 }
 
