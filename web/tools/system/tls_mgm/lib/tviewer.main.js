@@ -128,11 +128,11 @@ function updatePeerCombo(peer,customer)
 
      for(i = 0; i < PeerDrop.length; i++) {
        val = PeerDrop[i];
-       if (forValue!="Empty..." && val.label!="Empty..." && val.label!=forValue) {
+       if (forValue!="Empty..." && val.getAttribute('hook')!="Empty..." && val.getAttribute('hook')!=forValue) {
           val.hidden = true;
          if (val.selected)
                 val.selected=false;
-          //alert(val.label);
+          //alert(val.getAttribute('hook'));
        } else {
           val.hidden = false;
         }

@@ -63,10 +63,10 @@
 	- default_display - a default display text corresponding to the default value if the type is COMBO
 	- combo_default_values - assoc array (value -> display) for definiting static COMBOs
 		Example: array("1"=>"Yes","0"=>"No")
-	- combo_table, combo_value_col, combo_display_col, combo_label_col - set of attributes for
+	- combo_table, combo_value_col, combo_display_col, combo_hook_col - set of attributes for
 		defininig dynamic combos, with data from DB; table and value are mandatory in this
-		configuration; display may be optionaly used; similar the label - this has no impact
-		over the display of the combo; it simply creates a label attribute inside the
+		configuration; display may be optionaly used; similar the hook - this has no impact
+		over the display of the combo; it simply creates a "hook" attribute inside the
 		"option" html tag, which may be used by JS function to enable/disable/remove 
 		the value during runtime.
 	
