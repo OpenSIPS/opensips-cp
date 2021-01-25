@@ -105,12 +105,12 @@ function get_custom_combo_options($combo)
 		else
 			$display_col = $combo['combo_display_col'];
 
-		if (!isset($combo['combo_label_col']) || $combo['combo_label_col']=="")
-			$label_col = NULL;
+		if (!isset($combo['combo_hook_col']) || $combo['combo_hook_col']=="")
+			$hook_col = NULL;
 		else
-			$label_col = $combo['combo_label_col'];
+			$hook_col = $combo['combo_hook_col'];
 
-	        $sql="select ".$combo['combo_value_col'].", ".$display_col.(($label_col==NULL)?"":(", ".$label_col))." from ".$combo['combo_table'];
+	        $sql="select ".$combo['combo_value_col'].", ".$display_col.(($hook_col==NULL)?"":(", ".$hook_col))." from ".$combo['combo_table'];
         	$stm = $link->query($sql);
         	if($stm === false) {
                 	die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
@@ -118,15 +118,15 @@ function get_custom_combo_options($combo)
 			$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($result as $k=>$v) {
 			$options[ $v[$combo['combo_value_col']] ]['display'] = $v[$display_col] ;
-			if ($label_col!=NULL)
-				$options[ $v[$combo['combo_value_col']] ]['label'] = $v[$label_col] ;
+			if ($hook_col!=NULL)
+				$options[ $v[$combo['combo_value_col']] ]['hook'] = $v[$hook_col] ;
 		}
 
 	} else if (isset($combo['combo_default_values']) && $combo['combo_default_values']!=NULL) {
 		foreach ($combo['combo_default_values'] as $k=>$v) {
 			$options[ $k ]['display'] = $v ;
-			if (isset($combo["combo_default_labels"]) && $combo["combo_default_labels"]!=NULL)
-				$options[ $k ]['label'] = $combo["combo_default_labels"][$k] ;
+			if (isset($combo["combo_default_hooks"]) && $combo["combo_default_hooks"]!=NULL)
+				$options[ $k ]['hook'] = $combo["combo_default_hooks"][$k] ;
 		}
 
 	}
@@ -149,9 +149,9 @@ function print_custom_combo($name, $combo, $init_val, $force_empty=FALSE)
 	$selected_set = false;
 	foreach ($options as $k=>$v) {
 		if ((string)$k != (string)$init_val) {
-			echo('<option value="'.$k.(isset($v['label'])?('" label="'.$v['label']):"").'"> '.$v['display'].'</option>');
+			echo('<option value="'.$k.(isset($v['hook'])?('" hook="'.$v['hook']):"").'"> '.$v['display'].'</option>');
 		} else {
-			echo('<option value="'.$k.(isset($v['label'])?('" label="'.$v['label']):"").'" selected>'.$v['display'].'</option>');
+			echo('<option value="'.$k.(isset($v['hook'])?('" hook="'.$v['hook']):"").'" selected>'.$v['display'].'</option>');
 			$selected_set=true;
 		}
 	}
