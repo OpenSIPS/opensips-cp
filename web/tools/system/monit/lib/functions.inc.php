@@ -105,39 +105,57 @@ function get_monit_page($box,$port,$user,$pass,$file,$action,$has_ssl) {
 	// for monit 4.9 (change in monit's httpd )
 	if (!strstr($file,"/")) $file="/".$file ;
 
-	if (!empty($action))
+	if (!empty($action) && $file != "/")
 	{
-		$out  = "GET ".$file."?action=".$action." HTTP/1.1\r\n";
+		$url = "http".($has_ssl?"s":"")."://".$box.":".$port.$file;
+		$body = array('action' => $action);
+		$headers = "Content-type: application/x-www-form-urlencoded\r\nHost: ".$box."\r\nConnection: Close\r\nAuthorization: Basic ".base64_encode($user.":".$pass)."\r\n";
+		if (isset($_POST['securitytoken'])) {
+			$body['securitytoken'] = $_POST['securitytoken'];
+			$headers .= "Cookie: securitytoken=".$_POST['securitytoken']."\r\n";
+		}
+		$options = array(
+			'http' => array(
+				'header'  => $headers,
+				'method'  => 'POST',
+				'content' => http_build_query($body)
+			)
+		);
+		$context  = stream_context_create($options);
+		$data = file_get_contents($url, false, $context);
+		if ($data === FALSE) {
+			echo("Error: ".print_r($data,FALSE)."<br>");
+		}
 	}
 	else
 	{
 		$out  = "GET ".$file." HTTP/1.1\r\n";
-	}
+		$out .= "Host: ".$box."\r\n";
+		$out .= "Connection: Close\r\n";
+		$out .= "Authorization: Basic ".base64_encode($user.":".$pass)."\r\n";
+		$out .= "\r\n";
 
-	$out .= "Host: ".$box."\r\n";
-	$out .= "Connection: Close\r\n";
-	$out .= "Authorization: Basic ".base64_encode($user.":".$pass)."\r\n";
-	$out .= "\r\n";
-
-	if ($has_ssl==0){
-		if (!$con = @fsockopen($box, $port, $errno, $errstr, 10)) {
-			echo("Error: ".print_r($errstr,FALSE)."<br>");
-			return 0;
+		if ($has_ssl==0){
+			if (!$con = @fsockopen($box, $port, $errno, $errstr, 10)) {
+				echo("Error: ".print_r($errstr,FALSE)."<br>");
+				return 0;
+			}
+		} else {
+			if (!$con = @fsockopen("ssl://".$box, $port, $errno, $errstr, 10)) {
+				echo("Error: ".print_r($errstr,FALSE)."<br>");
+				return 0;
+			}
 		}
-	} else {
-		if (!$con = @fsockopen("ssl://".$box, $port, $errno, $errstr, 10)) {
-			echo("Error: ".print_r($errstr,FALSE)."<br>");
-			return 0;
+
+
+		fwrite($con, $out);
+		$data = '';
+		while (!feof($con)) {
+			$data .= @fgets($con, 128);
 		}
+		fclose($con);
 	}
 
-
-	fwrite($con, $out);
-	$data = '';
-	while (!feof($con)) {
-		$data .= @fgets($con, 128);
-	}
-	fclose($con);
 	return $data;
 }
 
