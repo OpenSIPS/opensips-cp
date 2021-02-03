@@ -40,7 +40,7 @@
  <tr>
   <td class="dataRecord" ><b>Gateway List</b></td>
    <td class="dataRecord">
-	<input type="text"   name="gwlist" id="gwlist" value="" maxlength="255" readonly class="dataInput" style="width:423px!important">
+	<input type="text"   name="gwlist" id="gwlist" value="" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" readonly class="dataInput" style="width:423px!important">
 	<input type="button" name="clear_gwlist" value="Clear Last" class="inlineButton" style="width:90px" onclick="clearObject('gwlist')">
    </td>
   </tr>

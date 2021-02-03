@@ -36,7 +36,7 @@
 <tr>
   <td rowspan="2" class="dataRecord" ><b>Gateway List</b></td>
    <td class="dataRecord">
-            <input type="text"   name="gwlist" id="gwlist" value="<?=$resultset[0]['gwlist']?>" maxlength="255" readonly class="dataInput" style="width:420px!important">
+            <input type="text"   name="gwlist" id="gwlist" value="<?=$resultset[0]['gwlist']?>" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" readonly class="dataInput" style="width:420px!important">
             <input type="button" name="clear_gwlist" value="Clear" class="formButton" style="width:90px!important; margin:0px!important" onclick="clearObject('gwlist')">
    </td>
   </tr>

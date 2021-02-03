@@ -174,7 +174,7 @@
  <tr>
   <td  class="dataRecord">Destination's List</td>
    <td class="dataRecord">
-     <input type="text"   name="gwlist" id="gwlist" value="<?=$resultset[0]['gwlist']?>" style="width:393px!important" maxlength="255" readonly class="dataInput">
+     <input type="text"   name="gwlist" id="gwlist" value="<?=$resultset[0]['gwlist']?>" style="width:393px!important" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" readonly class="dataInput">
      <input type="button" name="clear_gwlist" value="Clear Last" class="formButton" style="width:120px;" onclick="clearObject('gwlist')"><br>
    </td>
   </tr>

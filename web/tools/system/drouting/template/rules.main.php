@@ -96,7 +96,7 @@
  </tr>
  <tr>
   <td class="searchRecord">Gateway List </td>
-  <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="255" class="searchInput"></td>
+  <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" class="searchInput"></td>
  </tr>
  <tr>
   <td class="searchRecord"><?=$config->gw_attributes["display_name"] ?> </td>

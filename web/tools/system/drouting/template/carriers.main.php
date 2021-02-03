@@ -53,7 +53,7 @@
 <table width="35%" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord"> GW List </td>
-  <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['carriers_search_gwlist']?>" maxlength="255" class="searchInput"></td>
+  <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['carriers_search_gwlist']?>" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" class="searchInput"></td>
  </tr>
  <tr>
   <td class="searchRecord">Description </td>
