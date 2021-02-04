@@ -26,8 +26,13 @@ require_once("../config/db.inc.php");
 global $config;
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 
+$options = array();
+if ($config->db_cert) {
+	$options[PDO::MYSQL_ATTR_SSL_CA] = $config->db_cert;
+}
+
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	$link = new PDO($dsn, $config->db_user, $config->db_pass, $options);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";

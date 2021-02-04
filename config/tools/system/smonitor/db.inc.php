@@ -35,6 +35,9 @@
  
  //database name
  //$config->db_name_smonitor = "opensips";
+
+ //database certificate
+ //$config->db_cert_smonitor = "";
  
  //if ($config->db_port_smonitor != "") $config->db_host_smonitor = $config->db_host_smonitor . ";port=" . $config->db_port_smonitor;
  

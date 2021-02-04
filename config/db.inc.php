@@ -40,6 +40,9 @@ if (!isset($config)) $config = new stdClass();
  //database name
  $config->db_name = "opensips";
 
+ //database certificate
+ $config->db_cert = "";
+
  if (!empty($config->db_port) ) $config->db_host = $config->db_host . ";port=" . $config->db_port;
  
 ?>

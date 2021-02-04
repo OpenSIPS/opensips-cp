@@ -34,6 +34,9 @@
  
  //database name
  //$config->db_name_loadbalancer = "opensips";
+
+ //database certificate
+ //$config->db_cert_loadbalancer = "";
  
  //if ($config->db_port_loadbalancer != "") $config->db_host_loadbalancer = $config->db_host_loadbalancer . ";port=" . $config->db_port_loadbalancer;
  
