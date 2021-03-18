@@ -170,17 +170,18 @@ if(!$_SESSION['read_only']){
 	$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 	$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 }
+$sock = explode("=", $result[$i]['rtpproxy_sock'])[0];
 ?>
 <tr>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['rtpproxy_sock']?></td>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['set_id']?></td>
-<td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['weight'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['weight']:"n/a"?></td>
-<td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['ticks'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['ticks']:"n/a"?></td>
+<td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$sock]['weight'])?$rtpproxies_cache[$result[$i]['set_id']][$sock]['weight']:"n/a"?></td>
+<td class="<?=$row_style?>">&nbsp;<?=isset($rtpproxies_cache[$result[$i]['set_id']][$sock]['ticks'])?$rtpproxies_cache[$result[$i]['set_id']][$sock]['ticks']:"n/a"?></td>
 <?php 
 if(!$_SESSION['read_only']){
 ?>
-<td class="<?=$row_style?>Img" align="center"><?=isset($rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['state_link'])?$rtpproxies_cache[$result[$i]['set_id']][$result[$i]['rtpproxy_sock']]['state_link']:"n/a"?></td>
+<td class="<?=$row_style?>Img" align="center"><?=isset($rtpproxies_cache[$result[$i]['set_id']][$sock]['state_link'])?$rtpproxies_cache[$result[$i]['set_id']][$sock]['state_link']:"n/a"?></td>
 <td class="<?=$row_style?>Img" align="center"><?=$edit_link?></td>
 <td class="<?=$row_style?>Img" align="center"><?=$delete_link?></td>
 <?php
