@@ -34,6 +34,9 @@
  
  //database name
  //$config->db_name_rtpengine = "opensips";
+
+ //database certificate
+ //$config->db_cert_rtpengine = "";
  
  //if ($config->db_port_rtpengine != "") $config->db_host_rtpengine = $config->db_host_rtpengine . ";port=" . $config->db_port_rtpengine;
  

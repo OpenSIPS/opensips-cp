@@ -14,9 +14,16 @@ if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['
 		$config->db_host = $config->db_host.";port=".$config->db_port;
 }
 
+$options = array();
+        if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_cert']))
+                $options[PDO::MYSQL_ATTR_SSL_CA] = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_cert'];
+        else if ($config->db_cert) {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = $config->db_cert;
+        }
+
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	$link = new PDO($dsn, $config->db_user, $config->db_pass, $options);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";

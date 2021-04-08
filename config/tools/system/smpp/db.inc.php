@@ -36,6 +36,7 @@
 # $custom_config[$module_id][0]['db_pass'] 		= "";
  //database port
 # $custom_config[$module_id][0]['db_port'] 		= "";
- 
+ //database certificate 
+# $custom_config[$module_id][0]['db_cert']      = ""
 
 ?>

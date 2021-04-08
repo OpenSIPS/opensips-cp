@@ -35,6 +35,9 @@
  
  //database name
  //$config->db_name_drouting = "opensips";
+
+ //database certificate
+ //$config->db_cert_drouting = "";
  
  //if ($config->db_port_drouting != "") $config->db_host_drouting = $config->db_host_drouting . ";port=" . $config->db_port_drouting;
  

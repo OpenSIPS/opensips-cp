@@ -34,6 +34,9 @@
  
  //database name
  //$config->db_name_alias_management = "opensips";
+
+ //database certificate
+ //$config->db_cert_alias_management = "";
  
  //if ($config->db_port_alias_management != "") $config->db_host_alias_management = $config->db_host_alias_management . ";port=" . $config->db_port_alias_management;
  
