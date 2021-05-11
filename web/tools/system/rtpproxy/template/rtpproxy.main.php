@@ -171,7 +171,9 @@ if(!$_SESSION['read_only']){
 	$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 	$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 }
-$sock = explode("=", $result[$i]['rtpproxy_sock'])[0];
+# most complex example: "udp:10.0.2.103:7899=3|8.8.8.8", we just want the socket
+$sock = explode("|", $result[$i]['rtpproxy_sock'])[0];
+$sock = explode("=", $sock)[0];
 ?>
 <tr>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
