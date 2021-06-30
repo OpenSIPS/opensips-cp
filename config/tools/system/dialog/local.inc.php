@@ -30,4 +30,7 @@
  // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;
 
-?>
+ // Shared Profiles - Add here your shared profiles to be able to get their size on the interface
+ $shared_profiles = array();
+
+ ?>
