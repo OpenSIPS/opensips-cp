@@ -48,10 +48,8 @@
   } else {
   		if ($config->passwd_mode==0) {
 			$ha1  = "";
-			$ha1b = "";
 		} else if ($config->passwd_mode==1) {
 			$ha1 = md5($uname.":".$domain.":".$passwd);
-			$ha1b = md5($uname."@".$domain.":".$domain.":".$passwd);
 		}	
   		// check for SIP account duplicate
 		$sql="select count(*) from ".$table." where username=? and domain=?";

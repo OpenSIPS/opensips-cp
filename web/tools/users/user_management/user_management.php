@@ -101,16 +101,14 @@ if ($action=="modify")
 			if ($_POST['passwd']!="") {
 				if ($config->passwd_mode==0) {
 					$ha1  = "";
-					$ha1b = "";
 					$passwd = $_POST['passwd'];
 				} else if ($config->passwd_mode==1) {
 					$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
-					$ha1b = md5($uname."@".$domain.":".$domain.":".$_POST['passwd']);
 					$passwd = "";
 				}
 				$sql = "UPDATE ".$table." SET username=?, domain=?,
-					 password=?, ha1=?, ha1b=?";
-				$sql_vals = array($uname,$domain,$passwd,$ha1,$ha1b);
+					 password=?, ha1=?";
+				$sql_vals = array($uname,$domain,$passwd,$ha1);
 				foreach ( $config->subs_extra as $key => $value ) {
 					$sql .= ", ".$key."=?";
 					array_push( $sql_vals, $_POST["extra_".$key]);
@@ -269,12 +267,12 @@ if ($action=="add_verify")
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
                 if ($config->passwd_mode==1) $passwd="";
-                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1b';
+                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1';
 		foreach ( $config->subs_extra as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
 				$sql .= ','.$key;
 		$sql .= ') VALUES (?, ?, ?, ?, ? ';
-		$sql_vals = array($uname,$domain,$passwd,$ha1,$ha1b);
+		$sql_vals = array($uname,$domain,$passwd,$ha1);
 		foreach ( $config->subs_extra as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
 				$sql .= ', ?';
