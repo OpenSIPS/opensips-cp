@@ -207,6 +207,18 @@
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> false
 			),
+			"state"	=> 	array (
+					"header" 		=> "Status",
+					"type"			=> "combo",
+					"key"			=> NULL,
+					"tip"			=> "If Enabled or Disabled",
+					"combo_default_values" => array("1"=>"Disabled","0"=>"Enabled"),
+					"is_optional" 		=> "n",
+					"visible"		=> true,
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> false
+			)
 	);
 
 
