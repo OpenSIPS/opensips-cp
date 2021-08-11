@@ -271,7 +271,7 @@ if ($action=="add_verify")
 		foreach ( $config->subs_extra as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
 				$sql .= ','.$key;
-		$sql .= ') VALUES (?, ?, ?, ?, ? ';
+		$sql .= ') VALUES (?, ?, ?, ? ';
 		$sql_vals = array($uname,$domain,$passwd,$ha1);
 		foreach ( $config->subs_extra as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
