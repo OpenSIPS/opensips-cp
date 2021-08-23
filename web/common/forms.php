@@ -126,7 +126,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
 	else 
 		$value = "";
 
-	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null".")'";
+	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").")'";
 
 	print("
 		<tr>
