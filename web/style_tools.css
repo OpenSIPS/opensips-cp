@@ -617,3 +617,40 @@ p, li, td, .menu_active, input, button {
     opacity: 1;
 }
 
+#config_admin:before{
+	content: url("images/sett.png");  
+	float: right;
+}
+
+.headerLogout {
+	padding-right: 20px;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: bold;
+	color: rgb(37, 36, 36);
+	/*text-shadow: 1px 1px 0 #333; */
+	font-family: Arial,Helvetica,sans-serif;
+	text-decoration: none;
+	padding-left: 5px;
+}
+.headerLogout:before {
+	display: inline-block;
+	float: right;
+	padding-right: 60px;
+	margin-bottom: -20px;
+	margin-top: -5px;
+}
+
+.textarea {
+	display: block;
+	width: 100%;
+	overflow: hidden;
+	resize: both;
+	min-height: 40px;
+	line-height: 20px;
+  }
+  
+  .textarea[contenteditable]:empty::before {
+	content: "Placeholder still possible";
+	color: gray;
+  }
