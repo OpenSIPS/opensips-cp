@@ -37,10 +37,6 @@
     array(
           "groups.php", // page name
           "Groups" // menu name
-    ),
-    array(
-          "settings.php", // page name
-          "Settings" // menu name
-    )    
+    )
  );
 ?>
