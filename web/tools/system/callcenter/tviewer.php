@@ -20,10 +20,10 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require_once("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 include("lib/db_connect.php");
-require_once("../../../common/cfg_comm.php");
 
 
 $current_page="current_page_tviewer";

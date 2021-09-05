@@ -91,7 +91,7 @@
  if ($chart_history==null) {
   $chart_history=$config->chart_history;
   $sql = "INSERT INTO ".$table." (name,extra,box_id) VALUES ('chart_history', ?, ?)";
-  $stm = $link->prepare($sql);
+  $stm = $link->prepare($sql); 
   if ($stm->execute(array($chart_history, $box_id)) === false)
    die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
  }

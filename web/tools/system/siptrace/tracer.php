@@ -20,19 +20,39 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
  
+ require("../../../common/cfg_comm.php");
  require("template/header.php");
  require("lib/".$page_id.".main.js");
  include("lib/db_connect.php");
  
  require("../../../../config/tools/system/siptrace/local.inc.php");
  require("../../../common/mi_comm.php");
- require("../../../common/cfg_comm.php");
  require("../../../../config/db.inc.php");
 
  global $config;	
  $table=$config->table_trace;
  $current_page="current_page_tracer";
  
+ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
+	$module_params = get_params();
+	$sql = 'select param, value from tools_config where module=?';
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute( array($_SESSION['current_tool']) );
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	foreach ($resultset as $elem) {
+		if ($module_params[$elem['param']]['type'] == "json") {
+			$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+		}
+		else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+	} 
+        foreach ($module_params as $module=>$params) {
+		$config->$module = get_value($module); 
+	}  
+}
+
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];
       else $action="";

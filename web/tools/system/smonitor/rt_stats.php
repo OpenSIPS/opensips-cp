@@ -30,15 +30,27 @@
  include("lib/db_connect.php");
  
  session_start(); 
- 
  require("template/header.php");
-
- $box_id=get_box_id($current_box); 
- 
  print_r(get_mi_modules($current_box));
 
- $table=$config->table_monitored;
- 
+ $table=$config->table_monitored;	
+ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
+	$module_params = get_params();
+	$sql = 'select param, value, box_id from tools_config where module=? ';
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+
+	$stm->execute( array($_SESSION['current_tool']) );
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	foreach ($resultset as $elem) {
+		if ($module_params[$elem['param']]['type'] == "json") {
+			$_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+		}
+		else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
+	} 
+ }
  if ($_GET['var']!=null)
  {
   $var_name = $_GET['var'];

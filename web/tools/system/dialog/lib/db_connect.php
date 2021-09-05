@@ -20,27 +20,24 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require_once("../../../../config/session.inc.php");
- require_once("lib/functions.inc.php");
- $page_name = basename($_SERVER['SCRIPT_NAME']);
- $page_id = substr($page_name, 0, strlen($page_name) - 4);
- $_SESSION['current_tool'] = 'mi';
- $_SESSION['current_group'] = 'system';
- $no_result = "No Data Found.";
+
+require_once("../../../../config/tools/system/dialog/db.inc.php");
+require_once("../../../../config/db.inc.php");
+
+        global $config;
+        if (isset($config->db_host_dialog) && isset($config->db_user_dialog) && isset($config->db_name_dialog) ) {
+                $config->db_host = $config->db_host_dialog;
+                $config->db_port = $config->db_port_dialog;
+                $config->db_user = $config->db_user_dialog;
+                $config->db_pass = $config->db_pass_dialog;
+                $config->db_name = $config->db_name_dialog;
+        }
+	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+	try {
+		$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	} catch (PDOException $e) {
+		error_log(print_r("Failed to connect to: ".$dsn, true));
+		print "Error!: " . $e->getMessage() . "<br/>";
+		die();
+	}
 ?>
-
-<html>
-
-<head>
- <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
-</head>
-
-<body bgcolor="#e9ecef">
-<center>
-<table width="705" cellpadding="5" cellspacing="5" border="0">
- <tr  valign="top" height="20">
-  <td><?php require("template/menu.php") ?></td>
- </tr>
- <tr valign="top" align="center"> 
-  <td>
-   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>

@@ -172,7 +172,7 @@ function clean_stats_table(){
 	require ($global);
 	for($box_id=0 ; $box_id<sizeof($boxes) ; $box_id++ ) {
 		if ($boxes[$box_id]['smonitor']['charts']==1){
-			$chart_history=get_config_var('chart_history',$box_id);
+			$chart_history=get_value('chart_history', $box_id);
 			if ($chart_history=="auto") $chart_history=3;
 			$last_date=$current_time=time();
 			$last_date -= 24*60*60*($chart_history-1);
@@ -257,8 +257,7 @@ function show_graph($stat,$box_id){
 	require("../../../../config/db.inc.php");
 	require("../../../../config/tools/system/smonitor/local.inc.php");
 	require("db_connect.php");
-
-	$chart_size = get_config_var('chart_size',$box_id)+1;
+	$chart_size = get_value('chart_size', $box_id)+1;
 	
 	$chart[ 'chart_data' ] [0] [0] = "";
 	$chart[ 'chart_data' ] [1] [0] = $var;
