@@ -241,7 +241,7 @@ if ($action=="modify_tools")
 		}
 	if($modules_nr==count($state)) {
 		$tools="all";
-		if (!in_array('read-only',$perms)) {
+		if (!in_array('read-only', $perms) && !in_array('read-write', $perms)) {
 			$permiss="all";
 		} else {	
 			foreach ($state as $key=>$val)

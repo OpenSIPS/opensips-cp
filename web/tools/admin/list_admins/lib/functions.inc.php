@@ -20,7 +20,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
 function permission($option,$i,$disabled) {
 	global $config;
 	require("../../../../config/globals.php");
@@ -36,7 +35,7 @@ function permission($option,$i,$disabled) {
 	}
 
 	if (!empty($option)) {
-             echo('<option value="'.$option. '" selected > '.$option.'</option>');			
+             echo('<option value="'.$option. '" selected > '.$option.'</option>');
 	}	
 		
 	foreach ($permissions as $key) {
