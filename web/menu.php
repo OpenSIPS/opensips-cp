@@ -98,7 +98,7 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 	reset($available_tabs);
 	//asort($menu_link_text);
 
-	foreach ($menu_link_text as $key=>$val) {
+	foreach ($menu_link_text as $key=>$val) {      
 		$path = 'tools/';
 		if (!isset($menuitem_config['modules'][$key]['path']))
 			$path .= $menuitem . '/' . $key;

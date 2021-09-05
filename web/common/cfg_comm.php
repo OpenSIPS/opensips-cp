@@ -83,7 +83,7 @@ function get_priv($my_tool) {
 
 		if ($_SESSION['user_priv']=="*") {
 			$_SESSION['read_only'] = false;
-			$_SESSION['permission'] = "Read-Write";
+			$_SESSION['permission'] = "Admin";
 		} else {
 			$available_privs=explode(",",$_SESSION['user_priv']);
 			if( ($key = array_search($my_tool, $available_tabs))!==false) {
@@ -94,6 +94,10 @@ function get_priv($my_tool) {
 				if ($available_privs[$key]=="read-write"){
 					$_SESSION['read_only'] = false;
 					$_SESSION['permission'] = "Read-Write";
+				}
+				if ($available_privs[$key]=="admin"){
+					$_SESSION['read_only'] = false;
+					$_SESSION['permission'] = "Admin";
 				}
 			} else {
 				$_SESSION['permission'] = "No permissions";
@@ -107,6 +111,34 @@ function get_priv($my_tool) {
 
 }
 
+function get_assoc_id() {
+	require("../../../../config/boxes.global.inc.php");
+	$assoc_ids = array();
+	foreach( $systems as $el) {
+		$assoc_ids[$el['name']] = $el['assoc_id'];
+	}
+	return $assoc_ids;
+}
+
+function get_tool_name() {
+	require("../../../../config/modules.inc.php");
+	return $config_modules[$_SESSION['current_group']]['modules'][$_SESSION['current_tool']]['name'];
+}
+
+function get_group_name() {
+	require("../../../../config/modules.inc.php");
+	return $config_modules[$_SESSION['current_group']]['name'];
+}
+
+function display_settings_button() {
+	if (file_exists("params.php") && $_SESSION['permission'] == 'Admin') {   
+		echo("
+			<td align=right style=\"border-bottom: 1px solid #ccc!important\">
+				<a  onclick=\"top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?action=edit_tools';\" href=\"#\"   id=\"config_admin\"></a>
+			</td 
+		");        
+	}
+}
 
 function get_modules() {
 	require("../../../../config/modules.inc.php");
@@ -126,6 +158,36 @@ function get_modules() {
 	return $modules;
 }
 
+function isAssoc(array $arr)
+{
+    if (array() === $arr) return false;
+    return array_keys($arr) !== range(0, count($arr) - 1);
+}
+
+
+function get_params() {
+	$current_tool = $_SESSION['current_tool'];
+	$current_group = $_SESSION['current_group'];
+	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
+	return $config->$current_tool;
+}
+
+function get_value($current_param, $box_id = null) {
+	$current_tool = $_SESSION['current_tool'];
+	$current_group = $_SESSION['current_group'];
+	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
+
+	if (is_null($box_id)){
+		if (!is_null($_SESSION[config][$current_tool][$current_param])){ 
+			return $_SESSION[config][$current_tool][$current_param];}}
+	else {if (!is_null($_SESSION[config][$current_tool][$box_id][$current_param])) 
+		return $_SESSION[config][$current_tool][$box_id][$current_param];
+	}
+	foreach($config->$current_tool as $module=>$params) {
+		if ($module == $current_param) return $params['default'];
+	}
+	return null;
+}
 
 function inspect_config_mi(){
 	global $opensips_boxes ;
