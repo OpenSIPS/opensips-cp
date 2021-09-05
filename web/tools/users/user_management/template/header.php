@@ -27,6 +27,8 @@ require_once("../../../../config/tools/users/user_management/local.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
+$_SESSION['current_tool'] = $page_id;
+$_SESSION['current_group'] = 'users';
 $no_result = "No Data Found.";
 header('Content-Type: text/html; charset=ISO-8859-1');
 ?>
