@@ -46,6 +46,8 @@ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
         foreach ($module_params as $module=>$params) {
 		$config->$module = get_value($module); 
 	}  
+	$module_id = get_value('module_id');
+	$talk_to_this_assoc_id = get_value('talk_to_this_assoc_id');
 }
 
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
