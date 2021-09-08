@@ -25,7 +25,6 @@
   <tr>
     <td class="breadcrumb">
         <?php print "System / MI Commands / ".$_SESSION['permission'];
-          display_settings_button();  
         ?>
     </td>
     <td align=right style="border-bottom: 1px solid #ccc!important">
@@ -33,6 +32,7 @@
 	$boxlist=array();
 	$boxlist=inspect_config_mi();
 	$current_box=show_boxes($boxlist,$current_box);
+  display_settings_button();  
       ?>
     </td>
   </tr>
