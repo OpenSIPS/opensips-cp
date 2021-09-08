@@ -47,6 +47,8 @@ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
         foreach ($module_params as $module=>$params) {
 		$config->$module = get_value($module); 
 	}  
+	$dialplan_attributes_mode = get_value('dialplan_attributes_mode');
+	$talk_to_this_assoc_id = get_value('talk_to_this_assoc_id');
 }
 
 if (isset($_POST['action'])) $action=$_POST['action'];

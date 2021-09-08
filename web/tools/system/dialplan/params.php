@@ -35,5 +35,11 @@ $config->dialplan = array(
         ),
         "name" => "Attributes cb",
         "type" => "json"
-    )
+    ),
+	"dialplan_attributes_mode" => array(
+		"default" => 1,
+		"name"    => "Dialplan attributes mode",
+		"options" => array('Checkboxes'=>'0', 'Text'=>'1'),
+		"type"    => "dropdown",
+	),
 );
