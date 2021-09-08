@@ -48,6 +48,11 @@ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
         foreach ($module_params as $module=>$params) {
 		$config->$module = get_value($module); 
 	}  
+	$sip_call_id_field_name = get_value('sip_call_id_field_name');
+	$cdr_id_field_name = get_value('cdr_id_field_name');
+	$cdr_repository_path = get_value('cdr_repository_path');
+	$cdr_set_field_names = get_value('cdr_set_field_names');
+	$delay = get_value('delay');
 }
 
 if (isset($_POST['action'])) $action=$_POST['action'];
