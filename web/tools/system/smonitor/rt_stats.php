@@ -50,6 +50,7 @@
 		}
 		else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 	} 
+	$config_type = get_value('config_type');
  }
  if ($_GET['var']!=null)
  {

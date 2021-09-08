@@ -18,5 +18,23 @@ $config->smonitor = array(
 		"name"    => "Chart History",
 		"type"    => "text",
 		"validation_regex" => "^(auto|[0-9]+)$",
-	)
+	),
+	"table_monitored" => array(
+		"default" => "monitored_stats",
+		"name"    => "Table Monitored",
+		"type"    => "text",
+		"validation_regex" => null,
+	),
+	"table_monitoring" => array(
+		"default" => "monitoring_stats",
+		"name"    => "Table monitoring",
+		"type"    => "text",
+		"validation_regex" => null,
+	),
+	"config_type" => array(
+		"default" => "global",
+		"name"    => "Config type",
+		"type"    => "text",
+		"validation_regex" => null,
+	),
 );
