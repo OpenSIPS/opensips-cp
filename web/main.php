@@ -22,6 +22,9 @@
 session_start();
 require("../config/modules.inc.php");
 require("../config/local.inc.php");
+require("../config/globals.php");
+
+global $config;
 
 if (!isset($_SESSION['user_login'])) {
 	header("Location:index.php?err=1");
@@ -61,6 +64,7 @@ if (isset($_SESSION['user_active_tool'])) {
 
 <head>
  <title><?=$page_title?></title>
+ <script src="/toolbar/js/vendor/jquery.min.js"></script>
 </head>
 <script>
 function onXloadfunction() {
@@ -71,6 +75,48 @@ function onXloadfunction() {
 		var section = items[items.length-3];
 		top.frames['main_menu'].UpdateWholeMenu(tool);
 	}
+
+    <!--   @ntlToolbar  -->
+
+    if (tool === 'siptrace' || tool === 'smonitor' || tool === 'dialog')
+        return;
+
+    <?php if (!empty($config->ntl_toolbar) && $config->ntl_toolbar):?>
+
+    <?php $_SESSION['ntl_toolbar'] = $config->ntl_toolbar;?>
+
+    try {
+
+        $('head', window.frames['main_body'].document).append('<!--   @ntlToolbar  -->');
+        $('head', window.frames['main_body'].document).append('<link rel="stylesheet" href="/toolbar/css/vendor/jquery.dataTables.min.css">');
+        $('head', window.frames['main_body'].document).append('<link rel="stylesheet" href="/toolbar/css/vendor/bootstrap.min.css">');
+        $('head', window.frames['main_body'].document).append('<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">');
+        $('head', window.frames['main_body'].document).append('<link rel="stylesheet" href="/toolbar/css/toolbar.css?v=1.00">');
+
+        $('head', window.frames['main_body'].document).append($('<script>').attr('src', '/toolbar/js/vendor/jquery.min.js'));
+        $('head', window.frames['main_body'].document).append($('<script>').text("" +
+
+            "$('.ttable').hide();" +
+            "$('.ttable').parent().addClass('spinner');\n" +
+            "activeModule = '" + tool + "';" +
+            "extraColumn = '<?php echo(!empty($config->extra_column) ? $config->extra_column : 3);?>';"));
+
+        $('head', window.frames['main_body'].document).append('<!--   @ntlToolbar  -->');
+
+        $('html', window.frames['main_body'].document).append("<footer></footer>");
+        $('footer', window.frames['main_body'].document).append('<!--   @ntlToolbar  -->');
+
+        $('footer', window.frames['main_body'].document).append($('<script>').attr('src', '/toolbar/js/vendor/bootstrap.min.js'));
+        $('footer', window.frames['main_body'].document).append($('<script>').attr('src', '/toolbar/js/vendor/jquery.dataTables.min.js'));
+
+        $('footer', window.frames['main_body'].document).append($('<script>').attr('src', '/toolbar/js/toolbar.js?v=2.00'));
+        $('footer', window.frames['main_body'].document).append('<!--   @ntlToolbar  -->');
+
+    } catch (e) {
+        alert(e + " Please check install guide. https://netlab.com/opensips/toolbar.com");
+        window.location.reload();
+    }
+    <?php endif;?>
 }
 
 </script>

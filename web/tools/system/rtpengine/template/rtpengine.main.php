@@ -112,20 +112,22 @@ if(!$_SESSION['read_only']){
 <?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">ID</th>
-  <th class="listTitle">RTPEngine Sock</th>
-  <th class="listTitle">Setid</th>
-  <th class="listTitle">Weight</th>
-  <th class="listTitle">Ticks</th>
-  <?php
-  if(!$_SESSION['read_only']){
-  	echo('<th class="listTitle">Memory State</th>');
-  	echo('<th class="listTitle">Edit</th>'); 
-	echo ('<th class="listTitle">Delete</th>');
-  }
-  ?>
- </tr>
+    <thead>
+    <tr align="center">
+        <th class="listTitle">ID</th>
+        <th class="listTitle">RTPEngine Sock</th>
+        <th class="listTitle">Setid</th>
+        <th class="listTitle">Weight</th>
+        <th class="listTitle">Ticks</th>
+        <?php
+        if(!$_SESSION['read_only']){
+            echo('<th class="listTitle">Memory State</th>');
+            echo('<th class="listTitle">Edit</th>');
+            echo ('<th class="listTitle">Delete</th>');
+        }
+        ?>
+    </tr>
+    </thead>
 <?php
 
 $sql_command = "select * from ".$table." where (1=1) ".$sql_search." order by id asc";
@@ -135,8 +137,12 @@ if ($stm->execute($sql_values) === false)
 $result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $data_no = count($result);
-if ($data_no == 0)
-	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
 else {
 
 $res_no = $config->results_per_page;

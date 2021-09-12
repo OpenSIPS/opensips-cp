@@ -28,7 +28,7 @@ if (!$_SESSION['read_only']) {
 		$url = $page_name."?action=save&id=".$_GET['id'];
 		$title = "Edit Domain name";
 		# populate the initial values for the form
-		$sql='SELECT domain FROM '.$table.' where id=?';
+		$sql='SELECT domain, attrs FROM '.$table.' where id=?';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -55,6 +55,29 @@ if (!$_SESSION['read_only']) {
 	 	</tr>
 		<?php
 		require("domains.form.php"); ?>
+            <!--   Add attribute  -->
+            <tr >
+                <td class="dataRecord" style="margin-top: 1.1rem">
+                    <b>Attribute</b>
+                    <div class="tooltip"><sup>?</sup>
+                        <span class="tooltiptext"></span>
+                    </div>
+                </td>
+                <td class="dataRecord" width="250" style="margin-top: 1.1rem">
+                    <table style="width:100%">
+                        <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" name="attr" value="<?php print(!empty($attrs) ? $attrs : "")?>" id="attr" maxlength="128" class="dataInput" opt="n">
+                            </td>
+                            <td width="20">
+                                <div id="domain_ok"></div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
 		<tr>
 			<td colspan="2" align="center">
 			    <input type="submit" name="add" disabled=true value="<?=$button?>" class="formButton">&nbsp;&nbsp;&nbsp;
@@ -91,15 +114,24 @@ $link=NULL;
 <br>
 
 <table class="ttable" cellspacing="2" cellpadding="2" border="0">
-	<tr>
-  		<th align="center" class="listTitle">Domain Name</th>
-  		<th align="center" class="listTitle">Last Modified</th>
-		<th align="center" class="listTitle">Edit</th>
-		<th align="center" class="listTitle">Delete</th>
-	</tr>
+    <thead>
+    <tr>
+        <th align="center" class="listTitle">Domain Name</th>
+        <!--        Add new column : Attribute -->
+        <th align="center" class="listTitle">Attribute</th>
+        <th align="center" class="listTitle">Last Modified</th>
+        <th align="center" class="listTitle">Edit</th>
+        <th align="center" class="listTitle">Delete</th>
+    </tr>
+    </thead>
 	<?php
 	$index_row=0;
-	if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
+    if ($data_no==0) {
+        if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+            echo($no_result);
+        else
+            echo('<tr><td colspan="4" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+    }
 	else
 	while( $index_row<$data_no )
 	{
@@ -112,6 +144,8 @@ $link=NULL;
 		?>
 	<tr>
    		<td class="<?=$row_style?>"><?=$row['domain']?></td>
+        <!--        Add new column : Attribute @ntlToolbar-->
+        <td class="<?= $row_style ?>"><?= $row['attrs'] ?></td>
 		<td class="<?=$row_style?>"><?=$row['last_modified']?></td>
 		<td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
   	 	<td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>

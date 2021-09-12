@@ -53,14 +53,21 @@ if (!$_read_only)
 </form>
 
 <table class="ttable" width="450" cellspacing="2" cellpadding="2" border="0">
- <tr>
-  <th align="center" class="miTitle"><img src="../../../images/share/spacer.gif" width="52" height="5">History</th>
-  <th width="50" align="center" class="miTitle"><button type="button" class="formButton" onClick="window.location='<?=$page_name?>?action=clear_history'">clear</button></th>
- </tr>
+    <thead>
+    <tr>
+        <th align="center" class="miTitle"><img src="../../../images/share/spacer.gif" width="52" height="5">History</th>
+        <th width="50" align="center" class="miTitle"><button type="button" class="formButton" onClick="window.location='<?=$page_name?>?action=clear_history'">clear</button></th>
+    </tr>
+    </thead>
  <?php
 
  $data_no=sizeof($_SESSION['mi_command']);
- if ($data_no==0) echo('<tr><td colspan="2" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) {
+     if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+         echo($no_result);
+     else
+         echo('<tr><td colspan="2" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ }
  else {
  	$n=$data_no-1;
  	for($j=0;$j<$data_no;$j++)
@@ -80,7 +87,7 @@ if (!$_read_only)
  	}
  }
  ?>
- <tr>
-  <th colspan="2" class="miTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
- </tr>
+<!-- <tr>-->
+<!--  <th colspan="2" class="miTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>-->
+<!-- </tr>-->
 </table>

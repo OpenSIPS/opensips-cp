@@ -46,6 +46,7 @@ if (!is_null($message)) {
 
 
 echo '<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">';
+echo '<thead">';
 echo '<tr align="center">';
 echo '<th class="listTitle">Call ID</th>';
 echo '<th class="listTitle">From URI</th>';
@@ -61,9 +62,13 @@ if(!$_SESSION['read_only']) {
 	$colspan=7;
 }
 echo '</tr>';
+echo '</thead>';
 
 if ($data_no==0) {
-	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+//    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+//        echo($no_result);
+//    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 }
 else {
 	// here goes the paging stuff
@@ -73,7 +78,7 @@ else {
 		$page=$page_no;
 		$_SESSION[$current_page]=$page;
 	}
-	
+
 	$start_limit=($page-1)*$config->results_per_page;
 
 	display_dialog_table($message);

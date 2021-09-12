@@ -106,13 +106,15 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 
 
 <table class="ttable" width="600" cellspacing="2" cellpadding="2" border="0">
- <tr>
-  <th class="listTitle" align="center">Date Time</th>
-  <th class="listTitle" align="center">Method</th>
-  <th class="listTitle" align="center">Address</th>
-  <th class="listTitle" align="center" width="55">Message</th>
-  <th class="listTitle" align="center" width="45">Call</th>
- </tr>
+    <thead>
+    <tr>
+        <th class="listTitle" align="center">Date Time</th>
+        <th class="listTitle" align="center">Method</th>
+        <th class="listTitle" align="center">Address</th>
+        <th class="listTitle" align="center" width="55">Message</th>
+        <th class="listTitle" align="center" width="45">Call</th>
+    </tr>
+    </thead>
 <?php
 
 
@@ -149,7 +151,12 @@ if ($stm===FALSE) {
 $stm->execute( $sql_vals );
 $data_no = $stm->fetchColumn(0);
 
-if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
 else
 {
 	$page=$_SESSION[$current_page];

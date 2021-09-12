@@ -33,4 +33,8 @@ $config->permissions = array("read-only","read-write");
 // $config->admin_passwd_mode to 0 or chyphered mode, by setting it to 1
 $config->admin_passwd_mode=1;
 
+//Toolbar config
+$config->ntl_toolbar = true;
+$config->extra_column = 3;
+
 ?>

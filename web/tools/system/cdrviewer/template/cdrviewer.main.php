@@ -118,7 +118,10 @@ $data_no = $stm->fetchColumn(0);
 
 if ($data_no==0) {
 
-	echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+	    echo($no_result);
+    else
+	    echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 
 	unset($_SESSION['cdrviewer_search_start']);
 	unset($_SESSION['cdrviewer_search_end']);
@@ -155,18 +158,20 @@ else
 
 	<center>
 	<table class="ttable" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">
-     <tr align="center">
+        <thead>
+             <tr align="center">
 
- 	  <?php for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
-     
- 	  		
- 	  	<th class="listTitle" align="center"><?php echo $show_field[$i][key($show_field[$i])]?></th>
+              <?php for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
 
 
- 	  <?php } ?>
-     	   
- 	  	<th class="listTitle" align="center">Details</th>
-    </tr>
+                <th class="listTitle" align="center"><?php echo $show_field[$i][key($show_field[$i])]?></th>
+
+
+              <?php } ?>
+
+                <th class="listTitle" align="center">Details</th>
+            </tr>
+        </thead>
 	
 	<?php
 

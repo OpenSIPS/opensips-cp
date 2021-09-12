@@ -124,22 +124,24 @@
 <?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">GWID</th>
-  <th class="listTitle">Type</th>
-  <th class="listTitle">Address</th>
-  <th class="listTitle">Strip</th>
-  <th class="listTitle">PRI Prefix</th>
-  <th class="listTitle">Probe Mode</th>
-  <th class="listTitle">Socket</th>
-  <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
-  <th class="listTitle">Description</th>
-  <th class="listTitle">DB State</th>
-  <th class="listTitle">Memory State</th>
-  <th class="listTitle">Details</th>
-  <th class="listTitle">Edit</th>
-  <th class="listTitle">Delete</th>
- </tr>
+    <thead>
+    <tr align="center">
+        <th class="listTitle">GWID</th>
+        <th class="listTitle">Type</th>
+        <th class="listTitle">Address</th>
+        <th class="listTitle">Strip</th>
+        <th class="listTitle">PRI Prefix</th>
+        <th class="listTitle">Probe Mode</th>
+        <th class="listTitle">Socket</th>
+        <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
+        <th class="listTitle">Description</th>
+        <th class="listTitle">DB State</th>
+        <th class="listTitle">Memory State</th>
+        <th class="listTitle">Details</th>
+        <th class="listTitle">Edit</th>
+        <th class="listTitle">Delete</th>
+    </tr>
+    </thead>
 <?php
 
 //get status for all the gws (from the first server only)
@@ -173,8 +175,12 @@ if (!is_null($message)) {
  require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
- if ($data_no==0) 
- 	echo('<tr><td colspan="15" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan=15 class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
  else
  {
   $res_no=$config->results_per_page;

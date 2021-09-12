@@ -73,23 +73,25 @@ if(!$_SESSION['read_only']){
 <?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">Cluster ID</th>
-  <th class="listTitle">Node ID</th>
-  <th class="listTitle">BIN URL</th>
-  <th class="listTitle">Max retries</th>
-  <th class="listTitle">In Use</th>
-  <th class="listTitle">SIP address</th>
-  <th class="listTitle">Flags</th>
-  <th class="listTitle">Description</th>
-  <?php
-  if(!$_SESSION['read_only']){
+    <thead>
+     <tr align="center">
+      <th class="listTitle">Cluster ID</th>
+      <th class="listTitle">Node ID</th>
+      <th class="listTitle">BIN URL</th>
+      <th class="listTitle">Max retries</th>
+      <th class="listTitle">In Use</th>
+      <th class="listTitle">SIP address</th>
+      <th class="listTitle">Flags</th>
+      <th class="listTitle">Description</th>
+      <?php
+      if(!$_SESSION['read_only']){
 
-  	echo('<th class="listTitle">Edit</th>
-  		<th class="listTitle">Delete</th>');
-  }
-  ?>
- </tr>
+        echo('<th class="listTitle">Edit</th>
+            <th class="listTitle">Delete</th>');
+      }
+      ?>
+     </tr>
+    </thead>
 <?php
 if ($sql_search=="") $sql_command="select * from ".$table;
 else $sql_command="select * from ".$table." where (1=1) ".$sql_search;
@@ -100,8 +102,13 @@ if ($stm === false) {
 $stm->execute( $sql_vals );
 $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
-if (count($resultset)==0)
-	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if (count($resultset)==0){
+    $filtered_records = 0;
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
 else
 {
 	for ($i=0;count($resultset)>$i;$i++)

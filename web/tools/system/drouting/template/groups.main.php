@@ -93,15 +93,17 @@
 <?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">Username</th>
-  <th class="listTitle">Domain</th>
-  <th class="listTitle">Group ID</th>
-  <th class="listTitle">Description</th>
-  <th class="listTitle">Details</th>
-  <th class="listTitle">Edit</th>
-  <th class="listTitle">Delete</th>
- </tr>
+    <thead>
+    <tr align="center">
+        <th class="listTitle">Username</th>
+        <th class="listTitle">Domain</th>
+        <th class="listTitle">Group ID</th>
+        <th class="listTitle">Description</th>
+        <th class="listTitle">Details</th>
+        <th class="listTitle">Edit</th>
+        <th class="listTitle">Delete</th>
+    </tr>
+    </thead>
 <?php
  $sql_command="select count(*) from ".$table." where (1=1) ".$sql_search;
  $stm = $link->prepare($sql_command);
@@ -111,7 +113,12 @@
  require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
- if ($data_no==0) echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
  else
  {
   $res_no=$config->results_per_page;

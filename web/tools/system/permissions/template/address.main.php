@@ -99,22 +99,24 @@ if(!$_SESSION['read_only']){
 <?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">Group</th>
-  <th class="listTitle">IP</th>
-  <th class="listTitle">Mask</th>
-  <th class="listTitle">Port</th>
-  <th class="listTitle">Protocol</th>
-  <th class="listTitle">Pattern</th>
-  <th class="listTitle">Context Info</th>
-  <?php
-  if(!$_SESSION['read_only']){
+    <thead>
+    <tr align="center">
+        <th class="listTitle">Group</th>
+        <th class="listTitle">IP</th>
+        <th class="listTitle">Mask</th>
+        <th class="listTitle">Port</th>
+        <th class="listTitle">Protocol</th>
+        <th class="listTitle">Pattern</th>
+        <th class="listTitle">Context Info</th>
+        <?php
+        if(!$_SESSION['read_only']){
 
-  	echo('<th class="listTitle">Edit</th>
+            echo('<th class="listTitle">Edit</th>
   		<th class="listTitle">Delete</th>');
-  }
-  ?>
- </tr>
+        }
+        ?>
+    </tr>
+    </thead>
 <?php
 
 $sql_command="select * from ".$table." where (1=1) ".$sql_search;
@@ -124,7 +126,14 @@ if ($stm->execute($qvalues) === false)
 $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $data_no=count($resultset);
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
+
 else
 {
 	$res_no=$config->results_per_page;

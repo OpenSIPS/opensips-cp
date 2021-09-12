@@ -2,7 +2,7 @@
  /*
  * Copyright (C) 2011 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -43,17 +43,17 @@ if(!$_SESSION['read_only']){
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
   <tr>
   <td class="searchRecord">Group ID</td>
-  <td class="searchRecord" width="200"><input type="text" name="lb_groupid" 
+  <td class="searchRecord" width="200"><input type="text" name="lb_groupid"
   value="<?=$search_groupid?>" class="searchInput"></td>
  </tr>
   <tr>
   <td class="searchRecord">SIP URI</td>
-  <td class="searchRecord" width="200"><input type="text" name="lb_dsturi" 
+  <td class="searchRecord" width="200"><input type="text" name="lb_dsturi"
   value="<?=$search_dsturi?>" maxlength="16" class="searchInput"></td>
  </tr>
   <tr>
   <td class="searchRecord">Resources</td>
-  <td class="searchRecord" width="200"><input type="text" name="lb_resources" 
+  <td class="searchRecord" width="200"><input type="text" name="lb_resources"
   value="<?=$search_resources?>" maxlength="128" class="searchInput"></td>
  </tr>
   <tr height="10">
@@ -74,27 +74,29 @@ if(!$_SESSION['read_only']){
 <?php } ?>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">ID</th>
-  <th class="listTitle">Group ID</th>
-  <th class="listTitle">SIP URI</th>
-  <th class="listTitle">Resources</th>
-  <th class="listTitle">Probe Mode</th>
-  <th class="listTitle">Auto Re-enable</th>
-  <th class="listTitle">Status</th>
-  <th class="listTitle">Attributes</th>
-  <th class="listTitle">Description</th>
-  <?php
-  if(!$_SESSION['read_only']){
+    <thead>
+    <tr align="center">
+        <th class="listTitle">ID</th>
+        <th class="listTitle">Group ID</th>
+        <th class="listTitle">SIP URI</th>
+        <th class="listTitle">Resources</th>
+        <th class="listTitle">Probe Mode</th>
+        <th class="listTitle">Auto Re-enable</th>
+        <th class="listTitle">Status</th>
+        <th class="listTitle">Attributes</th>
+        <th class="listTitle">Description</th>
+        <?php
+        if(!$_SESSION['read_only']){
 
-  	echo('<th class="listTitle">Edit</th>
+            echo('<th class="listTitle">Edit</th>
   		<th class="listTitle">Delete</th>');
-  }
-  ?>
- </tr>
+        }
+        ?>
+    </tr>
+    </thead>
 
 <?php
-if($search_groupid!="") { 
+if($search_groupid!="") {
 	$sql_search.=" and group_id=?";
 	array_push( $sql_vals, $search_groupid);
 }
@@ -115,8 +117,12 @@ if ($stm===FALSE) {
 $stm->execute( $sql_vals );
 $data_no = $stm->fetchColumn(0);
 
-if ($data_no==0)
-	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
 else {
 	// get in memory status for the entries we want to list
 	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
@@ -187,7 +193,7 @@ else {
 			<td class="<?=$row_style?>">&nbsp;<?=$lb_probing_modes[$result[$i]['probe_mode']]?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$lb_auto[$id]?></td>
 			<td class="<?=$row_style?>">&nbsp;
-			<?php 
+			<?php
                         if ($lb_state[$id]==NULL) {
 				echo "-";
 			} else if ($_SESSION['read_only']) {
@@ -195,7 +201,7 @@ else {
 				<img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" border="0">
 			<?php
 			} else {
-			?>	
+			?>
 				<a href="<?=$page_name?>?action=toggle&state=<?=$lb_state[$id]?>&id=<?=$result[$i]['id']?>"><img name="toggle" src="../../../images/share/<?=($lb_state[$id]=="enabled"?"active":"inactive")?>.png" alt="<?=$lb_state[$id]?>" onclick="return confirmStateChange('<?=$lb_state[$id]?>')" border="0"></a>
 			<?php
 			}
@@ -203,13 +209,13 @@ else {
 			</td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['attrs']?></td>
 			<td class="<?=$row_style?>">&nbsp;<?=$result[$i]['description']?></td>
-			<?php 
+			<?php
 			if(!$_SESSION['read_only']){
 				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a></td>');
 				echo('<td class="'.$row_style.'" align="center"><a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a></td>');
    			}
-			?>  
-		</tr>  
+			?>
+		</tr>
 <?php
 	}
 }

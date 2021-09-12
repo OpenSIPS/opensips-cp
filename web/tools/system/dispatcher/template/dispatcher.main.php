@@ -159,23 +159,25 @@ if(!$_SESSION['read_only']){
 
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">SetID</th>
-  <th class="listTitle">Destination</th>
-  <th class="listTitle">Socket</th>
-  <th class="listTitle">Weight</th>
-  <th class="listTitle">Attributes</th>
-  <th class="listTitle">Description</th>
-  <th class="listTitle">DB State</th>
-  <?php
-  if(!$_SESSION['read_only']){
-  	echo('<th class="listTitle">Memory State</th>
-
-  	<th class="listTitle">Edit</th>
-  	<th class="listTitle">Delete</th>');
-  }
-  ?>
- </tr>
+    <thead>
+     <tr align="center">
+      <th class="listTitle">SetID</th>
+      <th class="listTitle">Destination</th>
+      <th class="listTitle">Socket</th>
+      <th class="listTitle">Weight</th>
+      <th class="listTitle">Attributes</th>
+      <th class="listTitle">Description</th>
+      <th class="listTitle">DB State</th>
+      <?php
+      if(!$_SESSION['read_only']){
+        echo('<th class="listTitle">Memory State</th>
+    
+        <th class="listTitle">Edit</th>
+        <th class="listTitle">Delete</th>');
+      }
+      ?>
+     </tr>
+    </thead>
 <?php
 if (isset($config->dispatcher_groups) && count($set_cache) == 0) {
 	$data_no = 0; /* didn't find any available set :(, no need to query anything */
@@ -189,7 +191,12 @@ if (isset($config->dispatcher_groups) && count($set_cache) == 0) {
 	$stm->execute( $sql_vals );
 	$data_no = $stm->fetchColumn(0);
 }
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
 else
 {
 	$res_no=$config->results_per_page;

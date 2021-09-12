@@ -68,24 +68,26 @@ if(!$_SESSION['read_only']){
 <?php } ?>
 
 <table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
- <tr align="center">
-  <th class="listTitle">Dialplan ID</th>
-  <th class="listTitle">Rule Priority</th>
-  <th class="listTitle">Matching Operator</th>
-  <th class="listTitle">Matching Regular Expression</th>
-  <th class="listTitle">Matching Flags</th>
-  <th class="listTitle">Substitution Regular Expression</th>
-  <th class="listTitle">Replacement Expression</th>
-  <th class="listTitle">Atrributes</th>
-  <?php
-  if(!$_SESSION['read_only']){
+    <thead>
+        <tr align="center">
+            <th class="listTitle">Dialplan ID</th>
+            <th class="listTitle">Rule Priority</th>
+            <th class="listTitle">Matching Operator</th>
+            <th class="listTitle">Matching Regular Expression</th>
+            <th class="listTitle">Matching Flags</th>
+            <th class="listTitle">Substitution Regular Expression</th>
+            <th class="listTitle">Replacement Expression</th>
+            <th class="listTitle">Atrributes</th>
+            <?php
+            if(!$_SESSION['read_only']){
 
-  	echo('<th class="listTitle">Edit</th>
-  		<th class="listTitle">Delete</th>
-    	<th class="listTitle">Clone</th>');
-  }
-  ?>
- </tr>
+                echo('<th class="listTitle">Edit</th>
+                <th class="listTitle">Delete</th>
+                <th class="listTitle">Clone</th>');
+            }
+            ?>
+        </tr>
+    </thead>
 <?php
 if ($sql_search=="")
 	$sql_command="from ".$table;
@@ -98,7 +100,13 @@ if ($stm===FALSE) {
 }
 $stm->execute( $sql_vals );
 $data_no = $stm->fetchColumn(0);
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+
+if ($data_no==0) {
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        echo($no_result);
+    else
+        echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+}
 else
 {
 	$res_no=$config->results_per_page;

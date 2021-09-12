@@ -92,7 +92,10 @@ if ($filtered_records > 0) {
 }
 else {
 	$filtered_records = 0;
-	$empty_res = '<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>';
+    if (isset($_SESSION['ntl_toolbar']) && $_SESSION['ntl_toolbar'])
+        $empty_res = $no_result;
+    else
+        $empty_res = '<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>';
 }
 ?>
 
@@ -187,19 +190,21 @@ else {
 
 			<!-- TABLE STARTS HERE -->
 			<table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
-				<tr align="center">
-					<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
-						if ( !isset($value['visible']) || $value['visible']==true)	
-							echo('<th class="listTitle">'.$value['header'].'</th>');
-						}
-						if(!$_SESSION['read_only']){ 
-							for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
-								$header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
-								echo "<th class='listTitle'>".$header_name."</th>";
-							}
-						} 
-					?>
-				</tr>
+                <thead>
+                <tr align="center">
+                    <?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+                        if ( !isset($value['visible']) || $value['visible']==true)
+                            echo('<th class="listTitle">'.$value['header'].'</th>');
+                    }
+                    if(!$_SESSION['read_only']){
+                        for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
+                            $header_name = ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header'])?$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['header']:"";
+                            echo "<th class='listTitle'>".$header_name."</th>";
+                        }
+                    }
+                    ?>
+                </tr>
+                </thead>
 				<?php
 					if (isset($resultset) && count($resultset) > 0){
 						for ($i=0; $i<count($resultset);$i++){
