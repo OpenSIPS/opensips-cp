@@ -130,13 +130,22 @@ function get_group_name() {
 	return $config_modules[$_SESSION['current_group']]['name'];
 }
 
-function display_settings_button() {
-	if (file_exists("params.php") && $_SESSION['permission'] == 'Admin') {   
-		echo("
-			<td align=right style=\"border-bottom: 1px solid #ccc!important\">
-				<a  onclick=\"top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?action=edit_tools';\" href=\"#\"   id=\"config_admin\"></a>
-			</td 
-		");        
+function display_settings_button($box_id=null) {
+	if (file_exists("params.php") && $_SESSION['permission'] == 'Admin') {  
+		require_once("params.php");
+		if (!is_null($config))
+			if(is_null($box_id))
+				echo("
+					<td align=right style=\"border-bottom: 1px solid #ccc!important\">
+						<a  onclick=\"top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?action=edit_tools';\" href=\"#\"   id=\"config_admin\"></a>
+					</td 
+				");    
+			else 
+				echo("
+					<td align=right style=\"border-bottom: 1px solid #ccc!important\">
+					<a  onclick=\"top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?action=edit_tools&box_id=$box_id';\" href=\"#\"   id=\"config_admin\"></a> 
+					</td>
+				");    
 	}
 }
 

@@ -57,10 +57,8 @@ $boxlist=inspect_config_mi();
   	    require("lib/put_select_boxes.php");
         $box_id=get_box_id($current_box); 
         $_SESSION['box_id'] = $box_id;
+        display_settings_button($box_id);
       ?>
-      <td align=right style="border-bottom: 1px solid #ccc!important">
-      <a  onclick="top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?tool=smonitor&action=edit_tools&box_id=<?=$box_id?>';" href="#"   id="config_admin"></a> 
-      </td>
     </td>
   </tr>	
   <tr>
