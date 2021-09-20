@@ -24,7 +24,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print get_group_name($_SESSION['current_group'])." / ".get_tool_name($_SESSION['current_tool'])." / ".$_SESSION['permission'];?>
+        <?php print get_group_name()." / ".get_tool_name()." / ".$_SESSION['permission'];?>
     </td>
   </tr>
   <tr>

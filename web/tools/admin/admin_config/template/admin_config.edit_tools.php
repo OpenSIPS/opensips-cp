@@ -63,13 +63,18 @@ $permissions=array();
 		if ($params['tip'])
 			$current_tip = $params[tip];
 		else $current_tip = null;
-		if ($params['type'] == "json") form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_value($module, $box_id), JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), 1000, $params['validation_regex'], 'validate_json');
-		else if ($params['type'] == "dropdown") {
-			if (isAssoc($params['options']))
-				form_generate_select($params['name'], $current_tip, $module, 10,  get_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));
-			else form_generate_select($params['name'], $current_tip, $module, 10,  get_value( $module, $box_id), array_values($params['options']));
+		switch ($params['type']) {
+			case "json":
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_value($module, $box_id), JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), 1000, $params['validation_regex'], 'validate_json');
+				break;
+			case "dropdown": 
+				if (isAssoc($params['options']))
+					form_generate_select($params['name'], $current_tip, $module, 10,  get_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));
+				else form_generate_select($params['name'], $current_tip, $module, 10,  get_value( $module, $box_id), array_values($params['options']));
+				break;
+			default:
+				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_value($module, $box_id), 10, $params['validation_regex']);
 		}
-		else form_generate_input_text($params['name'], $current_tip, $module, $opt, get_value($module, $box_id), 10, $params['validation_regex']);
 	}
 
 
