@@ -112,7 +112,7 @@ function get_priv($my_tool) {
 }
 
 function get_assoc_id() {
-	require("../../../../config/boxes.global.inc.php");
+	require("".__DIR__."/../../config/boxes.global.inc.php");
 	$assoc_ids = array();
 	foreach( $systems as $el) {
 		$assoc_ids[$el['name']] = $el['assoc_id'];
@@ -128,6 +128,15 @@ function get_tool_name() {
 function get_group_name() {
 	require("../../../../config/modules.inc.php");
 	return $config_modules[$_SESSION['current_group']]['name'];
+}
+
+function get_group() {
+	require("".__DIR__."/../../config/modules.inc.php");
+	foreach ($config_modules as $group=>$group_attr) {
+		foreach ($group_attr['modules'] as $module=>$module_attr) {
+			if ($module == $_SESSION['current_tool']) return $group;
+		}
+	}
 }
 
 function display_settings_button($box_id=null) {
@@ -251,5 +260,28 @@ function print_back_input() {
 	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
 
+function session_load() {
+	include("lib/db_connect.php");
+	if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
+		$module_params = get_params();
+		$sql = 'select param, value from tools_config where module=? ';
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+	
+		$stm->execute( array($_SESSION['current_tool']) );
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($resultset as $elem) {
+			if ($module_params[$elem['param']]['type'] == "json") {
+				$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+			}
+			else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+		} 
+		foreach ($module_params as $module=>$params) {
+			$config->$module = get_value($module); 
+		}  
+	}
+}
 
 ?>
