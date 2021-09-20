@@ -21,11 +21,13 @@ $config->alias_management = array(
 		),
 		"name"    => "Table aliases",
 		"type"    => "json",
+		"tip"     => "Parameter used for the aliases tables if there are more than the standard dbaliases table. The defined array has as key the label and as value the table name.For defining more 
+		than one attribute/value pair, complete the list with identical elements separated by comma."
 	),
 	"alias_format" => array(
 		"default" => "/^[0-9a-zA-Z]+/",
 		"name" => "Alias Format",
-		"tip" => "Pattern to validate the inserted aliases",
+		"tip" => "Pattern/regexp to validate the inserted aliases (in order to enforce a certain format for the aliases).",
 		"type" => "text"
 	)
     );
