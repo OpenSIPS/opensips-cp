@@ -28,7 +28,7 @@ require_once("../../../../config/tools/system/dispatcher/local.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 $_SESSION['current_tool'] = 'dispatcher';
-$_SESSION['current_group'] = 'system';
+$_SESSION['current_group'] = get_group();
 $no_result = "No Data Found.";
 ?>
 

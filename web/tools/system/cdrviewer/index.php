@@ -28,7 +28,7 @@ require("../../../../config/tools/system/cdrviewer/db.inc.php");
 //include("lib/db_connect.php");
 unset($_SESSION['read_only']);
 session_start();
-$_SESSION['user_active_tool']="cdrviewer";
+$_SESSION['current_tool']="cdrviewer";
 get_priv("cdrviewer");
 $_SESSION['detailed_callid']=array();
 $_SESSION['grouped_results']=true;

@@ -22,6 +22,7 @@
 
  
  
+ require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
  require("../../../../config/tools/system/smonitor/local.inc.php");
  require("../../../../config/tools/system/smonitor/db.inc.php");
@@ -34,24 +35,9 @@
  print_r(get_mi_modules($current_box));
 
  $table=$config->table_monitored;	
- if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value, box_id from tools_config where module=? ';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
-	} 
-	$config_type = get_value('config_type');
- }
+ session_load(); 
+ $config_type = get_value('config_type');
+ 
  if ($_GET['var']!=null)
  {
   $var_name = $_GET['var'];

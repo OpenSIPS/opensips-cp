@@ -31,27 +31,7 @@ $table=$config->table_lb;
 $current_page="current_page_lb";
 $lb_probing_modes = array("No probing","On disabled","Permanent");
 
-if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value from tools_config where module=? ';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-	} 
-        foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
-	}  
-	$talk_to_this_assoc_id = get_value('talk_to_this_assoc_id');
-}
+session_load();
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -168,12 +148,12 @@ case "toggle":
 	$state= $_GET['state'];
 	$id = $_GET['id'];
 	if ($state=="enabled") {
-		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("lb_status", array("destination_id"=>$id,"new_status"=>"0"), $mi_connectors[$i], $errors);
 		}
 	} else if ($state=="disabled") {
-		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("lb_status", array("destination_id"=>$id,"new_status"=>"1"), $mi_connectors[$i], $errors);
 		}

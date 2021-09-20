@@ -11,7 +11,7 @@ $config->rtpengine = array(
 	"results_page_range" => array(
 		"default" => 10,
 		"name"    => "Results page range",
-		"tip"    => "Number of results page range",
+		"tip"    => "Control over the pagination when displaying the rtpengine sockets",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
     ),
@@ -20,10 +20,13 @@ $config->rtpengine = array(
 		"name"    => "Talk to this assoc id",
 		"options" => get_assoc_id(),
 		"type"    => "dropdown",
+		"tip"     => "As OCP can manage multiple OpenSIPS instances, this is the association 
+		ID pointing to the group of servers (system) which needs to be provision with this rtpengine information."
 	),
     "table_rtpengine" => array(
         "default" => "rtpengine",
         "name" => "Table RTPengine",
-        "type" => "text"
+        "type" => "text",
+		"tip"  => "The database table name for storing the RTPEngine sockets"
     ),
 );

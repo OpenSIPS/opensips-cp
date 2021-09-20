@@ -148,7 +148,7 @@ $gw_statuses = Array ();
 $params = NULL;
 if (isset($config->routing_partition) && $config->routing_partition != "")
 	$params['partition_name'] = $config->routing_partition;
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 $message=mi_command( "dr_gw_status", $params, $mi_connectors[0], $errors);
 
 if (!is_null($message)) {

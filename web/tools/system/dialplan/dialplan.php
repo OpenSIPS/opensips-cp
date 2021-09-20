@@ -29,27 +29,7 @@ $table=$config->table_dialplan;
 
 $current_page="current_page_dialplan";
 
-if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value from tools_config where module=?';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-	} 
-        foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
-	}  
-	$dialplan_attributes_mode = get_value('dialplan_attributes_mode');
-	$talk_to_this_assoc_id = get_value('talk_to_this_assoc_id');
-}
+session_load();
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];

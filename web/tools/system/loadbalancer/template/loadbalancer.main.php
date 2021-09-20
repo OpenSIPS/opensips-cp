@@ -119,7 +119,7 @@ if ($data_no==0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else {
 	// get in memory status for the entries we want to list
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 	$message = mi_command('lb_list', NULL, $mi_connectors[0], $errors);
 
 	$lb_state = array();

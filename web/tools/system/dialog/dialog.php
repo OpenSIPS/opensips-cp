@@ -28,26 +28,7 @@ require ("../../../common/mi_comm.php");
 
 $current_page="current_page_dialog";
 
-if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value from tools_config where module=? ';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-	} 
-        foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
-	}  
-}
+session_load();
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -62,7 +43,7 @@ $start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
 if ($action=="refresh") {
 	$_SESSION[$current_page]=1;
 	$start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 	// take the list from the first box only
 	$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
 }
@@ -81,7 +62,7 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id=trim($_GET['id']);
-	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	        $mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
         	for ($i=0;$i<count($mi_connectors);$i++){
 				mi_command( "dlg_end_dlg", array("dialog_id"=>$id),  $mi_connectors[$i], $errors);
 			}

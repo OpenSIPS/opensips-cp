@@ -59,7 +59,7 @@ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
         foreach ($module_params as $module=>$params) {
 		$config->$module = get_value($module); 
 	}  
-} nu stiu daca sa creez db,inc.php pt asta*/
+} unsure if db.inc.php should be created for this tool*/
 
 
 if (empty($_SESSION['mi_command_list']))

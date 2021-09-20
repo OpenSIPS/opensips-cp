@@ -11,7 +11,6 @@ $config->dialog = array(
 	"results_page_range" => array(
 		"default" => 10,
 		"name"    => "Results page range",
-		"tip"    => "Number of results page range",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
     ),
@@ -20,5 +19,7 @@ $config->dialog = array(
 		"name"    => "Talk to this assoc id",
 		"options" => get_assoc_id(),
 		"type"    => "dropdown",
+		"tip"	  => "association ID pointing to system (group of OpenSIPS servers) to be queried for ongoing calls.
+		 Note: only the first server from the group will be used for fetching the dialogs!!",
 	)
 );

@@ -6,6 +6,5 @@
 
 </html>
 <?php
- $_SESSION['user_active_tool']="clusterer";
  $_SESSION['user_active_page']=$page_name;
 ?>

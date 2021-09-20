@@ -11,7 +11,7 @@ $config->permissions = array(
 	"results_page_range" => array(
 		"default" => 10,
 		"name"    => "Results page range",
-		"tip"    => "Number of results page range",
+		"tip"    => "Control over the pagination when displaying the IP matching rules",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
     ),
@@ -20,10 +20,13 @@ $config->permissions = array(
 		"name"    => "Talk to this assoc id",
 		"options" => get_assoc_id(),
 		"type"    => "dropdown",
+		"tip"     => "As OCP can manage multiple OpenSIPS instances, this is the association 
+		ID pointing to the group of servers (system) which needs to be provision with this permissions information."
 	),
     "table_address" => array(
         "default" => "address",
         "name" => "Table Address",
-        "type" => "text"
+        "type" => "text",
+		"tip"  => "The database table name for storing the IP matching rules"
     ),
 );

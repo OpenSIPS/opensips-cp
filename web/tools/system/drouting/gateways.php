@@ -28,24 +28,7 @@
  $table=$config->table_gateways;
  $current_page="current_page_gateways";
  
- if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value from tools_config where module=? ';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-	} 
-	$talk_to_this_assoc_id = get_value('talk_to_this_assoc_id');
- }
+ session_load();
 
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -80,7 +63,7 @@
 # start enable gw    #
 ######################
 if ($action=="enablegw"){
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"1");
 	if (isset($config->routing_partition) && $config->routing_partition != "")
@@ -101,7 +84,7 @@ if ($action=="enablegw"){
 # start disable gw    #
 #######################
 if ($action=="disablegw"){
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"0");
 	if (isset($config->routing_partition) && $config->routing_partition != "")
@@ -121,7 +104,7 @@ if ($action=="disablegw"){
 # start probing gw   #
 ######################
 if ($action=="probegw"){
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"2");
 	if (isset($config->routing_partition) && $config->routing_partition != "")

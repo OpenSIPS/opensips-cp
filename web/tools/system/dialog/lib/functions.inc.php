@@ -23,7 +23,7 @@ function print_profile() {
 require ("../../../../config/tools/system/dialog/local.inc.php");
 	global $config;
 
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 	// get status from the first one only
 	$message=mi_command("list_all_profiles", NULL, $mi_connectors[0], $errors);
 

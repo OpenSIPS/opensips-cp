@@ -244,10 +244,14 @@ global $config_type;
 
 }	
 
-
+function console_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
 
 function show_graph($stat,$box_id){
-
+	console_log($box_id);
 	global $config;
 	global $gauge_arr;
 
@@ -258,7 +262,7 @@ function show_graph($stat,$box_id){
 	require("../../../../config/tools/system/smonitor/local.inc.php");
 	require("db_connect.php");
 	$chart_size = get_value('chart_size', $box_id)+1;
-	
+
 	$chart[ 'chart_data' ] [0] [0] = "";
 	$chart[ 'chart_data' ] [1] [0] = $var;
 	
@@ -349,7 +353,6 @@ function show_graph($stat,$box_id){
 	
 	$graph_chart->setTitle($stat);
 	$graph_chart->render("generated/".$stat.".png");
-
 
 
 	echo '<img alt="Line chart" src="generated/'.$stat.'.png" style="border: 1px solid gray;"/>';

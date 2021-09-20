@@ -95,7 +95,7 @@
 //get status for all the gws
 $carrier_statuses = Array ();
 
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 
 $params = NULL;
 if (isset($config->routing_partition) && $config->routing_partition != "")
