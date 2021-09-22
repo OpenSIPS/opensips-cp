@@ -20,10 +20,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ require("../../../common/cfg_comm.php");
  require("template/header.php");
  include("lib/db_connect.php");
  require ("../../../common/mi_comm.php");
- require("../../../common/cfg_comm.php");
  require("../../../../config/db.inc.php");
  $table=$config->table_gateways;
  $current_page="current_page_gateways";
