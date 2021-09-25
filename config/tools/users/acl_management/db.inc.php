@@ -34,6 +34,9 @@
  
  //database name
  //$config->db_name_acl_management = "opensips";
+
+ //database certificate
+ //$config->db_cert_acl_management = "";
  
  //if ($config->db_port_acl_management != "") $config->db_host_acl_management = $config->db_host_acl_management . ";port=" . $config->db_port_acl_management;
  

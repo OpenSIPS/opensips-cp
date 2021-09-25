@@ -35,6 +35,9 @@
  
  //database name
  //$config->db_name_dispatcher = "opensips";
+
+ //database certificate
+ //$config->db_cert_dispatcher = "";
  
  //if ($config->db_port_dispatcher != "") $config->db_host_dispatcher = $config->db_host_dispatcher .";port=" . $config->db_port_dispatcher;
  

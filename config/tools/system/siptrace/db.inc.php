@@ -34,6 +34,9 @@
  
  //database name
  //$config->db_name_siptrace = "opensips_1_4";
+
+ //database certificate
+ //$config->db_cert_siptrace = "";
  
  //if ($config->db_port_siptrace != "") $config->db_host_siptrace = $config->db_host_siptrace . ";port=" . $config->db_port_siptrace;
  

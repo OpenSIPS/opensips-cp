@@ -32,9 +32,16 @@ if (isset($config->db_host_rtpengine) && isset($config->db_user_rtpengine) && is
 	$config->db_name = $config->db_name_rtpengine;
 }
 
+$options = array();
+        if (isset($config->db_cert_rtpengine))
+                $options[PDO::MYSQL_ATTR_SSL_CA] = $config->db_cert_rtpengine;
+        else if ($config->db_cert) {
+                $options[PDO::MYSQL_ATTR_SSL_CA] = $config->db_cert;
+        }
+
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	$link = new PDO($dsn, $config->db_user, $config->db_pass, $options);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";
