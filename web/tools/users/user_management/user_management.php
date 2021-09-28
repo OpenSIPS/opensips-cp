@@ -25,7 +25,7 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
 require("../../../../config/globals.php");
-include("lib/db_connect.php");
+
 $table=$config->table_users;
 $current_page="current_page_user_management";
 $errors='';
@@ -33,6 +33,8 @@ $keepoverlay = false;
 $current_tool = $page_id;
 
 session_load();
+
+include("lib/db_connect.php");
 
 foreach ($config->table_aliases as $key=>$value) {
         $options[]=array("label"=>$key,"value"=>$value);

@@ -25,7 +25,7 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 require("../../../../config/tools/users/alias_management/local.inc.php");
-include("lib/db_connect.php");
+
 foreach ($config->table_aliases as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
@@ -33,6 +33,8 @@ foreach ($config->table_aliases as $key=>$value) {
 $current_page="current_page_alias_management";
 
 session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];

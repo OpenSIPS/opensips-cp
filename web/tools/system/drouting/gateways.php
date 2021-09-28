@@ -22,13 +22,14 @@
 
  require("../../../common/cfg_comm.php");
  require("template/header.php");
- include("lib/db_connect.php");
  require ("../../../common/mi_comm.php");
  require("../../../../config/db.inc.php");
  $table=$config->table_gateways;
  $current_page="current_page_gateways";
  
  session_load();
+ 
+ include("lib/db_connect.php");
 
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];

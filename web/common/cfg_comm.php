@@ -261,7 +261,7 @@ function print_back_input() {
 }
 
 function session_load() {
-	include("lib/db_connect.php");
+	require("".__DIR__."/../db_connect.php");
 	if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
 		$module_params = get_params();
 		$sql = 'select param, value from tools_config where module=? ';

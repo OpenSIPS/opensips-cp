@@ -23,7 +23,6 @@
  require("../../../common/cfg_comm.php");
  require("template/header.php");
  require("lib/".$page_id.".main.js");
- include("lib/db_connect.php");
  
  require("../../../../config/tools/system/siptrace/local.inc.php");
  require("../../../common/mi_comm.php");
@@ -34,6 +33,8 @@
  $current_page="current_page_tracer";
  
  session_load();
+ 
+ include("lib/db_connect.php");
 
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];

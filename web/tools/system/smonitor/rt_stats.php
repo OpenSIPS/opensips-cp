@@ -28,7 +28,6 @@
  require("../../../../config/tools/system/smonitor/db.inc.php");
  require("../../../../config/db.inc.php");
  require("lib/functions.inc.php");
- include("lib/db_connect.php");
  
  session_start(); 
  require("template/header.php");
@@ -36,6 +35,9 @@
 
  $table=$config->table_monitored;	
  session_load(); 
+ 
+ include("lib/db_connect.php");
+ 
  $config_type = get_value('config_type');
  
  if ($_GET['var']!=null)

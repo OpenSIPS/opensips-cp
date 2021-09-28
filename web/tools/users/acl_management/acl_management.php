@@ -25,14 +25,14 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 require("../../../../config/tools/users/acl_management/local.inc.php");
-include("lib/db_connect.php");
 
 $table=$config->table_acls;
 $errors='';
-
 $current_page="current_page_acl_management";
 
 session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];

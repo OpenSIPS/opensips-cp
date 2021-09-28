@@ -23,12 +23,12 @@
 require_once("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
-include("lib/db_connect.php");
-
 
 $current_page="current_page_tviewer";
 
 session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;

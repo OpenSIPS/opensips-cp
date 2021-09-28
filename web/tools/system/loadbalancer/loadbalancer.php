@@ -25,13 +25,14 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
 require ("../../../../config/tools/system/loadbalancer/local.inc.php");
-include("lib/db_connect.php");
 
 $table=$config->table_lb;
 $current_page="current_page_lb";
 $lb_probing_modes = array("No probing","On disabled","Permanent");
 
 session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
