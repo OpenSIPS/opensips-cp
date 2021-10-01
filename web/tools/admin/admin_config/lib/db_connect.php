@@ -20,11 +20,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-require_once("../../../../config/tools/admin/admin_config/db.inc.php");
-require_once("../../../../config/db.inc.php");
-
         global $config;
+
+        require_once("../../../../config/tools/admin/admin_config/db.inc.php");
+        require_once("../../../../config/db.inc.php");
+
         if (isset($config->db_host_admin_config) && isset($config->db_user_admin_config) && isset($config->db_name_admin_config) ) {
                 $config->db_host = $config->db_host_admin_config;
                 $config->db_port = $config->db_port_admin_config;
