@@ -260,7 +260,7 @@ else
 
      	if ($proxy=="")
      	{
-     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config (get_value('proxy_list'))? <br><br></td></tr>');
+     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config ('.get_value('proxy_list').')? <br><br></td></tr>');
 
      		exit();
      	}
