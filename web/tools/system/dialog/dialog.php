@@ -20,12 +20,16 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
-require("../../../common/cfg_comm.php");
 
 $current_page="current_page_dialog";
+
+session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -40,7 +44,7 @@ $start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
 if ($action=="refresh") {
 	$_SESSION[$current_page]=1;
 	$start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 	// take the list from the first box only
 	$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
 }
@@ -59,7 +63,7 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id=trim($_GET['id']);
-	        $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	        $mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
         	for ($i=0;$i<count($mi_connectors);$i++){
 				mi_command( "dlg_end_dlg", array("dialog_id"=>$id),  $mi_connectors[$i], $errors);
 			}

@@ -20,14 +20,17 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
-require("../../../common/cfg_comm.php");
-include("lib/db_connect.php");
 
 $table=$config->table_rtpengine;
 $current_page="current_page_rtpengine";
+
+session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -45,7 +48,7 @@ if ($action=="change_state"){
 	$state= $_GET['state'];
 	$sock = $_GET['sock'];
 
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 	for ($i=0;$i<count($mi_connectors);$i++) {
 		if ($state=="0") {
 			mi_command("rtpengine_enable",array("url"=>$sock,"enable"=> "0") , $mi_connectors[$i], $errors);

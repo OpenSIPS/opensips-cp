@@ -80,27 +80,16 @@ function get_groupid($group)
 
 function get_groupids()
 {
-	global $config;
+  global $config;
 	$i = 0;
 	$values = array();
 	if ($config->group_id_method=="static") {
-		$filename = "../../../../config/tools/system/drouting/group_ids.txt";
-		$handle = fopen($filename, "r");
-		while (!feof($handle))
-		{
-			$buffer = fgets($handle, 4096);
-			$pos = strpos($buffer, " ");
-			$value = trim(substr($buffer, 0, $pos));
-			if ($value == "")
-				continue;
-			$descr = trim(substr($buffer, $pos, strlen($buffer)));
-			if ($descr == "")
-				$descr = $value;
-			$values[$i]['groupid'] = $value;
-			$values[$i]['description'] = $descr;
-			$i++;
-		}
-		fclose($handle);
+    $rules = get_value("group_ids_file");
+    foreach($rules as $key=>$value) {
+     $values[$i]['groupid'] = (string) $key;
+     $values[$i]['description'] = $value; 
+     $i++;
+    }
 	} else {
 		global $link;
 		$sql="select distinct groupid,description from ".$config->table_groups." order by groupid asc";

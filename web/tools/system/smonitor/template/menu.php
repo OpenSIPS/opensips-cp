@@ -19,6 +19,30 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+
+session_start(); 
+
+$current_box=$_SESSION['smon_current_box'];  
+
+if (empty($current_box))
+     $current_box="";
+
+$boxlist=array();
+$boxlist=inspect_config_mi();
+
+
+ if (!empty($_POST['box_val'])) {
+   
+     $current_box=$_POST['box_val'];
+     $_SESSION['smon_current_box']=$current_box ; 
+ }
+
+ if (!empty($_SESSION['smon_current_box']) && empty($current_box)) {
+     $current_box=$_SESSION['smon_current_box'];
+ }
+
+ $box_id=get_box_id($current_box); 
+ $_SESSION['box_id'] = $box_id;
 ?>
 
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
@@ -27,8 +51,12 @@
         <?php print "System / Statistics Monitor / ".$_SESSION['permission']; ?>
     </td>
     <td align=right style="border-bottom: 1px solid #ccc!important">
+
       <?php
-	require("lib/put_select_boxes.php");
+  	    require("lib/put_select_boxes.php");
+        $box_id=get_box_id($current_box); 
+        $_SESSION['box_id'] = $box_id;
+        display_settings_button($box_id);
       ?>
     </td>
   </tr>	

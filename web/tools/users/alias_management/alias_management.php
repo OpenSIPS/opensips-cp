@@ -20,17 +20,22 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 require("../../../../config/tools/users/alias_management/local.inc.php");
-require("../../../common/cfg_comm.php");
-include("lib/db_connect.php");
+
 foreach ($config->table_aliases as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
 
 $current_page="current_page_alias_management";
+
+session_load();
+
+include("lib/db_connect.php");
+
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";

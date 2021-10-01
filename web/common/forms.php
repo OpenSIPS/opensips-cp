@@ -67,7 +67,22 @@ function form_full_check() {
 	}
 }
 
-function validate_input(field, output, regex){
+function auto_grow(element) {
+    element.style.height = "5px";
+    element.style.height = (element.scrollHeight)+"px";
+}
+
+function validate_json(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+function validate_input(field, output, regex, validation){
+	console.log(validation);
 	val = document.getElementById(field).value;
 	if (val=="") {
 		if (document.getElementById(field).getAttribute("opt")=="y") {
@@ -79,14 +94,22 @@ function validate_input(field, output, regex){
 			document.getElementById(field).setAttribute("valid","ko");
 			ret = -1;
 		}
-	} else if (regex == null || val.match(new RegExp( regex,"g")) ) {
-		document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
-		document.getElementById(field).setAttribute("valid","ok");
-		ret = 1;
 	} else {
-		document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
-		document.getElementById(field).setAttribute("valid","ko");
-		ret = -1;
+		if (regex == null || val.match(new RegExp( regex,"g")) ) {
+			document.getElementById(output).innerHTML = '<img src="../../../images/share/ok_small.png">';
+			document.getElementById(field).setAttribute("valid","ok");
+			ret = 1;
+		} else {
+			document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
+			document.getElementById(field).setAttribute("valid","ko");
+			ret = -1;
+		}
+
+		if (validation != null && !validation(val)) {
+			document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
+			document.getElementById(field).setAttribute("valid","ko");
+			ret = -1;
+		}
 	}
 
 	form_full_check();
@@ -119,22 +142,57 @@ function validate_password(field, output, password){
 </script>
 
 <?php
-function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re) {
+function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null) {
+	if ($val!=null)
+		$value=" value='".$val."' valid='ok'";
+	else 
+		$value = "";
+
+	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.")'";
+	$pixelNo = substr_count($val, "\n") * 16 + 35;
+
+	
+	print("
+		<tr>
+			<td class='dataRecord'>
+				<b>".$title."</b>");
+	if (!is_null($tip))
+		print("			
+				<div class='tooltip'><sup>?</sup>
+				<span class='tooltiptext'>".$tip."</span>
+				</div> ");
+	print("
+			</td>
+			<td class='dataRecord' width='250'>
+				<table style='width:100%'><tr><td>
+				<textarea style='height:".$pixelNo."px'   name='".$id."'".$value." cols=30  id='".$id."' maxlength='".$mlen."'  class='dataInput'".$validate.">".$val."</textarea>
+				</td>
+				<td width='20'>
+				<div id='".$id."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
+				</td></tr></table>   
+			</td>
+		</tr>");
+}
+
+
+function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validation=null) {
 
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
 	else 
 		$value = "";
 
-	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").")'";
+	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.")'";
 
 	print("
 		<tr>
 			<td class='dataRecord'>
-				<b>".$title."</b>
-				<div class='tooltip'><sup>?</sup>
+				<b>".$title."</b>");
+	if (!is_null($tip))
+		print("	<div class='tooltip'><sup>?</sup>
 				<span class='tooltiptext'>".$tip."</span>
-				</div>
+				</div> ");
+	print("			
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
@@ -152,10 +210,12 @@ function form_generate_input_checkbox($title,$tip,$id,$val,$checked) {
 	print("
 		<tr>
 			<td class='dataRecord'>
-				<b>".$title."</b>
-				<div class='tooltip'><sup>?</sup>
+				<b>".$title."</b>");
+	if (!is_null($tip))
+		print("	<div class='tooltip'><sup>?</sup>
 				<span class='tooltiptext'>".$tip."</span>
-				</div>
+				</div> ");
+	print("
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
@@ -226,10 +286,12 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
 	print("
 		<tr>
 			<td class='dataRecord'>
-				<b>".$title."</b>
-				<div class='tooltip'><sup>?</sup>
+				<b>".$title."</b>");
+	if (!is_null($tip))
+		print("	<div class='tooltip'><sup>?</sup>
 				<span class='tooltiptext'>".$tip."</span>
-				</div>
+				</div> ");
+	print("
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>

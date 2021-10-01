@@ -29,10 +29,6 @@
     array(
           "charts.php", // page name
           "Statistics Charts" // menu name
-    ),
-    array(
-          "configuration.php", // page name
-          "Configuration" // menu name
     )
  );
 ?>

@@ -41,7 +41,8 @@ if ($data_no==0) echo ('<tr><td class="rowEven" align="center"><br>'.$no_result.
 else
 {
  $i=0;
- $sampling_time=get_config_var('sampling_time',$box_id);
+
+ $sampling_time=get_value('sampling_time', $box_id);
  for($j=0;count($resultset)>$j;$j++)
  {
   $stat_chart=false;

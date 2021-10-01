@@ -20,14 +20,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
+require_once("../../../common/cfg_comm.php");
 require("template/header.php");
 require_once("../../../../config/tools/system/cdrviewer/local.inc.php");
-include("lib/db_connect.php");
 
 global $config;
 
 $current_page="current_page_cdrviewer";
+
+session_load();
+
+include("lib/db_connect.php");
+
+$cdr_repository_path = get_value('cdr_repository_path');
+$cdr_set_field_names = get_value('cdr_set_field_names');
+$delay = get_value('delay');
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];

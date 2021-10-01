@@ -20,17 +20,21 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
-require("../../../common/cfg_comm.php");
 require("../../../../config/globals.php");
-include("lib/db_connect.php");
 
 $table=$config->table_users;
 $current_page="current_page_user_management";
 $errors='';
 $keepoverlay = false;
+$current_tool = $page_id;
+
+session_load();
+
+include("lib/db_connect.php");
 
 foreach ($config->table_aliases as $key=>$value) {
         $options[]=array("label"=>$key,"value"=>$value);
@@ -47,7 +51,7 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 # del_contact #
 ###############
 if ($action=="delcon"){
-    $mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+    $mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
     for ($i=0;$i<count($mi_connectors);$i++){
 	$params = array( "table_name"=>"location", "aor"=>$_POST["username"]."@".$_POST["domain"] , "contact"=>$_POST["contact"]);
         $mess=mi_command( "ul_rm_contact", $params, $mi_connectors[$i], $errors);

@@ -24,7 +24,9 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print "Users / User Management / ".$_SESSION['permission'];?>
+      <?php print "Users / User Management / ".$_SESSION['permission'];
+          display_settings_button();
+        ?> 
     </td>
   </tr>
   <tr>

@@ -20,16 +20,19 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require ("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
-require ("../../../common/cfg_comm.php");
 require ("../../../../config/tools/system/loadbalancer/local.inc.php");
-include("lib/db_connect.php");
 
 $table=$config->table_lb;
 $current_page="current_page_lb";
 $lb_probing_modes = array("No probing","On disabled","Permanent");
+
+session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -146,12 +149,12 @@ case "toggle":
 	$state= $_GET['state'];
 	$id = $_GET['id'];
 	if ($state=="enabled") {
-		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("lb_status", array("destination_id"=>$id,"new_status"=>"0"), $mi_connectors[$i], $errors);
 		}
 	} else if ($state=="disabled") {
-		$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+		$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("lb_status", array("destination_id"=>$id,"new_status"=>"1"), $mi_connectors[$i], $errors);
 		}

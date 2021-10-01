@@ -20,19 +20,22 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
  
+ require("../../../common/cfg_comm.php");
  require("template/header.php");
  require("lib/".$page_id.".main.js");
- include("lib/db_connect.php");
  
  require("../../../../config/tools/system/siptrace/local.inc.php");
  require("../../../common/mi_comm.php");
- require("../../../common/cfg_comm.php");
  require("../../../../config/db.inc.php");
 
  global $config;	
  $table=$config->table_trace;
  $current_page="current_page_tracer";
  
+ session_load();
+ 
+ include("lib/db_connect.php");
+
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];
       else $action="";
@@ -55,7 +58,7 @@ if ($action=="toggle") {
 	}
 
 	$command="trace";
-	$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 
 	for ($i=0;$i<count($mi_connectors);$i++){	
 		mi_command( $command, array("mode"=>$sip_trace) ,$mi_connectors[$i],$errors);
@@ -65,7 +68,7 @@ if ($action=="toggle") {
 
 
 // get the current status of the tracing engine
-$mi_connectors=get_proxys_by_assoc_id($talk_to_this_assoc_id);
+$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 $msg = mi_command( "trace", NULL, $mi_connectors[0], $errors);
 if (!is_null($msg)) {
 	$state = $msg['global'];

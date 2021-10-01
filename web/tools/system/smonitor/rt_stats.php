@@ -22,22 +22,23 @@
 
  
  
+ require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
  require("../../../../config/tools/system/smonitor/local.inc.php");
  require("../../../../config/tools/system/smonitor/db.inc.php");
  require("../../../../config/db.inc.php");
  require("lib/functions.inc.php");
- include("lib/db_connect.php");
  
  session_start(); 
- 
  require("template/header.php");
-
- $box_id=get_box_id($current_box); 
- 
  print_r(get_mi_modules($current_box));
 
- $table=$config->table_monitored;
+ $table=$config->table_monitored;	
+ session_load(); 
+ 
+ include("lib/db_connect.php");
+ 
+ $config_type = get_value('config_type');
  
  if ($_GET['var']!=null)
  {

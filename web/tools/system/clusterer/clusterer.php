@@ -20,13 +20,16 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
-include("lib/db_connect.php");
-require("../../../common/cfg_comm.php");
 
 $table=$config->table_clusterer;
 $current_page="current_page_address";
+
+session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];

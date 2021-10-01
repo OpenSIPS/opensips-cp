@@ -20,14 +20,17 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
-require("../../../common/cfg_comm.php");
-include("lib/db_connect.php");
 
 $table=$config->table_dispatcher;
 $current_page="current_page_dispatcher";
+
+session_load();
+
+include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -240,7 +243,7 @@ if ($action=="change_state") {
 	$group = $_GET['group'];
 	$address = $_GET['address'];
 
-	$mi_connectors=get_all_proxys_by_assoc_id($talk_to_this_assoc_id);
+	$mi_connectors=get_all_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
 	for ($i=0;$i<count($mi_connectors);$i++){
 	        $message=mi_command("ds_set_state", array("state"=>$desired_state,"group"=>$group,"address"=>$address),$mi_connectors[$i],$errors);
 	}

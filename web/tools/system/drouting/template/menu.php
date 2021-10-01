@@ -24,7 +24,13 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print "System / Dynamic Routing / ".$_SESSION['permission']; ?>
+        <?php print "System / Dynamic Routing / ".$_SESSION['permission'];
+        if (file_exists("params.php") && $_SESSION['permission'] == 'Admin') {
+          ?> 
+          <a  onclick="top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?tool=user_management&action=edit_tools';" href="#"   id="config_admin"></a> 
+        <?php 
+              }
+              ?>   
     </td>
   </tr>
   <tr>

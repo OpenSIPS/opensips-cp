@@ -24,13 +24,15 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print "System / MI Commands / ".$_SESSION['permission']; ?>
+        <?php print "System / MI Commands / ".$_SESSION['permission'];
+        ?>
     </td>
     <td align=right style="border-bottom: 1px solid #ccc!important">
       <?php
 	$boxlist=array();
 	$boxlist=inspect_config_mi();
 	$current_box=show_boxes($boxlist,$current_box);
+  display_settings_button();  
       ?>
     </td>
   </tr>

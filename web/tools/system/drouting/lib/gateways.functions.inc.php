@@ -27,16 +27,12 @@ function get_status($gwid){
 
 function get_types($name, $set, $width=200)
 {
- $filename = "../../../../config/tools/system/drouting/gw_types.txt";
- $handle = fopen($filename, "r");
- while (!feof($handle))
- {
-  $buffer = fgets($handle, 4096);
-  $pos = strpos($buffer, " ");
-  $values[] = trim(substr($buffer, 0, $pos));
-  $content[] = trim(substr($buffer, $pos, strlen($buffer)));
+ $gateways = get_value("gateway_types_file");
+ $values = array_keys($gateways);
+ $content = array_values($gateways);
+ for ($i =0; $i <count($values); $i++) {
+   $values[$i] = (string) $values[$i];
  }
- fclose($handle);
  echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect" style="width:'.$width.';">');
  if ($name=="search_type") echo('<option value="">- all types -</option>');
  
@@ -53,17 +49,10 @@ function get_types($name, $set, $width=200)
 
 function get_type($id)
 {
- $filename = "../../../../config/tools/system/drouting/gw_types.txt";
- $handle = fopen($filename, "r");
- while (!feof($handle))
- {
-  $buffer = fgets($handle, 4096);
-  $pos = strpos($buffer, " ");
-  $value = trim(substr($buffer, 0, $pos));
-  $content = trim(substr($buffer, $pos, strlen($buffer))); 
-  if ($value!="" && $value==$id) echo($value." - ".$content); 
+ $gateways = get_value("gateway_types_file");
+ if (array_key_exists($id, $gateways)) {
+  echo($id." - ".$gateways[$id]);
  }
- fclose($handle);
  return;
 }
 

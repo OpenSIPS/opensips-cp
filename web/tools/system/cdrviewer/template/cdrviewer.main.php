@@ -170,7 +170,6 @@ else
 	
 	<?php
 
-
 	$k = 0 ;
 	for($j=0;count($result)>$j;$j++)
 	{
@@ -182,7 +181,7 @@ else
 
 		for ($i = 0 ; $i < count($show_field)  ; $i++) {
 			$value = $result[$j][key($show_field[$i])];
-			if ($sip_call_id_field_name==key($show_field[$i])) {
+			if (get_value('sip_call_id_field_name')==key($show_field[$i])) {
 				// link the "callid" field to the tracer module
 				if ($tracer=="") {
 					if (isset($display_fields[key($show_field[$i])]))
@@ -198,7 +197,7 @@ else
 			}
 		}
 	   
-	   $this_cdr_id = $result[$j][$cdr_id_field_name];
+	   $this_cdr_id = $result[$j][get_value('cdr_id_field_name')];
 	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
 	   ?>
 	   <td class="<?=$row_style?>Img" align="center"><?php print $details_cdr?></td>

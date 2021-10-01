@@ -27,7 +27,7 @@
 // when setting the modules permissions for a certain admin.
 // This array has 2 values that will remain unchanged: read-only 
 // and read-write.
-$config->permissions = array("read-only","read-write");
+$config->permissions = array("read-only","read-write","admin");
 
 // Password can be saved in plain text mode by setting 
 // $config->admin_passwd_mode to 0 or chyphered mode, by setting it to 1
