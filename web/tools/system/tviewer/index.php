@@ -20,11 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("init.php");
+session_start();
 
+ require("init.php");
  require("../../../common/cfg_comm.php");
- session_start();
+
  get_priv($module_id);
- header("Location: tviewer.php");
+ header("Location: ../../../common/tviewer/tviewer.php?module_id=".$module_id."");
  
 ?>

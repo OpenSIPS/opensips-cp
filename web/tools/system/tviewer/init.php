@@ -3,4 +3,6 @@
 //this file is used in lib/data_loader.php and in template/header.php but also index.php
 $branch = "system";
 $module_id = "tviewer";
+$_SESSION['branch'] = "system";
+$_SESSION['module_id'] = "tviewer";
 ?>
