@@ -297,10 +297,11 @@ function session_load($box_id = null) {
 				}
 				else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 			}
+			foreach ($module_params as $module=>$params) {
+				$config->$module = get_value($module); 
+			} 
 		} 
 	}
 }
-
-
 
 ?>
