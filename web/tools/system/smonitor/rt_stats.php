@@ -34,7 +34,7 @@
  print_r(get_mi_modules($current_box));
 
  $table=$config->table_monitored;	
- session_load(); 
+ session_load($_SESSION['box_id']); 
  
  include("lib/db_connect.php");
  
