@@ -260,27 +260,47 @@ function print_back_input() {
 	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
 
-function session_load() {
-	require("".__DIR__."/../db_connect.php");
+function session_load($box_id = null) {
+	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
 	if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
 		$module_params = get_params();
-		$sql = 'select param, value from tools_config where module=? ';
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-	
-		$stm->execute( array($_SESSION['current_tool']) );
-		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-		foreach ($resultset as $elem) {
-			if ($module_params[$elem['param']]['type'] == "json") {
-				$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+		if (is_null($box_id)) {
+			$sql = 'select param, value from tools_config where module=? ';
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+		
+			$stm->execute( array($_SESSION['current_tool']) );
+			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($resultset as $elem) {
+				if ($module_params[$elem['param']]['type'] == "json") {
+					$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+				}
+				else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+			} 
+			foreach ($module_params as $module=>$params) {
+				$config->$module = get_value($module); 
+			} 
+		} else {
+			$sql = 'select param, value, box_id from tools_config where module=? ';
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+		
+			$stm->execute( array($_SESSION['current_tool']) );
+			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($resultset as $elem) {
+				if ($module_params[$elem['param']]['type'] == "json") {
+					$_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+				}
+				else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
+			}
+			foreach ($module_params as $module=>$params) {
+				$config->$module = get_value($module); 
+			} 
 		} 
-		foreach ($module_params as $module=>$params) {
-			$config->$module = get_value($module); 
-		}  
 	}
 }
 
