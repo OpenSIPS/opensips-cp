@@ -75,6 +75,11 @@
                           $sql_search.=" and gwlist regexp ?";
 			  array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
                          }
+ $search_attributes=$_SESSION['rules_search_attrs'];
+ if ($search_attrs!="") {
+         $sql_search.=" and attrs like ?";
+         array_push( $sql_vals, "%".$search_attrs."%");
+ }
  $search_description=$_SESSION['rules_search_description'];
  if ($search_description!="") {
 	 $sql_search.=" and description like ?";
