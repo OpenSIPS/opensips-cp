@@ -107,3 +107,20 @@ Now simply install the cron jobs by doing:
 	
 
 NOTE: you may need to restart the cron service at this point. 
+
+5. OpenSIPs
+-----------
+
+In order to allow OCP connect to opensips we need to have the modules mi_http and httpd loaded on the script configuration
+
+On your opensips.cfg file, before the routing logic add
+
+	#### HTTPD module
+	loadmodule "httpd.so"
+	modparam("httpd", "ip", "127.0.0.1")
+
+	#### MI HTTP module
+	loadmodule "mi_http.so"
+
+
+A reload on your script is required, take attention to the ip param of httpd module , if you are using the OCP panel from a diferent server you will need to change the ip address from localhost to the correct ip address
