@@ -64,7 +64,18 @@ if ($action=="modify")
 		$updatestring="";
 		$qvalues = array();
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
-			if (isset($_POST[$key])){
+			if ($value['type'] == "checklist") {
+				$checked = "";
+				foreach ($value['options'] as $checkkey=>$checkvalue) {
+					if (isset($_POST[$key.$checkvalue])) {
+						if ($checked != "") $checked.=$value['separator'];
+						$checked.=$_POST[$key.$checkvalue]; 
+					} 
+				}
+				$updatestring=$updatestring.$key."=?,";
+				$qvalues[] = $checked;
+			}
+			else if (isset($_POST[$key])){
 	        	$updatestring=$updatestring.$key."=?,";
 				$qvalues[] = $_POST[$key];
 			}

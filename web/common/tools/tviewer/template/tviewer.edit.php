@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once("../forms.php");
+require_once("../../forms.php");
 
 $id=$_GET[$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];
 
@@ -87,6 +87,10 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 									<?=$validate?>
 									><?php if (isset($_SESSION[$key])) echo $_SESSION[$key]; else echo $resultset[0][$key];?></textarea>
 									<?php break; ?>	
+							<?php case "checklist":
+									$selected = get_checklist($key, $resultset[0][$key], false);
+									print_checklist($key, $selected, array_values($value['options']), array_keys($value['options']));
+									break; ?>	
 							<?php } ?>
 							</td>
 							<td width='20'>

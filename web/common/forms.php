@@ -205,6 +205,34 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validati
 		</tr>");
 }
 
+function form_generate_checklist($title, $tip, $id, $mlen, $selected, $vals, $texts=null) {
+	print("
+		<tr>
+			<td class='dataRecord'>
+				<b>".$title."</b>");
+	if (!is_null($tip))
+		print("	<div class='tooltip'><sup>?</sup>
+				<span class='tooltiptext'>".$tip."</span>
+				</div> ");
+	print("	
+			</td>
+			<td width='250' >
+				<table style='width:100%' class='container'><tr><td>");
+	for($i = 0; $i < count($vals); ++$i){
+		print("
+				<input type='checkbox' name='".$id.$vals[$i]."' value='".$vals[$i]."' id='".$id.$vals[$i]."' ".((in_array($vals[$i], $selected))?"checked":"").">
+				<label for=".$id.$vals[$i]." class='dataRecord'>".($texts[$i]?$texts[$i]:$vals[$i])."</label><br>
+		");
+	}
+	print("
+				</td>
+				<td width='20'>
+				<div id='".$id."_ok'></div>
+				</td></tr></table>
+			</td>
+		</tr>");
+}
+
 function form_generate_input_checkbox($title,$tip,$id,$val,$checked) {
 
 	print("
@@ -282,7 +310,6 @@ function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$
 }
 
 function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
-
 	print("
 		<tr>
 			<td class='dataRecord'>

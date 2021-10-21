@@ -92,9 +92,9 @@ function get_custom_combo_options($combo)
 	global $module_id;
 	global $branch;
 
-        require_once("../../../config/tools/".$branch."/".$module_id."/local.inc.php");
-        require_once("../../../config/db.inc.php");
-        require_once("../../../config/tools/".$branch."/".$module_id."/db.inc.php");
+        require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+        require_once("../../../../config/db.inc.php");
+        require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
         require("db_connect.php");
 
 	$options = array();
@@ -163,5 +163,48 @@ function print_custom_combo($name, $combo, $init_val, $force_empty=FALSE)
 	echo '</select>';
 }
 
+function print_checklist($id, $selected, $vals, $texts=null)
+{
+	print (" 
+	<table style='width:100%' class='container'><tr><td>");
+for($i = 0; $i < count($vals); ++$i){
+print("
+	<input type='checkbox' name='".$id.$vals[$i]."' value='".$vals[$i]."' id='".$id.$vals[$i]."' ".((in_array($vals[$i], $selected))?"checked":"").">
+	<label for=".$id.$vals[$i]." class='dataRecord'>".($texts[$i]?$texts[$i]:$vals[$i])."</label><br> ");
+}
+print("
+	</td>
+	<td width='20'>
+	<div id='".$id."_ok'></div>
+	</td></tr></table>
+");
+}
+
+function get_checklist($key, $values, $valueNames = false) {
+	global $config;
+	global $custom_config;
+	global $module_id;
+	global $branch;
+	
+    require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+	
+	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $k => $v) {
+		if ($k == $key) {
+			$opts = $v['options'];
+			$separator = $v['separator'];
+		}
+	}
+
+	$values = explode($separator, $values);
+	
+	if (!$valueNames) return $values;
+
+	$keyvalues = array();
+	foreach ($values as $el) {
+
+		$keyvalues[] = array_search($el, $opts);
+	}
+	return $keyvalues;
+}
 
 ?>

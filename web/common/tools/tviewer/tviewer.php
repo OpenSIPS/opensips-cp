@@ -20,8 +20,9 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-
-require_once("../cfg_comm.php");
+session_start();
+require_once("../../cfg_comm.php");
+get_priv($_GET['module_id']);
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 
@@ -34,7 +35,6 @@ include("lib/db_connect.php");
 
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
-
 if (!isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table']) || $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'] == ""){
 	echo "<font color='red'>THIS MODULE HAS NOT BEEN CONFIGURED YET - PLEASE UPDATE CONFIG FILE:</font> <br> <b> config/tools/".$branch."/".$module_id."/local.inc.php<b>";
 	exit();
