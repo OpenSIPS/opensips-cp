@@ -78,7 +78,7 @@
 */
 
  // we need this for various predefined regexp to be used for validation
- require("../../../../web/common/forms.php");
+ require("../../forms.php");
 
  $custom_config[$module_id][0]['custom_table_column_defs'] = array (	
 			"id" 		=> 	array (

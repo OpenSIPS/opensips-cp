@@ -25,7 +25,7 @@
  require("init.php");
  require("../../../common/cfg_comm.php");
  
- get_priv($module_id);
- header("Location: ../../../common/tviewer/tviewer.php?module_id=".$module_id."");
+ 
+ header("Location: ../../../common/tools/tviewer/tviewer.php?module_id=".$module_id."");
  
 ?>

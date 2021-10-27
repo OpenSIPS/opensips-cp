@@ -1,8 +1,8 @@
 <?php
 $module_id = $_SESSION['module_id'];
 $branch = $_SESSION['branch'];
-require_once("../../../config/db.inc.php");
-require_once("../../../config/tools/".$branch."/".$module_id."/db.inc.php");
+require_once("../../../../config/db.inc.php");
+require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 
 global $config;
 if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_host']) && isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_user']) && isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_name']) ) {

@@ -19,7 +19,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-require_once("../forms.php");
+require_once("../../forms.php");
 
 if (isset($form_error) && $form_error!="")
 	echo '<div class="formError" ><strong>Error </strong>'.$form_error.'</div>';
@@ -74,6 +74,9 @@ else if (isset($success) && $success!="")
 									<?=$validate?>
 									></textarea>
 									<?php break; ?>	
+							<?php case "checklist": ?>
+									<?php print_checklist($key, null, array_values($value['options']), array_keys($value['options']))?>
+									<?php break; ?>		
 							<?php } ?>
 							</td>
 							<td width='20'>

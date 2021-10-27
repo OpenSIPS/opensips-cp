@@ -5,9 +5,9 @@
 	$module_id = $_SESSION['module_id'];
 	$branch = $_SESSION['branch'];
 	
-	require_once("../../../config/tools/".$branch."/".$module_id."/local.inc.php");
-	require_once("../../../config/tools/".$branch."/".$module_id."/db.inc.php");
-	require_once("../../../config/db.inc.php");
+	require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
+	require_once("../../../../config/db.inc.php");
 	
     global $config;
 	global $custom_config;

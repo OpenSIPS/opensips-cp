@@ -44,7 +44,9 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 				$combo_cache = array();
 				foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 					if ($value['type'] == "combo")
-						$combo_cache[ $key ] = get_custom_combo_options($value);
+						$combo_cache[$key] = get_custom_combo_options($value);
+					if ($value['type'] == "checklist")
+						$checklist_cache[$key] = $value['options'];
 				}
 
 				$i = 0;
@@ -59,6 +61,13 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 						</td>
 						<td class="<?=$row_style?>">
 							<?php	switch ($value['type']) {
+								case "checklist":
+									$text = "";
+									foreach (get_checklist($key, $resultset[0][$key], true) as $check_el) {
+										if ($text != "") $text .= $value['separator'];
+										$text .= $check_el;
+									}
+									break;
 								case "combo":
 									$text = isset($resultset[0][$key]) ? $combo_cache[$key][ $resultset[0][$key] ]['display'] : "";
 									break;
