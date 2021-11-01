@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- 
+ require("../../../common/cfg_comm.php");
  require("template/header.php");
  
  if (isset($_POST['action'])) $action=$_POST['action'];
