@@ -280,9 +280,6 @@ function session_load($box_id = null) {
 				}
 				else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
 			} 
-			foreach ($module_params as $module=>$params) {
-				$config->$module = get_value($module); 
-			} 
 		} else {
 			$sql = 'select param, value, box_id from tools_config where module=? ';
 			$stm = $link->prepare($sql);
@@ -298,11 +295,44 @@ function session_load($box_id = null) {
 				}
 				else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 			}
-			foreach ($module_params as $module=>$params) {
-				$config->$module = get_value($module); 
-			} 
 		} 
 	}
+	foreach ($module_params as $module=>$params) {
+		$config->$module = get_value($module); 
+	} 
+}
+
+function print_description() {
+	global $config;
+	$long = get_value('tool_description');
+	$short = substr($long, 0, 100);
+	$long = substr($long, 100, strlen($long));
+	echo (
+	 "<style>
+	  #more {display: none;}
+	  </style>
+	  <p>".$short."<span id='dots'>. . .</span><span id='more'>".$long."</span></p>
+	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
+	);
 }
 
 ?>
+<script language="JavaScript">
+
+function readMore() {
+            var dots = document.getElementById('dots');
+            var moreText = document.getElementById('more');
+            var btnText = document.getElementById('myBtn');
+          
+            if (dots.style.display === 'none') {
+              dots.style.display = 'inline';
+              btnText.innerHTML = 'Read more'; 
+              moreText.style.display = 'none';
+            } else {
+              dots.style.display = 'none';
+              btnText.innerHTML = 'Read less'; 
+              moreText.style.display = 'inline';
+            }
+          }
+
+</script>

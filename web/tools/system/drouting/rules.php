@@ -21,9 +21,9 @@
  */
 
 
+ require("../../../common/cfg_comm.php");
  require("template/header.php");
  require("lib/common.functions.inc.php");
- require("../../../common/cfg_comm.php");
 
  $table=$config->table_rules;
  $current_page="current_page_rules";
