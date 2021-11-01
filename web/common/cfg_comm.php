@@ -312,14 +312,14 @@ function print_description() {
 	  #more {display: none;}
 	  </style>
 	  <p>".$short."<span id='dots'>. . .</span><span id='more'>".$long."</span></p>
-	  <a href='#' onclick='myFunction()' id='myBtn' class='menuItemSelect'>Read more</a>"
+	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
 	);
 }
 
 ?>
 <script language="JavaScript">
 
-function myFunction() {
+function readMore() {
             var dots = document.getElementById('dots');
             var moreText = document.getElementById('more');
             var btnText = document.getElementById('myBtn');
