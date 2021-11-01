@@ -20,12 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
+ 
+ require("../../../common/cfg_comm.php");
  require("template/header.php");
  include("lib/db_connect.php");
  require("lib/common.functions.inc.php");
  require ("../../../common/mi_comm.php");
- require("../../../common/cfg_comm.php");
  $table=$config->table_carriers;
  $current_page="current_page_lists";
  
