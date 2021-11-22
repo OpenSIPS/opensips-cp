@@ -82,7 +82,6 @@ function validate_json(str) {
 }
 
 function validate_input(field, output, regex, validation){
-	console.log(validation);
 	val = document.getElementById(field).value;
 	if (val=="") {
 		if (document.getElementById(field).getAttribute("opt")=="y") {

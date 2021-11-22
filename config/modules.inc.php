@@ -23,18 +23,18 @@
 
 ### List with all the available modules - you can enable and disable module from here
 
-$config_modules 	= array (
-	"admin"                 => array (
-		"enabled"       => true,
-		"settings"      => true,
-		"name"          => "Admin",
-		"modules"       => array (
-			"list_admins"	=> array (
-				"enabled"	=> true,
-				"name"		=> "Admins"
-			),
-		),
+$config_admin_modules = array (
+	"list_admins"	=> array (
+		"enabled"	=> true,
+		"name"		=> "Access"
 	),
+	"boxes_config"    => array (
+		"enabled"   => true,
+		"name"		=> "Boxes"
+	)
+);
+
+$config_modules 	= array (
 	"users"			=> array (
 		"enabled" 	=> true,
 		"name" 		=> "Users",
