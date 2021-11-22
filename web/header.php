@@ -21,6 +21,8 @@
  */
  
  require("../config/local.inc.php");
+ require("../config/modules.inc.php");
+ session_start();
 ?>
 
 <html>
@@ -38,9 +40,21 @@
   <td align="right">
     <table>
       <tr>
-	<td align="right">
-          <a onclick="top.frames['main_body'].location.href='tools/admin/list_admins/index.php';" href="#" class="headerLogout" id="menu_admin">Users</a>
-	</td>
+	<td align="right"> 
+  <?php 
+  if ($_SESSION['user_priv'] == '*') {
+  ?>
+  <select class="custom-select" name="admin_list" id="admin_list" onChange="el=document.getElementById('admin_list'); top.frames['main_body'].location.href=el.value; el.value ='#'" >
+  <option hidden disabled selected value="#">Admin tools</option>
+  <?php
+    foreach ($config_admin_modules as $key=>$val)
+        if ($val['enabled'] == true)
+          echo("<option value='tools/admin/".$key."/index.php'>".$val['name']."</option>");
+    
+    echo("</select>");
+  }
+  ?>
+  </td>
 	<td align="right">
 	  <a href="logout.php" target="_parent" class="headerLogout" id="menu_logout">Logout</a>
         </td>

@@ -106,15 +106,13 @@ function get_priv($my_tool) {
 				exit();
 			}
 		}
-
 		return;
-
 }
 
 function get_assoc_id() {
-	require("".__DIR__."/../../config/boxes.global.inc.php");
+	require_once("".__DIR__."/../../config/boxes.global.inc.php");
 	$assoc_ids = array();
-	foreach( $systems as $el) {
+	foreach( $_SESSION['systems'] as $el) {
 		$assoc_ids[$el['name']] = $el['assoc_id'];
 	}
 	return $assoc_ids;
@@ -188,6 +186,58 @@ function get_params() {
 	$current_group = $_SESSION['current_group'];
 	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
 	return $config->$current_tool;
+}
+
+function get_boxes_params() {
+	require("boxes.params.php");
+	return $config->boxes;
+}
+
+function get_system_params() {
+	require("systems.params.php");
+	return $config->systems;
+}
+
+function load_boxes() {
+	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
+	global $config;
+	if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
+		$module_params = get_params();
+		if (is_null($box_id)) {
+			$sql = 'select param, value from tools_config where module=? ';
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+		
+			$stm->execute( array($_SESSION['current_tool']) );
+			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($resultset as $elem) {
+				if ($module_params[$elem['param']]['type'] == "json") {
+					$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+				}
+				else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+			} 
+		} else {
+			$sql = 'select param, value, box_id from tools_config where module=? ';
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+		
+			$stm->execute( array($_SESSION['current_tool']) );
+			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+			foreach ($resultset as $elem) {
+				if ($module_params[$elem['param']]['type'] == "json") {
+					$_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+				}
+				else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
+			}
+		} 
+	}
+	foreach ($module_params as $module=>$params) {
+		$config->$module = get_value($module); 
+	} 
 }
 
 function get_value($current_param, $box_id = null) {
@@ -311,7 +361,7 @@ function print_description() {
 	 "<style>
 	  #more {display: none;}
 	  </style>
-	  <p>".$short."<span id='dots'>. . .</span><span id='more'>".$long."</span></p>
+	  <p class='breadcrumb'>".$short."<span id='dots'>. . .</span><span id='more' >".$long."</span></p>
 	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
 	);
 }

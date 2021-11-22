@@ -52,9 +52,6 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 	if (!isset($menuitem_config['modules']))
 		continue;
 
-	# do not display settings modules
-	if (isset($menuitem_config['settings']) && $menuitem_config['settings'])
-		continue;
 
 	if (isset($menuitem_config['icon'])) {
 ?>
@@ -62,8 +59,8 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 <?php
 	}
 	# check to see if there is a tool within this module that is active
-	if (isset($_SESSION['user_active_tool']) &&
-			in_array($_SESSION['user_active_tool'], $menuitem_config['modules'])){
+	if (isset($_SESSION['current_tool']) &&
+			in_array($_SESSION['current_tool'], $menuitem_config['modules'])){
 ?>
 <div id="menu<?=$menuitem?>" class="menu_active" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
 <span id="<?=$menuitem?>" class="submenu" style="display: block;">
@@ -109,7 +106,7 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 <tr height="20">
 <td onClick="top.frames['main_body'].location.href='<?=$path?>';">
 <?php
-		if (isset($_SESSION['user_active_tool']) && $_SESSION['user_active_tool'] == $key) {
+		if (isset($_SESSION['current_tool']) && $_SESSION['current_tool'] == $key) {
 ?>
 <a id="<?=$key?>" class="submenuItemActive" onclick="SwitchSubMenu('<?=$key?>')" href12="<?=$path?>"><?=$val?></a>
 <?php

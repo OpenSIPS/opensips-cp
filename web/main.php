@@ -28,7 +28,7 @@ if (!isset($_SESSION['user_login'])) {
 }
 
 $main_body="blank.php";
-if (isset($_SESSION['user_active_tool'])) {
+if (isset($_SESSION['current_tool'])) {
 	foreach ($config_modules as $menuitem => $menuitem_config) {
 		if (!$menuitem_config['enabled'])
 			continue;
@@ -38,7 +38,7 @@ if (isset($_SESSION['user_active_tool'])) {
 		foreach ($menuitem_config['modules'] as $key => $value) {
 			# if the module is not available, skip it
 			if (!isset($value['enabled']) || !$value['enabled'] ||
-					$key != $_SESSION['user_active_tool'])
+					$key != $_SESSION['current_tool'])
 				continue;
 			$path = 'tools/';
 			# check if there is a path and it exists
