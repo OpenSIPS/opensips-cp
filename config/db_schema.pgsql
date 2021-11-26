@@ -47,3 +47,33 @@ CREATE TABLE monitoring_stats (
 );
 SET CLIENT_ENCODING TO 'latin1' ;
 
+-- --------------------------------------------------------
+
+-- 
+-- Table for `boxes_config`
+-- 
+
+CREATE TABLE boxes_config (
+  id integer Primary KEY DEFAULT nextval('boxes_config'),
+  mi_conn text DEFAULT NULL,
+  monit_conn text NOT NULL,
+  monit_user text DEFAULT NULL,
+  monit_pass text DEFAULT NULL,
+  monit_ssl text NOT NULL,
+  desc text NOT NULL DEFAULT '',
+  smonitcharts text DEFAULT NULL,
+  assoc_id integer DEFAULT '-1',
+);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `system_config`
+-- 
+
+CREATE TABLE system_config (
+  assoc_id integer Primary KEY DEFAULT nextval('system_config'),
+  name text DEFAULT NULL,
+  desc text DEFAULT ''
+)
+  

@@ -127,32 +127,30 @@ if ($action=="add")
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){
 		extract($_POST);
-		require("lib/".$page_id.".test.inc.php");
-		if ($form_valid) {
-			$_POST['monit_pass'] = md5($monit_pass);
-			$box_params=get_boxes_params();
-			$params_names = "";
-			$unknowns ="";
-			$values = array();
-			foreach ($box_params as $attr => $params){
-				if ($unknowns != "") $unknowns.=",";
-				if ($params_names != "") $params_names.=",";
-				$unknowns.="?";
-				$params_names.="`".$attr."`";
-				$values[] = $_POST[$attr];
-			}
-		
-			$sql = 'INSERT INTO '.$table.' ('.$params_names.') VALUES ('.$unknowns.') ';
-					$stm = $link->prepare($sql);
-			if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-			}
-			if ($stm->execute( $values) == false) {
-				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
-				$form_valid=false;
-			} 
-			unset ($_SESSION['boxes']);
+		$_POST['monit_pass'] = md5($monit_pass);
+		$box_params=get_boxes_params();
+		$params_names = "";
+		$unknowns ="";
+		$values = array();
+		foreach ($box_params as $attr => $params){
+			if ($unknowns != "") $unknowns.=",";
+			if ($params_names != "") $params_names.=",";
+			$unknowns.="?";
+			$params_names.="`".$attr."`";
+			$values[] = $_POST[$attr];
 		}
+	
+		$sql = 'INSERT INTO '.$table.' ('.$params_names.') VALUES ('.$unknowns.') ';
+				$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( $values) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
+			$form_valid=false;
+		} 
+		unset ($_SESSION['boxes']);
+	
 		if ($form_valid) {
 		  print "New Box added!";
 		  $action="add";

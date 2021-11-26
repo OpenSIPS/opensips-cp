@@ -39,3 +39,34 @@ CREATE TABLE `monitoring_stats` (
   PRIMARY KEY  (`name`,`time`,`box_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+-- 
+-- Table for `boxes_config`
+-- 
+
+CREATE TABLE `boxes_config` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `mi_conn` varchar(64) DEFAULT NULL,
+  `monit_conn` varchar(64) NOT NULL,
+  `monit_user` varchar(64) DEFAULT NULL,
+  `monit_pass` varchar(64) DEFAULT NULL,
+  `monit_ssl` varchar(5) NOT NULL,
+  `desc` varchar(64) NOT NULL DEFAULT '',
+  `smonitcharts` varchar(5) DEFAULT NULL,
+  `assoc_id` varchar(10) DEFAULT '-1',
+  PRIMARY KEY (`id`)
+);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `system_config`
+-- 
+
+CREATE TABLE `system_config` (
+  `assoc_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `desc` varchar(64) DEFAULT '',
+  PRIMARY KEY (`assoc_id`)
+)
