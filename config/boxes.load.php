@@ -20,9 +20,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require("".__DIR__."/../web/tools/admin/box_config/boxes.params.php");
+require("".__DIR__."/../web/tools/admin/boxes_config/boxes.params.php");
 require("".__DIR__."/../web/tools/admin/system_config/systems.params.php");
-require("".__DIR__."/../web/tools/admin/box_config/lib/db_connect.php");
+require("".__DIR__."/../web/tools/admin/boxes_config/lib/db_connect.php");
 
 if (!isset($boxes)) {
     if (!isset($_SESSION['boxes'])) {
@@ -42,16 +42,12 @@ if (!isset($boxes)) {
     }
     foreach ($_SESSION['boxes'] as $elem) {
         $box_id = $elem['id'];
-        $boxes[$box_id]['mi']['conn']=$elem['mi_conn'];
-        $boxes[$box_id]['monit']['conn']=$elem['monit_conn'];
-        $boxes[$box_id]['monit']['user']=$elem['monit_user'];
-        $boxes[$box_id]['monit']['pass']=$elem['monit_pass'];
-        $boxes[$box_id]['monit']['has_ssl']=$elem['monit_ssl'];
-        $boxes[$box_id]['desc']=$elem['desc'];
-        $boxes[$box_id]['assoc_id']=$elem['assoc_id'];
-        $boxes[$box_id]['smonitor']['charts']=$elem['smonitcharts'];
-        foreach ($config->boxes as $param => $attr)
+        foreach ($config->boxes as $param => $attr) {
+            if ($attr['nodes'] != null) {
+                $boxes[$box_id][$attr['nodes'][0]][$attr['nodes'][1]] = $elem[$param];
+            }
             $boxes[$box_id][$param] = $elem[$param];
+        }
     }
 }
 

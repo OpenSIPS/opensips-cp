@@ -59,34 +59,9 @@ $permissions=array();
 			if ($params['tip'])
 				$current_tip = $params[tip];
 			else $current_tip = null;
-			switch ($attr) {
-				case "mi_conn":
-					$value = $boxes[$box_id]['mi']['conn'];
-					break;
-				case "monit_conn":
-					$value = $boxes[$box_id]['monit']['conn'];
-					break;
-				case "monit_user":
-					$value = $boxes[$box_id]['monit']['user'];
-					break;				
-				case "monit_pass":
-					$value = "";
-					break;				
-				case "monit_ssl":
-					$value = $boxes[$box_id]['monit']['has_ssl'];
-					break;
-				case "desc":
-					$value = $boxes[$box_id]['desc'];
-					break;
-				case "assoc_id":
-					$value = $boxes[$box_id]['assoc_id'];
-					break;
-				case "smonitcharts":
-					$value = $boxes[$box_id]['smonitor']['charts'];
-					break;
-				default:
-					$value = $boxes[$box_id][$attr];
-			}
+			if ($params['nodes']) $value = $boxes[$box_id][$params['nodes'][0]][$params['nodes'][1]];
+			else $value = $boxes[$box_id][$attr];
+
 			switch ($params['type']) {
 				case "checklist":
 					if (isAssoc($params['options']))
