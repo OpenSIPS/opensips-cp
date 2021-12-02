@@ -2,11 +2,11 @@
 
 $config->smonitor = array(
 	"sampling_time" => array(
-		"default" => 10,
+		"default" => 1,
 		"name"    => "Sampling Time",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-		"tip"     => "Default value for the sampling interval (in seconds)"
+		"tip"     => "Default value for the sampling interval (in minutes)"
 	),
 	"chart_size" => array(
 		"default" => 100,
