@@ -241,6 +241,7 @@ function load_boxes() {
 }
 
 function get_value($current_param, $box_id = null) {
+	session_start();
 	$current_tool = $_SESSION['current_tool'];
 	$current_group = $_SESSION['current_group'];
 	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
