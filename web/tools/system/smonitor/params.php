@@ -20,7 +20,7 @@ $config->smonitor = array(
 		"name"    => "Chart History",
 		"type"    => "text",
 		"validation_regex" => "^(auto|[0-9]+)$",
-		"tip"     => "Amount of smaples (per statistics) to be kept before start deleting them"
+		"tip"     => "Amount of samples (per statistics) to be kept before start deleting them"
 	),
 	"table_monitored" => array(
 		"default" => "monitored_stats",
