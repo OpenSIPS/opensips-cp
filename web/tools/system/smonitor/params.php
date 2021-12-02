@@ -2,11 +2,11 @@
 
 $config->smonitor = array(
 	"sampling_time" => array(
-		"default" => 10,
+		"default" => 1,
 		"name"    => "Sampling Time",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-		"tip"     => "Default value for the sampling interval (in seconds)"
+		"tip"     => "Default value for the sampling interval (in minutes)"
 	),
 	"chart_size" => array(
 		"default" => 100,
@@ -20,7 +20,7 @@ $config->smonitor = array(
 		"name"    => "Chart History",
 		"type"    => "text",
 		"validation_regex" => "^(auto|[0-9]+)$",
-		"tip"     => "Amount of smaples (per statistics) to be kept before start deleting them"
+		"tip"     => "Amount of samples (per statistics) to be kept before start deleting them"
 	),
 	"table_monitored" => array(
 		"default" => "monitored_stats",
