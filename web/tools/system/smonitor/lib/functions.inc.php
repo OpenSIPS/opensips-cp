@@ -251,12 +251,10 @@ function console_log( $data ){
   } //  DE_STERS
 
 function show_graph($stat,$box_id){
-	console_log($box_id);
 	global $config;
 	global $gauge_arr;
 
 	$var = $stat;
-	$box_id = $box_id;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("../../../../config/tools/system/smonitor/local.inc.php");
