@@ -266,7 +266,7 @@ function get_value_from_tool($current_param, $current_tool, $box_id = null) {
 function get_value($current_param, $box_id = null) {
 	$current_tool = $_SESSION['current_tool'];
 
-	return get_value_from_tool($current_tool, $current_tool, $box_id);
+	return get_value_from_tool($current_param, $current_tool, $box_id);
 }
 
 function inspect_config_mi(){
