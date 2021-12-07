@@ -36,6 +36,9 @@ foreach ($boxes as $idx => $ar){
 		$time=time();
 		$sampling_time=get_config_var('sampling_time',$idx);
 
+		if (date("i", $time) % $sampling_time != 0)
+			continue;
+
 		// Get the name of the needed statistics
 		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=? ORDER BY name ASC";
 		$stm = $link->prepare($sql);
