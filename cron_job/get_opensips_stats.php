@@ -34,46 +34,47 @@ foreach ($boxes as $idx => $ar){
 
 	if ($ar['smonitor']['charts']==1){
 		$time=time();
-		$sampling_time=get_config_var('sampling_time',$idx);
+		$sampling_time=get_value_from_tool('sampling_time', 'smonitor', $idx);
 
-		// Get the name of the needed statistics
-		$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=? ORDER BY name ASC";
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		$stm->execute( array($idx) );
-		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-		// Compile the list and fetch them via MI
-		$stats_name = "";
-		for ($i=0;count($resultset)>$i;$i++){
-			$arr = explode( ":", $resultset[$i]['name'] );
-			// some stats name may contain ':', so better simply trim out the name of the module
-			$stats_name = $stats_name.($i==0?"":" ").substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
-		}
-		if ($stats_name == "")
-			return;
-
-		$stats = get_all_vars( $ar['mi']['conn'] , $stats_name );
-
-		// insert values into DB
-		preg_match_all("/(.+):: ([0-9]*)/i", $stats, $regs);
-
-		$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES (?,?,?,?)";
-		$stm = $link->prepare($sql);
-                if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-               	}
-
-		for ($i=0;count($regs[0])>$i;$i++) {
-			$var_value=$regs[2][$i];
-			if ($var_value==NULL)
-				$var_value="0";
-			if ($stm->execute( array($regs[1][$i],$var_value,$time,$idx) ) == false ) {
-				error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+		if (date('i') % $sampling_time == 0) {
+			// Get the name of the needed statistics
+			$sql = "SELECT * FROM ".$config->table_monitored." WHERE extra='' AND box_id=? ORDER BY name ASC";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
+			$stm->execute( array($idx) );
+			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
+			// Compile the list and fetch them via MI
+			$stats_name = "";
+			for ($i=0;count($resultset)>$i;$i++){
+				$arr = explode( ":", $resultset[$i]['name'] );
+				// some stats name may contain ':', so better simply trim out the name of the module
+				$stats_name = $stats_name.($i==0?"":" ").substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
+			}
+			if ($stats_name == "")
+				return;
+
+			$stats = get_all_vars( $ar['mi']['conn'] , $stats_name );
+
+			// insert values into DB
+			preg_match_all("/(.+):: ([0-9]*)/i", $stats, $regs);
+
+			$sql = "INSERT INTO ".$config->table_monitoring." (name,value,time,box_id) VALUES (?,?,?,?)";
+			$stm = $link->prepare($sql);
+					if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+					}
+
+			for ($i=0;count($regs[0])>$i;$i++) {
+				$var_value=$regs[2][$i];
+				if ($var_value==NULL)
+					$var_value="0";
+				if ($stm->execute( array($regs[1][$i],$var_value,$time,$idx) ) == false ) {
+					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+				}
+			}
 		}
 	}
 }

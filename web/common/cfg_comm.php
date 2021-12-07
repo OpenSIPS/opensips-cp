@@ -128,13 +128,17 @@ function get_group_name() {
 	return $config_modules[$_SESSION['current_group']]['name'];
 }
 
-function get_group() {
+function get_group_from_tool($tool) {
 	require("".__DIR__."/../../config/modules.inc.php");
 	foreach ($config_modules as $group=>$group_attr) {
 		foreach ($group_attr['modules'] as $module=>$module_attr) {
-			if ($module == $_SESSION['current_tool']) return $group;
+			if ($module == $tool) return $group;
 		}
 	}
+}
+
+function get_group() {
+	return get_group_from_tool($_SESSION['current_tool']);
 }
 
 function display_settings_button($box_id=null) {
@@ -240,22 +244,29 @@ function load_boxes() {
 	} 
 }
 
-function get_value($current_param, $box_id = null) {
-	session_start();
-	$current_tool = $_SESSION['current_tool'];
-	$current_group = $_SESSION['current_group'];
+function get_value_from_tool($current_param, $current_tool, $box_id = null) {
+	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
 
 	if (is_null($box_id)){
 		if (!is_null($_SESSION[config][$current_tool][$current_param])){ 
 			return $_SESSION[config][$current_tool][$current_param];}}
-	else {if (!is_null($_SESSION[config][$current_tool][$box_id][$current_param])) 
-		return $_SESSION[config][$current_tool][$box_id][$current_param];
-	}
+
+	else {
+		if (!is_null($_SESSION[config][$current_tool][$box_id][$current_param])) {
+			return $_SESSION[config][$current_tool][$box_id][$current_param];}}
+
 	foreach($config->$current_tool as $module=>$params) {
 		if ($module == $current_param) return $params['default'];
 	}
+
 	return null;
+}
+
+function get_value($current_param, $box_id = null) {
+	$current_tool = $_SESSION['current_tool'];
+
+	return get_value_from_tool($current_tool, $current_tool, $box_id);
 }
 
 function inspect_config_mi(){
@@ -310,6 +321,7 @@ function print_back_input() {
 	}
 	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
+
 
 function session_load($box_id = null) {
 	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
