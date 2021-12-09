@@ -244,11 +244,6 @@ global $config_type;
 
 }	
 
-function console_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
 
 function show_graph($stat,$box_id){
 	global $config;
@@ -261,99 +256,22 @@ function show_graph($stat,$box_id){
 	require("db_connect.php");
 	$chart_size = get_value('chart_size', $box_id)+1;
 
-	$chart[ 'chart_data' ] [0] [0] = "";
-	$chart[ 'chart_data' ] [1] [0] = $var;
-	
-	for($k=1; $k<=$chart_size; $k++)
-	{
-	$chart[ 'chart_data' ] [0] [$k] = "";
-	$chart[ 'chart_data' ] [1] [$k] = null;
-	}
-	
-	$index = $chart_size;
-	$sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? AND box_id = ? ORDER BY time DESC LIMIT ".$index;
-	$stm = $link->prepare($sql);
-	if ($stm->execute(array($var, $box_id)) === false)
-		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$row = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$_SESSION['full_stat'] = $var;
+	$_SESSION['stat'] = str_replace(':', '', $stat);
+	$_SESSION[str_replace(':', '', $stat)] = $row;
+	$_SESSION['stime'] = get_value("sampling_time", $box_id);
+	$_SESSION['csize'] = get_value("chart_size", $box_id);
+	$_SESSION['box_id_graph'] = $box_id;
+
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
 			
 	if ($normal_chart) {
-
-		for($i=0;count($row)>$i;$i++)
-		{
-			if ($row[$i]['value']!=NULL) $chart[ 'chart_data' ] [1] [$index] = $row[$i]['value'];
-			else $chart[ 'chart_data' ] [1] [$index] = 0;
-			$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$row[$i]['time']);
-			if ($index==$chart_size) {$axis_min = $row[$i]['value']; $axis_max = $row[$i]['value'];}
-			if ($row[$i]['value']>$axis_max) $axis_max = $row[$i]['value'];
-			if ($row[$i]['value']<$axis_min) $axis_min = $row[$i]['value'];
-			$index--;
-		}
-	
+		require("lib/d3js.php");
 	} else {
-		$prev_field_val =  ""; 		
-		if ($stm->execute(array($var, $box_id)) === false)
-			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
-		$prev_field_val = $result[0]['value'];
-	
-		for($i=0;count($result)>$i;$i++)
-		{
-	
-			$plot_val = $prev_field_val - $result[$i]['value']  ;
-		
-			if ($plot_val < 0 )  $plot_val = 0 ; 
-		
-			if ($plot_val!=NULL) 
-				
-				$chart[ 'chart_data' ] [1] [$index] = $plot_val;
-			else 
-		
-				$chart[ 'chart_data' ] [1] [$index] = 0;
-				
-			$chart[ 'chart_data' ] [0] [$index] = date("d/m/y\nH:i:s",$result[$i]['time']);
-		
-			if ($index==$chart_size) {
-		
-				$axis_min = $plot_val; 
-				$axis_max = $plot_val;
-		
-			}
-			if ($plot_val>$axis_max) 
-				$axis_max = $plot_val;
-		
-			if ($plot_val<$axis_min) 
-				$axis_min = $plot_val;
-		
-			$index--;
-		
-			$prev_field_val=$result[$i]['value'];
-		
-		}
 	
 	}	
-
-	include "lib/libchart/classes/libchart.php";
-
-	$graph_chart = new LineChart();
-
-	$dataSet = new XYDataSet();
-	
-	for($k=1; $k<=$chart_size; $k++)
-	{
- 		$dataSet->addPoint(new Point($chart[ 'chart_data' ] [0] [$k],$chart[ 'chart_data' ] [1] [$k] ));
-			
-	}	
-	$graph_chart->setDataSet($dataSet);
-	
-	$graph_chart->setTitle($stat);
-	$graph_chart->render("generated/".$stat.".png");
-
-
-	echo '<img alt="Line chart" src="generated/'.$stat.'.png" style="border: 1px solid gray;"/>';
 
 }
 

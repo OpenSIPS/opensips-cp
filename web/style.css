@@ -265,3 +265,56 @@ p, li, td, .menu_active, input, button {
 	content: "Placeholder still possible";
 	color: gray;
   }
+
+  
+  .gridline{
+	stroke: black;
+	stroke-opacity: .2;
+	}
+
+	.listening-rect {
+		fill: transparent;
+	  }
+
+	.tooltipd3 {
+	opacity: 0;
+	position: absolute;
+	top: -14px;
+	left: 0;
+	padding: 0.6em 1em;
+	background: #fff;
+	text-align: center;
+	line-height: 1.4em;
+	font-size: 0.9em;
+	border: 1px solid #ddd;
+	z-index: 10;
+	transition: all 0.1s ease-out;
+	pointer-events: none;
+	}
+	
+	.tooltipd3:before {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	width: 12px;
+	height: 12px;
+	background: white;
+	border: 1px solid #ddd;
+	border-top-color: transparent;
+	border-left-color: transparent;
+	transform: translate(-50%, 50%) rotate(45deg);
+	transform-origin: center center;
+	z-index: 10;
+	}
+	
+	.tooltipd3-date {
+	margin-bottom: 0.2em;
+	font-weight: 600;
+	font-size: 1.1em;
+	line-height: 1.4em;
+	}
+	
+	.wrapper {
+	position: relative;
+	}
