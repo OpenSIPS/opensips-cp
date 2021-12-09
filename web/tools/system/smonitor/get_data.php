@@ -31,7 +31,7 @@
     foreach ($row as $r){
         if ($index > 0) {
             $d = date("U", substr($r['time'], 0, 10));
-            if ((intval($d) - $last)*60 >$sampling_time * 1.5) $r['value'] = null;
+            if (($last - intval($d)) / 60 >$sampling_time * 1.5) $r['value'] = null;
             $index--;
             if ($r['value'] == null) $r['value'] = "f";
             $vals.="\n".date("Y-m-d", substr($r['time'], 0, 10));
