@@ -24,7 +24,6 @@ require_once("../../../../config/session.inc.php");
 require_once("../../../../config/tools/system/monit/local.inc.php");
 require("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
-include("lib/db_connect.php");
 
 session_start();
 get_priv("monit");
@@ -48,34 +47,12 @@ if (!empty($_SESSION['monit_current_box']) && empty($current_box)) {
 }
 
 
-$current_box=show_boxes($boxenlist,$current_box);
+$current_box=show_boxes($boxenlist,$current_box);	
 $_SESSION['monit_current_box']=$current_box;
 
 $foo=get_params_for_this_box($current_box);
 
-display_settings_button();
 show_button();
-
-if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value from tools_config where module=? ';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-	} 
-        foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
-	}  
-	$refresh_timeout = get_value('refresh_timeout');
-}
 
 if ($source = get_monit_page($foo['host'],$foo['port'],$foo['user'],$foo['pass'],"/","",$foo['has_ssl'])) {
 	$page=(substr($source,strpos($source,"\r\n\r\n")+4)) ;
