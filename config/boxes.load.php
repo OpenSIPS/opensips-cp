@@ -33,21 +33,25 @@ if (!isset($boxes)) {
         }
         $stm->execute( array() );
         $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+        $i = 0;
         foreach ($resultset as $elem) {
             $box_id = $elem['id'];
-            $_SESSION['boxes'][$box_id]['id'] = $box_id;
+            $_SESSION['boxes'][$i]['id'] = $box_id;
             foreach ($config->boxes as $param => $attr)
-                $_SESSION['boxes'][$box_id][$param] = $elem[$param];
+                $_SESSION['boxes'][$i][$param] = $elem[$param];
+            $i++;
         }
     }
+    $i = 0;
     foreach ($_SESSION['boxes'] as $elem) {
         $box_id = $elem['id'];
         foreach ($config->boxes as $param => $attr) {
             if ($attr['nodes'] != null) {
-                $boxes[$box_id][$attr['nodes'][0]][$attr['nodes'][1]] = $elem[$param];
+                $boxes[$i][$attr['nodes'][0]][$attr['nodes'][1]] = $elem[$param];
             }
-            $boxes[$box_id][$param] = $elem[$param];
+            $boxes[$i][$param] = $elem[$param];
         }
+        $i++;
     }
 }
 
