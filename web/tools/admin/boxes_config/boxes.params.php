@@ -24,7 +24,6 @@ $config->boxes = array(
     "mi_conn" => array(
 		"default" => "json:127.0.0.1:8888/mi",
 		"name"    => "MI connector",
-		"tip"    => "Placeholder",
 		"nodes"  => array("mi", "conn"),
 		"type"    => "text",
 		'show_in_edit_form' => true,
@@ -37,7 +36,7 @@ $config->boxes = array(
 		'show_in_edit_form' => true,
     ),
 	"monit_user" => array(
-		"default" => "callid",
+		"default" => "",
 		"name"    => "Monit username",
 		"nodes"  => array("monit", "user"),
 		"type"    => "text",
@@ -62,14 +61,14 @@ $config->boxes = array(
 		"validation_regex" => null,
     ),
 	"desc" => array(
-		"default" => "/var/lib/opensips_cdrs",
+		"default" => "",
 		"name"    => "Box description",
 		"type"    => "text",
 		"validation_regex" => null,
 		'show_in_edit_form' => true,
     ),
 	"smonitcharts" => array(
-		"default" => "/var/lib/opensips_cdrs",
+		"default" => '1',
 		"name"    => "Smonitor charting",
 		"nodes"  => array("smonitor", "charts"),
         "options" => array('Off'=>'0', 'On'=>'1'),
@@ -78,7 +77,7 @@ $config->boxes = array(
 		"validation_regex" => null,
     ),
 	"assoc_id" => array(
-		"default" => "/var/lib/opensips_cdrs",
+		"default" => "",
 		"name"    => "System name",
 		"options" => get_assoc_id(),
 		'show_in_edit_form' => true,
