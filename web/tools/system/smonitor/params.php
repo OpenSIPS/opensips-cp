@@ -13,14 +13,14 @@ $config->smonitor = array(
 		"name"    => "Chart Size",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-		"tip"     => "The horizontal size of the charts (as number of samples/dots)"
+		"tip"     => "The horizontal size of the charts (in hours)"
 	),
 	"chart_history" => array(
 		"default" => 'auto',
 		"name"    => "Chart History",
 		"type"    => "text",
 		"validation_regex" => "^(auto|[0-9]+)$",
-		"tip"     => "Amount of samples (per statistics) to be kept before start deleting them"
+		"tip"     => "Amount of time (in hours) to keep samples before deleting them"
 	),
 	"table_monitored" => array(
 		"default" => "monitored_stats",

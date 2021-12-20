@@ -33,12 +33,13 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     if (d.value == "f") {d.value = null;
       d.date = null;
     }
-    return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value}
+    return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value}
   },
 
   //  use this dataset:
   function(data) { 
     var refresh = 1;
+    var zoomTrigger = false;
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 30, left: 50},
       width = 660 - margin.left - margin.right,
@@ -90,7 +91,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     const closestXValue = xAccessor(closestDataPoint);
     const closestYValue = yAccessor(closestDataPoint);
 
-    const formatDate = d3.timeFormat("%B %A %-d, %Y");
+    const formatDate = d3.timeFormat("%c");
     tooltip.select("#date").text(formatDate(closestXValue));
 
     const formatYvalue = (d) => d;
@@ -129,7 +130,8 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
       .range([ height, 0 ]);
     var yAxis = svg.append("g")
      .attr("class", "yAxis")
-      .call(d3.axisLeft(y));
+      .call(d3.axisLeft(y)
+      .tickFormat(d3.format(".2s")));
 
       d3.selectAll("g.yAxis g.tick") 
         .append("line") 
@@ -177,7 +179,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
-        .curve(d3.curveBasis)
+        .curve(d3.curveMonotoneX)
         .x(function(d) { return x(d.date) }) 
         .y(function(d) { return y(d.value) })
         .defined(function (d) { if (d.value != null) return true; else return false; })
@@ -216,7 +218,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
           .transition()
           .duration(1000)
           .attr("d", d3.line()
-            .curve(d3.curveBasis)
+            .curve(d3.curveMonotoneX)
             .x(function(d) { return x(d.date) })
             .y(function(d) { return y(d.value) })
             .defined(function (d) { if (d.value != null) return true; else return false; })
@@ -237,6 +239,10 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     // If user double click, reinitialize the chart
     svg.on("dblclick",function(){
       refresh = 1;
+      if (zoomTrigger == false) {
+        zoomTrigger = true;
+        updateGr();
+      }
       x.domain(d3.extent(data, function(d) { return d.date; }))
       xScale.domain(d3.extent(data, function(d) { return d.date; }))
       xAxis.transition().call(d3.axisBottom(x).ticks(5))
@@ -244,7 +250,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
         .select('.line')
         .transition()
         .attr("d", d3.line()
-          .curve(d3.curveBasis)
+          .curve(d3.curveMonotoneX)
           .x(function(d) { return x(d.date) })
           .y(function(d) { return y(d.value) })
           .defined(function (d) { if (d.value != null) return true; else return false; })
@@ -279,42 +285,49 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3),
+        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger),
 
         // When reading the csv, I must format variables:
         function(d){
           if (d.value == "f") {d.value = null;
             d.date = null;
           }
-          return { date : d3.timeParse("%Y-%m-%d")(d.date), value : d.value}
+          return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value}
         },
 
         // Now I can use this dataset:
         function(data2) { 
           data = data2;
           x.domain(d3.extent(data2, function(d) { return d.date; }))
-        xScale.domain(d3.extent(data2, function(d) { return d.date; }))
-        xAxis.transition().call(d3.axisBottom(x).ticks(5))
-        line
-          .select('.line')
-          .datum(data2)
+          xScale.domain(d3.extent(data2, function(d) { return d.date; }))
+          xAxis.transition().call(d3.axisBottom(x).ticks(5))
+          y
+          .domain([0, d3.max(data, function(d) { return +d.value; })])
+          .range([ height, 0 ]);
+          yAxis 
           .transition()
-          .attr("d", d3.line()
-            .curve(d3.curveBasis)
-            .x(function(d) { return x(d.date) })
-            .y(function(d) { return y(d.value) })
-            .defined(function (d) { if (d.value != null) return true; else return false; })
-        )
-              
-          d3.selectAll("g.xAxis line.gridline").remove();
+            .call(d3.axisLeft(y)
+            .tickFormat(d3.format(".2s")));
+          line
+            .select('.line')
+            .datum(data2)
+            .transition()
+            .attr("d", d3.line()
+              .curve(d3.curveMonotoneX)
+              .x(function(d) { return x(d.date) })
+              .y(function(d) { return y(d.value) })
+              .defined(function (d) { if (d.value != null) return true; else return false; })
+          )
+                
+            d3.selectAll("g.xAxis line.gridline").remove();
 
-          d3.selectAll("g.xAxis g.tick") 
-          .append("line") 
-              .attr("class", "gridline")
-              .attr("x1", 0) 
-              .attr("y1", -height)
-              .attr("x2", 0)
-              .attr("y2", 0);
+            d3.selectAll("g.xAxis g.tick") 
+            .append("line") 
+                .attr("class", "gridline")
+                .attr("x1", 0) 
+                .attr("y1", -height)
+                .attr("x2", 0)
+                .attr("y2", 0);
         
         })
     }
