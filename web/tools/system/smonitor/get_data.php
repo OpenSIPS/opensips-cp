@@ -15,19 +15,19 @@
 
     $stat = $_GET['stat'];
     $fstat = $_GET['full_stat'];
-    $zoomOut = $_GET['trigger'];
+    $zoomOut = $_GET['zoomOut'];
     $box = $_GET['box'];
-    $sampling_time = $_SESSION['stime'];
+    $sampling_time = $_SESSION['sampling_time'];
     $vals ="";
     $vals.="date,value";
-    $csize = $_SESSION['csize'];
+    $chart_size = $_SESSION['chart_size'];
     if ($zoomOut == 'true') {
-        $csize = $_SESSION['hsize'];
+        $chart_size = $_SESSION['chart_history'];
     }
 
     $sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";
     $stm = $link->prepare($sql);
-	$stm->execute(array($fstat, $box, time() - $csize * 3600));
+	$stm->execute(array($fstat, $box, time() - $chart_size * 3600));
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
     $last = $row[0]['time'];
     $sum = 0;

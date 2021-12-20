@@ -285,7 +285,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&trigger=").concat(zoomTrigger),
+        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger),
 
         // When reading the csv, I must format variables:
         function(d){

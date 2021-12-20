@@ -173,9 +173,9 @@ function clean_stats_table(){
 	for($box_id=0 ; $box_id<sizeof($boxes) ; $box_id++ ) {
 		if ($boxes[$box_id]['smonitor']['charts']==1){
 			$chart_history=get_value('chart_history', $box_id);
-			if ($chart_history=="auto") $chart_history=3;
+			if ($chart_history=="auto") $chart_history=3*24;
 			$last_date=$current_time=time();
-			$last_date -= 24*60*60*($chart_history-1);
+			$last_date -= 60*60*($chart_history-24);
 			$last_date -= 60*60*date("H",$current_time);
 			$last_date -= 60*date("i",$current_time);
 			$last_date -= date("s",$current_time);
@@ -254,15 +254,14 @@ function show_graph($stat,$box_id){
 	require("../../../../config/db.inc.php");
 	require("../../../../config/tools/system/smonitor/local.inc.php");
 	require("db_connect.php");
-	$chart_size = get_value('chart_size', $box_id)+1;
 
 	$_SESSION['full_stat'] = $var;
 	$_SESSION['stat'] = str_replace(':', '', $stat);
 	$_SESSION[str_replace(':', '', $stat)] = $row;
-	$_SESSION['stime'] = get_value("sampling_time", $box_id);
-	$_SESSION['csize'] = get_value("chart_size", $box_id);
+	$_SESSION['sampling_time'] = get_value("sampling_time", $box_id);
+	$_SESSION['chart_size'] = get_value("chart_size", $box_id);
 	$_SESSION['box_id_graph'] = $box_id;
-	$_SESSION['hsize'] = get_value("chart_history", $box_id);
+	$_SESSION['chart_history'] = get_value("chart_history", $box_id);
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
