@@ -15,32 +15,32 @@
 
     $stat = $_GET['stat'];
     $fstat = $_GET['full_stat'];
+    $zoomOut = $_GET['trigger'];
     $box = $_GET['box'];
-	$row = $_SESSION[$stat];
     $sampling_time = $_SESSION['stime'];
     $vals ="";
     $vals.="date,value";
-    $index = $_SESSION['csize'];
+    $csize = $_SESSION['csize'];
+    if ($zoomOut == 'true') {
+        $csize = $_SESSION['hsize'];
+    }
 
-    $sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? AND box_id = ? ORDER BY time DESC LIMIT ".$index;
+    $sql = "SELECT * FROM ".$config->table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";
     $stm = $link->prepare($sql);
-	$stm->execute(array($fstat, $box));
+	$stm->execute(array($fstat, $box, time() - $csize * 3600));
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
     $last = $row[0]['time'];
     $sum = 0;
     foreach ($row as $r){
-        if ($index > 0) {
-            $d = date("U", substr($r['time'], 0, 10));
-            if (($last - intval($d)) / 60 >$sampling_time * 1.5) {
-                $vals.="\n".date("Y-m-d", substr($r['time'], 0, 10));
-                $vals.=",f";
-            }
-            $index--;
-            if ($r['value'] == null) $r['value'] = "f";
-            $vals.="\n".date("Y-m-d", substr($r['time'], 0, 10));
-            $vals.=",".$r['value'];
-            $last = intval($d);
+        $d = date("U", substr($r['time'], 0, 10));
+        if (($last - intval($d)) / 60 > $sampling_time * 1.5) {
+            $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
+            $vals.=",f";
         }
+        if ($r['value'] == null) $r['value'] = "f";
+        $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
+        $vals.=",".$r['value'];
+        $last = intval($d);
     }
     echo($vals);
     ?>

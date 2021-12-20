@@ -262,7 +262,7 @@ function show_graph($stat,$box_id){
 	$_SESSION['stime'] = get_value("sampling_time", $box_id);
 	$_SESSION['csize'] = get_value("chart_size", $box_id);
 	$_SESSION['box_id_graph'] = $box_id;
-
+	$_SESSION['hsize'] = get_value("chart_history", $box_id);
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
