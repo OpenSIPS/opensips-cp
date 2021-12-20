@@ -31,6 +31,8 @@
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
     $last = $row[0]['time'];
     $sum = 0;
+    $vals.="\n".date("Y-m-d-H-i-s", time());
+    $vals.=",f";
     foreach ($row as $r){
         $d = date("U", substr($r['time'], 0, 10));
         if (($last - intval($d)) / 60 > $sampling_time * 1.5) {
@@ -42,5 +44,7 @@
         $vals.=",".$r['value'];
         $last = intval($d);
     }
+    $vals.="\n".date("Y-m-d-H-i-s", time() - $chart_size * 3600);
+    $vals.=",f";
     echo($vals);
     ?>

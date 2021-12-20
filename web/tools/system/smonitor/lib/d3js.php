@@ -30,8 +30,8 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 
   // When reading the csv, format variables:
   function(d){
-    if (d.value == "f") {d.value = null;
-      d.date = null;
+    if (d.value == "f") {
+      d.value = null;
     }
     return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value}
   },
@@ -77,7 +77,11 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
       const mousePosition = d3.mouse(this);
       const hoveredDate = xScale.invert(mousePosition[0]);
 
-      const xAccessor = (d) => d.date;
+      const xAccessor = (d) => {
+        if (d.value == null)
+          return null;
+        else return d.date;
+      }
       const yAccessor = (d) => +d.value;
 
       const getDistanceFromHoveredDate = (d) =>
@@ -289,8 +293,8 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 
         // When reading the csv, I must format variables:
         function(d){
-          if (d.value == "f") {d.value = null;
-            d.date = null;
+          if (d.value == "f") {
+            d.value = null;
           }
           return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value}
         },
