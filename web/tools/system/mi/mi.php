@@ -40,7 +40,7 @@ require("template/header.php");
 get_priv("mi");
 
 /*
-if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
+if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
 	$module_params = get_params();
 	$sql = 'select param, value, box_id from tools_config where module=? ';
 	$stm = $link->prepare($sql);
@@ -52,9 +52,9 @@ if (!isset($_SESSION[config][$_SESSION['current_tool']])) {
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	foreach ($resultset as $elem) {
 		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+			$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
 		}
-		else $_SESSION[config][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
+		else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 	} 
         foreach ($module_params as $module=>$params) {
 		$config->$module = get_value($module); 
