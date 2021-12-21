@@ -70,7 +70,7 @@ if ($action=="modify_params")
 						}
 					}
 		}
-		unset($_SESSION[config][$current_tool]);
+		unset($_SESSION['config'][$current_tool]);
 	}   else {
    		$errors= "User with Read-Only Rights";
    	} 
