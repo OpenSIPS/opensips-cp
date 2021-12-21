@@ -24,6 +24,7 @@
 chdir("web/tools/system/smonitor");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/smonitor/local.inc.php");
+require("../../../../web/common/cfg_comm.php");
 require("lib/functions.inc.php");
 require("../../../../web/common/mi_comm.php");
 require("../../../../config/boxes.global.inc.php");
