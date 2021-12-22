@@ -213,8 +213,8 @@ function load_boxes() {
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-		
-			$stm->execute( array($_SESSION['current_tool']) );
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
@@ -229,7 +229,8 @@ function load_boxes() {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			$stm->execute( array($_SESSION['current_tool']) );
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
@@ -335,7 +336,8 @@ function session_load($box_id = null) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			$stm->execute( array($_SESSION['current_tool']) );
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
@@ -350,7 +352,8 @@ function session_load($box_id = null) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			$stm->execute( array($_SESSION['current_tool']) );
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
