@@ -214,7 +214,7 @@ function load_boxes() {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
-				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
@@ -230,7 +230,7 @@ function load_boxes() {
 			}
 		
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
-				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
@@ -337,7 +337,7 @@ function session_load($box_id = null) {
 			}
 		
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
-				echo('<tr><td align="center"><div class="formError"> Eroarea este '.print_r($stm->errorInfo(), true).'</div></td></tr>');
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
@@ -353,7 +353,7 @@ function session_load($box_id = null) {
 			}
 		
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
-				echo('<tr><td align="center"><div class="formError"> Eroarea este '.print_r($stm->errorInfo(), true).'</div></td></tr>');
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 			foreach ($resultset as $elem) {
 				if ($module_params[$elem['param']]['type'] == "json") {
