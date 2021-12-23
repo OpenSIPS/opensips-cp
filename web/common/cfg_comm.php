@@ -215,13 +215,15 @@ function load_boxes() {
 			}
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
 				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-			} 
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+				} 
+			}
 		} else {
 			$sql = 'select param, value, box_id from tools_config where module=? ';
 			$stm = $link->prepare($sql);
@@ -231,12 +233,14 @@ function load_boxes() {
 		
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
 				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 			}
 		} 
 	}
@@ -338,12 +342,14 @@ function session_load($box_id = null) {
 		
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
 				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
 				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
 			} 
 		} else {
 			$sql = 'select param, value, box_id from tools_config where module=? ';
@@ -354,12 +360,14 @@ function session_load($box_id = null) {
 		
 			if ($stm->execute( array($_SESSION['current_tool'])) == false)
 				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 			}
 		} 
 	}
