@@ -265,12 +265,12 @@ function show_graph($stat,$box_id){
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
-			
+	$_SESSION['normal'] = 0;
 	if ($normal_chart) {
-		require("lib/d3js.php");
-	} else {
+		$_SESSION['normal'] = 1;
+	}
 	
-	}	
+	require("lib/d3js.php");
 
 }
 
