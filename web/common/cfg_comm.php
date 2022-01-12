@@ -213,15 +213,17 @@ function load_boxes() {
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-		
-			$stm->execute( array($_SESSION['current_tool']) );
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-			} 
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+				} 
+			}
 		} else {
 			$sql = 'select param, value, box_id from tools_config where module=? ';
 			$stm = $link->prepare($sql);
@@ -229,13 +231,16 @@ function load_boxes() {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			$stm->execute( array($_SESSION['current_tool']) );
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 			}
 		} 
 	}
@@ -335,13 +340,16 @@ function session_load($box_id = null) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			$stm->execute( array($_SESSION['current_tool']) );
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
 				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
 			} 
 		} else {
 			$sql = 'select param, value, box_id from tools_config where module=? ';
@@ -350,13 +358,16 @@ function session_load($box_id = null) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			$stm->execute( array($_SESSION['current_tool']) );
-			$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-			foreach ($resultset as $elem) {
-				if ($module_params[$elem['param']]['type'] == "json") {
-					$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+			else {
+				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+				foreach ($resultset as $elem) {
+					if ($module_params[$elem['param']]['type'] == "json") {
+						$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+					}
+					else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 				}
-				else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 			}
 		} 
 	}

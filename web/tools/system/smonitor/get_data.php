@@ -17,6 +17,7 @@
     $fstat = $_GET['full_stat'];
     $zoomOut = $_GET['zoomOut'];
     $box = $_GET['box'];
+    $normal = $_GET['normal'];
     $sampling_time = $_SESSION['sampling_time'];
     $vals ="";
     $vals.="date,value";
@@ -29,6 +30,15 @@
     $stm = $link->prepare($sql);
 	$stm->execute(array($fstat, $box, time() - $chart_size * 3600));
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
+    if ($normal == 0) {
+        $prev = $row[0]['value'];
+        for ($i = 0; $i < count($row); $i++) {
+            $plot_value = $prev - $row[$i]['value'];
+            if ($plot_value <= 0) $plot_value = 0;
+            $prev = $row[$i]['value'];
+            $row[$i]['value'] = $plot_value;
+        }
+    }
     $last = $row[0]['time'];
     $sum = 0;
     $vals.="\n".date("Y-m-d-H-i-s", time());

@@ -20,13 +20,13 @@
 
 <script>
 
-display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ");
+display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>");
 
-function display_graph(arg1, arg2, arg3) {
+function display_graph(arg1, arg2, arg3, arg4) {
 
 //Read the data
 
-d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3),
+d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
 
   // When reading the csv, format variables:
   function(d){
@@ -37,7 +37,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
   },
 
   //  use this dataset:
-  function(data) { 
+  function(data) {
     var refresh = 1;
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
@@ -289,7 +289,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger),
+        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
 
         // When reading the csv, I must format variables:
         function(d){
