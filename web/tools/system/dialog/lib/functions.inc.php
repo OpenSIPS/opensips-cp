@@ -20,7 +20,7 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 function print_profile() {
-require ("../../../../config/tools/system/dialog/local.inc.php");
+	session_load();
 	global $config;
 
 	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));

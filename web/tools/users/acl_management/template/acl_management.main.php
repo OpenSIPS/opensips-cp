@@ -108,7 +108,7 @@ echo('<th class="listTitle">Edit</th>
 
 <?php
         require("../../../../config/db.inc.php");
-        require("../../../../config/tools/users/acl_management/local.inc.php");
+        session_load();
 
 	$sql_command="from ".$table.$sql_search;
 	$stm = $link->prepare("select count(*) ".$sql_command);

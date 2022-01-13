@@ -24,9 +24,9 @@
 <?php
 
 require_once("../../../../config/session.inc.php");
-require("../../../../config/tools/system/loadbalancer/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
+session_load();
 
 $command="lb_reload";
 

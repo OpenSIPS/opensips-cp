@@ -22,7 +22,6 @@
 
  require("../../../../config/tools/system/rtpproxy/db.inc.php");
  require("../../../../config/db.inc.php");
- require("../../../../config/tools/system/rtpproxy/local.inc.php");
  require("../../../common/cfg_comm.php");
 
  session_start();

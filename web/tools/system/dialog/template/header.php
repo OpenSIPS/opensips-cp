@@ -20,15 +20,17 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+
  require_once("../../../../config/session.inc.php");
- require_once("../../../../config/tools/system/dialog/local.inc.php");
  require_once("lib/functions.inc.php");
  require_once("../../../../config/tools/system/dialog/menu.inc.php");
+ 
  $page_name = basename($_SERVER['SCRIPT_NAME']);
  $page_id = substr($page_name, 0, strlen($page_name) - 4);
  $_SESSION['current_tool'] = 'dialog';
  $_SESSION['current_group'] = get_group();
  $no_result = "No Data Found.";
+ session_load();
 ?>
 
 <html>

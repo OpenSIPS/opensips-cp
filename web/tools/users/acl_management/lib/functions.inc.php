@@ -70,7 +70,7 @@ function print_domains($type,$value)
 }
 
 function print_groups($type,$value,$has_any){
-	require("../../../../config/tools/users/acl_management/local.inc.php");
+	session_load();
 	?>
 	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
 	<?php

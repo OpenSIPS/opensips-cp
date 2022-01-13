@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
- require("../../../../config/tools/system/smonitor/local.inc.php"); 
  require("../../../../config/tools/system/smonitor/db.inc.php"); 
  require("../../../../config/db.inc.php"); 
  require("lib/functions.inc.php");
@@ -29,6 +29,7 @@
  session_start();  
  require("template/header.php");
  include("lib/db_connect.php"); 
+ session_load($_SESSION['box_id']);
  
  $box_id=get_box_id($current_box); 
  $table=$config->table_monitoring;

@@ -24,7 +24,6 @@
  
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
- require("../../../../config/tools/system/smonitor/local.inc.php");
  require("../../../../config/tools/system/smonitor/db.inc.php");
  require("../../../../config/db.inc.php");
  require("lib/functions.inc.php");
