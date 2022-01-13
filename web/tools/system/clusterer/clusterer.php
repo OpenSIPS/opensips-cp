@@ -74,10 +74,14 @@ case "do_add":
 	$cln_description=$_POST['description'];
 
 	$sql = "INSERT INTO ".$table." (cluster_id, node_id, url, no_ping_retries, sip_addr, flags, description) VALUES 
-		(".$cln_cid.",".$cln_sid.",'".$cln_url."','".$cln_ping."','".$cln_sipaddr."','".$cln_flags."','".$cln_description."')";
-	$result = $link->exec($sql);
+		(?,?,?,?,?,?,?)";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$result = $stm->execute(array($cln_cid, $cln_sid, $cln_url, $cln_ping, $cln_sipaddr, $cln_flags, $cln_description));
         if ($result === false) {
-		$errors = "Add/Insert to DB failed with: ".print_r($link->errorInfo(), true);
+		$errors = "Add/Insert to DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="The new cluster node was added";
 	}
@@ -115,11 +119,15 @@ case "modify":
 	$cle_flags=$_POST['flags'];
 	$cle_description=$_POST['description'];
 
-	$sql = "UPDATE ".$table." set cluster_id=".$cle_cid.", node_id=".$cle_sid.", url='".$cle_url."', no_ping_retries='".$cle_ping.
-		"', sip_addr='".$cle_sipaddr."', flags='".$cle_flags."', description='".$cle_description."' where id=".$cle_id;
-	$result = $link->exec($sql);
+	$sql = "UPDATE ".$table." set cluster_id=?, node_id=?, url=?, no_ping_retries=?, 
+	sip_addr=?, flags=?, description=? where id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$result = $stm->execute(array($cle_cid, $cle_sid, $cle_url, $cle_ping, $cle_sipaddr, $cle_flags, $cle_description, $cle_id));
 	if ($result === false) {
-		$errors = "Update to DB failed with: ".print_r($link->errorInfo(), true);
+		$errors = "Update to DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="Cluster Node has been updated";
 	}
@@ -160,10 +168,14 @@ case "change_state":
 	$id = $_GET['id'];
 	$address = $_GET['address'];
 
-	$sql = "UPDATE ".$table." set state='".$desired_state."' where id=".$id;
-	$result = $link->exec($sql);
+	$sql = "UPDATE ".$table." set state=? where id=?";
+	$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+	$result = $stm->execute(array($desired_state, $id));
 	if ($result === false) {
-		$errors = "Update to DB failed with: ".print_r($link->errorInfo(), true);
+		$errors = "Update to DB failed with: ".print_r($stm->errorInfo(), true);
 	} else {
 		$info="Cluster Node has been updated";
 	}
