@@ -32,12 +32,13 @@
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
     if ($normal == 0) {
         $prev = $row[0]['value'];
-        for ($i = 0; $i < count($row); $i++) {
+        for ($i = 1; $i < count($row); $i++) {
             $plot_value = $prev - $row[$i]['value'];
             if ($plot_value <= 0) $plot_value = 0;
             $prev = $row[$i]['value'];
-            $row[$i]['value'] = $plot_value;
+            $row[$i - 1]['value'] = $plot_value;
         }
+        array_pop($row);
     }
     $last = $row[0]['time'];
     $sum = 0;
@@ -49,7 +50,7 @@
             $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
             $vals.=",f";
         }
-        if ($r['value'] == null) $r['value'] = "f";
+        if (is_null($r['value'])) $r['value'] = "f";
         $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
         $vals.=",".$r['value'];
         $last = intval($d);
