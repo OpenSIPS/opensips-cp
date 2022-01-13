@@ -127,7 +127,6 @@ if ($action=="add")
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){
 		extract($_POST);
-		$_POST['monit_pass'] = md5($monit_pass);
 		$box_params=get_boxes_params();
 		$params_names = "";
 		$unknowns ="";
