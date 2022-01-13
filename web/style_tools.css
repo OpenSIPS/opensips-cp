@@ -179,6 +179,14 @@ a.menuItemSelect:hover {
 	color: #1cbe9a;
 }
 
+.sectionTitle {
+	text-align: left;
+	font-weight: bold;
+	font-size: 17px;
+	padding-bottom: 17px;
+	padding-left: 10px;
+	color: #1cbe9a;
+}
 
 .listTitle {
 	text-align: left;
