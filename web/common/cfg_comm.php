@@ -331,8 +331,8 @@ function print_back_input() {
 function session_load($box_id = null) {
 	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
 	global $config;
+	$module_params = get_params();
 	if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
-		$module_params = get_params();
 		if (is_null($box_id)) {
 			$sql = 'select param, value from tools_config where module=? ';
 			$stm = $link->prepare($sql);
