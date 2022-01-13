@@ -20,7 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../../config/tools/system/dialog/local.inc.php");
  include("../../../common/cfg_comm.php");
  require("lib/functions.inc.php");
  session_start();

@@ -252,7 +252,6 @@ function show_graph($stat,$box_id){
 	$var = $stat;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
-	require("../../../../config/tools/system/smonitor/local.inc.php");
 	require("db_connect.php");
 
 	$_SESSION['full_stat'] = $var;
@@ -262,6 +261,7 @@ function show_graph($stat,$box_id){
 	$_SESSION['chart_size'] = get_value("chart_size", $box_id);
 	$_SESSION['box_id_graph'] = $box_id;
 	$_SESSION['chart_history'] = get_value("chart_history", $box_id);
+	$_SESSION['tmonitoring'] = get_value("table_monitoring", $box_id);
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
@@ -269,7 +269,7 @@ function show_graph($stat,$box_id){
 	if ($normal_chart) {
 		$_SESSION['normal'] = 1;
 	}
-	
+
 	require("lib/d3js.php");
 
 }

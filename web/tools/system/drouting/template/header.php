@@ -20,18 +20,18 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
  require_once("../../../../config/session.inc.php");
  require_once("../../../../config/tools/system/drouting/db.inc.php");
  require_once("../../../../config/db.inc.php");
- require_once("../../../../config/tools/system//drouting/menu.inc.php");
- require_once("../../../../config/tools/system/drouting/local.inc.php");
- 
+ require_once("../../../../config/tools/system/drouting/menu.inc.php");
+
  $page_name = basename($_SERVER['SCRIPT_NAME']);
  $page_id = substr($page_name, 0, strlen($page_name) - 4);
  $_SESSION['current_tool'] = 'drouting';
  $_SESSION['current_group'] = get_group();
- $no_result = "No Data Found.";
+ $no_result = "No Data Found."; 
+ session_load();
+ 
 ?>
 
 <html>

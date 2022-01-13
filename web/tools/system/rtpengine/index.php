@@ -22,7 +22,6 @@
 
  require("../../../../config/tools/system/rtpengine/db.inc.php");
  require("../../../../config/db.inc.php");
- require("../../../../config/tools/system/rtpengine/local.inc.php");
  require("../../../common/cfg_comm.php");
 
  session_start();

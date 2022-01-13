@@ -24,7 +24,6 @@ require ("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
-require ("../../../../config/tools/system/loadbalancer/local.inc.php");
 
 $table=$config->table_lb;
 $current_page="current_page_lb";

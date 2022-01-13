@@ -22,13 +22,13 @@
 
  require_once("../../../../config/session.inc.php");
  require_once("../../../../config/tools/system/rtpengine/db.inc.php");
- require_once("../../../../config/tools/system/rtpengine/local.inc.php");
 
  $page_name = basename($_SERVER['SCRIPT_NAME']);
  $page_id = substr($page_name, 0, strlen($page_name) - 4);
  $_SESSION['current_tool'] = 'rtpengine';
 $_SESSION['current_group'] = get_group();
  $no_result = "No Data Found.";
+ session_load();
 ?>
 
 <html>

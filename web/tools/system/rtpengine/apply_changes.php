@@ -26,7 +26,7 @@
 require_once("../../../../config/session.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
-require("../../../../config/tools/system/rtpengine/local.inc.php");
+session_load();
 
 $command="rtpengine_reload";
 

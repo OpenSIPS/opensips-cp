@@ -22,9 +22,9 @@
 
 
 require_once("../../../../config/session.inc.php");
-require("../../../../config/tools/system/drouting/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
+session_load();
 
 $command="dr_reload";
 if (isset($config->routing_partition) && $config->routing_partition != "")

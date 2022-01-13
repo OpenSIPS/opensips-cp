@@ -24,7 +24,6 @@ require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
-require("../../../../config/tools/users/acl_management/local.inc.php");
 
 $table=$config->table_acls;
 $errors='';

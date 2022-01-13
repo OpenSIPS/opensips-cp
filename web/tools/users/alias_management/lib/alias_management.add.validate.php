@@ -21,10 +21,10 @@
  */
 
 
-require("../../../../../config/tools/users/alias_management/local.inc.php");
 
 require_once("../../../../../config/tools/users/alias_management/db.inc.php");
 require_once("../../../../../config/db.inc.php");
+session_load();
 
 global $config;
 if (isset($config->db_host_alias_management) && isset($config->db_user_alias_management) && isset($config->db_name_alias_management) ) {

@@ -143,7 +143,7 @@ function get_group() {
 
 function display_settings_button($box_id=null) {
 	if (file_exists("params.php") && $_SESSION['permission'] == 'Admin') {  
-		require_once("params.php");
+		require("params.php");
 		if (!is_null($config))
 			if(is_null($box_id))
 				echo("

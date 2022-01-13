@@ -21,8 +21,8 @@
  */
 
 require_once("../../../../../config/db.inc.php");
-require("../../../../../config/tools/users/acl_management/local.inc.php");
 require_once("../../../../../config/tools/users/acl_management/db.inc.php");
+session_load();
 
         global $config;
         if (isset($config->db_host_acl_management) && isset($config->db_user_acl_management) && isset($config->db_name_acl_management) ) {
