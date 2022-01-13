@@ -72,6 +72,9 @@ $permissions=array();
 					form_generate_select($params['name'], $current_tip, $module, 10,  get_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));
 				else form_generate_select($params['name'], $current_tip, $module, 10,  get_value( $module, $box_id), array_values($params['options']));
 				break;
+			case "title":
+					print '<tr> <td class=\'sectionTitle\'><b>'.$params['title'].'</b></td></tr>';
+				break;
 			default:
 				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_value($module, $box_id), 10, $params['validation_regex']);
 		}
