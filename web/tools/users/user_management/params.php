@@ -1,10 +1,6 @@
 <?php
 
 $config->user_management = array(
-	"title0" => array(
-		"type" => "title",
-		"title" => "Section 1"
-	),
 	"table_users" => array(
 		"default" => "subscriber",
 		"name"    => "Table Users",
@@ -37,10 +33,6 @@ $config->user_management = array(
 		),
 		"name"    => "Table aliases",
 		"type"    => "json",
-	),
-	"title1" => array(
-		"type"  => "title",
-		"title" => "Section 2"
 	),
 	"passwd_mode" => array(
 		"default" => 0,
