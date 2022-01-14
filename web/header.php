@@ -33,7 +33,14 @@
 <table class="headerTable" width="100%" height="30">
 <tr>
   <td align="left">
-    <div class="headerTitle"><?=$header_title?></div>
+    <?php
+      if (file_exists("../web/version.txt")) {
+        ob_start();
+        include "../web/version.txt";
+        $ocp_version = ob_get_clean();
+      }
+    ?>
+    <div class="headerTitle"><?=$header_title.(empty($ocp_version)?"":(" ".$ocp_version))?></div>
   </td>
   <td align="right">
     <table>
