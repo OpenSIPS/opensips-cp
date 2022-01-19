@@ -36,4 +36,58 @@ $config->siptrace = array(
 		"tip"  => "An array of SIP interfaces (protocol, IP address and port) to be recognized as belonging to your OpenSIPS servers -
 		 you must provide at least one entry. This iss very important to be correctly provision, otherwise the tool will not be able to properly graph the SIP flow (as it will not know which entity in the flow is your OpenSIPS)."
     ),
+	"title0" => array(
+		"type" => "title",
+		"title" => "Color scheme"
+	),
+	"from_color" => array(
+		"default" => "black",
+		"name" => "From color",
+		"type" => "text"
+	),
+	"to_color" => array(
+		"default" => "white",
+		"name" => "To color",
+		"type" => "text"
+	),
+	"callid_color" => array(
+		"default" => "black",
+		"name" => "Call ID color",
+		"type" => "text"
+	),
+	"cseq_color" => array(
+		"default" => "white",
+		"name" => "CSeq color",
+		"type" => "text"
+	),
+	"regexp_color" => array(
+		"default" => "navy",
+		"name" => "Regex color",
+		"type" => "text"
+	),
+	"from_bgcolor" => array(
+		"default" => "yellow",
+		"name" => "From bgcolor",
+		"type" => "text"
+	),
+	"to_bgcolor" => array(
+		"default" => "blue",
+		"name" => "To bgcolor",
+		"type" => "text"
+	),
+	"callid_bgcolor" => array(
+		"default" => "orange",
+		"name" => "Call ID bgcolor",
+		"type" => "text"
+	),
+	"cseq_bgcolor" => array(
+		"default" => "navy",
+		"name" => "CSeq bgcolor",
+		"type" => "text"
+	),
+	"regexp_bgcolor" => array(
+		"default" => "red",
+		"name" => "Regex bgcolor",
+		"type" => "text"
+	),
 );
