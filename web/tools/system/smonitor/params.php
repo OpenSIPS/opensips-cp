@@ -43,9 +43,9 @@ $config->smonitor = array(
 		"validation_regex" => null,
 	),
 	"tabs" => array(
-		"default" => "0,1",
+		"default" => "rt_stats.php,charts.php",
 		"name"    => "Tabs",
-		"options" => get_tabs(),
+		"options" => array("Realtime Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php"),
 		"tip"    => "List of available tabs for smonitor tool",
 		"type"    => "checklist"
 	)

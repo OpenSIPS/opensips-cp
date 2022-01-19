@@ -23,9 +23,9 @@ $config->dialog = array(
 		 Note: only the first server from the group will be used for fetching the dialogs!!",
 	),
 	"tabs" => array(
-		"default" => "0,1",
+		"default" => "dialog.php,profile.php",
 		"name"    => "Tabs",
-		"options" => get_tabs(),
+		"options" => array("Ongoing calls" => "dialog.php", "Call profiles" => "profile.php"),
 		"tip"    => "List of available tabs for dialog tool",
 		"type"    => "checklist"
 	)

@@ -69,15 +69,13 @@ $boxlist=inspect_config_mi();
         <?php
           $first_item = true;
           $params = get_params();
-          while (list($key,$value) = each($config->menu_item)) 
-            {
-            if (in_array($params["tabs"]["options"][$value["1"]], explode(",",get_value("tabs", $box_id))) ) {
-              if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
-              if ($page_name!=$config->menu_item[$key]["0"]) echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$config->menu_item[$key]["1"].'</a>');
-                else echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItemSelect">'.$config->menu_item[$key]["1"].'</a>');
-              $first_item = false;
+          foreach(explode(",",get_value("tabs", $box_id)) as $tab) {
+            $tabName = array_search($tab, $params['tabs']['options']);
+            if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+            if ($page_name!=$tab) echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$tabName.'</a>');
+            else echo('<a href="'.$tab.'" class="menuItemSelect">'.$tabName.'</a>');
+            $first_item = false;
           }
-        }
         ?>
       </div>
     </td> 

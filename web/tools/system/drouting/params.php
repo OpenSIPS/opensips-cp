@@ -107,9 +107,9 @@ $config->drouting = array(
 		"type"    => "json",
 	),
 	"tabs" => array(
-		"default" => "0,1,2,3",
+		"default" => "gateways.php,carriers.php,rules.php,groups.php",
 		"name"    => "Tabs",
-		"options" => get_tabs(),
+		"options" => array('Gateways'=>'gateways.php', 'Carriers'=>'carriers.php', 'Rules' => 'rules.php', 'Groups' => 'groups.php'),
 		"tip"    => "List of available tabs for dynamic routing tool",
 		"type"    => "checklist"
 	)

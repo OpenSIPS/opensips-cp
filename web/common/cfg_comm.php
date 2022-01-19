@@ -272,21 +272,6 @@ function get_value($current_param, $box_id = null) {
 	return get_value_from_tool($current_param, $current_tool, $box_id);
 }
 
-function get_tabs_from_tool($tool) {
-	$options = [];
-	$i = 0;
-	$group = get_group_from_tool($tool);
-	require (__DIR__."/../../config/tools/".$group."/".$tool."/menu.inc.php");
-	foreach ($config->menu_item as $item) {
-		$options[$item[1]] = $i;
-		$i++;
-	}
-	return $options;
-}
-
-function get_tabs() {
-	return get_tabs_from_tool($_SESSION['current_tool']);
-}
 
 function inspect_config_mi(){
 	global $opensips_boxes ;
