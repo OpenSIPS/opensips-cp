@@ -252,7 +252,6 @@ function load_boxes() {
 function get_value_from_tool($current_param, $current_tool, $box_id = null) {
 	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
-
 	if (is_null($box_id)){
 		if (!is_null($_SESSION['config'][$current_tool][$current_param])){ 
 			return $_SESSION['config'][$current_tool][$current_param];}}
@@ -260,7 +259,6 @@ function get_value_from_tool($current_param, $current_tool, $box_id = null) {
 	else {
 		if (!is_null($_SESSION['config'][$current_tool][$box_id][$current_param])) {
 			return $_SESSION['config'][$current_tool][$box_id][$current_param];}}
-
 	foreach($config->$current_tool as $module=>$params) {
 		if ($module == $current_param) return $params['default'];
 	}
@@ -351,7 +349,7 @@ function session_load($box_id = null) {
 					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
 				}
 			} 
-		} else {
+		} else { 
 			$sql = 'select param, value, box_id from tools_config where module=? ';
 			$stm = $link->prepare($sql);
 			if ($stm === false) {

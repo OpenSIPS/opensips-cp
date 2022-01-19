@@ -105,5 +105,12 @@ $config->drouting = array(
 		),
 		"name"    => "Gateway attributes",
 		"type"    => "json",
+	),
+	"tabs" => array(
+		"default" => "0,1,2,3",
+		"name"    => "Tabs",
+		"options" => array('Gateways'=>'0', 'Carriers'=>'1', 'Rules' => '2', 'Groups' => '3'),
+		"tip"    => "List of available tabs for dynamic routing tool",
+		"type"    => "checklist"
 	)
 );
