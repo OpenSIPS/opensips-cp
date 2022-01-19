@@ -42,4 +42,11 @@ $config->smonitor = array(
 		"type"    => "text",
 		"validation_regex" => null,
 	),
+	"tabs" => array(
+		"default" => "0,1",
+		"name"    => "Tabs",
+		"options" => get_tabs(),
+		"tip"    => "List of available tabs for smonitor tool",
+		"type"    => "checklist"
+	)
 );

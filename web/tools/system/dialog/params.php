@@ -21,5 +21,12 @@ $config->dialog = array(
 		"type"    => "dropdown",
 		"tip"	  => "association ID pointing to system (group of OpenSIPS servers) to be queried for ongoing calls.
 		 Note: only the first server from the group will be used for fetching the dialogs!!",
+	),
+	"tabs" => array(
+		"default" => "0,1",
+		"name"    => "Tabs",
+		"options" => get_tabs(),
+		"tip"    => "List of available tabs for dialog tool",
+		"type"    => "checklist"
 	)
 );

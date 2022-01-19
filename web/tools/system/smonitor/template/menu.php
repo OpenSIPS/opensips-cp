@@ -57,6 +57,7 @@ $boxlist=inspect_config_mi();
         $box_id=get_box_id($current_box); 
         $_SESSION['box_id'] = $box_id;
         display_settings_button($box_id);
+        session_load($box_id);
       ?>
     </td>
   </tr>	
@@ -66,14 +67,17 @@ $boxlist=inspect_config_mi();
     <td colspan="2" align="center" valign="middle">
       <div class="menuItems">
         <?php
-         $first_item = true; 
-         while (list($key,$value) = each($config->menu_item)) 
-          {
-           if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
-           if ($page_name!=$config->menu_item[$key]["0"]) echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$config->menu_item[$key]["1"].'</a>');
-            else echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItemSelect">'.$config->menu_item[$key]["1"].'</a>');
-           $first_item = false;
+          $first_item = true;
+          $params = get_params();
+          while (list($key,$value) = each($config->menu_item)) 
+            {
+            if (in_array($params["tabs"]["options"][$value["1"]], explode(",",get_value("tabs", $box_id))) ) {
+              if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
+              if ($page_name!=$config->menu_item[$key]["0"]) echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$config->menu_item[$key]["1"].'</a>');
+                else echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItemSelect">'.$config->menu_item[$key]["1"].'</a>');
+              $first_item = false;
           }
+        }
         ?>
       </div>
     </td> 
