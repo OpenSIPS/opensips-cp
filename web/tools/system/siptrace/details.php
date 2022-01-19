@@ -22,9 +22,9 @@
 
 require_once("../../../../config/session.inc.php");
 require_once("../../../../config/tools/system/siptrace/db.inc.php");
-require_once("../../../../config/tools/system/siptrace/local.inc.php");
 require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
+session_load();
 
 $table=$config->table_trace;
 $sql = "SELECT * FROM ".$table." WHERE id=?";

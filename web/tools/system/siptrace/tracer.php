@@ -24,7 +24,6 @@
  require("template/header.php");
  require("lib/".$page_id.".main.js");
  
- require("../../../../config/tools/system/siptrace/local.inc.php");
  require("../../../common/mi_comm.php");
  require("../../../../config/db.inc.php");
 
