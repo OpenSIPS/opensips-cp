@@ -27,8 +27,8 @@ function print_domains($type,$value,$has_any)
 	global $config;
 
 	require("../../../../config/db.inc.php");
-        require("../../../../config/tools/system/domains/local.inc.php");
         require("../../../../config/tools/system/domains/db.inc.php");
+        session_load_from_tool("domains");
         require("db_connect.php");
 
         $table_domains=$config->table_domains;

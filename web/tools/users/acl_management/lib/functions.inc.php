@@ -25,14 +25,13 @@ function print_domains($type,$value)
 {
 
 	global $config;
-
-	require("../../../../config/db.inc.php");
-        require("../../../../config/tools/system/domains/local.inc.php");
+		require("../../../../config/db.inc.php");
         require("../../../../config/tools/system/domains/db.inc.php");
+		session_load_from_tool("domains");
         require("db_connect.php");
 
+	
         $table_domains=$config->table_domains;
-
         $sql="select domain from $table_domains";
         $stm = $link->query($sql);
 	if ($stm === FALSE)
