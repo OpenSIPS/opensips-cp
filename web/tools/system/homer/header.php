@@ -28,8 +28,11 @@ get_priv("homer");
 
 if ($_GET['action']=="Hjump")
 {
-	include("../../../../config/tools/system/homer/local.inc.php");
-
+	session_load();
+	$homer_URL = $config->homer_URL;
+	$homer_auth_method = $config->homer_auth_method;
+	$common_subdomain = $config->common_subdomain;
+	
 	echo '<script type="text/javascript" language="javascript">
 	window.open("'.$homer_URL.'");
 	</script>';

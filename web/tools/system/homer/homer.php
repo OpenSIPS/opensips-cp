@@ -20,10 +20,17 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+session_start();
 require("lib/functions.inc.php");
 require_once("../../../../web/common/cfg_comm.php");
 require_once("../../../../config/session.inc.php");
-include("../../../../config/tools/system/homer/local.inc.php");
+
+$_SESSION['current_tool'] = 'homer';
+$_SESSION['current_group'] = get_group();
+session_load();
+$homer_URL = $config->homer_URL;
+$homer_auth_method = $config->homer_auth_method;
+$common_subdomain = $config->common_subdomain;
 
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
@@ -48,6 +55,8 @@ if ($homer_auth_method=="cookie") {
 
 # store the session ID in cache, using as key the value of the cookie
 apc_store ( $cookie, session_id(), 60 );
+
+display_settings_button();
 
 require("template/homer.main.php");
 
