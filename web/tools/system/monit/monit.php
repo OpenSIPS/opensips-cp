@@ -21,12 +21,14 @@
 */
 
 require_once("../../../../config/session.inc.php");
-require_once("../../../../config/tools/system/monit/local.inc.php");
 require("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 
 session_start();
 get_priv("monit");
+
+session_load();
+display_settings_button();
 
 $current_box=$_SESSION['monit_current_box'];
 if (empty($current_box))

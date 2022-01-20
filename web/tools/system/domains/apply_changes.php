@@ -21,10 +21,9 @@
 */
 
 require_once("../../../../config/session.inc.php");
-require("../../../../config/tools/system/domains/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
-
+session_load();
 $command="domain_reload";
 
 ?>

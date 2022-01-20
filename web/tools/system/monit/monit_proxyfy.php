@@ -21,9 +21,9 @@
 */
 
 require_once("../../../../config/session.inc.php");
-require_once("../../../../config/tools/system/monit/local.inc.php");
 require_once("lib/functions.inc.php");
 require("../../../common/cfg_comm.php");
+session_load();
 
 session_start();
 get_priv("monit");
