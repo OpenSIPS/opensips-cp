@@ -45,6 +45,12 @@ if ($action=="modify_params")
         $tools_params=get_params();
 		if (is_null($box_id)) { 
 			foreach ($tools_params as $module=>$params) {
+					if ($params['type'] == "checklist") {
+						$checklist_values = implode( ',', $_POST[$module]);
+						if (is_null($checklist_values)) $checklist_values = "";
+						$_POST[$module] = $checklist_values;
+					}
+					
 					$sql = "REPLACE INTO $table (module, param, value) VALUES (?,?,?)";
 					$stm = $link->prepare($sql);
 					if ($stm === false) {
@@ -58,6 +64,11 @@ if ($action=="modify_params")
 				}
 		} else {
 			foreach ($tools_params as $module=>$params) {
+						if ($params['type'] == "checklist") {
+							$checklist_values = implode( ',', $_POST[$module]);
+							if (is_null($checklist_values)) $checklist_values = "";
+							$_POST[$module] = $checklist_values;
+						}
 						$sql = "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,".$box_id.")";
 						$stm = $link->prepare($sql);
 						if ($stm === false) {

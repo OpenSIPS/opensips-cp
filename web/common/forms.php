@@ -204,7 +204,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validati
 		</tr>");
 }
 
-function form_generate_checklist($title, $tip, $id, $mlen, $selected, $vals, $texts=null) {
+function form_generate_checklist($title, $tip, $id, $mlen, $selected, $vals, $texts=null) { 
 	print("
 		<tr>
 			<td class='dataRecord'>
@@ -219,7 +219,7 @@ function form_generate_checklist($title, $tip, $id, $mlen, $selected, $vals, $te
 				<table style='width:100%' class='container'><tr><td>");
 	for($i = 0; $i < count($vals); ++$i){
 		print("
-				<input type='checkbox' name='".$id.$vals[$i]."' value='".$vals[$i]."' id='".$id.$vals[$i]."' ".((in_array($vals[$i], $selected))?"checked":"").">
+				<input type='checkbox' name='".$id."[]' value='".$vals[$i]."' id='".$id.$vals[$i]."' ".((in_array($vals[$i], $selected))?"checked":"").">
 				<label for=".$id.$vals[$i]." class='dataRecord'>".($texts[$i]?$texts[$i]:$vals[$i])."</label><br>
 		");
 	}
