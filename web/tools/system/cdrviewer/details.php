@@ -21,9 +21,9 @@
 */
 
 require_once("../../../../config/tools/system/cdrviewer/db.inc.php");
-require_once("../../../../config/tools/system/cdrviewer/local.inc.php");
 require_once("../../../../config/session.inc.php");
 require_once("lib/functions.inc.php");
+session_load();
 include("lib/db_connect.php");
 $table=$config->cdr_table;
 

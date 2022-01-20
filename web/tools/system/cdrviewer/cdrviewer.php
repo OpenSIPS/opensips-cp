@@ -22,7 +22,6 @@
 
 require_once("../../../common/cfg_comm.php");
 require("template/header.php");
-require_once("../../../../config/tools/system/cdrviewer/local.inc.php");
 
 global $config;
 

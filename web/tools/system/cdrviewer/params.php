@@ -50,5 +50,90 @@ $config->cdrviewer = array(
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
 	),
+	"export_csv" => array(
+		"default" => array (
+			"id" => "CDR ID",
+			"time" => "Call Start Time",
+			"method" => "SIP Method",
+			"callid" => "Sip Call ID",
+			"sip_code" => "Sip Code",
+			"sip_reason" => "Sip Reason",
+			"setuptime" => "Setup Time",
+			"duration" => "Duration",
+			"from_tag" => "Sip From Tag",
+			"to_tag" => "Sip To Tag"
+		),
+		"type" => "json",
+		"name" => "Export CSV"
+	),
+	"show_field" => array(
+		"default" => array(
+			"time" => "Time",
+			"method" => "Method",
+			"callid" => "Sip Call ID",
+			"sip_code" => "Sip Code",
+			"sip_reason" => "Sip Reason",
+			"setuptime" => "Setup Time",
+			"duration" => "Duration",
+			"from_tag" => "Sip From Tag",
+			"to_tag" => "Sip To Tag"
+		),
+		"type" => "json",
+		"name" => "Show Field"
+	),
+	"title0" => array(
+		"type" => "title",
+		"title" => "Color scheme"
+	),
+	"from_color" => array(
+		"default" => "black",
+		"name" => "From color",
+		"type" => "text"
+	),
+	"to_color" => array(
+		"default" => "white",
+		"name" => "To color",
+		"type" => "text"
+	),
+	"callid_color" => array(
+		"default" => "black",
+		"name" => "Call ID color",
+		"type" => "text"
+	),
+	"cseq_color" => array(
+		"default" => "white",
+		"name" => "CSeq color",
+		"type" => "text"
+	),
+	"regexp_color" => array(
+		"default" => "navy",
+		"name" => "Regex color",
+		"type" => "text"
+	),
+	"from_bgcolor" => array(
+		"default" => "yellow",
+		"name" => "From bgcolor",
+		"type" => "text"
+	),
+	"to_bgcolor" => array(
+		"default" => "blue",
+		"name" => "To bgcolor",
+		"type" => "text"
+	),
+	"callid_bgcolor" => array(
+		"default" => "orange",
+		"name" => "Call ID bgcolor",
+		"type" => "text"
+	),
+	"cseq_bgcolor" => array(
+		"default" => "navy",
+		"name" => "CSeq bgcolor",
+		"type" => "text"
+	),
+	"regexp_bgcolor" => array(
+		"default" => "red",
+		"name" => "Regex bgcolor",
+		"type" => "text"
+	),
   
     );
