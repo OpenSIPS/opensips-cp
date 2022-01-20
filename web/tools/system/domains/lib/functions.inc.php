@@ -28,7 +28,7 @@ function get_domains($module, $has_any)
 	require("../../../../config/db.inc.php");
 	require("../../../../config/tools/system/domains/db.inc.php");
 	require("db_connect.php");
-	session_load();
+	session_load_from_tool("domains");
 	
 	$table_domains=$config->table_domains;
 
