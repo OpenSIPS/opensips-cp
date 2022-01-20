@@ -184,10 +184,12 @@ function isAssoc(array $arr)
     return array_keys($arr) !== range(0, count($arr) - 1);
 }
 
-
 function get_params() {
-	$current_tool = $_SESSION['current_tool'];
-	$current_group = $_SESSION['current_group'];
+	return get_params_from_tool($_SESSION['current_tool']);
+}
+
+function get_params_from_tool($current_tool) {
+	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
 	return $config->$current_tool;
 }
@@ -326,28 +328,30 @@ function print_back_input() {
 	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
 
-
 function session_load($box_id = null) {
+	session_load_from_tool($_SESSION['current_tool'], $box_id);
+}
+
+function session_load_from_tool($tool, $box_id = null) {
 	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
 	global $config;
-	$module_params = get_params();
-	if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
+	$module_params = get_params_from_tool($tool);
+	if (!isset($_SESSION['config'][$tool])) {
 		if (is_null($box_id)) {
 			$sql = 'select param, value from tools_config where module=? ';
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-		
-			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+			if ($stm->execute( array($tool)) == false)
 				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 			else {
 				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 				foreach ($resultset as $elem) {
 					if ($module_params[$elem['param']]['type'] == "json") {
-						$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
+						$_SESSION['config'][$tool][$elem['param']] = json_decode($elem['value'], true);
 					}
-					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
+					else $_SESSION['config'][$tool][$elem['param']] = $elem['value'];
 				}
 			} 
 		} else { 
@@ -357,21 +361,21 @@ function session_load($box_id = null) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
 		
-			if ($stm->execute( array($_SESSION['current_tool'])) == false)
+			if ($stm->execute( array($tool)) == false)
 				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 			else {
 				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 				foreach ($resultset as $elem) {
 					if ($module_params[$elem['param']]['type'] == "json") {
-						$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
+						$_SESSION['config'][$tool][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
 					}
-					else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
+					else $_SESSION['config'][$tool][$elem['box_id']][$elem['param']] = $elem['value'];
 				}
 			}
 		} 
 	}
 	foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
+		$config->$module = get_value_from_tool($module, $tool); 
 	} 
 }
 
