@@ -58,12 +58,18 @@ $permissions=array();
  </tr>
   <?php
 	$tools_params=get_params();
+	
 	foreach ($tools_params as $module=>$params) {
 		if ($params['opt']) $opt = "y"; else $opt = "n";
 		if ($params['tip'])
 			$current_tip = $params[tip];
 		else $current_tip = null;
 		switch ($params['type']) {
+			case "checklist":
+				if (isAssoc($params['options']))
+				form_generate_checklist($params['name'], $current_tip, $module, 10,  explode(",", get_value($module, $box_id)), array_values($params['options']), array_keys($params['options']));
+				else form_generate_input_checklist($params['name'], $current_tip, $module, 10, explode(",", get_value($module, $box_id)), array_value($params['options']));
+				break;
 			case "json":
 				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_value($module, $box_id), JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), 1000, $params['validation_regex'], 'validate_json');
 				break;
