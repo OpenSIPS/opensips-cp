@@ -78,6 +78,9 @@ $permissions=array();
 			default:
 				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_value($module, $box_id), 10, $params['validation_regex']);
 		}
+		if ($params['example']) {
+			print_example($params['example'], $params['name'], $module);
+		}
 	}
 
 

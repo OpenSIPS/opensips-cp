@@ -138,9 +138,37 @@ function validate_password(field, output, password){
 	form_full_check();
 	return ret;
 }
+
+function readMore(tool, id) {
+            var dots = document.getElementById(id.concat('dots'));
+            var moreText = document.getElementById(id.concat('more'));
+            var btnText = document.getElementById(id.concat('myBtn'));
+          
+            if (dots.style.display === 'none') {
+              dots.style.display = 'inline';
+              btnText.innerHTML = 'See format for '.concat(tool); 
+              moreText.style.display = 'none';
+            } else {
+              dots.style.display = 'none';
+              btnText.innerHTML = 'Hide format'; 
+              moreText.style.display = 'inline';
+            }
+          }
 </script>
 
 <?php
+
+function print_example($example, $param, $id) {
+	$short = "";
+	echo (
+		"<tr><td></td><td><style>
+		 #".$id."more {display: none;}
+		 </style>
+		 <a href='#' onclick='readMore(\"".$param."\", \"".$id."\")' id='".$id."myBtn' class='exampleButton' >See format for ".$param."</a>
+		 <p >".$short."<span id='".$id."dots'></span><pre id='".$id."more' >".$example."</pre></p></td></tr>"
+	   );
+}
+
 function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null) {
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
