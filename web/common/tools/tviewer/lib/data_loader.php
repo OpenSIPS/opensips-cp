@@ -5,9 +5,13 @@
 	$module_id = $_SESSION['module_id'];
 	$branch = $_SESSION['branch'];
 	
-	require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
 	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 	require_once("../../../../config/db.inc.php");
+	require_once("../../../../web/common/cfg_comm.pgp");
+
+	session_load_from_tool($module_id);
+	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
+		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	
     global $config;
 	global $custom_config;

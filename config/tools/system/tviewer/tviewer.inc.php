@@ -24,7 +24,7 @@
 # Attention : advanced options !!
 
  //this is a very important parameter
- $module_id = "tviewer";
+ $module_id = get_value_from_tool("module_id", "tviewer");
  $custom_config[$module_id] = array ();
 
  // a custom global name for the tool
