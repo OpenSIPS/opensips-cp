@@ -1,23 +1,11 @@
 <?php
 
 $config->callcenter = array(
-	"module_id" => array(
-		"default" => "callcenter",
-		"name"    => "Module ID",
-		"type"    => "text",
-		"validation_regex" => null,
-	),
     "talk_to_this_assoc_id" => array(
 		"default" => 1,
 		"name"    => "Talk to this assoc id",
 		"options" => get_assoc_id(),
 		"type"    => "dropdown",
-	),
-	"custom_name" => array(
-		"default" => "Call Center",
-		"name" => "Custom name",
-		"tip" => "A custom global name for the tool",
-		"type" => "text"
 	),
 	"submenu_items" => array(
 		"default" => array(
@@ -35,11 +23,6 @@ $config->callcenter = array(
 	"agents_custom_table" => array(
 		"default" => "cc_agents",
 		"name" => "Agents custom table",
-		"type" => "text"
-	),
-	"agents_custom_table_primary_key" => array(
-		"default" => "id",
-		"name" => "Agents custom table primary key",
 		"type" => "text"
 	),
 	"agents_per_page" => array(
@@ -64,11 +47,6 @@ $config->callcenter = array(
 		"name" => "Flows custom table",
 		"type" => "text"
 	),
-	"flows_custom_table_primary_key" => array(
-		"default" => "id",
-		"name" => "Flows custom table primary key",
-		"type" => "text"
-	),
 	"flows_per_page" => array(
 		"default" => 5,
 		"name"    => "Results per page",
@@ -89,11 +67,6 @@ $config->callcenter = array(
 	"cdrs_custom_table" => array(
 		"default" => "cc_cdrs",
 		"name" => "CDRs custom table",
-		"type" => "text"
-	),
-	"cdrs_custom_table_primary_key" => array(
-		"default" => "id",
-		"name" => "CDRs custom table primary key",
 		"type" => "text"
 	),
 	"cdrs_per_page" => array(

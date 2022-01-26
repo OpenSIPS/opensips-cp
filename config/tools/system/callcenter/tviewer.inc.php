@@ -24,11 +24,11 @@
 # Attention : advanced options !!
 
  //this is a very important parameter
- $module_id = get_value_from_tool("module_id", "callcenter");
+ $module_id = "callcenter";
  $custom_config[$module_id] = array ();
 
  // a custom global name for the tool
- $custom_config[$module_id]['custom_name'] = get_value_from_tool("custom_name", "callcenter");
+ $custom_config[$module_id]['custom_name'] = "Call Center";
  
  //if you want submenu (horizontal) items add them here:
  $custom_config[$module_id]['submenu_items'] = get_value_from_tool("submenu_items", "callcenter");
@@ -50,7 +50,7 @@
 */
 
  $custom_config[$module_id][0]['custom_table'] = get_value_from_tool("agents_custom_table", "callcenter");
- $custom_config[$module_id][0]['custom_table_primary_key'] = get_value_from_tool("agents_custom_table_primary_key", "callcenter");
+ $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
  $custom_config[$module_id][0]['per_page'] = get_value_from_tool("agents_per_page", "callcenter");
  $custom_config[$module_id][0]['page_range'] = get_value_from_tool("agents_page_range", "callcenter");
@@ -218,7 +218,7 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 /* FLOWS SUB MENU */
 
  $custom_config[$module_id][1]['custom_table'] = get_value("flows_custom_table");
- $custom_config[$module_id][1]['custom_table_primary_key'] = get_value("flows_custom_table_primary_key");
+ $custom_config[$module_id][1]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][1]['custom_table_order_by'] = $custom_config[$module_id][1]['custom_table_primary_key'];
  $custom_config[$module_id][1]['per_page'] = get_value("flows_per_age");
  $custom_config[$module_id][1]['page_range'] = get_value("flows_page_range");
@@ -549,7 +549,7 @@ $custom_config[$module_id][1]['custom_search'] = 	array ( "enabled" => true,
 
 
  $custom_config[$module_id][2]['custom_table'] = get_value("cdrs_custom_table");
- $custom_config[$module_id][2]['custom_table_primary_key'] = get_value("cdrs_custom_table_primary_key");
+ $custom_config[$module_id][2]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][2]['custom_table_order_by'] = $custom_config[$module_id][2]['custom_table_primary_key'];
  $custom_config[$module_id][2]['per_page'] = get_value("cdrs_per_page");
  $custom_config[$module_id][2]['page_range'] = get_value("cdrs_page_range");

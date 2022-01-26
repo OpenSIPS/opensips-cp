@@ -24,7 +24,7 @@
 # Attention : advanced options !!
 
  //this is a very important parameter
- $module_id = get_value_from_tool("module_id", "smpp");
+ $module_id = "smpp";
  $custom_config[$module_id] = array ();
 
  // a custom global name for the tool
@@ -32,7 +32,7 @@
  
 
  $custom_config[$module_id][0]['custom_table'] = get_value_from_tool("custom_table", "smpp");
- $custom_config[$module_id][0]['custom_table_primary_key'] = get_value_from_tool("custom_table_primary_key", "smpp");
+ $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
  $custom_config[$module_id][0]['per_page'] = get_value_from_tool("per_page", "smpp");
  $custom_config[$module_id][0]['page_range'] = get_value_from_tool("page_range", "smpp");

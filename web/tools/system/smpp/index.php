@@ -23,7 +23,7 @@
  session_start();
 
  require("init.php");
- 
+
  header("Location: ../../../common/tools/tviewer/tviewer.php?module_id=".$module_id."");
  
 ?>
