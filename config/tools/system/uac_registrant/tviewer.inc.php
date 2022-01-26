@@ -24,18 +24,18 @@
 # Attention : advanced options !!
 
  //this is a very important parameter
- $module_id = "smpp";
+ $module_id = "uac_registrant";
  $custom_config[$module_id] = array ();
 
  // a custom global name for the tool
- $custom_config[$module_id]['custom_name'] = "SMPP Gateway";
+ $custom_config[$module_id]['custom_name'] = "UAC Registrant";
  
 
- $custom_config[$module_id][0]['custom_table'] = "smpp";
+ $custom_config[$module_id][0]['custom_table'] = get_value_from_tool("custom_table", "uac_registrant");
  $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
- $custom_config[$module_id][0]['per_page'] = 40;
- $custom_config[$module_id][0]['page_range'] = 5;
+ $custom_config[$module_id][0]['per_page'] = get_value_from_tool("per_page", "uac_registrant");
+ $custom_config[$module_id][0]['page_range'] = get_value_from_tool("page_range", "uac_registrant");
 
 /*
  Columns definition:
@@ -90,187 +90,144 @@
 					"searchable" 		=> false,
 					"visible"		=> false
 			), 
-			"name"	=> 	array (
-					"header" 		=> "SMSC Name",
+			"registrar"	=> 	array (
+					"header" 		=> "Registrar Server",
 					"type"			=> "text",
-					"key"			=> "UNI",
-					"tip"			=> "An arbitrary name of the SMSC, used to uniquely identify the binding",
+					"key"			=> NULL,
+					"tip"			=> "SIP URI pointing to the remote registrar",
 					"is_optional" 		=> "n",
+					"validation_regex" 	=> $re_sip_uri,
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> true
+			),
+			"proxy"	=> 	array (
+					"header" 		=> "Outbound Proxy",
+					"type"			=> "text",
+					"key"			=> NULL,
+					"tip"			=> "SIP URI pointing to the outbond proxy",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> $re_sip_uri,
+					"visible"		=> false,
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> true
+			),
+			"aor"	=> 	array (
+					"header" 		=> "Address-of-Record",
+					"type"			=> "text",
+					"key"			=> NULL,
+					"tip"			=> "SIP URI defining the account to be registered",
+					"is_optional" 		=> "n",
+					"validation_regex" 	=> $re_sip_uri,
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> true
+			),
+			"third_party_registrant"=> 	array (
+					"header" 		=> "3rd Party Registrant",
+					"type"			=> "text",
+					"key"			=> NULL,
+					"tip"			=> "SIP URI defining as sender/registrant (From header) something else than actual registered account (AOR)",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> $re_sip_uri,
+					"visible"		=> false,
+					"show_in_add_form" 	=> true,
+					"show_in_edit_form"	=> true,
+					"searchable" 		=> false
+			),
+			"username"	=> 	array (
+					"header" 		=> "Auth Username",
+					"type"			=> "text",
+					"key"			=> NULL,
+					"tip"			=> "Username to be used for the authentication process",
+					"is_optional" 		=> "y",
 					"validation_regex" 	=> "[a-zA-Z0-9_]+",
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> true
 			),
-			"ip"	=> 	array (
-					"header" 		=> "SMSC IP Address",
-					"type"			=> "text",
-					"key"			=> NULL,
-					"tip"			=> "The IP address used to connect to the SMSC",
-					"is_optional" 		=> "n",
-					"validation_regex" 	=> $re_ip,
-					"show_in_add_form" 	=> true,
-					"show_in_edit_form"	=> true,
-					"searchable" 		=> true
-			),
-			"port"	=> 	array (
-					"header" 		=> "SMSC port",
-					"type"			=> "text",
-					"key"			=> NULL,
-					"tip"			=> "The port used to connect to the SMSC",
-					"is_optional" 		=> "n",
-					"validation_regex" 	=> "^[0-9]+$",
-					"show_in_add_form" 	=> true,
-					"show_in_edit_form"	=> true,
-					"searchable" 		=> true
-			),
-			"system_id"=> 	array (
-					"header" 		=> "System ID",
-					"type"			=> "text",
-					"key"			=> NULL,
-					"tip"			=> "The System ID (also called user name) for the gateway to use when connecting to the SMPP server (max 16 chars)",
-					"is_optional" 		=> "n",
-					"validation_regex" 	=> "^.{0,16}$",
-					"show_in_add_form" 	=> true,
-					"show_in_edit_form"	=> true,
-					"searchable" 		=> false
-			),
 			"password"	=> 	array (
 					"header" 		=> "Auth Password",
 					"type"			=> "text",
 					"key"			=> NULL,
-					"tip"			=> "The password for the gateway to use when connecting to the SMPP server (max 9 chars)",
-					"is_optional" 		=> "n",
-					"validation_regex" 	=> "^.{0,9}$",
+					"tip"			=> "Password to be used for the authentication process",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> NULL,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"visible"		=> false,
 					"searchable" 		=> false
 			),
-			"system_type"	=> 	array (
-					"header" 		=> "System Type",
+			"binding_URI"	=> 	array (
+					"header" 		=> "Contact URI",
 					"type"			=> "text",
 					"key"			=> NULL,
-					"tip"			=> "Configures the System Type parameter of the the SMPP server (max 13 chars)",
+					"tip"			=> "Username to be used for the authentication process",
 					"is_optional" 		=> "y",
-					"validation_regex" 	=> "^.{0,13}$",
-					"validation_regex" 	=> NULL,
+					"validation_regex" 	=> $re_sip_uri,
 					"default_value"		=> "",
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> false
 			),
-			"src_ton"	=> 	array (
-					"header" 		=> "Source TON",
-					"type"			=> "combo",
+			"expiry"	=> 	array (
+					"header" 		=> "Expires",
+					"type"			=> "text",
 					"key"			=> NULL,
-					"tip"			=> "Specifies the Source TON (Type of Number)",
-					"is_optional" 		=> "n",
-					"combo_default_values"	=> array(
-						"0"=>"Unknown",
-						"1"=>"International",
-						"2"=>"National",
-						"3"=>"Network Specific",
-						"4"=>"Subscriber Number",
-						"5"=>"Alphanumeric",
-						"6"=>"Abbreviated",
-					), 
-					"default_value"		=> "0",
+					"tip"			=> "The expiration time of the registration, in seconds",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> "[0-9]+",
+					"default_value"		=> "3600",
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
-					"visible"		=> false,
 					"searchable" 		=> false
 			),
-			"src_npi"	=> 	array (
-					"header" 		=> "Source NPI",
-					"type"			=> "combo",
+			"forced_socket"	=> 	array (
+					"header" 		=> "Local Socket",
+					"type"			=> "text",
 					"key"			=> NULL,
-					"tip"			=> "Specifies the Source NPI (Numbering Plan Indicator)",
-					"is_optional" 		=> "n",
-					"combo_default_values"	=> array(
-						"0"=>"Unknown",
-						"1"=>"ISDN/telephone numbering plan (E163/E164)",
-						"3"=>"Data numbering plan (X.121)",
-						"4"=>"Telex numbering plan (F.69)",
-						"6"=>"Land Mobile (E.212)",
-						"8"=>"National numbering plan",
-						"9"=>"Private numbering plan",
-						"10"=>"ERMES numbering plan (ETSI DE/PS 3 01-3)",
-						"13"=>"Internet (IP)",
-						"18"=>"WAP Client Id (to be defined by WAP Forum)",
-					), 
-					"default_value"		=> "0",
+					"tip"			=> "OpenSIPS SIP socket/listener to be used for doing this registration",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> $re_socket,
+					"visible"		=> false,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
-					"visible"		=> false,
 					"searchable" 		=> false
 			),
-			"dst_ton"	=> 	array (
-					"header" 		=> "Destination TON",
-					"type"			=> "combo",
+			"cluster_shtag"	=> 	array (
+					"header" 		=> "Clustering Sharing TAG",
+					"type"			=> "text",
 					"key"			=> NULL,
-					"tip"			=> "Specifies the Destination TON (Type of Number)",
-					"is_optional" 		=> "n",
-					"combo_default_values"	=> array(
-						"0"=>"Unknown",
-						"1"=>"International",
-						"2"=>"National",
-						"3"=>"Network Specific",
-						"4"=>"Subscriber Number",
-						"5"=>"Alphanumeric",
-						"6"=>"Abbreviated",
-					), 
-					"default_value"		=> "0",
+					"tip"			=> "A cluster sharing tag (as [tag_name/custer_id]) used to control this registration in clustering scenarios",
+					"is_optional" 		=> "y",
+					"validation_regex" 	=> "^[a-z0-9A-Z_-]+/[0-9]+$",
+					"visible"		=> false,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
-					"visible"		=> false,
 					"searchable" 		=> false
 			),
-			"dst_npi"	=> 	array (
-					"header" 		=> "Destination NPI",
+			"state"	=> 	array (
+					"header" 		=> "Status",
 					"type"			=> "combo",
 					"key"			=> NULL,
-					"tip"			=> "Specifies the Destination NPI (Numbering Plan Indicator)",
+					"tip"			=> "If Enabled or Disabled",
+					"combo_default_values" => array("1"=>"Disabled","0"=>"Enabled"),
 					"is_optional" 		=> "n",
-					"combo_default_values"	=> array(
-						"0"=>"Unknown",
-						"1"=>"ISDN/telephone numbering plan (E163/E164)",
-						"3"=>"Data numbering plan (X.121)",
-						"4"=>"Telex numbering plan (F.69)",
-						"6"=>"Land Mobile (E.212)",
-						"8"=>"National numbering plan",
-						"9"=>"Private numbering plan",
-						"10"=>"ERMES numbering plan (ETSI DE/PS 3 01-3)",
-						"13"=>"Internet (IP)",
-						"18"=>"WAP Client Id (to be defined by WAP Forum)",
-					), 
-					"default_value"		=> "0",
+					"visible"		=> true,
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
-					"visible"		=> false,
 					"searchable" 		=> false
-			),
-			"session_type"	=> 	array (
-					"header" 		=> "Session Type",
-					"type"			=> "combo",
-					"key"			=> NULL,
-					"tip"			=> "Specifies the type of binding",
-					"is_optional" 		=> "n",
-					"combo_default_values"	=> array("1"=>"transciever","2"=>"transmitter","3"=>"receiver","4"=>"outbind"), 
-					"default_value"		=> "1",
-					"show_in_add_form" 	=> true,
-					"show_in_edit_form"	=> true,
-					"visible"		=> false,
-					"searchable" 		=> false
-			),
+			)
 	);
 
 
 
  //need to reload 0 or 1
- $custom_config[$module_id][0]['reload'] = 0;
+ $custom_config[$module_id][0]['reload'] = 1;
 
  //if you need reload please specify the MI command to be ran
- $custom_config[$module_id][0]['custom_mi_command'] = "xxxx_reload";
+ $custom_config[$module_id][0]['custom_mi_command'] = "reg_reload";
  
  //the system ID to send the reload MI command to
  $talk_to_this_assoc_id = 1;

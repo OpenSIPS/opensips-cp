@@ -28,15 +28,12 @@ require("lib/".$page_id.".main.js");
 
 $current_page="current_page_tviewer";
 
-session_load();  
-
 include("lib/db_connect.php");
-//$module_id = get_value('module_id');
 
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if (!isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table']) || $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table'] == ""){
-	echo "<font color='red'>THIS MODULE HAS NOT BEEN CONFIGURED YET - PLEASE UPDATE CONFIG FILE:</font> <br> <b> config/tools/".$branch."/".$module_id."/local.inc.php<b>";
+	echo "<font color='red'>THIS MODULE HAS NOT BEEN CONFIGURED YET - PLEASE UPDATE CONFIG FILE:</font> <br> <b> config/tools/".$branch."/".$module_id."/tviewer.inc.php<b>";
 	exit();
 }
 else {

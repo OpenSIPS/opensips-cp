@@ -92,11 +92,14 @@ function get_custom_combo_options($combo)
 	global $module_id;
 	global $branch;
 
-        require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+        require_once("../../../../web/common/cfg_comm.php");
         require_once("../../../../config/db.inc.php");
         require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
         require("db_connect.php");
-
+		
+		session_load_from_tool($module_id);
+		if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
+			require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	$options = array();
 
 	if ( isset($combo['combo_table']) && $combo['combo_table']!="" ){
@@ -186,7 +189,11 @@ function get_checklist($key, $values, $valueNames = false) {
 	global $module_id;
 	global $branch;
 	
-    require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
+    require_once("../../../../web/common/cfg_comm.php");
+
+	session_load_from_tool($module_id);
+	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
+		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $k => $v) {
 		if ($k == $key) {

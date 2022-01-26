@@ -31,11 +31,7 @@
  $custom_config[$module_id]['custom_name'] = "Call Center";
  
  //if you want submenu (horizontal) items add them here:
- $custom_config[$module_id]['submenu_items'] = array(
- 												"0"	=> "Agents",
- 												"1"	=> "Flows",
- 												"2"	=> "CDRs"
-												);
+ $custom_config[$module_id]['submenu_items'] = get_value_from_tool("submenu_items", "callcenter");
 
 
 /* config for each submenu item */
@@ -53,11 +49,11 @@
 +---------------+------------------+------+-----+---------+----------------+
 */
 
- $custom_config[$module_id][0]['custom_table'] = "cc_agents";
+ $custom_config[$module_id][0]['custom_table'] = get_value_from_tool("agents_custom_table", "callcenter");
  $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
- $custom_config[$module_id][0]['per_page'] = 5;
- $custom_config[$module_id][0]['page_range'] = 3;
+ $custom_config[$module_id][0]['per_page'] = get_value_from_tool("agents_per_page", "callcenter");
+ $custom_config[$module_id][0]['page_range'] = get_value_from_tool("agents_page_range", "callcenter");
 
  //column types definitions 
  // in forms - should be text / combo / datetime / checkbox = right now implemented are text and combo
@@ -221,11 +217,11 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
 
 /* FLOWS SUB MENU */
 
- $custom_config[$module_id][1]['custom_table'] = "cc_flows";
+ $custom_config[$module_id][1]['custom_table'] = get_value("flows_custom_table");
  $custom_config[$module_id][1]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][1]['custom_table_order_by'] = $custom_config[$module_id][1]['custom_table_primary_key'];
- $custom_config[$module_id][1]['per_page'] = 5;
- $custom_config[$module_id][1]['page_range'] = 3;
+ $custom_config[$module_id][1]['per_page'] = get_value("flows_per_age");
+ $custom_config[$module_id][1]['page_range'] = get_value("flows_page_range");
 
 /*
 +-----------------+------------------+------+-----+---------+----------------+
@@ -552,11 +548,11 @@ $custom_config[$module_id][1]['custom_search'] = 	array ( "enabled" => true,
 /* CC CDRS SUBMENU ITEM */
 
 
- $custom_config[$module_id][2]['custom_table'] = "cc_cdrs";
+ $custom_config[$module_id][2]['custom_table'] = get_value("cdrs_custom_table");
  $custom_config[$module_id][2]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][2]['custom_table_order_by'] = $custom_config[$module_id][2]['custom_table_primary_key'];
- $custom_config[$module_id][2]['per_page'] = 10;
- $custom_config[$module_id][2]['page_range'] = 5;
+ $custom_config[$module_id][2]['per_page'] = get_value("cdrs_per_page");
+ $custom_config[$module_id][2]['page_range'] = get_value("cdrs_page_range");
 
 /*
 +--------------------+------------------+------+-----+---------+----------------+

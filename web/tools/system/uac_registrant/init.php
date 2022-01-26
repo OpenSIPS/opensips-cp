@@ -1,8 +1,9 @@
 <?php
 //use this file to point to the config file of this module 
 //this file is used in lib/data_loader.php and in template/header.php but also index.php
-$branch = "system";
+require_once("../../../common/cfg_comm.php");
 $module_id = "uac_registrant";
+$branch = "system";
 $_SESSION['branch'] = "system";
-$_SESSION['module_id'] = "uac_registrant";
+$_SESSION['module_id'] = $module_id;
 ?>

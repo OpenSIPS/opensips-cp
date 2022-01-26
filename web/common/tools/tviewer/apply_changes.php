@@ -25,7 +25,6 @@
 session_start();
 require("init.php");
 
-require_once("../../../../config/tools/".$branch."/".$module_id."/local.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 require("lib/functions.inc.php");
@@ -34,6 +33,9 @@ require_once("../../../../config/db.inc.php");
 require_once("lib/functions.inc.php");
 require_once("lib/db_connect.php");
 
+session_load_from_tool($module_id);
+if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
+	require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 
 $command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_mi_command'];
 
