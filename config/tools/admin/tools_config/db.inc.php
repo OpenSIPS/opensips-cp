@@ -21,20 +21,20 @@
  */
 
  //database host
- //$config->db_host_admin_config = "localhost";
+ //$config->db_host_tools_config = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_admin_config = "";
+ //$config->db_port_tools_config = "";
  
  //database connection user
- //$config->db_user_admin_config = "root";
+ //$config->db_user_tools_config = "root";
  
  //database connection password
- //$config->db_pass_admin_config = "mysql";
+ //$config->db_pass_tools_config = "mysql";
  
  //database name
- //$config->db_name_admin_config = "opensips";
+ //$config->db_name_tools_config = "opensips";
  
- //if ($config->db_port_admin_config != "") $config->db_host_admin_config = $config->db_host_admin_config . ";port=" . $config->db_port_admin_config;
+ //if ($config->db_port_tools_config != "") $config->db_host_tools_config = $config->db_host_tools_config . ";port=" . $config->db_port_tools_config;
  
 ?>

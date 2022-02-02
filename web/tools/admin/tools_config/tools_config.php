@@ -23,13 +23,13 @@
 require_once("../../../common/cfg_comm.php");
 require("../../../../config/db.inc.php");
 require("template/header.php");
-require("../../../../config/tools/admin/admin_config/db.inc.php");
-require("../../../../config/tools/admin/admin_config/local.inc.php");
+require("../../../../config/tools/admin/tools_config/db.inc.php");
+require("../../../../config/tools/admin/tools_config/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 
-$table=$config->table_admin_config; 
-$current_page="current_page_admin_config";
+$table=$config->table_tools_config; 
+$current_page="current_page_tools_config";
 $box_id = $_GET['box_id'];
 if ($box_id == '') $box_id = null;
 

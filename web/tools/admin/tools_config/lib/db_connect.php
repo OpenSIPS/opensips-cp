@@ -22,15 +22,15 @@
 
         global $config;
 
-        require_once("".__DIR__."/../../../../../config/tools/admin/admin_config/db.inc.php");
+        require_once("".__DIR__."/../../../../../config/tools/admin/tools_config/db.inc.php");
         require_once("".__DIR__."/../../../../../config/db.inc.php");
 
-        if (isset($config->db_host_admin_config) && isset($config->db_user_admin_config) && isset($config->db_name_admin_config) ) {
-                $config->db_host = $config->db_host_admin_config;
-                $config->db_port = $config->db_port_admin_config;
-                $config->db_user = $config->db_user_admin_config;
-                $config->db_pass = $config->db_pass_admin_config;
-                $config->db_name = $config->db_name_admin_config;
+        if (isset($config->db_host_tools_config) && isset($config->db_user_tools_config) && isset($config->db_name_tools_config) ) {
+                $config->db_host = $config->db_host_tools_config;
+                $config->db_port = $config->db_port_tools_config;
+                $config->db_user = $config->db_user_tools_config;
+                $config->db_pass = $config->db_pass_tools_config;
+                $config->db_name = $config->db_name_tools_config;
         }
 	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 	try {

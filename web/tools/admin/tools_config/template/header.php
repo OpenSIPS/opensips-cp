@@ -21,9 +21,9 @@
 */
 
 require_once("../../../../config/session.inc.php");
-require_once("../../../../config/tools/admin/admin_config/db.inc.php");
+require_once("../../../../config/tools/admin/tools_config/db.inc.php");
 require_once("../../../../config/db.inc.php");
-//require_once("../../../../config/tools/admin/admin_config/local.inc.php");
+//require_once("../../../../config/tools/admin/tools_config/local.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
@@ -36,7 +36,7 @@ $no_result = "No Data Found.";
  <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
-<body bgcolor="#e9ecef" id="admin_config">
+<body bgcolor="#e9ecef" id="tools_config">
 <center>
 <table width="90%" cellpadding="5" cellspacing="5" border="0">
  <tr  valign="top" height="20">

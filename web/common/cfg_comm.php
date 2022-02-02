@@ -148,13 +148,13 @@ function display_settings_button($box_id=null) {
 			if(is_null($box_id))
 				echo("
 					<td align=right style=\"border-bottom: 1px solid #ccc!important\">
-						<a  onclick=\"top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?action=edit_tools';\" href=\"#\"   id=\"config_admin\"></a>
+						<a  onclick=\"top.frames['main_body'].location.href='../../admin/tools_config/tools_config.php?action=edit_tools';\" href=\"#\"   id=\"config_admin\"></a>
 					</td 
 				");    
 			else 
 				echo("
 					<td align=right style=\"border-bottom: 1px solid #ccc!important\">
-					<a  onclick=\"top.frames['main_body'].location.href='../../admin/admin_config/admin_config.php?action=edit_tools&box_id=$box_id';\" href=\"#\"   id=\"config_admin\"></a> 
+					<a  onclick=\"top.frames['main_body'].location.href='../../admin/tools_config/tools_config.php?action=edit_tools&box_id=$box_id';\" href=\"#\"   id=\"config_admin\"></a> 
 					</td>
 				");    
 	}
@@ -205,8 +205,8 @@ function get_system_params() {
 }
 
 function load_boxes() {
-	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/admin/admin_config/local.inc.php");
+	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
+	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
 	global $config;
 	if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
 		$module_params = get_params();
@@ -334,14 +334,14 @@ function session_load($box_id = null) {
 }
 
 function session_load_from_tool($tool, $box_id = null) {
-	require("".__DIR__."/../tools/admin/admin_config/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/admin/admin_config/local.inc.php");
+	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
+	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
 	global $config;
-	$table_admin_config = $config->table_admin_config;
+	$table_tools_config = $config->table_tools_config;
 	$module_params = get_params_from_tool($tool);
 	if (!isset($_SESSION['config'][$tool])) {
 		if (is_null($box_id)) {
-			$sql = 'select param, value from '.$table_admin_config.' where module=? ';
+			$sql = 'select param, value from '.$table_tools_config.' where module=? ';
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -358,7 +358,7 @@ function session_load_from_tool($tool, $box_id = null) {
 				}
 			} 
 		} else { 
-			$sql = 'select param, value, box_id from '.$table_admin_config.' where module=? ';
+			$sql = 'select param, value, box_id from '.$table_tools_config.' where module=? ';
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

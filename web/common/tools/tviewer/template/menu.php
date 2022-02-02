@@ -4,7 +4,7 @@
         	<?php print "System / ".$custom_config[$module_id]['custom_name']." / ".$_SESSION['permission'];
         	?>
 			<td align=right style="border-bottom: 1px solid #ccc!important">
-				<a  onclick="top.frames['main_body'].location.href='../../../tools/admin/admin_config/admin_config.php?action=edit_tools';" href="#"   id="config_admin"></a>
+				<a  onclick="top.frames['main_body'].location.href='../../../tools/admin/tools_config/tools_config.php?action=edit_tools';" href="#"   id="config_admin"></a>
 			</td 
     	</td>
 	</tr>
