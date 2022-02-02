@@ -260,7 +260,7 @@ function form_generate_checklist($title, $tip, $id, $mlen, $selected, $vals, $te
 		</tr>");
 }
 
-function form_generate_input_checkbox($title,$tip,$id,$val,$checked) {
+function form_generate_input_checkbox($title,$tip,$id,$val,$checked,$hooks="") {
 
 	print("
 		<tr>
@@ -274,7 +274,7 @@ function form_generate_input_checkbox($title,$tip,$id,$val,$checked) {
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
-				<input type='checkbox' name='".$id."' value='".$val."' id='".$id."' class='dataInput' ".(($checked==1)?"checked":"").">
+				<input type='checkbox' name='".$id."' value='".$val."' id='".$id."' class='dataInput' ".(($checked==1)?"checked":"")." ".$hooks.">
 				</td>
 				<td width='20'>
 				<div id='".$id."_ok'></div>

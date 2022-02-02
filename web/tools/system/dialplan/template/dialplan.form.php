@@ -37,6 +37,9 @@ form_generate_input_text("Matching Regular Expression", "Regular expresion used 
 form_generate_select("Matching Flags", "Flags",
 	"match_flags", 128, $dp_form['match_flags'], array("0", "1"), array("case sensitive", "case insensitive"));
 
+form_generate_input_checkbox("Match Only", "Indicates whether the rule is only used to match, and not modify the input",
+	"match_only", true, $dp_form['match_only'], "onclick='toggleChecked();'");
+
 form_generate_input_text("Substitution Regular Expression", "Regular expression to be used for the substitution",
 	"subst_exp", "y", $dp_form['subst_exp'], 128, "^[^@]+$");
 
@@ -53,3 +56,24 @@ if ( !isset($dialplan_attributes_mode) || $dialplan_attributes_mode==1 ) {
 	}
 }
 ?>
+<script>
+function getFormRow(name) {
+	var el = document.getElementById(name);
+	var firstTr = false;
+	while (true) {
+		if (el.tagName.toLowerCase() == "tr") {
+			if (firstTr)
+				return el;
+			firstTr = true;
+		}
+		el = el.parentNode;
+	}
+	return el;
+}
+function toggleChecked() {
+	var mode = (document.getElementById("match_only").checked?"none":"");
+	getFormRow("subst_exp").style.display = mode;
+	getFormRow("repl_exp").style.display = mode;
+}
+toggleChecked();
+</script>
