@@ -27,6 +27,6 @@
  $config->results_page_range = 5;
  
  //database tables
- $config->table_admin_config = "tools_config";
+ $config->table_admin_config = "ocp_tools_config";
 
 ?>

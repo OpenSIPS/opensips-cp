@@ -23,10 +23,13 @@
 require("".__DIR__."/../web/tools/admin/boxes_config/boxes.params.php");
 require("".__DIR__."/../web/tools/admin/system_config/systems.params.php");
 require("".__DIR__."/../web/tools/admin/boxes_config/lib/db_connect.php");
+require("".__DIR__."/tools/admin/boxes_config/local.inc.php");
+require("".__DIR__."/tools/admin/system_config/local.inc.php");
+global $config;
 
 if (!isset($boxes)) {
     if (!isset($_SESSION['boxes'])) {
-        $sql = 'select * from boxes_config';
+        $sql = 'select * from '.$config->table_boxes_config;
         $stm = $link->prepare($sql);
         if ($stm === false) {
             die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -58,7 +61,7 @@ if (!isset($boxes)) {
 require("".__DIR__."/../web/tools/admin/system_config/lib/db_connect.php");
 if (!isset($systems)) {
     if (!isset($_SESSION['systems'])) {
-        $sql = 'select * from system_config';
+        $sql = 'select * from '.$table_system_config;
         $stm = $link->prepare($sql);
         if ($stm === false) {
             die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

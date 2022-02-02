@@ -13,11 +13,11 @@ CREATE TABLE `ocp_admin_privileges` (
 INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','opensips','Super','Admin',md5('admin:opensips'),'all','all');
 
 -- 
--- Table for `monitored_stats`
+-- Table for `ocp_monitored_stats`
 -- 
 
-DROP TABLE IF EXISTS `monitored_stats`;
-CREATE TABLE `monitored_stats` (
+DROP TABLE IF EXISTS `ocp_monitored_stats`;
+CREATE TABLE `ocp_monitored_stats` (
   `name` varchar(64) NOT NULL,
   `extra` varchar(64) NOT NULL,
   `box_id` mediumint(8) unsigned NOT NULL default '0',
@@ -27,11 +27,11 @@ CREATE TABLE `monitored_stats` (
 -- --------------------------------------------------------
 
 -- 
--- Table for `monitoring_stats`
+-- Table for `ocp_monitoring_stats`
 -- 
 
-DROP TABLE IF EXISTS `monitoring_stats`;
-CREATE TABLE `monitoring_stats` (
+DROP TABLE IF EXISTS `ocp_monitoring_stats`;
+CREATE TABLE `ocp_monitoring_stats` (
   `name` varchar(64) NOT NULL,
   `time` int(11) NOT NULL,
   `value` varchar(64) NOT NULL default '0',
@@ -42,10 +42,10 @@ CREATE TABLE `monitoring_stats` (
 -- --------------------------------------------------------
 
 -- 
--- Table for `boxes_config`
+-- Table for `ocp_boxes_config`
 -- 
 
-CREATE TABLE `boxes_config` (
+CREATE TABLE `ocp_boxes_config` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mi_conn` varchar(64) DEFAULT NULL,
   `monit_conn` varchar(64) NOT NULL,
@@ -61,12 +61,28 @@ CREATE TABLE `boxes_config` (
 -- --------------------------------------------------------
 
 -- 
--- Table for `system_config`
+-- Table for `ocp_system_config`
 -- 
 
-CREATE TABLE `system_config` (
+CREATE TABLE `ocp_system_config` (
   `assoc_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
   `desc` varchar(64) DEFAULT '',
   PRIMARY KEY (`assoc_id`)
 )
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_tools_config`
+-- 
+
+CREATE TABLE `ocp_tools_config` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `module` varchar(64) NOT NULL,
+  `param` varchar(64) NOT NULL,
+  `value` blob DEFAULT NULL,
+  `box_id` varchar(15) DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `box_key` (`module`,`param`,`box_id`)
+) 
