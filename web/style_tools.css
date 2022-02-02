@@ -149,6 +149,18 @@ a.menuItemSelect:hover {
 	color: #9869ed;
 	text-decoration: none;
 }
+.exampleButton {
+	font-weight: bold;
+	font-size: 10px;
+}
+a.exampleButton {
+	color: #9869ed;
+	text-decoration: none;
+}
+a.exampleButton:hover {
+	color: #9869ed;
+	text-decoration: none;
+}
 .menuItems{
 	padding: 20px 0;
 	text-align: left;	
