@@ -24,7 +24,8 @@
 $path_to_cdrviewer="/var/www/html/opensips-cp/web/tools/system/cdrviewer";
 chdir($path_to_smonitor);
 require("../../../../config/db.inc.php");
-require("../../../../config/tools/system/cdrviewer/local.inc.php");
+require("../../../../web/common/cfg_comm.php");
+session_load_from_tool("cdrviewer");
 require("../../../../config/tools/system/cdrviewer/db.inc.php");
 require("lib/functions.inc.php");
 require("lib/db_connect.php");
