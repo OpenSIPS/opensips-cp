@@ -27,6 +27,6 @@
  $config->results_page_range = 5;
  
  //database tables
- $config->table_boxes_config = "boxes_config";
+ $config->table_boxes_config = "ocp_boxes_config";
 
 ?>

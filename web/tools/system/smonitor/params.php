@@ -23,14 +23,14 @@ $config->smonitor = array(
 		"tip"     => "Amount of time (in hours) to keep samples before deleting them"
 	),
 	"table_monitored" => array(
-		"default" => "monitored_stats",
+		"default" => "ocp_monitored_stats",
 		"name"    => "Table Monitored",
 		"type"    => "text",
 		"validation_regex" => null,
 		"tip"     => "Database table name for storing the monitoring data"
 	),
 	"table_monitoring" => array(
-		"default" => "monitoring_stats",
+		"default" => "ocp_monitoring_stats",
 		"name"    => "Table monitoring",
 		"type"    => "text",
 		"validation_regex" => null,

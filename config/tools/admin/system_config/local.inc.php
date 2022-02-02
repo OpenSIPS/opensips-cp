@@ -27,6 +27,6 @@
  $config->results_page_range = 5;
  
  //database tables
- $config->table_system_config = "system_config";
+ $config->table_system_config = "ocp_system_config";
 
 ?>
