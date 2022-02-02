@@ -61,7 +61,7 @@ if (!isset($boxes)) {
 require("".__DIR__."/../web/tools/admin/system_config/lib/db_connect.php");
 if (!isset($systems)) {
     if (!isset($_SESSION['systems'])) {
-        $sql = 'select * from '.$table_system_config;
+        $sql = 'select * from '.$config->table_system_config;
         $stm = $link->prepare($sql);
         if ($stm === false) {
             die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
