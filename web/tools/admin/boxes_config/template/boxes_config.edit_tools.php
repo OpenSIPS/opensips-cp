@@ -52,6 +52,10 @@ $permissions=array();
 
  </tr>
   <?php
+	foreach ($boxes as $i => $box) {
+		if ($box['id'] == $box_id) 
+			$selected_box = $box;
+	}
 	$box_params = get_boxes_params();
 	foreach ($box_params as $attr=>$params) {
 		if ($params['show_in_edit_form']) {
@@ -59,8 +63,8 @@ $permissions=array();
 			if ($params['tip'])
 				$current_tip = $params[tip];
 			else $current_tip = null;
-			if ($params['nodes']) $value = $boxes[$box_id][$params['nodes'][0]][$params['nodes'][1]];
-			else $value = $boxes[$box_id][$attr];
+			if ($params['nodes']) $value = $selected_box[$params['nodes'][0]][$params['nodes'][1]];
+			else $value = $selected_box[$attr];
 
 			switch ($params['type']) {
 				case "checklist":
