@@ -3,8 +3,13 @@
 <meta charset="utf-8">
 
 <!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-
+<?php 
+if ($_SESSION['web'] == 1) {?>
+<script src=<?=$_SESSION['charting_url']?>></script>
+<?php
+} else { ?>
+<script src="d3.v4.min.js"></script>
+<?php } ?>
 <!-- Create a div where the graph will take place -->
 <div id=<?=$_SESSION['stat']?>></div>
 
