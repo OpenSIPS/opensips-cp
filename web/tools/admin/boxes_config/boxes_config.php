@@ -49,23 +49,29 @@ if ($action=="modify_params")
         $box_params=get_boxes_params();
 		$params_names = "";
 		$unknowns ="";
+		$update_query ="";
 		$values = array();
 		foreach ($box_params as $attr => $params){
 			if ($params['show_in_edit_form']) {
-				$params_names.="`".$attr."`, ";
-				$unknowns.="?, ";
-				$values[] = $_POST[$attr];
+				if ($params['type'] != "password" || $_POST[$attr] != "") {
+					$update_query .= "`".$attr."`=?, ";
+					$params_names.="`".$attr."`, ";
+					$unknowns.="?, ";
+					$values[] = $_POST[$attr];
+				}
 			}
 		}
+		$update_query.="`id`=?;";
 		$params_names.="id";
 		$unknowns.="?";
 		$values[] = $box_id;
-		$sql = "REPLACE INTO $table (".$params_names.") VALUES (".$unknowns.")";
+		$sql = "INSERT INTO ".$table." (".$params_names.") VALUES (".$unknowns.") ON DUPLICATE KEY UPDATE ".$update_query;
 		$stm = $link->prepare($sql);
+
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute($values) == false) {
+		if ($stm->execute(array_merge($values, $values)) == false) {
 			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 		}    else {
 			$info="Boxes were modified";

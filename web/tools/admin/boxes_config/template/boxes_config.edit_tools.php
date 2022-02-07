@@ -68,7 +68,7 @@ $permissions=array();
 
 			switch ($params['type']) {
 				case "password":
-					form_generate_passwords($attr, "", "", $minimum=6,$current_tip,$opt);
+					form_generate_passwords($attr, "", "", $minimum=6,$current_tip,"y");
 					break;
 				case "checklist":
 					if (isAssoc($params['options']))
