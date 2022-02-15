@@ -1,6 +1,12 @@
 <?php
 
 $config->cdrviewer = array(
+	"cdr_table" => array(
+		"default" => "acc",
+		"name"    => "CDR table",
+		"type"    => "text",
+		"validation_regex" => null,
+	),
     "results_per_page" => array(
 		"default" => 25,
 		"name"    => "Results per page",
