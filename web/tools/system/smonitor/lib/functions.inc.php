@@ -242,18 +242,17 @@ global $config_type;
 	$i++;	
 	}
 
-}	
-
+}
 
 function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
-
 	$var = $stat;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("db_connect.php");
 
+	$_SESSION['charting_url'] = $url;
 	$_SESSION['full_stat'] = $var;
 	$_SESSION['stat'] = str_replace(':', '', $stat);
 	$_SESSION[str_replace(':', '', $stat)] = $row;

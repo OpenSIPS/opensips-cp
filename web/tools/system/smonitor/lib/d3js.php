@@ -3,8 +3,7 @@
 <meta charset="utf-8">
 
 <!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.js"></script>
-
+<script src="d3.v4.min.js"></script>
 <!-- Create a div where the graph will take place -->
 <div id=<?=$_SESSION['stat']?>></div>
 
