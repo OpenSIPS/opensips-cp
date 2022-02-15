@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require("".__DIR__."/../web/tools/admin/boxes_config/boxes.params.php");
-require("".__DIR__."/../web/tools/admin/system_config/systems.params.php");
+require("".__DIR__."/../config/tools/admin/boxes_config/settings.inc.php");
+require("".__DIR__."/../config/tools/admin/system_config/settings.inc.php");
 require("".__DIR__."/../web/tools/admin/boxes_config/lib/db_connect.php");
 require("".__DIR__."/tools/admin/boxes_config/local.inc.php");
 require("".__DIR__."/tools/admin/system_config/local.inc.php");
