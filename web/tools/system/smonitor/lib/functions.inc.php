@@ -247,14 +247,6 @@ global $config_type;
 function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
-	$url = get_value("charting_url", $box_id);
-	$headers = @get_headers($url);
-	if($headers && strpos( $headers[0], '200')) {
-		$status = 1;
-	}
-	else {
-		$status = 0;
-	}
 	$var = $stat;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
@@ -269,7 +261,6 @@ function show_graph($stat,$box_id){
 	$_SESSION['box_id_graph'] = $box_id;
 	$_SESSION['chart_history'] = get_value("chart_history", $box_id);
 	$_SESSION['tmonitoring'] = get_value("table_monitoring", $box_id);
-	$_SESSION['web'] = $status;
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
