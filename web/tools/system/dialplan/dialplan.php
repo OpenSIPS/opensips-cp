@@ -93,6 +93,7 @@ if ($action=="add_do")
 	$match_flags= $_POST['match_flags'];
 	$subst_exp= $_POST['subst_exp'];
 	$repl_exp= $_POST['repl_exp'];
+	$match_only= $_POST['match_only'];
 
 	if ( !isset($dialplan_attributes_mode) || $dialplan_attributes_mode == 1) {
 		$attrs= $_POST['attrs'];
@@ -100,6 +101,10 @@ if ($action=="add_do")
 		$attrs="";
 		foreach( $config->attrs_cb as $key => $val )
 			$attrs.=!isset($_POST["dp_attr_".$key]) ? "" : $key ;
+	}
+	if ($match_only == 1) {
+		$subst_exp= NULL;
+		$repl_exp= NULL;
 	}
 
 	$sql = "INSERT INTO ".$table."
@@ -150,6 +155,7 @@ if ($action=="modify")
 	$match_flags= $_POST['match_flags'];
 	$subst_exp= $_POST['subst_exp'];
 	$repl_exp= $_POST['repl_exp'];
+	$match_only= $_POST['match_only'];
 
 	if ( !isset($dialplan_attributes_mode) || $dialplan_attributes_mode == 1) {
 		$attrs= $_POST['attrs'];
@@ -157,6 +163,10 @@ if ($action=="modify")
 		$attrs="";
 		foreach( $config->attrs_cb as $key => $val )
 			$attrs.=!isset($_POST["dp_attr_".$key]) ? "" : $key ;
+	}
+	if ($match_only == 1) {
+		$subst_exp= NULL;
+		$repl_exp= NULL;
 	}
 
 	$sql = "UPDATE ".$table." SET dpid=?, pr = ?, ".

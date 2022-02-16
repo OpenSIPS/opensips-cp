@@ -49,7 +49,7 @@ $config->boxes = array(
 		"type"    => "password",
 		"nodes"  => array("monit", "pass"),
 		"validation_regex" => null,
-		'show_in_edit_form' => false,
+		'show_in_edit_form' => true,
 	),
 	"monit_ssl" => array(
 		"default" => "/",

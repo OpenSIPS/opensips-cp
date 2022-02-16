@@ -6,6 +6,6 @@
 
 </html>
 <?php
- // $_SESSION['current_tool']="admin_config";
+ // $_SESSION['current_tool']="system_config";
  // $_SESSION['user_active_page']=$page_name;
 ?>

@@ -23,13 +23,13 @@
 require_once("../../../common/cfg_comm.php");
 require("../../../../config/db.inc.php");
 require("template/header.php");
-require("../../../../config/tools/admin/admin_config/db.inc.php");
-require("../../../../config/tools/admin/admin_config/local.inc.php");
+require("../../../../config/tools/admin/tools_config/db.inc.php");
+require("../../../../config/tools/admin/tools_config/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 
-$table=$config->table_admin_config; 
-$current_page="current_page_admin_config";
+$table=$config->table_tools_config; 
+$current_page="current_page_tools_config";
 $box_id = $_GET['box_id'];
 if ($box_id == '') $box_id = null;
 
@@ -51,12 +51,12 @@ if ($action=="modify_params")
 						$_POST[$module] = $checklist_values;
 					}
 					
-					$sql = "REPLACE INTO $table (module, param, value) VALUES (?,?,?)";
+					$sql = "INSERT INTO $table (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
 					$stm = $link->prepare($sql);
 					if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-					if ($stm->execute( array( $current_tool, $module, $_POST[$module])) == false) {
+					if ($stm->execute( array( $current_tool, $module, $_POST[$module], $current_tool, $module, $_POST[$module])) == false) {
 						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 					}    else {
 						$info="Admin credentials were modified";

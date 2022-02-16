@@ -68,5 +68,11 @@ $config->smonitor = array(
 		"options" => array("Realtime Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php"),
 		"tip"    => "List of available tabs for smonitor tool",
 		"type"    => "checklist"
+	),
+	"charting_url" => array(
+		"default" => "https://d3js.org/d3.v4.js",
+		"name"    => "Charting library URL",
+		"tip"    => "URL to d3 charting library version",
+		"type"    => "text"
 	)
 );

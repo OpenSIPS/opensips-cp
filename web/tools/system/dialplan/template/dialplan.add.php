@@ -31,7 +31,11 @@ if($clone =="1"){
 	if ($stm === FALSE)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute( array($id) );
-	$dp_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
+	$dp_form = $stm->fetch(PDO::FETCH_ASSOC);
+	if (is_null($dp_form['subst_exp']))
+		$dp_form['match_only'] = 1;
+	else
+		$dp_form['match_only'] = 0;
 
 } else {
 
@@ -42,6 +46,7 @@ if($clone =="1"){
 	$dp_form['subst_exp'] = NULL;
 	$dp_form['repl_exp'] = NULL;
 	$dp_form['attrs'] = "";
+	$dp_form['match_only'] = 0;
 
 }
 
