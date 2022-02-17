@@ -30,21 +30,7 @@
 </table>
 
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
-<?php /*
-$s = str_getcsv(file_get_contents("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv"));
-
-$j = 0;
-foreach ($s as $el) {
-  $j++;
-  if ($el != $s[0] && $el != $s[1]) {
-    $tr = intval(explode("\n", $el)[0]) + rand(3000, 3001);
-   $sql = "REPLACE INTO ocp_monitoring_stats VALUES(\"shmem\:fragments\", ".strtotime(explode("\n" , $el)[1]).",".$tr.",0)";
-   $stm = $link->prepare($sql);
-   if ($stm->execute(array($box_id)) === false)
-   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-  }
-  if($j >300) break;
-} */
+<?php 
 
 $sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";
 $stm = $link->prepare($sql);
