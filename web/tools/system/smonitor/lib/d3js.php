@@ -136,7 +136,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
       .call(d3.axisLeft(y)
       .tickFormat(d3.format(".2s")));
 
-      d3.selectAll("g.yAxis g.tick") 
+      svg.selectAll("g.yAxis g.tick") 
         .append("line") 
             .attr("class", "gridline")
             .attr("x1", 0) 
@@ -144,13 +144,13 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
             .attr("x2", width)
             .attr("y2", 0);
             
-         d3.selectAll("g.xAxis g.tick") 
-        .append("line") 
-            .attr("class", "gridline")
-            .attr("x1", 0) 
-            .attr("y1", -height)
-            .attr("x2", 0)
-            .attr("y2", 0);
+        svg.selectAll("g.xAxis g.tick") 
+      .append("line") 
+          .attr("class", "gridline")
+          .attr("x1", 0) 
+          .attr("y1", -height)
+          .attr("x2", 0)
+          .attr("y2", 0);
 
     // Add a clipPath: everything out of this area won't be drawn.
     var clip = svg.append("defs").append("svg:clipPath")
@@ -228,9 +228,9 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
           )
 
 
-          d3.selectAll("g.xAxis line.gridline").remove();
+          svg.selectAll("g.xAxis line.gridline").remove();
         
-         d3.selectAll("g.xAxis g.tick") 
+         svg.selectAll("g.xAxis g.tick") 
         .append("line") 
             .attr("class", "gridline")
             .attr("x1", 0) 

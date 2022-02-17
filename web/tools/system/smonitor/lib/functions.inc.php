@@ -273,4 +273,35 @@ function show_graph($stat,$box_id){
 
 }
 
+function show_graphs($stats, $box_id, $scale){
+	global $config;
+	global $gauge_arr;
+	$box_id = $box_id;
+	require("../../../../config/tools/system/smonitor/db.inc.php");
+	require("../../../../config/db.inc.php");
+	require("db_connect.php");
+	$chart_size = get_value('chart_size', $box_id)+1;
+
+    $divId = "";
+	
+	foreach ($stats as $var) {
+		$normal_chart = 0 ;
+		if (in_array($var , $gauge_arr ))  $normal_chart = 1;
+		$_SESSION['normal'][] = $normal_chart;
+		$divId.=str_replace(':', '', $var);
+	}
+	$nGraphs = sizeof($stats);
+	
+
+	$_SESSION['full_stats'] = $stats;
+	$_SESSION['chart_group_id'] = $divId;
+	$_SESSION['stime'] = get_value("sampling_time", $box_id);
+	$_SESSION['csize'] = get_value("chart_size", $box_id);
+	$_SESSION['box_id_graph'] = $box_id;
+	$_SESSION['scale'] = $scale; // 1 e individual
+
+	require("lib/d3jsMultiple.php");
+	
+}
+
 ?>

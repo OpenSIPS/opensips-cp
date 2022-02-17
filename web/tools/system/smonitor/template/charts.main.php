@@ -30,7 +30,22 @@
 </table>
 
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
-<?php
+<?php /*
+$s = str_getcsv(file_get_contents("https://raw.githubusercontent.com/holtzy/data_to_viz/master/Example_dataset/3_TwoNumOrdered_comma.csv"));
+
+$j = 0;
+foreach ($s as $el) {
+  $j++;
+  if ($el != $s[0] && $el != $s[1]) {
+    $tr = intval(explode("\n", $el)[0]) + rand(3000, 3001);
+   $sql = "REPLACE INTO ocp_monitoring_stats VALUES(\"shmem\:fragments\", ".strtotime(explode("\n" , $el)[1]).",".$tr.",0)";
+   $stm = $link->prepare($sql);
+   if ($stm->execute(array($box_id)) === false)
+   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+  }
+  if($j >300) break;
+} */
+
 $sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";
 $stm = $link->prepare($sql);
 if ($stm->execute(array($box_id)) === false)
@@ -43,6 +58,55 @@ else
  $i=0;
 
  $sampling_time=get_value('sampling_time', $box_id);
+ 
+ foreach(get_value("groups", $box_id) as $key=>$group_attr) {
+  $groupElements = $group_attr['stats'];
+  $scale = $group_attr['scale'];
+  $gName = "";
+  $matches = false;
+  $group = [];
+  foreach ($groupElements as $g) {
+   if( preg_match("/^\/.+\/[a-z]*$/i",$g)) {
+     foreach ($monitored_stats as $name => $id) {
+       if (preg_match($g, $name, $matches))
+           $group[] = $name; 
+       else console_log($g." si ".$name);
+     }
+   }
+   else $group[] = $g;
+  }
+
+ foreach($group as $gr) {
+   $gName.=$gr.", ";
+ }  
+ $stat_chart=false;
+ $stat_img="../../../images/share/chart.png";
+ if ($_SESSION["group_open"][$key]=="yes") $stat_chart=true;
+ $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
+ $stm = $link->prepare($sql);
+ if ($stm->execute(array($group[0], $box_id)) === false)
+   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+ $result = $stm->fetchAll(PDO::FETCH_ASSOC);
+ $from_time=date('j M Y, H:i:s',$result[0]['time']);
+ echo $result['time'];
+ ?>
+  <tr>
+   <td class="searchRecord">
+    <div id="stat_<?=$gName?>" class="Data"  onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?group_id=<?=$key?>'">
+     <img src="<?=$stat_img?>"><b><?=$gName?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
+    </div>
+   </td>
+  </tr>
+  <?php
+   if ($stat_chart)
+   { 
+    ?>
+     <tr><td class="rowEven"><?php show_graphs($group,$box_id,$scale); ?></td></tr>
+     <tr><td><img src="../../../images/share/spacer.gif"></td></tr>
+   <?php 
+     
+   }
+}
  for($j=0;count($resultset)>$j;$j++)
  {
   $stat_chart=false;
