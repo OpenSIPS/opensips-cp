@@ -142,8 +142,8 @@ function get_group() {
 }
 
 function display_settings_button($box_id=null) {
-	if (file_exists("params.php") && $_SESSION['permission'] == 'Admin') {  
-		require("params.php");
+	if (file_exists(__DIR__."/../../config/tools/".get_group()."/".$_SESSION['current_tool']."/settings.inc.php") && $_SESSION['permission'] == 'Admin') {  
+		require(__DIR__."/../../config/tools/".get_group()."/".$_SESSION['current_tool']."/settings.inc.php");
 		if (!is_null($config))
 			if(is_null($box_id))
 				echo("
@@ -190,17 +190,17 @@ function get_params() {
 
 function get_params_from_tool($current_tool) {
 	$current_group = get_group_from_tool($current_tool);
-	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
+	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
 	return $config->$current_tool;
 }
 
 function get_boxes_params() {
-	require("boxes.params.php");
+	require(__DIR__."/../../config/tools/admin/boxes_config/settings.inc.php");
 	return $config->boxes;
 }
 
 function get_system_params() {
-	require("systems.params.php");
+	require(__DIR__."/../../config/tools/admin/system_config/settings.inc.php");
 	return $config->systems;
 }
 
@@ -254,7 +254,7 @@ function load_boxes() {
 
 function get_value_from_tool($current_param, $current_tool, $box_id = null) {
 	$current_group = get_group_from_tool($current_tool);
-	require("".__DIR__."/../tools/".$current_group."/".$current_tool."/params.php");
+	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
 	if (is_null($box_id)){
 		if (!is_null($_SESSION['config'][$current_tool][$current_param])){ 
 			return $_SESSION['config'][$current_tool][$current_param];}}
