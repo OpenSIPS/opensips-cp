@@ -43,6 +43,11 @@
   if ($_SESSION['stat_open'][$stat_id]=="yes") $_SESSION['stat_open'][$stat_id]="no";
    else $_SESSION['stat_open'][$stat_id]="yes";
  }
+ if ($_GET['group_id']!=null) {
+   $group_id = $_GET['group_id'];
+   if ($_SESSION['group_open'][$group_id] == "yes") $_SESSION['group_open'][$group_id]="no";
+   else $_SESSION['group_open'][$group_id]="yes";
+ }  
  
  if ($_POST['flush']!=null)
  {

@@ -50,9 +50,11 @@
             $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
             $vals.=",f";
         }
-        if (is_null($r['value'])) $r['value'] = "f";
-        $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
-        $vals.=",".$r['value'];
+        else {
+            if (is_null($r['value'])) $r['value'] = "f";
+            $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
+            $vals.=",".$r['value'];
+        }
         $last = intval($d);
     }
     $vals.="\n".date("Y-m-d-H-i-s", time() - $chart_size * 3600);
