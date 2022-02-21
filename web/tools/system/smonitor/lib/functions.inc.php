@@ -283,7 +283,7 @@ function show_graphs($stats, $box_id, $scale){
 	$chart_size = get_value('chart_size', $box_id)+1;
 
     $divId = "";
-	
+	$_SESSION['normal'] = array();
 	foreach ($stats as $var) {
 		$normal_chart = 0 ;
 		if (in_array($var , $gauge_arr ))  $normal_chart = 1;
@@ -292,7 +292,6 @@ function show_graphs($stats, $box_id, $scale){
 	}
 	$nGraphs = sizeof($stats);
 	
-
 	$_SESSION['full_stats'] = $stats;
 	$_SESSION['chart_group_id'] = $divId;
 	$_SESSION['stime'] = get_value("sampling_time", $box_id);

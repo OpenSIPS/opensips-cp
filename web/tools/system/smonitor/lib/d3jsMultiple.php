@@ -23,8 +23,24 @@ display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_enco
 "<?php echo $_SESSION['box_id_graph'] ?> ", <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
 
 function display_graphs(arg1, arg2, arg3, arg4, arg5) {
+  //   var stats_list = "";
+    var stats_list = encodeURIComponent(JSON.stringify(arg2));
+    var normal_list = encodeURIComponent(JSON.stringify(arg4));
+  
+d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&normal=").concat(normal_list),
+
+function(d){
+    if (d.value == "f") {
+      d.value = null;
+    }
+    return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value, name : d.name}
+  },
+
+ function(data) { 
+  var currentAxis = 0;
     var refresh = 1;
     var zoomTrigger = false;
+    
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 100, left: 50},
       width = 660 - margin.left - margin.right,
@@ -39,6 +55,8 @@ function display_graphs(arg1, arg2, arg3, arg4, arg5) {
     .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")")
+    .on("mousemove", onMouseMove)
+    .on("mouseleave", onMouseLeave);    
 
    var clip = svg.append("defs").append("svg:clipPath")
     .attr("id", "clip")
@@ -48,23 +66,21 @@ function display_graphs(arg1, arg2, arg3, arg4, arg5) {
     .attr("x", 0)
     .attr("y", 0);
 
+    
+    const tooltip = d3.select("#tooltipd3".concat(arg1));
+    const tooltipCircle = svg
+    .append("circle")
+    .attr("class", "tooltipd3-circle")
+    .attr("r", 4)
+    .attr("stroke", "#af9358")
+    .attr("fill", "white")
+    .attr("stroke-width", 2)
+    .style("opacity", 0);
     const labelX = 0;
     const labelY = 270;
     var removed = {};
     arg2.forEach((element, i) => removed[element] = 0);
- //   var stats_list = "";
-    var stats_list = encodeURIComponent(JSON.stringify(arg2));
-    
-d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
-
-function(d){
-    if (d.value == "f") {
-      d.value = null;
-    }
-    return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value, name : d.name}
-  },
-
- function(data) {
+ 
 
 // group the data: I want to draw one line per group
 var sumstat = d3.nest() // nest function allows to group the calculation per level of a factor
@@ -107,8 +123,25 @@ if (arg5 == 1) {
     yAxis = svg.append("g")
     .attr("class", "yAxis")
     .call(d3.axisLeft(yAll).tickFormat(d3.format(".2s")));
-
 }
+yAxis
+  .on("click", function() {
+        if (arg5 == 1) {
+            currentAxis ++;
+            currentAxis = currentAxis % sumstat.length;
+            yAxis.transition().duration(1000).call(d3.axisLeft(Object.values(y)[currentAxis]).tickFormat(d3.format(".2s")));
+            svg.selectAll("g.yAxis line.gridline").remove();
+            svg.selectAll("g.yAxis")
+            .attr("stroke", color(Object.keys(y)[currentAxis]));
+            svg.selectAll("g.yAxis g.tick") 
+            .append("line") 
+            .attr("class", "gridline")
+            .attr("x1", 0) 
+            .attr("y1", 0)
+            .attr("x2", width)
+            .attr("y2", 0);
+        }
+    });
 
   svg.selectAll("g.yAxis g.tick") 
         .append("line") 
@@ -132,6 +165,7 @@ arg2.forEach ((element, i) => {
     svg.append("circle").attr("cx",labelX + 230*Math.floor(i/2)).attr("cy",labelY + 30 + 30 * (i %2)).attr("r", 6).style("fill", color(element))
     .on("click", function() {
         if (arg5 == 1) {
+            currentAxis = Object.keys(y).indexOf(element);
             yAxis.transition().duration(1000).call(d3.axisLeft(y[element]).tickFormat(d3.format(".2s")));
             svg.selectAll("g.yAxis line.gridline").remove();
             svg.selectAll("g.yAxis")
@@ -195,6 +229,81 @@ var lines = svg.selectAll(".line")
     svg .append("g")
         .attr("class", "brush")
         .call(brush);
+
+
+    function onMouseLeave() {
+      tooltip.style("opacity", 0);
+      tooltipCircle.style("opacity", 0);
+    }
+
+    function onMouseMove() {
+
+      const mousePosition = d3.mouse(this);
+      const hoveredDate = x.invert(mousePosition[0]);
+      var hoveredValue = {};
+      const hoveredValueAll = yAll.invert(mousePosition[1]);
+      if (arg5 == 1) {
+        for (var i = 0 ; i < sumstat.length ; i ++) {
+          hoveredValue[sumstat[i].key] = y[sumstat[i].key].invert(mousePosition[1]);
+        } 
+      }
+      const xAccessor = (d) => {
+        if (d.value == null)
+          return null;
+        else return d.date;
+      }
+      const yAccessor = (d) => +d.value;
+
+      const getDistanceFromHoveredDate = (d) =>
+        Math.abs(xAccessor(d) - hoveredDate);
+        
+      var closestIndex;
+      var smallestYdist = -1;
+      var closestDataPoint;
+      for (var i = 0; i < sumstat.length; i++) { 
+        var currentChartClosest = d3.scan(
+          sumstat[i].values,
+          (a, b) => getDistanceFromHoveredDate(a) - getDistanceFromHoveredDate(b)
+    ); 
+        if(arg5 == 2 ) var hoveredValueTemp = hoveredValueAll;
+        else var hoveredValueTemp = hoveredValue[sumstat[i].key];
+        if( Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp) < smallestYdist || smallestYdist == -1) {
+          closestDataPoint = sumstat[i].values[currentChartClosest];
+          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp);
+        }
+    }
+    
+    if (arg5 == 1) var yTemp = y[closestDataPoint.name];
+    else var yTemp = yAll;
+
+    const closestXValue = xAccessor(closestDataPoint);
+    const closestYValue = yAccessor(closestDataPoint);
+
+    const formatDate = d3.timeFormat("%c");
+    tooltip.select("#date").text(formatDate(closestXValue));
+
+    const formatYvalue = (d) => d;
+    tooltip.select("#internet").html(formatYvalue(closestYValue));
+
+    var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
+    const xT = x(closestXValue) + offsets.left + margin.left ;
+    const yT = yTemp(closestYValue) + offsets.top + window.pageYOffset - 85;
+
+    tooltip.style(
+      "transform",
+      `translate(` + `calc( -50% + ${xT}px),` + `calc(${yT}px)` + `)`
+    );
+    
+    tooltip.style("opacity", 1);
+    tooltip.style("width", "220px");
+
+    tooltipCircle
+      .attr("cx", x(closestXValue))
+      .attr("cy", yTemp(closestYValue))
+      .style("opacity", 1);
+    }
+
+
 
  function updateChart() {
       refresh = 0;
@@ -280,7 +389,7 @@ svg.on("dblclick",function(){
 
 function updateGr(){ 
     if( refresh == 1 ) {
-        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
+        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
 
         // When reading the csv, I must format variables:
         function(d){

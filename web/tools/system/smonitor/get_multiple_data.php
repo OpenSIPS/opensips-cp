@@ -29,12 +29,13 @@
     
     $vals.="\n".date("Y-m-d-H-i-s", time());
     $vals.=",f,".$fstats[0];
-    foreach($fstats as $stat) {
+
+    foreach($fstats as $idx => $stat) {
         $sql = "SELECT * FROM ".$table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";
         $stm = $link->prepare($sql);
         $stm->execute(array($stat, $box, time() - $chart_size * 3600));
         $row = $stm->fetchAll(PDO::FETCH_ASSOC);
-        if ($normal[$stat] == 0) {
+        if ($normal[$idx] == 0) {
             $prev = $row[0]['value'];
             for ($i = 1; $i < count($row); $i++) {
                 $plot_value = $prev - $row[$i]['value'];
