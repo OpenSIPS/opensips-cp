@@ -148,12 +148,12 @@ case "toggle":
 	$state= $_GET['state'];
 	$id = $_GET['id'];
 	if ($state=="enabled") {
-		$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("lb_status", array("destination_id"=>$id,"new_status"=>"0"), $mi_connectors[$i], $errors);
 		}
 	} else if ($state=="disabled") {
-		$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("lb_status", array("destination_id"=>$id,"new_status"=>"1"), $mi_connectors[$i], $errors);
 		}

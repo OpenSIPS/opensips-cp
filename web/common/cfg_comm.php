@@ -248,11 +248,11 @@ function load_boxes() {
 		} 
 	}
 	foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
+		$config->$module = get_settings_value($module); 
 	} 
 }
 
-function get_value_from_tool($current_param, $current_tool, $box_id = null) {
+function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {
 	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
 	if (is_null($box_id)){
@@ -269,10 +269,10 @@ function get_value_from_tool($current_param, $current_tool, $box_id = null) {
 	return null;
 }
 
-function get_value($current_param, $box_id = null) {
+function get_settings_value($current_param, $box_id = null) {
 	$current_tool = $_SESSION['current_tool'];
 
-	return get_value_from_tool($current_param, $current_tool, $box_id);
+	return get_settings_value_from_tool($current_param, $current_tool, $box_id);
 }
 
 
@@ -378,13 +378,13 @@ function session_load_from_tool($tool, $box_id = null) {
 		} 
 	}
 	foreach ($module_params as $module=>$params) {
-		$config->$module = get_value_from_tool($module, $tool); 
+		$config->$module = get_settings_value_from_tool($module, $tool); 
 	} 
 }
 
 function print_description() {
 	global $config;
-	$long = get_value('tool_description');
+	$long = get_settings_value('tool_description');
 	$short = substr($long, 0, 100);
 	$long = substr($long, 100, strlen($long));
 	echo (

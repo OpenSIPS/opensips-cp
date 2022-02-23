@@ -61,11 +61,11 @@ Example table: table1
 ####################################################################################
 */
 
-$custom_config[$module_id][0]['custom_table'] = get_value_from_tool("custom_table", "tls_mgm");
+$custom_config[$module_id][0]['custom_table'] = get_settings_value_from_tool("custom_table", "tls_mgm");
 $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
 $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
-$custom_config[$module_id][0]['per_page'] = get_value_from_tool("per_page", "tls_mgm");
-$custom_config[$module_id][0]['page_range'] = get_value_from_tool("page_range", "tls_mgm");
+$custom_config[$module_id][0]['per_page'] = get_settings_value_from_tool("per_page", "tls_mgm");
+$custom_config[$module_id][0]['page_range'] = get_settings_value_from_tool("page_range", "tls_mgm");
 
 /*
  Columns definition:

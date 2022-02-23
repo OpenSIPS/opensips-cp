@@ -48,7 +48,7 @@ if ($action=="change_state"){
 	$state= $_GET['state'];
 	$sock = $_GET['sock'];
 
-	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 	for ($i=0;$i<count($mi_connectors);$i++) {
 		if ($state=="0") {
 			mi_command("rtpproxy_enable",array("url"=>$sock,"enable"=> "0") , $mi_connectors[$i], $errors);

@@ -242,7 +242,7 @@ else
      	$to_ip = $resultset_d[$j]['to_proto'].":".$resultset_d[$j]['to_ip'].":".$resultset_d[$j]['to_port'];
 
      	// identify proxy
-     	if (in_array($from_ip,get_value('proxy_list'))) {
+     	if (in_array($from_ip,get_settings_value('proxy_list'))) {
 
      		if ($proxy=="") $proxy=$from_ip;
 
@@ -250,7 +250,7 @@ else
      	}
 
 
-     	if (in_array($to_ip,get_value('proxy_list'))) {
+     	if (in_array($to_ip,get_settings_value('proxy_list'))) {
 
      		if ($proxy=="") $proxy=$to_ip;
 
@@ -260,7 +260,7 @@ else
 
      	if ($proxy=="")
      	{
-     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config ('.get_value('proxy_list').')? <br><br></td></tr>');
+     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config ('.get_settings_value('proxy_list').')? <br><br></td></tr>');
 
      		exit();
      	}
@@ -335,7 +335,7 @@ else
 	
 	
 
-     	if (( in_array($from_ip,get_value('proxy_list') ) === true ) && ( in_array($to_ip,get_value('proxy_list') ) === true ) )  {
+     	if (( in_array($from_ip,get_settings_value('proxy_list') ) === true ) && ( in_array($to_ip,get_settings_value('proxy_list') ) === true ) )  {
 
      		if ($status=="") {
 
