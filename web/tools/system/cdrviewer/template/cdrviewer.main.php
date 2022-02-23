@@ -68,15 +68,15 @@ if (($cdr_field!="") && ($search_regexp!="")) {
   <td class="searchRecord">CDR field</td>
   <td class="searchRecord" > 
   <select name="cdr_field" class="dataSelect" id="select_cdr_field" style="width:100px!important" onChange="changeState_cdr_field()">
-	<?php
+	<?php 
 	$has_selected = false;
-	for ($i =0 ; $i < count($show_field) ; $i++) { 
- 		if ($cdr_field == key($show_field[$i]) ) {
-			print("<option value='".key($show_field[$i])."' selected >".$show_field[$i][key($show_field[$i])]."</option>");
+	foreach($show_field as $key => $value) {
+		if ($cdr_field == $key ) {
+			print("<option value='".$key."' selected >".$value."</option>");
 			$has_selected=true;
 		} else {
- 			print("<option value='".key($show_field[$i])."'>".$show_field[$i][key($show_field[$i])]."</option>");
-           	}
+ 			print("<option value='".$key."'>".$value."</option>");
+        }		
 	}
 	print("<option value='none' ".($has_selected?"":"selected")." >None</option>");
  	?>
@@ -157,10 +157,10 @@ else
 	<table class="ttable" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">
      <tr align="center">
 
- 	  <?php for ($i = 0 ; $i < count($show_field)  ; $i++) {  ?>
+ 	  <?php foreach ($show_field as $key => $value) {  ?>
      
  	  		
- 	  	<th class="listTitle" align="center"><?php echo $show_field[$i][key($show_field[$i])]?></th>
+ 	  	<th class="listTitle" align="center"><?php echo $value?></th>
 
 
  	  <?php } ?>
@@ -179,20 +179,19 @@ else
 		
 		echo '<tr align="center">';
 
-		for ($i = 0 ; $i < count($show_field)  ; $i++) {
-			$value = $result[$j][key($show_field[$i])];
-			if (get_value('sip_call_id_field_name')==key($show_field[$i])) {
+		foreach ($show_field as $key => $value) {
+			if (get_value('sip_call_id_field_name')==$key) {
 				// link the "callid" field to the tracer module
 				if ($tracer=="") {
-					if (isset($display_fields[key($show_field[$i])]))
-						$value = $display_fields[key($show_field[$i])]($value);
+					if (isset($display_fields[$key]))
+						$value = $display_fields[$key]($value);
 					echo '<td class="'.$row_style.'">'.$value.'</td>';
 				} else {
 					echo '<td class="'.$row_style.'">'.'&nbsp;<a href="trace.php?tracer='.$tracer.'&callid='.$value.'" class="menuItem" onClick="select_dot()" > <b>'.$value.'</b></a>&nbsp;'.'</td>';
 				}
 			} else {
-				if (isset($display_fields[key($show_field[$i])]))
-					$value = $display_fields[key($show_field[$i])]($value);
+				if (isset($display_fields[$key]))
+					$value = $display_fields[$key]($value);
 				echo '<td class="'.$row_style.'">'.$value.'</td>';
 			}
 		}
