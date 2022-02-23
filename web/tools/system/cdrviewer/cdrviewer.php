@@ -34,6 +34,7 @@ include("lib/db_connect.php");
 $cdr_repository_path = get_value('cdr_repository_path');
 $cdr_set_field_names = get_value('cdr_set_field_names');
 $delay = get_value('delay');
+$show_field = get_value('show_field');
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];

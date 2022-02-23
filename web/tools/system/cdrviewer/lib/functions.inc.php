@@ -80,13 +80,11 @@ function get_field($string){
 
 	reset($show_field);
 
-	$x = count($show_field);
+	foreach ($show_field as $key => $value) {
 
-	for($i = 0;$i < $x; $i++) {
+		if ($value == $string )
 
-		if ($show_field[$i][key($show_field[$i])] == $string )
-
-		return key($show_field[$i]);
+		return $key;
 
 	}
 
