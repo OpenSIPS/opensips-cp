@@ -84,7 +84,7 @@ function get_groupids()
 	$i = 0;
 	$values = array();
 	if ($config->group_id_method=="static") {
-    $rules = get_value("group_ids_file");
+    $rules = get_settings_value("group_ids_file");
     foreach($rules as $key=>$value) {
      $values[$i]['groupid'] = (string) $key;
      $values[$i]['description'] = $value; 

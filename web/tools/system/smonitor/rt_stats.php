@@ -36,7 +36,7 @@
  session_load($_SESSION['box_id']); 
  include("lib/db_connect.php");
  
- $config_type = get_value('config_type');
+ $config_type = get_settings_value('config_type');
  
  if ($_GET['var']!=null)
  {

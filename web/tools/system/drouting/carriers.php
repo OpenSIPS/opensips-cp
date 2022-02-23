@@ -54,7 +54,7 @@
   $resultset[0]['useweights']   = ($resultset[0]['sort_alg']=="W") ? "Yes" : "No";
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
 
-  $mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+  $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
   $params = array("carrier_id"=>$_GET['carrierid']);
   if (isset($config->routing_partition) && $config->routing_partition != "")
@@ -76,7 +76,7 @@
 # start enable carrier  #
 #########################
 if ($action=="enablecar"){
-    $mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+    $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
     $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"1");
     if (isset($config->routing_partition) && $config->routing_partition != "")
@@ -97,7 +97,7 @@ if ($action=="enablecar"){
 # start disable carrier  #
 #########################
 if ($action=="disablecar"){
-    $mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+    $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
     $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"0");
     if (isset($config->routing_partition) && $config->routing_partition != "")

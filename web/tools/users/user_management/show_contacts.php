@@ -5,7 +5,7 @@ require_once("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 session_load();
 
-$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 $message=mi_command( "ul_show_contact", array("table_name"=>"location","aor"=>$_GET["username"]."@".$_GET["domain"]), $mi_connectors[0], $errors);
 
 unset($contact);

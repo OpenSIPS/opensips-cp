@@ -33,7 +33,7 @@ $command="address_reload";
 <br>
 <?php
 
-$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";

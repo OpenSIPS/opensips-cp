@@ -172,7 +172,7 @@ function clean_stats_table(){
 	require ($global);
 	for($box_id=0 ; $box_id<sizeof($boxes) ; $box_id++ ) {
 		if ($boxes[$box_id]['smonitor']['charts']==1){
-			$chart_history=get_value('chart_history', $box_id);
+			$chart_history=get_settings_value('chart_history', $box_id);
 			if ($chart_history=="auto") $chart_history=3*24;
 			$last_date=$current_time=time();
 			$last_date -= 60*60*($chart_history-24);
@@ -256,11 +256,11 @@ function show_graph($stat,$box_id){
 	$_SESSION['full_stat'] = $var;
 	$_SESSION['stat'] = str_replace(':', '', $stat);
 	$_SESSION[str_replace(':', '', $stat)] = $row;
-	$_SESSION['sampling_time'] = get_value("sampling_time", $box_id);
-	$_SESSION['chart_size'] = get_value("chart_size", $box_id);
+	$_SESSION['sampling_time'] = get_settings_value("sampling_time", $box_id);
+	$_SESSION['chart_size'] = get_settings_value("chart_size", $box_id);
 	$_SESSION['box_id_graph'] = $box_id;
-	$_SESSION['chart_history'] = get_value("chart_history", $box_id);
-	$_SESSION['tmonitoring'] = get_value("table_monitoring", $box_id);
+	$_SESSION['chart_history'] = get_settings_value("chart_history", $box_id);
+	$_SESSION['tmonitoring'] = get_settings_value("table_monitoring", $box_id);
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
@@ -280,7 +280,7 @@ function show_graphs($stats, $box_id, $scale){
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("db_connect.php");
-	$chart_size = get_value('chart_size', $box_id)+1;
+	$chart_size = get_settings_value('chart_size', $box_id)+1;
 
     $divId = "";
 	$_SESSION['normal'] = array();
@@ -294,8 +294,8 @@ function show_graphs($stats, $box_id, $scale){
 	
 	$_SESSION['full_stats'] = $stats;
 	$_SESSION['chart_group_id'] = $divId;
-	$_SESSION['stime'] = get_value("sampling_time", $box_id);
-	$_SESSION['csize'] = get_value("chart_size", $box_id);
+	$_SESSION['stime'] = get_settings_value("sampling_time", $box_id);
+	$_SESSION['csize'] = get_settings_value("chart_size", $box_id);
 	$_SESSION['box_id_graph'] = $box_id;
 	$_SESSION['scale'] = $scale; // 1 e individual
 

@@ -28,7 +28,7 @@ session_load();
 include("lib/db_connect.php");
 $table=$config->cdr_table;
 
-$sql = "SELECT * FROM ".$table." WHERE ".get_value('cdr_id_field_name')."=?";
+$sql = "SELECT * FROM ".$table." WHERE ".get_settings_value('cdr_id_field_name')."=?";
 $stm = $link->prepare($sql);
 if ($stm === false) {
         die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));

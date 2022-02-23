@@ -27,7 +27,7 @@ function get_status($gwid){
 
 function get_types($name, $set, $width=200)
 {
- $gateways = get_value("gateway_types_file");
+ $gateways = get_settings_value("gateway_types_file");
  $values = array_keys($gateways);
  $content = array_values($gateways);
  for ($i =0; $i <count($values); $i++) {
@@ -49,7 +49,7 @@ function get_types($name, $set, $width=200)
 
 function get_type($id)
 {
- $gateways = get_value("gateway_types_file");
+ $gateways = get_settings_value("gateway_types_file");
  if (array_key_exists($id, $gateways)) {
   echo($id." - ".$gateways[$id]);
  }

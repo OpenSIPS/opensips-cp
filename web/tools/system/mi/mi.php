@@ -56,7 +56,7 @@ if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
 		else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
 	} 
         foreach ($module_params as $module=>$params) {
-		$config->$module = get_value($module); 
+		$config->$module = get_settings_value($module); 
 	}  
 } unsure if db.inc.php should be created for this tool*/
 

@@ -28,7 +28,7 @@
 <?php
 //fetch cache data
 
-$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 // fetch data from the first box only
 $message = mi_command('rtpengine_show', NULL, $mi_connectors[0], $errors);

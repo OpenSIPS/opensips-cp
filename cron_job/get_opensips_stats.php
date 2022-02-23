@@ -35,7 +35,7 @@ foreach ($boxes as $idx => $ar){
 
 	if ($ar['smonitor']['charts']==1){
 		$time=time();
-		$sampling_time=get_value_from_tool('sampling_time', 'smonitor', $idx);
+		$sampling_time=get_settings_value_from_tool('sampling_time', 'smonitor', $idx);
 
 		if (date('i', $time) % $sampling_time == 0) {
 			// Get the name of the needed statistics

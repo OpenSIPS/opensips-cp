@@ -64,7 +64,7 @@
 # start enable gw    #
 ######################
 if ($action=="enablegw"){
-	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"1");
 	if (isset($config->routing_partition) && $config->routing_partition != "")
@@ -85,7 +85,7 @@ if ($action=="enablegw"){
 # start disable gw    #
 #######################
 if ($action=="disablegw"){
-	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"0");
 	if (isset($config->routing_partition) && $config->routing_partition != "")
@@ -105,7 +105,7 @@ if ($action=="disablegw"){
 # start probing gw   #
 ######################
 if ($action=="probegw"){
-	$mi_connectors=get_proxys_by_assoc_id(get_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"2");
 	if (isset($config->routing_partition) && $config->routing_partition != "")

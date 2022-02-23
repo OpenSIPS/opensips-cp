@@ -180,7 +180,7 @@ else
 		echo '<tr align="center">';
 
 		foreach ($show_field as $key => $value) {
-			if (get_value('sip_call_id_field_name')==$key) {
+			if (get_settings_value('sip_call_id_field_name')==$key) {
 				// link the "callid" field to the tracer module
 				if ($tracer=="") {
 					if (isset($display_fields[$key]))
@@ -196,7 +196,7 @@ else
 			}
 		}
 	   
-	   $this_cdr_id = $result[$j][get_value('cdr_id_field_name')];
+	   $this_cdr_id = $result[$j][get_settings_value('cdr_id_field_name')];
 	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
 	   ?>
 	   <td class="<?=$row_style?>Img" align="center"><?php print $details_cdr?></td>
