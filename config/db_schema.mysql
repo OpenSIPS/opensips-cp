@@ -69,7 +69,7 @@ CREATE TABLE `ocp_system_config` (
   `name` varchar(64) DEFAULT NULL,
   `desc` varchar(64) DEFAULT '',
   PRIMARY KEY (`assoc_id`)
-)
+);
 
 -- --------------------------------------------------------
 
@@ -85,4 +85,4 @@ CREATE TABLE `ocp_tools_config` (
   `box_id` varchar(15) DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `box_key` (`module`,`param`,`box_id`)
-) 
+);
