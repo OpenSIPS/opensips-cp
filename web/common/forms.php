@@ -139,7 +139,23 @@ function validate_password(field, output, password){
 	return ret;
 }
 
-function readMore(tool, id) {
+function readMore() {
+            var dots = document.getElementById('dots');
+            var moreText = document.getElementById('more');
+            var btnText = document.getElementById('myBtn');
+          
+            if (dots.style.display === 'none') {
+              dots.style.display = 'inline';
+              btnText.innerHTML = 'Read more'; 
+              moreText.style.display = 'none';
+            } else {
+              dots.style.display = 'none';
+              btnText.innerHTML = 'Read less'; 
+              moreText.style.display = 'inline';
+            }
+          }
+
+function toggleFormat(tool, id) {
             var dots = document.getElementById(id.concat('dots'));
             var moreText = document.getElementById(id.concat('more'));
             var btnText = document.getElementById(id.concat('myBtn'));
@@ -157,6 +173,19 @@ function readMore(tool, id) {
 </script>
 
 <?php
+function print_description() {
+	global $config;
+	$long = get_settings_value('tool_description');
+	$short = substr($long, 0, 100);
+	$long = substr($long, 100, strlen($long));
+	echo (
+	 "<style>
+	  #more {display: none;}
+	  </style>
+	  <p class='breadcrumb'>".$short."<span id='dots'>. . .</span><span id='more' >".$long."</span></p>
+	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
+	);
+}
 
 function print_example($example, $param, $id) {
 	$short = "";
@@ -164,7 +193,7 @@ function print_example($example, $param, $id) {
 		"<tr><td></td><td><style>
 		 #".$id."more {display: none;}
 		 </style>
-		 <a href='#' onclick='readMore(\"".$param."\", \"".$id."\")' id='".$id."myBtn' class='exampleButton' >See format for ".$param."</a>
+		 <a href='#' onclick='toggleFormat(\"".$param."\", \"".$id."\")' id='".$id."myBtn' class='exampleButton' >See format for ".$param."</a>
 		 <p >".$short."<span id='".$id."dots'></span><pre id='".$id."more' >".$example."</pre></p></td></tr>"
 	   );
 }
