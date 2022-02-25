@@ -34,7 +34,7 @@ $search_end=$_SESSION['cdrviewer_search_end'];
 $search_regexp=$_SESSION['cdrviewer_search_val'];
 $cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
-$cdr_table = $config->cdr_table;
+$cdr_table = get_settings_value("cdr_table");
 
 $sql_search  = " from ".$cdr_table. " where (1=1) ";
 $sql_vals = array();
@@ -129,18 +129,18 @@ if ($data_no==0) {
 else
 {
 	$page=$_SESSION[$current_page];
-	$page_no=ceil($data_no/$config->results_per_page);
+	$page_no=ceil($data_no/get_settings_value("results_per_page"));
 	if ($page>$page_no) {
 		$page=$page_no;
 		$_SESSION[$current_page]=$page;
 	}
-	$start_limit=($page-1)*$config->results_per_page;
+	$start_limit=($page-1)*get_settings_value("results_per_page");
 
 	$sql = "select * ".$sql_search." order by time desc " ;
 	if ($start_limit==0)
-		$sql.=" LIMIT ".$config->results_per_page;
+		$sql.=" LIMIT ".get_settings_value("results_per_page");
 	else
-		$sql.=" LIMIT ".$config->results_per_page." OFFSET ".$start_limit;
+		$sql.=" LIMIT ".get_settings_value("results_per_page")." OFFSET ".$start_limit;
 
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
@@ -217,7 +217,7 @@ $k++ ;
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = $config->results_page_range;
+       	$max_pages = get_settings_value("results_page_range");
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

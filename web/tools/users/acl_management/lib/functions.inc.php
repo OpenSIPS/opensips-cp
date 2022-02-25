@@ -31,7 +31,7 @@ function print_domains($type,$value)
         require("db_connect.php");
 
 	
-        $table_domains=$config->table_domains;
+        $table_domains=get_settings_value_from_tool("table_domains", "domains");
         $sql="select domain from $table_domains";
         $stm = $link->query($sql);
 	if ($stm === FALSE)
@@ -77,8 +77,8 @@ function print_groups($type,$value,$has_any){
 		echo('<option value="'.$value. '" selected > '.$value.'</option>');
 	if ($has_any)
 		echo('<option value="ANY" selected >ANY</option>');
-
-	foreach ($config->grps as $grp){
+	
+	foreach (get_settings_value("grps") as $grp){
 		if (strcmp($grp,$value)==0) 
 			continue;
 		else

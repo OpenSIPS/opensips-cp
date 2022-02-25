@@ -28,9 +28,9 @@ require_once("../../../../config/session.inc.php");
 $_SESSION['current_tool'] = 'homer';
 $_SESSION['current_group'] = get_group();
 session_load();
-$homer_URL = $config->homer_URL;
-$homer_auth_method = $config->homer_auth_method;
-$common_subdomain = $config->common_subdomain;
+$homer_URL = get_settings_value("homer_URL");
+$homer_auth_method = get_settings_value("homer_auth_method");
+$common_subdomain = get_settings_value("common_subdomain");
 
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);

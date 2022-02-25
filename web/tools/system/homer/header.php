@@ -25,13 +25,13 @@ session_start();
 require_once("../../../../web/common/cfg_comm.php");
 require_once("../../../../config/session.inc.php");
 get_priv("homer");
+session_load();
 
 if ($_GET['action']=="Hjump")
 {
-	session_load();
-	$homer_URL = $config->homer_URL;
-	$homer_auth_method = $config->homer_auth_method;
-	$common_subdomain = $config->common_subdomain;
+	$homer_URL = get_settings_value("homer_URL");
+	$homer_auth_method = get_settings_value("homer_auth_method");
+	$common_subdomain = get_settings_value("common_subdomain");
 	
 	echo '<script type="text/javascript" language="javascript">
 	window.open("'.$homer_URL.'");

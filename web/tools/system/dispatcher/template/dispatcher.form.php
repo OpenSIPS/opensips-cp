@@ -22,15 +22,15 @@
 
 require("../../../common/forms.php");
 
-if (isset($config->dispatcher_groups)) {
+if (get_settings_value("dispatcher_groups")) {
 	$set_keys = array();
 	$set_values = array();
-	switch ($config->dispatcher_groups['type']) {
+	switch (get_settings_value("dispatcher_groups")['type']) {
 	case "database":
 		$query = "SELECT " .
-			$config->dispatcher_groups['id'] . " AS id, " .
-			$config->dispatcher_groups['name'] . " AS name " .
-			"FROM " . $config->dispatcher_groups['table'];
+			get_settings_value("dispatcher_groups")['id'] . " AS id, " .
+			get_settings_value("dispatcher_groups") . " AS name " .
+			"FROM " . get_settings_value("dispatcher_groups")['table'];
 
 		$stm = $link->prepare($query);
 		if ($stm===FALSE) {
@@ -45,8 +45,8 @@ if (isset($config->dispatcher_groups)) {
 		break;
 
 	case "array":
-		$set_keys = array_keys($config->dispatcher_groups['array']);
-		$set_values = array_values($config->dispatcher_groups['array']);
+		$set_keys = array_keys(get_settings_value("dispatcher_groups")['array']);
+		$set_values = array_values(get_settings_value("dispatcher_groups")['array']);
 		break;
 	}
 	form_generate_select("Set ID", "The numerical ID of the dispatcher set/group for the new destination",

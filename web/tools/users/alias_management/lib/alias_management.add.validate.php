@@ -44,7 +44,7 @@ try {
 	die;
 }
 
-foreach ($config->table_aliases as $key=>$value) {
+foreach (get_settings_value("table_aliases") as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
 
@@ -108,7 +108,7 @@ $aliasexists=1;
 					  exit();
                      }
 	else{
-				preg_match($config->alias_format,$alias_username,$matches,PREG_OFFSET_CAPTURE);
+				preg_match(get_settings_value("alias_format"),$alias_username,$matches,PREG_OFFSET_CAPTURE);
 				if (!empty($matches) ){
 					if (!in_array($alias_username,$matches[0])) {
 						if ($aliasexists){	

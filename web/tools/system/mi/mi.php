@@ -38,29 +38,6 @@ if ($_GET['action']=="change_box" && !empty($_POST['box_val'])) {
 require("template/header.php");
 get_priv("mi");
 
-/*
-if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
-	$module_params = get_params();
-	$sql = 'select param, value, box_id from tools_config where module=? ';
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-
-	$stm->execute( array($_SESSION['current_tool']) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	foreach ($resultset as $elem) {
-		if ($module_params[$elem['param']]['type'] == "json") {
-			$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
-		}
-		else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
-	} 
-        foreach ($module_params as $module=>$params) {
-		$config->$module = get_settings_value($module); 
-	}  
-} unsure if db.inc.php should be created for this tool*/
-
-
 if (empty($_SESSION['mi_command_list']))
 	get_command_list( $current_box );
 

@@ -67,7 +67,7 @@
  </tr>
  <tr>
  <tr>
-  <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b> <?=$resultset[0]['attrs']?></td>
+  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b> <?=$resultset[0]['attrs']?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Description</b> <?=$resultset[0]['description']?></td>
