@@ -381,38 +381,4 @@ function session_load_from_tool($tool, $box_id = null) {
 		$config->$module = get_settings_value_from_tool($module, $tool); 
 	} 
 }
-
-function print_description() {
-	global $config;
-	$long = get_settings_value('tool_description');
-	$short = substr($long, 0, 100);
-	$long = substr($long, 100, strlen($long));
-	echo (
-	 "<style>
-	  #more {display: none;}
-	  </style>
-	  <p class='breadcrumb'>".$short."<span id='dots'>. . .</span><span id='more' >".$long."</span></p>
-	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
-	);
-}
-
 ?>
-<script language="JavaScript">
-
-function readMore() {
-            var dots = document.getElementById('dots');
-            var moreText = document.getElementById('more');
-            var btnText = document.getElementById('myBtn');
-          
-            if (dots.style.display === 'none') {
-              dots.style.display = 'inline';
-              btnText.innerHTML = 'Read more'; 
-              moreText.style.display = 'none';
-            } else {
-              dots.style.display = 'none';
-              btnText.innerHTML = 'Read less'; 
-              moreText.style.display = 'inline';
-            }
-          }
-
-</script>
