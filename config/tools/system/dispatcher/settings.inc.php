@@ -53,5 +53,32 @@ $config->dispatcher = array(
         "default" => array('Active'=>'Active','Inactive'=>'Inactive','Probing'=>'Probing'),
         "name" => "Status",
         "type" => "json"
-    )
+	),
+	"dispatcher_groups" => array(
+		"default" => '',
+		"name" => "Dispatcher groups",
+		"type" => "json",
+		"example" => "
+		* Using this method one can define a mapping between the dispatcher groups and their names.
+		* These names will be displayed in the main page, as well in the add and edit forms.
+		* The following config presumes that a ds_mappings table exists with two fields:
+		* - id: stores the dispatcher id
+		* - name: stores the name of the dispatcher id
+		*
+		\$config->dispatcher_groups = array(
+			'type'		=> 'database', // keyword to determine type
+			'table'	=> 'ds_mappings',
+			'id'		=> 'id',
+			'name'		=> 'name',
+	   /*
+		* Using this method one can define static groups, instead of db ones
+		*
+			'type'		=> 'array',
+			'array'	=> array(
+				\"2\" 	=> \"Group 1\",
+				\"4\" 	=> \"Group 2\",
+			),
+		);
+		"
+	)
     );
