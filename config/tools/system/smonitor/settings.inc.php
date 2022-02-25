@@ -69,6 +69,19 @@ $config->smonitor = array(
 		"tip"    => "List of available tabs for smonitor tool",
 		"type"    => "checklist"
 	),
+	"groups" => array(
+		"default" => "",
+		"name" => "Groups for multi-line charts",
+		"type" => "json",
+		"example" => "
+\"group1\": {
+	\"stats\": {
+		\"0\": \"load:load\",
+		\"1\": \"shmem:fragments\"
+	},
+	\"scale\": 2
+}"
+	),
 	"charting_url" => array(
 		"default" => "https://d3js.org/d3.v4.js",
 		"name"    => "Charting library URL",
