@@ -39,7 +39,7 @@
  </tr>
  <tr>
   <td class="dataRecord"><b>GW Type</b></td>
-  <td class="dataRecord" width="275"><?=get_types("type",$config->default_gw_type,"275")?></td>
+  <td class="dataRecord" width="275"><?=get_types("type",get_settings_value("default_gw_type"),"275")?></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>SIP Address</b></td>
@@ -85,8 +85,8 @@
 	</td>
  </tr>
  <tr>
- <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b></td>
-  <?php if (isset($attrs) || $attrs=="") $attrs=$config->gw_attributes["add_prefill_value"] ?>
+ <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b></td>
+  <?php if (isset($attrs) || $attrs=="") $attrs=get_settings_value("gw_attributes")["add_prefill_value"] ?>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>

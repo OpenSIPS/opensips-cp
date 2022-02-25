@@ -36,16 +36,16 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
-$start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
+$start_limit=($_SESSION[$current_page]-1)*get_settings_value("results_per_page");
 ################
 # start show #
 ################
 if ($action=="refresh") {
 	$_SESSION[$current_page]=1;
-	$start_limit=($_SESSION[$current_page]-1)*$config->results_per_page;
+	$start_limit=($_SESSION[$current_page]-1)*get_settings_value("results_per_page");
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 	// take the list from the first box only
-	$comm = "dlg_list ".$start_limit." ".$config->results_per_page;
+	$comm = "dlg_list ".$start_limit." ".get_settings_value("results_per_page");
 }
 
 ##############

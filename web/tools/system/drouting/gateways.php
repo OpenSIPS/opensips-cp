@@ -24,10 +24,10 @@
  require("template/header.php");
  require ("../../../common/mi_comm.php");
  require("../../../../config/db.inc.php");
- $table=$config->table_gateways;
- $current_page="current_page_gateways";
- 
  session_load();
+
+ $table=get_settings_value("table_gateways");
+ $current_page="current_page_gateways";
  
  include("lib/db_connect.php");
 
@@ -67,8 +67,8 @@ if ($action=="enablegw"){
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"1");
-	if (isset($config->routing_partition) && $config->routing_partition != "")
-		$params['partition_name'] = $config->routing_partition;
+	if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+		$params['partition_name'] = get_settings_value("routing_partition");
 
     	for ($i=0;$i<count($mi_connectors);$i++){
 		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
@@ -88,8 +88,8 @@ if ($action=="disablegw"){
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"0");
-	if (isset($config->routing_partition) && $config->routing_partition != "")
-		$params['partition_name'] = $config->routing_partition;
+	if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+		$params['partition_name'] = get_settings_value("routing_partition");
 
     	for ($i=0;$i<count($mi_connectors);$i++){
 		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
@@ -108,8 +108,8 @@ if ($action=="probegw"){
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	$params = array("gw_id"=>$_GET['gwid'],"status"=>"2");
-	if (isset($config->routing_partition) && $config->routing_partition != "")
-		$params['partition_name'] = $config->routing_partition;
+	if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+		$params['partition_name'] = get_settings_value("routing_partition");
 
     	for ($i=0;$i<count($mi_connectors);$i++){
 		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
@@ -229,9 +229,9 @@ if ($action=="delete"){
 
 	//remove GW from dr_rules
 	if ($config->db_driver == "mysql") 
-		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ";
+		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist regexp ";
 	else if ($config->db_driver == "pgsql")
-		$sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ?";
+		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
 
 	$stm = $link->query($sql.$sql_regex);
 	if ($stm === false) {
@@ -244,7 +244,7 @@ if ($action=="delete"){
 		$new_list = preg_replace($repl_regex1,',',$list);
 		$new_list = preg_replace($repl_regex2,'',$new_list);
 		if ($new_list!=$list) {
-			$sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
+			$sql = "update ".get_settings_value("table_rules")." set gwlist=? where ruleid=?";
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -256,9 +256,9 @@ if ($action=="delete"){
 
 	//remove GW from dr_carriers
 	if ($config->db_driver == "mysql")
-		$sql = "select carrierid,gwlist from ".$config->table_carriers." where gwlist regexp ?";
+		$sql = "select carrierid,gwlist from ".get_settings_value("table_carriers")." where gwlist regexp ?";
 	else if ($config->db_driver == "pgsql")
-		$sql = "select carrierid,gwlist from ".$config->table_rules." where gwlist ~* ?";
+		$sql = "select carrierid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
 
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
@@ -272,7 +272,7 @@ if ($action=="delete"){
 		$new_list = preg_replace($repl_regex1,',',$list);
 		$new_list = preg_replace($repl_regex2,'',$new_list);
 		if ($new_list!=$list) {
-			$sql = "update ".$config->table_carriers." set gwlist=? where carrierid=?";
+			$sql = "update ".get_settings_value("table_carriers")." set gwlist=? where carrierid=?";
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

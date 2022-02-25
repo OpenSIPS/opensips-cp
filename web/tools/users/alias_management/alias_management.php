@@ -25,13 +25,14 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 
-foreach ($config->table_aliases as $key=>$value) {
+session_load();
+
+foreach (get_settings_value("table_aliases") as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
 
 $current_page="current_page_alias_management";
 
-session_load();
 
 include("lib/db_connect.php");
 

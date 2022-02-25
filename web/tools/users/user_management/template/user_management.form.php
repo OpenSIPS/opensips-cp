@@ -23,15 +23,15 @@
 require_once("../../../common/forms.php");
 require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
-
+$user_format = get_settings_value("user_format");
 form_generate_input_text("Username", "The name of the user", "uname",
-	"n", $um_form['username'], 128, (isset($config->user_format)?$config->user_format:"^[a-zA-Z0-9&=+$,;?/%]+$"));
+	"n", $um_form['username'], 128, (isset($user_format)?$user_format:"^[a-zA-Z0-9&=+$,;?/%]+$"));
 
 $domains = get_domains("user_management", false);
 form_generate_select("Domain", "Users's domain", "domain", 200,
 	$um_form['domain'], $domains);
 
-foreach ($config->subs_extra as $key => $value) {
+foreach (get_settings_value("subs_extra") as $key => $value) {
 	if (($um_edit && $value['show_in_edit_form'] == false) ||
 			(!$um_edit && $value['show_in_add_form'] == false))
 		continue;

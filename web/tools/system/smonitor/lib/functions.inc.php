@@ -35,7 +35,7 @@ function get_config_var($var_name,$box_id)
 	include("db_connect.php");
 	global $config;
 
-	$sql="SELECT * FROM ".$config->table_monitored." WHERE name = ? AND box_id = ?";
+	$sql="SELECT * FROM ".get_settings_value("table_monitored")." WHERE name = ? AND box_id = ?";
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($var_name, $box_id)) == false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
@@ -179,7 +179,7 @@ function clean_stats_table(){
 			$last_date -= 60*60*date("H",$current_time);
 			$last_date -= 60*date("i",$current_time);
 			$last_date -= date("s",$current_time);
-			$sql="DELETE FROM ".$config->table_monitoring." WHERE time < ? AND box_id = ?";
+			$sql="DELETE FROM ".get_settings_value("table_monitoring")." WHERE time < ? AND box_id = ?";
 			$stm = $link->prepare($sql);
 			if ($stm->execute(array($last_date, $box_id)) === false)
 				die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));

@@ -104,7 +104,7 @@
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" class="searchInput"></td>
  </tr>
  <tr>
-  <td class="searchRecord"><?=$config->gw_attributes["display_name"] ?> </td>
+  <td class="searchRecord"><?=get_settings_value("gw_attributes")["display_name"] ?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$_SESSION['rules_search_attrs']?>" maxlength="128" class="searchInput"></td>
  </tr>
  <tr>
@@ -136,7 +136,7 @@
   <th class="listTitle">Priority</th>
   <th class="listTitle">GW List</th>  
   <th class="listTitle">List Sort</th>  
-  <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
+  <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
   <th class="listTitle">Description</th>
   <th class="listTitle">Details</th>
   <th class="listTitle">Edit</th>
@@ -162,7 +162,7 @@
  if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
-  $res_no=$config->results_per_page;
+  $res_no=get_settings_value("results_per_page");
   $page=$_SESSION[$current_page];
   $page_no=ceil($data_no/$res_no);
   if ($page>$page_no) {
@@ -228,7 +228,7 @@
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
-               $max_pages = $config->results_page_range;
+               $max_pages = get_settings_value("results_page_range");
                // start page
                if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
                 else $start_page = $page - ($page % $max_pages) + 1;

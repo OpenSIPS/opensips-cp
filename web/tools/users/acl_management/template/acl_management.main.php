@@ -122,7 +122,7 @@ echo('<th class="listTitle">Edit</th>
 		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 	else { 
 
-        $res = $config->results_per_page;
+        $res = get_settings_value("results_per_page");
         $page=$_SESSION[$current_page];
         $page_no=ceil($data_no/$res);
         if ($page>$page_no) {
@@ -176,7 +176,7 @@ echo('<th class="listTitle">Edit</th>
        <?php
        if ($data_no==0) echo('<font class="ageActive">0</font>&nbsp;');
        else {
-        $max_pages = $config->results_page_range;
+        $max_pages = get_settings_value("results_page_range");
         // start page
         if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
         else $start_page = $page - ($page % $max_pages) + 1;

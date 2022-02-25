@@ -26,7 +26,7 @@
  include("lib/db_connect.php");
  require("lib/common.functions.inc.php");
  require ("../../../common/mi_comm.php");
- $table=$config->table_carriers;
+ $table=get_settings_value("table_carriers");
  $current_page="current_page_lists";
  
  if (isset($_POST['action'])) $action=$_POST['action'];
@@ -57,8 +57,8 @@
   $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
   $params = array("carrier_id"=>$_GET['carrierid']);
-  if (isset($config->routing_partition) && $config->routing_partition != "")
-    $params['partition_name'] = $config->routing_partition;
+  if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+    $params['partition_name'] = get_settings_value("routing_partition");
 
   $message=mi_command( "dr_carrier_status", $params, $mi_connectors[0], $errors);
   $resultset[0]['enabled'] = $message['Enabled']=="yes"?"enabled":"disabled";
@@ -79,8 +79,8 @@ if ($action=="enablecar"){
     $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
     $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"1");
-    if (isset($config->routing_partition) && $config->routing_partition != "")
-       $params['partition_name'] = $config->routing_partition;
+    if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+       $params['partition_name'] = get_settings_value("routing_partition");
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
@@ -100,8 +100,8 @@ if ($action=="disablecar"){
     $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
     $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"0");
-    if (isset($config->routing_partition) && $config->routing_partition != "")
-       $params['partition_name'] = $config->routing_partition;
+    if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+       $params['partition_name'] = get_settings_value("routing_partition");
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
@@ -231,9 +231,9 @@ if ($action=="disablecar"){
 
     //remove Carriers from dr_rules
     if ($config->db_driver == "mysql")
-        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist regexp ?";
+        $sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist regexp ?";
     else if ($config->db_driver == "pgsql")
-        $sql = "select ruleid,gwlist from ".$config->table_rules." where gwlist ~* ?";
+        $sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
 
     $stm = $link->prepare($sql);
     if ($stm === false) {
@@ -243,7 +243,7 @@ if ($action=="disablecar"){
     $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
-    $sql = "update ".$config->table_rules." set gwlist=? where ruleid=?";
+    $sql = "update ".get_settings_value("table_rules")." set gwlist=? where ruleid=?";
     $stm = $link->prepare($sql);
     if ($stm === false) {
        die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

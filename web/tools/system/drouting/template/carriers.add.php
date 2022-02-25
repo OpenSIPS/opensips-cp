@@ -79,8 +79,8 @@
 	</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b><?=$config->gw_attributes["display_name"]?></b></td>
-  <td class="dataRecord"><input type="text" name="attrs" value="<?=(isset($resultset[0]['attrs']) || $resultset[0]['attrs'] == "")?$config->gw_attributes["add_prefill_value"]:""?>" maxlength="128" class="dataInput"></td>
+  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b></td>
+  <td class="dataRecord"><input type="text" name="attrs" value="<?=(isset($resultset[0]['attrs']) || $resultset[0]['attrs'] == "")?get_settings_value("gw_attributes")["add_prefill_value"]:""?>" maxlength="128" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Description</b></td>

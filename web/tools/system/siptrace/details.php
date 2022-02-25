@@ -26,7 +26,7 @@ require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
 session_load();
 
-$table=$config->table_trace;
+$table=get_settings_value("table_trace");
 $sql = "SELECT * FROM ".$table." WHERE id=?";
 $stm = $link->prepare($sql);
 if ($stm === false) {
@@ -37,21 +37,21 @@ $row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 $message=htmlspecialchars(trim($row[0]['msg']));
 // from highlight
-$message=str_replace("From:","<span style='background-color:".$config->from_bgcolor."'><font color='".$config->from_color."'>From:",$message);
+$message=str_replace("From:","<span style='background-color:".get_settings_value("from_bgcolor")."'><font color='".get_settings_value("from_color")."'>From:",$message);
 $message=substr_replace($message,"</font></span>\n",strpos($message,"\n",strpos($message,"From:")),1);
 // to highlight
-$message=str_replace("To:","<span style='background-color:".$config->to_bgcolor."'><font color='".$config->to_color."'>To:",$message);
+$message=str_replace("To:","<span style='background-color:".get_settings_value("to_bgcolor")."'><font color='".get_settings_value("to_color")."'>To:",$message);
 $message=substr_replace($message,"</font></span>\n",strpos($message,"\n",strpos($message,"To:")),1);
 // call-id highlight
-$message=str_replace("Call-ID:","<span style='background-color:".$config->callid_bgcolor."'><font color='".$config->callid_color."'>Call-ID:",$message);
+$message=str_replace("Call-ID:","<span style='background-color:".get_settings_value("callid_bgcolor")."'><font color='".get_settings_value("callid_color")."'>Call-ID:",$message);
 $message=substr_replace($message,"</font></span>\n",strpos($message,"\n",strpos($message,"Call-ID:")),1);
 // cseq highlight
-$message=str_replace("CSeq:","<span style='background-color:".$config->cseq_bgcolor."'><font color='".$config->cseq_color."'>CSeq:",$message);
+$message=str_replace("CSeq:","<span style='background-color:".get_settings_value("cseq_bgcolor")."'><font color='".get_settings_value("cseq_color")."'>CSeq:",$message);
 $message=substr_replace($message,"</font></span>\n",strpos($message,"\n",strpos($message,"CSeq:")),1);
 // regexp highlight
 $regexp=trim($_GET['regexp']);
 if ($regexp!="")
-$message=preg_replace('/'.$regexp.'/i', "<span style='background-color:".$config->regexp_bgcolor."'><font color='".$config->regexp_color."'><b>$0</b></font></span>",$message);
+$message=preg_replace('/'.$regexp.'/i', "<span style='background-color:".get_settings_value("regexp_bgcolor")."'><font color='".get_settings_value("regexp_color")."'><b>$0</b></font></span>",$message);
 $message=str_replace("\n","<br>",$message);
 ?>
 

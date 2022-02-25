@@ -23,15 +23,12 @@
  require("../../../common/cfg_comm.php");
  require("template/header.php");
  require("lib/".$page_id.".main.js");
- 
  require("../../../common/mi_comm.php");
  require("../../../../config/db.inc.php");
-
- global $config;	
- $table=$config->table_trace;
- $current_page="current_page_tracer";
- 
  session_load();
+ 
+ $table=get_settings_value("table_trace");
+ $current_page="current_page_tracer";
  
  include("lib/db_connect.php");
 

@@ -25,11 +25,12 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 
-$table=$config->table_acls;
 $errors='';
 $current_page="current_page_acl_management";
 
 session_load();
+
+$table=get_settings_value('table_acls');
 
 include("lib/db_connect.php");
 

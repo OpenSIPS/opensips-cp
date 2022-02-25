@@ -24,11 +24,10 @@ require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
-
-$table=$config->table_dispatcher;
-$current_page="current_page_dispatcher";
-
 session_load();
+
+$table=get_settings_value("table_dispatcher");
+$current_page="current_page_dispatcher";
 
 include("lib/db_connect.php");
 

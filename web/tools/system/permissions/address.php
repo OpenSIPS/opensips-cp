@@ -24,11 +24,10 @@ require ("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
-
-$table=$config->table_address;
-$current_page="current_page_address";
-
 session_load();
+
+$table=get_settings_value("table_address");
+$current_page="current_page_address";
 
 include("lib/db_connect.php");
 

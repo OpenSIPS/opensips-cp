@@ -26,17 +26,17 @@ require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
 require("../../../../config/globals.php");
 
-$table=$config->table_users;
+session_load();
+
+$table=get_settings_value("table_users");
 $current_page="current_page_user_management";
 $errors='';
 $keepoverlay = false;
 $current_tool = $page_id;
 
-session_load();
-
 include("lib/db_connect.php");
 
-foreach ($config->table_aliases as $key=>$value) {
+foreach (get_settings_value("table_aliases") as $key=>$value) {
         $options[]=array("label"=>$key,"value"=>$value);
 }
 
@@ -103,17 +103,17 @@ if ($action=="modify")
 			$errors = "Invalid data (username and domain are mandatory)! No DataBase change performed";
 		} else {
 			if ($_POST['passwd']!="") {
-				if ($config->passwd_mode==0) {
+				if (get_settings_value("passwd_mode")==0) {
 					$ha1  = "";
 					$passwd = $_POST['passwd'];
-				} else if ($config->passwd_mode==1) {
+				} else if (get_settings_value("passwd_mode")==1) {
 					$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
 					$passwd = "";
 				}
 				$sql = "UPDATE ".$table." SET username=?, domain=?,
 					 password=?, ha1=?";
 				$sql_vals = array($uname,$domain,$passwd,$ha1);
-				foreach ( $config->subs_extra as $key => $value ) {
+				foreach ( get_settings_value("subs_extra") as $key => $value ) {
 					$sql .= ", ".$key."=?";
 					array_push( $sql_vals, $_POST["extra_".$key]);
 				}
@@ -132,7 +132,7 @@ if ($action=="modify")
 			} else {
 				$sql = "UPDATE ".$table." SET username=?, domain=?";
 				$sql_vals = array($uname,$domain);
-				foreach ( $config->subs_extra as $key => $value ) {
+				foreach ( get_settings_value("subs_extra") as $key => $value ) {
 					$sql .= ", ".$key."=?";
 					array_push( $sql_vals, $_POST["extra_".$key]);
 				}
@@ -216,13 +216,13 @@ if ($action=="dp_act")
 		$_SESSION['lst_uname']="";
 		$_SESSION['lst_domain']="";
 		$_SESSION['users']="";
-		foreach ($config->subs_extra as $key => $value)
+		foreach (get_settings_value("subs_extra") as $key => $value)
 			$_SESSION['extra_'.$key] = "";
 	} else if($search=="Search"){
 		$_SESSION['lst_uname']=isset($_POST['lst_uname'])?$_POST['lst_uname']:"";
 		$_SESSION['lst_domain']=isset($_POST['lst_domain'])?$_POST['lst_domain']:"";
 		$_SESSION['users']=$_POST['users'];
-		foreach ($config->subs_extra as $key => $value)
+		foreach (get_settings_value("subs_extra") as $key => $value)
 			if ((isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!=''))
 				$_SESSION['extra_'.$key] = $_POST['extra_'.$key];
 	} 
@@ -270,14 +270,14 @@ if ($action=="add_verify")
   if(!$_SESSION['read_only']){
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
-                if ($config->passwd_mode==1) $passwd="";
+                if (get_settings_value("passwd_mode")==1) $passwd="";
                 $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1';
-		foreach ( $config->subs_extra as $key => $value )
+		foreach ( get_settings_value("subs_extra") as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
 				$sql .= ','.$key;
 		$sql .= ') VALUES (?, ?, ?, ? ';
 		$sql_vals = array($uname,$domain,$passwd,$ha1);
-		foreach ( $config->subs_extra as $key => $value )
+		foreach ( get_settings_value("subs_extra") as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
 				$sql .= ', ?';
 				array_push( $sql_vals, $_POST["extra_".$key]);
