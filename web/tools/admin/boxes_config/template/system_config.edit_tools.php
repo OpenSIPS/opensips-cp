@@ -22,7 +22,7 @@
 
 require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
-require_once("../../../../config/boxes.global.inc.php");
+require("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
  if (isset($form_error)) {
                           echo(' <tr align="center">');
@@ -51,7 +51,7 @@ $permissions=array();
  <td colspan="3" height="10" class="mainTitle">Edit system</td>
 
  </tr>
-  <?php
+  <?php 
 	$system_params = get_system_params();
 	foreach ($system_params as $attr=>$params) {
 		if ($params['show_in_edit_form']) {

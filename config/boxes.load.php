@@ -21,10 +21,7 @@
  */
 
 require("".__DIR__."/../config/tools/admin/boxes_config/settings.inc.php");
-require("".__DIR__."/../config/tools/admin/system_config/settings.inc.php");
 require("".__DIR__."/../web/tools/admin/boxes_config/lib/db_connect.php");
-require("".__DIR__."/tools/admin/boxes_config/local.inc.php");
-require("".__DIR__."/tools/admin/system_config/local.inc.php");
 global $config;
 
 if (!isset($boxes)) {
@@ -48,6 +45,7 @@ if (!isset($boxes)) {
     $i = 0;
     foreach ($_SESSION['boxes'] as $elem) {
         $box_id = $elem['id'];
+        $boxes[$i]['id'] = $box_id;
         foreach ($config->boxes as $param => $attr) {
             if ($attr['nodes'] != null) {
                 $boxes[$i][$attr['nodes'][0]][$attr['nodes'][1]] = $elem[$param];
@@ -58,7 +56,6 @@ if (!isset($boxes)) {
     }
 }
 
-require("".__DIR__."/../web/tools/admin/system_config/lib/db_connect.php");
 if (!isset($systems)) {
     if (!isset($_SESSION['systems'])) {
         $sql = 'select * from '.$config->table_system_config;
@@ -84,6 +81,4 @@ if (!isset($systems)) {
             $systems[$system_id][$param] = $elem[$param];
     }
 }
-
-
 ?>
