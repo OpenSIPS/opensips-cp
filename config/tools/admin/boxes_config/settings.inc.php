@@ -85,9 +85,27 @@ $config->boxes = array(
 		"validation_regex" => null,
     ),
 );
+$config->systems = array(
+    "name" => array(
+		"default" => "Default name",
+		"name"    => "System name",
+		"tip"    => "Placeholder",
+		"type"    => "text",
+		"show_in_edit_form" => true,
+	),
+	"desc" => array(
+		"default" => "Description",
+		"name"    => "System description",
+		"type"    => "text",
+		"show_in_edit_form" => true,
+    ),
+);
+$config->results_per_page = 20;
+$config->results_page_range = 5;
 
-
-
+//database tables
+$config->table_boxes_config = "ocp_boxes_config";
+$config->table_system_config = "ocp_system_config";
 
 
  ?>

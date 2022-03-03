@@ -22,7 +22,7 @@
 
 require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
-require_once("../../../../config/boxes.global.inc.php");
+require("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
  if (isset($form_error)) {
                           echo(' <tr align="center">');

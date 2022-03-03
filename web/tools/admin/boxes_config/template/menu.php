@@ -37,7 +37,7 @@
                 "Boxes configuration" // menu name
           ),
           array(
-                "../system_config/system_config.php", // page name
+                "system_config.php", // page name
                 "System configuration" // menu name
           ));
         $first_item = true;
