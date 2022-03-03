@@ -204,6 +204,28 @@ function get_system_params() {
 	return $config->systems;
 }
 
+function load_panels() {
+	require("".__DIR__."/../tools/admin/dashboard/lib/db_connect.php");
+	require("".__DIR__."/../../config/tools/admin/dashboard/local.inc.php");
+
+	$sql = 'select `name`, id, content from ocp_dashboard';
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+
+	if ($stm->execute( array()) == false)
+		echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+	else {
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($resultset as $elem) {
+			$_SESSION['config']['panels'][$elem['id']]['name'] = $elem['name'];
+			$_SESSION['config']['panels'][$elem['id']]['content'] = $elem['content'];
+		}
+	}
+
+}
+
 function load_boxes() {
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");

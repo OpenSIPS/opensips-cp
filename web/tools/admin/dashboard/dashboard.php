@@ -26,13 +26,16 @@ function consoole_log( $data ){
 	echo '</script>';
   } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
+require_once("template/functions.inc.php");
+require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");
 require("template/header.php");
 require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
-
+error_log("ELEFANT");
+error_log(json_decode($_POST, true));
 $table=$config->table_dashboard; 
 $box_id = $_GET['box_id'];
 if ($box_id == '') $box_id = null;
@@ -43,49 +46,6 @@ else $action="";
 
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
-
-if ($action=="modify_params")
-{ 
-    if(!$_SESSION['read_only']){
-        extract($_POST);
-		$box_id = $_GET['box_id'];
-		$current_tool=$_GET['tool'];
-        $box_params=get_boxes_params();
-		$params_names = "";
-		$unknowns ="";
-		$update_query ="";
-		$values = array();
-		foreach ($box_params as $attr => $params){
-			if ($params['show_in_edit_form']) {
-				if ($params['type'] != "password" || $_POST[$attr] != "") {
-					$update_query .= "`".$attr."`=?, ";
-					$params_names.="`".$attr."`, ";
-					$unknowns.="?, ";
-					$values[] = $_POST[$attr];
-				}
-			}
-		}
-		$update_query.="`id`=?;";
-		$params_names.="id";
-		$unknowns.="?";
-		$values[] = $box_id;
-		$sql = "INSERT INTO ".$table." (".$params_names.") VALUES (".$unknowns.") ON DUPLICATE KEY UPDATE ".$update_query;
-		$stm = $link->prepare($sql);
-
-		if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		if ($stm->execute(array_merge($values, $values)) == false) {
-			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-		}    else {
-			$info="Boxes were modified";
-		}
-		unset($_SESSION['boxes']);
-	}   else {
-   		$errors= "User with Read-Only Rights";
-   	} 
-	//header('Location: ../../'.$_SESSION['current_group'].'/'.$_SESSION['current_tool'].'/index.php');
-}
 
 if ($action=="edit_panel")
 {  	
@@ -120,6 +80,20 @@ if ($action == "details") {
 	exit();
 }
 
+if ($action == "display_panel") {
+	$panel_id = $_GET['panel_id'];
+	require("template/".$page_id.".main.php");
+	require("template/footer.php");
+	exit();
+}
+
+if ($action == "add_widget") {
+	$panel_id = $_GET['panel_id'];
+	require("template/".$page_id.".addWidget.php");
+	require("template/footer.php");
+	exit();
+}
+
 if ($action=="add_blank_panel")
 { 
         extract($_POST);
@@ -134,6 +108,19 @@ if ($action=="add_blank_panel")
         }
 
 }
+
+if ($action == "add_widget_verify") { 
+	if(!$_SESSION['read_only']){
+		$panel_id = $_GET['panel_id'];
+		require("template/".$page_id.".main.php");
+		require("template/footer.php");
+		exit();
+  
+   } else {
+	   $errors= "User with Read-Only Rights";
+	  }
+}
+
 
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){

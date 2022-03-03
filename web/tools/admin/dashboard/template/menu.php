@@ -38,7 +38,7 @@
           );
           foreach ($_SESSION['config']['panels'] as $id => $elem)
             $config->menu_item[] = array(
-              "dashboard.php?display_panel=".$id, // page name
+              "dashboard.php?action=display_panel&panel_id=".$id, // page name
               $elem['name'] // menu name
             );
           $config->menu_item[] = array(
