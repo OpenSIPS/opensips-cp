@@ -34,7 +34,6 @@ require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
-error_log("ELEFANT");
 error_log(json_decode($_POST, true));
 $table=$config->table_dashboard; 
 $box_id = $_GET['box_id'];
@@ -137,6 +136,30 @@ if ($action == "add_verify") {
 		if ($form_valid) {
 		  print "New Panel added!";
 		  $action="add_blank_panel";
+		} else {
+		  print $form_error;
+		  $action="add_verify";
+		}
+  
+   } else {
+	   $errors= "User with Read-Only Rights";
+	  }
+}
+if ($action == "clone_panel") { 
+	if(!$_SESSION['read_only']){
+		$panel_id = $_GET['panel_id'];
+		$sql = 'INSERT INTO '.$table.' (`name`, content) VALUES (?,?) ';
+				$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($_SESSION['config']['panels'][$panel_id]['name'],$_SESSION['config']['panels'][$panel_id]['content'] )) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
+			$form_valid=false;
+		} 
+		if ($form_valid) {
+		  print "New Panel added!";
+		  $action="edit_panel";
 		} else {
 		  print $form_error;
 		  $action="add_verify";

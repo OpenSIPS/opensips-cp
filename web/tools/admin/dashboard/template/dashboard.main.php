@@ -103,7 +103,9 @@
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     ?>
     <script>
-            console.log(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
+            var lala = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
+            console.log(lala);
+            lala.forEach(element => gridster.add_widget('<li />', element.size_x, element.size_y, element.col, element.row));
     </script>
     <?php
 }
