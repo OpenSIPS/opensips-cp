@@ -41,14 +41,9 @@
 </head>
 
 <body>
-<h1></h1>
 
 <div class="gridster"  >
     <ul>
-        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-            <header>|||</header>Default1</li>
-        <li data-row="1" data-col="2"  data-sizex="1" data-sizey="1" class="grafik" id = "ugabuga">
-            <header>|||</header>Default2</li>
     </ul>
 </div>
 <style type="text/css">
@@ -81,6 +76,13 @@
             },
             resize: {
                 enabled: true
+            },
+            draggable: {
+                stop: function (e, ui, $widget) {
+                    var positions = gridster.serialize();
+                    positions.push (<?=$panel_id?>);
+                    store_dashboard(positions);
+                }
             }
         }).data('gridster');
 
@@ -104,7 +106,6 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     ?>
     <script>
             var lala = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
-            console.log(lala);
             lala.forEach(element => gridster.add_widget('<li />', element.size_x, element.size_y, element.col, element.row));
     </script>
     <?php

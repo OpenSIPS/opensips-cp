@@ -145,15 +145,29 @@ if ($action == "add_verify") {
 	   $errors= "User with Read-Only Rights";
 	  }
 }
-if ($action == "clone_panel") { 
+
+if ($action == "clone_panel") {
+	if(!$_SESSION['read_only'])
+	{
+		$panel_id = $_GET['panel_id'];
+		require("template/".$page_id.".clone.php");
+		require("template/footer.php");
+		exit();
+	}else {
+		$errors= "User with Read-Only Rights";
+	}
+}
+
+if ($action == "clone_panel_verify") { 
 	if(!$_SESSION['read_only']){
+		extract($_POST);
 		$panel_id = $_GET['panel_id'];
 		$sql = 'INSERT INTO '.$table.' (`name`, content) VALUES (?,?) ';
 				$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($_SESSION['config']['panels'][$panel_id]['name'],$_SESSION['config']['panels'][$panel_id]['content'] )) == false) {
+		if ($stm->execute( array($panel_name, $_SESSION['config']['panels'][$panel_id]['content'] )) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 			$form_valid=false;
 		} 

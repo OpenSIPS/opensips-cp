@@ -16,4 +16,16 @@ function move(oldID, newID) {
     newParent.appendChild(oldParent.childNodes[0]);
   }
 }
+
+function store_dashboard(arg) {
+  const Http = new XMLHttpRequest();
+  const url = 'store_dashboard.php';
+  Http.open("POST", url);
+  Http.setRequestHeader('Content-type', 'application/json');
+  Http.send(JSON.stringify(arg));
+  Http.onreadystatechange =(e) => {
+    console.log(Http.responseText);
+  }
+  
+}
 </script>

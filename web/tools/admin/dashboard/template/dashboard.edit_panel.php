@@ -30,7 +30,6 @@ if(!$_SESSION['read_only']){
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add Blank Panel" class="formButton add-new-btn">') ?>
 </form>
 
-
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="listTitle">Panel name</th>
