@@ -30,7 +30,7 @@ function get_domains($module, $has_any)
 	require("db_connect.php");
 	session_load_from_tool("domains");
 	
-	$table_domains=get_settings_value_from_tool("table_domains");
+	$table_domains=get_settings_value_from_tool("table_domains", "domains");
 
 	$sql="select domain from $table_domains";
 	$result = $link->query($sql)->fetchAll(PDO::FETCH_COLUMN);

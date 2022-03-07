@@ -20,10 +20,20 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require("../../../../config/boxes.global.inc.php");
+require("../../../../config/tools/admin/boxes_config/settings.inc.php");
+
 if(!$_SESSION['read_only']){
 	$colspan = 5;
 }else{
 	$colspan = 3;
+}
+
+$custom_system_params = [];
+foreach($config->systems as $key => $value) {
+  $elem = $value;
+  $elem['key'] = $key;
+  if ($elem['show_in_main'] == true) $custom_box_params[] = $elem;
 }
 ?>
 <form action="<?=$page_name?>?action=add" method="post">
@@ -36,6 +46,9 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Name</th>
   <th class="listTitle">Description</th>
   <?php
+	foreach ($custom_box_params as $elem) {
+		echo('<th class="listTitle">'.$elem['name'].'</th>');
+	}
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit Info</th>
@@ -64,7 +77,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select `name`, `desc`, assoc_id from ".$table."  order by assoc_id asc limit ".$res_no.";";
+	$sql_command="select * from ".$table."  order by assoc_id asc limit ".$res_no.";";
 	if ($start_limit!=0)
 		$sql_command.=" OFFSET " . $start_limit;
 	$stm = $link->prepare( $sql_command );
@@ -94,6 +107,8 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['desc']?></td>
 <?php
+   foreach ($custom_box_params as $elem) 
+	echo ('<td class="'.$row_style.'">&nbsp;'.$resultset[$i][$elem['key']].'</td>');
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
 			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
