@@ -208,7 +208,8 @@ function load_panels() {
 	require("".__DIR__."/../tools/admin/dashboard/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/dashboard/local.inc.php");
 
-	$sql = 'select `name`, id, content from ocp_dashboard';
+	$max_order = -1;
+	$sql = 'select `name`, id, content, `order` from ocp_dashboard';
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -221,8 +222,12 @@ function load_panels() {
 		foreach ($resultset as $elem) {
 			$_SESSION['config']['panels'][$elem['id']]['name'] = $elem['name'];
 			$_SESSION['config']['panels'][$elem['id']]['content'] = $elem['content'];
+			$_SESSION['config']['panels'][$elem['id']]['order'] = $elem['order'];
+			$_SESSION['config']['panels'][$elem['id']]['id'] = $elem['id'];
+			if ($elem['order'] > $max_order) $max_order = $elem['order'];
 		}
 	}
+	$_SESSION['config']['panels_max_order'] = $max_order;
 
 }
 

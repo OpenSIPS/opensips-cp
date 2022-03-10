@@ -25,13 +25,14 @@
      <h1> DASHBOARD 0.1</h1>
      <?php 
  } else { ?>
+ 
+ <a href=# onclick="lockPanel()" style="position:relative; left:110px; top:2px; content: url('../../../images/sett.png');"></a>
 <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Widget" class="formButton add-new-btn">') ?>
 </form>
 
 
 <head>
-    <title>Demo &raquo; dashboard </title>
 <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
     <link rel="stylesheet" type="text/css" href="css/demo.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.gridster.min.css">
@@ -65,12 +66,9 @@
     var action = "<?=$action?>";
     var widget_info = "<?=$widget_info?>";
     gridster = $(".gridster > ul").gridster({
-            widget_margins: [7, 7],
-            widget_base_dimensions: [100, 100],
+            widget_base_dimensions: [30, 30],
             shift_widgets_up: false,
             shift_larger_widgets_down: false,
-            max_cols: 7,
-            max_rows: 7,
             collision: {
                 wait_for_mouseup: true
             },
@@ -90,9 +88,9 @@
   //          gridster.add_widget.apply(gridster, widget)
   //      });
          
-         if (action == "add_widget_verify") {
-            var wi = <?php echo json_encode($_POST); ?>;
-            addWidget(gridster,wi['widget_title'], wi['widget_content'], wi['widget_id'], Number(wi['widget_sizex']), Number(wi['widget_sizey']));
+         if (action == "add_widget_verify") { 
+            var wi = <?php echo json_encode($widget_array); ?>;
+            addWidget(gridster,wi[0], Number(wi[1]), Number(wi[2]));
          }
 </script>
 
@@ -105,8 +103,8 @@
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     ?>
     <script>
-            var lala = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
-            lala.forEach(element => gridster.add_widget('<li />', element.size_x, element.size_y, element.col, element.row));
+            var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
+            stored_widgets.forEach(element => gridster.add_widget('<li />', element.size_x, element.size_y, element.col, element.row));
     </script>
     <?php
 }

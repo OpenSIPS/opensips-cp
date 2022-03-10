@@ -2,11 +2,10 @@
   
 
 
-function addWidget(grid, title, content, idWidget, sizeX, sizeY) {
-    var widgetElement = '<li id='.concat(idWidget).concat('><header>').concat(title).concat('</header>').concat(content).concat('</li>');
+function addWidget(grid, content, sizeX, sizeY) {
+    var widgetElement = content;
     var widget = [widgetElement, sizeX, sizeY];
     gridster.add_widget.apply(gridster, widget);
-    $.post( "dashboard.php", { namee: "John", time: "2pm" } );
 
 }
 function move(oldID, newID) {
@@ -25,7 +24,29 @@ function store_dashboard(arg) {
   Http.send(JSON.stringify(arg));
   Http.onreadystatechange =(e) => {
     console.log(Http.responseText);
+  } 
+}
+
+function getChartHtml() {
+  const Http = new XMLHttpRequest();
+  const url = 'dashboard3.php';
+  Http.open("GET", url);
+  Http.setRequestHeader('Content-type', 'text/html');
+  Http.send(null);
+  Http.onreadystatechange =(e) => {
+    console.log(Http.responseText);
   }
-  
+}
+
+function lockPanel() {
+  if (gridster.drag_api.disabled) {
+    gridster.enable();
+  }
+  else {
+    gridster.disable();
+  }
+  var test = document.getElementsByClassName('gridster');
+  //test[0].style = "background-color: #ffffff";
+  //console.log(test[0].style);
 }
 </script>

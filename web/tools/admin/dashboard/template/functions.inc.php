@@ -20,6 +20,33 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+    function get_panels_count() {
+        return count($_SESSION['config']['panels']);
+    }
 
+    function swap_panels($first, $second, $table) {  
+        require("../../../../config/tools/admin/dashboard/db.inc.php");
+        include("lib/db_connect.php");
+        require("../../../../config/db.inc.php");
+        require("../../../../config/tools/admin/dashboard/local.inc.php");
+
+        $sql = 'UPDATE '.$table.' SET `order` = 
+        CASE
+         WHEN `order` = ? THEN ?
+         WHEN `order` = ? THEN ?
+        END
+        WHERE `order` = ? or `order` = ?
+        ';
+        $stm = $link->prepare($sql);
+        if ($stm === false) {
+            die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+        }
+
+        if ($stm->execute( array($first, $second, $second, $first, $first, $second)) == false)
+            echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+        else {
+
+        }
+    }
 
 ?>

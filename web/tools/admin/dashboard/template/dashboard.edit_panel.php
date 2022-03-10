@@ -39,7 +39,8 @@ if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit</th>
         <th class="listTitle">Clone</th>
-  		<th class="listTitle">Delete</th>');
+		<th class="listTitle">Delete</th>
+		<th class="listTitle">Move</th>');
   }
   ?>
  </tr>
@@ -64,7 +65,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select `name`, id from ".$table."  order by id asc limit ".$res_no.";";
+	$sql_command="select `name`, id, `order` from ".$table."  order by `order` asc limit ".$res_no.";";
 	if ($start_limit!=0)
 		$sql_command.=" OFFSET " . $start_limit;
 	$stm = $link->prepare( $sql_command );
@@ -75,9 +76,12 @@ else
 	require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;
-
+	$move_up_id = -1;
+	$move_down_id = -1;
 	while (count($resultset)>$i)
 	{	
+		if ($i == count($resultset) - 1) $move_down_id = -1;
+		else $move_down_id = $resultset[$i + 1]['order'];  
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
@@ -87,6 +91,8 @@ else
 			$edit_link = '<a href="'.$page_name.'?action=edit_tools"><img src="../../../images/share/edit.png" border="0"></a>';
 			$clone_link = '<a href="'.$page_name.'?action=clone_panel&panel_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&panel_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$move_link='<a href="'.$page_name.'?action=move_panels&order_id1='.$resultset[$i]['order'].'&order_id2='.$move_up_id.'"><img src="../../../images/share/up.png" border="0"></a>
+			<a href="'.$page_name.'?action=move_panels&order_id1='.$resultset[$i]['order'].'&order_id2='.$move_down_id.'"><img src="../../../images/share/down.png" border="0"></a>';
 		}
 ?>
  <tr>
@@ -96,12 +102,14 @@ else
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
             <td class="'.$row_style.'Img" align="center">'.$clone_link.'</td>
-			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
+			<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>
+			<td class="'.$row_style.'Img" align="center">'.$move_link.'</td>');
    }
 ?>
   </tr>  
 <?php
 
+	$move_up_id = $resultset[$i]['order'];
 	$i++;
 	}
 }

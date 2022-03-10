@@ -34,11 +34,18 @@
          $config->menu_item = array();
          $config->menu_item[] = array(
                 "dashboard.php", // page name
-                "Default dashboard welcome message" // menu name
+                "Default" // menu name
           );
-          foreach ($_SESSION['config']['panels'] as $id => $elem)
+          $orders = array();
+          foreach ($_SESSION['config']['panels'] as $key => $row)
+          {
+                $orders[$key] = $row['order'];
+          }
+          $sorted_panels = $_SESSION['config']['panels'];
+          array_multisort($orders, SORT_ASC, $sorted_panels);
+          foreach ( $sorted_panels as $id => $elem)
             $config->menu_item[] = array(
-              "dashboard.php?action=display_panel&panel_id=".$id, // page name
+              "dashboard.php?action=display_panel&panel_id=".$elem['id'], // page name
               $elem['name'] // menu name
             );
           $config->menu_item[] = array(
