@@ -21,8 +21,37 @@
  */
 
 $config->acl_management = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
+	"grps" => array(
+		"default" =>  array(),
+		"name"    => "Groups",
+		"tip"     => "A list containing the groups that you are using in your OpenSIPS config file. These are custom values and they are define by the script writer.",
+		"type"    => "json",
+		"example" => "[
+    \"grp_one\",
+    \"grp_two\",
+    \"grp_three\"
+]"
+	),
+	"title1" => array(
+		"type" => "title",
+		"title" => "DB settings"
+	),
+	"table_acls" => array(
+		"default" => "grp",
+		"name"    => "ACLs Table",
+		"tip"     => "The name of the DB table where the groups (and mapping to SIP users) are stored.",
+		"type"    => "text"
+	),
+	"title2" => array(
+		"type" => "title",
+		"title" => "Display settings"
+	),
 	"results_per_page" => array(
-		"default" => 25,
+		"default" => 30,
 		"name"    => "Results per page",
 		"tip"     => "Number of results per page",
 		"type"    => "number",
@@ -35,16 +64,4 @@ $config->acl_management = array(
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
 	),
-	"table_acls" => array(
-		"default" => "grp",
-		"name"    => "ACLs Table",
-		"tip"     => "The name of the DB table where the groups (and mapping to SIP users) are stored.",
-		"type"    => "text"
-	),
-	"grps" => array(
-		"default" =>  array("grp_one","grp_two","grp_three"),
-		"name"    => "Groups",
-		"tip"     => "A list containing the groups that you are using in your OpenSIPS config file. These are custom values and they are define by the script writer.",
-		"type"    => "json"
-	)
 );
