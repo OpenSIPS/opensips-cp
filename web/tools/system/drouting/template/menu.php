@@ -25,12 +25,8 @@
   <tr>
     <td class="breadcrumb">
         <?php print "System / Dynamic Routing / ".$_SESSION['permission'];
-        if (file_exists(__DIR__."/../../../../../config/tools/system_config/settings.inc.php") && $_SESSION['permission'] == 'Admin') {
-          ?> 
-          <a  onclick="top.frames['main_body'].location.href='../../admin/tools_config/tools_config.php?tool=user_management&action=edit_tools';" href="#"   id="config_admin"></a> 
-        <?php 
-              }
-              ?>   
+          display_settings_button();
+        ?>   
     </td>
   </tr>
   <tr>
