@@ -91,8 +91,13 @@ else
 			$edit_link = '<a href="'.$page_name.'?action=edit_tools"><img src="../../../images/share/edit.png" border="0"></a>';
 			$clone_link = '<a href="'.$page_name.'?action=clone_panel&panel_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&panel_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
-			$move_link='<a href="'.$page_name.'?action=move_panels&order_id1='.$resultset[$i]['order'].'&order_id2='.$move_up_id.'"><img src="../../../images/share/up.png" border="0"></a>
-			<a href="'.$page_name.'?action=move_panels&order_id1='.$resultset[$i]['order'].'&order_id2='.$move_down_id.'"><img src="../../../images/share/down.png" border="0"></a>';
+			$move_link='<table style="width:40px; table-layout:fixed; border-spacing: 0px; "><tr><td style="border-left-width: 0px; border-bottom-width: 0px; border-top-width: 0px;">';
+			if ($move_up_id != -1)
+				$move_link .= '<a style="position:relative; right:27px;" href="'.$page_name.'?action=move_panels&order_id1='.$resultset[$i]['order'].'&order_id2='.$move_up_id.'"><img src="../../../images/share/up.png" border="0"></a>';
+			$move_link .= '</td><td style="border-left-width: 0px; border-bottom-width: 0px; border-top-width: 0px;">';
+			if ($move_down_id != -1)
+				$move_link .= '<a style="position:relative; right:15px;" href="'.$page_name.'?action=move_panels&order_id1='.$resultset[$i]['order'].'&order_id2='.$move_down_id.'"><img src="../../../images/share/down.png" border="0"></a>';
+			$move_link .= '</td></tr></table>';
 		}
 ?>
  <tr>

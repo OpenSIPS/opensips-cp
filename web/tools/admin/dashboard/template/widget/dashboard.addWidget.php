@@ -34,6 +34,7 @@ require_once("../../../common/forms.php");
  form_generate_input_text("ID", "", "widget_id", null, null, 20,null);
  form_generate_input_text("SizeX", "", "widget_sizex", null, null, 20,null);
  form_generate_input_text("SizeY", "", "widget_sizey", null, null, 20,null);
+ form_generate_select("Widget type", "", "widget_type", 10, null, array("chart", "custom"));
 
 ?>
  <tr>

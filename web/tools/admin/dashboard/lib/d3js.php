@@ -1,10 +1,6 @@
-<!-- Code from d3-graph-gallery.com -->
-<!DOCTYPE html>
-<meta charset="utf-8">
 
-<!-- Load d3.js -->
+
 <script src="d3.v4.min.js"></script>
-<!-- Create a div where the graph will take place -->
 <div id=<?=$_SESSION['stat']?>></div>
 
 <div id="tooltipd3<?php echo $_SESSION['stat'] ?>" class="tooltipd3">
@@ -40,9 +36,9 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     var refresh = 1;
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 30, left: 50},
-      width = 660 - margin.left - margin.right,
-      height = 300 - margin.top - margin.bottom;
+  var margin = {top: 6, right: 18, bottom: 18, left: 30},
+      width = 396 - margin.left - margin.right,
+      height = 180 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))

@@ -1,9 +1,11 @@
 <?php 
 
 show_graph("load:load", 0);
+
 function show_graph($stat,$box_id){
-  require("../../../common/cfg_comm.php");
+  require_once("../../../common/cfg_comm.php");
   session_load_from_tool("smonitor", 0);
+    $widget = $_GET['widget'];
 	global $config;
 	global $gauge_arr;
 	$var = $stat;

@@ -26,7 +26,7 @@ function consoole_log( $data ){
 	echo '</script>';
   } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
-require("template/widget.php");
+require("template/widget/widget_classes.php");
 require_once("template/functions.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");
@@ -56,7 +56,7 @@ if ($action=="edit_panel")
 if ($action=="edit_widget")
 {  	
 	$widget_name = $_GET['widget_name'];
-    require("template/".$page_id.".edit_widget.php");
+    require("template/widget/".$page_id.".edit_widget.php");
 	require("template/footer.php");
 	exit();
 }
@@ -92,6 +92,19 @@ if ($action == "details") {
 
 if ($action == "display_panel") {
 	$panel_id = $_GET['panel_id'];
+	ob_start();
+	$original_get = $_GET;
+	$_GET = [];
+	$file = "dashboard3.php";
+	require_once($file);
+	$_GET = $original_get;
+	$content_chart .= ob_get_contents();
+	ob_clean();
+	foreach(json_decode($_SESSION['config']['panels'][$panel_id]['content']) as $el) {
+		if ($el->type == "chart") {
+			echo "<div id=chart_".$el->id.">".$content_chart."</div>";
+		}
+	}
 	require("template/".$page_id.".main.php");
 	require("template/footer.php");
 	exit();
@@ -99,7 +112,7 @@ if ($action == "display_panel") {
 
 if ($action == "add_widget") {
 	$panel_id = $_GET['panel_id'];
-	require("template/".$page_id.".addWidget.php");
+	require("template/widget/".$page_id.".addWidget.php");
 	require("template/footer.php");
 	exit();
 }
@@ -122,7 +135,20 @@ if ($action=="add_blank_panel")
 if ($action == "add_widget_verify") { 
 	if(!$_SESSION['read_only']){
 		$panel_id = $_GET['panel_id'];
-		$new_widget = new custom_widget($_POST['widget_content'], $_POST['widget_title'],$_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_title']);
+		if ($_POST['widget_type'] == "custom")
+			$new_widget = new custom_widget($_POST['widget_content'], $_POST['widget_title'],$_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_title']);
+		else if ($_POST['widget_type'] == "chart") {
+			ob_start();
+			$original_get = $_GET;
+			$_GET = [];
+			$file = "dashboard3.php";
+			require_once($file);
+			$_GET = $original_get;
+			$content_chart .= ob_get_contents();
+			ob_clean();
+			echo $content_chart;
+			$new_widget = new chart_widget($_POST['widget_content'], $_POST['widget_title']);
+		}
 		$new_widget->set_id($_POST['widget_id']);
 		$widget_array = $new_widget->get_as_array();
 		

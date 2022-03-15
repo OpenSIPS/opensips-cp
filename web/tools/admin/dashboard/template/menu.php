@@ -32,10 +32,6 @@
       <div class="menuItems">
         <?php
          $config->menu_item = array();
-         $config->menu_item[] = array(
-                "dashboard.php", // page name
-                "Default" // menu name
-          );
           $orders = array();
           foreach ($_SESSION['config']['panels'] as $key => $row)
           {

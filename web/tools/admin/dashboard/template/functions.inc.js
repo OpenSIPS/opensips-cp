@@ -23,7 +23,7 @@ function store_dashboard(arg) {
   Http.setRequestHeader('Content-type', 'application/json');
   Http.send(JSON.stringify(arg));
   Http.onreadystatechange =(e) => {
-    console.log(Http.responseText);
+    //console.log(Http.responseText);
   } 
 }
 
@@ -34,7 +34,7 @@ function getChartHtml() {
   Http.setRequestHeader('Content-type', 'text/html');
   Http.send(null);
   Http.onreadystatechange =(e) => {
-    console.log(Http.responseText);
+   // console.log(Http.responseText);
   }
 }
 

@@ -66,7 +66,7 @@
     var action = "<?=$action?>";
     var widget_info = "<?=$widget_info?>";
     gridster = $(".gridster > ul").gridster({
-            widget_base_dimensions: [30, 30],
+            widget_base_dimensions: [90, 90],
             shift_widgets_up: false,
             shift_larger_widgets_down: false,
             collision: {
@@ -75,9 +75,26 @@
             resize: {
                 enabled: true
             },
+            serialize_params: function($w, wgd) { 
+
+                    if ($w.context.childNodes.length >= 2) 
+                        var outer_html = $w.context.childNodes[1].outerHTML;
+                    else var outer_html = "";
+                    return { 
+                           id: $w.attr('id'), 
+                           type: $w.attr('type'),
+                           title: $w.attr('title'),
+                           ohtml: outer_html,
+                           col: wgd.col, 
+                           row: wgd.row, 
+                           size_x: wgd.size_x, 
+                           size_y: wgd.size_y 
+                    };
+            },
             draggable: {
                 stop: function (e, ui, $widget) {
                     var positions = gridster.serialize();
+                    console.log(positions);
                     positions.push (<?=$panel_id?>);
                     store_dashboard(positions);
                 }
@@ -91,6 +108,7 @@
          if (action == "add_widget_verify") { 
             var wi = <?php echo json_encode($widget_array); ?>;
             addWidget(gridster,wi[0], Number(wi[1]), Number(wi[2]));
+            //move( "ugabuga", "hodoronc");
          }
 </script>
 
@@ -104,7 +122,17 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     ?>
     <script>
             var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
-            stored_widgets.forEach(element => gridster.add_widget('<li />', element.size_x, element.size_y, element.col, element.row));
+            stored_widgets.forEach(element => 
+            {
+                if (element.type == "chart") {  console.log(element.id);
+                   gridster.add_widget('<li id="'.concat(element.id).concat('" type="').concat(element.type).concat('"></li>'), element.size_x, element.size_y, element.col, element.row);
+                   move( "chart_".concat(element.id), element.id);
+                } else {
+                    gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><header>').concat(element.title).concat('<a href=\'dashboard.php?action=edit_widget&widget_name=nameegg\' onclick="lockPanel()" style="position:relative; left:60px; top:2px; content: url(\'../../../images/sett.png\');"></a></header><div>').concat(element.ohtml).concat('</div></li>'), element.size_x, element.size_y, element.col, element.row)
+                    
+                }
+             console.log("adaugat din automat");   
+            });
     </script>
     <?php
 }
