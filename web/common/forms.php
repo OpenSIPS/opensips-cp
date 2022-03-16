@@ -72,6 +72,28 @@ function auto_grow(element) {
     element.style.height = (element.scrollHeight)+"px";
 }
 
+function validate_json_array(str) {
+    try {
+        JSON.parse(str);
+		if (!Array.isArray(JSON.parse(str)))
+			return false;
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
+function validate_json_object(str) {
+    try {
+        JSON.parse(str);
+		if (Array.isArray(JSON.parse(str)))
+			return false;
+    } catch (e) {
+        return false;
+    }
+    return true;
+}
+
 function validate_json(str) {
     try {
         JSON.parse(str);
