@@ -41,10 +41,10 @@ $config->dispatcher = array(
 /* Static way */
 {
 	\"type\": \"array\",
-	\"array\": [
+	\"array\": {
 		{ \"2\": \"Group 1\" },
 		{ \"4\": \"Group 2\" }
-		]
+	}
 }
 
 /* Dynamic way */
