@@ -62,7 +62,7 @@ $config->dispatcher = array(
 	),
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,
-		"name"    => "Talk to this assoc id",
+		"name"    => "Linked system",
 		"options" => get_assoc_id(),
 		"type"    => "dropdown",
 		"tip"	  => "As OCP can manage multiple OpenSIPS instances, this is the association 
