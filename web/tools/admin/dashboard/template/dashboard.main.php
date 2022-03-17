@@ -26,7 +26,7 @@
      <?php 
  } else { ?>
  
- <a href=# onclick="lockPanel()" style="position:relative; left:110px; top:2px; content: url('../../../images/sett.png');"></a>
+ <a href=# onclick="lockPanel()" style="position:relative; left:110px; top:2px; content: url('../../../images/share/inactive.png');"></a>
 <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Widget" class="formButton add-new-btn">') ?>
 </form>
@@ -75,11 +75,13 @@
             resize: {
                 enabled: true
             },
-            serialize_params: function($w, wgd) { 
-
+            serialize_params: function($w, wgd) {
                     if ($w.context.childNodes.length >= 2) 
                         var outer_html = $w.context.childNodes[1].outerHTML;
                     else var outer_html = "";
+                    if ($w.attr('type') == "cdr") {
+                        outer_html = $w.context.childNodes[0].outerText;
+                    }
                     return { 
                            id: $w.attr('id'), 
                            type: $w.attr('type'),
@@ -123,15 +125,19 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     <script>
             var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
             stored_widgets.forEach(element => 
-            {
+            { console.log(element);
                 if (element.type == "chart") {  console.log(element.id);
                    gridster.add_widget('<li id="'.concat(element.id).concat('" type="').concat(element.type).concat('"></li>'), element.size_x, element.size_y, element.col, element.row);
                    move( "chart_".concat(element.id), element.id);
-                } else {
+                } else if (element.type == "custom") {
                     gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><header>').concat(element.title).concat('<a href=\'dashboard.php?action=edit_widget&widget_name=nameegg\' onclick="lockPanel()" style="position:relative; left:60px; top:2px; content: url(\'../../../images/sett.png\');"></a></header><div>').concat(element.ohtml).concat('</div></li>'), element.size_x, element.size_y, element.col, element.row)
-                    
-                }
-             console.log("adaugat din automat");   
+                } else if (element.type == "horizontalTitle") {
+                    gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><div>').concat(element.title).concat('</div></li>'), 5, 1, element.col, element.row);
+                }  else if (element.type == "verticalTitle") {
+                    gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><div>').concat(element.title).concat('</div></li>'), 1, 5, element.col, element.row);
+                }  else if (element.type == "cdr") {
+                    gridster.add_widget('<li title='.concat(element.name).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><div>').concat(element.ohtml).concat('</div></li>'), element.size_x, element.size_y, element.col, element.row);
+                }     
             });
     </script>
     <?php

@@ -27,6 +27,8 @@ function consoole_log( $data ){
   } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
 require("template/widget/widget_classes.php");
+require("../../system/cdrviewer/template/widget/widget.php");
+require("../../system/smonitor/template/widget/widget.php");
 require_once("template/functions.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");
@@ -135,9 +137,9 @@ if ($action=="add_blank_panel")
 if ($action == "add_widget_verify") { 
 	if(!$_SESSION['read_only']){
 		$panel_id = $_GET['panel_id'];
-		if ($_POST['widget_type'] == "custom")
+		if ($_GET['widget_type'] == "custom")
 			$new_widget = new custom_widget($_POST['widget_content'], $_POST['widget_title'],$_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_title']);
-		else if ($_POST['widget_type'] == "chart") {
+		else if ($_GET['widget_type'] == "chart") {
 			ob_start();
 			$original_get = $_GET;
 			$_GET = [];
@@ -147,7 +149,13 @@ if ($action == "add_widget_verify") {
 			$content_chart .= ob_get_contents();
 			ob_clean();
 			echo $content_chart;
-			$new_widget = new chart_widget($_POST['widget_content'], $_POST['widget_title']);
+			$new_widget = new chart_widget($_POST['widget_chart'], $_POST['widget_title']);
+		} else if ($_GET['widget_type'] == "horizontalTitle") {
+			$new_widget = new horizontal_title_widget( $_POST['widget_title']);
+		} else if ($_GET['widget_type'] == "verticalTitle") {
+			$new_widget = new vertical_title_widget( $_POST['widget_title']);
+		} else if ($_GET['widget_type'] == "cdr") {
+			$new_widget = new cdr_widget( $_POST['widget_name'], $_POST['widget_sizex'], $_POST['widget_sizey']);
 		}
 		$new_widget->set_id($_POST['widget_id']);
 		$widget_array = $new_widget->get_as_array();

@@ -21,21 +21,43 @@
  * */
 
 require_once("../../../common/forms.php");
+if (!$_POST['type_val']) $widget_type = "chart";
+else $widget_type = $_POST['type_val'];
+echo ('<form action="'.$page_name.'?action=add_widget&panel_id='.$panel_id.'" method="post" name="type_select" style="margin:0px!important">');
+echo ('<input type="hidden" name="type_val" class="formInput" method="post" value="">');
+echo ('<select name="type_list" onChange=type_select.type_val.value=type_select.type_list.value;type_select.submit() >');
+foreach ( widget::$subclasses as $val ) {
+  echo '<option value="'.$val.'"' ;
+  if ($_POST['type_val']==$val) echo ' selected';
+  echo '>'.$val.'</option>';
+}
+echo ('</select></form>');
 ?>
-<form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>" method="post">
+<form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_type?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Add New Widget</td>
  </tr>
- <?php 
- 
- form_generate_input_text("Title", "", "widget_title", null, null, 20,null);
- form_generate_input_text("Content", "", "widget_content", null, null, 20,null);
- form_generate_input_text("ID", "", "widget_id", null, null, 20,null);
- form_generate_input_text("SizeX", "", "widget_sizex", null, null, 20,null);
- form_generate_input_text("SizeY", "", "widget_sizey", null, null, 20,null);
- form_generate_select("Widget type", "", "widget_type", 10, null, array("chart", "custom"));
-
+ <?php
+ switch ($_POST['type_val']) {
+  case "chart":
+    chart_widget::new_form();
+    break;
+  case "custom":
+    custom_widget::new_form();
+    break;
+  case "horizontalTitle":
+    horizontal_title_widget::new_form();
+    break;
+  case "verticalTitle":
+    vertical_title_widget::new_form();
+    break;
+  case "cdr":
+    cdr_widget::new_form();
+    break;
+  default:
+    chart_widget::new_form();
+  }
 ?>
  <tr>
   <td colspan="2">

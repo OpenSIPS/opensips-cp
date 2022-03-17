@@ -6,6 +6,7 @@ abstract class widget
     public $id;
     public $sizeX, $sizeY;
     public $title;
+    public static $subclasses = array("chart", "custom", "horizontalTitle", "verticalTitle", "cdr");
 
     public function __construct($name, $sizeX, $sizeY, $title=null) {
         $this->name = $name;
