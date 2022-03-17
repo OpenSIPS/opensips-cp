@@ -71,17 +71,20 @@ function auto_grow(element) {
     element.style.height = "5px";
     element.style.height = (element.scrollHeight)+"px";
 }
-
-function validate_json(str) {
+function validate_json(str, format) {
     try {
         JSON.parse(str);
+		if (Array.isArray(JSON.parse(str)) && format == "object")
+			return false;
+		else if (!Array.isArray(JSON.parse(str)) && format == "array")
+			return false;
     } catch (e) {
         return false;
     }
     return true;
 }
 
-function validate_input(field, output, regex, validation){
+function validate_input(field, output, regex, validation, format){
 	val = document.getElementById(field).value;
 	if (val=="") {
 		if (document.getElementById(field).getAttribute("opt")=="y") {
@@ -104,7 +107,7 @@ function validate_input(field, output, regex, validation){
 			ret = -1;
 		}
 
-		if (validation != null && !validation(val)) {
+		if (validation != null && !validation(val, format)) {
 			document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
 			document.getElementById(field).setAttribute("valid","ko");
 			ret = -1;
@@ -198,13 +201,13 @@ function print_example($example, $param, $id) {
 	   );
 }
 
-function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null) {
+function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null,$json_format=null) {
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
 	else 
 		$value = "";
 
-	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.")'";
+	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.",\"".$json_format."\")'";
 	$pixelNo = substr_count($val, "\n") * 16 + 35;
 
 	
