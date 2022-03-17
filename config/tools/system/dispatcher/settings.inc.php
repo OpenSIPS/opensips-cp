@@ -42,8 +42,8 @@ $config->dispatcher = array(
 {
 	\"type\": \"array\",
 	\"array\": {
-		{ \"2\": \"Group 1\" },
-		{ \"4\": \"Group 2\" }
+		\"2\": \"Group 1\",
+		\"4\": \"Group 2\"
 	}
 }
 
