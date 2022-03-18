@@ -123,6 +123,8 @@
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     ?>
     <script>
+        var e;
+     console.log(e);
             var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
             stored_widgets.forEach(element => 
             { console.log(element);
