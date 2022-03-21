@@ -118,6 +118,17 @@ function get_assoc_id() {
 	return $assoc_ids;
 }
 
+function get_tools() {
+	require("../../../../config/modules.inc.php");
+	$tools = [];
+	foreach ($config_modules as $group => $modules) {
+		foreach ($modules['modules'] as $name => $attrs) {
+			$tools[$name] = $group;
+		}
+	}
+	return $tools;
+}
+
 function get_tool_name() {
 	require("../../../../config/modules.inc.php");
 	return $config_modules[$_SESSION['current_group']]['modules'][$_SESSION['current_tool']]['name'];
@@ -139,6 +150,21 @@ function get_group_from_tool($tool) {
 
 function get_group() {
 	return get_group_from_tool($_SESSION['current_tool']);
+}
+
+function load_widgets() {
+	$tools = get_tools();
+	$tools['dashboard'] = 'admin';
+	$widgets = [];
+	foreach ($tools as $tool => $group) {
+		$files = glob('../../'.$group.'/'.$tool.'/template/dashboard_widgets/*.php');
+		foreach ($files as $file) {
+			require_once($file);
+			$file_name = basename($file);
+			$widgets[] = substr($file_name, 0, strlen($file_name) - 4);
+		}
+	}
+	return $widgets;
 }
 
 function display_settings_button($box_id=null) {
@@ -209,7 +235,7 @@ function load_panels() {
 	require("".__DIR__."/../../config/tools/admin/dashboard/local.inc.php");
 
 	$max_order = -1;
-	$sql = 'select `name`, id, content, `order` from ocp_dashboard';
+	$sql = 'select `name`, id, content, positions, `order` from ocp_dashboard';
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -221,14 +247,20 @@ function load_panels() {
 		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($resultset as $elem) {
 			$_SESSION['config']['panels'][$elem['id']]['name'] = $elem['name'];
-			$_SESSION['config']['panels'][$elem['id']]['content'] = $elem['content'];
+			foreach (json_decode($elem['content']) as $widget_id => $widget) {
+				$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['content'] = $widget;
+				foreach ($elem['positions'] as $el) {
+					if ($el['id'] == $widget_id) {
+						$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['positions'] = $el;
+					}
+				}
+			}
 			$_SESSION['config']['panels'][$elem['id']]['order'] = $elem['order'];
 			$_SESSION['config']['panels'][$elem['id']]['id'] = $elem['id'];
 			if ($elem['order'] > $max_order) $max_order = $elem['order'];
 		}
 	}
 	$_SESSION['config']['panels_max_order'] = $max_order;
-
 }
 
 function load_boxes() {

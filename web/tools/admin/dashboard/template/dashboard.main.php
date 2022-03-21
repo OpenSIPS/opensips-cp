@@ -76,18 +76,9 @@
                 enabled: true
             },
             serialize_params: function($w, wgd) {
-                    if ($w.context.childNodes.length >= 2) 
-                        var outer_html = $w.context.childNodes[1].outerHTML;
-                    else var outer_html = "";
-                    if ($w.attr('type') == "cdr") {
-                        outer_html = $w.context.childNodes[0].outerText;
-                    }
                     return { 
-                           id: $w.attr('id'), 
-                           type: $w.attr('type'),
-                           title: $w.attr('title'),
-                           ohtml: outer_html,
-                           col: wgd.col, 
+                           id: $w.attr('id'),
+                           col: wgd.col,
                            row: wgd.row, 
                            size_x: wgd.size_x, 
                            size_y: wgd.size_y 
@@ -96,7 +87,6 @@
             draggable: {
                 stop: function (e, ui, $widget) {
                     var positions = gridster.serialize();
-                    console.log(positions);
                     positions.push (<?=$panel_id?>);
                     store_dashboard(positions);
                 }
@@ -119,29 +109,37 @@
 
 
 
-<?php  
-if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
+<?php
+if ($_SESSION['config']['panels'][$panel_id]['widgets']['positions'] != null) {
+    //consoole_log($_SESSION['config']['panels']);
     ?>
     <script>
         var e;
-     console.log(e);
-            var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['content']); ?>);
+        var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['widgets']['positions']); ?>);
+            
+            //console.log(stored_widgets);
             stored_widgets.forEach(element => 
-            { console.log(element);
-                if (element.type == "chart") {  console.log(element.id);
-                   gridster.add_widget('<li id="'.concat(element.id).concat('" type="').concat(element.type).concat('"></li>'), element.size_x, element.size_y, element.col, element.row);
-                   move( "chart_".concat(element.id), element.id);
-                } else if (element.type == "custom") {
-                    gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><header>').concat(element.title).concat('<a href=\'dashboard.php?action=edit_widget&widget_name=nameegg\' onclick="lockPanel()" style="position:relative; left:60px; top:2px; content: url(\'../../../images/sett.png\');"></a></header><div>').concat(element.ohtml).concat('</div></li>'), element.size_x, element.size_y, element.col, element.row)
-                } else if (element.type == "horizontalTitle") {
-                    gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><div>').concat(element.title).concat('</div></li>'), 5, 1, element.col, element.row);
-                }  else if (element.type == "verticalTitle") {
-                    gridster.add_widget('<li title='.concat(element.title).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><div>').concat(element.title).concat('</div></li>'), 1, 5, element.col, element.row);
-                }  else if (element.type == "cdr") {
-                    gridster.add_widget('<li title='.concat(element.name).concat(' id="').concat(element.id).concat('" type="').concat(element.type).concat('"><div>').concat(element.ohtml).concat('</div></li>'), element.size_x, element.size_y, element.col, element.row);
-                }     
+            {
+                //   move( "chart_".concat(element.id), element.id);
+                    gridster.add_widget("<li/>", 2, 2, element.col, element.row);
+                
             });
     </script>
+    
     <?php
 }
+
+/*
+if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
+ foreach (json_decode($_SESSION['config']['panels'][$panel_id]['widgets']) as $widget)
+ {
+     ?>
+<script>
+    gridster.add_wdiget(<?php echo $_SESSION['config']['panels'][$panel_id]['content']?>,)
+</script>
+     <?php
+ }
+    
+    
+}*/
 } ?>

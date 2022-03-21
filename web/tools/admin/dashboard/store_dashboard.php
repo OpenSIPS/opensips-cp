@@ -10,7 +10,7 @@
   $panel_id = array_pop($result);
 
 
-	$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
+	$sql = 'UPDATE '.$table.' SET positions = ? WHERE id = ? ';
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

@@ -5,13 +5,18 @@ class cdr_widget extends widget
 {
     public $cdr_entries;
 
-    function __construct($name, $sizeX, $sizeY, $title=null) {
+    function __construct($name, $sizeX, $sizeY, $color, $title=null) {
         parent::__construct($name, $sizeX, $sizeY);
         $this->set_cdr_entries();
+        $this->color = $color;
     }
 
     function get_html() {
-        return '<li type="cdr" title="'.$this->title.'" id="'.$this->id.'"><div>There are '.$this->cdr_entries.' CDR Viewer entries</div></li>';
+        return '<li type="cdr" style="background-color: '.$this->color.';" title="'.$this->title.'" id="'.$this->id.'"><div>There are '.$this->cdr_entries.' CDR Viewer entries</div></li>';
+    }
+
+    function get_name() {
+        return "CDR widget";
     }
 
     function set_cdr_entries() {
@@ -33,6 +38,7 @@ class cdr_widget extends widget
         form_generate_input_text("ID", "", "widget_id", null, null, 20,null);
         form_generate_input_text("SizeX", "", "widget_sizex", null, null, 20,null);
         form_generate_input_text("SizeY", "", "widget_sizey", null, null, 20,null);
+        form_generate_input_text("Color", "", "widget_color", null, null, 20,null);
     }
 
 }

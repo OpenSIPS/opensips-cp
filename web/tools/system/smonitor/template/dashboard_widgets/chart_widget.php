@@ -13,6 +13,10 @@ class chart_widget extends widget
         return '<li type="chart" id='.$this->id.'></li>';
     }
 
+    function get_name() {
+        return "Chart widget";
+    }
+
     function get_as_array() {
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
     }

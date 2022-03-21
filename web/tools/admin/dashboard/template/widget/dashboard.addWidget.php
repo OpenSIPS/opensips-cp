@@ -21,15 +21,15 @@
  * */
 
 require_once("../../../common/forms.php");
-if (!$_POST['type_val']) $widget_type = "chart";
+if (!$_POST['type_val']) $widget_type = $widgets[0];
 else $widget_type = $_POST['type_val'];
 echo ('<form action="'.$page_name.'?action=add_widget&panel_id='.$panel_id.'" method="post" name="type_select" style="margin:0px!important">');
 echo ('<input type="hidden" name="type_val" class="formInput" method="post" value="">');
 echo ('<select name="type_list" onChange=type_select.type_val.value=type_select.type_list.value;type_select.submit() >');
-foreach ( widget::$subclasses as $val ) {
+foreach ( $widgets as $val ) {
   echo '<option value="'.$val.'"' ;
   if ($_POST['type_val']==$val) echo ' selected';
-  echo '>'.$val.'</option>';
+  echo '>'.$val::get_name().'</option>';
 }
 echo ('</select></form>');
 ?>
@@ -39,25 +39,7 @@ echo ('</select></form>');
   <td colspan="2" height="10" class="mainTitle">Add New Widget</td>
  </tr>
  <?php
- switch ($_POST['type_val']) {
-  case "chart":
-    chart_widget::new_form();
-    break;
-  case "custom":
-    custom_widget::new_form();
-    break;
-  case "horizontalTitle":
-    horizontal_title_widget::new_form();
-    break;
-  case "verticalTitle":
-    vertical_title_widget::new_form();
-    break;
-  case "cdr":
-    cdr_widget::new_form();
-    break;
-  default:
-    chart_widget::new_form();
-  }
+  $widget_type::new_form();
 ?>
  <tr>
   <td colspan="2">

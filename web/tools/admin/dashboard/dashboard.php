@@ -26,9 +26,6 @@ function consoole_log( $data ){
 	echo '</script>';
   } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
-require("template/widget/widget_classes.php");
-require("../../system/cdrviewer/template/widget/widget.php");
-require("../../system/smonitor/template/widget/widget.php");
 require_once("template/functions.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");
@@ -37,6 +34,7 @@ require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
+$widgets = load_widgets();
 $table=$config->table_dashboard; 
 $box_id = $_GET['box_id'];
 if ($box_id == '') $box_id = null;
@@ -137,9 +135,9 @@ if ($action=="add_blank_panel")
 if ($action == "add_widget_verify") { 
 	if(!$_SESSION['read_only']){
 		$panel_id = $_GET['panel_id'];
-		if ($_GET['widget_type'] == "custom")
+		if ($_GET['widget_type'] == "custom_widget")
 			$new_widget = new custom_widget($_POST['widget_content'], $_POST['widget_title'],$_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_title']);
-		else if ($_GET['widget_type'] == "chart") {
+		else if ($_GET['widget_type'] == "chart_widget") {
 			ob_start();
 			$original_get = $_GET;
 			$_GET = [];
@@ -150,16 +148,27 @@ if ($action == "add_widget_verify") {
 			ob_clean();
 			echo $content_chart;
 			$new_widget = new chart_widget($_POST['widget_chart'], $_POST['widget_title']);
-		} else if ($_GET['widget_type'] == "horizontalTitle") {
+		} else if ($_GET['widget_type'] == "horizontal_title_widget") {
 			$new_widget = new horizontal_title_widget( $_POST['widget_title']);
-		} else if ($_GET['widget_type'] == "verticalTitle") {
+		} else if ($_GET['widget_type'] == "vertical_title_widget") {
 			$new_widget = new vertical_title_widget( $_POST['widget_title']);
-		} else if ($_GET['widget_type'] == "cdr") {
-			$new_widget = new cdr_widget( $_POST['widget_name'], $_POST['widget_sizex'], $_POST['widget_sizey']);
+		} else if ($_GET['widget_type'] == "cdr_widget") {
+			$new_widget = new cdr_widget( $_POST['widget_name'], $_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_color']);
 		}
 		$new_widget->set_id($_POST['widget_id']);
 		$widget_array = $new_widget->get_as_array();
+		$stored_widget = [];
+		$stored_widget[$_POST['widget_id']] = $widget_array[0];
 		
+		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+
+		if ($stm->execute( array(json_encode($stored_widget), $panel_id)) == false)
+			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+
 		require("template/".$page_id.".main.php");
 		require("template/footer.php");
 		exit();
