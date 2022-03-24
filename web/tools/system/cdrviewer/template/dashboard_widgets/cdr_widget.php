@@ -31,6 +31,60 @@ class cdr_widget extends widget
         echo ('<iframe width="500" height="400" id="Megatest" src="./../../system/cdrviewer/index.php" title="description"></iframe>');
     }
 
+    function display_test3() {
+        echo ('<!DOCTYPE html>
+        <html>
+        <head>
+        <style> 
+        .flex-container {
+          display: -webkit-flex;
+          display: flex;  
+          -webkit-flex-flow: row wrap;
+          flex-flow: row wrap;
+          font-weight: bold;
+          text-align: center;
+        }
+        
+        .flex-container > * {
+          padding: 10px;
+          flex: 1 100%;
+        }
+        
+        .main {
+          text-align: left;
+          background: cornflowerblue;
+        }
+        
+        .header {background: coral;}
+        .footer {background: lightgreen;}
+        .aside {background: moccasin;}
+        
+        @media all and (min-width: 768px) {
+          .aside { flex: 1 auto; }
+          .main    { flex: 3 0px; }
+          .aside { order: 1; } 
+          .main    { order: 2; }
+          .footer  { order: 4; }
+        }
+        </style>
+        </head>
+        <body>
+        
+        <div class="flex-container">
+          <header class="header">Header</header>
+          <aside class="aside">Aside</aside>
+          <article class="main">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque sed ex turpis. Cras luctus nibh lectus, in ullamcorper ex tempor eleifend. Nulla bibendum, eros a consequat vestibulum, orci massa fermentum quam, sed commodo nunc ex vitae nisl. Aliquam ullamcorper interdum est nec tincidunt.</p>
+          </article>
+          <footer class="footer">Footer</footer>
+        </div>
+        
+        </body>
+        </html>
+        
+        ');
+    }
+
     function display_test2() {
         echo ('
         <form action="/action_page.php" method="get" id="form1">
@@ -52,7 +106,7 @@ class cdr_widget extends widget
 
     function echo_content() {
         echo ('<div id="'.$this->id.'_old">');
-        $this->display_test2();
+        $this->display_test3();
         echo('</div>');
     }
 
