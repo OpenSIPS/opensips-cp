@@ -19,29 +19,31 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-session_start();
 
 require_once("../../../../config/session.inc.php");
-require("../../../common/cfg_comm.php");
+require_once("../../../../config/db.inc.php");
 require_once("lib/functions.inc.php");
-get_priv("monit");
+$page_name = basename($_SERVER['SCRIPT_NAME']);
+$page_id = substr($page_name, 0, strlen($page_name) - 4);
+$_SESSION['current_tool'] = $page_id;
+$_SESSION['current_group'] = get_group();
+$no_result = "No Data Found.";
 session_load();
-require("template/header.php");
-
-
-
-if ($source = get_monit_page($foo['host'],$foo['port'],$foo['user'],$foo['pass'],"/","",$foo['has_ssl'])) {
-	$page=(substr($source,strpos($source,"\r\n\r\n")+4)) ;
-
-	$newpage=monit_html_replace($page);
-
-	ob_flush();
-	flush();
-	echo $newpage;
-} else {
-	echo "I can't connect!";
-}
-
-require("template/footer.php");
-
+header('Content-Type: text/html; charset=ISO-8859-1');
 ?>
+
+<html>
+
+<head>
+ <link href="./style_monit.css" type="text/css" rel="StyleSheet">
+</head>
+
+<body bgcolor="#e9ecef">
+<center>
+<table width="80%" cellpadding="5" cellspacing="5" border="0">
+ <tr  valign="top" height="20">
+  <td><?php require("template/menu.php") ?></td>
+ </tr>
+ <tr valign="top" > 
+  <td>
+   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
