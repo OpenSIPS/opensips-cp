@@ -55,8 +55,7 @@ else
    if( preg_match("/^\/.+\/[a-z]*$/i",$g)) {
      foreach ($monitored_stats as $name => $id) {
        if (preg_match($g, $name, $matches))
-           $group[] = $name; 
-       else console_log($g." si ".$name);
+           $group[] = $name;
      }
    }
    else $group[] = $g;
