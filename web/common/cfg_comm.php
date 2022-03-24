@@ -247,11 +247,12 @@ function load_panels() {
 		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($resultset as $elem) {
 			$_SESSION['config']['panels'][$elem['id']]['name'] = $elem['name'];
+			$_SESSION['config']['panels'][$elem['id']]['content'] = $elem['content'];
 			foreach (json_decode($elem['content']) as $widget_id => $widget) {
 				$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['content'] = $widget;
-				foreach ($elem['positions'] as $el) {
-					if ($el['id'] == $widget_id) {
-						$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['positions'] = $el;
+				foreach (json_decode($elem['positions']) as $el) {
+					if ($el->id == $widget_id) {
+						$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['positions'] = json_encode($el);
 					}
 				}
 			}
@@ -261,6 +262,7 @@ function load_panels() {
 		}
 	}
 	$_SESSION['config']['panels_max_order'] = $max_order;
+	//consoole_log($_SESSION['config']);
 }
 
 function load_boxes() {

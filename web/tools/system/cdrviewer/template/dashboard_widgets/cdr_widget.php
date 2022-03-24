@@ -5,18 +5,55 @@ class cdr_widget extends widget
 {
     public $cdr_entries;
 
-    function __construct($name, $sizeX, $sizeY, $color, $title=null) {
-        parent::__construct($name, $sizeX, $sizeY);
+    function __construct($array) {
+        parent::__construct($array['panel_id'], $array['widget_name'], $array['widget_sizex'], $array['widget_sizey']);
         $this->set_cdr_entries();
-        $this->color = $color;
+        $this->color = $array['widget_color'];
     }
 
-    function get_html() {
-        return '<li type="cdr" style="background-color: '.$this->color.';" title="'.$this->title.'" id="'.$this->id.'"><div>There are '.$this->cdr_entries.' CDR Viewer entries</div></li>';
+    function get_html() {  
+        $menu = "";
+        $color = "";
+
+        if ($this->has_menu == "yes") 
+            $menu = '<header><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
+        
+        if ($this->color)
+            $color = 'style="background-color: '.$this->color.';"';
+
+        return '<li type="cdr" '.$color.' style="background-color: '.$this->color.';" title="'.$this->title.'" id="'.$this->id.'">'.$menu.'<div>There are '.$this->cdr_entries.' CDR Viewer entries</div></li>';
     }
 
     function get_name() {
         return "CDR widget";
+    }
+    function display_test() {
+        echo ('<iframe width="500" height="400" id="Megatest" src="./../../system/cdrviewer/index.php" title="description"></iframe>');
+    }
+
+    function display_test2() {
+        echo ('
+        <form action="/action_page.php" method="get" id="form1">
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+        <label for="fname">First name:</label>
+        <input type="text" id="fname" name="fname"><br><br>
+<label for="lname">Last name:</label>
+<input type="text" id="lname" name="lname">
+</form>
+
+<button type="submit" form="form1" value="Submit">Submit</button>
+        ');
+    }
+
+    function echo_content() {
+        echo ('<div id="'.$this->id.'_old">');
+        $this->display_test2();
+        echo('</div>');
     }
 
     function set_cdr_entries() {
@@ -33,12 +70,12 @@ class cdr_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form() {  
-        form_generate_input_text("Name", "", "widget_name", null, null, 20,null);
-        form_generate_input_text("ID", "", "widget_id", null, null, 20,null);
-        form_generate_input_text("SizeX", "", "widget_sizex", null, null, 20,null);
-        form_generate_input_text("SizeY", "", "widget_sizey", null, null, 20,null);
-        form_generate_input_text("Color", "", "widget_color", null, null, 20,null);
+    public static function new_form($params = null) {  
+        form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
+        form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);
+        form_generate_input_text("SizeX", "", "widget_sizex", null, $params['widget_sizex'], 20,null);
+        form_generate_input_text("SizeY", "", "widget_sizey", null, $params['widget_sizey'], 20,null);
+        form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
     }
 
 }

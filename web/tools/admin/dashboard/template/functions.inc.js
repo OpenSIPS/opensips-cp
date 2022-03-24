@@ -2,11 +2,10 @@
   
 
 
-function addWidget(grid, content, sizeX, sizeY) {
+function addWidget(grid, content, sizeX, sizeY, col = null, row = null) {
     var widgetElement = content;
-    var widget = [widgetElement, sizeX, sizeY];
+    var widget = [widgetElement, sizeX, sizeY, col, row];
     gridster.add_widget.apply(gridster, widget);
-
 }
 function move(oldID, newID) {
     var newParent = document.getElementById(newID);

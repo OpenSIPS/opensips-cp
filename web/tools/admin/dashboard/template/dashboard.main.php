@@ -75,7 +75,7 @@
             resize: {
                 enabled: true
             },
-            serialize_params: function($w, wgd) {
+            serialize_params: function($w, wgd) {console.log(wgd);
                     return { 
                            id: $w.attr('id'),
                            col: wgd.col,
@@ -84,7 +84,7 @@
                            size_y: wgd.size_y 
                     };
             },
-            draggable: {
+            draggable: { 
                 stop: function (e, ui, $widget) {
                     var positions = gridster.serialize();
                     positions.push (<?=$panel_id?>);
@@ -108,8 +108,10 @@
 
 
 
-
 <?php
+
+/*
+
 if ($_SESSION['config']['panels'][$panel_id]['widgets']['positions'] != null) {
     //consoole_log($_SESSION['config']['panels']);
     ?>
@@ -128,18 +130,47 @@ if ($_SESSION['config']['panels'][$panel_id]['widgets']['positions'] != null) {
     
     <?php
 }
-
-/*
+*/
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
- foreach (json_decode($_SESSION['config']['panels'][$panel_id]['widgets']) as $widget)
- {
+ foreach ($_SESSION['config']['panels'][$panel_id]['widgets'] as $widget)
+ { 
+    $widget_content = json_decode($widget['content'], true);
+    $widget_id = $widget_content['widget_id'];
+    $widget_positions = json_decode($widget['positions'], true);
+    $new_widget = new $widget_content['widget_type']($widget_content);
+    $new_widget->set_id($widget_content['widget_id']);
+    $widget_array = $new_widget->get_as_array();
+    $_SESSION['test_dashboard'] = $widget_id;
+    $new_widget->echo_content();  
+    ob_start();
+    $original_get = $_GET;
+    $_GET = [];
+    $file = "dashboard3.php";
+    require_once($file);
+    $_GET = $original_get;
+    $content_chart .= ob_get_contents();
+    ob_clean();
+    if ($widget_content['widget_type'] == "chart_widget")
+        echo ("<div id=".$widget_id."_old>".$content_chart."</div>");
      ?>
 <script>
-    gridster.add_wdiget(<?php echo $_SESSION['config']['panels'][$panel_id]['content']?>,)
+    var widget_content = <?php echo json_encode($widget_array); ?>;
+    var widget_type = <?php echo json_encode($widget_content['widget_type']);?>;
+    var widget_positions = <?php echo json_encode($widget_positions); ?>;
+    
+    var col, row;
+    var sizeX = Number(widget_content[1]);
+    var sizeY = Number(widget_content[2]);
+    if (widget_positions) {
+        col = widget_positions.col;
+        row = widget_positions.row;
+        sizeX= widget_positions.size_x;
+        sizeY = widget_positions.size_y;
+    }
+    addWidget(gridster,widget_content[0], sizeX, sizeY, col, row);
+    move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>
      <?php
  }
-    
-    
-}*/
+}
 } ?>

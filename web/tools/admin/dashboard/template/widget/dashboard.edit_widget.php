@@ -25,9 +25,29 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 3;
 }
-echo '<h1>Edit '.$widget_name.'</h1>'
+echo '<h1>Edit widget</h1>'
 ?>
-<form action="<?=$page_name?>?action=add_blank_panel" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Edit widget" class="formButton add-new-btn">') ?>
+<form action="<?=$page_name?>?action=edit_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_content['widget_type']?>&widget_id=<?=$widget_id?>" method="post">
+<table width="400" cellspacing="2" cellpadding="2" border="0">
+ <tr align="center">
+  <td colspan="2" height="10" class="mainTitle">Edit Widget</td>
+ </tr>
+ <?php
+  $widget_content['widget_type']::new_form($widget_content);
+?>
+ <tr>
+  <td colspan="2">
+    <table cellspacing=20>
+      <tr>
+        <td class="dataRecord" align="right" width="50%"><input type="submit" name="editwidget" value="Add" class="formButton"></td>
+        <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
+      </tr>
+	  <tr>
+		<td class="dataRecord" align="left" width="50%"><input style="background-color: red;" type="submit" name="editwidget" value="Delete" class="formButton"></td>
+      </tr>
+    </table>
+ </tr>
+</table>
 </form>
+
 

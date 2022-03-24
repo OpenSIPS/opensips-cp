@@ -34,6 +34,8 @@ require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
+require_once("../../../common/forms.php");
+
 $widgets = load_widgets();
 $table=$config->table_dashboard; 
 $box_id = $_GET['box_id'];
@@ -55,12 +57,35 @@ if ($action=="edit_panel")
 
 if ($action=="edit_widget")
 {  	
-	$widget_name = $_GET['widget_name'];
+	$widget_id = $_GET['widget_id'];
+	$panel_id = $_GET['panel_id'];
+	$widget_content = json_decode($_SESSION['config']['panels'][$panel_id]['widgets'][$widget_id]['content'], true);
     require("template/widget/".$page_id.".edit_widget.php");
 	require("template/footer.php");
 	exit();
 }
 
+if ($action=="edit_widget_verify")
+{  	
+	$widget_params = $_POST;
+	$widget_id = $_GET['widget_id'];
+	$widget_type = $_GET['widget_type'];
+	$panel_id = $_GET['panel_id'];
+	$widget_params['panel_id'] = $panel_id;
+	$widget_params['widget_type'] = $widget_type;
+	$widget_params['widget_id'] = $widget_id;
+	$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
+	$stored_widgets[$widget_id] = json_encode($widget_params);
+	$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+
+	if ($stm->execute( array(json_encode($stored_widgets), $panel_id)) == false)
+		echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+	load_panels();
+}
 
 if ($action=="delete")
 {
@@ -134,31 +159,16 @@ if ($action=="add_blank_panel")
 
 if ($action == "add_widget_verify") { 
 	if(!$_SESSION['read_only']){
+		$widget_params = $_POST;
 		$panel_id = $_GET['panel_id'];
-		if ($_GET['widget_type'] == "custom_widget")
-			$new_widget = new custom_widget($_POST['widget_content'], $_POST['widget_title'],$_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_title']);
-		else if ($_GET['widget_type'] == "chart_widget") {
-			ob_start();
-			$original_get = $_GET;
-			$_GET = [];
-			$file = "dashboard3.php";
-			require_once($file);
-			$_GET = $original_get;
-			$content_chart .= ob_get_contents();
-			ob_clean();
-			echo $content_chart;
-			$new_widget = new chart_widget($_POST['widget_chart'], $_POST['widget_title']);
-		} else if ($_GET['widget_type'] == "horizontal_title_widget") {
-			$new_widget = new horizontal_title_widget( $_POST['widget_title']);
-		} else if ($_GET['widget_type'] == "vertical_title_widget") {
-			$new_widget = new vertical_title_widget( $_POST['widget_title']);
-		} else if ($_GET['widget_type'] == "cdr_widget") {
-			$new_widget = new cdr_widget( $_POST['widget_name'], $_POST['widget_sizex'], $_POST['widget_sizey'], $_POST['widget_color']);
-		}
+		$widget_type = $_GET['widget_type'];
+		$widget_params['widget_type'] = $widget_type;
+		$widget_params['panel_id'] = $panel_id;
+		$new_widget = new $widget_type($_POST);
 		$new_widget->set_id($_POST['widget_id']);
 		$widget_array = $new_widget->get_as_array();
-		$stored_widget = [];
-		$stored_widget[$_POST['widget_id']] = $widget_array[0];
+		$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
+		$stored_widgets[$_POST['widget_id']] = json_encode($widget_params);
 		
 		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
 		$stm = $link->prepare($sql);
@@ -166,7 +176,7 @@ if ($action == "add_widget_verify") {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 
-		if ($stm->execute( array(json_encode($stored_widget), $panel_id)) == false)
+		if ($stm->execute( array(json_encode($stored_widgets), $panel_id)) == false)
 			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
 
 		require("template/".$page_id.".main.php");

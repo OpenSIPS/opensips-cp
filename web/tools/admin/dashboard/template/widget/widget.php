@@ -7,8 +7,11 @@ abstract class widget
     public $sizeX, $sizeY;
     public $title;
     public $color;
+    public $has_menu;
+    public $panel_id;
 
-    public function __construct($name, $sizeX, $sizeY, $title=null) {
+    public function __construct($panel_id, $name, $sizeX, $sizeY, $title=null) {
+        $this->panel_id = $panel_id;
         $this->name = $name;
         $this->sizeX = $sizeX;
         $this->sizeY = $sizeY;
@@ -17,6 +20,10 @@ abstract class widget
 
     function get_sizeX() {
         return $this->sizeX;
+    }
+
+    function echo_content() {
+        
     }
 
     function get_sizeY() {
