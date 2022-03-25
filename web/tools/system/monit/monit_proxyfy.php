@@ -20,13 +20,14 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+session_start();
+
 require_once("../../../../config/session.inc.php");
 require_once("lib/functions.inc.php");
 require("../../../common/cfg_comm.php");
-session_load();
-
-session_start();
 get_priv("monit");
+session_load();
+require("template/header.php");
 
 $box=$_SESSION['monit_current_box'];
 $var=$_GET['var'];
@@ -37,7 +38,6 @@ else
 
 $boxen=inspect_config_monit();
 $boxenlist=prepare_for_select($boxen);
-
 
 if (!empty($_POST['box_val'])) {
 
@@ -56,6 +56,9 @@ $_SESSION['monit_current_box']=$current_box;
 $foo=get_params_for_this_box($current_box);
 
 show_button();
+
+display_settings_button();
+echo_header();
 
 if (empty($var) || ($var==".")) {
 

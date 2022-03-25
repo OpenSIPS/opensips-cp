@@ -25,7 +25,7 @@ require_once("../../../../config/db.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
-$_SESSION['current_tool'] = $page_id;
+$_SESSION['current_tool'] = "monit";
 $_SESSION['current_group'] = get_group();
 $no_result = "No Data Found.";
 session_load();
@@ -42,8 +42,4 @@ header('Content-Type: text/html; charset=ISO-8859-1');
 <center>
 <table width="80%" cellpadding="5" cellspacing="5" border="0">
  <tr  valign="top" height="20">
-  <td><?php require("template/menu.php") ?></td>
- </tr>
- <tr valign="top" > 
-  <td>
-   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
+  <td><?php require("template/menu.php") ?>

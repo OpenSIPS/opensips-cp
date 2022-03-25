@@ -211,13 +211,35 @@ function monit_html_replace($page){
 	global $refresh_timeout;
 	$monit_request='monit_proxyfy.php?var=';
 	$newpage=str_replace("<a href='","<a href='".$monit_request,$page);
-	$newpage=str_replace("background-color: white;","",$page);
+	$newpage=str_replace("background-color: white;","",$newpage);
 	$newpage=str_replace("method=GET","method=POST",$newpage);
 	$newpage=str_replace("action=","action=".$monit_request,$newpage);
 	$newpage=preg_replace('/<meta HTTP-EQUIV="REFRESH" CONTENT=[0-9]+(?:\.[0-9]+)?>/','<meta HTTP-EQUIV="REFRESH" CONTENT='.$refresh_timeout.'>',$newpage);
 	$newpage=str_replace('<img src="_pixel" width="1" height="1" alt="">','',$newpage);
 	return $newpage ;
 
+}
+
+function echo_header() {
+	echo ('
+	</td>
+	</tr>
+	<tr>
+	<td align="center" valign="middle">
+		<div class="menuItems">
+		<?php
+		?>
+		</div>
+	</td> 
+	</tr>
+	</table>
+	<br>
+	</td>
+	</tr>
+	<tr valign="top" > 
+	<td>
+	<img src="../../../images/share/spacer.gif" width="10" height="5"><br>
+	');
 }
 
 ?>

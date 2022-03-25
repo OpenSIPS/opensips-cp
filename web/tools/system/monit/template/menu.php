@@ -28,43 +28,5 @@
     </td>
     <td align=right style="border-bottom: 1px solid #ccc!important">
     <?php
-                    
-          $current_box=$_SESSION['monit_current_box'];
-          if (empty($current_box))
-          $current_box="";
-
-          $boxen=inspect_config_monit();
-          $boxenlist=prepare_for_select($boxen);
-
-
-          if (!empty($_POST['box_val'])) {
-
-            $current_box=$_POST['box_val'];
-            $_SESSION['monit_current_box']=$current_box ;
-          }
-
-          if (!empty($_SESSION['monit_current_box']) && empty($current_box)) {
-            $current_box=$_SESSION['monit_current_box'];
-          }
-
-
-          $current_box=show_boxes($boxenlist,$current_box);	
-          $_SESSION['monit_current_box']=$current_box;
-
-          $foo=get_params_for_this_box($current_box);
-
-          show_button();
-          display_settings_button();
         ?> 
-    </td>
-  </tr>
-  <tr>
-    <td align="center" valign="middle">
-      <div class="menuItems">
-        <?php
-        ?>
-      </div>
-    </td> 
-  </tr>
-</table>
-<br>
+    
