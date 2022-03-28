@@ -9,7 +9,7 @@ class chart_widget extends widget
         $this->color = $array['widget_color'];
         $this->has_menu = $array['widget_menu'];
         if ($this->has_menu == "yes")
-            $this->sizeX = 3;
+            $this->sizeY = 3;
         $this->chart = $array['widget_chart'];
     }
 
@@ -55,7 +55,10 @@ class chart_widget extends widget
 
     function show_chart() {
         require_once(__DIR__."/../../lib/functions.inc.php");
-        show_graph($this->chart, 0);
+        if (substr($this->chart, 0, 5) == "Group") {
+            show_widget_graphs($this->chart);
+        } else
+            show_graph($this->chart, 0);
     }
 
     public static function new_form($params = null) {  

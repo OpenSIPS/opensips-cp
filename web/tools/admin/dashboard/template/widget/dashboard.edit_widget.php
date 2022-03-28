@@ -39,7 +39,7 @@ echo '<h1>Edit widget</h1>'
   <td colspan="2">
     <table cellspacing=20>
       <tr>
-        <td class="dataRecord" align="right" width="50%"><input type="submit" name="editwidget" value="Add" class="formButton"></td>
+        <td class="dataRecord" align="right" width="50%"><input type="submit" name="editwidget" value="Edit" class="formButton"></td>
         <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
 	  <tr>
