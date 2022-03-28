@@ -28,7 +28,7 @@ function store_dashboard(arg) {
 
 function getChartHtml() {
   const Http = new XMLHttpRequest();
-  const url = 'dashboard3.php';
+  //const url = 'dashboard3.php';
   Http.open("GET", url);
   Http.setRequestHeader('Content-type', 'text/html');
   Http.send(null);

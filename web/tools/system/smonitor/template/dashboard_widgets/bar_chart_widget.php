@@ -1,27 +1,22 @@
 <?php
 require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
 
-class chart_widget extends widget
+class bar_chart_widget extends widget
 {
     public $chart;
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 4, 2, $array['widget_title']);
         $this->color = $array['widget_color'];
-        $this->has_menu = $array['widget_menu'];
-        if ($this->has_menu == "yes")
-            $this->sizeX = 3;
-        $this->chart = $array['widget_chart'];
+        $this->chart = $chart;
     }
 
     function get_html() {
-        if ($this->has_menu == "yes") 
-            $menu = '<header><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
         $color = 'style="background-color: '.$this->color.';"';
-        return '<li type="chart" '.$color.' id='.$this->id.'>'.$menu.'</li>';
+        return '<li type="bar_chart" '.$color.' id='.$this->id.'></li>';
     }
 
     function get_name() {
-        return "Chart widget";
+        return "Bar-chart widget";
     }
 /*
     function echo_content() {
@@ -40,7 +35,7 @@ class chart_widget extends widget
     function echo_content() {
         $wi = $this->id;
         echo ("<div id=".$this->id."_old>");
-        $this->show_chart();
+        require(__DIR__."/../../lib/bar_d3js.php");
         echo ("</div>");
     }
 
@@ -48,20 +43,9 @@ class chart_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
     }
 
-    public static function get_stats_options() {
-        require_once(__DIR__."/../../lib/functions.inc.php");
-        return get_stats_list();
-    }
-
-    function show_chart() {
-        require_once(__DIR__."/../../lib/functions.inc.php");
-        show_graph($this->chart, 0);
-    }
-
     public static function new_form($params = null) {  
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
-        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
-        form_generate_input_text("Has menu", "", "widget_menu", null, $params['widget_menu'], 20,null);
+        form_generate_input_text("Chart", "", "widget_chart", null, $params['widget_chart'], 20,null);
         form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
         form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);
     }

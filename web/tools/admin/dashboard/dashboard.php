@@ -117,14 +117,6 @@ if ($action == "details") {
 
 if ($action == "display_panel") {
 	$panel_id = $_GET['panel_id'];
-	ob_start();
-	$original_get = $_GET;
-	$_GET = [];
-	$file = "dashboard3.php";
-	require_once($file);
-	$_GET = $original_get;
-	$content_chart .= ob_get_contents();
-	ob_clean();
 	foreach(json_decode($_SESSION['config']['panels'][$panel_id]['content']) as $el) {
 		if ($el->type == "chart") {
 			echo "<div id=chart_".$el->id.">".$content_chart."</div>";

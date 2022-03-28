@@ -1,5 +1,4 @@
 
-
 <script src="d3.v4.min.js"></script>
 <div id=<?=$_SESSION['stat']?>></div>
 

@@ -141,17 +141,7 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     $new_widget->set_id($widget_content['widget_id']);
     $widget_array = $new_widget->get_as_array();
     $_SESSION['test_dashboard'] = $widget_id;
-    $new_widget->echo_content();  
-    ob_start();
-    $original_get = $_GET;
-    $_GET = [];
-    $file = "dashboard3.php";
-    require_once($file);
-    $_GET = $original_get;
-    $content_chart .= ob_get_contents();
-    ob_clean();
-    if ($widget_content['widget_type'] == "chart_widget")
-        echo ("<div id=".$widget_id."_old>".$content_chart."</div>");
+    $new_widget->echo_content();
      ?>
 <script>
     var widget_content = <?php echo json_encode($widget_array); ?>;

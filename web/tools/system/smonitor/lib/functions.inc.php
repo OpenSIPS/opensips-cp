@@ -248,19 +248,19 @@ function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
 	$var = $stat;
-	require("../../../../config/tools/system/smonitor/db.inc.php");
-	require("../../../../config/db.inc.php");
-	require("db_connect.php");
+	require(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require(__DIR__."/../../../../../config/db.inc.php");
+	require(__DIR__."/db_connect.php");
 
 	$_SESSION['charting_url'] = $url;
 	$_SESSION['full_stat'] = $var;
 	$_SESSION['stat'] = str_replace(':', '', $stat);
 	$_SESSION[str_replace(':', '', $stat)] = $row;
-	$_SESSION['sampling_time'] = get_settings_value("sampling_time", $box_id);
-	$_SESSION['chart_size'] = get_settings_value("chart_size", $box_id);
+	$_SESSION['sampling_time'] = get_settings_value_from_tool("sampling_time", "smonitor", $box_id);
+	$_SESSION['chart_size'] = get_settings_value_from_tool("chart_size", "smonitor", $box_id);
 	$_SESSION['box_id_graph'] = $box_id;
-	$_SESSION['chart_history'] = get_settings_value("chart_history", $box_id);
-	$_SESSION['tmonitoring'] = get_settings_value("table_monitoring", $box_id);
+	$_SESSION['chart_history'] = get_settings_value_from_tool("chart_history", "smonitor", $box_id);
+	$_SESSION['tmonitoring'] = get_settings_value_from_tool("table_monitoring", "smonitor", $box_id);
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
@@ -268,9 +268,8 @@ function show_graph($stat,$box_id){
 	if ($normal_chart) {
 		$_SESSION['normal'] = 1;
 	}
-
-	require("lib/d3js.php");
-
+	$_SESSION['normal'] = 1;
+	require(__DIR__."/d3js.php");
 }
 
 function show_graphs($stats, $box_id, $scale){
@@ -301,6 +300,31 @@ function show_graphs($stats, $box_id, $scale){
 
 	require("lib/d3jsMultiple.php");
 	
+}
+
+function show_pie_chart() {
+	require("lib/bar_d3js.php");
+}
+
+function get_stats_list() {
+	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require_once(__DIR__."/../../../../../config/db.inc.php");
+	require_once(__DIR__."/db_connect.php");
+	$stats_list = [];
+	$sql = "SELECT DISTINCT name FROM ocp_monitored_stats WHERE box_id = 0 ORDER BY name ASC";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array()) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$data_no=count($resultset);
+
+	for($j=0;count($resultset)>$j;$j++)
+	{
+		$stat_chart=false;
+		$stat=$resultset[$j]['name'];
+		$stats_list[] = $stat;
+	}
+	return $stats_list;
 }
 
 ?>

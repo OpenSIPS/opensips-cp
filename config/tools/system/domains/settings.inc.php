@@ -25,7 +25,8 @@ $config->domains = array(
         "default" => "domains",
         "name" => "Table Domains",
         "type" => "text",
-		"tip"  => "The database table name for storing the domain entries"
+		"tip"  => "The database table name for storing the domain entries",
+		"validation_regex" => "^[a-z0-9_A-Z]+$",
     ),
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,

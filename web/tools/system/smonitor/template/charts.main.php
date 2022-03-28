@@ -55,8 +55,7 @@ else
    if( preg_match("/^\/.+\/[a-z]*$/i",$g)) {
      foreach ($monitored_stats as $name => $id) {
        if (preg_match($g, $name, $matches))
-           $group[] = $name; 
-       else console_log($g." si ".$name);
+           $group[] = $name;
      }
    }
    else $group[] = $g;
@@ -64,7 +63,7 @@ else
 
  foreach($group as $gr) {
    $gName.=$gr.", ";
- }  
+ }
  $stat_chart=false;
  $stat_img="../../../images/share/chart.png";
  if ($_SESSION["group_open"][$key]=="yes") $stat_chart=true;

@@ -20,6 +20,11 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+function consoole_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
 require("../../../../config/db.inc.php");
 require("template/header.php");
@@ -43,6 +48,13 @@ if ($action=="modify_params")
         extract($_POST);
 		$current_tool=$_GET['tool'];
         $tools_params=get_params();
+		foreach( $tools_params as $param => $attr) {
+			if ($attr['validation_regex']) {
+				if (!preg_match("/".$attr['validation_regex']."/", $_POST[$param])) {
+					die('Failed to validate input for '.$attr['name']);
+				}
+			}
+		}
 		if (is_null($box_id)) { 
 			foreach ($tools_params as $module=>$params) {
 					if ($params['type'] == "checklist") {
