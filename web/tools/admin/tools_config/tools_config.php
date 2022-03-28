@@ -43,6 +43,13 @@ if ($action=="modify_params")
         extract($_POST);
 		$current_tool=$_GET['tool'];
         $tools_params=get_params();
+		foreach($tools_params as $param => $attr) {
+			if ($attr['validation_regex']) {
+				if (!preg_match("/".$attr['validation_regex']."/", $_POST[$param])) {
+					die("Failed to validate input for ".$attr['name']);
+				}
+			}
+		}
 		if (is_null($box_id)) { 
 			foreach ($tools_params as $module=>$params) {
 					if ($params['type'] == "checklist") {
