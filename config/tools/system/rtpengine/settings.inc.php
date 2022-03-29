@@ -40,6 +40,7 @@ $config->rtpengine = array(
 	"table_rtpengine" => array(
 		"default" => "rtpengine",
 		"name" => "Table RTPengine",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"type" => "text",
 		"tip"  => "The database table name for storing the RTPEngine sockets"
 	),

@@ -38,6 +38,7 @@ $config->user_management = array(
 		),
 		"name"    => "Aliases Table",
 		"type"    => "json",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"example" => "{
 	\"DBaliases\": \"dbaliases\"
 }"
@@ -92,13 +93,13 @@ $config->user_management = array(
 		"default" => "subscriber",
 		"name"    => "Users Table",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$"
 	),
 	"table_location" => array(
 		"default" => "location",
 		"name"    => "Location Table",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 	),
 	"title2" => array(
 		"type" => "title",

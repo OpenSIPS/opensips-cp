@@ -79,6 +79,7 @@ $config->dispatcher = array(
 		"default" => "dispatcher",
 		"name" => "Table Dispatcher",
 		"type" => "text",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"  => "The database table name for storing the dispatcher data"
 	),
 

@@ -41,6 +41,7 @@ $config->loadbalancer = array(
 		"default" => "load_balancer",
 		"name" => "Table load balancer",
 		"type" => "text",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"  => "The database table name for storing the Load Balancer destinations"
 	),
 	"title2" => array(

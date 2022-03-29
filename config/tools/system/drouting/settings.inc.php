@@ -125,28 +125,28 @@ $config->drouting = array(
 		"default" => "dr_gateways",
 		"name"    => "Table gateways",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "Database table for storing the drouting data"
 	),
 	"table_groups" => array(
 		"default" => "dr_groups",
 		"name"    => "Table groups",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "Database table for storing the drouting data"
 	),
 	"table_rules" => array(
 		"default" => "dr_rules",
 		"name"    => "Table rules",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "Database table for storing the drouting data"
 	),
 	"table_carriers" => array(
 		"default" => "dr_carriers",
 		"name"    => "Table carriers",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "Database table for storing the drouting data"
 	),
 

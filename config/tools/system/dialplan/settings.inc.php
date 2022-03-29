@@ -61,7 +61,7 @@ $config->dialplan = array(
 		"default" => "dialplan",
 		"name"    => "Table Dialplan",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "The database table name for storing the diaplan rules",
 	),
 

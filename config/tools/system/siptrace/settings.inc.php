@@ -47,6 +47,7 @@ $config->siptrace = array(
         "default" => "sip_trace",
         "name" => "Table Trace",
         "type" => "text",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"  => "the database table name for storing the siptrace data"
     ),
     "proxy_list" => array(

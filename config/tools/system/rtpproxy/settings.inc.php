@@ -41,6 +41,7 @@ $config->rtpproxy = array(
 		"default" => "rtpproxy_sockets",
 		"name" => "Table RTPproxy",
 		"type" => "text",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"  => "The database table name for storing the RTPproxy sockets"
 	),
 	"title2" => array(

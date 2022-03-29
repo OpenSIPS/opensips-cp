@@ -29,7 +29,7 @@ $config->cdrviewer = array(
 		"default" => "acc",
 		"name"    => "CDR table",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 	),
 	"cdr_id_field_name" => array(
 		"default" => "id",

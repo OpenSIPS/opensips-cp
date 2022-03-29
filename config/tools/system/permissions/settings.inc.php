@@ -47,6 +47,7 @@ $config->permissions = array(
         "default" => "address",
         "name" => "Table Address",
         "type" => "text",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"  => "The database table name for storing the IP matching rules"
     ),
 );

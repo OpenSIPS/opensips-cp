@@ -44,7 +44,8 @@ $config->acl_management = array(
 		"default" => "grp",
 		"name"    => "ACLs Table",
 		"tip"     => "The name of the DB table where the groups (and mapping to SIP users) are stored.",
-		"type"    => "text"
+		"type"    => "text",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 	),
 	"title2" => array(
 		"type" => "title",

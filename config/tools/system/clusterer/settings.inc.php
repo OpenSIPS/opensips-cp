@@ -40,6 +40,7 @@ $config->clusterer = array(
 	"table_clusterer" => array(
 		"default" => "clusterer",
 		"name" => "Table Clusterer",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip" => "The name of the DB table holding the cluster configuration 
 		(this needs to be correlated with the OpenSIPS configuration). The default value is 'clusterer'.",
 		"type" => "text"

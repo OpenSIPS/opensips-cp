@@ -42,6 +42,7 @@ $config->domains = array(
 		"default" => "domains",
 		"name" => "Table Domains",
 		"type" => "text",
-		"tip"  => "The database table name for storing the domain entries"
+		"tip"  => "The database table name for storing the domain entries",
+		"validation_regex" => "^[a-zA-Z0-9_]+$"
 	),
 );

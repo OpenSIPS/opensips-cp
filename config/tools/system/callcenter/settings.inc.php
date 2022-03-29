@@ -43,6 +43,7 @@ $config->callcenter = array(
 	"agents_custom_table" => array(
 		"default" => "cc_agents",
 		"name" => "Agents custom table",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"type" => "text"
 	),
 	"agents_per_page" => array(
@@ -65,6 +66,7 @@ $config->callcenter = array(
 	"flows_custom_table" => array(
 		"default" => "cc_flows",
 		"name" => "Flows custom table",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"type" => "text"
 	),
 	"flows_per_page" => array(
@@ -87,6 +89,7 @@ $config->callcenter = array(
 	"cdrs_custom_table" => array(
 		"default" => "cc_cdrs",
 		"name" => "CDRs custom table",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"type" => "text"
 	),
 	"cdrs_per_page" => array(

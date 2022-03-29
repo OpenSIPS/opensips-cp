@@ -30,6 +30,7 @@ $config->uac_registrant = array(
 	"custom_table" => array(
 		"default" => "registrant",
 		"name" => "Custom table",
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"type" => "text"
 	),
 	"per_page" => array(

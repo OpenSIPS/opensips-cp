@@ -46,14 +46,14 @@ $config->smonitor = array(
 		"default" => "ocp_monitored_stats",
 		"name"    => "Table Monitored",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "Database table name for storing the monitoring data"
 	),
 	"table_monitoring" => array(
 		"default" => "ocp_monitoring_stats",
 		"name"    => "Table monitoring",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => "^[a-zA-Z0-9_]+$",
 		"tip"     => "Database table name for storing the monitoring data"
 	),
 	"config_type" => array(
