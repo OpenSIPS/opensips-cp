@@ -21,53 +21,36 @@
  */
 
 $config->smonitor = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
 	"sampling_time" => array(
 		"default" => 1,
-		"name"    => "Sampling Time",
-		"type"    => "number",
+		"name"	=> "Sampling Time",
+		"type"	=> "number",
 		"validation_regex" => "^[0-9]+$",
-		"tip"     => "Default value for the sampling interval (in minutes)"
+		"tip"	 => "Default value for the sampling interval (in minutes)"
 	),
 	"chart_size" => array(
 		"default" => 100,
-		"name"    => "Chart Size",
-		"type"    => "number",
+		"name"	=> "Chart Size",
+		"type"	=> "number",
 		"validation_regex" => "^[0-9]+$",
-		"tip"     => "The horizontal size of the charts (in hours)"
+		"tip"	 => "The horizontal size of the charts (in hours)"
 	),
 	"chart_history" => array(
 		"default" => 'auto',
-		"name"    => "Chart History",
-		"type"    => "text",
+		"name"	=> "Chart History",
+		"type"	=> "text",
 		"validation_regex" => "^(auto|[0-9]+)$",
-		"tip"     => "Amount of time (in hours) to keep samples before deleting them"
-	),
-	"table_monitored" => array(
-		"default" => "ocp_monitored_stats",
-		"name"    => "Table Monitored",
-		"type"    => "text",
-		"validation_regex" => null,
-		"tip"     => "Database table name for storing the monitoring data"
-	),
-	"table_monitoring" => array(
-		"default" => "ocp_monitoring_stats",
-		"name"    => "Table monitoring",
-		"type"    => "text",
-		"validation_regex" => null,
-		"tip"     => "Database table name for storing the monitoring data"
+		"tip"	 => "Amount of time (in hours) to keep samples before deleting them"
 	),
 	"config_type" => array(
 		"default" => "global",
-		"name"    => "Config type",
-		"type"    => "text",
+		"name"	=> "Config type",
+		"type"	=> "text",
 		"validation_regex" => null,
-	),
-	"tabs" => array(
-		"default" => "rt_stats.php,charts.php",
-		"name"    => "Tabs",
-		"options" => array("Realtime Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php"),
-		"tip"    => "List of available tabs for smonitor tool",
-		"type"    => "checklist"
 	),
 	"groups" => array(
 		"default" => "",
@@ -84,8 +67,39 @@ $config->smonitor = array(
 	),
 	"charting_url" => array(
 		"default" => "https://d3js.org/d3.v4.js",
-		"name"    => "Charting library URL",
-		"tip"    => "URL to d3 charting library version",
-		"type"    => "text"
-	)
+		"name"	=> "Charting library URL",
+		"tip"	=> "URL to d3 charting library version",
+		"type"	=> "text"
+	),
+
+	"title1" => array(
+		"type" => "title",
+		"title" => "DB settings"
+	),
+	"table_monitored" => array(
+		"default" => "ocp_monitored_stats",
+		"name"	=> "Table Monitored",
+		"type"	=> "text",
+		"validation_regex" => null,
+		"tip"	 => "Database table name for storing the monitoring data"
+	),
+	"table_monitoring" => array(
+		"default" => "ocp_monitoring_stats",
+		"name"	=> "Table monitoring",
+		"type"	=> "text",
+		"validation_regex" => null,
+		"tip"	 => "Database table name for storing the monitoring data"
+	),
+
+	"title2" => array(
+		"type" => "title",
+		"title" => "Display settings"
+	),
+	"tabs" => array(
+		"default" => "rt_stats.php,charts.php",
+		"name"	=> "Tabs",
+		"options" => array("Realtime Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php"),
+		"tip"	=> "List of available tabs for smonitor tool",
+		"type"	=> "checklist"
+	),
 );
