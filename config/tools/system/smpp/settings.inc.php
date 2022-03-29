@@ -21,27 +21,39 @@
  */
 
 $config->smpp = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,
-		"name"    => "Talk to this assoc id",
+		"name"	=> "Linked system",
 		"options" => get_assoc_id(),
-		"type"    => "dropdown",
+		"type"	=> "dropdown",
+	),
+	"title1" => array(
+		"type" => "title",
+		"title" => "DB settings"
 	),
 	"custom_table" => array(
 		"default" => "smpp",
 		"name" => "Custom table",
 		"type" => "text"
 	),
+	"title2" => array(
+		"type" => "title",
+		"title" => "Display settings"
+	),
 	"per_page" => array(
 		"default" => 40,
-		"name"    => "Results per page",
-		"type"    => "number",
+		"name"	=> "Results per page",
+		"type"	=> "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 	"page_range" => array(
 		"default" => 5,
-		"name"    => "Results page range",
-		"type"    => "number",
+		"name"	=> "Results page range",
+		"type"	=> "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 );
