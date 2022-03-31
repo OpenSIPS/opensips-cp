@@ -262,7 +262,6 @@ function load_panels() {
 		}
 	}
 	$_SESSION['config']['panels_max_order'] = $max_order;
-	//consoole_log($_SESSION['config']);
 }
 
 function load_boxes() {
@@ -313,7 +312,7 @@ function load_boxes() {
 	} 
 }
 
-function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {
+function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) { $box_id = null;
 	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
 	if (is_null($box_id)){
@@ -394,13 +393,13 @@ function session_load($box_id = null) {
 	session_load_from_tool($_SESSION['current_tool'], $box_id);
 }
 
-function session_load_from_tool($tool, $box_id = null) {
+function session_load_from_tool($tool, $box_id = null) { $box_id = null;
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
 	global $config;
 	$table_tools_config = $config->table_tools_config;
 	$module_params = get_params_from_tool($tool);
-	if (!isset($_SESSION['config'][$tool])) {
+	if (!isset($_SESSION['config'][$tool])) {  $message.="si nu e setat session config smonitor ";
 		if (is_null($box_id)) {
 			$sql = 'select param, value from '.$table_tools_config.' where module=? ';
 			$stm = $link->prepare($sql);
@@ -437,10 +436,10 @@ function session_load_from_tool($tool, $box_id = null) {
 				}
 			}
 		} 
-	}
+	} else $message .= "Si e setat session smonitor";
 	foreach ($module_params as $module=>$params) {
 		$config->$module = get_settings_value_from_tool($module, $tool); 
-	} 
+	}
 }
 
 function print_description() {

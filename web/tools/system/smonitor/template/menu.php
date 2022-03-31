@@ -56,8 +56,8 @@ $boxlist=inspect_config_mi();
   	    require("lib/put_select_boxes.php");
         $box_id=get_box_id($current_box); 
         $_SESSION['box_id'] = $box_id;
-        display_settings_button($box_id);
-        session_load($box_id);
+        display_settings_button();
+        session_load();
       ?>
     </td>
   </tr>	

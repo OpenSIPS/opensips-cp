@@ -20,8 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- 
- 
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
  require("../../../../config/tools/system/smonitor/db.inc.php");
@@ -33,7 +31,7 @@
  print_r(get_mi_modules($current_box));
 
  $table=$config->table_monitored;	
- session_load($_SESSION['box_id']); 
+ session_load();
  include("lib/db_connect.php");
  
  $config_type = get_settings_value('config_type');

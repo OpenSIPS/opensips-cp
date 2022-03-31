@@ -20,11 +20,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
 require("../../../../config/db.inc.php");
 require("template/header.php");
@@ -32,7 +27,6 @@ require("../../../../config/tools/admin/tools_config/db.inc.php");
 require("../../../../config/tools/admin/tools_config/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
-
 $table=$config->table_tools_config; 
 $current_page="current_page_tools_config";
 $box_id = $_GET['box_id'];

@@ -24,6 +24,7 @@ require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
 require_once("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
+consoole_log("Editezi tooluri ");
  if (isset($form_error)) {
                           echo(' <tr align="center">');
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
@@ -82,7 +83,7 @@ $permissions=array();
 					print '<tr> <td class=\'sectionTitle\'><b>'.$params['title'].'</b></td></tr>';
 				break;
 			default:
-				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 10, $params['validation_regex']);
+				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 60, $params['validation_regex']);
 		}
 		if ($params['example']) {
 			print_example($params['example'], $params['name'], $module);

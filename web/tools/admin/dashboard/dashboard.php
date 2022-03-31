@@ -26,6 +26,7 @@ function consoole_log( $data ){
 	echo '</script>';
   } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
+require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");

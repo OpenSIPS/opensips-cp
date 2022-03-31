@@ -16,7 +16,7 @@
     $fstats = json_decode($_GET['full_stats']);
     
     $zoomOut = $_GET['zoomOut'];
-    $box = $_GET['box'];
+    $boxes = json_decode($_GET['box']);
     $normal = json_decode($_GET['normal']);
     $sampling_time = $_SESSION['sampling_time'];
     $table_monitoring = $_SESSION['tmonitoring'];
@@ -33,7 +33,7 @@
     foreach($fstats as $idx => $stat) {
         $sql = "SELECT * FROM ".$table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";
         $stm = $link->prepare($sql);
-        $stm->execute(array($stat, $box, time() - $chart_size * 3600));
+        $stm->execute(array($stat, $boxes[$idx], time() - $chart_size * 3600));
         $row = $stm->fetchAll(PDO::FETCH_ASSOC);
         if ($normal[$idx] == 0) {
             $prev = $row[0]['value'];

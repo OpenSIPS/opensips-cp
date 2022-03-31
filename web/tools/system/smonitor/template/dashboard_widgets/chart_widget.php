@@ -48,9 +48,9 @@ class chart_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
     }
 
-    public static function get_stats_options() {
+    public static function get_stats_options($box_id) {
         require_once(__DIR__."/../../lib/functions.inc.php");
-        return get_stats_list();
+        return get_stats_list($box_id);
     }
 
     function show_chart() {
@@ -61,9 +61,13 @@ class chart_widget extends widget
             show_graph($this->chart, 0);
     }
 
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) {
+        $errors = "";
+        consoole_log(mi_command("get_statistics", array("statistics" => array("load:")), $boxes[0]['mi_conn'], $errors));
+        $box_id = 0;
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
-        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
+       // form_generate_select_refresh("Box", "", "widget_box", null, $params['widget_box'], array("0", "1"));
+        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options($box_id));
         form_generate_input_text("Has menu", "", "widget_menu", null, $params['widget_menu'], 20,null);
         form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
         form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);

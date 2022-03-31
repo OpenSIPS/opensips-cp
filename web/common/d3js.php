@@ -20,7 +20,7 @@
 <script>
 
 display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>");
-
+//ee
 function display_graph(arg1, arg2, arg3, arg4) {
 
 //Read the data

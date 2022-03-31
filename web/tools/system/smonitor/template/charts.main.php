@@ -46,19 +46,21 @@ else
  $sampling_time=get_settings_value('sampling_time', $box_id);
  
  foreach(get_settings_value("groups", $box_id) as $key=>$group_attr) {
+  $boxes= [];
   $groupElements = $group_attr['stats'];
   $scale = $group_attr['scale'];
   $gName = "";
   $matches = false;
   $group = [];
   foreach ($groupElements as $g) {
-   if( preg_match("/^\/.+\/[a-z]*$/i",$g)) {
+    $boxes[] = $g['box_id'];
+   if( preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
      foreach ($monitored_stats as $name => $id) {
-       if (preg_match($g, $name, $matches))
+       if (preg_match($g['name'], $name, $matches))
            $group[] = $name;
      }
    }
-   else $group[] = $g;
+   else $group[] = $g['name'];
   }
 
  foreach($group as $gr) {
@@ -86,7 +88,7 @@ else
    if ($stat_chart)
    { 
     ?>
-     <tr><td class="rowEven"><?php show_graphs($group,$box_id,$scale); ?></td></tr>
+     <tr><td class="rowEven"><?php show_graphs($group,$boxes,$scale); ?></td></tr>
      <tr><td><img src="../../../images/share/spacer.gif"></td></tr>
    <?php 
      

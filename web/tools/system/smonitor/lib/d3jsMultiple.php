@@ -20,14 +20,14 @@
 <script>
 
 display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>, 
-"<?php echo $_SESSION['box_id_graph'] ?> ", <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
+"<?php echo json_encode($_SESSION['boxes_list']) ?> ", <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
 
 function display_graphs(arg1, arg2, arg3, arg4, arg5) {
   //   var stats_list = "";
     var stats_list = encodeURIComponent(JSON.stringify(arg2));
+    var box_list = encodeURIComponent(JSON.stringify(arg3));
     var normal_list = encodeURIComponent(JSON.stringify(arg4));
-  
-d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&normal=").concat(normal_list),
+d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&normal=").concat(normal_list),
 
 function(d){
     if (d.value == "f") {
@@ -389,7 +389,7 @@ svg.on("dblclick",function(){
 
 function updateGr(){ 
     if( refresh == 1 ) {
-        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
+        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
 
         // When reading the csv, I must format variables:
         function(d){

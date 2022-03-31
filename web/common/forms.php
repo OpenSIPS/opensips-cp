@@ -365,6 +365,21 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
 }
 
 
+function form_generate_select_refresh($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
+	if (!$_POST['selected_val']) $selected = $val;
+	else $selected = $_POST['selected_val'];
+	$refresh_link = $_SERVER['REQUEST_URI'];
+	print ('<form action="'.$refresh_link.'" method="post" name="value_select" >');
+	print ('<input type="hidden" name="selected_val" class="formInput" method="post" value="">');
+	echo ('<select name="values_list" onChange=console.log("e")>');
+	foreach ( $vals as $value ) {
+	  echo '<option value="'.$value.'"' ;
+	  if ($_POST['selected_val']==$value) echo ' selected';
+	  echo '>'.$value.'</option>';
+	}
+	echo ('</select></form>');
+}
+
 // Helpers to build complet validation regexp
 
 # FreeSWITCH url (fs://[username]:password@host[:port])

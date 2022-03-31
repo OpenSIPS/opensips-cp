@@ -33,8 +33,8 @@ foreach ( $widgets as $val ) {
 }
 echo ('</select></form>');
 ?>
-<form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_type?>" method="post">
-<table width="400" cellspacing="2" cellpadding="2" border="0">
+<form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_type?>" name="add_widget_form" method="post">
+<table width="400" cellspacing="2" cellpadding="2" border="0" name="add_widget_table">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Add New Widget</td>
  </tr>
