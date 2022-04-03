@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->dialplan = array(
 	"title0" => array(
@@ -61,7 +62,7 @@ $config->dialplan = array(
 		"default" => "dialplan",
 		"name"    => "Table Dialplan",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"     => "The database table name for storing the diaplan rules",
 	),
 

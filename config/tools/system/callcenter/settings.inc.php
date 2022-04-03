@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->callcenter = array(
     "talk_to_this_assoc_id" => array(
@@ -43,6 +44,7 @@ $config->callcenter = array(
 	"agents_custom_table" => array(
 		"default" => "cc_agents",
 		"name" => "Agents custom table",
+		"validation_regex" => $table_regex,
 		"type" => "text"
 	),
 	"agents_per_page" => array(
@@ -65,6 +67,7 @@ $config->callcenter = array(
 	"flows_custom_table" => array(
 		"default" => "cc_flows",
 		"name" => "Flows custom table",
+		"validation_regex" => $table_regex,
 		"type" => "text"
 	),
 	"flows_per_page" => array(
@@ -87,6 +90,7 @@ $config->callcenter = array(
 	"cdrs_custom_table" => array(
 		"default" => "cc_cdrs",
 		"name" => "CDRs custom table",
+		"validation_regex" => $table_regex,
 		"type" => "text"
 	),
 	"cdrs_per_page" => array(

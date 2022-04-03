@@ -20,6 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ global $table_regex;
+
 $config->user_management = array(
 	"title0" => array(
 		"type" => "title",
@@ -38,6 +40,7 @@ $config->user_management = array(
 		),
 		"name"    => "Aliases Table",
 		"type"    => "json",
+		"validation_regex" => $table_regex,
 		"example" => "{
 	\"DBaliases\": \"dbaliases\"
 }"
@@ -92,13 +95,13 @@ $config->user_management = array(
 		"default" => "subscriber",
 		"name"    => "Users Table",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 	),
 	"table_location" => array(
 		"default" => "location",
 		"name"    => "Location Table",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 	),
 	"title2" => array(
 		"type" => "title",

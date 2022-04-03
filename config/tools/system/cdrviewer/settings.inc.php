@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->cdrviewer = array(
 	"title0" => array(
@@ -29,7 +30,7 @@ $config->cdrviewer = array(
 		"default" => "acc",
 		"name"    => "CDR table",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 	),
 	"cdr_id_field_name" => array(
 		"default" => "id",
