@@ -46,12 +46,6 @@ $config->smonitor = array(
 		"validation_regex" => "^(auto|[0-9]+)$",
 		"tip"	 => "Amount of time (in hours) to keep samples before deleting them"
 	),
-	"config_type" => array(
-		"default" => "global",
-		"name"	=> "Config type",
-		"type"	=> "text",
-		"validation_regex" => null,
-	),
 	"groups" => array(
 		"default" => "",
 		"name" => "Groups for multi-line charts",
