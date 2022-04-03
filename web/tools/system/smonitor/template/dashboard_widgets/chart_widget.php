@@ -48,11 +48,13 @@ class chart_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
     }
 
-    public static function get_stats_options($box_id) {
+    public static function get_stats_options($box_id = null) {
         require_once(__DIR__."/../../lib/functions.inc.php");
-        return get_stats_list($box_id);
+        if ($box_id)
+            return get_stats_list($box_id);
+        else return get_stats_list_all_boxes();
     }
-
+    
     function show_chart() {
         require_once(__DIR__."/../../lib/functions.inc.php");
         if (substr($this->chart, 0, 5) == "Group") {
@@ -61,13 +63,49 @@ class chart_widget extends widget
             show_graph($this->chart, 0);
     }
 
+    public static function chart_box_selection($stats_list) {
+        $slist = json_encode($stats_list);
+        echo ('
+            <script>
+            var slist = '.$slist.';
+            var box_select = document.getElementById("widget_box");
+            box_select.addEventListener("change", function(){update_options();}, false);
+            function update_options() {
+                var box_select = document.getElementById("widget_box");
+                var selected_box = box_select.value;
+                var chart_select = document.getElementById("widget_chart"); 
+                if (slist[selected_box])  {
+                    chart_select.options.length = 0;
+                    var newHtml = "";
+                    slist[selected_box].forEach(element => {
+                        var opt = document.createElement("option");
+                        opt.value = element;
+                        opt.textContent = element;
+                        chart_select.appendChild(opt);
+                    });
+                } else {
+                    chart_select.options.length = 0;
+                }
+            }
+            </script>
+        ');
+    }
+
+    public static function get_boxes() {
+        $boxes_names = [];
+        foreach ($_SESSION['boxes'] as $box) {
+            $boxes_names[] = $box['id'];
+        }
+        return $boxes_names;
+    }
+
     public static function new_form($params = null) {
-        $errors = "";
-        consoole_log(mi_command("get_statistics", array("statistics" => array("load:")), $boxes[0]['mi_conn'], $errors));
         $box_id = 0;
+        $stats_list = self::get_stats_options();
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
-       // form_generate_select_refresh("Box", "", "widget_box", null, $params['widget_box'], array("0", "1"));
-        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options($box_id));
+        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], $stats_list[0]);
+        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+        self::chart_box_selection($stats_list);
         form_generate_input_text("Has menu", "", "widget_menu", null, $params['widget_menu'], 20,null);
         form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
         form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);

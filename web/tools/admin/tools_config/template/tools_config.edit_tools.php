@@ -24,7 +24,6 @@ require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
 require_once("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
-consoole_log("Editezi tooluri ");
  if (isset($form_error)) {
                           echo(' <tr align="center">');
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');

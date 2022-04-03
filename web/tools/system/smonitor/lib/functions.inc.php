@@ -345,6 +345,24 @@ function get_stats_list($box_id) {
 	return $stats_list;
 }
 
+function get_stats_list_all_boxes() {
+	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require_once(__DIR__."/../../../../../config/db.inc.php");
+	require_once(__DIR__."/db_connect.php");
+	$stats_list = [];
+
+	$sql = "SELECT DISTINCT name, box_id FROM ocp_monitored_stats ORDER BY name ASC";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array()) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$data_no=count($resultset);
+
+	foreach($resultset as $key => $value) {
+		$stats_list[$value['box_id']][] = $value['name'];
+	}
+	return $stats_list;
+}
 
 function show_widget_graphs($stats_list){ $box_id = 0;
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");

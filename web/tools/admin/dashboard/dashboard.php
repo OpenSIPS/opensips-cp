@@ -30,13 +30,13 @@ require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");
+require("../../../../config/boxes.global.inc.php");
 require("template/header.php");
 require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 require_once("../../../common/forms.php");
-
 $widgets = load_widgets();
 $table=$config->table_dashboard; 
 $box_id = $_GET['box_id'];

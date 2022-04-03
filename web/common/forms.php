@@ -369,9 +369,9 @@ function form_generate_select_refresh($title,$tip,$id,$mlen,$val,$vals,$texts=nu
 	if (!$_POST['selected_val']) $selected = $val;
 	else $selected = $_POST['selected_val'];
 	$refresh_link = $_SERVER['REQUEST_URI'];
-	print ('<form action="'.$refresh_link.'" method="post" name="value_select" >');
+	print ('<form action="'.$refresh_link.'" method="post" id="value_select" name="value_select" >');
 	print ('<input type="hidden" name="selected_val" class="formInput" method="post" value="">');
-	echo ('<select name="values_list" onChange=console.log("e")>');
+	echo ('<select name="values_list" onChange=console.log()>');
 	foreach ( $vals as $value ) {
 	  echo '<option value="'.$value.'"' ;
 	  if ($_POST['selected_val']==$value) echo ' selected';
