@@ -21,73 +21,86 @@
  */
 global $config;
 $config->boxes = array(
-    "mi_conn" => array(
+	"mi_conn" => array(
 		"default" => "json:127.0.0.1:8888/mi",
 		"name"    => "MI connector",
-		"nodes"  => array("mi", "conn"),
+		"nodes"   => array("mi", "conn"),
 		"type"    => "text",
-		'show_in_edit_form' => true,
+		"show_in_edit_form" => true,
 	),
 	"monit_conn" => array(
 		"default" => "127.0.0.1:2812",
 		"name"    => "Monit connector",
-		"nodes"  => array("monit", "conn"),
+		"nodes"   => array("monit", "conn"),
 		"type"    => "text",
-		'show_in_edit_form' => true,
-    ),
+		"show_in_edit_form" => true,
+	),
 	"monit_user" => array(
 		"default" => "",
 		"name"    => "Monit username",
-		"nodes"  => array("monit", "user"),
+		"nodes"   => array("monit", "user"),
 		"type"    => "text",
-		"validation_regex" => null,
-		'show_in_edit_form' => true,
+		"show_in_edit_form" => true,
 	),
 	"monit_pass" => array(
 		"default" => "",
 		"name"    => "Monit password",
 		"type"    => "password",
-		"nodes"  => array("monit", "pass"),
-		"validation_regex" => null,
-		'show_in_edit_form' => true,
+		"nodes"   => array("monit", "pass"),
+		"show_in_edit_form" => true,
 	),
 	"monit_ssl" => array(
-		"default" => "/",
 		"name"    => "Monit SSL",
-        "options" => array('Disabled'=>'0', 'Enabled'=>'1'),
-		"nodes"  => array("monit", "has_ssl"),
+		"options" => array('Disabled'=>'0', 'Enabled'=>'1'),
+		"nodes"   => array("monit", "has_ssl"),
 		"type"    => "dropdown",
-		'show_in_edit_form' => true,
-		"validation_regex" => null,
-    ),
+		"show_in_edit_form" => true,
+	),
 	"desc" => array(
 		"default" => "",
 		"name"    => "Box description",
 		"type"    => "text",
-		"validation_regex" => null,
-		'show_in_edit_form' => true,
-    ),
+		"validation_regex"  => null,
+		"show_in_edit_form" => true,
+	),
 	"smonitcharts" => array(
-		"default" => '1',
-		"name"    => "Smonitor charting",
-		"nodes"  => array("smonitor", "charts"),
-        "options" => array('Off'=>'0', 'On'=>'1'),
-		'show_in_edit_form' => true,
+		"default" => "1",
+		"name"    => "System Monitor charting",
+		"nodes"   => array("smonitor", "charts"),
+		"options" => array('Off'=>'0', 'On'=>'1'),
 		"type"    => "dropdown",
-		"validation_regex" => null,
-    ),
+		"show_in_edit_form" => true,
+	),
 	"assoc_id" => array(
 		"default" => "",
 		"name"    => "System name",
 		"options" => get_assoc_id(),
-		'show_in_edit_form' => true,
 		"type"    => "dropdown",
-		"validation_regex" => null,
+		"show_in_edit_form" => true,
+	),
+);
+
+$config->systems = array(
+    "name" => array(
+		"default" => "",
+		"name"    => "System name",
+		"type"    => "text",
+		"show_in_edit_form" => true,
+		"validation_regex"  => "^.+$",
+	),
+	"desc" => array(
+		"default" => "",
+		"name"    => "System description",
+		"type"    => "text",
+		"show_in_edit_form" => true,
     ),
 );
 
+$config->results_per_page = 20;
+$config->results_page_range = 5;
 
+//database tables
+$config->table_boxes_config = "ocp_boxes_config";
+$config->table_system_config = "ocp_system_config";
 
-
-
- ?>
+?>

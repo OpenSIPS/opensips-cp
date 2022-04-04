@@ -51,20 +51,20 @@ $search_setid=$_SESSION['dispatcher_setid'];
 $search_dest=$_SESSION['dispatcher_dest'];
 $search_descr=$_SESSION['dispatcher_descr'];
 
-if (isset($config->dispatcher_groups)) {
+if (get_settings_value("dispatcher_groups")) {
 	/* cache sets in set_cache */
 	$set_cache = array();
-	switch ($config->dispatcher_groups['type']) {
+	switch (get_settings_value("dispatcher_groups")['type']) {
 	case "database":
 		$query = "SELECT " .
-			$config->dispatcher_groups['id'] . " AS id, " .
-			$config->dispatcher_groups['name'] . " AS name " .
-			"FROM " . $config->dispatcher_groups['table'];
+			get_settings_value("dispatcher_groups")['id'] . " AS id, " .
+			get_settings_value("dispatcher_groups") . " AS name " .
+			"FROM " . get_settings_value("dispatcher_groups")['table'];
 
 		$set_values = array();
 		// fetch only the subset we need  for the groups that might match
 		if ($search_setid !="") {
-			$query .= " WHERE " . $config->dispatcher_groups['name'] . " LIKE ?";
+			$query .= " WHERE " . get_settings_value("dispatcher_groups")['name'] . " LIKE ?";
 			array_push($set_values, "%".$search_setid."%");
 		}
 		$stm = $link->prepare($query);
@@ -79,12 +79,12 @@ if (isset($config->dispatcher_groups)) {
 
 	case "array":
 		if ($search_setid !="") {
-			foreach ($config->dispatcher_groups['array'] as $key => $value) {
+			foreach (get_settings_value("dispatcher_groups")['array'] as $key => $value) {
 				if (strpos($value, $search_setid) !== false)
 					$set_cache[$key] = $value;
 			}
 		} else
-			$set_cache = $config->dispatcher_groups['array'];
+			$set_cache = get_settings_value("dispatcher_groups")['array'];
 		break;
 	}
 	if ($search_setid !="" && count($set_cache) != 0) {
@@ -177,7 +177,7 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if (isset($config->dispatcher_groups) && count($set_cache) == 0) {
+if (get_settings_value("dispatcher_groups") && count($set_cache) == 0) {
 	$data_no = 0; /* didn't find any available set :(, no need to query anything */
 } else {
 	if ($sql_search=="") $sql_command="from ".$table." order by setid asc";
@@ -192,7 +192,7 @@ if (isset($config->dispatcher_groups) && count($set_cache) == 0) {
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	$res_no=$config->results_per_page;
+	$res_no=get_settings_value("results_per_page");
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
 	if ($page>$page_no) {
@@ -225,7 +225,7 @@ else
 
 		if (in_array($resultset[$i]['destination'],$sipURI)) {
 			$key = array_search($resultset[$i]['destination'],$sipURI);
-			$state[$i] = $config->status[trim($flag[$key])];
+			$state[$i] = get_settings_value("status")[trim($flag[$key])];
 		} else {
 		        $state[$i] = "-";
 		}
@@ -244,7 +244,7 @@ else
  <tr>
   <td class="<?=$row_style?>">&nbsp;
 <?php
-		if (isset($config->dispatcher_groups) && isset($set_cache[$resultset[$i]['setid']])) {
+		if (get_settings_value("dispatcher_groups") && isset($set_cache[$resultset[$i]['setid']])) {
 			echo ($set_cache[$resultset[$i]['setid']]);
 		} else {
 			echo ($resultset[$i]['setid']);
@@ -278,7 +278,7 @@ else
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = $config->results_page_range;
+       	$max_pages = get_settings_value("results_page_range");
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

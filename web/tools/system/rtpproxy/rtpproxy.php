@@ -25,7 +25,7 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
 
-$table=$config->table_rtpproxy;
+$table=get_settings_value("table_rtpproxy");
 $current_page="current_page_rtpproxy";
 
 session_load();

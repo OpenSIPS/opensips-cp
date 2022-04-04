@@ -25,7 +25,7 @@
  require("template/header.php");
  include("lib/db_connect.php");
 
- $table=$config->table_groups;
+ $table=get_settings_value("table_groups");
  $current_page="current_page_groups";
  
  if (isset($_POST['action'])) $action=$_POST['action'];
@@ -137,7 +137,7 @@
   if ($_POST['add']=="Add") extract($_POST);
    else {
          $groupid="0";
-         $domain=$config->default_domain;
+         $domain=get_settings_value("default_domain");
         }
   require("template/".$page_id.".add.php");
   require("template/footer.php");

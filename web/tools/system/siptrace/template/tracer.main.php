@@ -153,14 +153,14 @@ if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.
 else
 {
 	$page=$_SESSION[$current_page];
-	$page_no=ceil($data_no/$config->results_per_page);
+	$page_no=ceil($data_no/get_settings_value("results_per_page"));
 	if ($page>$page_no) {
 		$page=$page_no;
 		$_SESSION[$current_page]=$page;
 	}
-	$start_limit=($page-1)*$config->results_per_page;
-        if ($start_limit==0) $sql.=" limit ".$config->results_per_page;
-        else $sql.=" limit ".$config->results_per_page." OFFSET " . $start_limit;
+	$start_limit=($page-1)*get_settings_value("results_per_page");
+        if ($start_limit==0) $sql.=" limit ".get_settings_value("results_per_page");
+        else $sql.=" limit ".get_settings_value("results_per_page")." OFFSET " . $start_limit;
 	$stm = $link->prepare($sql);
 	if ($stm===FALSE) {
 		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
@@ -461,7 +461,7 @@ else
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = $config->results_page_range;
+       	$max_pages = get_settings_value("results_page_range");
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

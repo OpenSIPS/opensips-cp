@@ -32,8 +32,8 @@
  session_load();
  
  $box_id=get_box_id($current_box); 
- $table=$config->table_monitoring;
- $name_table=$config->table_monitored;
+ $table=get_settings_value("table_monitoring");
+ $name_table=get_settings_value("table_monitored");
 
  $gauge_arr = get_vars_type($current_box);
  
@@ -51,7 +51,7 @@
  
  if ($_POST['flush']!=null)
  {
-  $sql = "DELETE FROM ".$config->table_monitoring." WHERE box_id = ?";
+  $sql = "DELETE FROM ".get_settings_value("table_monitoring")." WHERE box_id = ?";
   $stm = $link->prepare($sql);
   if ($stm->execute(array($box_id)) === false)
   	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));

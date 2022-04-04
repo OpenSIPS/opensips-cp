@@ -71,17 +71,20 @@ function auto_grow(element) {
     element.style.height = "5px";
     element.style.height = (element.scrollHeight)+"px";
 }
-
-function validate_json(str) {
+function validate_json(str, format) {
     try {
         JSON.parse(str);
+		if (Array.isArray(JSON.parse(str)) && format == "object")
+			return false;
+		else if (!Array.isArray(JSON.parse(str)) && format == "array")
+			return false;
     } catch (e) {
         return false;
     }
     return true;
 }
 
-function validate_input(field, output, regex, validation){
+function validate_input(field, output, regex, validation, format){
 	val = document.getElementById(field).value;
 	if (val=="") {
 		if (document.getElementById(field).getAttribute("opt")=="y") {
@@ -104,7 +107,7 @@ function validate_input(field, output, regex, validation){
 			ret = -1;
 		}
 
-		if (validation != null && !validation(val)) {
+		if (validation != null && !validation(val, format)) {
 			document.getElementById(output).innerHTML = '<img src="../../../images/share/ko_small.png">';
 			document.getElementById(field).setAttribute("valid","ko");
 			ret = -1;
@@ -139,7 +142,23 @@ function validate_password(field, output, password){
 	return ret;
 }
 
-function readMore(tool, id) {
+function readMore() {
+            var dots = document.getElementById('dots');
+            var moreText = document.getElementById('more');
+            var btnText = document.getElementById('myBtn');
+          
+            if (dots.style.display === 'none') {
+              dots.style.display = 'inline';
+              btnText.innerHTML = 'Read more'; 
+              moreText.style.display = 'none';
+            } else {
+              dots.style.display = 'none';
+              btnText.innerHTML = 'Read less'; 
+              moreText.style.display = 'inline';
+            }
+          }
+
+function toggleFormat(tool, id) {
             var dots = document.getElementById(id.concat('dots'));
             var moreText = document.getElementById(id.concat('more'));
             var btnText = document.getElementById(id.concat('myBtn'));
@@ -157,6 +176,19 @@ function readMore(tool, id) {
 </script>
 
 <?php
+function print_description() {
+	global $config;
+	$long = get_settings_value('tool_description');
+	$short = substr($long, 0, 100);
+	$long = substr($long, 100, strlen($long));
+	echo (
+	 "<style>
+	  #more {display: none;}
+	  </style>
+	  <p class='breadcrumb'>".$short."<span id='dots'>. . .</span><span id='more' >".$long."</span></p>
+	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
+	);
+}
 
 function print_example($example, $param, $id) {
 	$short = "";
@@ -164,18 +196,18 @@ function print_example($example, $param, $id) {
 		"<tr><td></td><td><style>
 		 #".$id."more {display: none;}
 		 </style>
-		 <a href='#' onclick='readMore(\"".$param."\", \"".$id."\")' id='".$id."myBtn' class='exampleButton' >See format for ".$param."</a>
+		 <a href='#' onclick='toggleFormat(\"".$param."\", \"".$id."\")' id='".$id."myBtn' class='exampleButton' >See format for ".$param."</a>
 		 <p >".$short."<span id='".$id."dots'></span><pre id='".$id."more' >".$example."</pre></p></td></tr>"
 	   );
 }
 
-function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null) {
+function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null,$json_format=null) {
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
 	else 
 		$value = "";
 
-	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.")'";
+	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.",\"".$json_format."\")'";
 	$pixelNo = substr_count($val, "\n") * 16 + 35;
 
 	

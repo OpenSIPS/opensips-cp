@@ -21,6 +21,10 @@
  */
 
 $config->monit = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
 	"refresh_timeout" => array(
 		"default" => 15,
 		"name"    => "Refresh timeout",

@@ -24,11 +24,10 @@ require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
-$table=$config->table_dialplan;
-
-$current_page="current_page_dialplan";
-
 session_load();
+
+$table=get_settings_value("table_dialplan");
+$current_page="current_page_dialplan";
 
 include("lib/db_connect.php");
 
@@ -99,7 +98,7 @@ if ($action=="add_do")
 		$attrs= $_POST['attrs'];
 	} else {
 		$attrs="";
-		foreach( $config->attrs_cb as $key => $val )
+		foreach( get_settings_value("attrs_cb") as $key => $val )
 			$attrs.=!isset($_POST["dp_attr_".$key]) ? "" : $key ;
 	}
 	if ($match_only == 1) {
@@ -161,7 +160,7 @@ if ($action=="modify")
 		$attrs= $_POST['attrs'];
 	} else {
 		$attrs="";
-		foreach( $config->attrs_cb as $key => $val )
+		foreach( get_settings_value("attrs_cb") as $key => $val )
 			$attrs.=!isset($_POST["dp_attr_".$key]) ? "" : $key ;
 	}
 	if ($match_only == 1) {

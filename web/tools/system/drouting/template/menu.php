@@ -25,12 +25,8 @@
   <tr>
     <td class="breadcrumb">
         <?php print "System / Dynamic Routing / ".$_SESSION['permission'];
-        if (file_exists(__DIR__."/../../../../../config/tools/system_config/settings.inc.php") && $_SESSION['permission'] == 'Admin') {
-          ?> 
-          <a  onclick="top.frames['main_body'].location.href='../../admin/tools_config/tools_config.php?tool=user_management&action=edit_tools';" href="#"   id="config_admin"></a> 
-        <?php 
-              }
-              ?>   
+          display_settings_button();
+        ?>   
     </td>
   </tr>
   <tr>
@@ -41,7 +37,7 @@
          $params = get_params();
          foreach (explode(",",get_settings_value("tabs")) as $tab) {
           $tabName = array_search($tab, $params['tabs']['options']);
-          if (!(($tab=="groups.php") && !($config->table_groups))) {
+          if (!(($tab=="groups.php") && !get_settings_value("table_groups"))) {
             if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
             if ($page_name!=$tab) echo('<a href="'.$tab.'" class="menuItem">'.$tabName.'</a>');
             else echo('<a href="'.$tab.'" class="menuItemSelect">'.$tabName.'</a>');

@@ -46,9 +46,9 @@
 		$form_valid=false;
 		$form_error="- <b>Passwords do not match!<b> -";
   } else {
-  		if ($config->passwd_mode==0) {
+  		if (get_settings_value("passwd_mode")==0) {
 			$ha1  = "";
-		} else if ($config->passwd_mode==1) {
+		} else if (get_settings_value("passwd_mode")==1) {
 			$ha1 = md5($uname.":".$domain.":".$passwd);
 		}	
   		// check for SIP account duplicate

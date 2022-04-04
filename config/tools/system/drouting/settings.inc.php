@@ -21,43 +21,85 @@
  */
 
 $config->drouting = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
+	"routing_partition" => array(
+		"default" => "",
+		"opt"     => "y",
+		"name"    => "Routing partition",
+		"type"    => "text",
+		"tip"     => "The name of the DR partition to work with; if empty, it will assume no partition support in OpenSIPS",
+		"validation_regex" => null,
+	),
+	"talk_to_this_assoc_id" => array(
+		"default" => 1,
+		"name"    => "Linked system",
+		"options" => get_assoc_id(),
+		"type"    => "dropdown",
+		"tip"     => "As OCP can manage multiple OpenSIPS instances, this is the association
+		 ID pointing to the group of servers (system) which needs to be provision with this drouting information."
+	),
+
+
+	"title1" => array(
+		"type" => "title",
+		"title" => "Gateway settings"
+	),
 	"gateway_types_file" => array(
 		"default" => array(
-            0 => "Gateway",
-            "1" =>  "Proxy",
-            '2'  => "PSTN",
-            3 => "Other"
-        ),
-		"name"    => "Gateway Types File",
+			"0" => "Gateway",
+        	),
+		"name"    => "Gateway's Types",
 		"type"    => "json",
-	),
-	"group_ids_file" => array(
-		"default" => array(
-            0 => "Regular",
-            1 => "Free"
-        ),
-		"name"    => "Group IDs File",
-		"type"    => "json",
-	),
-	"results_per_page" => array(
-		"default" => 25,
-		"name"    => "Results per page",
-		"tip"    => "Number of results per page",
-		"type"    => "number",
-		"validation_regex" => "^[0-9]+$",
-	),
-	"results_page_range" => array(
-		"default" => 10,
-		"name"    => "Results page range",
-		"tip"    => "Control over the pagination when displaying the dynamic routing rules",
-		"type"    => "number",
-		"validation_regex" => "^[0-9]+$",
+		"json_format" => "object",
+		"example" => "{
+	\"0\" : \"In Gateway\",
+	\"1\" : \"Out Gateway\",
+	\"2\" : \"Core Router\",
+	\"3\" : \"Other\"
+}"
 	),
 	"default_gw_type" => array(
 		"default" => 1,
 		"name"    => "Default gateway type",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
+	),
+	"gw_attributes" => array(
+		"default" => array(),
+		"name"    => "Gateway attributes",
+		"type"    => "json",
+		"example" => "{
+	\"display_name\" : \"Attributes\",
+	\"add_prefill_value\" : \"\",
+	\"validation_regexp\" : NULL,
+	\"validation_error\" : NULL,
+}"
+	),
+
+	"title2" => array(
+		"type" => "title",
+		"title" => "Rules settings"
+	),
+	"group_ids_file" => array(
+		"default" => array(
+			0 => "Default"
+		),
+		"name"    => "Routing groups",
+		"type"    => "json",
+		"json_format" => "object",
+		"example" => "{
+	\"0\" : \"Default\",
+	\"1\" : \"Free\",
+	\"2\" : \"Premium\",
+}"
+	),
+
+	"title3" => array(
+		"type" => "title",
+		"title" => "Group settings"
 	),
 	"group_id_method" => array(
 		"default" => "static",
@@ -71,14 +113,13 @@ $config->drouting = array(
 		"default" => "yourdomain.net",
 		"name"    => "Default domain",
 		"type"    => "text",
+		"tip"     => "The SIP domain to be used for users when inserting a new record into the group table",
 		"validation_regex" => null,
 	),
-	"routing_partition" => array(
-		"default" => "",
-		"opt"     => "y",
-		"name"    => "Routing partition",
-		"type"    => "text",
-		"validation_regex" => null,
+
+	"title4" => array(
+		"type" => "title",
+		"title" => "DB settings"
 	),
 	"table_gateways" => array(
 		"default" => "dr_gateways",
@@ -108,29 +149,32 @@ $config->drouting = array(
 		"validation_regex" => null,
 		"tip"     => "Database table for storing the drouting data"
 	),
-	"talk_to_this_assoc_id" => array(
-		"default" => 1,
-		"name"    => "Talk to this assoc id",
-		"options" => get_assoc_id(),
-		"type"    => "dropdown",
-		"tip"     => "As OCP can manage multiple OpenSIPS instances, this is the association
-		 ID pointing to the group of servers (system) which needs to be provision with this drouting information."
-	),
-	"gw_attributes" => array(
-		"default" => array(
-			"display_name" => "Attributes",
-			"add_prefill_value" => "",
-			"validation_regexp" => NULL,
-			"validation_error" => NULL,
-		),
-		"name"    => "Gateway attributes",
-		"type"    => "json",
+
+	"title5" => array(
+		"type" => "title",
+		"title" => "Display settings"
 	),
 	"tabs" => array(
 		"default" => "gateways.php,carriers.php,rules.php,groups.php",
-		"name"    => "Tabs",
+		"name"    => "Tool's Tabs",
 		"options" => array('Gateways'=>'gateways.php', 'Carriers'=>'carriers.php', 'Rules' => 'rules.php', 'Groups' => 'groups.php'),
 		"tip"    => "List of available tabs for dynamic routing tool",
 		"type"    => "checklist"
-	)
+	),
+	"results_per_page" => array(
+		"default" => 30,
+		"name"    => "Results per page",
+		"tip"    => "Number of results per page",
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
+	),
+	"results_page_range" => array(
+		"default" => 10,
+		"name"    => "Results page range",
+		"tip"    => "Control over the pagination when displaying the dynamic routing rules",
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
+	),
+
+
 );

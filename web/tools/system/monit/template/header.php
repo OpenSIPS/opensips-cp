@@ -21,28 +21,25 @@
 */
 
 require_once("../../../../config/session.inc.php");
-require_once("../../../../config/tools/admin/system_config/db.inc.php");
 require_once("../../../../config/db.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
-$_SESSION['current_group'] = "admin";
-$_SESSION['current_tool'] = "system_config";
+$_SESSION['current_tool'] = "monit";
+$_SESSION['current_group'] = get_group();
 $no_result = "No Data Found.";
+session_load();
+header('Content-Type: text/html; charset=ISO-8859-1');
 ?>
 
 <html>
 
 <head>
- <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
+ <link href="./style_monit.css" type="text/css" rel="StyleSheet">
 </head>
 
-<body bgcolor="#e9ecef" id="admin_config">
+<body bgcolor="#e9ecef">
 <center>
-<table width="90%" cellpadding="5" cellspacing="5" border="0">
+<table width="80%" cellpadding="5" cellspacing="5" border="0">
  <tr  valign="top" height="20">
-  <td><?php require("template/menu.php") ?></td>
- </tr>
- <tr valign="top" align="center"> 
-  <td>
-   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
+  <td><?php require("template/menu.php") ?>

@@ -20,16 +20,15 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+session_start();
+
 require_once("../../../../config/session.inc.php");
 require("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
-
-session_start();
 get_priv("monit");
-
 session_load();
-display_settings_button();
-
+require("template/header.php");
+                    
 $current_box=$_SESSION['monit_current_box'];
 if (empty($current_box))
 $current_box="";
@@ -40,12 +39,12 @@ $boxenlist=prepare_for_select($boxen);
 
 if (!empty($_POST['box_val'])) {
 
-	$current_box=$_POST['box_val'];
-	$_SESSION['monit_current_box']=$current_box ;
+  $current_box=$_POST['box_val'];
+  $_SESSION['monit_current_box']=$current_box ;
 }
 
 if (!empty($_SESSION['monit_current_box']) && empty($current_box)) {
-	$current_box=$_SESSION['monit_current_box'];
+  $current_box=$_SESSION['monit_current_box'];
 }
 
 
@@ -55,6 +54,8 @@ $_SESSION['monit_current_box']=$current_box;
 $foo=get_params_for_this_box($current_box);
 
 show_button();
+display_settings_button();
+echo_header();
 
 if ($source = get_monit_page($foo['host'],$foo['port'],$foo['user'],$foo['pass'],"/","",$foo['has_ssl'])) {
 	$page=(substr($source,strpos($source,"\r\n\r\n")+4)) ;
@@ -67,5 +68,7 @@ if ($source = get_monit_page($foo['host'],$foo['port'],$foo['user'],$foo['pass']
 } else {
 	echo "I can't connect!";
 }
+
+require("template/footer.php");
 
 ?>

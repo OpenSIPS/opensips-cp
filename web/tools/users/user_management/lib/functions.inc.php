@@ -25,7 +25,7 @@ function get_alias_types()
         global $config;
         require("../../../../config/globals.php");
 	$aliases = array();
-        foreach ($config->table_aliases as $key=>$value)
+        foreach (get_settings_values("table_aliases") as $key=>$value)
                 $aliases[]=array("label"=>$key,"value"=>$value);
 	return $aliases;
 }

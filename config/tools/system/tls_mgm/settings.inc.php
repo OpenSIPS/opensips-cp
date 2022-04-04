@@ -21,28 +21,41 @@
  */
 
 $config->tls_mgm = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,
-		"name"    => "Talk to this assoc id",
+		"name"	=> "Linked system",
 		"options" => get_assoc_id(),
-		"type"    => "dropdown",
+		"type"	=> "dropdown",
 	),
 
+	"title1" => array(
+		"type" => "title",
+		"title" => "DB settings"
+	),
 	"custom_table" => array(
 		"default" => "tls_mgm",
 		"name" => "Custom table",
 		"type" => "text"
 	),
+
+	"title2" => array(
+		"type" => "title",
+		"title" => "Display settings"
+	),
 	"per_page" => array(
-		"default" => 25,
-		"name"    => "Results per page",
-		"type"    => "number",
+		"default" => 30,
+		"name"	=> "Results per page",
+		"type"	=> "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 	"page_range" => array(
 		"default" => 3,
-		"name"    => "Results page range",
-		"type"    => "number",
+		"name"	=> "Results page range",
+		"type"	=> "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 );

@@ -31,7 +31,7 @@ function print_domains($type,$value,$has_any)
         session_load_from_tool("domains");
         require("db_connect.php");
 
-        $table_domains=$config->table_domains;
+        $table_domains=get_settings_value_from_tool("table_domains", "domains");
 
         $sql="select domain from ".$table_domains;
         $stm= $link->query($sql);
@@ -73,7 +73,7 @@ function print_aliasType($value, $has_any)
 	require("../../../../config/globals.php");
 	if ($has_any)
 	        $options[]=array("label"=>"ANY","value"=>"ANY");
-        foreach ($config->table_aliases as $k=>$v) {
+        foreach (get_settings_value("table_aliases") as $k=>$v) {
                 $options[]=array("label"=>$k,"value"=>$v);
         }
         $start_index = 0;

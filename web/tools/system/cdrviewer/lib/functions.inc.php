@@ -100,7 +100,7 @@ function cdr_export($start_time,  $end_time ) {
 	global $delay;
 
 
-	$cdr_table = $config->cdr_table ;
+	$cdr_table = get_settings_value("cdr_table");
 
 	$sql = "select * " ;
 
@@ -199,7 +199,7 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	global $cdr_export_time_limit;
 	global $link;
 
-	$cdr_table = $config->cdr_table ;
+	$cdr_table = get_settings_value("cdr_table");
 
 	$sql = "select * " ;
 	$sql_vals=array();

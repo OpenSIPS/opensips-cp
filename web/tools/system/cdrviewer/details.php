@@ -26,7 +26,7 @@ require_once("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 session_load();
 include("lib/db_connect.php");
-$table=$config->cdr_table;
+$table=get_settings_value("cdr_table");
 
 $sql = "SELECT * FROM ".$table." WHERE ".get_settings_value('cdr_id_field_name')."=?";
 $stm = $link->prepare($sql);

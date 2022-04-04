@@ -21,12 +21,20 @@
  */
 
 require("../../../../config/boxes.global.inc.php");
+require("../../../../config/tools/admin/boxes_config/settings.inc.php");
 
 if(!$_SESSION['read_only']){
 	$colspan = 5;
 }else{
 	$colspan = 3;
 }
+
+  $custom_box_params = [];
+  foreach($config->boxes as $key => $value) {
+	$elem = $value;
+	$elem['key'] = $key;
+	if ($elem['show_in_main'] == true) $custom_box_params[] = $elem;
+  }
 ?>
 <form action="<?=$page_name?>?action=add" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Box" class="formButton add-new-btn">') ?>
@@ -38,8 +46,11 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">System name</th>
   <th class="listTitle">Box description</th>
   <th class="listTitle">MI connector</th>
-  <th class="listTitle">Details</th>
   <?php
+  foreach ($custom_box_params as $elem) {
+	  echo('<th class="listTitle">'.$elem['name'].'</th>');
+  }
+  echo('<th class="listTitle">Details</th>');
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit Info</th>
@@ -68,7 +79,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select `desc`, id, assoc_id, mi_conn from ".$table."  order by id asc limit ".$res_no.";";
+	$sql_command="select * from ".$table."  order by id asc limit ".$res_no.";";
 	if ($start_limit!=0)
 		$sql_command.=" OFFSET " . $start_limit;
 	$stm = $link->prepare( $sql_command );
@@ -98,8 +109,10 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php print $systems[$resultset[$i]['assoc_id']]['name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['desc']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['mi_conn']?></td>
-	<td class=<?=$row_styleImg."Img"?> align="center"><?=$details_link?></td>
 <?php
+	foreach ($custom_box_params as $elem) 
+		echo ('<td class="'.$row_style.'">&nbsp;'.$resultset[$i][$elem['key']].'</td>');
+	echo('<td class='.$row_styleImg."Img".' align="center">'.$details_link.'</td>');
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
 			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');

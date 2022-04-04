@@ -64,7 +64,7 @@
   <td colspan="2">
     <table cellspacing=20>
       <tr>
-	<td class="dataRecord" align="right" width="50%"><input type="submit" name="add" value="Add" class="formButton margin-right-0"  onClick ="return Form_Validator(<?php echo $config->alias_format; ?>);"></td>
+	<td class="dataRecord" align="right" width="50%"><input type="submit" name="add" value="Add" class="formButton margin-right-0"  onClick ="return Form_Validator(<?php echo get_settings_value("alias_format"); ?>);"></td>
         <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>

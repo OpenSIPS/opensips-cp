@@ -83,7 +83,7 @@
   <th class="listTitle">List Sort</th>
   <th class="listTitle">Use only first</th>
   <th class="listTitle">Description</th>
-  <th class="listTitle"><?=$config->gw_attributes["display_name"]?></th>
+  <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
   <th class="listTitle">DB State</th>
   <th class="listTitle">Memory State</th>
   <th class="listTitle">Details</th>
@@ -98,8 +98,8 @@ $carrier_statuses = Array ();
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 $params = NULL;
-if (isset($config->routing_partition) && $config->routing_partition != "")
-	$params['partition_name'] = $config->routing_partition;
+if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
+	$params['partition_name'] = get_settings_value("routing_partition");
 
 $message=mi_command( "dr_carrier_status", $params, $mi_connectors[0], $errors);
 
@@ -131,7 +131,7 @@ if (!is_null($message)) {
  if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
-  $res_no=$config->results_per_page;
+  $res_no=get_settings_value("results_per_page");
   $page=$_SESSION[$current_page];
   $page_no=ceil($data_no/$res_no);
   if ($page>$page_no) {
@@ -217,7 +217,7 @@ if (!is_null($message)) {
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
-               $max_pages = $config->results_page_range;
+               $max_pages = get_settings_value("results_page_range");
                // start page
                if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
                 else $start_page = $page - ($page % $max_pages) + 1;

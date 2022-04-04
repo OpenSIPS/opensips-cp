@@ -28,7 +28,7 @@ function get_gwlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_gateways." order by gwid asc";
+ $sql="select * from ".get_settings_value("table_gateways")." order by gwid asc";
  $stm = $link->prepare($sql);
  if ($stm === false) {
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -52,7 +52,7 @@ function get_carrierlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_carriers." order by carrierid asc";
+ $sql="select * from ".get_settings_value("table_carriers")." order by carrierid asc";
  $stm = $link->prepare($sql);
  if ($stm === false) {
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -83,7 +83,7 @@ function get_groupids()
   global $config;
 	$i = 0;
 	$values = array();
-	if ($config->group_id_method=="static") {
+	if (get_settings_value("group_id_method")=="static") {
     $rules = get_settings_value("group_ids_file");
     foreach($rules as $key=>$value) {
      $values[$i]['groupid'] = (string) $key;
@@ -92,7 +92,7 @@ function get_groupids()
     }
 	} else {
 		global $link;
-		$sql="select distinct groupid,description from ".$config->table_groups." order by groupid asc";
+		$sql="select distinct groupid,description from ".get_settings_value("table_groups")." order by groupid asc";
 		$stm = $link->prepare($sql);
 		if ($stm===FALSE) {
 			die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
@@ -329,48 +329,6 @@ function parse_gwlist($gwlist_string)
  return($string_return);
 }
 
-function get_lists()
-{
-//include("db_connect.php");
- global $link;
- global $config;
- $index = 0;
- $values = array();
- $sql="select * from ".$config->table_lists;
- $stm = $link->prepare($sql);
- if ($stm === false) {
- 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
- }
- $stm->execute( array() );
- $result= $stm->fetchAll(PDO::FETCH_ASSOC);
- for($i=0;count($result)>$i;$i++)
- {
-  $values[$index][0] = $result[$i]['id'];
-  $values[$index][1] = $result[$i]['gwlist'];
-  $values[$index][2] = $result[$i]['description'];
-  $index++;
- }
- return($values);
-}
-
-function print_lists()
-{
- $array_values = get_lists();
- $start_index = 0;
- $end_index = sizeof($array_values);
-?>
- <select name="lists_value" id="lists_value" size="1" class="dataSelect">
- <?php
-  for ($i=$start_index;$i<$end_index;$i++)
-  {
-   if (strlen($array_values[$i][2]) < 25) $desc = $array_values[$i][2];
-    else $desc = substr($array_values[$i][2], 0, 25) . "...";
-   echo('<option value="#'.$array_values[$i][0].'"> (#'.$array_values[$i][0].') '.$array_values[$i][1].' / '.$desc.'</option>');
-  }
- ?>
- </select>
-<?php
-}
 
 function parse_list($gwlist_string)
 {

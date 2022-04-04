@@ -24,12 +24,11 @@ require ("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
+session_load();
 
-$table=$config->table_lb;
+$table=get_settings_value("table_lb");
 $current_page="current_page_lb";
 $lb_probing_modes = array("No probing","On disabled","Permanent");
-
-session_load();
 
 include("lib/db_connect.php");
 

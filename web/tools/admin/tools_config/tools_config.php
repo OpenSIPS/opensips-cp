@@ -42,10 +42,10 @@ if ($action=="modify_params")
         extract($_POST);
 		$current_tool=$_GET['tool'];
         $tools_params=get_params();
-		foreach( $tools_params as $param => $attr) {
+		foreach($tools_params as $param => $attr) {
 			if ($attr['validation_regex']) {
 				if (!preg_match("/".$attr['validation_regex']."/", $_POST[$param])) {
-					die('Failed to validate input for '.$attr['name']);
+					die("Failed to validate input for ".$attr['name']);
 				}
 			}
 		}

@@ -21,8 +21,32 @@
  */
 
 $config->dialog = array(
-    "results_per_page" => array(
-		"default" => 25,
+	"title0" => array(
+		"type" => "title",
+		"title" => "General settings"
+	),
+	"talk_to_this_assoc_id" => array(
+		"default" => 1,
+		"name"    => "Linked system",
+		"options" => get_assoc_id(),
+		"type"    => "dropdown",
+		"tip"	  => "association ID pointing to system (group of OpenSIPS servers) to be queried for ongoing calls.
+		 Note: only the first server from the group will be used for fetching the dialogs!!",
+	),
+
+	"title1" => array(
+		"type" => "title",
+		"title" => "Display settings"
+	),
+	"tabs" => array(
+		"default" => "dialog.php,profile.php",
+		"name"    => "Tool Tabs",
+		"options" => array("Ongoing calls" => "dialog.php", "Call profiles" => "profile.php"),
+		"tip"    => "List of available tabs for dialog tool",
+		"type"    => "checklist"
+	),
+	"results_per_page" => array(
+		"default" => 30,
 		"name"    => "Results per page",
 		"tip"    => "Number of results per page",
 		"type"    => "number",
@@ -33,20 +57,5 @@ $config->dialog = array(
 		"name"    => "Results page range",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
-    "talk_to_this_assoc_id" => array(
-		"default" => 1,
-		"name"    => "Talk to this assoc id",
-		"options" => get_assoc_id(),
-		"type"    => "dropdown",
-		"tip"	  => "association ID pointing to system (group of OpenSIPS servers) to be queried for ongoing calls.
-		 Note: only the first server from the group will be used for fetching the dialogs!!",
-	),
-	"tabs" => array(
-		"default" => "dialog.php,profile.php",
-		"name"    => "Tabs",
-		"options" => array("Ongoing calls" => "dialog.php", "Call profiles" => "profile.php"),
-		"tip"    => "List of available tabs for dialog tool",
-		"type"    => "checklist"
 	)
 );

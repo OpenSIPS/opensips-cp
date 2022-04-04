@@ -71,7 +71,11 @@ $permissions=array();
 				else form_generate_input_checklist($params['name'], $current_tip, $module, 10, explode(",", get_settings_value($module, $box_id)), array_value($params['options']));
 				break;
 			case "json":
-				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), 1000, $params['validation_regex'], 'validate_json');
+				$flags = JSON_PRETTY_PRINT;
+				$validation = "validate_json";
+				if ($params['json_format'] == "object")
+					$flags |= JSON_FORCE_OBJECT;
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), 1000, $params['validation_regex'], $validation, $params['json_format']);
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))

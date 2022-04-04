@@ -24,7 +24,7 @@ require_once("../../../common/cfg_comm.php");
 require("../../../../config/db.inc.php");
 require("template/header.php");
 require("../../../../config/tools/admin/boxes_config/db.inc.php");
-require("../../../../config/tools/admin/boxes_config/local.inc.php");
+require("../../../../config/tools/admin/boxes_config/settings.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 

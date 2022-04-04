@@ -43,7 +43,7 @@ function get_gwlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".$config->table_gateways." order by gwid asc";
+ $sql="select * from ".get_settings_value("table_gateways")." order by gwid asc";
  $stm = $link->prepare($sql);
  if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
@@ -252,47 +252,6 @@ function parse_gwlist($gwlist_string)
   $gwlist_string=substr($gwlist_string,1,strlen($gwlist_string));
  }
  return($string_return);
-}
-
-function get_lists()
-{
- global $config;
- $index = 0;
- $values = array();
- $sql="select * from ".$config->table_lists." where (1=1)";
- $stm = $link->prepare($sql);
- if ($stm===FALSE) {
-	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
- }
- $stm->execute( array() );
- $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
- for($i=0;count($resultset)>$i;$i++)
- {
-  $values[$index][0] = $resultset[$i]['id'];
-  $values[$index][1] = $resultset[$i]['gwlist'];
-  $values[$index][2] = $resultset[$i]['description'];
-  $index++;
- }
- return($values);
-}
-
-function print_lists()
-{
- $array_values = get_lists();
- $start_index = 0;
- $end_index = sizeof($array_values);
-?>
- <select name="lists_value" id="lists_value" size="1" class="dataSelect">
- <?php
-  for ($i=$start_index;$i<$end_index;$i++)
-  {
-   if (strlen($array_values[$i][2]) < 25) $desc = $array_values[$i][2];
-    else $desc = substr($array_values[$i][2], 0, 25) . "...";
-   echo('<option value="#'.$array_values[$i][0].'"> (#'.$array_values[$i][0].') '.$array_values[$i][1].' / '.$desc.'</option>');
-  }
- ?>
- </select>
-<?php
 }
 
 function parse_list($gwlist_string)
