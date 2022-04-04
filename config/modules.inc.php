@@ -139,10 +139,6 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "SMPP Gateway"
 			),
-			"tviewer"			=> array (
-				"enabled"		=> true,
-				"name"			=> "TViewer"
-			),
 		)
 	),
 );
