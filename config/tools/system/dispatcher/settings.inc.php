@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->dispatcher = array(
 	"title0" => array(
@@ -79,6 +80,7 @@ $config->dispatcher = array(
 		"default" => "dispatcher",
 		"name" => "Table Dispatcher",
 		"type" => "text",
+		"validation_regex" => $table_regex,
 		"tip"  => "The database table name for storing the dispatcher data"
 	),
 

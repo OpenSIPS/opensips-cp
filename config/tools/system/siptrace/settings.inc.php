@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->siptrace = array(
 	"title0" => array(
@@ -53,6 +54,7 @@ $config->siptrace = array(
 		"default" => "sip_trace",
 		"name" => "Table Trace",
 		"type" => "text",
+		"validation_regex" => $table_regex,
 		"tip"  => "the database table name for storing the siptrace data"
 	),
 

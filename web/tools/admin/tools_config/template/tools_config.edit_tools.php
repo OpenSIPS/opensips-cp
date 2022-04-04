@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
+require_once("../../../common/cfg_comm.php");
 require_once("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
  if (isset($form_error)) {

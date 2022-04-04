@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->rtpengine = array(
 	"title0" => array(
@@ -40,6 +41,7 @@ $config->rtpengine = array(
 	"table_rtpengine" => array(
 		"default" => "rtpengine",
 		"name" => "Table RTPengine",
+		"validation_regex" => $table_regex,
 		"type" => "text",
 		"tip"  => "The database table name for storing the RTPEngine sockets"
 	),

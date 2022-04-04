@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->drouting = array(
 	"title0" => array(
@@ -125,28 +126,28 @@ $config->drouting = array(
 		"default" => "dr_gateways",
 		"name"    => "Table gateways",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"     => "Database table for storing the drouting data"
 	),
 	"table_groups" => array(
 		"default" => "dr_groups",
 		"name"    => "Table groups",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"     => "Database table for storing the drouting data"
 	),
 	"table_rules" => array(
 		"default" => "dr_rules",
 		"name"    => "Table rules",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"     => "Database table for storing the drouting data"
 	),
 	"table_carriers" => array(
 		"default" => "dr_carriers",
 		"name"    => "Table carriers",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"     => "Database table for storing the drouting data"
 	),
 

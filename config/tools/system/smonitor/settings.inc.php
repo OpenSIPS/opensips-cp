@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->smonitor = array(
 	"title0" => array(
@@ -80,14 +81,14 @@ $config->smonitor = array(
 		"default" => "ocp_monitored_stats",
 		"name"	=> "Table Monitored",
 		"type"	=> "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"	 => "Database table name for storing the monitoring data"
 	),
 	"table_monitoring" => array(
 		"default" => "ocp_monitoring_stats",
 		"name"	=> "Table monitoring",
 		"type"	=> "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"	 => "Database table name for storing the monitoring data"
 	),
 

@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->acl_management = array(
 	"title0" => array(
@@ -43,6 +44,7 @@ $config->acl_management = array(
 	"table_acls" => array(
 		"default" => "grp",
 		"name"    => "ACLs Table",
+		"validation_regex" => $table_regex,
 		"tip"     => "The name of the DB table where the groups (and mapping to SIP users) are stored.",
 		"type"    => "text"
 	),

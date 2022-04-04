@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->permissions = array(
 	"title0" => array(
@@ -41,6 +42,7 @@ $config->permissions = array(
 	"table_address" => array(
 		"default" => "address",
 		"name" => "Table Address",
+		"validation_regex" => $table_regex,
 		"type" => "text",
 		"tip"  => "The database table name for storing the IP matching rules"
 	),
