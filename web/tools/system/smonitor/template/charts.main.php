@@ -43,9 +43,9 @@ else
 {
  $i=0;
 
- $sampling_time=get_settings_value('sampling_time', $box_id);
+ $sampling_time=get_settings_value('sampling_time');
  
- foreach(get_settings_value("groups", $box_id) as $key=>$group_attr) {
+ foreach(get_settings_value("groups") as $key=>$group_attr) {
   $groupElements = $group_attr['stats'];
   $scale = $group_attr['scale'];
   $gName = "";
