@@ -29,7 +29,7 @@
  session_start();  
  require("template/header.php");
  include("lib/db_connect.php"); 
- session_load($_SESSION['box_id']);
+ session_load();
  
  $box_id=get_box_id($current_box); 
  $table=get_settings_value("table_monitoring");
