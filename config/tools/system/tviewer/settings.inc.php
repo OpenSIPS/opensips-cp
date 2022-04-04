@@ -1,5 +1,0 @@
-<?php
-
-$config->tviewer = array(
-
-);
