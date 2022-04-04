@@ -47,23 +47,26 @@ $config->smonitor = array(
 		"validation_regex" => "^(auto|[0-9]+)$",
 		"tip"	 => "Amount of time (in hours) to keep samples before deleting them"
 	),
-	"config_type" => array(
-		"default" => "global",
-		"name"	=> "Config type",
-		"type"	=> "text",
-		"validation_regex" => null,
-	),
 	"groups" => array(
 		"default" => "",
 		"name" => "Groups for multi-line charts",
+		"tip" => "JSON that describes groups of statistics to be displayed in the same chart",
 		"type" => "json",
 		"example" => "
+{
 \"group1\": {
-	\"stats\": {
-		\"0\": \"load:load\",
-		\"1\": \"shmem:fragments\"
-	},
+	\"stats\": [
+		{
+			\"name\": \"load:load\",
+			\"box_id\": 0
+		},
+		{
+			\"name\": \"shmem:fragments\",
+			\"box_id\": 0
+		}
+	],
 	\"scale\": 2
+	}
 }"
 	),
 	"charting_url" => array(

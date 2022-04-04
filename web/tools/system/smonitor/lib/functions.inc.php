@@ -229,7 +229,6 @@ return $newarr;
 
 function get_box_id($current_box){
 
-global $config_type;
 
     $global='../../../../config/boxes.global.inc.php';
     require ($global);
