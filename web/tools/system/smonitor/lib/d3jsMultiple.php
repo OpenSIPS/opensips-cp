@@ -42,9 +42,9 @@ function(d){
     var zoomTrigger = false;
     
   // set the dimensions and margins of the graph
-  var margin = {top: 0, right: 30, bottom: 100, left: 50},
-      width = 400 - margin.left - margin.right,
-      height = 300 - margin.top - margin.bottom;
+  var margin = {top: 10, right: 30, bottom: 100, left: 50},
+      width = 660 - margin.left - margin.right,
+      height = 370 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))
@@ -77,7 +77,7 @@ function(d){
     .attr("stroke-width", 2)
     .style("opacity", 0);
     const labelX = 0;
-    const labelY = 220;
+    const labelY = 270;
     var removed = {};
     arg2.forEach((element, i) => removed[element] = 0);
  
