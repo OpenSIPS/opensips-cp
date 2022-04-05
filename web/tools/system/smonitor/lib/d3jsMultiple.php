@@ -20,14 +20,14 @@
 <script>
 
 display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>, 
-"<?php echo $_SESSION['box_id_graph'] ?> ", <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
+"<?php echo json_encode($_SESSION['boxes_list']) ?> ", <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
 
 function display_graphs(arg1, arg2, arg3, arg4, arg5) {
   //   var stats_list = "";
     var stats_list = encodeURIComponent(JSON.stringify(arg2));
+    var box_list = encodeURIComponent(JSON.stringify(arg3));
     var normal_list = encodeURIComponent(JSON.stringify(arg4));
-  
-d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&normal=").concat(normal_list),
+d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&normal=").concat(normal_list),
 
 function(d){
     if (d.value == "f") {
@@ -36,15 +36,15 @@ function(d){
     return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value, name : d.name}
   },
 
- function(data) { 
+ function(data) {
   var currentAxis = 0;
     var refresh = 1;
     var zoomTrigger = false;
     
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 100, left: 50},
-      width = 660 - margin.left - margin.right,
-      height = 370 - margin.top - margin.bottom;
+  var margin = {top: 0, right: 30, bottom: 100, left: 50},
+      width = 400 - margin.left - margin.right,
+      height = 300 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))
@@ -77,7 +77,7 @@ function(d){
     .attr("stroke-width", 2)
     .style("opacity", 0);
     const labelX = 0;
-    const labelY = 270;
+    const labelY = 220;
     var removed = {};
     arg2.forEach((element, i) => removed[element] = 0);
  
@@ -389,7 +389,7 @@ svg.on("dblclick",function(){
 
 function updateGr(){ 
     if( refresh == 1 ) {
-        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
+        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
 
         // When reading the csv, I must format variables:
         function(d){
