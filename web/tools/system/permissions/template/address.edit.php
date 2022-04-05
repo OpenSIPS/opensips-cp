@@ -36,51 +36,16 @@
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$perm_set = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 
-	$index_row=0;
 ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="mainTitle">Edit Address rule</td>
  </tr>
 <?php
+ require("address.form.php");
 ?>
- <tr>
-  <td class="dataRecord">Group</td>
-  <td class="dataRecord" width="275"><input type="text" name="grp" value="<?=$resultset[0]['grp']?>" maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord">IP</td>
-  <td class="dataRecord" width="275"><input type="text" name="src_ip" value="<?=$resultset[0]['ip']?>" maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord">Mask</td>
-  <td class="dataRecord" width="275"><input type="text" name="mask" value="<?=$resultset[0]['mask']?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord">Port</td>
-  <td class="dataRecord" width="275"><input type="text" name="port" value="<?=$resultset[0]['port']?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord">Protocol</td>
-  <td class="dataRecord" width="275"><input type="text" name="proto" value="<?=$resultset[0]['proto']?>" maxlength="128" class="dataInput"></td>
- </tr>
- 
-<tr>
-  <td class="dataRecord">Pattern</td>
-  <td class="dataRecord" width="275"><input type="text" name="from_pattern" value="<?=$resultset[0]['pattern']?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord">Context Info</td>
-  <td class="dataRecord" width="275"><input type="text" name="context_info" value="<?=$resultset[0]['context_info']?>" maxlength="128" class="dataInput"></td>
- </tr>
-
 
  <tr>
    <td colspan="2">

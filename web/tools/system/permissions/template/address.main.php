@@ -29,6 +29,32 @@
 <?php
 $sql_search="";
 $qvalues = array();
+$set_cache = array();
+
+$perm_group = get_settings_value("permissions_groups");
+$perm_group_mode = get_settings_value("permissions_groups_mode");
+switch ($perm_group_mode) {
+	case "database":
+		$query = "SELECT " . $perm_group['id'] . " AS id, " .
+			$perm_group['name'] . " AS name " .
+			"FROM " . $perm_group['table'];
+
+		$set_values = array();
+		// fetch only the subset we need  for the groups that might match
+		$stm = $link->prepare($query);
+		if ($stm===FALSE) {
+			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
+		}
+		$stm->execute($set_values);
+		$results = $stm->fetchAll();
+		foreach ($results as $key => $value)
+			$set_cache[$value['id']] = $value['name'];
+		break;
+
+	case "array":
+		$set_cache = $perm_group;
+		break;
+}
 
 if (isset($_SESSION['address_src']))
 	$search_src=$_SESSION['address_src'];
@@ -100,7 +126,9 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
+<?php if ($perm_group_mode != "static") { ?>
   <th class="listTitle">Group</th>
+<?php } ?>
   <th class="listTitle">IP</th>
   <th class="listTitle">Mask</th>
   <th class="listTitle">Port</th>
@@ -157,7 +185,16 @@ else
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['grp']?></td>
+<?php switch ($perm_group_mode) {
+	case "static":
+		break;
+	case "input":
+  		echo('<td class="'.$row_style.'">&nbsp;'.$resultset[$i]['grp'].'</td>');
+		break;
+	default:
+  		echo('<td class="'.$row_style.'">&nbsp;'.$set_cache[$resultset[$i]['grp']].'</td>');
+		break;
+} ?>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['ip']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['mask']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php echo $resultset[$i]['port']?></td>

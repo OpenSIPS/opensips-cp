@@ -22,22 +22,22 @@
 
 $clone=$_GET['clone'];
 
-if($add_verify =="1"){
+if ($clone =="1") {
 	$id=$_GET['id'];
 
 	$sql = "select * from ".$table." where id = ?";
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-
-	$grp = $resultset[0]['grp'];
-	$src_ip = $resultset[0]['src_ip'];
-	$mask = $resultset[0]['mask'];
-	$port = $resultset[0]['port'];
-	$proto = $resultset[0]['proto'];
-	$from_pattern =$resultset[0]['from_pattern'];
-	$context_info =$resultset[0]['context_info'];
+	$perm_set = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
+} else {
+	$perm_set['grp'] = NULL;
+	$perm_set['ip'] = "";
+	$perm_set['mask'] = 32;
+	$perm_set['port'] = "0";
+	$perm_set['proto'] = "any";
+	$perm_set['pattern'] = "";
+	$perm_set['context_info'] = "";
 }
 
 ?>
@@ -47,48 +47,8 @@ if($add_verify =="1"){
   <td colspan="2" class="mainTitle">Add new Address rule</td>
  </tr>
 <?php
+ require("address.form.php");
 ?>
- <tr>
-  <td class="dataRecord">Group</td>
-  <td class="dataRecord" width="275"><input type="text" name="grp" 
-  value="<?=$grp?>"maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord">IP</td>
-  <td class="dataRecord" width="275"><input type="text" name="src_ip" 
-  value="<?=$src_ip?>"maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord">Mask</td>
-  <td class="dataRecord" width="275"><input type="text" name="mask" 
-  value="<?=$mask?>"maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord">Port</td>
-  <td class="dataRecord" width="275"><input type="text" name="port" 
-  value="<?=$port?>"maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord">Protocol</td>
-  <td class="dataRecord" width="275"><input type="text" name="proto" 
-  value="<?=$proto?>" maxlength="128" class="dataInput"></td>
- </tr>
- 
-<tr>
-  <td class="dataRecord">Pattern</td>
-  <td class="dataRecord" width="275"><input type="text" name="from_pattern" 
-  value="<?=$from_pattern?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord">Context Info</td>
-  <td class="dataRecord" width="275"><input type="text" name="context_info" 
-  value="<?=$context_info?>" maxlength="128" class="dataInput"></td>
- </tr>
 
  <tr>
    <td colspan="2">

@@ -49,6 +49,48 @@ $config->permissions = array(
 
 	"title2" => array(
 		"type" => "title",
+		"title" => "Groups settings"
+	),
+
+	"permissions_groups_mode" => array(
+		"name" => "Group Mode",
+		"type" => "dropdown",
+		"options" => array('Input'=>'input', 'Static'=>'static','Pre-Defined values'=>'array','Database'=>'database'),
+		"tip"	  => "Naming of the permissions groups (versus IDs) is possible here, in a static (hardcoded), array (pre-defined values) or dynamic (via DB) way.",
+		"default" => "input"
+	),
+
+	"permissions_groups" => array(
+		"default" => array(),
+		"name" => "Groups",
+		"type" => "json",
+		"json_format" => "object",
+		"tip"	  => "Mandatory if Group Mode is not 'input', represents the JSON description of the groups.",
+		"example" => "
+/* Static way - simply specify the Group ID to be used */
+1
+
+/* Array way - specify the id of the group and its description */
+{
+	\"2\": \"Group 1\",
+	\"4\": \"Group 2\"
+}
+
+/* Dynamic way */
+/* The following config presumes that a
+ * address_maps table exists with two fields:
+ * - id: stores the group id
+ * - name: stores the name of the group id
+ */
+{
+	\"table\": \"address_maps\",
+	\"id\"	: \"id\",
+	\"name\": \"name\",
+}"
+	),
+
+	"title3" => array(
+		"type" => "title",
 		"title" => "Display settings"
 	),
 	"results_per_page" => array(

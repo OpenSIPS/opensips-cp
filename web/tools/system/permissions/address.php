@@ -73,30 +73,22 @@ if ($action=="add_verify")
 	if(!$_SESSION['read_only']){
 
 		$grp=$_POST['grp'];
-		$src_ip=$_POST['src_ip'];
+		$src_ip=$_POST['ip'];
 		$mask=$_POST['mask'];
 		$port=$_POST['port'];
 		$proto=$_POST['proto'];
-		$from_pattern = $_POST['from_pattern'];
+		$from_pattern = $_POST['pattern'];
 		$context_info= $_POST['context_info'];
+		if (!isset($grp))
+			$grp = get_settings_value("permissions_groups");
 
-		if($from_pattern=="")
-		$flags = "0";
-
-		if ( !preg_match('/^[0-9]+$/', $grp) ){
-			$errors = "Invalid group (not numerical), the entry was not modified in the database";
-		} else if ( !preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $src_ip) &&
-	        !preg_match("/^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/", $src_ip)	){
-			$errors = "Invalid IP address, the entry was not modified in the database";
+		$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
+			(?, ?, ?, ?, ?, ?, ?)";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $pattern, $context_info)) === false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);	
 		} else {
-			$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
-				(?, ?, ?, ?, ?, ?, ?)";
-			$stm = $link->prepare($sql);
-			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info)) === false) {
-				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);	
-			} else {
-				$info="The new record was added";
-			}
+			$info="The new record was added";
 		}
 	}else{
 		$errors= "User with Read-Only Rights";
@@ -140,27 +132,22 @@ if ($action=="modify")
 
 		$id = $_GET['id'];
                 $grp=$_POST['grp'];
-                $src_ip=$_POST['src_ip'];
+                $src_ip=$_POST['ip'];
                 $mask=$_POST['mask'];
                 $port=$_POST['port'];
                 $proto=$_POST['proto'];
-                $from_pattern = $_POST['from_pattern'];
+                $from_pattern = $_POST['pattern'];
                 $context_info= $_POST['context_info'];
+		if (!isset($grp))
+			$grp = get_settings_value("permissions_groups");
 
-		if ( !preg_match('/^[0-9]+$/', $grp) ){
-			$errors = "Invalid group (not numerical), the entry was not modified in the database";
-		} else if ( !preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $src_ip) &&
-	        !preg_match("/^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$/", $src_ip)	){
-			$errors = "Invalid IP address, the entry was not modified in the database";
+		$sql = "UPDATE ".$table." SET grp = ?, ip = ?, mask = ?, port = ?, proto = ?" .
+			", pattern = ?, context_info = ? WHERE id = ?";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info, $id)) == false) {
+			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 		} else {
-			$sql = "UPDATE ".$table." SET grp = ?, ip = ?, mask = ?, port = ?, proto = ?" .
-				", pattern = ?, context_info = ? WHERE id = ?";
-			$stm = $link->prepare($sql);
-			if ($stm->execute(array($grp, $src_ip, $mask, $port, $proto, $from_pattern, $context_info, $id)) == false) {
-				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
-			} else {
-				$info="The new rule was modified";
-			}
+			$info="The new rule was modified";
 		}
 	}else{
 
