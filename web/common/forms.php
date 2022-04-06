@@ -194,6 +194,8 @@ function print_description() {
 }
 
 function print_example($example, $param, $id) {
+	$param = str_replace("'", "", $param);
+	$param = str_replace('"', "", $param);
 	$short = "";
 	echo (
 		"<tr><td></td><td><style>
