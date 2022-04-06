@@ -2,3 +2,5 @@ OpenSIPS Control Panel (OCP) is a Provisioning Web Portal for OpenSIPS SIP
 Server (www.opensips.org). This software is distributed under GPL v2 license.
 
 Please see the doc online documentation for further details - http://controlpanel.opensips.org/.
+
+To create a new tviewer module, follow the instructions located in web/common/tools/tviewer/README
