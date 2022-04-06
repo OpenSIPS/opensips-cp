@@ -34,22 +34,22 @@ require_once("../../../common/forms.php");
       switch ($params['type']) {
 			case "checklist":
 				if (isAssoc($params['options']))
-					form_generate_checklist($params['name'], $current_tip, $attr, 20,  $value, array_values($params['options']), array_keys($params['options']));
-				else form_generate_input_checklist($params['name'], $current_tip, $attr, 20, $value, array_value($params['options']));
+					form_generate_checklist($params['name'], $current_tip, $attr, 64,  $value, array_values($params['options']), array_keys($params['options']));
+				else form_generate_input_checklist($params['name'], $current_tip, $attr, 64, $value, array_value($params['options']));
 				break;
 			case "json":
 				form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), 1000, $params['validation_regex'], 'validate_json');
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))
-					form_generate_select($params['name'], $current_tip, $attr, 20,  $value, array_values($params['options']), array_keys($params['options']));
-				else form_generate_select($params['name'], $current_tip, $attr, 20,  $value, array_values($params['options']));
+					form_generate_select($params['name'], $current_tip, $attr, 64,  $value, array_values($params['options']), array_keys($params['options']));
+				else form_generate_select($params['name'], $current_tip, $attr, 64,  $value, array_values($params['options']));
 				break;
       case "password":
         form_generate_passwords($attr, "", "", $minimum=6,$current_tip,$opt);
         break;
 			default:
-				form_generate_input_text($params['name'], $current_tip, $attr, $opt, $value, 20, $params['validation_regex']);
+				form_generate_input_text($params['name'], $current_tip, $attr, $opt, $value, 64, $params['validation_regex']);
 	    }
     }
 ?>
