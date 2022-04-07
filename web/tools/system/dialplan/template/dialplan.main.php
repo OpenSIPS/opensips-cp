@@ -27,7 +27,35 @@ $sql_search="";
 $sql_vals=array();
 
 $search_dpid=$_SESSION['dialplan_id'];
-if($search_dpid!="") {
+$dialplan_group = get_settings_value("dialplan_groups");
+$dialplan_group_mode = get_settings_value("dialplan_groups_mode");
+switch ($dialplan_group_mode) {
+	case "database":
+		$set_cache = array();
+		$query = "SELECT " . $dialplan_group['id'] . " AS id, " .
+			$dialplan_group['name'] . " AS name " .
+			"FROM " . $dialplan_group['table'];
+
+		$stm = $link->prepare($query);
+		if ($stm===FALSE) {
+			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
+		}
+		$stm->execute();
+		$results = $stm->fetchAll();
+		foreach ($results as $key => $value)
+			$set_cache[$value['id']] = $value['name'];
+		break;
+
+	case "array":
+		$set_cache = $dialplan_group;
+		break;
+
+	case "static":
+		$search_dpid = $dialplan_group; /* always force the used dialplan group */
+		break;
+}
+
+if ($search_dpid != "") {
 	$sql_search.="dpid=?";
 	array_push( $sql_vals, $search_dpid);
 }
@@ -37,6 +65,8 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 8;
 }
+if ($dialplan_group_mode == "static")
+	$colspan--;
 
 ?>
 
@@ -44,12 +74,24 @@ if(!$_SESSION['read_only']){
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
+<?php if ($dialplan_group_mode != "static") { ?>
 <form action="<?=$page_name?>?action=search" method="post">
 <table width="350" cellspacing="2" cellpadding="2" border="0">
   <tr>
   <td class="searchRecord">Dialplan ID :</td>
-  <td class="searchRecord" width="200"><input type="text" name="dialplan_id" 
-  value="<?=$search_dpid?>" maxlength="16" class="searchInput"></td>
+  <td class="searchRecord" width="200">
+<?php if ($dialplan_group_mode == "input") { ?>
+  <input type="text" name="dialplan_id" value="<?=$search_dpid?>" maxlength="16" class="searchInput">
+<?php } else { ?>
+ <select name="dialplan_id" id="dialplan_id" size="1" class="dataSelect" style="width:200;">
+   <option value="">any</option>
+<?php foreach ($dialplan_group as $key=>$value) { ?>
+<?php 	$selected = ($key == $search_dpid)?"selected":""; ?>
+<option value="<?=$key?>" <?=$selected?>><?=$value?></option>
+<?php } ?>
+ </select>
+<?php } ?>
+  </td>
  </tr>
   <tr height="10">
   <td colspan="2" class="searchRecord border-bottom-devider" align="center">
@@ -59,6 +101,7 @@ if(!$_SESSION['read_only']){
 
 </table>
 </form>
+<?php } ?>
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add&clone=0" method="post">
@@ -69,7 +112,9 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
+<?php if ($dialplan_group_mode != "static") { ?>
   <th class="listTitle">Dialplan ID</th>
+<?php } ?>
   <th class="listTitle">Rule Priority</th>
   <th class="listTitle">Matching Operator</th>
   <th class="listTitle">Matching Regular Expression</th>
@@ -141,7 +186,16 @@ else
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['dpid']?></td>
+<?php switch ($dialplan_group_mode) {
+case "static":
+	break;
+case "input":
+	echo('<td class="'.$row_style.'">&nbsp;'.$row[$i]['dpid'].'</td>');
+	break;
+default:
+	echo('<td class="'.$row_style.'">&nbsp;'.(isset($set_cache[$row[$i]['dpid']])?$set_cache[$row[$i]['dpid']]:$row[$i]['dpid']).'</td>');
+	break;
+} ?>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['pr']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_op']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_exp']?></td>
