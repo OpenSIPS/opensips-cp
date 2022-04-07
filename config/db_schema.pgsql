@@ -65,6 +65,8 @@ CREATE TABLE ocp_boxes_config (
   assoc_id integer DEFAULT '-1',
 );
 
+INSERT INTO ocp_boxes_config (mi_conn,monit_conn,monit_ssl,`desc`,smonitcharts,assoc_id) values ('json:127.0.0.1:8888/mi','127.0.0.1:2812',0,'Default box',1,1);
+
 -- --------------------------------------------------------
 
 -- 
@@ -76,6 +78,8 @@ CREATE TABLE ocp_system_config (
   name text DEFAULT NULL,
   desc text DEFAULT ''
 )
+
+INSERT INTO ocp_system_config (assoc_id, name, `desc`) values (1,'System 0','Default system');
 
 -- --------------------------------------------------------
 
