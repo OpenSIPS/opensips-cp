@@ -31,6 +31,7 @@ require_once("../../../common/forms.php");
     $system_params = get_system_params();
     foreach($system_params as $attr => $params) {
       $value = $params['default'];
+	  if ($params['opt']) $opt = "y"; else $opt = "n";
       switch ($params['type']) {
 			case "checklist":
 				if (isAssoc($params['options']))

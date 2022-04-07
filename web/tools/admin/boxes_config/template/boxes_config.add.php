@@ -31,6 +31,7 @@ require_once("../../../common/forms.php");
     $box_params = get_boxes_params();
     foreach($box_params as $attr => $params) {
       $value = $params['default'];
+			if ($params['opt']) $opt = "y"; else $opt = "n";
       switch ($params['type']) {
 			case "checklist":
 				if (isAssoc($params['options']))
