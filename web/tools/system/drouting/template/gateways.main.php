@@ -71,6 +71,7 @@
         $sql_search.=" and attrs like ?";
 	array_push( $sql_vals, "%".$search_attrs."%");
  }
+ $gateways_types_cache = get_settings_value("gateway_types_file");
 
 ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
@@ -78,10 +79,12 @@
   <td class="searchRecord">Gateway ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwid" value="<?=$search_gwid?>" maxlength="128" class="searchInput"></td>
  </tr>
+<?php if (count($gateways_types_cache) != 0) { ?>
  <tr>
   <td class="searchRecord">GW Type </td>
   <td class="searchRecord" width="200"><?=get_types("search_type", $search_type)?></td>
  </tr>
+<?php } ?>
  <tr>
   <td class="searchRecord">SIP Address </td>
   <td class="searchRecord" width="200"><input type="text" name="search_address" value="<?=$search_address?>" maxlength="128" class="searchInput"></td>
@@ -126,7 +129,9 @@
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="listTitle">GWID</th>
+<?php if (count($gateways_types_cache) != 0) { ?>
   <th class="listTitle">Type</th>
+<?php } ?>
   <th class="listTitle">Address</th>
   <th class="listTitle">Strip</th>
   <th class="listTitle">PRI Prefix</th>
@@ -173,8 +178,9 @@ if (!is_null($message)) {
  require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
+ $colspan = (count($gateways_types_cache) != 0?15:14);
  if ($data_no==0) 
- 	echo('<tr><td colspan="15" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=get_settings_value("results_per_page");
@@ -247,7 +253,9 @@ if (!is_null($message)) {
 ?>
  <tr>
   <td class="<?=$row_style?>"><?=$resultset[$i]['gwid']?></td>
-  <td class="<?=$row_style?>"><?=$resultset[$i]['type']?></td>
+<?php if (count($gateways_types_cache) != 0) { ?>
+  <td class="<?=$row_style?>"><?=(isset($gateways_types_cache[$resultset[$i]['type']])?$gateways_types_cache[$resultset[$i]['type']]:$resultset[$i]['type'])?></td>
+<?php } ?>
   <td class="<?=$row_style?>"><?=$resultset[$i]['address']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['strip']?></td>
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>

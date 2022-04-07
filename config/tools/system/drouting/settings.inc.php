@@ -54,6 +54,9 @@ $config->drouting = array(
         	),
 		"name"    => "Gateway's Types",
 		"type"    => "json",
+		"tip"     => "Different gateway's types used to clasify groups of gateways, that can be \"filtered\" in 
+		the script; if no type is used (a blank json is specified, '{}'), types will be transparent in the
+		provisioning and the gateways' type will all be forced to the value of the 'Default gateway type' parameter",
 		"json_format" => "object",
 		"example" => "{
 	\"0\" : \"In Gateway\",

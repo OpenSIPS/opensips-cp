@@ -27,20 +27,23 @@
   <td colspan="2" class="mainTitle">Edit Gateway #<?=$_GET['id']?></td>
  </tr>
 <?php
- if (isset($form_error)) {
-                          echo(' <tr align="center">');
-                          echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
-                          echo(' </tr>');
-                         }
+if (isset($form_error)) {
+	echo(' <tr align="center">');
+	echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
+	echo(' </tr>');
+}
+$gateways_types_show = count(get_settings_value("gateway_types_file")) != 0;
 ?>
  <tr>
    <td class="dataRecord"><b>Gateway ID</b></td>
    <td class="dataRecord" width="275"><input type="text" name="gwid" value="<?=$resultset[0]['gwid']?>" maxlength="128" class="dataInput"></td>
  </tr>
+<?php if ($gateways_types_show) { ?>
  <tr>
   <td class="dataRecord"><b>GW Type</b></td>
   <td class="dataRecord" width="275"><?=get_types("type",$resultset[0]['type'],275)?></td>
  </tr>
+<?php } ?>
  <tr>
   <td class="dataRecord"><b>SIP Address</b></td>
   <td class="dataRecord" width="275"><input type="text" name="address" value="<?=$resultset[0]['address']?>" maxlength="128" class="dataInput"></td>

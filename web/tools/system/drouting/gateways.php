@@ -129,6 +129,8 @@ if ($action=="probegw"){
  {
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
+	if (!isset($type))
+		$type = get_settings_value("default_gw_type");
                 $sql = "update ".$table." set gwid=?, type=?, attrs=?, address=?, strip=?, pri_prefix=?, probe_mode=?, socket=?, state=?, description=? where id=?";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
@@ -179,6 +181,8 @@ if ($action=="probegw"){
 	$_SESSION['gateways_search_probe_mode']="";
 	$_SESSION['gateways_search_description']="";
 	$_SESSION['gateways_search_attrs']="";
+	if (!isset($type))
+		$type = get_settings_value("default_gw_type");
 	$sql = "insert into ".$table." (gwid, type, address, attrs,strip, pri_prefix, probe_mode, socket, state, description) ".
 		"values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	$stm = $link->prepare($sql);
