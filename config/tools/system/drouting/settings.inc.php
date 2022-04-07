@@ -108,10 +108,11 @@ $config->drouting = array(
 	"group_id_method" => array(
 		"default" => "static",
 		"name"    => "Group ID method",
-		"type"    => "text",
+		"type"    => "dropdown",
+		"options" => array("static","dynamic"),
 		"validation_regex" => null,
-		"tip"     => "How the handle the drouting groups : 'static; -
-		 the groups are statically configured via the 'Settings' tab ; 'dynamic' - the groups are read from the DB group table."
+		"tip"     => "How the handle the drouting groups: 'static; -
+		 the groups are statically configured via the 'Routing groups' parameter; 'dynamic' - the groups are read from the DB group table."
 	),
 	"default_domain" => array(
 		"default" => "yourdomain.net",
