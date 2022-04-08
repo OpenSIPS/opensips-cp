@@ -27,12 +27,6 @@ $config->dispatcher = array(
 		"title" => "General settings"
 	),
 
-	"status" => array(
-		"default" => array('Active'=>'Active','Inactive'=>'Inactive','Probing'=>'Probing'),
-		"name" => "Status",
-		"type" => "json"
-	),
-
 	"dispatcher_groups_mode" => array(
 		"default" => array(),
 		"name" => "Dispatcher groups mode",
@@ -78,8 +72,6 @@ $config->dispatcher = array(
 		"tip"	  => "As OCP can manage multiple OpenSIPS instances, this is the association 
 		ID pointing to the group of servers (system) which needs to be provision with this dispatching information."
 	),
-
-
 
 	"title1" => array(
 		"type" => "title",

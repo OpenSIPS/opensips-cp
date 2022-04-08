@@ -217,7 +217,7 @@ else
 
 		if (in_array($resultset[$i]['destination'],$sipURI)) {
 			$key = array_search($resultset[$i]['destination'],$sipURI);
-			$state[$i] = get_settings_value("status")[trim($flag[$key])];
+			$state[$i] = trim($flag[$key]);
 		} else {
 		        $state[$i] = "-";
 		}
