@@ -108,6 +108,15 @@ $config->dialplan = array(
 }"
 	),
 
+	"dialplan_partition" => array(
+		"default" => "",
+		"opt"     => "y",
+		"name"    => "Dialplan partition",
+		"type"    => "text",
+		"tip"     => "The name of the dialplan partition to work with; if empty, it will assume no partition support in OpenSIPS",
+		"validation_regex" => null,
+	),
+
 	"title3" => array(
 		"type" => "title",
 		"title" => "Display settings"
