@@ -38,6 +38,7 @@ if ($dispatcher_partition == "")
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
+	$errors = NULL;
 	$message=mi_command( "ds_reload",
 		($dispatcher_partition?array("partition"=>$dispatcher_partition):NULL),
 		$mi_connectors[$i], $errors);
