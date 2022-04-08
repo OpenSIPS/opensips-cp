@@ -32,30 +32,28 @@
                          }
 	$id=$_GET['id'];
 	
-	$sql = "select * from ".$table." where id=?";
+	$sql = "select * from ".$table." where id = ?";
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	$row = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	$index_row=0;
+
 ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="mainTitle">Edit RTPproxy</td>
+  <td colspan="2" class="mainTitle">Edit RTPProxy Socket</td>
  </tr>
-<?php
-?>
- <tr>
-  <td class="dataRecord"><b>RTPproxy Sock:</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="rtpproxy_sock" value="<?=$row[0]['rtpproxy_sock']?>" maxlength="128" class="dataInput"></td>
-  </tr>
 
- <tr>
-  <td class="dataRecord"><b>Setid</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="set_id" value="<?=$row[0]['set_id']?>" maxlength="128" class="dataInput"></td>
- </tr>
- 
+ <?php
+ # populate the initial values for the form
+ $rtpp_form['rtpproxy_sock'] = $row[0]['rtpproxy_sock'];
+ $rtpp_form['set_id'] = $row[0]['set_id'];
+
+ require("rtpproxy.form.php");
+ ?>
+
  <tr>
    <td colspan="2">
 		<table cellspacing=20>
