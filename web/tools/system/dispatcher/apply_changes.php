@@ -31,14 +31,21 @@ session_load();
 <?php
 
 $mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$dispatcher_partition = get_settings_value("dispatcher_partition");
+if ($dispatcher_partition == "")
+	$dispatcher_partition = false;
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
-	$message=mi_command( "ds_reload", NULL, $mi_connectors[$i], $errors);
+	$message=mi_command( "ds_reload",
+		($dispatcher_partition?array("partition"=>$dispatcher_partition):NULL),
+		$mi_connectors[$i], $errors);
 
 	if (!$errors) {
 		echo "<font color='green'><b>Success</b></font>";
+	} else {
+		echo '<tr><td align="center"><div class="formError">'.join(", ", $errors).'</div></td></tr>';
 	}
 	echo "<br>";
 }

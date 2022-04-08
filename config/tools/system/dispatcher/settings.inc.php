@@ -73,6 +73,15 @@ $config->dispatcher = array(
 		ID pointing to the group of servers (system) which needs to be provision with this dispatching information."
 	),
 
+	"dispatcher_partition" => array(
+		"default" => "",
+		"opt"     => "y",
+		"name"    => "Dispatcher partition",
+		"type"    => "text",
+		"tip"     => "The name of the dispatcher partition to work with; if empty, it will assume no partition support in OpenSIPS",
+		"validation_regex" => null,
+	),
+
 	"title1" => array(
 		"type" => "title",
 		"title" => "DB settings"
