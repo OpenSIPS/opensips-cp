@@ -21,7 +21,7 @@
  */
 	global $table_regex;
 
-$config->permissions = array(
+$config->addresses = array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "General settings"
@@ -52,15 +52,15 @@ $config->permissions = array(
 		"title" => "Groups settings"
 	),
 
-	"permissions_groups_mode" => array(
+	"addresses_groups_mode" => array(
 		"name" => "Group Mode",
 		"type" => "dropdown",
 		"options" => array('Input'=>'input', 'Static'=>'static','Pre-Defined values'=>'array','Database'=>'database'),
-		"tip"	  => "Naming of the permissions groups (versus IDs) is possible here, in a static (hardcoded), array (pre-defined values) or dynamic (via DB) way.",
+		"tip"	  => "Naming of the addresses groups (versus IDs) is possible here, in a static (hardcoded), array (pre-defined values) or dynamic (via DB) way.",
 		"default" => "input"
 	),
 
-	"permissions_groups" => array(
+	"addresses_groups" => array(
 		"default" => array(),
 		"name" => "Groups",
 		"type" => "json",

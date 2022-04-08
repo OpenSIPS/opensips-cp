@@ -59,6 +59,10 @@ $config_modules 	= array (
 		"name"		=> "System",
 		"icon"		=> "images/icon-system.svg",
 		"modules"	=> array (
+			"addresses"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Addresses"
+			),
 			"callcenter"		=> array (
 				"enabled"		=> true,
 				"name"			=> "Callcenter"
@@ -110,10 +114,6 @@ $config_modules 	= array (
 			"rtpengine"			=> array (
 				"enabled"		=> true,
 				"name"			=> "RTPEngine"
-			),
-			"permissions"			=> array (
-				"enabled"		=> true,
-				"name"			=> "Permissions"
 			),
 			"siptrace"			=> array (
 				"enabled"		=> true,

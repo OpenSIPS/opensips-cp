@@ -20,16 +20,16 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once("../../../../config/tools/system/permissions/db.inc.php");
+require_once("../../../../config/tools/system/addresses/db.inc.php");
 require_once("../../../../config/db.inc.php");
 
 global $config;
-if (isset($config->db_host_permissions) && isset($config->db_user_permissions) && isset($config->db_name_permissions) ) {
-	$config->db_host = $config->db_host_permissions;
-	$config->db_port = $config->db_port_permissions;
-	$config->db_user = $config->db_user_permissions;
-	$config->db_pass = $config->db_pass_permissions;
-	$config->db_name = $config->db_name_permissions;
+if (isset($config->db_host_addresses) && isset($config->db_user_addresses) && isset($config->db_name_addresses) ) {
+	$config->db_host = $config->db_host_addresses;
+	$config->db_port = $config->db_port_addresses;
+	$config->db_user = $config->db_user_addresses;
+	$config->db_pass = $config->db_pass_addresses;
+	$config->db_name = $config->db_name_addresses;
 }
 
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;

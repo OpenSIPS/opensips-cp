@@ -23,8 +23,8 @@
 require("../../../common/forms.php");
 $set_cache = array();
 
-$perm_group_mode = get_settings_value("permissions_groups_mode");
-$perm_group = get_settings_value("permissions_groups");
+$perm_group_mode = get_settings_value("addresses_groups_mode");
+$perm_group = get_settings_value("addresses_groups");
 switch ($perm_group_mode) {
 	case "database":
 		$query = "SELECT " . $perm_group['id'] . " AS id, " .
@@ -50,13 +50,13 @@ switch ($perm_group_mode) {
 
 switch ($perm_group_mode) {
 	case "input":
-		form_generate_input_text("Group", "The numerical ID of the permissions group",
+		form_generate_input_text("Group", "The numerical ID of the addresses group",
 			"grp", "n", $perm_set['grp'], 32, "^[0-9]+$");
 		break;
 	case "static":
 		break;
 	default:
-		form_generate_select("Group", "The ID of the permissions group",
+		form_generate_select("Group", "The ID of the addresses group",
 			"grp", "n", $perm_set['grp'],
 			array_keys($set_cache), array_values($set_cache));
 		break;

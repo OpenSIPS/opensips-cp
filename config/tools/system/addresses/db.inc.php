@@ -22,20 +22,20 @@
 
 
  //database host
- //$config->db_host_permissions = "localhost";
+ //$config->db_host_addresses = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_permissions = "";
+ //$config->db_port_addresses = "";
  
  //database connection user
- //$config->db_user_permissions = "root";
+ //$config->db_user_addresses = "root";
  
  //database connection password
- //$config->db_pass_permissions = "mysql";
+ //$config->db_pass_addresses = "mysql";
  
  //database name
- //$config->db_name_permissions = "opensips";
+ //$config->db_name_addresses = "opensips";
  
- //if ($config->db_port_permissions != "") $config->db_host_permissions = $config->db_host_permissions . ";port=" . $config->db_port_permissions;
+ //if ($config->db_port_addresses != "") $config->db_host_addresses = $config->db_host_addresses . ";port=" . $config->db_port_addresses;
  
 ?>

@@ -20,12 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../../config/tools/system/permissions/db.inc.php");
+ require("../../../../config/tools/system/addresses/db.inc.php");
  require("../../../../config/db.inc.php");
  require("../../../common/cfg_comm.php");
 
  session_start();
- get_priv("permissions");
+ get_priv("addresses");
  header("Location: address.php");
  
 ?>
