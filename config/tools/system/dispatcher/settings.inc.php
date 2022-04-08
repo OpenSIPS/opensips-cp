@@ -33,19 +33,28 @@ $config->dispatcher = array(
 		"type" => "json"
 	),
 
+	"dispatcher_groups_mode" => array(
+		"default" => array(),
+		"name" => "Dispatcher groups mode",
+		"type" => "dropdown",
+		"options" => array('Input'=>'input', 'Static'=>'static','Pre-Defined values'=>'array','Database'=>'database'),
+		"tip"	  => "Naming of the dispatcher groups (versus IDs) is possible here, in a static (hardcoded), array (pre-defined values) or dynamic (via DB) way.",
+		"default" => "input"
+	),
 	"dispatcher_groups" => array(
 		"default" => array(),
 		"name" => "Dispatcher groups",
 		"type" => "json",
-		"tip"	  => "Naming of the dispacher groups (versus IDs) is possible here, in a static (predefined) or dynamic (via DB) way. This naming is consistent across the displaying, editing and adding forms.",
+		"json_format" => "object",
+		"tip"	  => "Mandatory if 'Dispatcher groups mode' is not 'input', represents the JSON description of the groups.",
 		"example" => "
+/* Static way - simply specify the global Dispatcher group to be used */
+1
+
 /* Static way */
 {
-	\"type\": \"array\",
-	\"array\": {
-		\"2\": \"Group 1\",
-		\"4\": \"Group 2\"
-	}
+	\"2\": \"Group 2\",
+	\"4\": \"Group 4\"
 }
 
 /* Dynamic way */
@@ -55,12 +64,12 @@ $config->dispatcher = array(
  * - name: stores the name of the dispatcher id
  */
 {
-	\"type\": \"database\",
 	\"table\": \"ds_mappings\",
 	\"id\"	: \"id\",
 	\"name\": \"name\",
 }"
 	),
+
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,
 		"name"    => "Linked system",

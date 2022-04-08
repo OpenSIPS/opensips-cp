@@ -74,6 +74,8 @@ if ($action=="do_add")
 		$errors= "User with Read-Only Rights";
 	} else {
 		$setid=$_POST['setid'];
+		if (!isset($setid))
+			$setid = get_settings_value("dispatcher_groups");
 		$destination=$_POST['destination'];
 		$socket = $_POST['socket'];
 		$state = $_POST['state'];
@@ -133,6 +135,8 @@ if ($action=="modify")
 	} else {
 		$id = $_GET['id'];
 		$setid=$_POST['setid'];
+		if (!isset($setid))
+			$setid = get_settings_value("dispatcher_groups");
 		$destination=$_POST['destination'];
 		$socket = $_POST['socket'];
 		$state = $_POST['state'];
