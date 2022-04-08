@@ -25,7 +25,7 @@
  require("template/header.php");
  require("lib/common.functions.inc.php");
 
- get_settings_value("table_rules")
+ get_settings_value("table_rules");
  $current_page="current_page_rules";
  
  if (isset($_POST['action'])) $action=$_POST['action'];
