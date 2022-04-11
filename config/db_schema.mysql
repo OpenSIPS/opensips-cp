@@ -51,14 +51,14 @@ CREATE TABLE `ocp_boxes_config` (
   `monit_conn` varchar(64) DEFAULT NULL,
   `monit_user` varchar(64) DEFAULT NULL,
   `monit_pass` varchar(64) DEFAULT NULL,
-  `monit_ssl` varchar(5) NOT NULL,
+  `monit_ssl` varchar(5) DEFAULT NULL,
   `desc` varchar(64) NOT NULL DEFAULT '',
   `smonitcharts` varchar(5) DEFAULT NULL,
   `assoc_id` varchar(10) DEFAULT '-1',
   PRIMARY KEY (`id`)
 );
 
-INSERT INTO ocp_boxes_config (mi_conn,monit_conn,monit_ssl,`desc`,smonitcharts,assoc_id) values ('json:127.0.0.1:8888/mi','127.0.0.1:2812',0,'Default box',1,1);
+INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
 
 -- --------------------------------------------------------
 
