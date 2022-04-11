@@ -66,7 +66,7 @@ function print_gwlist()
  $start_index = 0;
  $end_index = sizeof($array_values);
 ?>
- <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect" style="width:380px!important; margin-left:1px;margin-top:2px;">
+ <select name="gwlist_value" id="gwlist_value" size="1" class="dataSelect" style="width:326!important; margin-left:1px;margin-top:2px;">
  <?php
   for ($i=$start_index;$i<$end_index;$i++){
    if (strlen($array_values[$i][2]) < 25) 

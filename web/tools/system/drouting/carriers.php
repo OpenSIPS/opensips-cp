@@ -24,7 +24,7 @@
  require("../../../common/cfg_comm.php");
  require("template/header.php");
  include("lib/db_connect.php");
- require("lib/common.functions.inc.php");
+ require_once("lib/common.functions.inc.php");
  require ("../../../common/mi_comm.php");
  $table=get_settings_value("table_carriers");
  $current_page="current_page_lists";
@@ -122,7 +122,8 @@ if ($action=="disablecar"){
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
 	$flags = bindec($useonlyfirst);
-		
+	if (get_settings_value("carrier_attributes_mode") == "params")
+		$attrs = dr_build_attrs(get_settings_value("carrier_attributes"));
 
 	$sql = "update ".$table." set gwlist=?, flags=?, sort_alg=?, state=?, description=?, attrs=? where carrierid=?";
 	$stm = $link->prepare($sql);
@@ -178,6 +179,9 @@ if ($action=="disablecar"){
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
  	$flags = bindec($enabled.$useonlyfirst);
+
+	if (get_settings_value("carrier_attributes_mode") == "params")
+		$attrs = dr_build_attrs(get_settings_value("carrier_attributes"));
                     
 	$_SESSION['rules_search_gwlist']="";
         $_SESSION['rules_search_description']="";

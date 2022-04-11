@@ -69,10 +69,16 @@ include("db_connect.php");
 
 	}
 
-	if ($form_valid && get_settings_value("gw_attributes") && isset(get_settings_value("gw_attributes")['validation_regexp']) )
-	  	if (!preg_match('/'.get_settings_value("gw_attributes")['validation_regexp'].'/i',$attrs)) {
-			$form_valid=false;
-			$form_error="- <b>".get_settings_value("gw_attributes")['display_name']."</b> value is invalid: ".get_settings_value("gw_attributes")['validation_error'];
-		}
+  if ($form_valid) {
+	  $gw_attributes_mode = get_settings_value("gw_attributes_mode");
+	  if ($gw_attributes_mode == "input") {
+		  $gw_attributes = get_settings_value("gw_attributes");
+		  if (isset($gw_attributes['validation_regexp']) &&
+			  !preg_match('/'.get_settings_value("gw_attributes")['validation_regexp'].'/i',$attrs)) {
+			  $form_valid=false;
+			  $form_error="- <b>".$gw_attributes['display_name']."</b> value is invalid: ".$gw_attributes['validation_error'];
+		  }
+	  }
+  }
 
 ?>

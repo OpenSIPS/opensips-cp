@@ -103,11 +103,16 @@
 	</select>
   </td>
 </tr>
+<?php
+$gw_attributes_mode = get_settings_value("gw_attributes_mode");
+$gw_attributes = get_settings_value("gw_attributes");
+if ($gw_attributes_mode == "input") {
+?>
  <tr>
- <td class="searchRecord"><?=get_settings_value("gw_attributes")["display_name"] ?> </td>
+ <td class="searchRecord"><?=$gw_attributes["display_name"] ?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="128" class="searchInput"></td>
  </tr>
- <tr>
+<?php } ?>
 
  <tr>
   <td class="searchRecord">Description </td>
@@ -137,6 +142,17 @@
   <th class="listTitle">PRI Prefix</th>
   <th class="listTitle">Probe Mode</th>
   <th class="listTitle">Socket</th>
+<?php
+if ($gw_attributes_mode != "none") {
+	if ($gw_attributes_mode == "input") {
+		echo('<th class="listTitle"><'.$gw_attributes["display_name"].'></th>');
+	} else {
+		foreach ($gw_attributes as $key => $value) {
+			echo('<th class="listTitle">'.(isset($value["display_main"])?$value["display_main"]:$value["display"]).'</th>');
+		}
+	}
+}
+?>
   <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
@@ -201,6 +217,8 @@ if (!is_null($message)) {
  }
  $stm->execute( $sql_vals );
  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+ if ($gw_attributes_mode != "none")
+  require_once("lib/common.functions.inc.php");
 
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)
@@ -233,9 +251,6 @@ if (!is_null($message)) {
    if ($resultset[$i]['pri_prefix']!="") $pri_prefix=$resultset[$i]['pri_prefix'];
     else $pri_prefix="&nbsp;";
 
-   if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
-    else $attrs="&nbsp;";
-
    switch ($resultset[$i]['probe_mode']) {
    	case "0" : $probe_mode = "Never"; break;
 	case "1" : $probe_mode = "When disabled"; break;
@@ -261,7 +276,23 @@ if (!is_null($message)) {
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>
   <td class="<?=$row_style?>"><?=$probe_mode?> </td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['socket']?></td>
-  <td class="<?=$row_style?>"><?=$attrs?> </td>
+<?php
+if ($gw_attributes_mode == "input") {
+	if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
+	else $attrs="&nbsp;";
+	echo('<td class="'.$row_style.'">'.$attrs.'</td>');
+} else if ($gw_attributes_mode == "params") {
+	$attr_map = dr_get_attrs_map($resultset[$i]['attrs']);
+	foreach ($gw_attributes as $key => $value) {
+		$val = dr_get_attrs_val($attr_map, $key, $value);
+		if ($value["type"] == "checkbox" && $val == true)
+			$val = "<img src='../../../images/share/active.png'>";
+		else if (isset($value["value_wrapper_func"]))
+			$val = $value["value_wrapper_func"]($attr_map[$key], $val);
+		echo("<td class=\"".$row_style."\">".$val."</td>");
+	}
+}
+?>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$state?></td>
   <td class="<?=$row_style."Img"?>" align="center"><?=$status?></td>

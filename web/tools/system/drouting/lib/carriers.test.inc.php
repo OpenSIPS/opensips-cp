@@ -23,28 +23,39 @@
   extract($_POST);
   $form_valid=true;
   if ($form_valid)
-   if ($gwlist=="") {
-                     $form_valid=false;
-                     $form_error="- invalid <b>Gateway List</b> field -";
-                    }
+	  if ($gwlist=="") {
+		  $form_valid=false;
+		  $form_error="- invalid <b>Gateway List</b> field -";
+	  }
   
   if ($form_valid) {
-                    // make $gwlist
-                    if (substr($gwlist,strlen($gwlist)-1,1)==",") $gwlist=substr($gwlist,0,strlen($gwlist)-1);
+	  // make $gwlist
+	  if (substr($gwlist,strlen($gwlist)-1,1)==",") $gwlist=substr($gwlist,0,strlen($gwlist)-1);
   }
   if ($action != "edit"){
-                    $sql="select count(*) from ".$table." where carrierid=?";
-		    $stm = $link->prepare($sql);
-		    if ($stm===FALSE) {
-		    	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
-		    }
-		    $stm->execute( array($gwlist) );
-		    $data_rows = $stm->fetchColumn(0);
-                    if (($data_rows>0))
-                    {
-                     $form_valid=false;
-                     $form_error="- this carrier already exists -";
-                    }
- }
+	  $sql="select count(*) from ".$table." where carrierid=?";
+	  $stm = $link->prepare($sql);
+	  if ($stm===FALSE) {
+		  die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);
+	  }
+	  $stm->execute( array($gwlist) );
+	  $data_rows = $stm->fetchColumn(0);
+	  if (($data_rows>0))
+	  {
+		  $form_valid=false;
+		  $form_error="- this carrier already exists -";
+	  }
+  }
+  if ($form_valid) {
+	  $carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
+	  if ($carrier_attributes_mode == "input") {
+		  $carrier_attributes = get_settings_value("carrier_attributes");
+		  if (isset($carrier_attributes['validation_regexp']) &&
+			  !preg_match('/'.get_settings_value("carrier_attributes")['validation_regexp'].'/i',$attrs)) {
+			  $form_valid=false;
+			  $form_error="- <b>".$carrier_attributes['display_name']."</b> value is invalid: ".$carrier_attributes['validation_error'];
+		  }
+	  }
+  }
 
 ?>

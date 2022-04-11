@@ -19,6 +19,12 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+if (isset($form_error)) {
+	echo(' <tr align="center">');
+	echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
+	echo(' </tr>');
+}
+$dr_form = $resultset[0];
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
@@ -27,75 +33,8 @@
   <td colspan="2" class="mainTitle">Edit Gateway #<?=$_GET['id']?></td>
  </tr>
 <?php
-if (isset($form_error)) {
-	echo(' <tr align="center">');
-	echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
-	echo(' </tr>');
-}
-$gateways_types_show = count(get_settings_value("gateway_types_file")) != 0;
+ require("gateways.form.php");
 ?>
- <tr>
-   <td class="dataRecord"><b>Gateway ID</b></td>
-   <td class="dataRecord" width="275"><input type="text" name="gwid" value="<?=$resultset[0]['gwid']?>" maxlength="128" class="dataInput"></td>
- </tr>
-<?php if ($gateways_types_show) { ?>
- <tr>
-  <td class="dataRecord"><b>GW Type</b></td>
-  <td class="dataRecord" width="275"><?=get_types("type",$resultset[0]['type'],275)?></td>
- </tr>
-<?php } ?>
- <tr>
-  <td class="dataRecord"><b>SIP Address</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="address" value="<?=$resultset[0]['address']?>" maxlength="128" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>Strip</b></td>
-  <td class="dataRecord"><input type="text" name="strip" value="<?=$resultset[0]['strip']?>" maxlength="11" class="dataInput"></td>
- </tr>
-  <tr>
-  <td class="dataRecord"><b>PRI Prefix</b></td>
-  <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$resultset[0]['pri_prefix']?>" maxlength="16" class="dataInput"></td>
- </tr>
-<tr>
-  <td class="searchRecord"><b>Probe Mode</b></td>
-  <td class="searchRecord" width="200">
-    <select id="probe_mode" name="probe_mode" class="dataSelect" style="width: 275px;">
-     <option value="0" <?php if ($resultset[0]['probe_mode']==0) echo "selected";?>>0 - Never</option>
-     <option value="1" <?php if ($resultset[0]['probe_mode']==1) echo "selected";?>>1 - When disabled</option>
-     <option value="2" <?php if ($resultset[0]['probe_mode']==2) echo "selected";?>>2 - Always</option>
-    </select>
-  </td>
- </tr>
-<tr>
-	<td class="dataRecord">
-		<b>Socket</b>
-	</td>
-	<td class="dataRecord" width="275">
-		<input type="text" name="socket" value="<?=$resultset[0]['socket']?>" maxlength="128" class="dataInput">
-	</td>
-</tr>
-
-<tr>
-	<td class="dataRecord">
-		<b>DB State</b>
-	</td>
-	<td class="dataRecord" width="200">
-		<select id="state" name="state" class="dataSelect" style="width: 275px;">
-			<option value="0" <?php if (isset($resultset[0]['state']) && $resultset[0]['state'] == 0) echo "selected"; ?>>0 - Active</option>
-			<option value="1" <?php if (isset($resultset[0]['state']) && $resultset[0]['state'] == 1) echo "selected"; ?>>1 - Inactive</option>
-			<option value="2" <?php if (isset($resultset[0]['state']) && $resultset[0]['state'] == 2) echo "selected"; ?>>2 - Probing</option>
-		</select>
-	</td>
- </tr>
- <tr>
-  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b></td>
-  <td class="dataRecord"><input type="text" name="attrs" value="<?php echo htmlspecialchars($resultset[0]['attrs']);?>" maxlength="128" class="dataInput"></td>
- </tr>
-
- <tr>
-  <td class="dataRecord"><b>Description</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?php echo htmlspecialchars($resultset[0]['description']);?>" maxlength="128" class="dataInput"></td>
- </tr>
  <tr>
   <td colspan="2">
     <table cellspacing=20>
