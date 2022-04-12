@@ -318,7 +318,7 @@ function print_back_button() {
 	if(isset($_SERVER['HTTP_REFERER'])) {
 		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
 	}
-	echo("<form method=\"get\" action=\"$previous\"><button class=\"formButton\" type=\"submit\">Back</button></form>");
+	echo("<form method=\"get\" action=\"$previous?action=back\"><button class=\"formButton\" type=\"submit\">Back</button></form>");
 }
 
 function print_back_input() {
@@ -326,7 +326,7 @@ function print_back_input() {
 	if(isset($_SERVER['HTTP_REFERER'])) {
 		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
 	}
-	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
+	echo("<input onclick=\"window.location.href='$previous?action=back';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
 
 function session_load($box_id = null) {
