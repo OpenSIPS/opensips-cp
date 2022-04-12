@@ -21,7 +21,7 @@
  */
 
 
-
+session_start();
 require_once("../../../../../config/tools/users/alias_management/db.inc.php");
 require_once("../../../../../config/db.inc.php");
 session_load();
