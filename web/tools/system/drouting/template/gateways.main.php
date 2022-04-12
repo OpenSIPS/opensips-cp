@@ -153,7 +153,6 @@ if ($gw_attributes_mode != "none") {
 	}
 }
 ?>
-  <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
   <th class="listTitle">Memory State</th>
