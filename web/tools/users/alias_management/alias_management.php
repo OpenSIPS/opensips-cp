@@ -186,6 +186,15 @@ if ($action=="modify")
 ################
 # start search #
 ################
+if ($action=="") {
+	$_SESSION['fromusrmgmt']=0;
+	$_SESSION['username']="";
+	$_SESSION['domain']="";
+	$_SESSION['alias_username']="";
+	$_SESSION['alias_domain']="";
+	$_SESSION['alias_type']="";
+}
+
 if ($action=="dp_act")
 {
 
@@ -195,30 +204,32 @@ if ($action=="dp_act")
 		$fromusrmgmt=$_GET['fromusrmgmt'];
 		$_SESSION['fromusrmgmt']=1;
 		$_SESSION['username']=$_GET['username'];
-		$_SESSION['alias_domain']=$_GET['domain'];
+		$_SESSION['domain']=$_GET['domain'];
 	}
 
-        $_SESSION['alias_id']=$_POST['alias_id'];
+	$_SESSION['alias_id']=$_POST['alias_id'];
 
-        $_SESSION[$current_page]=1;
-        extract($_POST);
-        if ($show_all=="Show All") {
-			if (isset($_SESSION['fromusrmgmt']))
-				$_SESSION['fromusrmgmt']=0;
-				$_SESSION['username']="";
-                $_SESSION['alias_username']="";
-                $_SESSION['alias_domain']="";
-                $_SESSION['alias_type']="";
-        } else if($search=="Search"){
-				$_SESSION['username']=$_POST['username'];
-                $_SESSION['alias_username']=$_POST['alias_username'];
-                $_SESSION['alias_domain']=$_POST['alias_domain'];
-                $_SESSION['alias_type']=$_POST['alias_type'];
-        } else if($_SESSION['read_only']){
+	$_SESSION[$current_page]=1;
+	extract($_POST);
+	if ($show_all=="Show All") {
+		if (isset($_SESSION['fromusrmgmt']))
+			$_SESSION['fromusrmgmt']=0;
+		$_SESSION['username']="";
+		$_SESSION['domain']="";
+		$_SESSION['alias_username']="";
+		$_SESSION['alias_domain']="";
+		$_SESSION['alias_type']="";
+	} else if($search=="Search"){
+		$_SESSION['username']=$_POST['username'];
+		$_SESSION['domain']=$_POST['domain'];
+		$_SESSION['alias_username']=$_POST['alias_username'];
+		$_SESSION['alias_domain']=$_POST['alias_domain'];
+		$_SESSION['alias_type']=$_POST['alias_type'];
+	} else if($_SESSION['read_only']){
 
-                $errors= "User with Read-Only Rights";
+		$errors= "User with Read-Only Rights";
 
-        }
+	}
 }
 ##############
 # end search #
