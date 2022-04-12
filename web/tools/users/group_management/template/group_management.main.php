@@ -75,7 +75,7 @@ if(!$_SESSION['read_only']){
 		<input type="submit" name="show_all" value="Show All" class="searchButton">&nbsp;&nbsp;&nbsp;
 <?php
 if(!$_SESSION['read_only']){
-	echo('<input type="submit" class="formButton" name="delete" value="Delete" onclick="return confirmDeleteACL()">');
+	echo('<input type="submit" class="formButton" name="delete" value="Delete" onclick="return confirmDeleteALL()">');
 }
 ?>
 	</td>
@@ -148,7 +148,7 @@ echo('<th class="listTitle">Edit</th>
 
                 if(!$_SESSION['read_only']){
                         $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDeleteGRP()"><img src="../../../images/share/delete.png" border="0"></a>';
 
 		}
 ?>
