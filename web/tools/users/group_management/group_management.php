@@ -72,7 +72,7 @@ if ($action=="add_verified")
 				
                 $group_username = $_POST['username'];
                 $group_domain = $_POST['domain'];
-                $group_grp = $_POST['acl_grp'];
+                $group_grp = $_POST['group'];
 
                 
                 $sql = "INSERT INTO ".$table.
@@ -135,7 +135,7 @@ if ($action=="modify")
                 $id = $_GET['id'];
                 $group_username=$_POST['username'];
                 $group_domain=$_POST['domain'];
-                $group_grp = $_POST['acl_grp'];
+                $group_grp = $_POST['group'];
 
                 if ($group_username=="" || $group_domain=="" || $group_grp==""){
                         $errors = "Invalid data, the entry was not modified in the database";
@@ -189,6 +189,12 @@ if ($action=="modify")
 ################
 # start search #
 ################
+if ($action=="") {
+	$_SESSION['fromusrmgmt']=0;
+	$_SESSION['grp_username']=NULL;
+        $_SESSION['grp_domain']=NULL;
+	$_SESSION['grp_group']=NULL;
+}
 if ($action=="dp_act")
 {
 	if (isset($_GET['fromusrmgmt'])) {
@@ -196,41 +202,42 @@ if ($action=="dp_act")
 		$fromusrmgmt=$_GET['fromusrmgmt'];
 			
 		$_SESSION['fromusrmgmt']=1;
-		$_SESSION['acl_username']=$_GET['username'];
-	        $_SESSION['acl_domain']=$_GET['domain'];
+		$_SESSION['grp_username']=$_GET['username'];
+	        $_SESSION['grp_domain']=$_GET['domain'];
 	}
 
-        $_SESSION['acl_id']=$_POST['acl_id'];
+        $_SESSION['grp_id']=$_POST['grp_id'];
 
         $_SESSION[$current_page]=1;
         extract($_POST);
         if ($show_all=="Show All") {
-                $_SESSION['acl_username']="";
-                $_SESSION['acl_domain']="";
-                $_SESSION['acl_grp']="";
+                $_SESSION['grp_username']="";
+                $_SESSION['grp_domain']="";
+                $_SESSION['grp_group']="";
         } else if($search=="Search"){
-                $_SESSION['acl_username']=$_POST['acl_username'];
-                $_SESSION['acl_domain']=$_POST['acl_domain'];
-                $_SESSION['acl_grp']=$_POST['acl_grp'];
+                $_SESSION['grp_username']=$_POST['username'];
+                $_SESSION['grp_domain']=$_POST['domain'];
+                $_SESSION['grp_group']=$_POST['group'];
         } else if($_SESSION['read_only']){
 
                 $errors= "User with Read-Only Rights";
 
-        }else if($delete=="Delete Group"){
-                $sql_query = "";
+	}
+	if ($delete=="Delete") {
+        	$sql_query = "";
 		$sql_vals = array();
-                if( $_POST['acl_username'] != "" ) {
-                        $group_username = $_POST['acl_username'];
+        	if( $_POST['username'] != "" ) {
+                        $group_username = $_POST['username'];
                         $sql_query .= " AND username like ?";
 			array_push( $sql_vals, "%".$group_username."%");
                 }
-                if( ($_POST['acl_domain']!="ANY") && ($_POST['acl_domain']!="") ) {
-			$group_domain = $_POST['acl_domain'];
+                if( ($_POST['domain']!="ANY") && ($_POST['domain']!="") ) {
+			$group_domain = $_POST['domain'];
                         $sql_query .= " AND domain like ?";
 			array_push( $sql_vals, $group_domain);
 		}
-		if ($_POST['acl_grp']!="ANY"){
-			$group_grp = $_POST['acl_grp'];
+		if ($_POST['group']!="ANY"){
+			$group_grp = $_POST['group'];
 			$sql_query .= "AND grp =?";
 			array_push( $sql_vals, $group_grp);
 		}
@@ -239,8 +246,8 @@ if ($action=="dp_act")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( $group_vals );
-        }
+		$stm->execute( $sql_vals );
+	}
 }
 ##############
 # end search #

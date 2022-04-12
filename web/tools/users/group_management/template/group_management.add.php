@@ -26,37 +26,28 @@
  <tr align="center">
   <td colspan="2" class="mainTitle">Add New Group</td>
  </tr>
- <tr>
-  <td class="dataRecord"><b>Username</b></td>
-  <td class="dataRecord" width="275"><input  type="text" name="username" value="<?php if ($_SESSION['fromusrmgmt'])
-		echo $_SESSION['acl_username'];?>" maxlength="128" class="dataInput" >
-  </td>
- </tr>
 
- <tr>
-  <td class="dataRecord"><b>Domain</b></td>
-  <td class="dataRecord" width="275"><?php 
-  	if ($_SESSION['fromusrmgmt'])
-  		print_domains("domain",$_SESSION['acl_domain']);
-	else 
-		print_domains("domain",'');
-	?></td>
- </tr>
+<?php
+$grp_form['username'] = $_SESSION['grp_username'];
+$grp_form['domain'] = $_SESSION['grp_domain'];
+$grp_form['group'] = null;
+require("group_management.form.php");
+?>
 
- <tr>
-  <td class="dataRecord"><b>Group</b></td>
-  <td class="dataRecord" width="275"><?php print_groups("acl_grp",$acl_grp,FALSE)?></td>
-  </tr>
 
-  
  <tr>
   <td colspan="2">
     <table cellspacing=20>
       <tr>
-        <td class="dataRecord" align="right" width="50%"><input type="submit" name="add" value="Add" class="formButton"  onClick ="return Form_Validator();"></td>
+	<td class="dataRecord" align="right" width="50%">
+ 	<?php if (!$_SESSION['read_only']) {
+		echo('<input type="submit" name="adduser" value="Create" class="formButton">&nbsp;&nbsp;&nbsp;');
+	}?>
+	</td>
         <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
+  </td>
  </tr>
 
 </table>

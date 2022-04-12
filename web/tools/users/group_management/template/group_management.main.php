@@ -21,9 +21,9 @@
  */
 
 
-$search_ausername=$_SESSION['acl_username'];
-$search_adomain=$_SESSION['acl_domain'];
-$search_agrp=$_SESSION['acl_grp'];
+$search_ausername=$_SESSION['grp_username'];
+$search_adomain=$_SESSION['grp_domain'];
+$search_agrp=$_SESSION['grp_grp'];
 
 
 $sql_search="";
@@ -57,16 +57,16 @@ if(!$_SESSION['read_only']){
 <table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
 <tr>
 	<td class="searchRecord" align="left">Username</td>
-	<td class="searchRecord" width="200"><input type="text" name="acl_username"
+	<td class="searchRecord" width="200"><input type="text" name="username"
 	value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 <tr>
 	<td class="searchRecord" align="left">Domain</td>
-	<td class="searchRecord" width="200"> <?php print_domains("acl_domain",$search_adomain)?></td>
+	<td class="searchRecord" width="200"> <?php print_domains("domain",$search_adomain, TRUE)?></td>
 </tr>
 <tr>
 	<td class="searchRecord" align="left">Group</td>
-	<td class="searchRecord" width="200"> <?php print_groups("acl_grp",$search_agrp,TRUE)?></td>
+	<td class="searchRecord" width="200"> <?php print_groups("group",$search_agrp,TRUE)?></td>
 </tr>
 
 <tr height="10">

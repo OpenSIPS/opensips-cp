@@ -47,20 +47,15 @@ $index_row=0;
  <tr align="center">
   <td colspan="2" class="mainTitle">Edit Group</td>
  </tr>
- <tr>
-  <td class="dataRecord"><b>Username</b></td>
-  <td class="dataRecord" width="275"><input readonly type="text" name="username" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
- </tr>
 
- <tr>
-  <td class="dataRecord"><b>Domain</b></td>
-  <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain']);?></td>
- </tr>
 
- <tr>
-  <td class="dataRecord"><b>Group</b></td>
-  <td class="dataRecord" width="200"><?php print_groups("acl_grp",$resultset[0]['grp'],FALSE);?></td>
-  </tr>
+<?php
+$grp_form['username'] = $resultset[0]['username'];
+$grp_form['domain'] = $resultset[0]['domain'];
+$grp_form['group'] = $resultset[0]['grp'];
+require("group_management.form.php");
+?>
+
 
  <tr>
   <td colspan="2">

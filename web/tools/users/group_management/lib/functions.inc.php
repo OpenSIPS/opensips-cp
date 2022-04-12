@@ -21,7 +21,7 @@
 */
 
 
-function print_domains($type,$value)
+function print_domains($type,$value,$has_any)
 {
 
 	global $config;
@@ -38,14 +38,12 @@ function print_domains($type,$value)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
+	if ($has_any)
+	        $options[]=array("label"=>"ANY","value"=>"ANY");
         foreach ($result as $k=>$v) {
                 $options[]=array("label"=>$v['domain'],"value"=>$v['domain']);
         }
 
-        if ($value=='ANY') {
-                array_unshift($options,array("label"=>"ANY","value"=>"ANY"));
-                $value='';
-        }
         $start_index = 0;
 	$temp = '';
         $end_index = sizeof($options);
