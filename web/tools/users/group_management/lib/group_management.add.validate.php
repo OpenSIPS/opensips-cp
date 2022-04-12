@@ -21,16 +21,16 @@
  */
 
 require_once("../../../../../config/db.inc.php");
-require_once("../../../../../config/tools/users/acl_management/db.inc.php");
+require_once("../../../../../config/tools/users/group_management/db.inc.php");
 session_load();
 
         global $config;
-        if (isset($config->db_host_acl_management) && isset($config->db_user_acl_management) && isset($config->db_name_acl_management) ) {
-                $config->db_host = $config->db_host_acl_management;
-                $config->db_port = $config->db_port_acl_management;
-                $config->db_user = $config->db_user_acl_management;
-                $config->db_pass = $config->db_pass_acl_management;
-                $config->db_name = $config->db_name_acl_management;
+        if (isset($config->db_host_group_management) && isset($config->db_user_group_management) && isset($config->db_name_group_management) ) {
+                $config->db_host = $config->db_host_group_management;
+                $config->db_port = $config->db_port_group_management;
+                $config->db_user = $config->db_user_group_management;
+                $config->db_pass = $config->db_pass_group_management;
+                $config->db_name = $config->db_name_group_management;
         }
 	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 	try {

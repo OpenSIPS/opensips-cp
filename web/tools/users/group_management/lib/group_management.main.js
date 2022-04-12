@@ -2,14 +2,14 @@
   
 function confirmDelete(id)
 {
- var agree=confirm("Are you sure you want to delete this ACL?");
+ var agree=confirm("Are you sure you want to delete this Group?");
  if (agree)	return true;
   else return false;
 }
 
 function confirmDeleteACL()
 {
- var agree=confirm("Are you sure you want to delete this ACL?");
+ var agree=confirm("Are you sure you want to delete this Group?");
  if (agree)     return true;
   else return false;
 }
@@ -24,7 +24,7 @@ function goAdd(){
 
 	//document.getElementById('refreshform');
 	//document.forms['refreshform'].submit();
-	location = "acl_management.php?action=add";
+	location = "group_management.php?action=add";
 }
 
 
@@ -79,7 +79,7 @@ while(curDate-date < millis);
 
 function Form_Validator(){
 		
-		url = "lib/acl_management.add.validate.php?username="+document.getElementById('addnewacl').username.value+"&domain="+document.getElementById('addnewacl').domain.value+"&acl_grp="+document.getElementById('addnewacl').acl_grp.value;
+		url = "lib/group_management.add.validate.php?username="+document.getElementById('addnewacl').username.value+"&domain="+document.getElementById('addnewacl').domain.value+"&acl_grp="+document.getElementById('addnewacl').acl_grp.value;
 		
 		var http = getHTTPObject();
 		

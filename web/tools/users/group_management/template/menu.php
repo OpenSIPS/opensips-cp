@@ -24,7 +24,7 @@
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print "Users / ACL Management / ".$_SESSION['permission'];
+        <?php print "Users / Group Management / ".$_SESSION['permission'];
           display_settings_button();
         ?>   
     </td>

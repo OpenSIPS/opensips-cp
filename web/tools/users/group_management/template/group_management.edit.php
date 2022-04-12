@@ -45,7 +45,7 @@ $index_row=0;
 <table width="400" cellspacing="2" cellpadding="2" border="0">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="mainTitle">Edit ACL</td>
+  <td colspan="2" class="mainTitle">Edit Group</td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Username</b></td>

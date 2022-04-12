@@ -20,9 +20,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../common/cfg_comm.php");
- session_start();
- get_priv("acl_management");
- header("Location: acl_management.php");
+ //database host
+ //$config->db_host_group_management = "localhost";
+ 
+ //database port - leave empty for default
+ //$config->db_port_group_management = "";
+ 
+ //database connection user
+ //$config->db_user_group_management = "opensips";
+ 
+ //database connection password
+ //$config->db_pass_group_management = "opensipsrw";
+ 
+ //database name
+ //$config->db_name_group_management = "opensips";
+ 
+ //if ($config->db_port_group_management != "") $config->db_host_group_management = $config->db_host_group_management . ";port=" . $config->db_port_group_management;
  
 ?>

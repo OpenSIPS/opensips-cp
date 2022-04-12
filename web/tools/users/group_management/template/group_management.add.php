@@ -24,7 +24,7 @@
 <form id="addnewacl" action="<?=$page_name?>?action=add_verified&id=<?=$_GET['id']?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <td colspan="2" class="mainTitle">Add New ACL</td>
+  <td colspan="2" class="mainTitle">Add New Group</td>
  </tr>
  <tr>
   <td class="dataRecord"><b>Username</b></td>

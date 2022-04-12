@@ -21,7 +21,7 @@
  */
 	global $table_regex;
 
-$config->acl_management = array(
+$config->group_management = array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "General settings"
@@ -41,9 +41,9 @@ $config->acl_management = array(
 		"type" => "title",
 		"title" => "DB settings"
 	),
-	"table_acls" => array(
+	"table_groups" => array(
 		"default" => "grp",
-		"name"    => "ACLs Table",
+		"name"    => "Groups Table",
 		"validation_regex" => $table_regex,
 		"tip"     => "The name of the DB table where the groups (and mapping to SIP users) are stored.",
 		"type"    => "text"

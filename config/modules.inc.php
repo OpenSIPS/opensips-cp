@@ -40,17 +40,17 @@ $config_modules 	= array (
 		"name" 		=> "Users",
 		"icon"		=> "images/icon-user.svg",
 		"modules"	=> array (
-			"acl_management"	=> array (
+			"user_management"	=> array (
 				"enabled"		=> true,
-				"name"			=> "ACL Management"
+				"name"			=> "User Management"
 			),
 			"alias_management"	=> array (
 				"enabled"		=> true,
 				"name"			=> "Alias Management"
 			),
-			"user_management"	=> array (
+			"group_management"	=> array (
 				"enabled"		=> true,
-				"name"			=> "User Management"
+				"name"			=> "Group Management"
 			),
 		)
 	),

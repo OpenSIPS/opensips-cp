@@ -88,7 +88,7 @@ if(!$_SESSION['read_only']){
 
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New ACL" class="formButton add-new-btn">') ?>
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Group" class="formButton add-new-btn">') ?>
 </form>
 <br>
 

@@ -26,11 +26,11 @@ require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 
 $errors='';
-$current_page="current_page_acl_management";
+$current_page="current_page_group_management";
 
 session_load();
 
-$table=get_settings_value('table_acls');
+$table=get_settings_value('table_groups');
 
 include("lib/db_connect.php");
 
@@ -70,9 +70,9 @@ if ($action=="add_verified")
 {
         if(!$_SESSION['read_only']){
 				
-                $acl_username = $_POST['username'];
-                $acl_domain = $_POST['domain'];
-                $acl_grp = $_POST['acl_grp'];
+                $group_username = $_POST['username'];
+                $group_domain = $_POST['domain'];
+                $group_grp = $_POST['acl_grp'];
 
                 
                 $sql = "INSERT INTO ".$table.
@@ -82,11 +82,11 @@ if ($action=="add_verified")
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($acl_username, $acl_domain, $acl_grp) ) == false) {
+		if ($stm->execute( array($group_username, $group_domain, $group_grp) ) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 		} else {
                		$info="The new record was added";
-                	print "New ACL added!";
+                	print "New Group added!";
 		}
 	}
         else
@@ -133,11 +133,11 @@ if ($action=="modify")
         if(!$_SESSION['read_only']){
 
                 $id = $_GET['id'];
-                $acl_username=$_POST['username'];
-                $acl_domain=$_POST['domain'];
-                $acl_grp = $_POST['acl_grp'];
+                $group_username=$_POST['username'];
+                $group_domain=$_POST['domain'];
+                $group_grp = $_POST['acl_grp'];
 
-                if ($acl_username=="" || $acl_domain=="" || $acl_grp==""){
+                if ($group_username=="" || $group_domain=="" || $group_grp==""){
                         $errors = "Invalid data, the entry was not modified in the database";
                 } else {
 				
@@ -146,7 +146,7 @@ if ($action=="modify")
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			$stm->execute( array($acl_username, $acl_domain) );
+			$stm->execute( array($group_username, $group_domain) );
 			if ($stm->fetchColumn(0)<1) {
 				$errors="This user does not exist !!!";
 			} else {
@@ -156,9 +156,9 @@ if ($action=="modify")
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				$stm->execute( array($acl_username, $acl_domain, $acl_grp, $id) );
+				$stm->execute( array($group_username, $group_domain, $group_grp, $id) );
 				if ($stm->fetchColumn(0)>0) {
-					$errors="The ACL already exists for this user !!!";
+					$errors="The user already belongs in this group !!!";
 				}
 			}
 		}
@@ -169,10 +169,10 @@ if ($action=="modify")
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			if ($stm->execute( array($acl_username, $acl_domain, $acl_grp, $id) ) == false) {
+			if ($stm->execute( array($group_username, $group_domain, $group_grp, $id) ) == false) {
 				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
-                        	$info="The ACL was modified";
+                        	$info="The Group was modified";
 			}
                 }
         }else{
@@ -216,30 +216,30 @@ if ($action=="dp_act")
 
                 $errors= "User with Read-Only Rights";
 
-        }else if($delete=="Delete ACL"){
+        }else if($delete=="Delete Group"){
                 $sql_query = "";
 		$sql_vals = array();
                 if( $_POST['acl_username'] != "" ) {
-                        $acl_username = $_POST['acl_username'];
+                        $group_username = $_POST['acl_username'];
                         $sql_query .= " AND username like ?";
-			array_push( $sql_vals, "%".$acl_username."%");
+			array_push( $sql_vals, "%".$group_username."%");
                 }
                 if( ($_POST['acl_domain']!="ANY") && ($_POST['acl_domain']!="") ) {
-			$acl_domain = $_POST['acl_domain'];
+			$group_domain = $_POST['acl_domain'];
                         $sql_query .= " AND domain like ?";
-			array_push( $sql_vals, $acl_domain);
+			array_push( $sql_vals, $group_domain);
 		}
 		if ($_POST['acl_grp']!="ANY"){
-			$acl_grp = $_POST['acl_grp'];
+			$group_grp = $_POST['acl_grp'];
 			$sql_query .= "AND grp =?";
-			array_push( $sql_vals, $acl_grp);
+			array_push( $sql_vals, $group_grp);
 		}
         	$sql = "DELETE FROM ".$table." WHERE (1=1) " . $sql_query;
                 $stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		$stm->execute( $acl_vals );
+		$stm->execute( $group_vals );
         }
 }
 ##############
