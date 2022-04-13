@@ -52,41 +52,45 @@ if ($action=="modify_params")
 		}
 		if (is_null($box_id)) { 
 			foreach ($tools_params as $module=>$params) {
-					if ($params['type'] == "checklist") {
-						$checklist_values = implode( ',', $_POST[$module]);
-						if (is_null($checklist_values)) $checklist_values = "";
-						$_POST[$module] = $checklist_values;
-					}
-					
-					$sql = "INSERT INTO $table (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
-					$stm = $link->prepare($sql);
-					if ($stm === false) {
-					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				if ($params['type'] == "title")
+					continue;
+				if ($params['type'] == "checklist") {
+					$checklist_values = implode( ',', $_POST[$module]);
+					if (is_null($checklist_values)) $checklist_values = "";
+					$_POST[$module] = $checklist_values;
 				}
-					if ($stm->execute( array( $current_tool, $module, $_POST[$module], $current_tool, $module, $_POST[$module])) == false) {
-						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-					}    else {
-						$info="Admin credentials were modified";
-					}
+				
+				$sql = "INSERT INTO $table (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+				if ($stm->execute( array( $current_tool, $module, $_POST[$module], $current_tool, $module, $_POST[$module])) == false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+				}    else {
+					$info="Admin credentials were modified";
 				}
+			}
 		} else {
 			foreach ($tools_params as $module=>$params) {
-						if ($params['type'] == "checklist") {
-							$checklist_values = implode( ',', $_POST[$module]);
-							if (is_null($checklist_values)) $checklist_values = "";
-							$_POST[$module] = $checklist_values;
-						}
-						$sql = "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,".$box_id.")";
-						$stm = $link->prepare($sql);
-						if ($stm === false) {
-						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-					}
-						if ($stm->execute( array( $current_tool, $module, $_POST[$module])) == false) {
-							$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-						}    else {
-							$info="Admin credentials were modified";
-						}
-					}
+				if ($params['type'] == "title")
+					continue;
+				if ($params['type'] == "checklist") {
+					$checklist_values = implode( ',', $_POST[$module]);
+					if (is_null($checklist_values)) $checklist_values = "";
+					$_POST[$module] = $checklist_values;
+				}
+				$sql = "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,".$box_id.")";
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
+				if ($stm->execute( array( $current_tool, $module, $_POST[$module])) == false) {
+					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+				}    else {
+					$info="Admin credentials were modified";
+				}
+			}
 		}
 		unset($_SESSION['config'][$current_tool]);
 	}   else {
