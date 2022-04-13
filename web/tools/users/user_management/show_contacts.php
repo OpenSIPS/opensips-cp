@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once("../../../common/mi_comm.php");
 require_once("../../../common/cfg_comm.php");

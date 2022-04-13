@@ -20,9 +20,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+session_start();
 require_once("../../../../../config/db.inc.php");
 require_once("../../../../../config/tools/users/acl_management/db.inc.php");
-session_load();
 
         global $config;
         if (isset($config->db_host_acl_management) && isset($config->db_user_acl_management) && isset($config->db_name_acl_management) ) {
