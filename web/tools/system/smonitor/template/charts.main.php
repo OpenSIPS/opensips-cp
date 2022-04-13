@@ -61,7 +61,7 @@ else
      }
    }
    else $group[] = $g['name'];
-   $sql = "REPLACE INTO ".$config->table_monitored." (name, extra, box_id) VALUES (?, '', ?)";
+   $sql = "REPLACE INTO ".$config->table_monitored." (name, box_id) VALUES (?, ?)";
     $stm = $link->prepare($sql);
     if ($stm->execute(array($g['name'], $g['box_id'])) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
