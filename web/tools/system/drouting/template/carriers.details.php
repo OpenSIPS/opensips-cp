@@ -43,7 +43,7 @@
      <td class="dataRecord"><b>Memory state:</b> <?=$resultset[0]['enabled']?></td>
  </tr>
  <tr>
-  	<td class="dataRecord"><b>DB State</b> 
+	<td class="dataRecord"><b>DB State:</b>
 		<?php 
 			switch ($resultset[0]['state']){
 				case "0" : echo "Active"; break;
@@ -52,11 +52,16 @@
 		?>
 	</td>
  </tr>
+<?php
+$carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
+$carrier_attributes = get_settings_value("carrier_attributes");
+if ($carrier_attributes_mode != "none") { ?>
+ <tr>
+  <td class="dataRecord"><b><?=($carrier_attributes_mode == "input"?$carrier_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>
+ </tr>
+<?php } ?>
  <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b> <?=$resultset[0]['attrs']?></td>
  </tr>
 </table>
 <br>

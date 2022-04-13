@@ -54,6 +54,9 @@ $config->drouting = array(
         	),
 		"name"    => "Gateway's Types",
 		"type"    => "json",
+		"tip"     => "Different gateway's types used to clasify groups of gateways, that can be \"filtered\" in 
+		the script; if no type is used (a blank json is specified, '{}'), types will be transparent in the
+		provisioning and the gateways' type will all be forced to the value of the 'Default gateway type' parameter",
 		"json_format" => "object",
 		"example" => "{
 	\"0\" : \"In Gateway\",
@@ -68,19 +71,104 @@ $config->drouting = array(
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
 	),
+
+	"gw_attributes_mode" => array(
+		"name" => "Gateway Attributes Mode",
+		"type" => "dropdown",
+		"options" => array('None'=>'none', 'Input'=>'input','Params'=>'params'),
+		"tip"	  => "How to specify gateway's attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user of 'Params' when attributes are represented as URI parameters.",
+		"default" => "input"
+	),
+
 	"gw_attributes" => array(
-		"default" => array(),
+		"default" => array(
+			"display_name"=>"Attributes",
+			"add_prefill_value"=>"",
+			"validation_regexp"=>NULL,
+			"validation_error"=>NULL,
+		),
 		"name"    => "Gateway attributes",
 		"type"    => "json",
-		"example" => "{
+		"tip"	  => "If 'Gateways Atrributes Mode' is not 'none', represents the JSON description of the attributes.",
+		"example" => "
+/* 'Input' mode */
+{
 	\"display_name\" : \"Attributes\",
 	\"add_prefill_value\" : \"\",
 	\"validation_regexp\" : NULL,
 	\"validation_error\" : NULL,
+}
+
+/* 'Params' mode */
+{
+    \"cc\": {
+      \"display_main\": \"CC\",
+      \"display\": \"Concurrent Calls\",
+      \"type\": \"text\",
+      \"hint\": \"Number of Concurrent Calls allowed to send to this gateway. 0 means unlimited.\",
+      \"validation_regexp\": \"^[0-9]+$\"
+    },
+    \"cps\": {
+      \"display_main\": \"CPS\",
+      \"display\": \"Calls per Secons\",
+      \"type\": \"text\",
+      \"hint\": \"Number of Calls per Second allowed to send to this gateway. 0 means unlimited.\",
+      \"validation_regexp\": \"^[0-9]+$\",
+    }
 }"
 	),
 
 	"title2" => array(
+		"type" => "title",
+		"title" => "Carrier settings"
+	),
+
+	"carrier_attributes_mode" => array(
+		"name" => "Carrier Attributes Mode",
+		"type" => "dropdown",
+		"options" => array('None'=>'none', 'Input'=>'input','Params'=>'params'),
+		"tip"	  => "How to specify carrier's attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user of 'Params' when attributes are represented as URI parameters.",
+		"default" => "input"
+	),
+
+	"carrier_attributes" => array(
+		"default" => array(
+			"display_name"=>"Attributes",
+			"add_prefill_value"=>"",
+			"validation_regexp"=>NULL,
+			"validation_error"=>NULL,
+		),
+		"name"    => "Carrier attributes",
+		"type"    => "json",
+		"tip"	  => "If 'Carrier Atrributes Mode' is not 'none', represents the JSON description of the attributes.",
+		"example" => "
+/* 'Input' mode */
+{
+	\"display_name\" : \"Attributes\",
+	\"add_prefill_value\" : \"\",
+	\"validation_regexp\" : NULL,
+	\"validation_error\" : NULL,
+}
+
+/* 'Params' mode */
+{
+    \"cc\": {
+      \"display_main\": \"CC\",
+      \"display\": \"Concurrent Calls\",
+      \"type\": \"text\",
+      \"hint\": \"Number of Concurrent Calls allowed to send to this carrier. 0 means unlimited.\",
+      \"validation_regexp\": \"^[0-9]+$\"
+    },
+    \"cps\": {
+      \"display_main\": \"CPS\",
+      \"display\": \"Calls per Secons\",
+      \"type\": \"text\",
+      \"hint\": \"Number of Calls per Second allowed to send to this carrier. 0 means unlimited.\",
+      \"validation_regexp\": \"^[0-9]+$\",
+    }
+}"
+	),
+	"title3" => array(
 		"type" => "title",
 		"title" => "Rules settings"
 	),
@@ -98,17 +186,18 @@ $config->drouting = array(
 }"
 	),
 
-	"title3" => array(
+	"title4" => array(
 		"type" => "title",
 		"title" => "Group settings"
 	),
 	"group_id_method" => array(
 		"default" => "static",
 		"name"    => "Group ID method",
-		"type"    => "text",
+		"type"    => "dropdown",
+		"options" => array("static","dynamic"),
 		"validation_regex" => null,
-		"tip"     => "How the handle the drouting groups : 'static; -
-		 the groups are statically configured via the 'Settings' tab ; 'dynamic' - the groups are read from the DB group table."
+		"tip"     => "How the handle the drouting groups: 'static; -
+		 the groups are statically configured via the 'Routing groups' parameter; 'dynamic' - the groups are read from the DB group table."
 	),
 	"default_domain" => array(
 		"default" => "yourdomain.net",
@@ -118,7 +207,7 @@ $config->drouting = array(
 		"validation_regex" => null,
 	),
 
-	"title4" => array(
+	"title5" => array(
 		"type" => "title",
 		"title" => "DB settings"
 	),
@@ -151,7 +240,7 @@ $config->drouting = array(
 		"tip"     => "Database table for storing the drouting data"
 	),
 
-	"title5" => array(
+	"title6" => array(
 		"type" => "title",
 		"title" => "Display settings"
 	),

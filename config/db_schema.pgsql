@@ -56,14 +56,16 @@ SET CLIENT_ENCODING TO 'latin1' ;
 CREATE TABLE ocp_boxes_config (
   id integer Primary KEY DEFAULT nextval('ocp_boxes_config'),
   mi_conn text DEFAULT NULL,
-  monit_conn text NOT NULL,
+  monit_conn text DEFAULT NULL,
   monit_user text DEFAULT NULL,
   monit_pass text DEFAULT NULL,
-  monit_ssl text NOT NULL,
+  monit_ssl text DEFAULT NULL,
   desc text NOT NULL DEFAULT '',
   smonitcharts text DEFAULT NULL,
   assoc_id integer DEFAULT '-1',
 );
+
+INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
 
 -- --------------------------------------------------------
 
@@ -76,6 +78,8 @@ CREATE TABLE ocp_system_config (
   name text DEFAULT NULL,
   desc text DEFAULT ''
 )
+
+INSERT INTO ocp_system_config (assoc_id, name, `desc`) values (1,'System 0','Default system');
 
 -- --------------------------------------------------------
 

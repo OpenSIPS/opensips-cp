@@ -27,47 +27,34 @@
   <td colspan="2" class="mainTitle">New Alias</td>
  </tr>
 
- <tr>
-  <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord"><input <?php if (isset($_SESSION['fromusrmgmt'])) if ($_SESSION['fromusrmgmt']) echo "readonly ";?> type="text" name="username" 
-  value="<?=$username?>" maxlength="128" class="dataInput"></td>
- </tr>
+<?php
+$am_edit = FALSE;
+$am_form['username'] = $_SESSION['username'];
+$am_form['domain'] = $_SESSION['domain'];
+$am_form['alias_username'] = null;
+$am_form['domain_username'] = $_SESSION['domain'];
+$am_form['alias_type'] = null;
+require("alias_management.form.php");
+?>
 
- <tr>
-  <td class="dataRecord"><b>Domain:</b></td>
-  <td class="dataRecord"><?php print_domains("domain",'',FALSE)?></td>
-  <?php if (isset($_SESSION['fromusrmgmt'])) 
-  			if ($_SESSION['fromusrmgmt']){ 
-				echo "<script>\n";
-				echo "setReadonly('domain');\n";
-				echo "</script>\n";
-			}
-  ?>
- </tr>
 
- <tr>
-  <td class="dataRecord"><b>Alias Username:</b></td>
-  <td class="dataRecord"><input type="text" name="alias_username"  value="<?=$alias_username?>"maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord"><b>Alias Domain:</b></td>
-  <td class="dataRecord"><?php print_domains("alias_domain",'',FALSE)?></td>
- </tr>
- 
- <tr>
-  <td class="dataRecord"><b>Alias Type:</b></td>
-  <td class="dataRecord"><?php print_aliasType('',FALSE)?></td>
- </tr>
-  
  <tr>
   <td colspan="2">
     <table cellspacing=20>
       <tr>
-	<td class="dataRecord" align="right" width="50%"><input type="submit" name="add" value="Add" class="formButton margin-right-0"  onClick ="return Form_Validator(<?php echo get_settings_value("alias_format"); ?>);"></td>
+	<td class="dataRecord" align="right" width="50%">
+ 	<?php if (!$_SESSION['read_only']) {
+		echo('<input type="submit" name="adduser" value="Create" class="formButton">&nbsp;&nbsp;&nbsp;');
+	}?>
+	</td>
         <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
     </table>
+  </td>
+ </tr>
+
+ <tr align="center">
+  <td colspan="2" class="dataRecord" >
  </tr>
 
 </table>

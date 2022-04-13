@@ -20,28 +20,27 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-function get_status($gwid){
-
+function get_gw_types()
+{
+ $gateways = get_settings_value("gateway_types_file");
+ $gw_types = array();
+ foreach ($gateways as $key => $value) {
+	 $gw_types[$key] = $key . " - " . $value;
+ }
+ return $gw_types;
 }
+
 
 function get_types($name, $set, $width=200)
 {
- $gateways = get_settings_value("gateway_types_file");
- $values = array_keys($gateways);
- $content = array_values($gateways);
- for ($i =0; $i <count($values); $i++) {
-   $values[$i] = (string) $values[$i];
- }
+ $gateways = get_gw_types();
  echo('<select name="'.$name.'" id="'.$name.'" size="1" class="dataSelect" style="width:'.$width.';">');
  if ($name=="search_type") echo('<option value="">- all types -</option>');
  
- for ($i=0; $i<count($values); $i++)
- {
-  if ($set==$values[$i]) $xtra = 'selected';
-   else $xtra ='';
-  if($values[$i]!=NULL)
-	echo('<option value="'.$values[$i].'" '.$xtra.'>'.$values[$i].' - '.$content[$i].'</option>');
+ foreach ($gateways as $key => $value) {
+  if ($set==$key) $xtra = 'selected';
+  else $xtra ='';
+  echo('<option value="'.$key.'" '.$xtra.'>'.$value.'</option>');
  }
  echo('</select>');
  return;

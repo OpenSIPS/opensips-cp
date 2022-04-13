@@ -28,6 +28,7 @@ $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'
 
 // date input from the first box only
 $message=mi_command('ds_list', NULL, $mi_connectors[0], $errors);
+$errors="";
 
 if ($message!=NULL) {
 	if ($message['PARTITIONS'])
@@ -51,54 +52,35 @@ $search_setid=$_SESSION['dispatcher_setid'];
 $search_dest=$_SESSION['dispatcher_dest'];
 $search_descr=$_SESSION['dispatcher_descr'];
 
-if (get_settings_value("dispatcher_groups")) {
-	/* cache sets in set_cache */
-	$set_cache = array();
-	switch (get_settings_value("dispatcher_groups")['type']) {
+$dispatcher_group = get_settings_value("dispatcher_groups");
+$dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");
+switch ($dispatcher_group_mode) {
 	case "database":
-		$query = "SELECT " .
-			get_settings_value("dispatcher_groups")['id'] . " AS id, " .
-			get_settings_value("dispatcher_groups") . " AS name " .
-			"FROM " . get_settings_value("dispatcher_groups")['table'];
+		$set_cache = array();
+		$query = "SELECT " . $dispatcher_group['id'] . " AS id, " .
+			$dispatcher_group['name'] . " AS name " .
+			"FROM " . $dispatcher_group['table'];
 
-		$set_values = array();
-		// fetch only the subset we need  for the groups that might match
-		if ($search_setid !="") {
-			$query .= " WHERE " . get_settings_value("dispatcher_groups")['name'] . " LIKE ?";
-			array_push($set_values, "%".$search_setid."%");
-		}
 		$stm = $link->prepare($query);
 		if ($stm===FALSE) {
 			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
 		}
-		$stm->execute($set_values);
+		$stm->execute();
 		$results = $stm->fetchAll();
 		foreach ($results as $key => $value)
 			$set_cache[$value['id']] = $value['name'];
 		break;
 
 	case "array":
-		if ($search_setid !="") {
-			foreach (get_settings_value("dispatcher_groups")['array'] as $key => $value) {
-				if (strpos($value, $search_setid) !== false)
-					$set_cache[$key] = $value;
-			}
-		} else
-			$set_cache = get_settings_value("dispatcher_groups")['array'];
+		$set_cache = $dispatcher_group;
 		break;
-	}
-	if ($search_setid !="" && count($set_cache) != 0) {
-		/* here set_cache contains all the values */
-		$results_no = count($set_cache);
-		if ($results_no > 1) {
-			$inclause=implode(',',array_fill(0,$results_no,'?'));
-			$sql_search.=" and setid IN (" . $inclause . ")";
-		} else
-			$sql_search.=" and setid=?";
-		foreach ($set_cache as $key => $value)
-			array_push($sql_vals, $key);
-	}
-} else if ($search_setid != "") {
+
+	case "static":
+		$search_setid = $dispatcher_group; /* always force the used dispatcher group */
+		break;
+}
+
+if ($search_setid != "") {
 	$sql_search.=" and setid=?";
 	array_push( $sql_vals, $search_setid);
 }
@@ -118,6 +100,8 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 7;
 }
+if ($dispatcher_group_mode == "static")
+	$colspan--;
   ?>
 <div id="dialog" class="dialog" style="display:none"></div>
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
@@ -127,8 +111,19 @@ if(!$_SESSION['read_only']){
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord">SetID</td>
-  <td class="searchRecord" width="200"><input type="text" name="dispatcher_setid" 
-  value="<?=$search_setid?>" maxlength="16" class="searchInput"></td>
+  <td class="searchRecord" width="200">
+<?php if ($dispatcher_group_mode == "input") { ?>
+  <input type="text" name="dispatcher_setid" value="<?=$search_setid?>" maxlength="16" class="searchInput">
+<?php } else { ?>
+ <select name="dispatcher_setid" id="dispatcher_setid" size="1" class="dataSelect" style="width:200;">
+   <option value="">any</option>
+<?php foreach ($dispatcher_group as $key=>$value) { ?>
+<?php 	$selected = ($key == $search_setid)?"selected":""; ?>
+<option value="<?=$key?>" <?=$selected?>><?=$value?></option>
+<?php } ?>
+ </select>
+<?php } ?>
+  </td>
  <tr>
  <td class="searchRecord">Destination</td>
  <td class="searchRecord" width="200"><input type="text" name="dispatcher_dest" 
@@ -160,7 +155,9 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
+<?php if ($dispatcher_group_mode != "static") { ?>
   <th class="listTitle">SetID</th>
+<?php } ?>
   <th class="listTitle">Destination</th>
   <th class="listTitle">Socket</th>
   <th class="listTitle">Weight</th>
@@ -177,18 +174,14 @@ if(!$_SESSION['read_only']){
   ?>
  </tr>
 <?php
-if (get_settings_value("dispatcher_groups") && count($set_cache) == 0) {
-	$data_no = 0; /* didn't find any available set :(, no need to query anything */
-} else {
-	if ($sql_search=="") $sql_command="from ".$table." order by setid asc";
-	else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
-	$stm = $link->prepare("select count(*) ".$sql_command);
-	if ($stm===FALSE) {
+if ($sql_search=="") $sql_command="from ".$table." order by setid asc";
+else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
+$stm = $link->prepare("select count(*) ".$sql_command);
+if ($stm===FALSE) {
 	die('Failed to issue query [select count (*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
-	}
-	$stm->execute( $sql_vals );
-	$data_no = $stm->fetchColumn(0);
 }
+$stm->execute( $sql_vals );
+$data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
@@ -225,7 +218,7 @@ else
 
 		if (in_array($resultset[$i]['destination'],$sipURI)) {
 			$key = array_search($resultset[$i]['destination'],$sipURI);
-			$state[$i] = get_settings_value("status")[trim($flag[$key])];
+			$state[$i] = trim($flag[$key]);
 		} else {
 		        $state[$i] = "-";
 		}
@@ -242,14 +235,16 @@ else
 
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;
-<?php
-		if (get_settings_value("dispatcher_groups") && isset($set_cache[$resultset[$i]['setid']])) {
-			echo ($set_cache[$resultset[$i]['setid']]);
-		} else {
-			echo ($resultset[$i]['setid']);
-		}
-?></td>
+<?php switch ($dispatcher_group_mode) {
+case "static":
+	break;
+case "input":
+	echo('<td class="'.$row_style.'">&nbsp;'.$resultset[$i]['setid'].'</td>');
+	break;
+default:
+	echo('<td class="'.$row_style.'">&nbsp;'.(isset($set_cache[$resultset[$i]['setid']])?$set_cache[$resultset[$i]['setid']]:$resultset[$i]['setid']).'</td>');
+	break;
+} ?>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['destination']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['socket']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['weight']?></td>

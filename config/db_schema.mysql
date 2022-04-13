@@ -48,15 +48,17 @@ CREATE TABLE `ocp_monitoring_stats` (
 CREATE TABLE `ocp_boxes_config` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `mi_conn` varchar(64) DEFAULT NULL,
-  `monit_conn` varchar(64) NOT NULL,
+  `monit_conn` varchar(64) DEFAULT NULL,
   `monit_user` varchar(64) DEFAULT NULL,
   `monit_pass` varchar(64) DEFAULT NULL,
-  `monit_ssl` varchar(5) NOT NULL,
+  `monit_ssl` varchar(5) DEFAULT NULL,
   `desc` varchar(64) NOT NULL DEFAULT '',
   `smonitcharts` varchar(5) DEFAULT NULL,
   `assoc_id` varchar(10) DEFAULT '-1',
   PRIMARY KEY (`id`)
 );
+
+INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
 
 -- --------------------------------------------------------
 
@@ -70,6 +72,8 @@ CREATE TABLE `ocp_system_config` (
   `desc` varchar(64) DEFAULT '',
   PRIMARY KEY (`assoc_id`)
 );
+
+INSERT INTO ocp_system_config (assoc_id, name, `desc`) values (1,'System 0','Default system');
 
 -- --------------------------------------------------------
 

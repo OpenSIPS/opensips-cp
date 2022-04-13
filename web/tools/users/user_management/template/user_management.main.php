@@ -40,8 +40,8 @@ $search_domain = $_SESSION['lst_domain'];
 
 ## check what other tools are available
 require("../../../../config/modules.inc.php");
-if ( file_exists("../acl_management") &&
-$config_modules["users"]["modules"]["acl_management"]["enabled"]==true
+if ( file_exists("../group_management") &&
+$config_modules["users"]["modules"]["group_management"]["enabled"]==true
 )
 	$has_acl = true;
 else
@@ -235,7 +235,7 @@ else
 		else $row_style="rowEven";
 
 		if ($has_acl) {
-			$group_link = '<a href="../acl_management/acl_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="../../../images/share/info.png" border="0"></a>';
+			$group_link = '<a href="../group_management/group_management.php?action=dp_act&fromusrmgmt=1&username='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"><img src="../../../images/share/info.png" border="0"></a>';
 			
 		}
 		if ($has_alias) {

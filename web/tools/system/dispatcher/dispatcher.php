@@ -74,6 +74,8 @@ if ($action=="do_add")
 		$errors= "User with Read-Only Rights";
 	} else {
 		$setid=$_POST['setid'];
+		if (!isset($setid))
+			$setid = get_settings_value("dispatcher_groups");
 		$destination=$_POST['destination'];
 		$socket = $_POST['socket'];
 		$state = $_POST['state'];
@@ -133,6 +135,8 @@ if ($action=="modify")
 	} else {
 		$id = $_GET['id'];
 		$setid=$_POST['setid'];
+		if (!isset($setid))
+			$setid = get_settings_value("dispatcher_groups");
 		$destination=$_POST['destination'];
 		$socket = $_POST['socket'];
 		$state = $_POST['state'];
@@ -243,9 +247,15 @@ if ($action=="change_state") {
 	$address = $_GET['address'];
 
 	$mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+	$params = array("state"=>$desired_state,"group"=>$group,"address"=>$address);
+	$dispatcher_partition = get_settings_value("dispatcher_partition");
+	if ($dispatcher_partition && $dispatcher_partition != "")
+		$params["partition"] = $dispatcher_partition;
 	for ($i=0;$i<count($mi_connectors);$i++){
-	        $message=mi_command("ds_set_state", array("state"=>$desired_state,"group"=>$group,"address"=>$address),$mi_connectors[$i],$errors);
+	        $message=mi_command("ds_set_state", $params, $mi_connectors[$i],$errors);
 	}
+	if ($errors)
+		$errors=join(", ", $errors);
 
 
 }

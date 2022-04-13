@@ -34,13 +34,21 @@ $command="dp_reload";
 <?php
 
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$dialplan_partition = get_settings_value("dialplan_partition");
+if ($dialplan_partition == "")
+	$dialplan_partition = false;
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
-	$message=mi_command($command, NULL, $mi_connectors[$i], $errors);
+	$errors = NULL;
+	$message=mi_command($command,
+		($dialplan_partition?array("partition"=>$dialplan_partition):NULL),
+		$mi_connectors[$i], $errors);
 	if (empty($errors)) {
 		echo "<font color='green'><b>Success</b></font>";
+	} else {
+		echo '<tr><td align="center"><div class="formError">'.join(", ", $errors).'</div></td></tr>';
 	}
 	echo "<br>";
 }

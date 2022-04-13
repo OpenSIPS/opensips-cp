@@ -26,22 +26,22 @@
   <td class="mainTitle">Detailed view for Gateway <?=$_GET['gwid']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Gateway ID</b> <?=$resultset[0]['gwid']?></td>
+  <td class="dataRecord"><b>Gateway ID:</b> <?=$resultset[0]['gwid']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>GW Type</b> <?=get_type($resultset[0]['type'])?></td>
+  <td class="dataRecord"><b>GW Type:</b> <?=get_type($resultset[0]['type'])?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>SIP Address</b> <?=$resultset[0]['address']?></td>
+  <td class="dataRecord"><b>SIP Address:</b> <?=$resultset[0]['address']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Strip</b> <?=$resultset[0]['strip']?></td>
+  <td class="dataRecord"><b>Strip:</b> <?=$resultset[0]['strip']?></td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>PRI Prefix</b> <?=$resultset[0]['pri_prefix']?></td>
+  <td class="dataRecord"><b>PRI Prefix:</b> <?=$resultset[0]['pri_prefix']?></td>
  </tr>
 <tr>
-  	<td class="dataRecord"><b>Probe mode</b> 
+  	<td class="dataRecord"><b>Probe mode:</b> 
 		<?php 
 			switch ($resultset[0]['probe_mode']){
 				case "0" : echo "0 - Never"; break;
@@ -52,10 +52,10 @@
 	</td>
  </tr>
  <tr>
-  <td class="dataRecord"><b>Socket</b> <?=$resultset[0]['socket']?></td>
+  <td class="dataRecord"><b>Socket:</b> <?=$resultset[0]['socket']?></td>
  </tr>
  <tr>
-  	<td class="dataRecord"><b>State</b> 
+  	<td class="dataRecord"><b>State:</b> 
 		<?php 
 			switch ($resultset[0]['state']){
 				case "0" : echo "0 - Active"; break;
@@ -65,12 +65,16 @@
 		?>
 	</td>
  </tr>
+<?php
+$gw_attributes_mode = get_settings_value("gw_attributes_mode");
+$gw_attributes = get_settings_value("gw_attributes");
+if ($gw_attributes_mode != "none") { ?>
  <tr>
- <tr>
-  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b> <?=$resultset[0]['attrs']?></td>
+  <td class="dataRecord"><b><?=($gw_attributes_mode == "input"?$gw_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>
  </tr>
+<?php } ?>
  <tr>
-  <td class="dataRecord"><b>Description</b> <?=$resultset[0]['description']?></td>
+  <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
 </table>
 <br>

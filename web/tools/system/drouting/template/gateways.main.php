@@ -71,6 +71,7 @@
         $sql_search.=" and attrs like ?";
 	array_push( $sql_vals, "%".$search_attrs."%");
  }
+ $gateways_types_cache = get_settings_value("gateway_types_file");
 
 ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
@@ -78,10 +79,12 @@
   <td class="searchRecord">Gateway ID </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwid" value="<?=$search_gwid?>" maxlength="128" class="searchInput"></td>
  </tr>
+<?php if (count($gateways_types_cache) != 0) { ?>
  <tr>
   <td class="searchRecord">GW Type </td>
   <td class="searchRecord" width="200"><?=get_types("search_type", $search_type)?></td>
  </tr>
+<?php } ?>
  <tr>
   <td class="searchRecord">SIP Address </td>
   <td class="searchRecord" width="200"><input type="text" name="search_address" value="<?=$search_address?>" maxlength="128" class="searchInput"></td>
@@ -100,11 +103,16 @@
 	</select>
   </td>
 </tr>
+<?php
+$gw_attributes_mode = get_settings_value("gw_attributes_mode");
+$gw_attributes = get_settings_value("gw_attributes");
+if ($gw_attributes_mode == "input") {
+?>
  <tr>
- <td class="searchRecord"><?=get_settings_value("gw_attributes")["display_name"] ?> </td>
+ <td class="searchRecord"><?=$gw_attributes["display_name"] ?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="128" class="searchInput"></td>
  </tr>
- <tr>
+<?php } ?>
 
  <tr>
   <td class="searchRecord">Description </td>
@@ -126,13 +134,25 @@
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="listTitle">GWID</th>
+<?php if (count($gateways_types_cache) != 0) { ?>
   <th class="listTitle">Type</th>
+<?php } ?>
   <th class="listTitle">Address</th>
   <th class="listTitle">Strip</th>
   <th class="listTitle">PRI Prefix</th>
   <th class="listTitle">Probe Mode</th>
   <th class="listTitle">Socket</th>
-  <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
+<?php
+if ($gw_attributes_mode != "none") {
+	if ($gw_attributes_mode == "input") {
+		echo('<th class="listTitle"><'.$gw_attributes["display_name"].'></th>');
+	} else {
+		foreach ($gw_attributes as $key => $value) {
+			echo('<th class="listTitle">'.(isset($value["display_main"])?$value["display_main"]:$value["display"]).'</th>');
+		}
+	}
+}
+?>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
   <th class="listTitle">Memory State</th>
@@ -173,8 +193,9 @@ if (!is_null($message)) {
  require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
+ $colspan = (count($gateways_types_cache) != 0?15:14);
  if ($data_no==0) 
- 	echo('<tr><td colspan="15" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=get_settings_value("results_per_page");
@@ -195,6 +216,8 @@ if (!is_null($message)) {
  }
  $stm->execute( $sql_vals );
  $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+ if ($gw_attributes_mode != "none")
+  require_once("lib/common.functions.inc.php");
 
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)
@@ -227,9 +250,6 @@ if (!is_null($message)) {
    if ($resultset[$i]['pri_prefix']!="") $pri_prefix=$resultset[$i]['pri_prefix'];
     else $pri_prefix="&nbsp;";
 
-   if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
-    else $attrs="&nbsp;";
-
    switch ($resultset[$i]['probe_mode']) {
    	case "0" : $probe_mode = "Never"; break;
 	case "1" : $probe_mode = "When disabled"; break;
@@ -247,13 +267,31 @@ if (!is_null($message)) {
 ?>
  <tr>
   <td class="<?=$row_style?>"><?=$resultset[$i]['gwid']?></td>
-  <td class="<?=$row_style?>"><?=$resultset[$i]['type']?></td>
+<?php if (count($gateways_types_cache) != 0) { ?>
+  <td class="<?=$row_style?>"><?=(isset($gateways_types_cache[$resultset[$i]['type']])?$gateways_types_cache[$resultset[$i]['type']]:$resultset[$i]['type'])?></td>
+<?php } ?>
   <td class="<?=$row_style?>"><?=$resultset[$i]['address']?></td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['strip']?></td>
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>
   <td class="<?=$row_style?>"><?=$probe_mode?> </td>
   <td class="<?=$row_style?>"><?=$resultset[$i]['socket']?></td>
-  <td class="<?=$row_style?>"><?=$attrs?> </td>
+<?php
+if ($gw_attributes_mode == "input") {
+	if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
+	else $attrs="&nbsp;";
+	echo('<td class="'.$row_style.'">'.$attrs.'</td>');
+} else if ($gw_attributes_mode == "params") {
+	$attr_map = dr_get_attrs_map($resultset[$i]['attrs']);
+	foreach ($gw_attributes as $key => $value) {
+		$val = dr_get_attrs_val($attr_map, $key, $value);
+		if ($value["type"] == "checkbox" && $val == true)
+			$val = "<img src='../../../images/share/active.png'>";
+		else if (isset($value["value_wrapper_func"]))
+			$val = $value["value_wrapper_func"]($attr_map[$key], $val);
+		echo("<td class=\"".$row_style."\">".$val."</td>");
+	}
+}
+?>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$state?></td>
   <td class="<?=$row_style."Img"?>" align="center"><?=$status?></td>

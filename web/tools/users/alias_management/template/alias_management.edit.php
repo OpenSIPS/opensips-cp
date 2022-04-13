@@ -44,29 +44,16 @@ $index_row=0;
  <tr align="center">
   <td colspan="2" class="mainTitle">Edit Alias</td>
  </tr>
- <tr>
-  <td class="dataRecord"><b>Username:</b></td>
-  <td class="dataRecord" width="275"><input readonly type="text" name="username" value="<?=$resultset[0]['username']?>" maxlength="128" class="dataInput"></td>
- </tr>
 
- <tr>
-  <td class="dataRecord"><b>Domain:</b></td>
-  <td class="searchRecord" width="200"><?php print_domains("domain",$resultset[0]['domain'],FALSE);?>
-  <script>
-  	setReadonly('domain');
-  </script>
 
- </tr>
-
- <tr>
-  <td class="dataRecord"><b>Alias Username</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="alias_username" value="<?=$resultset[0]['alias_username']?>" maxlength="128" class="dataInput"></td>
-  </tr>
-
- <tr>
-  <td class="dataRecord"><b>Alias Domain</b></td>
-  <td class="searchRecord" width="200"><?php print_domains("alias_domain",$resultset[0]['alias_domain'],FALSE);?>
- </tr>
+<?php
+$am_edit = TRUE;
+$am_form['username'] = $resultset[0]['username'];
+$am_form['domain'] = $resultset[0]['domain'];
+$am_form['alias_username'] = $resultset[0]['alias_username'];
+$am_form['alias_domain'] = $resultset[0]['alias_domain'];
+require("alias_management.form.php");
+?>
 
  <tr>
   <td colspan="2">

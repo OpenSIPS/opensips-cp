@@ -220,7 +220,7 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
  $custom_config[$module_id][1]['custom_table'] = get_settings_value("flows_custom_table");
  $custom_config[$module_id][1]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][1]['custom_table_order_by'] = $custom_config[$module_id][1]['custom_table_primary_key'];
- $custom_config[$module_id][1]['per_page'] = get_settings_value("flows_per_age");
+ $custom_config[$module_id][1]['per_page'] = get_settings_value("flows_per_page");
  $custom_config[$module_id][1]['page_range'] = get_settings_value("flows_page_range");
 
 /*

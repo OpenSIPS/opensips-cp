@@ -21,39 +21,41 @@
  */
 
 require("../../../common/forms.php");
+$set_cache = array();
+$dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");
+$dispatcher_group = get_settings_value("dispatcher_groups");
 
-if (get_settings_value("dispatcher_groups")) {
-	$set_keys = array();
-	$set_values = array();
-	switch (get_settings_value("dispatcher_groups")['type']) {
+switch ($dispatcher_group_mode) {
+	case "static":
+		break;
+	case "input":
+		form_generate_input_text("Set ID", "The numerical ID of the dispatcher set/group for the new destination",
+			"setid", "n", $ds_form['setid'], 128, "^[0-9]+$");
+		break;
 	case "database":
-		$query = "SELECT " .
-			get_settings_value("dispatcher_groups")['id'] . " AS id, " .
-			get_settings_value("dispatcher_groups") . " AS name " .
-			"FROM " . get_settings_value("dispatcher_groups")['table'];
+		$query = "SELECT " . $dispatcher_group['id'] . " AS id, " .
+			$dispatcher_group['name'] . " AS name " .
+			"FROM " . $dispatcher_group['table'];
 
+		$set_values = array();
+		// fetch only the subset we need  for the groups that might match
 		$stm = $link->prepare($query);
 		if ($stm===FALSE) {
 			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
 		}
-		$stm->execute();
+		$stm->execute($set_values);
 		$results = $stm->fetchAll();
-		foreach ($results as $key => $value) {
-			array_push($set_keys, $value['id']);
-			array_push($set_values, $value['name']);
-		}
-		break;
+		foreach ($results as $key => $value)
+			$set_cache[$value['id']] = $value['name'];
+		/* fallback */
 
 	case "array":
-		$set_keys = array_keys(get_settings_value("dispatcher_groups")['array']);
-		$set_values = array_values(get_settings_value("dispatcher_groups")['array']);
+		if ($dispatcher_group_mode == "array")
+			$set_cache = $dispatcher_group;
+		form_generate_select("Set ID", "The numerical ID of the dispatcher set/group for the new destination",
+			"setid", "y", $ds_form['setid'],
+			array_keys($set_cache), array_values($set_cache));
 		break;
-	}
-	form_generate_select("Set ID", "The numerical ID of the dispatcher set/group for the new destination",
-		"setid", "y", $ds_form['setid'], $set_keys, $set_values);
-} else {
-	form_generate_input_text("Set ID", "The numerical ID of the dispatcher set/group for the new destination",
-		"setid", "n", $ds_form['setid'], 128, "^[0-9]+$");
 }
 
 form_generate_input_text("Destination", "SIP URI pointing to the destination",
