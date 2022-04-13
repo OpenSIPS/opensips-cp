@@ -31,7 +31,7 @@
  require("template/header.php");
  
  session_load(); 
- print_r(get_mi_modules($current_box));
+ get_mi_modules($current_box);
 
  $table=get_settings_value("table_monitored");	
  

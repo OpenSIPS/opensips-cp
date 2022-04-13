@@ -229,18 +229,12 @@ return $newarr;
 
 function get_box_id($current_box){
 
-
-    $global='../../../../config/boxes.global.inc.php';
-    require ($global);
-	$i=0;	
-	foreach ( $boxes as $ar ){
+	require('../../../../config/boxes.load.php');
+	foreach ($boxes as $ar) {
 		if ($ar['mi']['conn']==$current_box)
-			{
-				return $i ;			
-			}		
-	$i++;	
+			return $ar["id"];
 	}
-
+	return null;
 }
 
 function show_graph($stat,$box_id){
@@ -296,7 +290,7 @@ function show_graphs($stats, $box_ids, $scale){
 	$_SESSION['stime'] = get_settings_value("sampling_time", $box_id);
 	$_SESSION['csize'] = get_settings_value("chart_size", $box_id);
 	$_SESSION['boxes_list'] = $box_ids;
-	$_SESSION['scale'] = $scale; // 1 e individual
+	$_SESSION['scale'] = $scale; // 1 is individual
 	require("lib/d3jsMultiple.php");
 	
 }
