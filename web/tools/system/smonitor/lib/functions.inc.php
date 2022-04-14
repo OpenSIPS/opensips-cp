@@ -247,6 +247,8 @@ function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
 	$var = $stat;
+	$chart_history = get_settings_value("chart_history");
+	if ($chart_history == "auto") $chart_history = 3 * 24;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("db_connect.php");
@@ -258,7 +260,7 @@ function show_graph($stat,$box_id){
 	$_SESSION['sampling_time'] = get_settings_value("sampling_time");
 	$_SESSION['chart_size'] = get_settings_value("chart_size");
 	$_SESSION['box_id_graph'] = $box_id;
-	$_SESSION['chart_history'] = get_settings_value("chart_history");
+	$_SESSION['chart_history'] = $chart_history;
 	$_SESSION['tmonitoring'] = get_settings_value("table_monitoring");
 
 	$normal_chart = false ;
@@ -276,6 +278,8 @@ function show_graph($stat,$box_id){
 function show_graphs($stats, $box_ids, $scale){
 	global $config;
 	global $gauge_arr;
+	$chart_history = get_settings_value("chart_history");
+	if ($chart_history == "auto") $chart_history = 3 * 24;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("db_connect.php");
@@ -295,6 +299,7 @@ function show_graphs($stats, $box_ids, $scale){
 	$_SESSION['chart_group_id'] = $divId;
 	$_SESSION['stime'] = get_settings_value("sampling_time", $box_id);
 	$_SESSION['csize'] = get_settings_value("chart_size", $box_id);
+	$_SESSION['chart_history'] = $chart_history;
 	$_SESSION['boxes_list'] = $box_ids;
 	$_SESSION['scale'] = $scale; // 1 e individual
 	require("lib/d3jsMultiple.php");
