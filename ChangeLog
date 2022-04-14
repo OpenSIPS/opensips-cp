@@ -1,327 +1,2095 @@
-2021-01-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [c4028b6] :
+2022-04-14  Razvan Crainea  <razvan at opensips dot org>
+	* [e68c2eab] :
 
-	[dialplan] fix locating attributes with number values.
-	If the array of attributes contains numberical keys like, the strpos fails. According to docs -> if needle is not a string, it is converted to an integer and applied as the ordinal value of a character.
-	Reported by Flavio Goncalves.
-	Example of failing configuration:
+	siptrace: fix displaying SIP messages
 
-	$config->attrs_cb=array(
-	                 // name , description
-	                "3" => "usrloc",
-	                "4" => "pstn",
-	                "5" => "media",
-	         );
-	Note the numerical keys!
 
+2022-04-14  Razvan Crainea  <razvan at opensips dot org>
+	* [0c7c5630] :
 
-2021-01-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [4beace3] :
+	smonitor: make box_id in multi-stats groups optional
+	Defaults to first box
 
-	[cdrtool] get rid of checkbox for "Start/End time"
-	Make the usage of the "Start/End time" filters interactive, based on year value <- better user experience
 
+2022-04-14  Razvan Crainea  <razvan at opensips dot org>
+	* [e431683b] :
 
-2021-01-12  Bogdan Iancu  <bogdan at opensips dot org>
-	* [908225f] :
+	smonitor: use box name as box_id
 
-	[cdrtool] get rid of checkbox for "CDR field"
-	Make the usage of the "CDR field" filter interactive, based on its value <- better user experience
 
+2022-04-14  Razvan Crainea  <razvan at opensips dot org>
+	* [5df5c12f] :
 
-2021-01-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [c72da0a] :
+	smonitor: proper display Group's name for multi-stats
 
-	[dialplan] Fix the counting DB query (no ordering)
-	The "order" in the counting query breaks the SQL query.
-	Closes #84
 
+2022-04-14  Razvan Crainea  <razvan at opensips dot org>
+	* [9c6e21bf] :
 
-2021-01-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [fb23993] :
+	boxes: add (unique) name for the box
 
-	Small cfg updates/fixes
 
+2022-04-14  Razvan Crainea  <razvan at opensips dot org>
+	* [005fdf68] :
 
-2021-01-12  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [536af22] :
+	boxes: cleanup unused/unindented snippets
 
-	Fix syntax in example
 
+2022-04-14  Răzvan Crainea  <razvan at opensips dot org>
+	* [7906c5ce] :
 
-2021-01-11  Razvan Crainea  <razvan at opensips dot org>
-	* [4f85156] :
+	Merge pull request #203 from airineidaniel23/master
+	Fix auto chart history issue
 
-	cdrviewer: handle large amounts of exported CDRs
-	When a large number of CDRs are exported, apache would crash due to
-	memory exhaustion, or execution timeout. This commit improves the
-	exporter's behavior by:
-	 * fetching the CDRs row by row, lowering the memory usage
-	 * disable query buffering, to ensure release after a new row is fetched
-	 * add behavior of setting a custom execution time, by configuring the
-	   `$cdr_export_time_limit` variable
 
+2022-04-14  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [a0d58cf4] :
 
-2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [782acf2] :
+	Fix auto chart history setting issue
 
-	bump the copyright time window
 
+2022-04-14  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [5c78a9ae] :
 
-2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [bbb66a1] :
+	Merge pull request #3 from OpenSIPS/master
+	Fetch changes
 
-	[call_center] add new opensips 3.1 specific columns
-	Also reduce the number or flow properties displaied in the main view and do the full description via the "details" tab.
 
+2022-04-14  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [69e80a22] :
 
-2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [85131dc] :
+	Merge branch 'master' into master
 
-	[drouting] add missing file with some common funcs for sort alg
-	related to 5b7b00e4f39b913f6e4adc10c7d62633c4e08aab
 
+2022-04-14  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d85825ea] :
 
-2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [f041a81] :
+	Accept auto value for chart_history parameter
 
-	[dialog] fix column spanning
 
+2022-04-14  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [b3ef9f98] :
 
-2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [5b7b00e] :
+	Fix boxes issue in charting groups
 
-	[drouting] added full support for rules/carries sort algoritms
-	Both the rule and carrier records may have the None, Weight or Quality sorting algorithms
 
+2022-04-13  Razvan Crainea  <razvan at opensips dot org>
+	* [7c450df0] :
 
-2021-01-11  Bogdan Iancu  <bogdan at opensips dot org>
-	* [cb1ff97] :
+	smonitor: fix box_id in smonitor
 
-	[load_balancer] Added the new "attrs" column
-	(part of migration to OpenSIPS 3.1)
 
+2022-04-13  Razvan Crainea  <razvan at opensips dot org>
+	* [6cb8251c] :
 
-2020-12-10  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [c99c4ee] :
+	smonitor: drop unused extra field
 
-	[drouting] Fix typo in column name
 
+2022-04-13  Răzvan Crainea  <razvan at opensips dot org>
+	* [f43e9d86] :
 
-2020-12-08  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [836cc9e] :
+	Merge pull request #202 from airineidaniel23/master
+	Ignore titles in db settings file
 
-	[Dynamic routing] Fix provisioning the flags and sort algorithm for carriers
-	The sort alg is now a separate column.
-	The flags shifted with one position to the right.
 
+2022-04-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [c7335595] :
 
-2020-11-20  Razvan Crainea  <razvan at opensips dot org>
-	* [bb67bf6] :
+	Ignore titles from settings
 
-	cdrviewer: print an errro if memory gets exhausted
 
+2022-04-13  Razvan Crainea  <razvan at opensips dot org>
+	* [e7acff27] :
 
-2020-08-27  Liviu Chircu  <liviu at opensips dot org>
-	* [4402206] :
+	addresses: fix tool's permission
 
-	Load Balancer: Complete d95ef7c2ad
-	(cherry picked from commit b2a0db7a69534f70c2e0a707bad9e11b64207725)
 
+2022-04-13  Răzvan Crainea  <razvan at opensips dot org>
+	* [124887e0] :
 
-2020-08-24  Liviu Chircu  <liviu at opensips dot org>
-	* [81bf1ee] :
+	Merge pull request #198 from airineidaniel23/tviewer_tutorial
+	Tviewer tutorial
 
-	boxes.inc.php: Fix box #1 default JSON-RPC connector
-	(cherry picked from commit 5396b541f160eab67eb887c5277fe3023af31c81)
 
+2022-04-13  Bogdan Iancu  <bogdan at opensips dot org>
+	* [5f0cac36] :
 
-2020-08-24  Liviu Chircu  <liviu at opensips dot org>
-	* [7f0cf46] :
+	Updated copyright text
 
-	Load Balancer: Allow "/b" and "/s" profile definitions
-	(cherry picked from commit d95ef7c2adbb0d400cf2e3b62ecc50f215435a11)
 
+2022-04-13  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [1ad01efe] :
 
-2020-08-06  Liviu Chircu  <liviu at opensips dot org>
-	* [c0cdd12] :
+	Merge pull request #2 from OpenSIPS/master
+	Fetch upstream work
 
-	DB schema: Remove AUTO_INCREMENT
 
+2022-04-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [aea9b621] :
 
-2020-06-16  Bogdan Iancu  <bogdan at opensips dot org>
-	* [cc0aea8] :
+	Remove unused file in acl_management/lib
 
-	Added index files to redirect dir browsings to home page
 
+2022-04-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [fb287d66] :
 
-2020-06-16  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [0e2e6ec] :
+	Remove unused file
 
-	Added autocomplete="off" for all password inputs
 
+2022-04-13  Bogdan Iancu  <bogdan at opensips dot org>
+	* [5201108f] :
 
-2020-05-12  Liviu Chircu  <liviu at opensips dot org>
-	* [e2c4246] :
+	Manual merge of #201, fixing showing user contacts
 
-	SIP Trace:  Improve "group by Call-ID" query
-	    * be compatible with any SQL mode.  This fixes:
 
-		SELECT DISTINCT callid FROM sip_trace WHERE status='' AND
-		    direction='in' ORDER BY id DESC;
+2022-04-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [6a7f5be3] :
 
-		ERROR 3065 (HY000): Expression #1 of ORDER BY clause is not in
-		    SELECT list, references column 'opensips.sip_trace.id' which
-		    is not in SELECT list; this is incompatible with DISTINCT
+	Code cleanup around the input validation
 
-	    * be consistent across different backends (e.g. don't sort the
-		results differently with MySQL vs. Postgres)
 
-	Fixes #83
+2022-04-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [72ebbd6b] :
 
+	[group_management] migrated to standard form support for add/edit
 
-2020-03-03  Liviu Chircu  <liviu at opensips dot org>
-	* [54f52c9] :
 
-	Further improve commit c85bee61a88
-	The status/direction filtering is redundant (and SLOW, since these
-	columns are not indexed), as the calls are already grouped by Call-ID!
+2022-04-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [46211596] :
 
+	Rename acl_management to group_management
 
-2020-03-03  Liviu Chircu  <liviu at opensips dot org>
-	* [c85bee6] :
 
-	SIP Trace: Optimize very wasteful "SELECT COUNT(*)" query
-	Do not pull all the data just to count the number of results, as the
-	"sip_trace" table can easily grow to over tens of GB, and the query will
-	take 5 minutes to run...
+2022-04-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [64976084] :
 
-	Just use COUNT(*) !!!
+	[alias_management] migrated to standard form for add/edit
 
 
-2020-02-21  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [74f00e6] :
+2022-04-12  Bogdan Iancu  <bogdan at opensips dot org>
+	* [a2770f49] :
 
-	Fixed swapped value for REGEX/EQUAL
-	Credits go to Flavio Goncalves for reporting
-	(cherry picked from commit 78324983abd43c002ca75aadf4528d7305e68d9c)
+	Add "action=back" to the back button
+	This helps the tools to identify if the main page was triggered from a BACK button or not
 
 
-2020-02-18  Razvan Crainea  <razvan at opensips dot org>
-	* [11d9cdb] :
+2022-04-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [2f2dc5d8] :
 
-	use php SCRIPT_NAME instead of PHP_SELF
-	This fixes broken PHP_SELF variable populated by nginx fpm
-	(issue 55208: https://bugs.php.net/bug.php?id=55208)
-	Fixes #81
+	Remove unnecessary session start in domains tool
 
 
-2020-02-05  Liviu Chircu  <liviu at opensips dot org>
-	* [11233cc] :
+2022-04-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [56fa9e11] :
 
-	Merge branch 'petekelly-master'
+	Fix alias_management settings issue
 
 
-2020-02-05  Peter Kelly  <pkelly at gmail dot com>
-	* [85a17eb] :
+2022-04-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d7bf137b] :
 
-	boxes iteration: Change the for loop to a foreach
-	The for loop was assuming that the user was using array keys
-	sequentially in the boxes array.  While this would normally be the case,
-	the example code encourages you to skip a key as the example for
-	'Presence Server' used a commented out key of '1' - the symptom here was
-	that the mi_connectors array was not built correctly.
+	Fix domains tool settings issue
 
 
-2020-01-29  Razvan Crainea  <razvan at opensips dot org>
-	* [0c5ba59] :
+2022-04-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [ed94cd67] :
 
-	dialog: don't show timeout if not specified
+	Refix user_management issue
 
 
-2020-01-29  Razvan Crainea  <razvan at opensips dot org>
-	* [8b4d1a5] :
+2022-04-12  Razvan Crainea  <razvan at opensips dot org>
+	* [a97b44d5] :
 
-	dialog: add duration column in displayed fields
+	drouting: fix attributes column display
 
 
-2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [35aa885] :
+2022-04-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f628ec0d] :
 
-	Removed SVN Ids
+	Fix user_management tool issue
 
 
-2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [47b38b3] :
+2022-04-12  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [aeabc51b] :
 
-	Remove SVN ids
+	Merge pull request #200 from airineidaniel23/default_box
+	Add default box and system
 
 
-2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [8a63d7e] :
+2022-04-11  Razvan Crainea  <razvan at opensips dot org>
+	* [a32eff40] :
 
-	Make php installing version independent.
-	Credits go to @sdwru
-	Related to #77
+	drouting: add support for complex parameters
 
 
-2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [d510d92] :
+2022-04-11  Razvan Crainea  <razvan at opensips dot org>
+	* [eac54132] :
 
-	Added more restrictive Directory permissions
+	callcenter: fix typo in flows per_page setting
 
 
-2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [1680765] :
+2022-04-11  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [30f920bc] :
 
-	update file permission format to apache 2.4
-	Credits go to @sdwru
-	Part of #77
-	(cherry picked from commit 39d6ba58471c929895710f192729420b2fd3f25e)
+	Remove unnecessary code in tviewer tools
 
 
-2020-01-20  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [e686329] :
+2022-04-11  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [4e2ce4dd] :
 
-	Fix root web directory to /var/www/html/
-	Fix part of #77
-	(cherry picked from commit 1efe57bc362e6ccad8fef1d77f39a78ad70fe23b)
+	Make monit related settings null for default box
 
 
-2019-11-13  Razvan Crainea  <razvan at opensips dot org>
-	* [5613750] :
+2022-04-08  root  <root at opensips dot org>
+	* [1a28508e] :
 
-	drouting: fix rules group details
-	Bug introduced in commit e0642920fd
+	[drouting] fix fetching dr_rules table name
 
 
-2019-08-23  Razvan Crainea  <razvan at opensips dot org>
-	* [cbd44bd] :
+2022-04-08  root  <root at opensips dot org>
+	* [ee704af2] :
 
-	user_management: make user format configurable
+	[rtpproxy] add the shared file with the add/edit form
 
 
-2019-08-23  Razvan Crainea  <razvan at opensips dot org>
-	* [22037e4] :
+2022-04-08  Bogdan Iancu  <bogdan at opensips dot org>
+	* [2ae2b51e] :
 
-	drouting: load js even if no data is found
+	[drouting] fix small syntax error
 
 
-2019-07-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
-	* [f670a29] :
+2022-04-08  Bogdan Iancu  <bogdan at opensips dot org>
+	* [9e43533f] :
 
-	Merge pull request #71 from pfournier/edit-gateways-attrs-maxlength
-	Allow 128 characters for attributes when editing drouting gateways
+	[rtpproxy] Migrate tool to standard form for add/edit
 
 
-2019-07-24  Patrice Fournier  <patrice.fournier at t38fax dot com>
-	* [7ac8541] :
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [bdbdbc94] :
 
-	Allow 128 characters for attributes when editing drouting gateways
+	addresses: add partition support
 
 
-2019-07-22  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
-	* [81ad830] :
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [4369022c] :
 
-	Updates for 8.3.0 version
+	rename permissions module to addresses
+
+
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [c578286f] :
+
+	dialplan: add support for partition
+
+
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [a7a851bc] :
+
+	dispatcher: reset error for each box
+
+
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [eb6d51a4] :
+
+	dispatcher: add support for partition
+
+
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [a03a5e21] :
+
+	dispatcher: drop useless status setting
+
+
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [06b459ee] :
+
+	dispatcher: proper report MI errors
+
+
+2022-04-08  Razvan Crainea  <razvan at opensips dot org>
+	* [9a9fc8cc] :
+
+	dispatcher: add support for multiple dispatcher group modes
+
+
+2022-04-07  Razvan Crainea  <razvan at opensips dot org>
+	* [a73d8c95] :
+
+	dialplan: use a friendly match flags
+
+
+2022-04-07  Razvan Crainea  <razvan at opensips dot org>
+	* [21583524] :
+
+	dialplan: add support for multiple dialplan id modes
+
+
+2022-04-07  Razvan Crainea  <razvan at opensips dot org>
+	* [cf5edc05] :
+
+	drouting: fix Rules type group mode specifications
+
+
+2022-04-07  Razvan Crainea  <razvan at opensips dot org>
+	* [32fe7f20] :
+
+	drouting: do not show gateway type if only one type is used
+
+
+2022-04-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [10f9d827] :
+
+	Merge pull request #197 from airineidaniel23/character_limit
+	Increase settings, boxes and systems character limit
+
+
+2022-04-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [24d8dd61] :
+
+	Merge pull request #199 from airineidaniel23/boxes_opt_issue
+	Fix optional boxes fields issue
+
+
+2022-04-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [ab84a96b] :
+
+	Add default box and system
+
+
+2022-04-06  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [4b7a3d11] :
+
+	Make boxes fields optional
+
+
+2022-04-06  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [67d5a3e1] :
+
+	Fix optional boxes fields issue
+
+
+2022-04-06  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [e861206c] :
+
+	Mention new README file in the one located in the root folder
+
+
+2022-04-06  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [104e9934] :
+
+	Add readme instructions for creating a new tviewer type module
+
+
+2022-04-06  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [945b4578] :
+
+	Merge pull request #196 from airineidaniel23/master
+	Fix settings example displaying issue
+
+
+2022-04-06  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [2d341b5b] :
+
+	Increase settings, boxes and systems character limit
+
+
+2022-04-06  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [78c60cfb] :
+
+	Fix settings example displaying issue
+
+
+2022-04-05  Razvan Crainea  <razvan at opensips dot org>
+	* [3c4b504b] :
+
+	remove Homef from modules
+
+
+2022-04-05  Razvan Crainea  <razvan at opensips dot org>
+	* [28515fac] :
+
+	homer: remove tool since no longer compatible with latest Homer
+
+
+2022-04-05  Razvan Crainea  <razvan at opensips dot org>
+	* [27cb8ecf] :
+
+	permissions: add support for multiple groups modes
+
+
+2022-04-05  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [19143a72] :
+
+	Merge pull request #195 from airineidaniel23/master
+	Specific boxes for statistics in charts groups
+
+
+2022-04-05  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [7fdd88c8] :
+
+	Revert modified values used for debugging
+
+
+2022-04-05  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f669658a] :
+
+	Fix chart groups individual boxes issues
+
+
+2022-04-05  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [2fae4e9d] :
+
+	Specify box for each statistic in charts groups
+
+
+2022-04-04  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [e7f29eaf] :
+
+	Merge pull request #193 from airineidaniel23/remove_tviewer
+	Remove tviewer tool
+
+
+2022-04-04  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [56cc2812] :
+
+	Merge pull request #191 from airineidaniel23/remove_config_type
+	Remove config type
+
+
+2022-04-04  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [ed64e1af] :
+
+	Merge pull request #192 from airineidaniel23/smonitor_settings
+	Make smonitor tool settings global
+
+
+2022-04-04  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [52eab332] :
+
+	Merge pull request #194 from airineidaniel23/regex_table
+	Add table regex value
+
+
+2022-04-04  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [cbb172ac] :
+
+	Remove more occurrences of unused variable
+
+
+2022-04-04  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [8d019b64] :
+
+	Update format for charting groups
+
+
+2022-04-04  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d6440642] :
+
+	Make smonitor tool settings global
+
+
+2022-04-04  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [1476aa93] :
+
+	Remove tviewer tool
+
+
+2022-04-04  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [3c91146c] :
+
+	Remove unused setting for smonitor tool
+
+
+2022-04-03  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [4fb25218] :
+
+	Add table regex value
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [5512b0ba] :
+
+	[homer] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [3f00027c] :
+
+	[smpp] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [6a4aa7b9] :
+
+	[uac_registrant] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [9755755e] :
+
+	[tls_mgm] Enhance settings definitions
+	- group them in categories (using titles)
+	- tune a bit the default values
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [5ed9c298] :
+
+	[smonitor] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [b1b13d15] :
+
+	[siptrace] Enhance settings definitions
+	- group them in categories (using titles)
+	- provide examples for json-based settings
+	- tune a bit the default values
+
+
+2022-03-29  Bogdan Iancu  <bogdan at opensips dot org>
+	* [b0510ffe] :
+
+	[permissions] Enhance settings definitions
+	- group them in categories (using titles)
+	- tune a bit the default values
+
+
+2022-03-28  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [b17fdfd5] :
+
+	Merge pull request #189 from airineidaniel23/master
+	Add regex validation of settings on server-side
+
+
+2022-03-28  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [00f884c3] :
+
+	Add regex validation of settings on server-side
+
+
+2022-03-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [db5219c1] :
+
+	Merge pull request #188 from airineidaniel23/master
+	Change monit tool interface to also display generic tool header
+
+
+2022-03-25  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [3f0c963c] :
+
+	Change monit_proxify tool interface
+
+
+2022-03-24  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [b7e04b50] :
+
+	Remove debug log
+
+
+2022-03-24  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [51107d6c] :
+
+	Change Monit tool interface
+
+
+2022-03-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [5bc0898b] :
+
+	[rtpengine] Enhance settings definitions
+	- group them in categories (using titles)
+	- tune a bit the default values
+
+
+2022-03-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [a848d98e] :
+
+	[rtpproxy] fix name of the setting
+
+
+2022-03-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [b369fcea] :
+
+	[rtpproxy] Enhance settings definitions
+	- group them in categories (using titles)
+	- tune a bit the default values
+
+
+2022-03-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [68989054] :
+
+	[monit] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [0579c309] :
+
+	[loadbalancer] Enhance settings definitions
+	- group them in categories (using titles)
+	- tune a bit the default values
+
+
+2022-03-18  Bogdan Iancu  <bogdan at opensips dot org>
+	* [ad53ad63] :
+
+	[clusterer] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [ce923c83] :
+
+	[drouting] Enhance settings definitions
+	- group them in categories (using titles)
+	- provide examples for json-based settings
+	- tune a bit the default values
+
+
+2022-03-17  Razvan Crainea  <razvan at opensips dot org>
+	* [77e0a90a] :
+
+	dispatcher: fix previous json syntax
+
+
+2022-03-17  Razvan Crainea  <razvan at opensips dot org>
+	* [e8d7d691] :
+
+	dispatcher: fix static groups example
+
+
+2022-03-17  Răzvan Crainea  <razvan at opensips dot org>
+	* [9c7897f3] :
+
+	Merge pull request #185 from airineidaniel23/master
+	Add json format input validation
+
+
+2022-03-17  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [5bc958e6] :
+
+	Merge json format validation methods
+
+
+2022-03-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [3ef339d9] :
+
+	[domains] Enhance settings definitions
+	- group them in categories (using titles)
+
+
+2022-03-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [91f84dc2] :
+
+	[dispatcher] Renaming "Talk to this assoc ID" to "Linked system"
+
+
+2022-03-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [514ea22e] :
+
+	[dialplan] Enhance settings definitions
+	- group them in categories (using titles)
+	- provide examples for json-based settings
+	- tune a bit the default values
+
+
+2022-03-17  Bogdan Iancu  <bogdan at opensips dot org>
+	* [4a62bb8a] :
+
+	Renaming "Talk to this assoc ID" to "Linked system"
+
+
+2022-03-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [65088f39] :
+
+	Add json format input validation
+
+
+2022-03-15  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [c2d69b72] :
+
+	Merge pull request #184 from airineidaniel23/master
+	Fix settings button for Dynamic Routing tool
+
+
+2022-03-15  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d729e31e] :
+
+	Fix settings button for Dynamic Routing tool
+
+
+2022-03-14  Bogdan Iancu  <bogdan at opensips dot org>
+	* [ad1b25bb] :
+
+	Enhance settings definitions
+	- group them in categories (using titles)
+	- provide examples for json-based settings
+	- tune a bit the default values
+
+
+2022-03-14  Bogdan Iancu  <bogdan at opensips dot org>
+	* [f7119ecf] :
+
+	Enhance settings definitions
+	- group them in categories (using titles)
+	- provide examples for json-based settings
+	- tune a bit the default values
+
+
+2022-03-07  Razvan Crainea  <razvan at opensips dot org>
+	* [b8041841] :
+
+	cdrviewer: remove unused settings
+
+
+2022-03-07  Răzvan Crainea  <razvan at opensips dot org>
+	* [32efdcec] :
+
+	Merge pull request #183 from airineidaniel23/cdrviewer_issue
+	Assign proper value to variable to fix CDR Viewer issue
+
+
+2022-03-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [781cab30] :
+
+	Assign proper value to variable to fix CDR Viewer issue
+
+
+2022-03-07  Răzvan Crainea  <razvan at opensips dot org>
+	* [f147fcf9] :
+
+	Merge pull request #181 from airineidaniel23/show_boxes_params
+	Show boxes params
+
+
+2022-03-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [dc51d440] :
+
+	Show custom params in main tool for systems option
+
+
+2022-03-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [ea6a4aad] :
+
+	Show custom params in main tool for boxes option
+
+
+2022-03-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [10b3d165] :
+
+	Add missing parameter for fetching domains table
+
+
+2022-03-03  Razvan Crainea  <razvan at opensips dot org>
+	* [53860a35] :
+
+	settings - revise for admin and users tools
+
+
+2022-03-03  Răzvan Crainea  <razvan at opensips dot org>
+	* [4e5539a3] :
+
+	Merge pull request #178 from airineidaniel23/merge_boxes_system
+	Merge boxes_config and system_config
+
+
+2022-03-03  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f2488b37] :
+
+	Add missing settings for boxes_config tool
+
+
+2022-03-03  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f67159d6] :
+
+	Merge boxes_config and system_config
+
+
+2022-02-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [bfff5154] :
+
+	Merge pull request #176 from airineidaniel23/use_get_function
+	Use get_settings_value() function
+
+
+2022-02-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [9867f3da] :
+
+	Merge pull request #175 from airineidaniel23/add_chart_settings
+	Add group setting for charts
+
+
+2022-02-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [aeb59202] :
+
+	Merge pull request #174 from airineidaniel23/move_function
+	Move description printing function to forms.php
+
+
+2022-02-25  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [8b5c2586] :
+
+	Add group setting for charts
+
+
+2022-02-25  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [bfec3dd4] :
+
+	Add missing dispatcher setting
+
+
+2022-02-25  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [70c38eae] :
+
+	Use get_settings_value to access settings values where possible
+
+
+2022-02-24  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f991b276] :
+
+	Move description printing function to forms.php
+
+
+2022-02-23  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [87fc9357] :
+
+	Merge pull request #173 from airineidaniel23/rename_function
+	Rename get_value function to get_settings_value
+
+
+2022-02-23  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [07e5eddb] :
+
+	Merge pull request #172 from airineidaniel23/cdr_fix
+	Change usage of show_field array in CDR Viewer tool
+
+
+2022-02-23  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f9f2971f] :
+
+	Rename get_value function to get_settings_value
+
+
+2022-02-23  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [bc933cce] :
+
+	Change usage of show_field array in CDR Viewer tool
+
+
+2022-02-23  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [d7926e1e] :
+
+	Merge pull request #171 from fsilvestre/patch-1
+	Missing semicolon
+
+
+2022-02-23  Felippe Silvestre  <fsilvestre at gmail dot com>
+	* [1684479a] :
+
+	Missing semicolon
+	Missing semicolon to create tables `ocp_system_config` and `ocp_tools_config`
+
+
+2022-02-21  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [ba2536e0] :
+
+	Merge pull request #170 from airineidaniel23/chart_groups
+	Chart groups
+
+
+2022-02-21  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [d9e77b32] :
+
+	Merge pull request #169 from airineidaniel23/move_params_files
+	Move tools config files to config file system
+
+
+2022-02-21  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [df2c6e38] :
+
+	Update license in CDR Viewer tool
+
+
+2022-02-21  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [3164b61e] :
+
+	Update license
+
+
+2022-02-21  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [89a96cf2] :
+
+	Add tooltip for multi line charts
+
+
+2022-02-17  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [b42ac417] :
+
+	Remove unnecessary comment
+
+
+2022-02-17  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d9c07aed] :
+
+	Add multi line charting
+
+
+2022-02-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [1e741262] :
+
+	Add license text to config files in users group
+
+
+2022-02-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [76fdbe3d] :
+
+	Merge branch 'master' into move_params_files
+
+
+2022-02-15  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [fc32bac5] :
+
+	Move additional config files and solve conflict for CDR Viewer tool
+
+
+2022-02-15  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [8ecc6083] :
+
+	Merge pull request #165 from airineidaniel23/local_charts
+	Local charts
+
+
+2022-02-15  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [799b9e45] :
+
+	Merge pull request #167 from airineidaniel23/add_cdr_table
+	Add missing CDR table name parameter
+
+
+2022-02-15  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [97c1b31a] :
+
+	Make charts use local library
+
+
+2022-02-15  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [fab7333a] :
+
+	Move config files into config file system
+
+
+2022-02-15  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [9ba2706d] :
+
+	Add missing CDR table name parameter
+
+
+2022-02-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [5c15c890] :
+
+	Merge pull request #166 from airineidaniel23/rename_admin_config_tool
+	Change db inserting statements for admin tools
+
+
+2022-02-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [fda7b2e3] :
+
+	Merge pull request #164 from airineidaniel23/tabs_provisioning_bug
+	Fix tabs provisioning bug
+
+
+2022-02-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [5376baa2] :
+
+	Merge pull request #162 from airineidaniel23/boxes_bug
+	Fix boxes editing bug
+
+
+2022-02-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [29b2e6e5] :
+
+	Fix tabs provisioning bug
+
+
+2022-02-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [dc2680ee] :
+
+	Change db inserting statements for admin tools
+
+
+2022-02-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [849c10bb] :
+
+	Add charting URL param in params file
+
+
+2022-02-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [be51420d] :
+
+	Add local option for charting library
+
+
+2022-02-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [41d72e5a] :
+
+	Make password optional when editing box
+
+
+2022-02-03  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [bd35dd73] :
+
+	Make monit password editable
+
+
+2022-02-03  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [89789494] :
+
+	Fix boxes editing bug
+
+
+2022-02-02  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [8ad01d81] :
+
+	Merge pull request #161 from airineidaniel23/rename_admin_config_tool
+	Rename admin_config tool to tools_config
+
+
+2022-02-02  Razvan Crainea  <razvan at opensips dot org>
+	* [468f1a0f] :
+
+	dialplan: allow match-only rules
+
+
+2022-02-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [1e16fda6] :
+
+	Rename admin_config tool to tools_config
+
+
+2022-02-02  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [020053fa] :
+
+	Merge pull request #160 from airineidaniel23/structure_indicator
+	Add missing style for parameters structure indicator function
+
+
+2022-02-02  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [bf883c3c] :
+
+	Merge pull request #159 from airineidaniel23/config_cleanup_cron
+	Clean old config files from cron_job folder
+
+
+2022-02-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d7d69ec1] :
+
+	Add missing style for structure indicator function
+
+
+2022-02-02  Răzvan Crainea  <razvan at opensips dot org>
+	* [29548bc4] :
+
+	Merge pull request #158 from airineidaniel23/rename_tables
+	Rename cp tables with appropriate prefix
+
+
+2022-02-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [26ce2e69] :
+
+	Rename tables in config files
+
+
+2022-02-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [c012a07b] :
+
+	Fix table parameter in boxes.load.php
+
+
+2022-02-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [3eb343a0] :
+
+	Clean old config files from cron_job folder
+
+
+2022-02-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [21bafe01] :
+
+	Rename cp tables with appropriate prefix
+
+
+2022-01-26  Răzvan Crainea  <razvan at opensips dot org>
+	* [0582cb81] :
+
+	Merge pull request #156 from airineidaniel23/migrate_tviewer
+	Migrate tviewer tools
+
+
+2022-01-26  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [37f8a938] :
+
+	Modify tviewer tools migration to db settings engine
+
+
+2022-01-26  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [2298aad9] :
+
+	Migrate tviewer tools
+
+
+2022-01-25  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [533af50f] :
+
+	Merge pull request #155 from airineidaniel23/structure_indicator
+	Add structure indicator for settings parameters
+
+
+2022-01-25  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [67271e3f] :
+
+	Add structure indicator for settings parameters
+
+
+2022-01-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [0f1efd54] :
+
+	Merge pull request #154 from airineidaniel23/config_cleanup
+	Fix parameters loading in get_domains function
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [e3f8774f] :
+
+	Fix parameters loading in get_domains function
+
+
+2022-01-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [77682623] :
+
+	Merge pull request #153 from airineidaniel23/config_cleanup
+	Config cleanup
+
+
+2022-01-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [f1462408] :
+
+	Merge pull request #152 from airineidaniel23/migrate_cdrviewer
+	Migrate cdrviewer tool
+
+
+2022-01-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [ea73757f] :
+
+	Merge pull request #151 from airineidaniel23/session_load
+	Add session loading feature to clean up old config files
+
+
+2022-01-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [26ad928a] :
+
+	Merge pull request #150 from airineidaniel23/checklist
+	Add missing features for checklist forms
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f4ee4ac2] :
+
+	Remove accidentally created file in homer tool
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [650407b1] :
+
+	Migrate homer tool
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [46d40133] :
+
+	More old config files cleanup and tool migration to db settings engine
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [fab8e7a1] :
+
+	Migrate cdrviewer tool
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [4ecc2be2] :
+
+	Add session loading feature to clean up old config files
+
+
+2022-01-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [1611c06d] :
+
+	Add missing features for checklist forms
+
+
+2022-01-19  Răzvan Crainea  <razvan at opensips dot org>
+	* [60eab20d] :
+
+	Merge pull request #149 from airineidaniel23/master
+	Migrate siptrace tool to db settings engine (#135)
+
+
+2022-01-19  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [47f9beda] :
+
+	Migrate siptrace tool to db settings engine
+
+
+2022-01-19  Răzvan Crainea  <razvan at opensips dot org>
+	* [9fcb0184] :
+
+	Merge pull request #148 from airineidaniel23/master
+	Add generic interface for provisioning tools tabs
+
+
+2022-01-19  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [fdfbf0a9] :
+
+	Change tabs provisioning interface
+
+
+2022-01-19  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [92b111ef] :
+
+	Add generic interface for provisioning tools tabs
+
+
+2022-01-14  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [8b92dbe3] :
+
+	Set proper version after cherry-pick
+
+
+2022-01-14  Bogdan Iancu  <bogdan at opensips dot org>
+	* [1b7b2795] :
+
+	Added a version file and having it displayed in the header bar
+
+
+2022-01-14  Bogdan Iancu  <bogdan at opensips dot org>
+	* [c10a44ae] :
+
+	Added a version file and having it displayed in the header bar
+
+
+2022-01-13  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [16dcf16f] :
+
+	Merge pull request #144 from airineidaniel23/master
+	Fix detection of null values in charts data
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [a64b310c] :
+
+	Fix detection of null values in charts data
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [1a7c12dd] :
+
+	Use prepare statements in clusterer tool
+	(cherry picked from commit c1743f502fb8688ef85d2a99a92d0030f0ff24bd)
+
+
+2022-01-13  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [68db53fa] :
+
+	Merge pull request #143 from airineidaniel23/master
+	Use prepare statements in clusterer tool (#136)
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [c1743f50] :
+
+	Use prepare statements in clusterer tool
+
+
+2022-01-13  Răzvan Crainea  <razvan at opensips dot org>
+	* [3b7f6e07] :
+
+	Merge pull request #142 from airineidaniel23/master
+	Remove old config files from tools migrated to db settings engine
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [9646f1e1] :
+
+	Remove settings example title and logging function from user_management
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [dd676692] :
+
+	Remove old local.inc.php config file from tools migrated to new engine
+
+
+2022-01-13  Răzvan Crainea  <razvan at opensips dot org>
+	* [e8dcc996] :
+
+	Merge pull request #141 from airineidaniel23/master
+	Add grouping for settings parameters (#133)
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [570b452a] :
+
+	Add grouping for settings parameters
+
+
+2022-01-13  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [7afbfc19] :
+
+	Merge pull request #138 from airineidaniel23/master
+	Remove password hashing from boxes_config.php
+
+
+2022-01-13  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [de4028f4] :
+
+	Remove password hashing from boxes_config.php
+
+
+2022-01-13  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [e576c647] :
+
+	Merge pull request #137 from airineidaniel23/master
+	Fix for session_load function in cfg_comm.php (related to #131)
+
+
+2022-01-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [4047e315] :
+
+	Fix for session_load function in cfg_comm.php (related to #131)
+
+
+2022-01-12  Răzvan Crainea  <razvan at opensips dot org>
+	* [29f41509] :
+
+	Merge pull request #127 from airineidaniel23/master
+	Add error handling for database operations
+
+
+2022-01-12  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [8ec59c31] :
+
+	Fix incremental charts (#128)
+
+
+2021-12-23  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [975b8826] :
+
+	Stop execution after database error
+
+
+2021-12-22  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [dc1ac458] :
+
+	Modify error handling for database operations in cfg_comm.php
+
+
+2021-12-22  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d71e3418] :
+
+	Modify error handling for database operations
+
+
+2021-12-22  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [b6ab1fa7] :
+
+	Add error handling for database operations
+
+
+2021-12-21  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [6cf96227] :
+
+	Merge pull request #126 from airineidaniel23/master
+	Add missing indexing quotations
+
+
+2021-12-21  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [e9f6f2d1] :
+
+	Add missing indexing quotations
+
+
+2021-12-21  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [6f6e65db] :
+
+	Merge pull request #125 from airineidaniel23/master
+	Add missing file requirement in get_opensips_stats.php
+
+
+2021-12-21  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [225a9ce1] :
+
+	Add missing file requirement in get_opensips_stats.php
+
+
+2021-12-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [a8348e12] :
+
+	Merge pull request #124 from airineidaniel23/master
+	Fix charting library horizontal scaling issue
+
+
+2021-12-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d8a7fa00] :
+
+	Fix charting library horizontal scaling issue
+
+
+2021-12-20  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [6ddd9a2a] :
+
+	Merge pull request #123 from airineidaniel23/master
+	Charting library tweaks
+
+
+2021-12-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [417c5b8f] :
+
+	Change smonitor tips, variables names and chart_history scale
+
+
+2021-12-20  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [ed13b97a] :
+
+	Charting library tweaks
+
+
+2021-12-16  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [ca92293d] :
+
+	Merge pull request #122 from airineidaniel23/master
+	Remove file inclusion in dialog.php and change boxes session loading
+
+
+2021-12-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [0f7d3ced] :
+
+	Change procedure for session loading for boxes
+
+
+2021-12-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [f1a3f0ac] :
+
+	Remove unnecessary inclusion of file in dialog.php
+
+
+2021-12-16  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [07d9f2db] :
+
+	Merge pull request #121 from airineidaniel23/master
+	Increase limit of characters for boxes parameters
+
+
+2021-12-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [dbe5bcc8] :
+
+	Change default boxes parameters
+
+
+2021-12-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [aac27f64] :
+
+	Increase limit of characters for boxes parameters
+
+
+2021-12-16  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [462627fe] :
+
+	Merge pull request #120 from airineidaniel23/master
+	Remove config issues in monit.php
+
+
+2021-12-16  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [aed32db1] :
+
+	Remove config issues in monit.php
+
+
+2021-12-15  Răzvan Crainea  <razvan at opensips dot org>
+	* [4a460be8] :
+
+	Merge pull request #118 from airineidaniel23/master
+	Remove old charting library files
+
+
+2021-12-10  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [88eb38b6] :
+
+	Remove old charting library files
+
+
+2021-12-09  Răzvan Crainea  <razvan at opensips dot org>
+	* [0b336cb7] :
+
+	Merge pull request #117 from airineidaniel23/master
+	Change charting library
+
+
+2021-12-09  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [0bd82d59] :
+
+	Fix sampling gap handling
+
+
+2021-12-09  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [aded1bac] :
+
+	Fix formula for sampling gap detection
+
+
+2021-12-09  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [be3181db] :
+
+	Change charting library
+
+
+2021-12-07  Razvan Crainea  <razvan at opensips dot org>
+	* [5d120937] :
+
+	cron_job/get_opensips_stats: fix sampling time usage
+
+
+2021-12-07  Razvan Crainea  <razvan at opensips dot org>
+	* [92a3b7bf] :
+
+	cron_job/get_opensips_stats: fix sampling_time stats
+
+
+2021-12-07  Răzvan Crainea  <razvan at opensips dot org>
+	* [cb162d14] :
+
+	Merge pull request #116 from airineidaniel23/master
+	Fix sampling_time parameter usage
+
+
+2021-12-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [60b50e4a] :
+
+	Fix typo in cfg_comm.php
+
+
+2021-12-07  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [d747b8e6] :
+
+	Fix sampling_time parameter usage
+
+
+2021-12-02  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [80d2c8b3] :
+
+	Merge pull request #115 from airineidaniel23/master
+	Fix typos and sampling time unit in smonitor tool
+
+
+2021-12-02  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [fb2ce6e0] :
+
+	Remove log and redundant line in functions.inc.php for smonitor tool
+
+
+2021-12-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [e3f41a6c] :
+
+	Fix typo in tip for smonitor tool param
+
+
+2021-12-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [17b72452] :
+
+	Change sampling time unit
+
+
+2021-12-02  Răzvan Crainea  <razvan at opensips dot org>
+	* [11a1382e] :
+
+	Merge pull request #114 from airineidaniel23/master
+	Fix getting params from session bug
+
+
+2021-12-02  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [2f27950c] :
+
+	Fix getting params from session bug
+
+
+2021-11-29  Răzvan Crainea  <razvan at opensips dot org>
+	* [ae1d9ade] :
+
+	Merge pull request #113 from airineidaniel23/master
+	Add queries for boxes and system configuration tables
+
+
+2021-11-29  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [5f7f90f0] :
+
+	Update session loading for boxes configuration
+
+
+2021-11-26  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [32432d35] :
+
+	Add queries for boxes and system configuration tables and remove additional checking for boxes fields
+
+
+2021-11-22  Răzvan Crainea  <razvan at opensips dot org>
+	* [b5efdaf4] :
+
+	Merge pull request #112 from airineidaniel23/master
+	Add boxes and systems db configuration page
+
+
+2021-11-22  Airinei Daniel  <airineidaniel23 at gmail dot com>
+	* [613d2348] :
+
+	Add boxes and systems db configuration page
+
+
+2021-11-01  Răzvan Crainea  <razvan at opensips dot org>
+	* [47146d27] :
+
+	Merge pull request #111 from airineidaniel23/master
+	Fix session & drouting bugs and add tool description display function
+
+
+2021-11-01  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [c30f0d3e] :
+
+	Rename function in cfg_comm.php
+
+
+2021-11-01  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [7d1af907] :
+
+	Fix drouting bug in settings.php
+
+
+2021-11-01  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [86942a1f] :
+
+	Fix drouting tool bug
+
+
+2021-10-29  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [3a715baf] :
+
+	Add tool description feature and fix params session loading bug
+
+
+2021-10-27  Răzvan Crainea  <razvan at opensips dot org>
+	* [9f09d0a0] :
+
+	Merge pull request #109 from airineidaniel23/master
+	Fix common tool tviewer bugs, add new form function
+
+
+2021-10-21  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [b307e6c6] :
+
+	Fix common tool tviewer bugs, add new form function
+
+
+2021-10-12  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [a463bf50] :
+
+	Merge pull request #108 from wearebrdsoft/master
+	added instruction to load mi_http and httpd on script file
+	(cherry picked from commit cdf670d24fb7dad5fbb61d7a862b8a253ca80996)
+
+
+2021-10-12  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [cdf670d2] :
+
+	Merge pull request #108 from wearebrdsoft/master
+	added instruction to load mi_http and httpd on script file
+
+
+2021-10-11  Mike Tesliuk  <mike at brdsoft.com dot br>
+	* [d63e4e6d] :
+
+	added instruction to load mi_http and httpd on script file
+
+
+2021-10-07  Răzvan Crainea  <razvan at opensips dot org>
+	* [07760750] :
+
+	Merge pull request #106 from airineidaniel23/master
+	Fix session loading for box specific tools
+
+
+2021-10-07  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [6cb3bf8b] :
+
+	Add missing loading into config var for box specific tools
+
+
+2021-10-07  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [a8cef1a2] :
+
+	Fix session loading for box specific tools
+
+
+2021-10-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [bfe79e69] :
+
+	Merge pull request #103 from farmorg/farmorg-patch-1
+	Fix the rules searching based on their attributes
+	(cherry picked from commit a93585164f65076c77001a6a59cd12560e6cfbf4)
+
+
+2021-10-07  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [a9358516] :
+
+	Merge pull request #103 from farmorg/farmorg-patch-1
+	Fix the rules searching based on their attributes
+
+
+2021-10-07  Răzvan Crainea  <razvan at opensips dot org>
+	* [758c1ca7] :
+
+	Create SECURITY.md
+
+
+2021-10-04  Răzvan Crainea  <razvan at opensips dot org>
+	* [ab32a95b] :
+
+	Merge pull request #105 from airineidaniel23/master
+	Make a common core for tviewer tools
+
+
+2021-10-04  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [c7a566a7] :
+
+	Make a common core for tviewer tools
+
+
+2021-10-01  Răzvan Crainea  <razvan at opensips dot org>
+	* [9918823f] :
+
+	Merge pull request #101 from airineidaniel23/master
+	Add db configuration engine
+
+
+2021-10-01  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [3a135044] :
+
+	Make required path in admin_config/lib/db_connect.php relative
+
+
+2021-10-01  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [f4960a73] :
+
+	Fix template in tracer.main.php
+
+
+2021-10-01  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [7cee9e5f] :
+
+	Change config variable span in admin_config/lib/db_connect.php
+
+
+2021-09-29  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [5c0767ef] :
+
+	Delete unnecessary db file in monit config
+
+
+2021-09-28  Daniel Airinei  <airineidaniel23 at gmail dot com>
+	* [1786ec39] :
+
+	Change config engine database configuration for tools
+
+
+2021-09-22  root  <root at localhost dot localdomain>
+	* [6b0e095f] :
+
+	Fix order of requirements in drouting tool
+
+
+2021-09-20  Liviu Chircu  <liviu at opensips dot org>
+	* [003a0099] :
+
+	rtpproxy: Fix misleading / incorrect code comment
+	(cherry picked from commit fc030a1a9f90ecf08d1cf7c23c7fbec877bea06a)
+
+
+2021-09-20  Liviu Chircu  <liviu at opensips dot org>
+	* [fc030a1a] :
+
+	rtpproxy: Fix misleading / incorrect code comment
+
+
+2021-09-20  root  <root at localhost dot localdomain>
+	* [c9ca582a] :
+
+	Optimize functions in cfg_comm.php
+
+
+2021-09-20  root  <root at localhost dot localdomain>
+	* [317080e3] :
+
+	Fix typo in cdrviewer tool
+
+
+2021-09-20  root  <root at localhost dot localdomain>
+	* [1407f44b] :
+
+	Fix session loading for system tools and add tool tips
+
+
+2021-09-20  root  <root at localhost dot localdomain>
+	* [4f892b34] :
+
+	Replace multiple if instructions with switch case in admin_config.edit_tools.php
+
+
+2021-09-20  root  <root at localhost dot localdomain>
+	* [6d861d39] :
+
+	Fix session loading in users group tools
+
+
+2021-09-13  root  <root at localhost dot localdomain>
+	* [ad8442d8] :
+
+	Update function that display configuration button
+
+
+2021-09-13  root  <root at localhost dot localdomain>
+	* [593eec24] :
+
+	Update function that displays the configuration button
+
+
+2021-09-10  farmorg  <farmorg at gmail dot com>
+	* [805da5df] :
+
+	Update rules.main.php
+	Searching drouting rules by attribute fails.
+	Search attributes had not been set.
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [40f1a6e3] :
+
+	Fix mi tool button
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [f238ab8c] :
+
+	Add configuration for smpp, tls_mgm, tviewer, uac_registrant tools
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [154da5d3] :
+
+	Fix session adding for smonitor and siptrace tools
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [544a3906] :
+
+	Fix adding talk_to_this_assoc_id to permissions, rtpengine/proxy tools
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [f3628ca4] :
+
+	Add configuration for monit tool, add talk_to_this_assoc_id for loadbalancer
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [ea79c9dc] :
+
+	Add specific variables for drouting, domains, dispatcher, add optional variables
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [b8513c60] :
+
+	Add specific variables to session for dialplan tool
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [3eeec451] :
+
+	Fix adding specific variables to session
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [5d7b194c] :
+
+	Add params and session setting for cdrviewer
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [9bab1ebe] :
+
+	Add params into session for callcenter tool
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [e760e00b] :
+
+	Merge branch 'master' of github.com:airineidaniel23/opensips-cp
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [35398a7e] :
+
+	Add params for callcenter
+
+
+2021-09-08  root  <root at localhost dot localdomain>
+	* [79be8040] :
+
+	Add params for callcenter
+
+
+2021-09-06  airineidaniel23  <71259646+airineidaniel23 at users.noreply.github dot com>
+	* [a5a82962] :
+
+	Delete old params directory from admin_config tool
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [c7772b4b] :
+
+	Add params file for users_management tool
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [3f98a330] :
+
+	Add db file for dialog tool
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [5f2e5768] :
+
+	Add configuration engine functions
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [77feb294] :
+
+	Add configuration page for tools in the 'users' group
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [09e502f3] :
+
+	Add configuration page for uac_registrant tool
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [bf23cb26] :
+
+	Add configuration settings page for tools in the system group
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [d3e85276] :
+
+	Add new permission to list_admins tool
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [0b174818] :
+
+	Add style for configuration elements
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [1d38ef30] :
+
+	Add db configuration page
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [4c4c9787] :
+
+	Add new 'Admin' permission
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [40939348] :
+
+	Add config files for the configuration engine
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [056507f5] :
+
+	Remove settings page from stats monitoring tool
+
+
+2021-09-05  root  <root at localhost dot localdomain>
+	* [ac7632e5] :
+
+	Remove dynamic routing settings page
+
+
+2021-08-23  Razvan Crainea  <razvan at opensips dot org>
+	* [198b4472] :
+
+	web/forms: fix typo in validate function input
+	(cherry picked from commit c2c2431064343e7d829d520c3f5a4de3fd68f622)
+
+
+2021-08-23  Razvan Crainea  <razvan at opensips dot org>
+	* [c2c24310] :
+
+	web/forms: fix typo in validate function input
+
+
+2021-08-16  Razvan Crainea  <razvan at opensips dot org>
+	* [cfb91554] :
+
+	forms: check whether a field is optional or not even regex is not used
+	(cherry picked from commit d7a186edbf423c879babfa98570f4bc920fd2af6)
+
+
+2021-08-16  Razvan Crainea  <razvan at opensips dot org>
+	* [d7a186ed] :
+
+	forms: check whether a field is optional or not even regex is not used
+
+
+2021-08-11  Vinicius Bomfim  <vbomfim at gmail dot com>
+	* [a21ae6f1] :
+
+	Fixing number of parameters inserting user record.
+	(cherry picked from commit bfa101a45c3cb733d6de5c12efd6d6443b6a2c4d)
+
+
+2021-08-11  Bogdan Andrei IANCU  <bogdan at opensips dot org>
+	* [ed9b9616] :
+
+	Merge pull request #98 from vbomfim/master
+	Fixing number of parameters inserting user record.
+
+
+2021-08-11  Vinicius Bomfim  <vbomfim at gmail dot com>
+	* [bfa101a4] :
+
+	Fixing number of parameters inserting user record.
+
+
+2021-07-27  Bogdan-Andrei Iancu  <bogdan at opensips dot org>
+	* [2505db21] :
+
+	Updated Changelog for 8.3.2
 
