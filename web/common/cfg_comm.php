@@ -285,14 +285,14 @@ function inspect_config_mi(){
 			$b++ ;
 
 			if ( in_array( $mi_url , $my_mis) ) {
-				echo "Re-usage of MI URL $mi_url in box ".$ar['desc']." in $global " . "<br>" ;
+				echo "Re-usage of MI URL $mi_url in box ".$ar['name']." in $global " . "<br>" ;
 				echo "MI URLs must be uniques"."<br>" ;
 				exit();
 			}
 
 			$my_mis[] = $mi_url;
 
-			$boxlist[$ar['mi']['conn']]=$ar['desc'];
+			$boxlist[$ar['mi']['conn']]=$ar['name'];
 		}
 
 	}
