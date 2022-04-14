@@ -50,7 +50,6 @@ else
   $boxes= [];
   $groupElements = $group_attr['stats'];
   $scale = $group_attr['scale'];
-  $gName = "";
   $matches = false;
   $group = [];
   foreach ($groupElements as $g) {
@@ -70,7 +69,6 @@ else
   
   }
 
- $gName = implode(", ", $group);
  $stat_chart=false;
  $stat_img="../../../images/share/chart.png";
  if ($_SESSION["group_open"][$key]=="yes") $stat_chart=true;
@@ -84,7 +82,7 @@ else
   <tr>
    <td class="searchRecord">
     <div id="stat_<?=$key?>" class="Data"  onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?group_id=<?=$key?>'">
-     <img src="<?=$stat_img?>"><b><?=$key?>(<?=$gName?>)</b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
+     <img src="<?=$stat_img?>"><b><?=$key?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
     </div>
    </td>
   </tr>
