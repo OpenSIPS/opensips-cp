@@ -59,16 +59,7 @@ $permissions=array();
 			if ($params['tip'])
 				$current_tip = $params[tip];
 			else $current_tip = null;
-			switch ($attr) {
-				case "name":
-					$value = $systems[$assoc_id]['name'];
-					break;
-				case "desc":
-					$value = $systems[$assoc_id]['desc'];
-					break;		
-				default: 
-					$value = $systems[$assoc_id][$attr];	
-			}
+			$value = $systems[$assoc_id][$attr];	
 			switch ($params['type']) {
 				case "checklist":
 					if (isAssoc($params['options']))

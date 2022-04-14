@@ -194,16 +194,6 @@ function get_params_from_tool($current_tool) {
 	return $config->$current_tool;
 }
 
-function get_boxes_params() {
-	require(__DIR__."/../../config/tools/admin/boxes_config/settings.inc.php");
-	return $config->boxes;
-}
-
-function get_system_params() {
-	require(__DIR__."/../../config/tools/admin/boxes_config/settings.inc.php");
-	return $config->systems;
-}
-
 function load_boxes() {
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");

@@ -42,7 +42,7 @@ require_once("functions.js");
 	$stm->execute( array($id) );
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
         $index_row=0;
-$permissions=array();
+	$permissions=array();
 ?> 
 
 <form action="<?=$page_name?>?action=modify_params&tool=<?=$current_tool?>&box_id=<?=$box_id?>" method="post">

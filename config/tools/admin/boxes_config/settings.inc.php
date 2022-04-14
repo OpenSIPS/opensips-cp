@@ -90,7 +90,7 @@ $config->systems = array(
 		"show_in_edit_form" => true,
 		"validation_regex"  => "^.+$",
 	),
-	"desc" => array(
+    "desc" => array(
 		"default" => "",
 		"name"    => "System description",
 		"type"    => "text",
