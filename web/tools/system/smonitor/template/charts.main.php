@@ -53,7 +53,11 @@ else
   $matches = false;
   $group = [];
   foreach ($groupElements as $g) {
-    $boxes[] = get_box_id_by_name($g['box_id']);
+    if (isset($g['box_id']))
+      $stat_box_id = get_box_id_by_name($g['box_id']);
+    else
+      $stat_box_id = get_box_id_default();
+    $boxes[] = $stat_box_id;
     if (preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
       foreach ($monitored_stats as $name => $id) {
         if (preg_match($g['name'], $name, $matches))
@@ -64,7 +68,7 @@ else
     }
     $sql = "REPLACE INTO ".$monitored_table." (name, box_id) VALUES (?, ?)";
     $stm = $link->prepare($sql);
-    if ($stm->execute(array($g['name'], $g['box_id'])) === false)
+    if ($stm->execute(array($g['name'], $stat_box_id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   
   }
