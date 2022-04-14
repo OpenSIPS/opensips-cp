@@ -19,7 +19,7 @@
 
 <script>
 
-display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>, 
+display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>,
 <?php echo json_encode($_SESSION['boxes_list']) ?>, <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
 
 function display_graphs(arg1, arg2, arg3, arg4, arg5) {
