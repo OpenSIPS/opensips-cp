@@ -58,11 +58,11 @@ $config->smonitor = array(
 	\"stats\": [
 		{
 			\"name\": \"load:load\",
-			\"box_id\": 0
+			\"box_id\": \"SIP Server\"
 		},
 		{
 			\"name\": \"shmem:fragments\",
-			\"box_id\": 0
+			\"box_id\": \"SIP Server\"
 		}
 	],
 	\"scale\": 2

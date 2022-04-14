@@ -53,7 +53,7 @@ else
   $matches = false;
   $group = [];
   foreach ($groupElements as $g) {
-    $boxes[] = $g['box_id'];
+    $boxes[] = get_box_id_by_name($g['box_id']);
     if (preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
       foreach ($monitored_stats as $name => $id) {
         if (preg_match($g['name'], $name, $matches))

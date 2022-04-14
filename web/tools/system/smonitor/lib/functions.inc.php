@@ -237,6 +237,16 @@ function get_box_id($current_box){
 	return null;
 }
 
+function get_box_id_by_name($box_name){
+
+	require('../../../../config/boxes.load.php');
+	foreach ($boxes as $ar) {
+		if ($ar['name']==$box_name)
+			return $ar["id"];
+	}
+	return null;
+}
+
 function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
