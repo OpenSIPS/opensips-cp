@@ -26,6 +26,8 @@
     $chart_size = get_settings_value_from_tool("chart_size", "smonitor");
     if ($zoomOut == 'true') {
     	$chart_size = get_settings_value_from_tool("chart_history", "smonitor");
+        if ($chart_size == "auto")
+            $chart_size = 3 * 24; //3 days
     }
     
     $vals.="\n".date("Y-m-d-H-i-s", time());
