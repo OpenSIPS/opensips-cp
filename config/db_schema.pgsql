@@ -28,7 +28,6 @@ INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,ava
 DROP TABLE IF EXISTS ocp_monitored_stats;
 CREATE TABLE ocp_monitored_stats (
   name text PRIMARY KEY NOT NULL,
-  extra text NOT NULL,
   box_id integer NOT NULL default '0'
 );
 SET CLIENT_ENCODING TO 'latin1' ;

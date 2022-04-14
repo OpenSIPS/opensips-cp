@@ -31,7 +31,7 @@
  require("template/header.php");
  
  session_load(); 
- print_r(get_mi_modules($current_box));
+ get_mi_modules($current_box);
 
  $table=get_settings_value("table_monitored");	
  
@@ -47,7 +47,7 @@
   	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   $resultset = $stm->fetchAll();
   if (count($resultset)==0){
-	$sql = "INSERT INTO ".$table." (name, extra, box_id) VALUES (?, '', ?)";
+	$sql = "INSERT INTO ".$table." (name, box_id) VALUES (?, ?)";
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array($var_name, $box_id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));

@@ -29,6 +29,6 @@
  
  $page_title = "OpenSIPS Control Panel";
  $header_title = ".: OpenSIPS Control Panel";
- $copyright = "Copyright &copy; 2006-2020 OpenSIPS Project";
+ $copyright = "Copyright &copy; 2006-2022 OpenSIPS Project";
 
 ?>

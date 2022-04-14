@@ -1,0 +1,16 @@
+To add a new tviewer-type module, create a new module directory in the web/tools/your_branch file system.
+Inside, create an index.php file, similar to the one in web/common/tools/tviewer/template.php
+
+
+Then, add a new module directory in the config/tools/your_branch file system, where you should create the following files:
+
+- db.inc.php : file containing database configurations
+- settings.inc.php : file containing settings that will be changeable in the CP settings interface
+- tviewer.inc.php : tviewer module configurations
+
+Finally, include the new module in the modules.inc.php file, inside the array of your branch:
+            "your_module"              => array (
+                "enabled"       => true,
+                "name"          => "Your Module's Name"
+            ),
+ 

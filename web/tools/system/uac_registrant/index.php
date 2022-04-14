@@ -21,9 +21,11 @@
  */
 
 session_start();
+require_once("../../../common/cfg_comm.php");
 
- require("init.php");
- 
- header("Location: ../../../common/tools/tviewer/tviewer.php?module_id=".$module_id."");
+$_SESSION['branch'] = "system";
+$_SESSION['module_id'] = "uac_registrant";
+
+header("Location: ../../../common/tools/tviewer/tviewer.php?module_id=".$module_id."");
  
 ?>

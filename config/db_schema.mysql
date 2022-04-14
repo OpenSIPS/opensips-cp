@@ -19,7 +19,6 @@ INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,ava
 DROP TABLE IF EXISTS `ocp_monitored_stats`;
 CREATE TABLE `ocp_monitored_stats` (
   `name` varchar(64) NOT NULL,
-  `extra` varchar(64) NOT NULL,
   `box_id` mediumint(8) unsigned NOT NULL default '0',
   PRIMARY KEY  (`name`,`box_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
