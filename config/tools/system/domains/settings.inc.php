@@ -40,7 +40,7 @@ $config->domains = array(
 		"title" => "DB settings"
 	),
 	"table_domains" => array(
-		"default" => "domains",
+		"default" => "domain",
 		"name" => "Table Domains",
 		"type" => "text",
 		"validation_regex" => $table_regex,
