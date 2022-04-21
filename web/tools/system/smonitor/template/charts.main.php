@@ -46,6 +46,7 @@ else
  $sampling_time=get_settings_value('sampling_time');
  $monitored_table=get_settings_value('table_monitored');
  
+  
  foreach(get_settings_value("groups") as $key=>$group_attr) {
   $boxes= [];
   $groupElements = $group_attr['stats'];

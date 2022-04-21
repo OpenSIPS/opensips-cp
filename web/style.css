@@ -318,3 +318,6 @@ p, li, td, .menu_active, input, button {
 	.wrapper {
 	position: relative;
 	}
+
+	.grid-item { width: 25%; }
+	.grid-item--width2 { width: 50%; }
