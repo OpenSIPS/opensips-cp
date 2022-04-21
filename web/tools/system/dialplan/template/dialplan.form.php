@@ -21,9 +21,42 @@
  */
 
 require("../../../common/forms.php");
+$set_cache = array();
 
-form_generate_input_text("Dialplan ID", "The dailplan ID (as number)",
-	"dpid", "n", $dp_form['dpid'], 128, "^[0-9]+$");
+$dialplan_group_mode = get_settings_value("dialplan_groups_mode");
+$dialplan_group = get_settings_value("dialplan_groups");
+switch ($dialplan_group_mode) {
+	case "static":
+		break;
+	case "input":
+		form_generate_input_text("Dialplan ID", "The dailplan ID (as number)",
+			"dpid", "n", $dp_form['dpid'], 128, "^[0-9]+$");
+		break;
+	case "database":
+		$query = "SELECT " . $dialplan_group['id'] . " AS id, " .
+			$dialplan_group['name'] . " AS name " .
+			"FROM " . $dialplan_group['table'];
+
+		$set_values = array();
+		// fetch only the subset we need  for the groups that might match
+		$stm = $link->prepare($query);
+		if ($stm===FALSE) {
+			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
+		}
+		$stm->execute($set_values);
+		$results = $stm->fetchAll();
+		foreach ($results as $key => $value)
+			$set_cache[$value['id']] = $value['name'];
+		/* fallback */
+
+	case "array":
+		if ($dialplan_group_mode == "array")
+			$set_cache = $dialplan_group;
+		form_generate_select("Dialplan ID", "The dialplan ID of the rule",
+			"dpid", "n", $dp_form['grp'],
+			array_keys($set_cache), array_values($set_cache));
+		break;
+}
 
 form_generate_input_text("Rule priority", "Priority value/level assigned to the rule (higher priorities have higher numbers)",
 	"pr", "n", $dp_form['pr'], 128, "^[0-9]+$");

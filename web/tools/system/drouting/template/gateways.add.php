@@ -19,6 +19,23 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */ 
+if (isset($form_error)) {
+	echo(' <tr align="center">');
+	echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
+	echo(' </tr>');
+}
+$dr_form = array(
+	"gwid" => "",
+	"type" => "",
+	"address" => "",
+	"strip" => "0",
+	"pri_prefix" => "",
+	"probe_mode" => 0,
+	"socket" => "",
+	"state" => 0,
+	"attrs" => "",
+	"description" => ""
+);
 ?>
 
 <form action="<?=$page_name?>?action=add_verify" method="post">
@@ -27,72 +44,8 @@
   <td colspan="2" class="mainTitle">Add new Gateway</td>
  </tr>
 <?php
- if (isset($form_error)) {
-                          echo(' <tr align="center">');
-                          echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
-                          echo(' </tr>');
-                         }
+ require("gateways.form.php");
 ?>
- <tr>
-   <td class="dataRecord"><b>Gateway ID</b></td>
-   <td class="dataRecord" width="275"><input type="text" name="gwid" value="<?=$gwid?>" maxlength="128" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>GW Type</b></td>
-  <td class="dataRecord" width="275"><?=get_types("type",get_settings_value("default_gw_type"),"275")?></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>SIP Address</b></td>
-  <td class="dataRecord" width="275"><input type="text" name="address" value="<?=$address?>" maxlength="128" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>Strip</b></td>
-  <td class="dataRecord"><input type="text" name="strip" value="<?=$strip?>" maxlength="11" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>PRI Prefix</b></td>
-  <td class="dataRecord"><input type="text" name="pri_prefix" value="<?=$pri_prefix?>" maxlength="16" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="searchRecord"><b>Probe Mode</b></td>
-  <td class="searchRecord" width="200">
-    <select id="probe_mode" name="probe_mode" class="dataSelect" style="width: 275px;">
-     <option value="0" selected>0 - Never</option>
-     <option value="1">1 - When disabled</option>
-     <option value="2">2 - Always</option>
-    </select>
-  </td>
- </tr>
-<tr>
-	<td class="dataRecord">
-		<b>Socket</b>
-	</td>
-	<td class="dataRecord" width="275">
-		<input type="text" name="socket" value="<?=$socket?>" maxlength="128" class="dataInput">
-	</td>
-</tr>
-
-<tr>
-	<td class="dataRecord">
-		<b>DB State</b>
-	</td>
-	<td class="dataRecord" width="200">
-		<select id="state" name="state" class="dataSelect" style="width: 275px;">
-			<option value="0" <?php if (isset($state) && $state == 0) echo "selected"; ?>>0 - Active</option>
-			<option value="1" <?php if (isset($state) && $state == 1) echo "selected"; ?>>1 - Inactive</option>
-			<option value="2" <?php if (isset($state) && $state == 2) echo "selected"; ?>>2 - Probing</option>
-		</select>
-	</td>
- </tr>
- <tr>
- <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b></td>
-  <?php if (isset($attrs) || $attrs=="") $attrs=get_settings_value("gw_attributes")["add_prefill_value"] ?>
-  <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" maxlength="128" class="dataInput"></td>
- </tr>
- <tr>
-  <td class="dataRecord"><b>Description</b></td>
-  <td class="dataRecord"><input type="text" name="description" value="<?=$description?>" maxlength="128" class="dataInput"></td>
- </tr>
  <tr>
   <td colspan="2">
     <table cellspacing=20>

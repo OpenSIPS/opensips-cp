@@ -24,6 +24,8 @@
     $chart_size = $_SESSION['chart_size'];
     if ($zoomOut == 'true') {
         $chart_size = $_SESSION['chart_history'];
+        if ($chart_size == "auto")
+            $chart_size = 3 * 24; //3 days
     }
 
     $sql = "SELECT * FROM ".$table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";

@@ -19,7 +19,6 @@ INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,ava
 DROP TABLE IF EXISTS `ocp_monitored_stats`;
 CREATE TABLE `ocp_monitored_stats` (
   `name` varchar(64) NOT NULL,
-  `extra` varchar(64) NOT NULL,
   `box_id` mediumint(8) unsigned NOT NULL default '0',
   PRIMARY KEY  (`name`,`box_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
@@ -47,16 +46,20 @@ CREATE TABLE `ocp_monitoring_stats` (
 
 CREATE TABLE `ocp_boxes_config` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL DEFAULT '',
   `mi_conn` varchar(64) DEFAULT NULL,
-  `monit_conn` varchar(64) NOT NULL,
+  `monit_conn` varchar(64) DEFAULT NULL,
   `monit_user` varchar(64) DEFAULT NULL,
   `monit_pass` varchar(64) DEFAULT NULL,
-  `monit_ssl` varchar(5) NOT NULL,
-  `desc` varchar(64) NOT NULL DEFAULT '',
+  `monit_ssl` varchar(5) DEFAULT NULL,
   `smonitcharts` varchar(5) DEFAULT NULL,
   `assoc_id` varchar(10) DEFAULT '-1',
-  PRIMARY KEY (`id`)
+  `desc` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_key` (`name`)
 );
+
+INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
 
 -- --------------------------------------------------------
 
@@ -70,6 +73,8 @@ CREATE TABLE `ocp_system_config` (
   `desc` varchar(64) DEFAULT '',
   PRIMARY KEY (`assoc_id`)
 );
+
+INSERT INTO ocp_system_config (assoc_id, name, `desc`) values (1,'System 0','Default system');
 
 -- --------------------------------------------------------
 

@@ -83,7 +83,19 @@
   <th class="listTitle">List Sort</th>
   <th class="listTitle">Use only first</th>
   <th class="listTitle">Description</th>
-  <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
+<?php
+$carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
+$carrier_attributes = get_settings_value("carrier_attributes");
+if ($carrier_attributes_mode != "none") {
+	if ($carrier_attributes_mode == "input") {
+		echo('<th class="listTitle"><'.$carrier_attributes["display_name"].'></th>');
+	} else {
+		foreach ($carrier_attributes as $key => $value) {
+			echo('<th class="listTitle">'.(isset($value["display_main"])?$value["display_main"]:$value["display"]).'</th>');
+		}
+	}
+}
+?>
   <th class="listTitle">DB State</th>
   <th class="listTitle">Memory State</th>
   <th class="listTitle">Details</th>
@@ -147,6 +159,8 @@ if (!is_null($message)) {
   }
   $stm->execute( $sql_vals );
   $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+  if ($carrier_attributes_mode != "none")
+	  require_once("lib/common.functions.inc.php");
   $index_row=0;
   for ($i=0;count($resultset)>$i;$i++)
   {
@@ -168,11 +182,6 @@ if (!is_null($message)) {
 		$description=$resultset[$i]['description'];
     else 
 		$description="&nbsp;";
-
-    if ($resultset[$i]['attrs']!="") 
-		$attrs=$resultset[$i]['attrs'];
-    else 
-		$attrs="&nbsp;";
 
 	//handle status
 	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
@@ -198,7 +207,23 @@ if (!is_null($message)) {
   <td class="<?=$row_style?>"><?=dr_get_name_of_sort_alg($resultset[$i]['sort_alg'])?></td>
   <td class="<?=$row_style?>" align="center"><?=$useonlyfirst?></td>
   <td class="<?=$row_style?>"><?=$description?></td>
-  <td class="<?=$row_style?>"><?=$attrs?></td>
+<?php
+if ($carrier_attributes_mode == "input") {
+	if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];
+	else $attrs="&nbsp;";
+	echo('<td class="'.$row_style.'">'.$attrs.'</td>');
+} else if ($carrier_attributes_mode == "params") {
+	$attr_map = dr_get_attrs_map($resultset[$i]['attrs']);
+	foreach ($carrier_attributes as $key => $value) {
+		$val = dr_get_attrs_val($attr_map, $key, $value);
+		if ($value["type"] == "checkbox" && $val == true)
+			$val = "<img src='../../../images/share/active.png'>";
+		else if (isset($value["value_wrapper_func"]))
+			$val = $value["value_wrapper_func"]($attr_map[$key], $val);
+		echo("<td class=\"".$row_style."\">".$val."</td>");
+	}
+}
+?>
   <td class="<?=$row_style?>" align="center"><?=$state?></td>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$details_link?></td>

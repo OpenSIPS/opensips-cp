@@ -69,7 +69,7 @@ $boxlist=inspect_config_mi();
         <?php
           $first_item = true;
           $params = get_params();
-          foreach(explode(",",get_settings_value("tabs", $box_id)) as $tab) {
+          foreach(explode(",",get_settings_value("tabs")) as $tab) {
             $tabName = array_search($tab, $params['tabs']['options']);
             if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
             if ($page_name!=$tab) echo('<a href="'.$tab.'" class="menuItem">'.$tabName.'</a>');

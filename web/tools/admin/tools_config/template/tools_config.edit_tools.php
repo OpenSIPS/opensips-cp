@@ -20,8 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
+require_once("../../../common/cfg_comm.php");
 require_once("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
  if (isset($form_error)) {
@@ -67,8 +67,8 @@ $permissions=array();
 		switch ($params['type']) {
 			case "checklist":
 				if (isAssoc($params['options']))
-				form_generate_checklist($params['name'], $current_tip, $module, 10,  explode(",", get_settings_value($module, $box_id)), array_values($params['options']), array_keys($params['options']));
-				else form_generate_input_checklist($params['name'], $current_tip, $module, 10, explode(",", get_settings_value($module, $box_id)), array_value($params['options']));
+				form_generate_checklist($params['name'], $current_tip, $module, 100,  explode(",", get_settings_value($module, $box_id)), array_values($params['options']), array_keys($params['options']));
+				else form_generate_input_checklist($params['name'], $current_tip, $module, 100, explode(",", get_settings_value($module, $box_id)), array_value($params['options']));
 				break;
 			case "json":
 				$flags = JSON_PRETTY_PRINT;
@@ -79,14 +79,14 @@ $permissions=array();
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))
-					form_generate_select($params['name'], $current_tip, $module, 10,  get_settings_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));
-				else form_generate_select($params['name'], $current_tip, $module, 10,  get_settings_value( $module, $box_id), array_values($params['options']));
+					form_generate_select($params['name'], $current_tip, $module, 100,  get_settings_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));
+				else form_generate_select($params['name'], $current_tip, $module, 100,  get_settings_value( $module, $box_id), array_values($params['options']));
 				break;
 			case "title":
 					print '<tr> <td class=\'sectionTitle\'><b>'.$params['title'].'</b></td></tr>';
 				break;
 			default:
-				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 60, $params['validation_regex']);
+				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 100, $params['validation_regex']);
 		}
 		if ($params['example']) {
 			print_example($params['example'], $params['name'], $module);

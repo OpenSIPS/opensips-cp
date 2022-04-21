@@ -1,5 +1,6 @@
 <?php
 	session_start();
+    require_once("../../../../web/common/cfg_comm.php");
     require_once("../../../../config/tools/system/smonitor/db.inc.php");
     require_once("../../../../config/db.inc.php");
     
@@ -18,13 +19,15 @@
     $zoomOut = $_GET['zoomOut'];
     $boxes = json_decode($_GET['box']);
     $normal = json_decode($_GET['normal']);
-    $sampling_time = $_SESSION['sampling_time'];
-    $table_monitoring = $_SESSION['tmonitoring'];
+    $sampling_time = get_settings_value_from_tool("sampling_time", "smonitor");
+    $table_monitoring = get_settings_value_from_tool("table_monitoring", "smonitor");
     $vals ="";
     $vals.="date,value,name";
-    $chart_size = $_SESSION['chart_size'];
+    $chart_size = get_settings_value_from_tool("chart_size", "smonitor");
     if ($zoomOut == 'true') {
-        $chart_size = $_SESSION['chart_history'];
+    	$chart_size = get_settings_value_from_tool("chart_history", "smonitor");
+        if ($chart_size == "auto")
+            $chart_size = 3 * 24; //3 days
     }
     
     $vals.="\n".date("Y-m-d-H-i-s", time());

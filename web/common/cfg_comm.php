@@ -264,6 +264,7 @@ function load_panels() {
 	$_SESSION['config']['panels_max_order'] = $max_order;
 }
 
+
 function load_boxes() {
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
@@ -355,14 +356,14 @@ function inspect_config_mi(){
 			$b++ ;
 
 			if ( in_array( $mi_url , $my_mis) ) {
-				echo "Re-usage of MI URL $mi_url in box ".$ar['desc']." in $global " . "<br>" ;
+				echo "Re-usage of MI URL $mi_url in box ".$ar['name']." in $global " . "<br>" ;
 				echo "MI URLs must be uniques"."<br>" ;
 				exit();
 			}
 
 			$my_mis[] = $mi_url;
 
-			$boxlist[$ar['mi']['conn']]=$ar['desc'];
+			$boxlist[$ar['mi']['conn']]=$ar['name'];
 		}
 
 	}
@@ -378,7 +379,7 @@ function print_back_button() {
 	if(isset($_SERVER['HTTP_REFERER'])) {
 		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
 	}
-	echo("<form method=\"get\" action=\"$previous\"><button class=\"formButton\" type=\"submit\">Back</button></form>");
+	echo("<form method=\"get\" action=\"$previous?action=back\"><button class=\"formButton\" type=\"submit\">Back</button></form>");
 }
 
 function print_back_input() {
@@ -386,7 +387,7 @@ function print_back_input() {
 	if(isset($_SERVER['HTTP_REFERER'])) {
 		$previous = strtok($_SERVER['HTTP_REFERER'],'?');
 	}
-	echo("<input onclick=\"window.location.href='$previous';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
+	echo("<input onclick=\"window.location.href='$previous?action=back';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
 
 function session_load($box_id = null) {

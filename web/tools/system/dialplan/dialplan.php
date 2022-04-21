@@ -86,6 +86,8 @@ if ($action=="clone")
 if ($action=="add_do")
 {
 	$dpid=$_POST['dpid'];
+	if (!isset($dpid))
+		$dpid = get_settings_value("dialplan_groups");
 	$pr=$_POST['pr'];
 	$match_op = $_POST['match_op'];
 	$match_exp= $_POST['match_exp'];
@@ -148,6 +150,8 @@ if ($action=="modify")
 {
 	$id = $_GET['id'];
 	$dpid=$_POST['dpid'];
+	if (!isset($dpid))
+		$dpid = get_settings_value("dialplan_groups");
 	$pr=$_POST['pr'];
 	$match_op = $_POST['match_op'];
 	$match_exp= $_POST['match_exp'];

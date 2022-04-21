@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->clusterer = array(
 	"title0" => array(
@@ -42,6 +43,7 @@ $config->clusterer = array(
 		"name" => "Table Clusterer",
 		"tip" => "The name of the DB table holding the cluster configuration 
 		(this needs to be correlated with the OpenSIPS configuration). The default value is 'clusterer'.",
+		"validation_regex" => $table_regex,
 		"type" => "text"
 	)
 );

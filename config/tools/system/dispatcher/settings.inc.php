@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->dispatcher = array(
 	"title0" => array(
@@ -26,25 +27,28 @@ $config->dispatcher = array(
 		"title" => "General settings"
 	),
 
-	"status" => array(
-		"default" => array('Active'=>'Active','Inactive'=>'Inactive','Probing'=>'Probing'),
-		"name" => "Status",
-		"type" => "json"
+	"dispatcher_groups_mode" => array(
+		"default" => array(),
+		"name" => "Dispatcher groups mode",
+		"type" => "dropdown",
+		"options" => array('Input'=>'input', 'Static'=>'static','Pre-Defined values'=>'array','Database'=>'database'),
+		"tip"	  => "Naming of the dispatcher groups (versus IDs) is possible here, in a static (hardcoded), array (pre-defined values) or dynamic (via DB) way.",
+		"default" => "input"
 	),
-
 	"dispatcher_groups" => array(
 		"default" => array(),
 		"name" => "Dispatcher groups",
 		"type" => "json",
-		"tip"	  => "Naming of the dispacher groups (versus IDs) is possible here, in a static (predefined) or dynamic (via DB) way. This naming is consistent across the displaying, editing and adding forms.",
+		"json_format" => "object",
+		"tip"	  => "Mandatory if 'Dispatcher groups mode' is not 'input', represents the JSON description of the groups.",
 		"example" => "
+/* Static way - simply specify the global Dispatcher group to be used */
+1
+
 /* Static way */
 {
-	\"type\": \"array\",
-	\"array\": {
-		\"2\": \"Group 1\",
-		\"4\": \"Group 2\"
-	}
+	\"2\": \"Group 2\",
+	\"4\": \"Group 4\"
 }
 
 /* Dynamic way */
@@ -54,12 +58,12 @@ $config->dispatcher = array(
  * - name: stores the name of the dispatcher id
  */
 {
-	\"type\": \"database\",
 	\"table\": \"ds_mappings\",
 	\"id\"	: \"id\",
 	\"name\": \"name\",
 }"
 	),
+
 	"talk_to_this_assoc_id" => array(
 		"default" => 1,
 		"name"    => "Linked system",
@@ -69,7 +73,14 @@ $config->dispatcher = array(
 		ID pointing to the group of servers (system) which needs to be provision with this dispatching information."
 	),
 
-
+	"dispatcher_partition" => array(
+		"default" => "",
+		"opt"     => "y",
+		"name"    => "Dispatcher partition",
+		"type"    => "text",
+		"tip"     => "The name of the dispatcher partition to work with; if empty, it will assume no partition support in OpenSIPS",
+		"validation_regex" => null,
+	),
 
 	"title1" => array(
 		"type" => "title",
@@ -79,6 +90,7 @@ $config->dispatcher = array(
 		"default" => "dispatcher",
 		"name" => "Table Dispatcher",
 		"type" => "text",
+		"validation_regex" => $table_regex,
 		"tip"  => "The database table name for storing the dispatcher data"
 	),
 

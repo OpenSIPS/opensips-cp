@@ -19,13 +19,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-function console_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  }
 
- 
 function permission($option,$i,$disabled) {
 	global $config;
 	require("../../../../config/globals.php");
@@ -55,6 +49,16 @@ function permission($option,$i,$disabled) {
 	?>
 	</select>
 	<?php
+}
+
+function get_boxes_params() {
+	require(__DIR__."/../../../../../config/tools/admin/boxes_config/settings.inc.php");
+	return $config->boxes;
+}
+
+function get_system_params() {
+	require(__DIR__."/../../../../../config/tools/admin/boxes_config/settings.inc.php");
+	return $config->systems;
 }
 
 ?>

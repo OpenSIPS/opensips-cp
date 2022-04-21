@@ -176,6 +176,9 @@ function toggleFormat(tool, id) {
 </script>
 
 <?php
+global $table_regex;
+$table_regex = "^[a-zA-Z0-9_]+$";
+
 function print_description() {
 	global $config;
 	$long = get_settings_value('tool_description');
@@ -191,6 +194,8 @@ function print_description() {
 }
 
 function print_example($example, $param, $id) {
+	$param = str_replace("'", "", $param);
+	$param = str_replace('"', "", $param);
 	$short = "";
 	echo (
 		"<tr><td></td><td><style>

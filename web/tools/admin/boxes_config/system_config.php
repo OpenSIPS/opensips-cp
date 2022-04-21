@@ -139,7 +139,6 @@ if ($action == "add_verify") {
 		}
 		$sql = "INSERT INTO ".$table." (".$params_names.") VALUES (".$unknowns.")";
 				$stm = $link->prepare($sql);
-				console_log($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}

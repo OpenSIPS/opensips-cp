@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->dialplan = array(
 	"title0" => array(
@@ -61,11 +62,62 @@ $config->dialplan = array(
 		"default" => "dialplan",
 		"name"    => "Table Dialplan",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $table_regex,
 		"tip"     => "The database table name for storing the diaplan rules",
 	),
 
-	"title2" => array(
+ 	"title2" => array(
+ 		"type" => "title",
+		"title" => "Dialplan ID settings"
+	),
+
+	"dialplan_groups_mode" => array(
+		"name" => "Dialplan ID Mode",
+		"type" => "dropdown",
+		"options" => array('Input'=>'input', 'Static'=>'static','Pre-Defined values'=>'array','Database'=>'database'),
+		"tip"	  => "Naming of the Dialplan groups (versus IDs) is possible here, in a static (hardcoded), array (pre-defined values) or dynamic (via DB) way.",
+		"default" => "input"
+	),
+
+	"dialplan_groups" => array(
+		"default" => array(),
+		"name" => "Dialplan ID descripton",
+		"type" => "json",
+		"json_format" => "object",
+		"tip"	  => "Mandatory if 'Dialplan ID Mode' is not 'input', represents the JSON description of the groups.",
+		"example" => "
+/* Static way - simply specify the global Dialplan ID to be used */
+1
+
+/* Array way - specify the possible Dialplan IDs and their name */
+{
+	\"2\": \"Set 2\",
+	\"4\": \"Set 4\"
+}
+
+/* Dynamic way */
+/* The following config presumes that a
+ * dialplan_maps table exists with two fields:
+ * - id: stores the group id
+ * - name: stores the name of the dialplan id
+ */
+{
+	\"table\": \"dialplan_maps\",
+	\"id\"	: \"id\",
+	\"name\": \"name\",
+}"
+	),
+
+	"dialplan_partition" => array(
+		"default" => "",
+		"opt"     => "y",
+		"name"    => "Dialplan partition",
+		"type"    => "text",
+		"tip"     => "The name of the dialplan partition to work with; if empty, it will assume no partition support in OpenSIPS",
+		"validation_regex" => null,
+	),
+
+	"title3" => array(
 		"type" => "title",
 		"title" => "Display settings"
 	),

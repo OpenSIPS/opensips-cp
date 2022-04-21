@@ -40,17 +40,17 @@ $config_modules 	= array (
 		"name" 		=> "Users",
 		"icon"		=> "images/icon-user.svg",
 		"modules"	=> array (
-			"acl_management"	=> array (
+			"user_management"	=> array (
 				"enabled"		=> true,
-				"name"			=> "ACL Management"
+				"name"			=> "User Management"
 			),
 			"alias_management"	=> array (
 				"enabled"		=> true,
 				"name"			=> "Alias Management"
 			),
-			"user_management"	=> array (
+			"group_management"	=> array (
 				"enabled"		=> true,
-				"name"			=> "User Management"
+				"name"			=> "Group Management"
 			),
 		)
 	),
@@ -59,6 +59,10 @@ $config_modules 	= array (
 		"name"		=> "System",
 		"icon"		=> "images/icon-system.svg",
 		"modules"	=> array (
+			"addresses"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Addresses"
+			),
 			"callcenter"		=> array (
 				"enabled"		=> true,
 				"name"			=> "Callcenter"
@@ -111,10 +115,6 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "RTPEngine"
 			),
-			"permissions"			=> array (
-				"enabled"		=> true,
-				"name"			=> "Permissions"
-			),
 			"siptrace"			=> array (
 				"enabled"		=> true,
 				"name"			=> "SIP Trace"
@@ -122,10 +122,6 @@ $config_modules 	= array (
 			"smonitor"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Statistics Monitor"
-			),
-			"homer"				=> array (
-				"enabled"		=> false,
-				"name"			=> "Homer"
 			),
 			"tls_mgm"			=> array (
 				"enabled"		=> true,
@@ -138,10 +134,6 @@ $config_modules 	= array (
 			"smpp"				=> array (
 				"enabled"		=> true,
 				"name"			=> "SMPP Gateway"
-			),
-			"tviewer"			=> array (
-				"enabled"		=> true,
-				"name"			=> "TViewer"
 			),
 		)
 	),

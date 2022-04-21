@@ -36,7 +36,7 @@ function(d){
     return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value, name : d.name}
   },
 
- function(data) { 
+ function(data) {
   var currentAxis = 0;
     var refresh = 1;
     var zoomTrigger = false;

@@ -19,6 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+	global $table_regex;
 
 $config->alias_management = array(
 	"title0" => array(
@@ -31,6 +32,7 @@ $config->alias_management = array(
 		),
 		"name"    => "Table aliases",
 		"type"    => "json",
+		"validation_regex" => $table_regex,
 		"tip"     => "Parameter used for the aliases tables if there are more than the standard dbaliases table. The defined array has as key the label and as value the table name.For defining more than one attribute/value pair, complete the list with identical elements separated by comma.",
 		"example" => "{
 	\"DBaliases\": \"dbaliases\",
