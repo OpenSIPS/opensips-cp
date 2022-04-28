@@ -300,4 +300,19 @@ function show_graphs($stats, $box_ids, $scale){
 	
 }
 
+function get_stats_classes() {
+	$stats_options = array();
+	$tools = get_tools();
+	foreach ($tools as $tool => $group) {
+		$files = glob('../../'.$group.'/'.$tool.'/statistics/*.php');
+		foreach ($files as $file) {
+			require_once($file);
+			$file_name = basename($file);
+			$stats_options[] = substr($file_name, 0, strlen($file_name) - 4);
+		}
+	}
+
+	return $stats_options;
+}
+
 ?>
