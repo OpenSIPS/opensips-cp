@@ -34,8 +34,8 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">Widget Name</th>
-  <th class="listTitle">Widget ID</th>
+  <th class="listTitle">Statistic Name</th>
+  <th class="listTitle">Statistic details</th>
   <?php
   if(!$_SESSION['read_only']){
   	echo('<th class="listTitle">Import</th>');
@@ -45,7 +45,6 @@ if(!$_SESSION['read_only']){
 <?php
 
 $resultset = get_stats_classes();
-consoole_log($resultset);
 $data_no = sizeof($resultset);
 
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -66,17 +65,19 @@ else
 	$i=0;
 	while (sizeof($resultset)>$i)
 	{
+		$stat_temp = new $resultset[$i]("input_1");
+		consoole_log($stat_temp->get_statistics());
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
-			$details_link = '<a href="javascript:;" onclick="show_widget(\''.$resultset[$i]['name'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i].'\')"><img src="../../../images/share/details.png" border="0"></a>';
             //$details_link = '<a href="'.$page_name.'?action=import_details&widget_dir='.$resultset[$i]['dir'].'"><img src="../../../images/share/details.png" border="0"></a>';
     	if(!$_SESSION['read_only']){	
 			$import_link = '<a href="'.$page_name.'?action=import_widget_true"><img src="../../../images/share/edit.png" border="0"></a>';
         }
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]?></td>
 	<td class=<?=$row_styleImg."Img"?> align="center"><?=$details_link?></td>
 <?php
    if(!$_SESSION['read_only']){
