@@ -381,4 +381,21 @@ function session_load_from_tool($tool, $box_id = null) {
 		$config->$module = get_settings_value_from_tool($module, $tool); 
 	} 
 }
+
+
+function get_tools() {
+	require("../../../../config/modules.inc.php");
+	$tools = [];
+	foreach ($config_modules as $group => $modules) {
+		if (!$modules['enabled'])
+			continue;
+		foreach ($modules['modules'] as $name => $attrs) {
+			if (!$attrs['enabled'])
+				continue;
+			$tools[$name] = $group;
+		}
+	}
+	return $tools;
+}
+
 ?>
