@@ -144,8 +144,12 @@ case "modify":
 case "delete":
 	$id=$_GET['id'];
 
-	$sql = "DELETE FROM ".$table." WHERE id=".$id;
-	$link->exec($sql);
+	$sql = "DELETE FROM ".$table." WHERE id=?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	$stm->execute(array($id));
 	$info="Record has been deleted";
 
 	break;
