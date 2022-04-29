@@ -266,31 +266,40 @@ if ($action=="disablecar"){
 ################
 # start search #
 ################
- if ($action=="search")
- {
-  $_SESSION[$current_page]=1;
-  if ($_POST['show_all']=="Show All") {
-                                       $_SESSION['rules_search_gwlist']="";
-                                       $_SESSION['rules_search_description']="";
-                                       $sql_search="";
-                                      }
-  else {
-        extract($_POST);
-        if ($search=="Search") {
-                                $_SESSION['rules_search_gwlist']=$search_gwlist;
-                                $_SESSION['rules_search_description']=$search_description;
-                               }
-        if ($delete=="Delete Matching") {
-                                         $sql_search="";
-                                         $search_gwlist=$_SESSION['rules_search_gwlist'];
-                                         if ($search_gwlist!="") $sql_search.=" and gwlist like '%".$search_gwlist."%'";
-                                         $search_description=$_SESSION['rules_search_description'];
-                                         if ($search_description!="") $sql_search.=" and description like '%".$search_description."%'";
-                                         $sql = "delete from ".$table." where (1=1) ".$sql_search;
-                                         $link->exec($sql);
-                                        }
-       }
- }
+if ($action=="search")
+{
+	$_SESSION[$current_page]=1;
+	if ($_POST['show_all']=="Show All") {
+		$_SESSION['rules_search_gwlist']="";
+		$_SESSION['rules_search_description']="";
+		$sql_search="";
+	}
+	else {
+		extract($_POST);
+		if ($search=="Search") {
+			$_SESSION['rules_search_gwlist']=$search_gwlist;
+			$_SESSION['rules_search_description']=$search_description;
+		}
+		if ($delete=="Delete Matching") {
+			$sql_search="";
+			$qvalues = array();
+			$search_gwlist=$_SESSION['rules_search_gwlist'];
+			if ($search_gwlist!="") {
+				$sql_search.=" and gwlist like ?";
+				$qvalues[] = "%".$search_gwlist."%";
+			}
+			$search_description=$_SESSION['rules_search_description'];
+			if ($search_description!="") {
+				$sql_search.=" and description like ?";
+				$qvalues[] = "%".$search_description."%";
+			}
+			$sql = "delete from ".$table." where (1=1) ".$sql_search;
+			$stm = $link->prepare($sql);
+			if ($stm->execute($qvalues) === false)
+				die('Failed to issue delete, error message : ' . print_r($stm->errorInfo(), true));
+		}
+	}
+}
 ##############
 # end search #
 ##############
