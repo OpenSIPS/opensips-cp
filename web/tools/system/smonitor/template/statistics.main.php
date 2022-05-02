@@ -29,7 +29,7 @@ if(!$_SESSION['read_only']){
 $stat_classes = get_stats_classes();
 
 ?>
-<form action="<?=$page_name?>?action=add" method="post">
+<form action="<?=$page_name?>?action=add_statistic" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
 </form>
 

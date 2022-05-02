@@ -91,6 +91,36 @@ function get_mi_modules($mi_url)
  return;
 }
 
+function consoole_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
+
+
+function get_custom_modules()
+{
+	include("db_connect.php");
+
+	$sql_command="select * from ocp_extra_stats;";
+	$stm = $link->prepare( $sql_command );
+	if ($stm===FALSE)
+	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$modules = $resultset;
+	$_SESSION['custom_modules_no']=count($modules[0]) - 1 ;
+	for ($i=0; $i<(count($modules[0])) && (!empty($modules[0][$i])); $i++)
+	{
+	$_SESSION['custom_module_name'][$i] = $modules[0][$i];
+		$_SESSION['custom_module_vars'][$i] = $modules[1][$i];
+		$_SESSION['custom_module_open'][$i] = "no";
+	}
+	
+ return;
+}
+
+
 function get_vars($module, $mi_url)
 {
 	global $config;

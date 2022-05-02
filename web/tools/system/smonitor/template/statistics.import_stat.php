@@ -30,7 +30,7 @@ require_once("../../../common/forms.php");
 
 ?> 
 
-<form action="<?=$page_name?>?action=add_statistic&name=<?=$stat_name?>" method="post">
+<form action="<?=$page_name?>?action=add_modify_statistic&name=<?=$stat_name?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
 	 <?php   

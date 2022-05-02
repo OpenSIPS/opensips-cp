@@ -29,12 +29,6 @@
  require("lib/functions.inc.php");
  require("template/header.php");
  
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
-
  session_load(); 
  
  include("lib/db_connect.php");
@@ -52,7 +46,14 @@ if ($action == "import_statistic") {
  
 if ($action == "add_statistic") {
 	$stat_name = $_GET['name'];
-	$sql = "REPLACE INTO ocp_statistics (`name`, input) VALUES (?,?)";
+    require("template/".$page_id.".add.php");
+	require("template/footer.php");
+	exit();
+}
+
+if ($action == "add_modify_statistic") { 
+	$stat_name = $_GET['name'];
+	$sql = "REPLACE INTO ocp_extra_stats (`name`, input) VALUES (?,?)";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
