@@ -25,39 +25,32 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 3;
 }
-
-$stat_classes = get_stats_classes();
-
 ?>
-<form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
-</form>
+
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">Stat name</th>
-  <th class="listTitle">Stat description</th>
+  <th class="listTitle">Statistic Name</th>
+  <th class="listTitle">Statistic details</th>
+  <th class="listTitle">Provisioning tool</th>
   <?php
   if(!$_SESSION['read_only']){
-
-  	echo('
-  		<th class="listTitle">Delete</th>');
+  	echo('<th class="listTitle">Import</th>');
   }
   ?>
  </tr>
 <?php
-$sql_command="select count(*) from ocp_extra_stats";
-$stm = $link->prepare( $sql_command );
-if ($stm===FALSE) {
-	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
-}
-$stm->execute( $sql_vals );
-$data_no = $stm->fetchColumn(0);
+
+$resultset = get_stats_classes();
+$data_no = sizeof($resultset);
 
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
-{
+{	
 	$res_no=$config->results_per_page;
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
@@ -66,32 +59,36 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
-	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select * from ocp_extra_stats;";
-	$stm = $link->prepare( $sql_command );
-	if ($stm===FALSE)
-	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
-	$stm->execute();
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	
+    
+	//require("lib/".$page_id.".main.js");
 	$index_row=0;
 	$i=0;
-    consoole_log($resultset);
-	while (count($resultset)>$i)
-	{	
+	while (sizeof($resultset)>$i)
+	{
+		$stat_temp = new $resultset[$i]("input_1");
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
-
-		if(!$_SESSION['read_only']){
-			$delete_link='<a href="'.$page_name.'?action=delete&box_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
-		}
+			//$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+            //$details_link = '<a href="'.$page_name.'?action=import_details&widget_dir='.$resultset[$i]['dir'].'"><img src="../../../images/share/details.png" border="0"></a>';
+			if(!$_SESSION['read_only']){	
+			$import_link = '<a href="'.$page_name.'?action=import_statistic&name='.$resultset[$i].'"><img src="../../../images/share/edit.png" border="0"></a>';
+        }
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']::get_description()?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $delete_link?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp->get_name();?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp->get_tool();?></td>
+<?php
+   if(!$_SESSION['read_only']){
+   	echo('
+            <td class="'.$row_style.'Img" align="center">'.$import_link.'</td>');
+   }
+?>
   </tr>  
 <?php
+
 	$i++;
 	}
 }
@@ -114,6 +111,7 @@ else
        	// back block
        	if ($start_page!=1) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page-$max_pages).'" class="menuItem"><b>&lt;&lt;</b></a>&nbsp;');
        	// current pages
+		   if ($start_page < 1){ $start_page = 1; $end_page = 1;}
        	for($i=$start_page;$i<=$end_page;$i++)
        	if ($i==$page) echo('<font class="pageActive">'.$i.'</font>&nbsp;');
        	else echo('<a href="'.$page_name.'?page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');

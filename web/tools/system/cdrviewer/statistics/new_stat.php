@@ -1,11 +1,11 @@
 <?php
 require_once(__DIR__."/../../smonitor/template/stat_class.php");
 
-class stats2 extends custom_statistic
+class new_stat extends custom_statistic
 {
     
     function __construct($input) {
-        parent::__construct("stats2_name", "dialog_stats2", "Dialog", $input);
+        parent::__construct("stats3_name", "dialog_stats3", "CDRViewer", $input);
     }
     
     function get_statistics() {

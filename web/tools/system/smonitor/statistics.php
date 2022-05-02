@@ -39,6 +39,30 @@ function consoole_log( $data ){
  
  include("lib/db_connect.php");
  
+if (isset($_POST['action'])) $action=$_POST['action'];
+else if (isset($_GET['action'])) $action=$_GET['action'];
+else $action="";
+
+if ($action == "import_statistic") {
+	$stat_name = $_GET['name'];
+    require("template/".$page_id.".import_stat.php");
+	require("template/footer.php");
+	exit();
+}
+ 
+if ($action == "add_statistic") {
+	$stat_name = $_GET['name'];
+	$sql = "REPLACE INTO ocp_statistics (`name`, input) VALUES (?,?)";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array( $stat_name, $_POST["input_id"])) == false) {
+			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+		}	else {
+			$info="Stat was added";
+	}
+}
  
  
  
