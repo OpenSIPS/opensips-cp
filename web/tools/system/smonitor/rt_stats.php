@@ -30,6 +30,7 @@
  
  session_load(); 
  get_mi_modules($current_box);
+ get_custom_modules();
 
  $table=get_settings_value("table_monitored");	
  
