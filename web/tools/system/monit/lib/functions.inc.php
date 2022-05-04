@@ -32,7 +32,7 @@ function inspect_config_monit(){
 
 	foreach ( $boxes as $ar ){
 
-			$boxlist[$b][$ar['monit']['conn']]=$ar['desc'];
+			$boxlist[$b][$ar['monit']['conn']]=$ar['name'];
 			$boxlist[$b]['user']=$ar['monit']['user'];
 			$boxlist[$b]['pass']=$ar['monit']['pass'];
 			$boxlist[$b]['has_ssl']=$ar['monit']['has_ssl'];

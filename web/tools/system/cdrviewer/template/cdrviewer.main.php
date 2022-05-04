@@ -179,6 +179,7 @@ else
 		
 		echo '<tr align="center">';
 
+
 		foreach ($show_field as $key => $title) {
 			$value = $result[$j][$key];
 			if (get_settings_value('sip_call_id_field_name')==$key) {

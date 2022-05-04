@@ -267,6 +267,25 @@ function get_box_id($current_box){
 	return null;
 }
 
+function get_box_id_by_name($box_name){
+
+	require('../../../../config/boxes.load.php');
+	foreach ($boxes as $ar) {
+		if ($ar['name']==$box_name)
+			return $ar["id"];
+	}
+	return null;
+}
+
+function get_box_id_default(){
+	/* returns first box_id */
+	require('../../../../config/boxes.load.php');
+	if (count($boxes) == 0)
+		return null;
+	return $boxes[0]["id"];
+}
+
+
 function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
@@ -281,6 +300,7 @@ function show_graph($stat,$box_id){
 	$_SESSION['full_stat'] = $var;
 	$_SESSION['stat'] = str_replace(':', '', $stat);
 	$_SESSION[str_replace(':', '', $stat)] = $row;
+  
 	$_SESSION['sampling_time'] = get_settings_value("sampling_time");
 	$_SESSION['chart_size'] = get_settings_value("chart_size");
 	$_SESSION['box_id_graph'] = $box_id;
@@ -293,17 +313,16 @@ function show_graph($stat,$box_id){
 	if ($normal_chart) {
 		$_SESSION['normal'] = 1;
 	}
-
-	require("lib/d3js.php");
-
+	$_SESSION['normal'] = 1;
+	require(__DIR__."/d3js.php");
 }
-
 
 function show_graphs($stats, $box_ids, $scale){
 	global $config;
 	global $gauge_arr;
 	$chart_history = get_settings_value("chart_history");
 	if ($chart_history == "auto") $chart_history = 3 * 24;
+  
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("db_connect.php");
@@ -326,6 +345,7 @@ function show_graphs($stats, $box_ids, $scale){
 	$_SESSION['chart_history'] = $chart_history;
 	$_SESSION['boxes_list'] = $box_ids;
 	$_SESSION['scale'] = $scale; // 1 is individual
+  
 	require("lib/d3jsMultiple.php");
 	
 }
@@ -343,6 +363,124 @@ function get_stats_classes() {
 	}
 
 	return $stats_options;
+}
+
+function show_pie_chart() {
+	require(__DIR__."/bar_d3js.php");
+}
+
+function get_stats_list($box_id) {
+	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require_once(__DIR__."/../../../../../config/db.inc.php");
+	require_once(__DIR__."/db_connect.php");
+	$stats_list = [];
+	
+	foreach(get_settings_value_from_tool("groups", "smonitor", 0) as $key=>$group_attr) {
+		$groupElements = $group_attr['stats'];
+		$gName = "Group: ";
+		$matches = false;
+		$group = [];
+		foreach ($groupElements as $g) {
+		 if( preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
+		   foreach ($monitored_stats as $name => $id) {
+			 if (preg_match($g['name'], $name, $matches))
+				 $group[] = $name;
+		   }
+		 }
+		 else $group[] = $g['name'];
+		}
+	   foreach($group as $gr) {
+		 $gName.=$gr.", ";
+	   }
+	   $stats_list[] = $gName;
+	}
+	$sql = "SELECT DISTINCT name FROM ocp_monitored_stats WHERE box_id = ".$box_id." ORDER BY name ASC";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array()) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$data_no=count($resultset);
+
+	for($j=0;count($resultset)>$j;$j++)
+	{
+		$stat_chart=false;
+		$stat=$resultset[$j]['name'];
+		$stats_list[] = $stat;
+	}
+	return $stats_list;
+}
+
+function get_stats_list_all_boxes() {
+	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require_once(__DIR__."/../../../../../config/db.inc.php");
+	require_once(__DIR__."/db_connect.php");
+	$stats_list = [];
+
+	$sql = "SELECT DISTINCT name, box_id FROM ocp_monitored_stats ORDER BY name ASC";
+	$stm = $link->prepare($sql);
+	if ($stm->execute(array()) === false)
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$data_no=count($resultset);
+
+	foreach($resultset as $key => $value) {
+		$stats_list[$value['box_id']][] = $value['name'];
+	}
+	return $stats_list;
+}
+
+function show_widget_graphs($stats_list){ $box_id = 0;
+	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require_once(__DIR__."/../../../../../config/db.inc.php");
+	require_once(__DIR__."/db_connect.php");
+	$group =[];
+	foreach(get_settings_value_from_tool("groups", "smonitor", 0) as $key=>$group_attr) {
+		$boxes = [];
+		$groupElements = $group_attr['stats'];
+		$scale = $group_attr['scale'];
+		$gName = "Group: ";
+		$matches = false;
+		$group = [];
+		foreach ($groupElements as $g) {
+			$boxes[] = $g['box_id'];
+			if( preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
+			foreach ($monitored_stats as $name => $id) {
+				if (preg_match($g['name'], $name, $matches))
+					$group[] = $name;
+			}
+			}
+			else $group[] = $g['name'];
+		}
+	   foreach($group as $gr) {
+		 $gName.=$gr.", ";
+	   }
+	   if ($gName == $stats_list)
+	   	continue;
+	}
+	$stats = $group;
+
+	global $config;
+	global $gauge_arr;
+	$box_id = $box_id;
+	$chart_size = get_settings_value_from_tool('chart_size', "smonitor", $box_id)+1;
+
+    $divId = "";
+	$_SESSION['normal'] = array();
+	foreach ($stats as $var) {
+		$normal_chart = 1 ;
+		if (in_array($var , $gauge_arr ))  $normal_chart = 1;
+		$_SESSION['normal'][] = $normal_chart;
+		$divId.=str_replace(':', '', $var);
+	}
+	$nGraphs = sizeof($stats);
+	
+	$_SESSION['full_stats'] = $stats;
+	$_SESSION['chart_group_id'] = $divId;
+	$_SESSION['stime'] = get_settings_value_from_tool("sampling_time", "smonitor", $box_id);
+	$_SESSION['csize'] = get_settings_value_from_tool("chart_size", "smonitor", $box_id);
+	$_SESSION['box_id_graph'] = $box_id;
+	$_SESSION['scale'] = $scale; // 1 e individual
+	require(__DIR__."/d3jsMultiple.php");
 }
 
 ?>

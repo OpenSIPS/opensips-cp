@@ -43,9 +43,10 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">System name</th>
-  <th class="listTitle">Box description</th>
-  <th class="listTitle">MI connector</th>
+  <th class="listTitle">Box Name</th>
+  <th class="listTitle">System Name</th>
+  <th class="listTitle">MI Connector</th>
+  <th class="listTitle">Box Description</th>
   <?php
   foreach ($custom_box_params as $elem) {
 	  echo('<th class="listTitle">'.$elem['name'].'</th>');
@@ -106,9 +107,10 @@ else
 		}
 ?>
  <tr>
+  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $systems[$resultset[$i]['assoc_id']]['name']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['desc']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['mi_conn']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['desc']?></td>
 <?php
 	foreach ($custom_box_params as $elem) 
 		echo ('<td class="'.$row_style.'">&nbsp;'.$resultset[$i][$elem['key']].'</td>');

@@ -21,6 +21,14 @@
  */
 global $config;
 $config->boxes = array(
+	"name" => array(
+		"default" => NULL,
+		"name"    => "Box Name",
+		"type"    => "text",
+		"opt"     => "n",
+		"validation_regex"  => "^.+",
+		"show_in_edit_form" => true,
+	),
 	"mi_conn" => array(
 		"default" => "json:127.0.0.1:8888/mi",
 		"name"    => "MI connector",
@@ -58,13 +66,6 @@ $config->boxes = array(
 		"type"    => "dropdown",
 		"show_in_edit_form" => true,
 	),
-	"desc" => array(
-		"default" => "",
-		"name"    => "Box description",
-		"type"    => "text",
-		"validation_regex"  => null,
-		"show_in_edit_form" => true,
-	),
 	"smonitcharts" => array(
 		"default" => "1",
 		"name"    => "System Monitor charting",
@@ -80,6 +81,13 @@ $config->boxes = array(
 		"type"    => "dropdown",
 		"show_in_edit_form" => true,
 	),
+	"desc" => array(
+		"default" => "",
+		"name"    => "Box description",
+		"type"    => "text",
+		"validation_regex"  => null,
+		"show_in_edit_form" => true,
+	),
 );
 
 $config->systems = array(
@@ -90,7 +98,7 @@ $config->systems = array(
 		"show_in_edit_form" => true,
 		"validation_regex"  => "^.+$",
 	),
-	"desc" => array(
+    "desc" => array(
 		"default" => "",
 		"name"    => "System description",
 		"type"    => "text",

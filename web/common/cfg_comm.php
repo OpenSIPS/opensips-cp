@@ -118,6 +118,17 @@ function get_assoc_id() {
 	return $assoc_ids;
 }
 
+function get_tools() {
+	require("../../../../config/modules.inc.php");
+	$tools = [];
+	foreach ($config_modules as $group => $modules) {
+		foreach ($modules['modules'] as $name => $attrs) {
+			$tools[$name] = $group;
+		}
+	}
+	return $tools;
+}
+
 function get_tool_name() {
 	require("../../../../config/modules.inc.php");
 	return $config_modules[$_SESSION['current_group']]['modules'][$_SESSION['current_tool']]['name'];
@@ -139,6 +150,21 @@ function get_group_from_tool($tool) {
 
 function get_group() {
 	return get_group_from_tool($_SESSION['current_tool']);
+}
+
+function load_widgets() {
+	$tools = get_tools();
+	$tools['dashboard'] = 'admin';
+	$widgets = [];
+	foreach ($tools as $tool => $group) {
+		$files = glob('../../'.$group.'/'.$tool.'/template/dashboard_widgets/*.php');
+		foreach ($files as $file) {
+			require_once($file);
+			$file_name = basename($file);
+			$widgets[] = substr($file_name, 0, strlen($file_name) - 4);
+		}
+	}
+	return $widgets;
 }
 
 function display_settings_button($box_id=null) {
@@ -204,6 +230,41 @@ function get_system_params() {
 	return $config->systems;
 }
 
+function load_panels() {
+	require("".__DIR__."/../tools/admin/dashboard/lib/db_connect.php");
+	require("".__DIR__."/../../config/tools/admin/dashboard/local.inc.php");
+
+	$max_order = -1;
+	$sql = 'select `name`, id, content, positions, `order` from ocp_dashboard';
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+
+	if ($stm->execute( array()) == false)
+		echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+	else {
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($resultset as $elem) {
+			$_SESSION['config']['panels'][$elem['id']]['name'] = $elem['name'];
+			$_SESSION['config']['panels'][$elem['id']]['content'] = $elem['content'];
+			foreach (json_decode($elem['content']) as $widget_id => $widget) {
+				$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['content'] = $widget;
+				foreach (json_decode($elem['positions']) as $el) {
+					if ($el->id == $widget_id) {
+						$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['positions'] = json_encode($el);
+					}
+				}
+			}
+			$_SESSION['config']['panels'][$elem['id']]['order'] = $elem['order'];
+			$_SESSION['config']['panels'][$elem['id']]['id'] = $elem['id'];
+			if ($elem['order'] > $max_order) $max_order = $elem['order'];
+		}
+	}
+	$_SESSION['config']['panels_max_order'] = $max_order;
+}
+
+
 function load_boxes() {
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
@@ -252,7 +313,7 @@ function load_boxes() {
 	} 
 }
 
-function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {
+function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) { $box_id = null;
 	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
 	if (is_null($box_id)){
@@ -295,14 +356,14 @@ function inspect_config_mi(){
 			$b++ ;
 
 			if ( in_array( $mi_url , $my_mis) ) {
-				echo "Re-usage of MI URL $mi_url in box ".$ar['desc']." in $global " . "<br>" ;
+				echo "Re-usage of MI URL $mi_url in box ".$ar['name']." in $global " . "<br>" ;
 				echo "MI URLs must be uniques"."<br>" ;
 				exit();
 			}
 
 			$my_mis[] = $mi_url;
 
-			$boxlist[$ar['mi']['conn']]=$ar['desc'];
+			$boxlist[$ar['mi']['conn']]=$ar['name'];
 		}
 
 	}
@@ -333,13 +394,13 @@ function session_load($box_id = null) {
 	session_load_from_tool($_SESSION['current_tool'], $box_id);
 }
 
-function session_load_from_tool($tool, $box_id = null) {
+function session_load_from_tool($tool, $box_id = null) { $box_id = null;
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
 	global $config;
 	$table_tools_config = $config->table_tools_config;
 	$module_params = get_params_from_tool($tool);
-	if (!isset($_SESSION['config'][$tool])) {
+	if (!isset($_SESSION['config'][$tool])) {  $message.="si nu e setat session config smonitor ";
 		if (is_null($box_id)) {
 			$sql = 'select param, value from '.$table_tools_config.' where module=? ';
 			$stm = $link->prepare($sql);
@@ -376,10 +437,10 @@ function session_load_from_tool($tool, $box_id = null) {
 				}
 			}
 		} 
-	}
+	} else $message .= "Si e setat session smonitor";
 	foreach ($module_params as $module=>$params) {
 		$config->$module = get_settings_value_from_tool($module, $tool); 
-	} 
+	}
 }
 
 

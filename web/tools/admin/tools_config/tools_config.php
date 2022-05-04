@@ -27,7 +27,6 @@ require("../../../../config/tools/admin/tools_config/db.inc.php");
 require("../../../../config/tools/admin/tools_config/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
-
 $table=$config->table_tools_config; 
 $current_page="current_page_tools_config";
 $box_id = $_GET['box_id'];
