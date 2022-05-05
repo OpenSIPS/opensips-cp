@@ -91,12 +91,6 @@ function get_mi_modules($mi_url)
  return;
 }
 
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
-
 
 function get_custom_modules()
 {

@@ -118,16 +118,7 @@ function get_assoc_id() {
 	return $assoc_ids;
 }
 
-function get_tools() {
-	require("../../../../config/modules.inc.php");
-	$tools = [];
-	foreach ($config_modules as $group => $modules) {
-		foreach ($modules['modules'] as $name => $attrs) {
-			$tools[$name] = $group;
-		}
-	}
-	return $tools;
-}
+
 
 function get_tool_name() {
 	require("../../../../config/modules.inc.php");
@@ -316,6 +307,7 @@ function load_boxes() {
 function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) { $box_id = null;
 	$current_group = get_group_from_tool($current_tool);
 	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
+	
 	if (is_null($box_id)){
 		if (!is_null($_SESSION['config'][$current_tool][$current_param])){ 
 			return $_SESSION['config'][$current_tool][$current_param];}}

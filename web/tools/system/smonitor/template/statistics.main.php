@@ -75,7 +75,6 @@ else
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	$index_row=0;
 	$i=0;
-    consoole_log($resultset);
 	while (count($resultset)>$i)
 	{	
 		$index_row++;
