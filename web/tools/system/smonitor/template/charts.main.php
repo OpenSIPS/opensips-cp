@@ -38,7 +38,7 @@ function consoolee_log( $data ){
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
 <?php 
 
-$sql = "SELECT DISTINCT name, `input` FROM ocp_statistics  ORDER BY name ASC";
+$sql = "SELECT DISTINCT name, `input` FROM ocp_extra_stats  ORDER BY name ASC";
 $stm = $link->prepare($sql);
 if ($stm->execute() === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
