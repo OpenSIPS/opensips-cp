@@ -38,8 +38,8 @@ if ($action=="add_verify")
 			$regex = "null";
 		else
 			$regex = $value['validation_regex'];
-		if (!preg_match("/".$attr['validation_regex']."/", $_POST[$key])) {
-			die("Failed to validate input for ".$attr['name']);
+		if (!preg_match("/".$regex."/", $_POST[$key])) {
+			die("Failed to validate input for ".$key);
 		}
 	}
 
