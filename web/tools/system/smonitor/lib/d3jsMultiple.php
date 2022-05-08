@@ -242,9 +242,11 @@ var lines = svg.selectAll(".line")
       const hoveredDate = x.invert(mousePosition[0]);
       var hoveredValue = {};
       const hoveredValueAll = yAll.invert(mousePosition[1]);
+      
       if (arg5 == 1) {
         for (var i = 0 ; i < sumstat.length ; i ++) {
           hoveredValue[sumstat[i].key] = y[sumstat[i].key].invert(mousePosition[1]);
+         
         } 
       }
       const xAccessor = (d) => {
@@ -261,15 +263,19 @@ var lines = svg.selectAll(".line")
       var smallestYdist = -1;
       var closestDataPoint;
       for (var i = 0; i < sumstat.length; i++) { 
+        var currentMax;
+        if (arg5 == 1)
+          currentMax = d3.max(sumstat[i].values, function(d) { return +d.value; }); //this could be computed only once
+        else currentMax = 1;
         var currentChartClosest = d3.scan(
           sumstat[i].values,
-          (a, b) => getDistanceFromHoveredDate(a) - getDistanceFromHoveredDate(b)
+          (a, b) => getDistanceFromHoveredDate(a) - getDistanceFromHoveredDate(b) //closest point on x-axis for current (i) chart
     ); 
         if(arg5 == 2 ) var hoveredValueTemp = hoveredValueAll;
         else var hoveredValueTemp = hoveredValue[sumstat[i].key];
-        if( Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp) < smallestYdist || smallestYdist == -1) {
+        if(Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp)/currentMax < smallestYdist || smallestYdist == -1) {
           closestDataPoint = sumstat[i].values[currentChartClosest];
-          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp);
+          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp)/currentMax;
         }
     }
     
