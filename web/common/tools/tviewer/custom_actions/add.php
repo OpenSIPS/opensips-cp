@@ -32,8 +32,16 @@ if ($action=="add_verify")
 	$fields="";
 	$values="";
 
-	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
+	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 		$_SESSION[$key] = $_POST[$key];	
+		if (!isset($value['validation_regex']))
+			$regex = "null";
+		else
+			$regex = $value['validation_regex'];
+		if (!preg_match("/".$attr['validation_regex']."/", $_POST[$key])) {
+			die("Failed to validate input for ".$attr['name']);
+		}
+	}
 
 	// Check Primary, Unique and Multiple Keys 
 	list ($query, $qvalues) = build_unique_check_query($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']],$table,$_POST,NULL);
