@@ -46,15 +46,17 @@ CREATE TABLE `ocp_monitoring_stats` (
 
 CREATE TABLE `ocp_boxes_config` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL DEFAULT '',
   `mi_conn` varchar(64) DEFAULT NULL,
   `monit_conn` varchar(64) DEFAULT NULL,
   `monit_user` varchar(64) DEFAULT NULL,
   `monit_pass` varchar(64) DEFAULT NULL,
   `monit_ssl` varchar(5) DEFAULT NULL,
-  `desc` varchar(64) NOT NULL DEFAULT '',
   `smonitcharts` varchar(5) DEFAULT NULL,
   `assoc_id` varchar(10) DEFAULT '-1',
-  PRIMARY KEY (`id`)
+  `desc` varchar(128) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name_key` (`name`)
 );
 
 INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
@@ -89,3 +91,18 @@ CREATE TABLE `ocp_tools_config` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `box_key` (`module`,`param`,`box_id`)
 );
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_dashboard`
+-- 
+
+| ocp_dashboard | CREATE TABLE `ocp_dashboard` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) DEFAULT NULL,
+  `content` text DEFAULT '',
+  `order` int(11) DEFAULT NULL,
+  `positions` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 |

@@ -20,6 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+function consoolee_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
+
 ?>
 
 <form action="<?=$page_name?>" method="post">
@@ -31,6 +37,21 @@
 
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
 <?php 
+
+$sql = "SELECT DISTINCT name, `input` FROM ocp_extra_stats  ORDER BY name ASC";
+$stm = $link->prepare($sql);
+if ($stm->execute() === false)
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+$data_no=count($resultset);
+
+get_stats_classes();
+foreach($resultset as $custom_stat) {
+  $temp_stat = new $custom_stat['name']("input_elefant");
+     
+  consoolee_log($temp_stat);
+}
+
 
 $sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";
 $stm = $link->prepare($sql);
@@ -46,15 +67,19 @@ else
  $sampling_time=get_settings_value('sampling_time');
  $monitored_table=get_settings_value('table_monitored');
  
+  
  foreach(get_settings_value("groups") as $key=>$group_attr) {
   $boxes= [];
   $groupElements = $group_attr['stats'];
   $scale = $group_attr['scale'];
-  $gName = "";
   $matches = false;
   $group = [];
   foreach ($groupElements as $g) {
-    $boxes[] = $g['box_id'];
+    if (isset($g['box_id']))
+      $stat_box_id = get_box_id_by_name($g['box_id']);
+    else
+      $stat_box_id = get_box_id_default();
+    $boxes[] = $stat_box_id;
     if (preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
       foreach ($monitored_stats as $name => $id) {
         if (preg_match($g['name'], $name, $matches))
@@ -65,12 +90,11 @@ else
     }
     $sql = "REPLACE INTO ".$monitored_table." (name, box_id) VALUES (?, ?)";
     $stm = $link->prepare($sql);
-    if ($stm->execute(array($g['name'], $g['box_id'])) === false)
+    if ($stm->execute(array($g['name'], $stat_box_id)) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   
   }
 
- $gName = implode(", ", $group);
  $stat_chart=false;
  $stat_img="../../../images/share/chart.png";
  if ($_SESSION["group_open"][$key]=="yes") $stat_chart=true;
@@ -84,7 +108,7 @@ else
   <tr>
    <td class="searchRecord">
     <div id="stat_<?=$key?>" class="Data"  onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?group_id=<?=$key?>'">
-     <img src="<?=$stat_img?>"><b><?=$key?>(<?=$gName?>)</b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
+     <img src="<?=$stat_img?>"><b><?=$key?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
     </div>
    </td>
   </tr>
@@ -98,6 +122,7 @@ else
      
    }
 }
+
  for($j=0;count($resultset)>$j;$j++)
  {
   $stat_chart=false;

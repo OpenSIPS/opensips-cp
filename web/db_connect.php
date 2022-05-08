@@ -21,7 +21,7 @@
  */
 
 
-require_once("../config/db.inc.php");
+require_once(__DIR__."/../config/db.inc.php");
 
 global $config;
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;

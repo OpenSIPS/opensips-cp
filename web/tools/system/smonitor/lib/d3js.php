@@ -41,8 +41,8 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 30, left: 50},
-      width = 660 - margin.left - margin.right,
-      height = 300 - margin.top - margin.bottom;
+      width = 400 - margin.left - margin.right,
+      height = 190 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))

@@ -79,6 +79,19 @@ foreach ($boxes as $idx => $ar){
 					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
 				}
 			}
+
+			$custom_stats = get_custom_stats();
+
+			foreach ($custom_stats as $stat) {
+				$temp_stat = new $stat['class_name']($stat['input']);
+				$stat_value = $temp_stat->get_value();
+				if ($stat_value == NULL)
+					$stat_value ="0";
+				if ($stm->execute( array("custom:".$stat['name'],$stat_value,$time,$id) ) == false ) {
+					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+				}
+			}
+
 		}
 	}
 }

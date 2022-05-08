@@ -727,3 +727,36 @@ p, li, td, .menu_active, input, button {
 	.wrapper {
 		position: relative;
 	}
+
+	.grid-item { width: 25%; }
+	.grid-item--width2 { width: 50%; }
+
+	.chart-gauge{}
+	.chart-first{fill:#458B00}
+	.chart-second{fill:#e6e600}
+	.chart-third{fill:#e92213}
+	.needle,.needle-center{fill:#464A4F}
+
+	.chart rect:first-of-type {
+		color: #fff;
+		stroke: #3994b6;
+		fill: white;
+	  }
+	  
+	  text:first-of-type {
+		fill: #3994b6;
+		font-family: sans-serif;
+		font-size: 12px;
+	  }
+	  
+	  .chart rect:nth-of-type(2) {
+		color: #fff;
+		stroke: transparent;
+		fill: #3994b6;
+	  }
+	  
+	  text:nth-of-type(2) {
+		fill: #a8d4e4;
+		font-family: sans-serif;
+		font-size: 12px;
+	  }

@@ -20,8 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- 
- 
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
  require("../../../../config/tools/system/smonitor/db.inc.php");
@@ -32,6 +30,7 @@
  
  session_load(); 
  get_mi_modules($current_box);
+ get_custom_modules();
 
  $table=get_settings_value("table_monitored");	
  
