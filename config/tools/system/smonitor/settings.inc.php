@@ -100,9 +100,9 @@ $config->smonitor = array(
 		"title" => "Display settings"
 	),
 	"tabs" => array(
-		"default" => "rt_stats.php,charts.php",
+		"default" => "rt_stats.php,charts.php,statistics.php",
 		"name"	=> "Tabs",
-		"options" => array("Realtime Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php"),
+		"options" => array("Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php", "Custom stats" => "statistics.php"),
 		"tip"	=> "List of available tabs for smonitor tool",
 		"type"	=> "checklist"
 	),

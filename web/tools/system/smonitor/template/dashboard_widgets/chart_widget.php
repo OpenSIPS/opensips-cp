@@ -33,7 +33,6 @@ class chart_widget extends widget
         $_GET = $original_get;
         $content_chart .= ob_get_contents();
         ob_clean();
-        consoole_log($content_chart);
         echo ("<div id=".$this->id."_old>".$content_chart."</div>");
     } */
 

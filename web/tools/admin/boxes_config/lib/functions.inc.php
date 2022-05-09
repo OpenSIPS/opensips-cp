@@ -51,14 +51,5 @@ function permission($option,$i,$disabled) {
 	<?php
 }
 
-function get_boxes_params() {
-	require(__DIR__."/../../../../../config/tools/admin/boxes_config/settings.inc.php");
-	return $config->boxes;
-}
-
-function get_system_params() {
-	require(__DIR__."/../../../../../config/tools/admin/boxes_config/settings.inc.php");
-	return $config->systems;
-}
 
 ?>
