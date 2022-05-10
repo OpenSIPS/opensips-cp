@@ -11,6 +11,10 @@ class chart_widget extends widget
         if ($this->has_menu == "yes")
             $this->sizeY = 3;
         $this->chart = $array['widget_chart'];
+
+        
+        require_once(__DIR__."/../../../../../common/cfg_comm.php");
+        session_load_from_tool("smonitor");
     }
 
     function get_html() {
@@ -107,6 +111,6 @@ class chart_widget extends widget
         self::chart_box_selection($stats_list);
         form_generate_input_text("Has menu", "", "widget_menu", null, $params['widget_menu'], 20,null);
         form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
-        form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);
+        form_generate_input_text("Widget name", "", "widget_name", null, $params['widget_name'], 20,null);
     }
 }

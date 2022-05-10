@@ -21,6 +21,11 @@
  */
 
  
+function consoole_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
  
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");

@@ -284,7 +284,7 @@ function show_graph($stat,$box_id){
 	global $config;
 	global $gauge_arr;
 	$var = $stat;
-	$chart_history = get_settings_value("chart_history");
+	$chart_history = get_settings_value_from_tool("chart_history", "smonitor");
 	if ($chart_history == "auto") $chart_history = 3 * 24;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
@@ -295,11 +295,11 @@ function show_graph($stat,$box_id){
 	$_SESSION['stat'] = str_replace(':', '', $stat);
 	$_SESSION[str_replace(':', '', $stat)] = $row;
   
-	$_SESSION['sampling_time'] = get_settings_value("sampling_time");
-	$_SESSION['chart_size'] = get_settings_value("chart_size");
+	$_SESSION['sampling_time'] = get_settings_value_from_tool("sampling_time", "smonitor");
+	$_SESSION['chart_size'] = get_settings_value_from_tool("chart_size", "smonitor");
 	$_SESSION['box_id_graph'] = $box_id;
 	$_SESSION['chart_history'] = $chart_history;
-	$_SESSION['tmonitoring'] = get_settings_value("table_monitoring");
+	$_SESSION['tmonitoring'] = get_settings_value_from_tool("table_monitoring", "smonitor");
 
 	$normal_chart = false ;
 	if (in_array($var , $gauge_arr ))  $normal_chart = true ;
@@ -357,6 +357,19 @@ function get_stats_classes() {
 	}
 
 	return $stats_options;
+}
+
+function get_custom_statistics() {
+	include("db_connect.php");
+	require_once("../../../../config/db.inc.php");
+	require_once("../../../../config/tools/system/smonitor/db.inc.php");
+	$sql_command="select * from ocp_extra_stats;";
+	$stm = $link->prepare( $sql_command );
+	if ($stm===FALSE)
+	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute();
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	return $resultset;
 }
 
 function show_pie_chart() {

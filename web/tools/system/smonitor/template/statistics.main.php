@@ -27,7 +27,7 @@ if(!$_SESSION['read_only']){
 }
 
 $stat_classes = get_stats_classes();
-
+consoole_log(get_custom_statistics());
 ?>
 <form action="<?=$page_name?>?action=add_statistic" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
@@ -42,6 +42,7 @@ $stat_classes = get_stats_classes();
   if(!$_SESSION['read_only']){
 
   	echo('
+	  	<th class="listTitle">Edit</th>
   		<th class="listTitle">Delete</th>');
   }
   ?>
@@ -67,12 +68,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select * from ocp_extra_stats;";
-	$stm = $link->prepare( $sql_command );
-	if ($stm===FALSE)
-	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
-	$stm->execute();
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$resultset = get_custom_statistics();
 	$index_row=0;
 	$i=0;
 	while (count($resultset)>$i)
@@ -83,11 +79,13 @@ else
 
 		if(!$_SESSION['read_only']){
 			$delete_link='<a href="'.$page_name.'?action=delete&box_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit_tools&box_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
 ?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']::get_description()?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $edit_link?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $delete_link?></td>
   </tr>  
 <?php
