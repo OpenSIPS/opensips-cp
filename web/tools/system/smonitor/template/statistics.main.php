@@ -27,7 +27,7 @@ if(!$_SESSION['read_only']){
 }
 
 $stat_classes = get_stats_classes();
-consoole_log(get_custom_statistics());
+
 ?>
 <form action="<?=$page_name?>?action=add_statistic" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
@@ -36,8 +36,8 @@ consoole_log(get_custom_statistics());
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">Stat name</th>
-  <th class="listTitle">Stat description</th>
+  <th class="listTitle">Statistic name</th>
+  <th class="listTitle">Details</th>
   <?php
   if(!$_SESSION['read_only']){
 
@@ -78,13 +78,14 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$delete_link='<a href="'.$page_name.'?action=delete&box_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
-			$edit_link = '<a href="'.$page_name.'?action=edit_tools&box_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$details_link = '<a href="'.$page_name.'?action=details&stat_id='.$resultset[$i]['id'].'&stat_name='.$resultset[$i]['name'].'><img src="../../../images/share/details.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit_tools&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
 ?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']::get_description()?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $details_link?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $edit_link?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $delete_link?></td>
   </tr>  

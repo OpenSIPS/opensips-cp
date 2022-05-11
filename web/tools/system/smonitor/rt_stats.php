@@ -57,10 +57,10 @@
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	}
  }
- 
+
  if ($_GET['module_id']!=null)
  { 
-  $module_id = $_GET['module_id']; 
+  $module_id = $_GET['module_id']; consoole_log($module_id);
   if ($_SESSION['module_open'][$module_id]=="yes") $_SESSION['module_open'][$module_id]="no";
    else $_SESSION['module_open'][$module_id]="yes";
  }

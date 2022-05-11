@@ -29,12 +29,6 @@ include("db_connect.php");
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/system/smonitor/db.inc.php");
 
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
-
 function get_config_var($var_name,$box_id)
 {
 	include("db_connect.php");
