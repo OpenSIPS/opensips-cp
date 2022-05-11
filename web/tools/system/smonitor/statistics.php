@@ -32,6 +32,7 @@ function consoole_log( $data ){
  require("../../../../config/tools/system/smonitor/db.inc.php");
  require("../../../../config/db.inc.php");
  require("lib/functions.inc.php");
+ require("lib/functions.inc.js");
  require("template/header.php");
  
  session_load(); 

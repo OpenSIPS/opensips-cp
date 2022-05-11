@@ -78,7 +78,7 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$details_link = '<a href="'.$page_name.'?action=details&stat_id='.$resultset[$i]['id'].'&stat_name='.$resultset[$i]['name'].'><img src="../../../images/share/details.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i]['name']::get_description().'\',\''.$resultset[$i]['name'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 			$edit_link = '<a href="'.$page_name.'?action=edit_tools&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
