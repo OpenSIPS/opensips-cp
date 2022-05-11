@@ -110,15 +110,16 @@
  for($i=0; $i<$_SESSION['custom_modules_no']; $i++)
  {
   $module=$_SESSION['custom_module_name'][$i];
+  
   $module_img="../../../images/share/right.png";
-  $no_vars=$_SESSION['module_vars'][$i];
+  $no_vars=$_SESSION['custom_module_vars'][$i];
   $reset_flag="&nbsp;";
   $var_string="";
   if ($_SESSION["custom_module_open"][$i]=="yes")
   {
    $module_img="../../../images/share/down.png";
    if (!$_read_only) $reset_flag="reset";
-   $vars=get_vars($module,$_SESSION['smon_current_box']);
+   $vars=get_custom_vars($module,$_SESSION['smon_current_box']);
    $var_string.='<table width="100%" cellspacing="0" cellpadding="0" border="0">';
    for ($k=0; $k<sizeof($vars[0]); $k++)
    {
@@ -151,8 +152,8 @@
   <td colspan="2" class="rowOdd">
    <table width="100%" cellspacing="0" cellpadding="0" border="0">
    <tr>
-     <div style="float: left; width: 85%; "  id="modul_<?=$module?>" class="Data" onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?module_id=<?=$i?>'">
-      <img src="<?=$module_img?>"> &nbsp; Module: <?=$module?> (<?=$no_vars?>)
+     <div style="float: left; width: 85%; "  id="modul_<?=$module?>" class="Data" onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?custom_module_id=<?=$i?>'">
+      <img src="<?=$module_img?>"> &nbsp; Tool: <?=$module?> (<?=$no_vars?>)
      </div>
     <div style="float: left;padding: 5px;"><?=$reset_flag?></div>
    </tr>
@@ -176,6 +177,9 @@
  <tr>
   <th colspan="2" class="smonitorTitle"><img src="../../../images/share/spacer.gif" width="5" height="5"></th>
  </tr>
+ 
+
+
  
 </table>
 <br>

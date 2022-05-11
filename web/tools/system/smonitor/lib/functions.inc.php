@@ -29,6 +29,11 @@ include("db_connect.php");
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/system/smonitor/db.inc.php");
 
+function consoole_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
 
 function get_config_var($var_name,$box_id)
 {
@@ -87,7 +92,6 @@ function get_mi_modules($mi_url)
          $_SESSION['module_vars'][$i] = $modules[1][$i];
          $_SESSION['module_open'][$i] = "no";
         }
-       
  return;
 }
 
@@ -96,24 +100,50 @@ function get_custom_modules()
 {
 	include("db_connect.php");
 
-	$sql_command="select * from ocp_extra_stats;";
+	$sql_command="select * from ocp_extra_stats ORDER BY id;";
 	$stm = $link->prepare( $sql_command );
 	if ($stm===FALSE)
 	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute();
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	$modules = $resultset;
-	$_SESSION['custom_modules_no']=count($modules[0]) - 1 ;
-	for ($i=0; $i<(count($modules[0])) && (!empty($modules[0][$i])); $i++)
-	{
-	$_SESSION['custom_module_name'][$i] = $modules[0][$i];
-		$_SESSION['custom_module_vars'][$i] = $modules[1][$i];
-		$_SESSION['custom_module_open'][$i] = "no";
+	$module_counter = [];
+
+	foreach($modules as $module) {
+		if ($module_counter[$module['tool']])
+			$module_counter[$module['tool']]++;
+		else $module_counter[$module['tool']] = 1;
 	}
-	
- return;
+	$_SESSION['custom_modules_no']=count($module_counter) ;
+	$i = 0;
+	foreach ($module_counter as $module => $count)
+	{	
+		$_SESSION['custom_module_name'][$i] = $module;
+		$_SESSION['custom_module_vars'][$i] = $count;
+		$_SESSION['custom_module_open'][$i] = "no";
+		$i++;
+	}
+	return;
 }
 
+function get_custom_vars($tool, $box_id)
+{
+	include("db_connect.php");
+
+	$sql_command="select * from ocp_extra_stats where tool = ? ORDER BY id;";
+	$stm = $link->prepare( $sql_command );
+	if ($stm===FALSE)
+	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+	$stm->execute(array($tool));
+	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$out = [];
+	$i = 0;
+	foreach($resultset as $var) {
+		$out[0][$i] = $var['tool'].":".$var['name'].":".$var['id'];
+		$out[1][$i] = 0;
+	}
+	return $out;
+}
 
 function get_vars($module, $mi_url)
 {
