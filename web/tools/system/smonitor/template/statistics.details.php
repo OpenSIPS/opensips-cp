@@ -21,13 +21,12 @@
  */
     $desc = $_GET['description'];
     $input = $_GET['input'];
-    consoole_log($input);
     
  ?>
 	<table width="400" border="0">
 		<tr>
 			<td class="mainTitle">
-					View widget
+					View statistic
 			</td>
 		</tr>
 
@@ -36,12 +35,11 @@
 
 				<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0"> <tr>
 				<?php
-                echo ('<td>'.$widget_def['info'].'</td>');
+                echo ('<td>Statistic description: '.$desc.'</td>');
                 ?>
 				<td  rowspan=2>
-                <img src="<?php echo $widget_dir ?>/example.jpg"></td>
                 </tr><tr><?php  
-                echo ('<td>'.$widget_def['description'].'</td>'); ?></tr></table>
+                echo ('<td>Statistic class: '.$input.'</td>'); ?></tr></table>
 
 			</td>
 		</tr>

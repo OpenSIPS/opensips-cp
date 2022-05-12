@@ -18,10 +18,10 @@ function show_statistic(description, input){
     document.getElementById('overlay').style.height = height;
     document.getElementById('overlay').style.width = width;
     document.getElementById('overlay').style.display = 'block';
-    document.getElementById('dialog').innerHTML = result;
-    centerMe('dialog')
+    document.getElementById('custom_stat').innerHTML = result;
+    centerMe('custom_stat')
     document.getElementById('overlay').onclick = function () {closeDialog();};
-    document.getElementById('dialog').style.display = 'block';
+    document.getElementById('custom_stat').style.display = 'block';
     window.location.hash = '#tab1';
     location.hash = "tab1";
   
@@ -42,8 +42,8 @@ function show_statistic(description, input){
     
     function closeDialog() {
       document.getElementById('overlay').style.display = 'none';
-      document.getElementById('dialog').style.display = 'none';
-      document.getElementById('dialog').innerHTML = '';
+      document.getElementById('custom_stat').style.display = 'none';
+      document.getElementById('custom_stat').innerHTML = '';
       location.hash = "";
     }
   

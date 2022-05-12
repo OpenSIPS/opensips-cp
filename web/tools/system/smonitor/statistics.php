@@ -36,6 +36,7 @@ function consoole_log( $data ){
  require("template/header.php");
  
  session_load(); 
+ $stat_classes = get_stats_classes();
  
  include("lib/db_connect.php");
  
@@ -44,34 +45,76 @@ else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
 
 if ($action == "import_statistic") {
-	$stat_name = $_GET['name'];
+	$stat_class = $_GET['class'];
     require("template/".$page_id.".import_stat.php");
 	require("template/footer.php");
 	exit();
 }
+
+if ($action == "edit_statistic") {
+	$stat_id = $_GET['stat_id'];
+    require("template/".$page_id.".edit.php");
+	require("template/footer.php");
+	exit();
+}
  
+if ($action == "delete") {
+	$stat_id = $_GET['stat_id'];
+	$sql = "DELETE from ocp_extra_stats where id = ?;";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array( $stat_id)) == false) {
+			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+		}	else {
+			$info="Stat was deleted";
+	}
+}
+ 
+
 if ($action == "add_statistic") {
-	$stat_name = $_GET['name'];
+	$stat_class = $_GET['class'];
     require("template/".$page_id.".add.php");
 	require("template/footer.php");
 	exit();
 }
 
 if ($action == "add_modify_statistic") { 
-	$stat_name = $_GET['name'];
-	$sql = "REPLACE INTO ocp_extra_stats (`name`, input) VALUES (?,?)";
+	$stat_class = $_GET['class'];
+	
+	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`) VALUES (?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array( $stat_name, $_POST["input_id"])) == false) {
+		consoole_log($_POST['name_id']);
+		consoole_log($_POST['input_id']);
+		consoole_log($stat_class::get_tool());
+		consoole_log($stat_class);
+		
+		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $stat_class::get_tool(), $stat_class)) == false) {
 			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 		}	else {
 			$info="Stat was added";
 	}
 }
  
- 
+if ($action == "modify_statistic") { 
+	$id = $_GET['id'];
+	
+	$sql = "UPDATE ocp_extra_stats SET `name`=?, `input`=?;";
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		
+		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"])) == false) {
+			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+		}	else {
+			$info="Stat was added";
+	}
+} 
  
  require("template/".$page_id.".main.php");
  require("template/footer.php");

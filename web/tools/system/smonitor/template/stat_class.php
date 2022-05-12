@@ -16,12 +16,7 @@ abstract class custom_statistic
 
    
 
-    function get_name() {
-        return $this->name;
-    }
-
-    function get_tool() {
-        return $this->tool;
+    public static function get_name() {        
     }
 
     function get_id() {

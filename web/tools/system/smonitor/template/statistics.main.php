@@ -26,9 +26,14 @@ if(!$_SESSION['read_only']){
 	$colspan = 3;
 }
 
-$stat_classes = get_stats_classes();
-
 ?>
+
+
+
+<div id="custom_stat" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
 <form action="<?=$page_name?>?action=add_statistic" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
 </form>
@@ -78,9 +83,9 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i]['name']::get_description().'\',\''.$resultset[$i]['name'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
-			$edit_link = '<a href="'.$page_name.'?action=edit_tools&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['name'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/delete.png" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit_statistic&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
 ?>
  <tr>
