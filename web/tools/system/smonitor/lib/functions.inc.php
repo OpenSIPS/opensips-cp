@@ -133,8 +133,9 @@ function get_custom_vars($tool, $box_id)
 	$out = [];
 	$i = 0;
 	foreach($resultset as $var) {
-		$out[0][$i] = $var['tool'].":".$var['name'].":".$var['id'];
+		$out[0][$i] = $var['tool'].":".$var['name'];
 		$out[1][$i] = 0;
+		$i++;
 	}
 	return $out;
 }

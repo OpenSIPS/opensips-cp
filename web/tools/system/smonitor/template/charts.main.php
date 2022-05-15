@@ -20,12 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-function consoolee_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
-
 ?>
 
 <form action="<?=$page_name?>" method="post">
@@ -37,20 +31,6 @@ function consoolee_log( $data ){
 
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
 <?php 
-
-$sql = "SELECT DISTINCT name, `input` FROM ocp_extra_stats  ORDER BY name ASC";
-$stm = $link->prepare($sql);
-if ($stm->execute() === false)
-	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-$data_no=count($resultset);
-
-get_stats_classes();
-foreach($resultset as $custom_stat) {
-  $temp_stat = new $custom_stat['name']("input_elefant");
-     
-  consoolee_log($temp_stat);
-}
 
 
 $sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";

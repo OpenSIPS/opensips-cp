@@ -34,8 +34,8 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">Statistic Name</th>
-  <th class="listTitle">Statistic details</th>
+  <th class="listTitle">Statistic name</th>
+  <th class="listTitle">Statistic class name</th>
   <th class="listTitle">Provisioning tool</th>
   <?php
   if(!$_SESSION['read_only']){

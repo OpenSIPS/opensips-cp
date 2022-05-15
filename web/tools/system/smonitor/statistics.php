@@ -20,12 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- 
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
+
  
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
@@ -39,7 +34,7 @@ function consoole_log( $data ){
  $stat_classes = get_stats_classes();
  
  include("lib/db_connect.php");
- 
+
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
@@ -80,20 +75,16 @@ if ($action == "add_statistic") {
 	exit();
 }
 
-if ($action == "add_modify_statistic") { 
+if ($action == "add_modify_statistic") {
 	$stat_class = $_GET['class'];
 	
-	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`) VALUES (?,?,?,?);";
+	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`, box_id) VALUES (?,?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		consoole_log($_POST['name_id']);
-		consoole_log($_POST['input_id']);
-		consoole_log($stat_class::get_tool());
-		consoole_log($stat_class);
 		
-		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $stat_class::get_tool(), $stat_class)) == false) {
+		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $stat_class::get_tool(), $stat_class, $_SESSION['box_id'])) == false) {
 			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 		}	else {
 			$info="Stat was added";

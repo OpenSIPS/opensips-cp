@@ -60,7 +60,7 @@
 
  if ($_GET['module_id']!=null)
  { 
-  $module_id = $_GET['module_id']; consoole_log($module_id);
+  $module_id = $_GET['module_id'];
   if ($_SESSION['module_open'][$module_id]=="yes") $_SESSION['module_open'][$module_id]="no";
    else $_SESSION['module_open'][$module_id]="yes";
  }
