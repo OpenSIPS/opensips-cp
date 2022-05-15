@@ -37,8 +37,11 @@
 				<?php
                 echo ('<td>Statistic description: '.$desc.'</td>');
                 ?>
+				<td  rowspan=2>
                 </tr><tr><?php  
                 echo ('<td>Statistic class: '.$input.'</td>'); ?></tr></table>
+
+			</td>
 		</tr>
 
 		<tr>

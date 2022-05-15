@@ -123,7 +123,7 @@
    $var_string.='<table width="100%" cellspacing="0" cellpadding="0" border="0">';
    for ($k=0; $k<sizeof($vars[0]); $k++)
    {
-    $var_name=$module.":".$vars[0][$k];
+    $var_name=$vars[0][$k];
     $var_checked=""; $bold_=""; $_bold="";
     $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ?";
 	$stm = $link->prepare($sql);

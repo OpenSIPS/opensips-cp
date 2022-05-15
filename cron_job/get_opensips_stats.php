@@ -33,14 +33,23 @@ require("lib/db_connect.php");
 $sampling_time=get_settings_value_from_tool('sampling_time', 'smonitor');
 $table_monitored=get_settings_value_from_tool('table_monitored', 'smonitor');
 $table_monitoring=get_settings_value_from_tool('table_monitoring', 'smonitor');
+get_stats_classes();
+$custom_stats = [];
 
 foreach ($boxes as $idx => $ar){
-
 	if ($ar['smonitor']['charts']==1){
 		$time=time();
 		$id = $ar["id"];
-
 		if (date('i', $time) % $sampling_time == 0) {
+			
+			$sql = "SELECT * FROM ocp_extra_stats WHERE box_id=? ORDER BY name ASC";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($id) );
+			$extra_stats = $stm->fetchAll(PDO::FETCH_ASSOC);
+
 			// Get the name of the needed statistics
 			$sql = "SELECT * FROM ".$table_monitored." WHERE box_id=? ORDER BY name ASC";
 			$stm = $link->prepare($sql);
@@ -55,8 +64,12 @@ foreach ($boxes as $idx => $ar){
 			for ($i=0;count($resultset)>$i;$i++){
 				$arr = explode( ":", $resultset[$i]['name'] );
 				// some stats name may contain ':', so better simply trim out the name of the module
-				$stats_name = $stats_name.($i==0?"":" ").substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
+				if ($arr[0] == "custom") {
+					$custom_stats[] = $arr[2];
+				} else
+					$stats_name = $stats_name.($i==0?"":" ").substr( $resultset[$i]['name'] , 1+strlen($arr[0]));
 			}
+			
 			if ($stats_name == "")
 				continue;
 
@@ -79,18 +92,33 @@ foreach ($boxes as $idx => $ar){
 					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
 				}
 			}
-
-			$custom_stats = get_custom_stats();
-
-			foreach ($custom_stats as $stat) {
-				$temp_stat = new $stat['class_name']($stat['input']);
-				$stat_value = $temp_stat->get_value();
-				if ($stat_value == NULL)
+			
+			foreach($extra_stats as $entry) {
+				if (in_array($entry['name'], $custom_stats)) {
+					$temp_stat = new $entry['class']($entry['input']);
+					$stat_value = $temp_stat->get_statistics();
+					if ($stat_value == NULL)
 					$stat_value ="0";
-				if ($stm->execute( array("custom:".$stat['name'],$stat_value,$time,$id) ) == false ) {
-					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+					if ($stm->execute( array("custom:".$entry['tool'].":".$entry['name'],$stat_value,$time,$id) ) == false ) {
+						error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+					}
 				}
 			}
+			
+			/*
+			get_stats_classes();
+			$custom_stats = get_custom_statistics();
+
+			foreach ($custom_stats as $stat) {
+				$temp_stat = new $stat['class']($stat['input']);
+				$stat_value = $temp_stat->get_statistics();
+				error_log($stat['class']." balaur");
+				if ($stat_value == NULL)
+					$stat_value ="0";
+				if ($stm->execute( array($stat['tool'].":".$stat['name'],$stat_value,$time,$id) ) == false ) {
+					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+				}
+			} */
 
 		}
 	}
