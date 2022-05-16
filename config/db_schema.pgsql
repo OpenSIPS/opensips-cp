@@ -100,10 +100,10 @@ CREATE TABLE ocp_tools_config (
 -- Table for `ocp_dashboard`
 -- 
 
-| ocp_dashboard | CREATE TABLE `ocp_dashboard` (
+CREATE TABLE `ocp_dashboard` (
   id integer Primary KEY DEFAULT nextval('ocp_dashboard'),
   name text DEFAULT NULL,
-  content text DEFAULT '',
-  order int(11) DEFAULT NULL,
-  positions text DEFAULT NULL,
-) 
+  content text NOT NULL,
+  "order" int(11) DEFAULT NULL,
+  positions text DEFAULT NULL
+)
