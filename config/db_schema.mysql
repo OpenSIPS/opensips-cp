@@ -57,7 +57,7 @@ CREATE TABLE `ocp_boxes_config` (
   `desc` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_key` (`name`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
 
@@ -72,7 +72,7 @@ CREATE TABLE `ocp_system_config` (
   `name` varchar(64) DEFAULT NULL,
   `desc` varchar(64) DEFAULT '',
   PRIMARY KEY (`assoc_id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO ocp_system_config (assoc_id, name, `desc`) values (1,'System 0','Default system');
 
@@ -90,4 +90,4 @@ CREATE TABLE `ocp_tools_config` (
   `box_id` varchar(15) DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `box_key` (`module`,`param`,`box_id`)
-);
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
