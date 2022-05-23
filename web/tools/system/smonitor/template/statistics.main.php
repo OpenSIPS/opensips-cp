@@ -26,9 +26,14 @@ if(!$_SESSION['read_only']){
 	$colspan = 3;
 }
 
-$stat_classes = get_stats_classes();
-
 ?>
+
+
+
+<div id="custom_stat" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
 <form action="<?=$page_name?>?action=add_statistic" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
 </form>
@@ -36,12 +41,13 @@ $stat_classes = get_stats_classes();
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">Stat name</th>
-  <th class="listTitle">Stat description</th>
+  <th class="listTitle">Statistic name</th>
+  <th class="listTitle">Details</th>
   <?php
   if(!$_SESSION['read_only']){
 
   	echo('
+	  	<th class="listTitle">Edit</th>
   		<th class="listTitle">Delete</th>');
   }
   ?>
@@ -67,12 +73,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select * from ocp_extra_stats;";
-	$stm = $link->prepare( $sql_command );
-	if ($stm===FALSE)
-	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
-	$stm->execute();
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+	$resultset = get_custom_statistics();
 	$index_row=0;
 	$i=0;
 	while (count($resultset)>$i)
@@ -82,12 +83,15 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$delete_link='<a href="'.$page_name.'?action=delete&box_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['name'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/delete.png" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=edit_statistic&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
 ?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']::get_description()?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $details_link?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $edit_link?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $delete_link?></td>
   </tr>  
 <?php

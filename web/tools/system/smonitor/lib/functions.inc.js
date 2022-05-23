@@ -1,6 +1,6 @@
 <script>
-function show_statistic(description){
-    
+function show_statistic(description, input){
+    url = "template/statistics.details.php?input="+input+"&description="+description;
     var http = getHTTPObject();
     
     http.open("GET", url, false);
@@ -18,10 +18,10 @@ function show_statistic(description){
     document.getElementById('overlay').style.height = height;
     document.getElementById('overlay').style.width = width;
     document.getElementById('overlay').style.display = 'block';
-    document.getElementById('dialog').innerHTML = result;
-    centerMe('dialog')
+    document.getElementById('custom_stat').innerHTML = result;
+    centerMe('custom_stat')
     document.getElementById('overlay').onclick = function () {closeDialog();};
-    document.getElementById('dialog').style.display = 'block';
+    document.getElementById('custom_stat').style.display = 'block';
     window.location.hash = '#tab1';
     location.hash = "tab1";
   
@@ -42,9 +42,46 @@ function show_statistic(description){
     
     function closeDialog() {
       document.getElementById('overlay').style.display = 'none';
-      document.getElementById('dialog').style.display = 'none';
-      document.getElementById('dialog').innerHTML = '';
+      document.getElementById('custom_stat').style.display = 'none';
+      document.getElementById('custom_stat').innerHTML = '';
       location.hash = "";
     }
+  
+  function handleHttpResponse(http) {
 
+if (http.readyState == 4) {
+      if(http.status==200) {
+          ok = true;
+          //return results;
+      }
+
+}
+
+}
+
+
+
+function getHTTPObject() {
+
+  var request = false;
+  try {
+  request = new XMLHttpRequest();
+  } catch (trymicrosoft) {
+  try {
+  request = new ActiveXObject("Msxml2.XMLHTTP");
+  } catch (othermicrosoft) {
+  try {
+    request = new ActiveXObject("Microsoft.XMLHTTP");
+  } catch (failed) {
+    request = false;
+  }
+  }
+  }
+
+  if (!request)
+  alert("Error initializing XMLHttpRequest!");
+
+
+  return request;
+}
 </script>

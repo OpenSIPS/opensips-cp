@@ -34,8 +34,8 @@ if(!$_SESSION['read_only']){
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-  <th class="listTitle">Statistic Name</th>
-  <th class="listTitle">Statistic details</th>
+  <th class="listTitle">Statistic name</th>
+  <th class="listTitle">Statistic class name</th>
   <th class="listTitle">Provisioning tool</th>
   <?php
   if(!$_SESSION['read_only']){
@@ -73,7 +73,7 @@ else
 			//$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i].'\')"><img src="../../../images/share/details.png" border="0"></a>';
             //$details_link = '<a href="'.$page_name.'?action=import_details&widget_dir='.$resultset[$i]['dir'].'"><img src="../../../images/share/details.png" border="0"></a>';
 			if(!$_SESSION['read_only']){	
-			$import_link = '<a href="'.$page_name.'?action=import_statistic&name='.$resultset[$i].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$import_link = '<a href="'.$page_name.'?action=import_statistic&class='.$resultset[$i].'"><img src="../../../images/share/edit.png" border="0"></a>';
         }
 ?>
  <tr>

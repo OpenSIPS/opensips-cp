@@ -20,23 +20,34 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require_once("../../../common/cfg_comm.php");
 require_once("../../../common/forms.php");
+
  if (isset($form_error)) {
                           echo(' <tr align="center">');
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-                         
+
+    $sql_command="select * from ocp_extra_stats where id = ?";
+    $stm = $link->prepare( $sql_command );
+    if ($stm===FALSE)
+        die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
+    $stm->execute(array($stat_id));
+    $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 ?> 
 
-<form action="<?=$page_name?>?action=add_modify_statistic&class=<?=$stat_class?>" method="post">
+<form action="<?=$page_name?>?action=modify_statistic&id=<?=$stat_id?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
-	 <?php   
-		form_generate_input_text("Custom statistic name:", null, "name_id", "y", "", null, null);
-		form_generate_input_textarea("Input:", null, "input_id", "y", "", null, null);
+ <td colspan="3" height="10" class="mainTitle">Edit box</td>
 
+ </tr>
+  <?php
+    form_generate_input_text("Custom statistic name:", null, "name_id", "y", $resultset[0]['name'], null, null);
+    form_generate_input_textarea("Input:", null, "input_id", "y", $resultset[0]['input'], null, null);	
+	
 if (!$_SESSION['read_only']) {
 ?>
   <tr>

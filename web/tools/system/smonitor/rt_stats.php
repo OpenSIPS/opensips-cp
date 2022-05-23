@@ -30,7 +30,7 @@
  
  session_load(); 
  get_mi_modules($current_box);
- get_custom_modules();
+ get_custom_modules($current_box);
 
  $table=get_settings_value("table_monitored");	
  
@@ -57,17 +57,28 @@
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	}
  }
- 
+
  if ($_GET['module_id']!=null)
- {
+ { 
   $module_id = $_GET['module_id'];
   if ($_SESSION['module_open'][$module_id]=="yes") $_SESSION['module_open'][$module_id]="no";
    else $_SESSION['module_open'][$module_id]="yes";
+ }
+
+ if ($_GET['custom_module_id']!=null)
+ { 
+  $module_id = $_GET['custom_module_id']; 
+  if ($_SESSION['custom_module_open'][$module_id]=="yes") $_SESSION['custom_module_open'][$module_id]="no";
+   else $_SESSION['custom_module_open'][$module_id]="yes";
  }
  
  $expanded=false;
  for($i=0; $i<$_SESSION['modules_no']; $i++)
   if ($_SESSION["module_open"][$i]=="yes") $expanded=true;
+
+  
+ for($i=0; $i<$_SESSION['custom_modules_no']; $i++)
+  if ($_SESSION["custom_module_open"][$i]=="yes") $expanded=true;
  
  if ($_POST['reset_stats']!=null){
   $reset=$_POST['reset'];
