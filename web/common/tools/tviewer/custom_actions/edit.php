@@ -36,13 +36,10 @@ if ($action=="modify")
 
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 			$_SESSION[$key] = $_POST[$key];	
-			if (!isset($value['validation_regex']))
-				$regex = "null";
-			else
-				$regex = $value['validation_regex'];
-			if (!preg_match("/".$regex."/", $_POST[$key])) {
+			if ($_POST[$key] == "" && isset($value["is_optional"]) && $value["is_optional"] == "y")
+				continue;
+			if (isset($value['validation_regex']) && !preg_match("/".$value['validation_regex']."/", $_POST[$key]))
 				die("Failed to validate input for ".$key);
-			}
 		}
 
 		//initialize
