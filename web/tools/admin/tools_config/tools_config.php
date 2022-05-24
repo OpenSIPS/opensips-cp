@@ -97,7 +97,7 @@ if ($action=="modify_params")
    		$errors= "User with Read-Only Rights";
    	} 
 	   
-	header('Location: ../../'.$_SESSION['current_group'].'/'.$_SESSION['current_tool'].'/index.php');
+	header('Location: ../../'.get_tool_path($_SESSION['current_tool']).'/index.php');
 }
 
 if ($action=="edit_tools")
