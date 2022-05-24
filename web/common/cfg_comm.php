@@ -130,8 +130,23 @@ function get_group_name() {
 	return $config_modules[$_SESSION['current_group']]['name'];
 }
 
-function get_group_from_tool($tool) {
+function get_tool_path($tool) {
 	require("".__DIR__."/../../config/modules.inc.php");
+	foreach ($config_modules as $group=>$group_attr) {
+		foreach ($group_attr['modules'] as $module=>$module_attr) {
+			if ($module != $tool)
+			       continue;
+			if (isset($module_attr["path"]))
+				return $module_attr["path"];
+			else
+				return $group . "/" . $tool;
+		}
+	}
+}
+
+function get_group() {
+	require("".__DIR__."/../../config/modules.inc.php");
+	$tool = $_SESSION['current_tool'];
 	foreach ($config_modules as $group=>$group_attr) {
 		foreach ($group_attr['modules'] as $module=>$module_attr) {
 			if ($module == $tool) return $group;
@@ -139,16 +154,12 @@ function get_group_from_tool($tool) {
 	}
 }
 
-function get_group() {
-	return get_group_from_tool($_SESSION['current_tool']);
-}
-
 function load_widgets() {
 	$tools = get_tools();
 	$tools['dashboard'] = 'admin';
 	$widgets = [];
 	foreach ($tools as $tool => $group) {
-		$files = glob('../../'.$group.'/'.$tool.'/template/dashboard_widgets/*.php');
+		$files = glob('../../'.get_tool_path($tool).'/template/dashboard_widgets/*.php');
 		foreach ($files as $file) {
 			require_once($file);
 			$file_name = basename($file);
@@ -159,8 +170,8 @@ function load_widgets() {
 }
 
 function display_settings_button($box_id=null) {
-	if (file_exists(__DIR__."/../../config/tools/".get_group()."/".$_SESSION['current_tool']."/settings.inc.php") && $_SESSION['permission'] == 'Admin') {  
-		require(__DIR__."/../../config/tools/".get_group()."/".$_SESSION['current_tool']."/settings.inc.php");
+	if (file_exists(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php") && $_SESSION['permission'] == 'Admin') {
+		require(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php");
 		if (!is_null($config))
 			if(is_null($box_id))
 				echo("
@@ -206,8 +217,7 @@ function get_params() {
 }
 
 function get_params_from_tool($current_tool) {
-	$current_group = get_group_from_tool($current_tool);
-	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
+	require("".__DIR__."/../../config/tools/".get_tool_path($current_tool)."/settings.inc.php");
 	return $config->$current_tool;
 }
 
@@ -304,10 +314,8 @@ function load_boxes() {
 	} 
 }
 
-function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) { $box_id = null;
-	$current_group = get_group_from_tool($current_tool);
-	require("".__DIR__."/../../config/tools/".$current_group."/".$current_tool."/settings.inc.php");
-	
+function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {
+	require("".__DIR__."/../../config/tools/".get_tool_path($current_tool)."/settings.inc.php");
 	if (is_null($box_id)){
 		if (!is_null($_SESSION['config'][$current_tool][$current_param])){ 
 			return $_SESSION['config'][$current_tool][$current_param];}}
@@ -386,13 +394,13 @@ function session_load($box_id = null) {
 	session_load_from_tool($_SESSION['current_tool'], $box_id);
 }
 
-function session_load_from_tool($tool, $box_id = null) { $box_id = null;
+function session_load_from_tool($tool, $box_id = null) {
 	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
 	global $config;
 	$table_tools_config = $config->table_tools_config;
 	$module_params = get_params_from_tool($tool);
-	if (!isset($_SESSION['config'][$tool])) {  $message.="si nu e setat session config smonitor ";
+	if (!isset($_SESSION['config'][$tool])) {
 		if (is_null($box_id)) {
 			$sql = 'select param, value from '.$table_tools_config.' where module=? ';
 			$stm = $link->prepare($sql);
@@ -429,7 +437,7 @@ function session_load_from_tool($tool, $box_id = null) { $box_id = null;
 				}
 			}
 		} 
-	} else $message .= "Si e setat session smonitor";
+	}
 	foreach ($module_params as $module=>$params) {
 		$config->$module = get_settings_value_from_tool($module, $tool); 
 	}

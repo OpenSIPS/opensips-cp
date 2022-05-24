@@ -373,7 +373,7 @@ function get_stats_classes() {
 	$stats_options = array();
 	$tools = get_tools();
 	foreach ($tools as $tool => $group) {
-		$files = glob('../../'.$group.'/'.$tool.'/statistics/*.php');
+		$files = glob('../../'.get_tool_path($tool).'/statistics/*.php');
 		foreach ($files as $file) {
 			require_once($file);
 			$file_name = basename($file);
