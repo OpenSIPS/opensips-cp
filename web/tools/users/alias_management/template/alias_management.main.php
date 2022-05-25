@@ -59,8 +59,18 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 
 <br>
 
+<?php $alias_reload_cmd = get_settings_value("alias_reload"); ?>
+<?php if (isset($alias_reload_cmd) && $alias_reload_cmd != NULL && $alias_reload_cmd != "") { ?>
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+<?php } ?>
+
 <form action="<?=$page_name?>?action=add" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Alias" class="formButton">') ?>
+ <?php if (isset($alias_reload_cmd) && $alias_reload_cmd != NULL && $alias_reload_cmd != "") { ?>
+  <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
+ <?php } ?>
 </form>
 
 <br>

@@ -27,7 +27,7 @@ function confirmDelete(id)
   else return false;
 }
 
-function handleHttpResponse() {   
+function handleHttpResponse(http) {
 		
 	if (http.readyState == 4) {
 		if(http.status==200) {
@@ -74,4 +74,54 @@ do { curDate = new Date(); }
 while(curDate-date < millis);
 } 
 
-</script>
+function centerMe(element) {
+	//pass element name to be centered on screen
+	var pWidth = window.innerWidth;
+	var pTop =  window.scrollTop;
+	var eWidth = document.getElementById(element).style.width
+	var height = document.getElementById(element).style.height
+	document.getElementById(element).style.top = '250px';
+	//$(element).css('top',pTop+100+'px')
+	document.getElementById(element).style.left = parseInt((pWidth / 2) - 205) + 'px';
+}
+
+
+function closeDialog() {
+	document.getElementById('overlay').style.display = 'none';
+	document.getElementById('dialog').style.display = 'none';
+	document.getElementById('dialog').innerHTML = '';
+}
+
+function apply_changes(){
+	url = "apply_changes.php";
+
+	var http = getHTTPObject();
+
+	http.open("GET", url, false);
+	http.onreadystatechange = handleHttpResponse(http);
+	http.send(null);
+	result = http.responseText;
+
+	var body = document.body,
+		html = document.documentElement;
+
+	var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+
+
+	document.getElementById('overlay').style.height = height;
+	document.getElementById('overlay').style.display = 'block';
+	document.getElementById('dialog').innerHTML = result;
+	centerMe('dialog')
+	document.getElementById('overlay').onclick = function () {closeDialog();};
+	document.getElementById('dialog').style.display = 'block';
+	return true;
+
+
+	document.getElementById("content").innerHTML = "whatever";
+
+
+	return true;
+}
+
+	</script>

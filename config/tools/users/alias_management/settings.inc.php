@@ -46,7 +46,20 @@ $config->alias_management = array(
 		"default" => "^[a-zA-Z0-9&=+$,;?/%]+$",
 	),
 
+	"alias_reload" => array(
+		"default" => NULL,
+		"name"    => "Reload Command",
+		"type"    => "text",
+		"tip"     => "MI command that should be run when a reload is triggered from the main page.",
+		"opt"     => true
+	),
 
+	"talk_to_this_assoc_id" => array(
+		"default" => 1,
+		"name"  => "Linked system",
+		"options" => get_assoc_id(),
+		"type"  => "dropdown",
+	),
 
 	"title1" => array(
 		"type" => "title",
