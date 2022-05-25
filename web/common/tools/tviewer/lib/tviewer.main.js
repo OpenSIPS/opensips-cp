@@ -120,23 +120,23 @@ function apply_changes(){
 	return true;
 }
 
-function updatePeerCombo(peer,customer)
+function updateFilterCombo(update_combo, filter_combo)
 {
-    var ct = document.getElementById(customer);
-    var forValue = ct.options[ct.selectedIndex].text;
-    var PeerDrop = document.getElementById(peer),i,val;
+	var f = document.getElementById(filter_combo);
+	var forValue = (f.options[f.selectedIndex].value != ""?
+		f.options[f.selectedIndex].value:f.options[f.selectedIndex].text);
+	var fields = document.getElementById(update_combo),i,val;
 
-     for(i = 0; i < PeerDrop.length; i++) {
-       val = PeerDrop[i];
-       if (forValue!="Empty..." && val.getAttribute('hook')!="Empty..." && val.getAttribute('hook')!=forValue) {
-          val.hidden = true;
-         if (val.selected)
-                val.selected=false;
-          //alert(val.getAttribute('hook'));
-       } else {
-          val.hidden = false;
-        }
-     }
+	for(i = 0; i < fields.length; i++) {
+		val = fields[i];
+		if (forValue!="Empty..." && val.getAttribute('hook')!="Empty..." && val.getAttribute('hook')!=forValue) {
+			val.hidden = true;
+			if (val.selected)
+				val.selected=false;
+		} else {
+			val.hidden = false;
+		}
+	}
 }
 
 </script>
