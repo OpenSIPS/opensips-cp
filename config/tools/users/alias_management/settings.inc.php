@@ -43,7 +43,7 @@ $config->alias_management = array(
 		"name" => "Alias Format",
 		"tip"  => "Pattern/regexp to validate the inserted aliases (in order to enforce a certain format for the aliases).",
 		"type" => "text",
-		"default" => "/^[0-9a-zA-Z]+/",
+		"default" => "^[a-zA-Z0-9&=+$,;?/%]+$",
 	),
 
 
