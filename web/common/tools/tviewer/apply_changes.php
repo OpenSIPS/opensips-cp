@@ -23,7 +23,6 @@
 ?>
 <?php
 session_start();
-require("init.php");
 
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
@@ -32,10 +31,11 @@ require("lib/functions.inc.php");
 require_once("../../../../config/db.inc.php");
 require_once("lib/functions.inc.php");
 require_once("lib/db_connect.php");
+$module_id = $_SESSION["current_tool"];
 
 session_load_from_tool($module_id);
-if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
-	require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
+if (file_exists("../../../../config/tools/".get_tool_path($module_id)."/tviewer.inc.php"))
+	require_once("../../../../config/tools/".get_tool_path($module_id)."/tviewer.inc.php");
 
 $command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_mi_command'];
 
