@@ -106,6 +106,9 @@ if($search_atype !='ANY') {
 			$table=$options[$i]['value'];
 	}
 } 
+$labels = array();
+for($k=0;$k<count($options);$k++)
+	$labels[$options[$k]['value']] = $options[$k]['label'];
 
 if(!$_SESSION['read_only']){
         $colspan = 7;
@@ -162,7 +165,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_domain']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$table?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=(isset($labels[$table])?$labels[$table]:$table)?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
    <?php
@@ -249,16 +252,15 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 
                 if(!$_SESSION['read_only']){
 
-                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.gif" border="0"></a>';
-                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/trash.gif" border="0"></a>';
+                        $edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
+                        $delete_link='<a href="'.$page_name.'?action=delete&table='.$table.'&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 
 				} 
 		?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['id']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_domain']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$table?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=(isset($labels[$table])?$labels[$table]:$table)?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
    <?php

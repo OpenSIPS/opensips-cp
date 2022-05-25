@@ -42,6 +42,6 @@ form_generate_select("Domain", "Alias's domain", "alias_domain", 200,
 
 if (!$am_edit)
 	form_generate_select("Alias Type", "The type of the alias, as you may have multiple type/groups of aliases, for different purposes",
-		"alias_type", 64, $am_form['alias_type'], array_keys($alias_types), array_values($alias_types) );
+		"alias_type", 64, $am_form['alias_type'], array_values($alias_types), array_keys($alias_types) );
 
 ?>
