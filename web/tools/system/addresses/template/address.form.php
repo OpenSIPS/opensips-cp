@@ -66,10 +66,10 @@ form_generate_input_text("IP", "Network IP",
 	"ip", "n", $perm_set['ip'], 128, $re_ip);
 
 form_generate_input_text("Mask", "Network Mask",
-	"mask", "y", $perm_set['mask'], 4, "^\d+$");
+	"mask", "y", $perm_set['mask'], 4, "^[0-9]+$");
 
 form_generate_input_text("Port", "Network Port, '0' means any port",
-	"port", "y", $perm_set['port'], 5, "^\d+$");
+	"port", "y", $perm_set['port'], 5, "^[0-9]+$");
 
 form_generate_select("Protocol", "Network Protocol",
 	"proto", "n", $perm_set['proto'],
