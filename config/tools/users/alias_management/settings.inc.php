@@ -50,7 +50,7 @@ $config->alias_management = array(
 		"default" => NULL,
 		"name"    => "Reload Command",
 		"type"    => "text",
-		"tip"     => "MI command that should be run when a reload is triggered from the main page.",
+		"tip"     => "MI command that should be run when a reload is triggered from the main page. This can be useful to invalidate cached data in the script when provisioning changes. If empty, no command is run, and the 'Reload' button dissapears",
 		"opt"     => true
 	),
 
