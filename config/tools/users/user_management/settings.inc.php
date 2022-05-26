@@ -49,7 +49,6 @@ $config->user_management = array(
 		),
 		"name"    => "Aliases Table",
 		"type"    => "json",
-		"validation_regex" => $table_regex,
 		"example" => "{
 	\"DBaliases\": \"dbaliases\"
 }"
