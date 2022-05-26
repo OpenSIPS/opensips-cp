@@ -34,6 +34,15 @@ $config->user_management = array(
 		"tip"     => "Controls the way the SIP user password is going to be saved in the database",
 		"type"    => "dropdown",
 	),
+	"user_format" => array(
+		"default" => NULL,
+		"name"    => "User Format Regex",
+		"type"    => "text",
+		"tip"     => "A regular expression that indicates how a username should look like",
+		"default" => "^[a-zA-Z0-9&=+$,;?/%]+$",
+		"opt"     => true
+	),
+
 	"table_aliases" => array(
 		"default" => array( 
 			"DBaliases" => "dbaliases"
