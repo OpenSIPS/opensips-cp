@@ -76,7 +76,7 @@ require_once("functions.js");
 					else form_generate_input_checklist($params['name'], $current_tip, $attr, 64, $value, array_value($params['options']));
 					break;
 				case "json":
-					form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), 1000, $params['validation_regex'], 'validate_json');
+					form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), (isset($params['maxlen'])?$params['maxlen']:NULL), $params['validation_regex'], 'validate_json');
 					break;
 				case "dropdown": 
 					if (isAssoc($params['options']))
