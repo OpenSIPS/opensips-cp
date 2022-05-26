@@ -114,8 +114,15 @@ if ($action=="modify")
 					 password=?, ha1=?";
 				$sql_vals = array($uname,$domain,$passwd,$ha1);
 				foreach ( get_settings_value("subs_extra") as $key => $value ) {
+					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
+						if (!isset($value["default"]))
+							continue;
+						$value = $value["default"];
+					} else {
+						$value = $_POST["extra_".$key];
+					}
 					$sql .= ", ".$key."=?";
-					array_push( $sql_vals, $_POST["extra_".$key]);
+					array_push( $sql_vals, $value);
 				}
 				$sql .= " WHERE id=?";
 				array_push( $sql_vals, $id);
@@ -133,8 +140,15 @@ if ($action=="modify")
 				$sql = "UPDATE ".$table." SET username=?, domain=?";
 				$sql_vals = array($uname,$domain);
 				foreach ( get_settings_value("subs_extra") as $key => $value ) {
+					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
+						if (!isset($value["default"]))
+							continue;
+						$value = $value["default"];
+					} else {
+						$value = $_POST["extra_".$key];
+					}
 					$sql .= ", ".$key."=?";
-					array_push( $sql_vals, $_POST["extra_".$key]);
+					array_push( $sql_vals, $value);
 				}
 				$sql .= " WHERE id=?";
 				array_push( $sql_vals, $id);
@@ -277,11 +291,17 @@ if ($action=="add_verify")
 				$sql .= ','.$key;
 		$sql .= ') VALUES (?, ?, ?, ? ';
 		$sql_vals = array($uname,$domain,$passwd,$ha1);
-		foreach ( get_settings_value("subs_extra") as $key => $value )
-			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
-				$sql .= ', ?';
-				array_push( $sql_vals, $_POST["extra_".$key]);
+		foreach ( get_settings_value("subs_extra") as $key => $value ) {
+			if (!isset($_POST['extra_'.$key]) || $_POST["extra_".$key] == "") {
+				if (!isset($value["default"]))
+					continue;
+				$value = $value["default"];
+			} else {
+				$value = $_POST["extra_".$key];
 			}
+			$sql .= ', ?';
+			array_push( $sql_vals, $value);
+		}
 		$sql .= ')';
 
                 $stm = $link->prepare($sql);

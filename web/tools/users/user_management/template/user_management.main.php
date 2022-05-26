@@ -163,11 +163,15 @@ foreach (get_settings_value("subs_extra") as $key => $value) {
   <th class="listTitle">Username</th>
 
   <?php
+	$combo_cache = array();
+	require_once("../../../common/forms.php");
 	foreach ( get_settings_value("subs_extra") as $key => $value ) {
 		if (isset($value["show_in_main_form"]) && !$value["show_in_main_form"])
 			continue;
 		echo ('<th class="listTitle">'.$value['header'].'</th>');
 		$colspan++;
+		if (isset($value["type"]) && $value["type"] == "combo")
+			$combo_cache[ $key ] = get_custom_combo_options($value);
 	}
 	
 	echo ('<th class="listTitle">Contacts</th>');
@@ -254,7 +258,18 @@ else
 	foreach ( get_settings_value("subs_extra") as $key => $value ) {
 		if (isset($value["show_in_main_form"]) && !$value["show_in_main_form"])
 			continue;
-		echo ('<td class="'.$row_style.'">'.$resultset[$i][$key].'</td>');
+		        echo "<td class='".$row_style."'>";
+		if (!isset($value["type"]) || $value["type"] == "text" ) {
+			$text = $resultset[$i][$key];
+		} else {
+			$text = isset($resultset[$i][$key]) ?
+				$combo_cache[$key][ $resultset[$i][$key] ]['display'] : "";
+		}
+		if (isset($value['value_wrapper_func']))
+			echo $value['value_wrapper_func']( $key, $text, $resultset[$i] );
+		else
+			echo $text;
+		echo "</td>";
 	}
 ?>
 

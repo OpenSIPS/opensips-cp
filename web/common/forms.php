@@ -421,6 +421,49 @@ function form_generate_select_refresh($title,$tip,$id,$mlen,$val,$vals,$texts=nu
 	echo ('</select></form>');
 }
 
+function get_custom_combo_options($combo)
+{
+	require_once("../../../../config/db.inc.php");
+	require_once("../../../../config/tools/".get_tool_path($_SESSION['current_tool'])."/db.inc.php");
+	require("lib/db_connect.php");
+
+	$options = array();
+
+	if ( isset($combo['combo_table']) && $combo['combo_table']!="" ){
+		if (!isset($combo['combo_display_col']) || $combo['combo_display_col']=="")
+			$display_col = $combo['combo_value_col'];
+		else
+			$display_col = $combo['combo_display_col'];
+
+		if (!isset($combo['combo_hook_col']) || $combo['combo_hook_col']=="")
+			$hook_col = NULL;
+		else
+			$hook_col = $combo['combo_hook_col'];
+
+		$sql="select ".$combo['combo_value_col'].", ".$display_col.(($hook_col==NULL)?"":(", ".$hook_col))." from ".$combo['combo_table'];
+		$stm = $link->query($sql);
+		if($stm === false) {
+			die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+		}
+		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $k=>$v) {
+			$options[ $v[$combo['combo_value_col']] ]['display'] = $v[$display_col] ;
+			if ($hook_col!=NULL)
+				$options[ $v[$combo['combo_value_col']] ]['hook'] = $v[$hook_col] ;
+		}
+
+	} else if (isset($combo['combo_default_values']) && $combo['combo_default_values']!=NULL) {
+		foreach ($combo['combo_default_values'] as $k=>$v) {
+			$options[ $k ]['display'] = $v ;
+			if (isset($combo["combo_default_hooks"]) && $combo["combo_default_hooks"]!=NULL)
+				$options[ $k ]['hook'] = $combo["combo_default_hooks"][$k] ;
+		}
+
+	}
+
+	return $options;
+}
+
 // Helpers to build complet validation regexp
 
 # FreeSWITCH url (fs://[username]:password@host[:port])
