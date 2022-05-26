@@ -42,7 +42,7 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
 	$errors = NULL;
-	$message=mi_command($command, NULL, $mi_connectors[$i], $errors);
+	$message=mi_command($command,
 		($addresses_partition?array("partition"=>$addresses_partition):NULL),
 		$mi_connectors[$i], $errors);
 
