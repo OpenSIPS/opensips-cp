@@ -75,7 +75,7 @@ $permissions=array();
 				$validation = "validate_json";
 				if ($params['json_format'] == "object")
 					$flags |= JSON_FORCE_OBJECT;
-				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), 1000, $params['validation_regex'], $validation, $params['json_format']);
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), (isset($params['maxlen'])?$params['maxlen']:NULL), $params['validation_regex'], $validation, $params['json_format']);
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))

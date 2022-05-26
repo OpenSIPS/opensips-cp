@@ -206,11 +206,15 @@ function print_example($example, $param, $id) {
 	   );
 }
 
-function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$validation=null,$json_format=null) {
+function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=null,$validation=null,$json_format=null) {
 	if ($val!=null)
-		$value=" value='".$val."' valid='ok'";
-	else 
-		$value = "";
+		$valid=" valid='ok'";
+	else
+		$valid = "";
+	if ($mlen!=null)
+		$maxlen=" maxlength='".$mlen."'";
+	else
+		$maxlen = "";
 
 	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.",\"".$json_format."\")'";
 	$pixelNo = substr_count($val, "\n") * 16 + 35;
@@ -229,7 +233,7 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen,$re,$valid
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
-				<textarea style='height:".$pixelNo."px'   name='".$id."'".$value." cols=30  id='".$id."' maxlength='".$mlen."'  class='dataInput'".$validate.">".$val."</textarea>
+				<textarea style='height:".$pixelNo."px'   name='".$id."'".$valid.$maxlen." cols=30  id='".$id."' class='dataInput'".$validate.">".$val."</textarea>
 				</td>
 				<td width='20'>
 				<div id='".$id."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
