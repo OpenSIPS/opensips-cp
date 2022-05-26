@@ -78,12 +78,7 @@ if ($action=="add_verified")
                 $domain = $_POST['domain'];
 
                 
-		for($i=0; $i<count($options);$i++){
-			if ($alias_type == $options[$i]['label']) 
-				$table = $options[$i]['value']; 
-		}						
-
-                $sql = "INSERT INTO ".$table."
+                $sql = "INSERT INTO ".$alias_type."
                 (alias_username, alias_domain, username, domain) VALUES (?, ?, ?, ?)";
                 $stm = $link->prepare($sql);
 		if ($stm === false) {
