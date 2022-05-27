@@ -82,6 +82,11 @@ if ($action=="add_verify")
 			$values.="?,";
 			$values_arr[] = $_POST[$key];
 		}
+		else if (isset($value["default_value"])){
+			$fields.=$key.",";
+			$values.="?,";
+			$values_arr[] = $value["default_value"];
+		}
 	}
 	//chop the commma at the end :D	
 	$fields = substr($fields,0,-1);
