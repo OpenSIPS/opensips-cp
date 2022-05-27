@@ -48,7 +48,7 @@ foreach (get_settings_value("subs_extra") as $key => $value) {
 			$display, 128, $value['validation_regex']);
 		break;
 	case "combo":
-		$options = get_custom_combo_options($value);
+		$options = get_combo_options($value);
 		form_generate_select($value['header'], $value['info'],
 			"extra_".$key, 205, $um_form['extra_'.$key], array_keys($options),
 			array_map('array_shift', array_values($options)),

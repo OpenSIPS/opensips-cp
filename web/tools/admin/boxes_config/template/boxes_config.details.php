@@ -45,7 +45,7 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 				$combo_cache = array();
 				foreach ($params as $key => $value) {
 					if ($value['type'] == "combo")
-						$combo_cache[$key] = get_custom_combo_options($value);
+						$combo_cache[$key] = get_combo_options($value);
 					if ($value['type'] == "checklist")
 						$checklist_cache[$key] = $value['options'];
 				}

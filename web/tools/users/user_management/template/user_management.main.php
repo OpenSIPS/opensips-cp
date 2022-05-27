@@ -176,7 +176,7 @@ foreach (get_settings_value("subs_extra") as $key => $value) {
 		echo ('<th class="listTitle">'.$value['header'].'</th>');
 		$colspan++;
 		if (isset($value["type"]) && $value["type"] == "combo")
-			$combo_cache[ $key ] = get_custom_combo_options($value);
+			$combo_cache[ $key ] = get_combo_options($value);
 	}
 	
 	echo ('<th class="listTitle">Contacts</th>');

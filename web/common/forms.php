@@ -421,7 +421,7 @@ function form_generate_select_refresh($title,$tip,$id,$mlen,$val,$vals,$texts=nu
 	echo ('</select></form>');
 }
 
-function get_custom_combo_options($combo)
+function get_combo_options($combo)
 {
 	require_once("../../../../config/db.inc.php");
 	require_once("../../../../config/tools/".get_tool_path($_SESSION['current_tool'])."/db.inc.php");
