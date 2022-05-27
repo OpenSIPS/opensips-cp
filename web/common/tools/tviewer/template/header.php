@@ -21,19 +21,7 @@
 */
 require_once("../../../../config/session.inc.php");
 
-if (!isset($_SESSION['module_id'])) {
-	if (isset($_POST['module_id']))
-		$_SESSION['module_id'] = $_POST['module_id'];
-	else if (isset($_GET['module_id']))
-		$_SESSION['module_id'] = $_GET['module_id'];
-}
 $module_id = $_SESSION['module_id'];
-if (!isset($_SESSION['branch'])) {
-	if (isset($_POST['branch']))
-		$_SESSION['branch'] = $_POST['branch'];
-	else if (isset($_GET['branch']))
-		$_SESSION['branch'] = $_GET['branch'];
-}
 $branch = $_SESSION['branch'];
 
 require_once("../../../../config/db.inc.php");
