@@ -311,12 +311,14 @@ else
 			} else {
 				$custom_extra_action = "";
 			}
-			if (isset($value['icon_func']) && $value['icon_func'] != NULL)
-				$custom_extra_icon = $value['icon_func']($resultset[$i]);
-			else if (isset($value['icon']) && $value['icon'] != NULL)
+			if (isset($value['icon_func']) && $value['icon_func'] != NULL) {
+				eval("\$func = ". $value['icon_func'].';');
+				$custom_extra_icon = $func($resultset[$i]);
+			} else if (isset($value['icon']) && $value['icon'] != NULL) {
 				$custom_extra_icon = '<img src="'.$value['icon'].'" border="0">';
-			else
+			} else {
 				$custom_extra_icon = "";
+			}
 
 			if ($custom_extra_action != "")
 				$custom_extra_link ='<a href="'. $custom_extra_action . '">'.$custom_extra_icon.'</a>';
