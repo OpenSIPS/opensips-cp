@@ -276,7 +276,7 @@ else
 				$combo_cache[$key][ $resultset[$i][$key] ]['display'] : "";
 		}
 		if (isset($value['value_wrapper_func'])) {
-			eval("\$func = ".$value['value_wrapper_func']);
+			eval("\$func = ".$value['value_wrapper_func'].';');
 			echo $func($key, $text, $resultset[$i]);
 		} else {
 			echo $text;
