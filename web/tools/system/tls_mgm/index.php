@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2011 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -20,12 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-session_start();
-require_once("../../../common/cfg_comm.php");
+$branch = "system";
+$module_id = "tls_mgm";
 
-$_SESSION['branch'] = "system";
-$_SESSION['module_id'] = "tls_mgm";
-
-header("Location: ../../../common/tools/tviewer/tviewer.php?module_id=".$module_id."");
- 
+require_once("../../../common/tools/tviewer/redirect.php");
 ?>
