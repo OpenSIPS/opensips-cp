@@ -377,7 +377,7 @@ function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$
 		</tr>");
 }
 
-function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
+function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_optional=false) {
 	print("
 		<tr>
 			<td class='dataRecord'>
@@ -391,6 +391,9 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
 				<select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
+	if ($is_optional) {
+		print("                                 <option value=''".(($val=="")?" selected":"").">Empty ...</option>");
+	}
 	for($i = 0; $i < count($vals); ++$i){
 		print("
 					<option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".($texts[$i]?$texts[$i]:$vals[$i])."</option>");
@@ -472,8 +475,8 @@ $re_fs_url ="(fs://[a-zA-Z0-9]*:[^@]+@[^:]+(:[0-9]+)?)";
 # SIP URI
 $re_sip_uri = "sip(s)?:([^@]+@)?[^:]+(:[0-9]+)?";
 
-$re_ip = "([0-9]{1,3}\\\.[0-9]{1,3}\\\.[0-9]{1,3}\\\.[0-9]{1,3})";
+$re_ip = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
 
-$re_socket = "^([a-zA-Z]+:)?([0-9]{1,3}\\\.[0-9]{1,3}\\\.[0-9]{1,3}\\\.[0-9]{1,3})(:[0-9]+)?$";
+$re_socket = "^([a-zA-Z]+:)?([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})(:[0-9]+)?$";
 
 ?>
