@@ -46,8 +46,6 @@ else
 	
 <style>#menudashboard:before { content: url('images/dashboard.svg'); fill: white;}</style>
 <div id="menudashboard" class="menu" onclick="top.frames['main_body'].location.href='tools/admin/dashboard/index.php';">Dashboard</div>
-<style>#menudashboard:before { content: url('images/dashboard.svg'); fill: yellow;}</style>
-<div id="menudashboard" class="menu" onclick="top.frames['main_body'].location.href='tools/admin/dashboard2/index.php';">Dashboard2</div>
 <?php
 foreach ($config_modules as $menuitem => $menuitem_config) {
 	if (!$menuitem_config['enabled'])
