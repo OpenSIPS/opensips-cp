@@ -26,7 +26,7 @@ require("lib/".$page_id.".main.js");
 
 session_load();
 
-get_settings_value("table_clusterer");
+$table = get_settings_value("table_clusterer");
 $current_page="current_page_address";
 
 include("lib/db_connect.php");
