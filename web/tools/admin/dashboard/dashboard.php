@@ -20,11 +20,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
 require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
@@ -109,6 +104,36 @@ if ($action=="delete")
 	}
 }
 
+if ($action=="delete_widget")
+{
+	if(!$_SESSION['read_only']){
+
+		$panel_id = $_GET['panel_id'];
+		$widget_id = $_GET['widget_id'];
+		
+		$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
+		unset($stored_widgets[$widget_id]);
+		$stored_positions = [];
+		foreach($_SESSION['config']['panels'][$panel_id]['widgets'] as $w_id => $w) {
+			if ($w_id != $widget_id)
+				$stored_positions[] = json_decode($w['positions']);
+		}
+		$sql = 'UPDATE '.$table.' SET content = ?, positions = ? WHERE id = ? ';
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+	
+		if ($stm->execute( array(json_encode($stored_widgets), json_encode($stored_positions), $panel_id)) == false)
+			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+		load_panels();
+
+	}else{
+
+		$errors= "User with Read-Only Rights";
+	}
+}
+
 if ($action == "details") {
 	$id = $_GET['box_id'];
 	require("template/".$page_id.".details.php");
@@ -117,7 +142,9 @@ if ($action == "details") {
 }
 
 if ($action == "display_panel") {
+	
 	$panel_id = $_GET['panel_id'];
+
 	foreach(json_decode($_SESSION['config']['panels'][$panel_id]['content']) as $el) {
 		if ($el->type == "chart") {
 			echo "<div id=chart_".$el->id.">".$content_chart."</div>";
@@ -157,13 +184,14 @@ if ($action == "add_widget_verify") {
 		$widget_type = $_GET['widget_type'];
 		$widget_params['widget_type'] = $widget_type;
 		$widget_params['panel_id'] = $panel_id;
+		$widget_params['widget_id'] = "panel_".$panel_id."_widget_".($_SESSION['config']['panels'][$panel_id]['widget_no'] + 1);
 		$new_widget = new $widget_type($_POST);
 		$new_widget->set_id($_POST['widget_id']);
 		$widget_array = $new_widget->get_as_array();
 		$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
-		$stored_widgets[$_POST['widget_id']] = json_encode($widget_params);
+		$stored_widgets[$widget_params['widget_id']] = json_encode($widget_params);
 		
-		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
+		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ?';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

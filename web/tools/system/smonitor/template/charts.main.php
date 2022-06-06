@@ -19,7 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
 ?>
 
 <form action="<?=$page_name?>" method="post">
@@ -54,9 +53,10 @@ else
   $scale = $group_attr['scale'];
   $matches = false;
   $group = [];
+  
   foreach ($groupElements as $g) {
     if (isset($g['box_id']))
-      $stat_box_id = get_box_id_by_name($g['box_id']);
+      $stat_box_id = $g['box_id'];
     else
       $stat_box_id = get_box_id_default();
     $boxes[] = $stat_box_id;

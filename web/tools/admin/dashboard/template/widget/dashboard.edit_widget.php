@@ -42,12 +42,10 @@ echo '<h1>Edit widget</h1>'
         <td class="dataRecord" align="right" width="50%"><input type="submit" name="editwidget" value="Edit" class="formButton"></td>
         <td class="dataRecord" align="left" width="50%"><?php print_back_input(); ?></td>
       </tr>
-	  <tr>
-		<td class="dataRecord" align="left" width="50%"><input style="background-color: red;" type="submit" name="editwidget" value="Delete" class="formButton"></td>
-      </tr>
     </table>
  </tr>
 </table>
 </form>
-
-
+<form action="<?=$page_name?>?action=delete_widget&panel_id=<?=$panel_id?>&widget_id=<?=$widget_id?>" method="post">
+<input type="submit" style="background-color: red;" value="Delete" class="formButton">
+</form>

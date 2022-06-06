@@ -156,7 +156,6 @@ function get_group() {
 
 function load_widgets() {
 	$tools = get_tools();
-	$tools['dashboard'] = 'admin';
 	$widgets = [];
 	foreach ($tools as $tool => $group) {
 		$files = glob('../../'.get_tool_path($tool).'/template/dashboard_widgets/*.php');
@@ -165,6 +164,12 @@ function load_widgets() {
 			$file_name = basename($file);
 			$widgets[] = substr($file_name, 0, strlen($file_name) - 4);
 		}
+	}
+	$files = glob('../../admin/dashboard/template/dashboard_widgets/*.php');
+	foreach ($files as $file) {
+		require_once($file);
+		$file_name = basename($file);
+		$widgets[] = substr($file_name, 0, strlen($file_name) - 4);
 	}
 	return $widgets;
 }
@@ -234,7 +239,7 @@ function get_system_params() {
 function load_panels() {
 	require("".__DIR__."/../tools/admin/dashboard/lib/db_connect.php");
 	require("".__DIR__."/../../config/tools/admin/dashboard/local.inc.php");
-
+	unset($_SESSION['config']['panels']);
 	$max_order = -1;
 	$sql = 'select `name`, id, content, positions, `order` from ocp_dashboard';
 	$stm = $link->prepare($sql);
@@ -252,13 +257,14 @@ function load_panels() {
 			foreach (json_decode($elem['content']) as $widget_id => $widget) {
 				$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['content'] = $widget;
 				foreach (json_decode($elem['positions']) as $el) {
-					if ($el->id == $widget_id) {
+					if ($el->id == $widget_id) { 
 						$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['positions'] = json_encode($el);
 					}
 				}
 			}
 			$_SESSION['config']['panels'][$elem['id']]['order'] = $elem['order'];
 			$_SESSION['config']['panels'][$elem['id']]['id'] = $elem['id'];
+			$_SESSION['config']['panels'][$elem['id']]['widget_no'] = count($_SESSION['config']['panels'][$elem['id']]['widgets']);
 			if ($elem['order'] > $max_order) $max_order = $elem['order'];
 		}
 	}
