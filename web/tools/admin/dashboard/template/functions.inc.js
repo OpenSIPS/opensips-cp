@@ -10,9 +10,9 @@ function addWidget(grid, content, sizeX, sizeY, col = null, row = null) {
 function move(oldID, newID) {
     var newParent = document.getElementById(newID);
     var oldParent = document.getElementById(oldID);
-  while (oldParent.childNodes.length > 0) {
-    newParent.appendChild(oldParent.childNodes[0]);
-  }
+	while (oldParent.childNodes.length > 0) {
+		newParent.appendChild(oldParent.childNodes[0]);
+	}
 }
 
 function store_dashboard(arg) {

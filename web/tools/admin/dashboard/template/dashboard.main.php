@@ -75,7 +75,7 @@
             resize: {
                 enabled: true
             },
-            serialize_params: function($w, wgd) {console.log(wgd);
+            serialize_params: function($w, wgd) {
                     return { 
                            id: $w.attr('id'),
                            col: wgd.col,
@@ -92,15 +92,10 @@
                 }
             }
         }).data('gridster');
-
-  //      $.each(widgets, function (i, widget) {
-  //          gridster.add_widget.apply(gridster, widget)
-  //      });
          
          if (action == "add_widget_verify") { 
             var wi = <?php echo json_encode($widget_array); ?>;
             addWidget(gridster,wi[0], Number(wi[1]), Number(wi[2]));
-            //move( "ugabuga", "hodoronc");
          }
 </script>
 
@@ -110,37 +105,15 @@
 
 <?php
 
-/*
-
-if ($_SESSION['config']['panels'][$panel_id]['widgets']['positions'] != null) {
-    //consoole_log($_SESSION['config']['panels']);
-    ?>
-    <script>
-        var e;
-        var stored_widgets = JSON.parse(<?php echo json_encode($_SESSION['config']['panels'][$panel_id]['widgets']['positions']); ?>);
-            
-            //console.log(stored_widgets);
-            stored_widgets.forEach(element => 
-            {
-                //   move( "chart_".concat(element.id), element.id);
-                    gridster.add_widget("<li/>", 2, 2, element.col, element.row);
-                
-            });
-    </script>
-    
-    <?php
-}
-*/
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
  foreach ($_SESSION['config']['panels'][$panel_id]['widgets'] as $widget)
- { 
+ {
     $widget_content = json_decode($widget['content'], true);
     $widget_id = $widget_content['widget_id'];
     $widget_positions = json_decode($widget['positions'], true);
     $new_widget = new $widget_content['widget_type']($widget_content);
     $new_widget->set_id($widget_content['widget_id']);
     $widget_array = $new_widget->get_as_array();
-    $_SESSION['test_dashboard'] = $widget_id;
     $new_widget->echo_content();
      ?>
 <script>
@@ -161,6 +134,12 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>
      <?php
- }
+ } ?>
+	<script>
+		var positions = gridster.serialize();
+		positions.push (<?=$panel_id?>);
+		store_dashboard(positions);
+	</script>
+ <?php
 }
 } ?>
