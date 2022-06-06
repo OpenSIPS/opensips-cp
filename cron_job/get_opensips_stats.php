@@ -40,7 +40,7 @@ foreach ($boxes as $idx => $ar){
 		$time=time();
 		$id = $ar["id"];
 
-		if (date('i', $time) % $sampling_time == 0) {
+		if ($time % ($sampling_time * 60) == 0) {
 			// Get the name of the needed statistics
 			$sql = "SELECT * FROM ".$table_monitored." WHERE box_id=? ORDER BY name ASC";
 			$stm = $link->prepare($sql);
