@@ -35,7 +35,7 @@
 $sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";
 $stm = $link->prepare($sql);
 if ($stm->execute(array($box_id)) === false)
-	die('Failed to issue query, error3 message : ' . print_r($stm->errorInfo(), true));
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 $data_no=count($resultset);
 if ($data_no==0) echo ('<tr><td class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -71,7 +71,7 @@ else
     $sql = "REPLACE INTO ".$monitored_table." (name, box_id) VALUES (?, ?)";
     $stm = $link->prepare($sql);
     if ($stm->execute(array($g['name'], $stat_box_id)) === false)
-		die('Failed to issue query, error4 message : ' . print_r($stm->errorInfo(), true));
+		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   
   }
 
@@ -81,7 +81,7 @@ else
  $sql = "SELECT min(time) as time FROM ".$table." WHERE box_id = ? AND name IN (".implode(",",array_fill(0, count($group), "?")).") ORDER BY time ASC LIMIT 1";
  $stm = $link->prepare($sql);
  if ($stm->execute(array_merge(array($box_id), $group)) === false)
-   die('Failed to issue query, 6essage : ' . print_r($stm->errorInfo(), true));
+   die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
  $result = $stm->fetchAll(PDO::FETCH_ASSOC);
  $from_time=date('j M Y, H:i:s',$result[0]['time']);
  ?>
@@ -112,7 +112,7 @@ else
   $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
   $stm = $link->prepare($sql);
   if ($stm->execute(array($stat, $box_id)) === false)
-    die('Failed to issue query, error9 message : ' . print_r($stm->errorInfo(), true));
+    die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   $from_time=date('j M Y, H:i:s',$result[0]['time']);
   echo $result['time'];
