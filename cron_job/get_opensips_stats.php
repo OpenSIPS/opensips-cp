@@ -40,7 +40,7 @@ foreach ($boxes as $idx => $ar){
 	if ($ar['smonitor']['charts']==1){
 		$time=time();
 		$id = $ar["id"];
-		if (date('i', $time) % $sampling_time == 0) {
+		if ($time % ($sampling_time * 60) == 0) {
 			
 			$sql = "SELECT * FROM ocp_extra_stats WHERE box_id=? ORDER BY name ASC";
 			$stm = $link->prepare($sql);
