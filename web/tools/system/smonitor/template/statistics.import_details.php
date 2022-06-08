@@ -20,36 +20,24 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
     $desc = $_GET['description'];
-    $class = $_GET['class'];
-    $tool = $_GET['tool'];
-    $input = $_GET['input'];
     
  ?>
 	<table width="400" border="0">
 		<tr>
 			<td class="mainTitle">
-					View statistic
+					Statistic description
 			</td>
 		</tr>
 
 		<tr>
 			<td>
+
 				<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0"> <tr>
 				<?php
-                echo ('<td>Statistic description: '.$desc.'</td>');
+                echo ('<td style="height: 100px;" >Statistic description: '.$desc.'</td>');
                 ?>
-                </tr><tr><?php
-                echo ('<td>Statistic class: '.$class.'</td>'); ?></tr>
-				<tr><?php
-                echo ('<td>Provisioning tool: '.$tool.'</td>'); ?></tr>
-				<tr><?php
-                echo ('<td>Statistic input: '.$input.'</td>'); ?></tr></table>
-			</td>
-		</tr>
+                </tr></table>
 
-		<tr>
-			<td align="center">
-				<? print_back_input(); ?>
 			</td>
 		</tr>
 	

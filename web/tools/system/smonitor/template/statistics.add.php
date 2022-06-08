@@ -27,8 +27,8 @@ if(!$_SESSION['read_only']){
 }
 ?>
 
-<div id="dialog" class="dialog" style="display:none"></div>
-<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="custom_stat" class="dialog" style="display:none"></div>
+<div onclick="closeImportOverlay();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
 
@@ -37,6 +37,7 @@ if(!$_SESSION['read_only']){
   <th class="listTitle">Statistic name</th>
   <th class="listTitle">Statistic class name</th>
   <th class="listTitle">Provisioning tool</th>
+  <th class="listTitle">Provisioning details</th>
   <?php
   if(!$_SESSION['read_only']){
   	echo('<th class="listTitle">Import</th>');
@@ -70,6 +71,7 @@ else
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
+			$details_link = '<a href="javascript:;" onclick="openImportOverlay(\''.$stat_temp::get_description().'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			//$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i].'\')"><img src="../../../images/share/details.png" border="0"></a>';
             //$details_link = '<a href="'.$page_name.'?action=import_details&widget_dir='.$resultset[$i]['dir'].'"><img src="../../../images/share/details.png" border="0"></a>';
 			if(!$_SESSION['read_only']){	
@@ -80,6 +82,7 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp->get_name();?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp->get_tool();?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $details_link?></td>
 <?php
    if(!$_SESSION['read_only']){
    	echo('

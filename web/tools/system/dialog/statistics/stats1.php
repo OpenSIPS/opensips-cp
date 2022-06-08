@@ -9,7 +9,7 @@ class stats1 extends custom_statistic
     }
     
     public static function get_description() {
-        $desc = "this is the description 1";
+        $desc = "This class gets the dialog size of a profile";
         return $desc;
     }
 

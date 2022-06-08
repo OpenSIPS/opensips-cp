@@ -31,7 +31,7 @@ if(!$_SESSION['read_only']){
 
 
 <div id="custom_stat" class="dialog" style="display:none"></div>
-<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div onclick="closeStatOverlay();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 
 <form action="<?=$page_name?>?action=add_statistic" method="post">
@@ -72,6 +72,7 @@ else
 		$_SESSION[$current_page]=$page;
 	}
 	$start_limit=($page-1)*$res_no;
+
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
 	$resultset = get_custom_statistics();
 	$index_row=0;
@@ -81,9 +82,8 @@ else
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
-
 		if(!$_SESSION['read_only']){
-			$details_link = '<a href="javascript:;" onclick="show_statistic(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['name'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['class'].'\',\''.$resultset[$i]['input'].'\',\''.$resultset[$i]['tool'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/delete.png" border="0"></a>';
 			$edit_link = '<a href="'.$page_name.'?action=edit_statistic&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
