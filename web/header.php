@@ -22,7 +22,7 @@
  
  require("../config/local.inc.php");
  require("../config/modules.inc.php");
- session_start();
+ require("../config/session.inc.php");
 ?>
 
 <html>

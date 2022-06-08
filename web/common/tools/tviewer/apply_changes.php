@@ -22,8 +22,8 @@
 
 ?>
 <?php
-session_start();
 
+require_once("../../../../config/session.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 require("lib/functions.inc.php");
