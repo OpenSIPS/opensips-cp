@@ -1,6 +1,6 @@
 <script>
-function show_statistic(description, input){
-    url = "template/statistics.details.php?input="+input+"&description="+description;
+function openStatOverlay(description, className, input, tool){
+    url = "template/statistics.details.php?class="+className+"&description="+description+"&tool="+tool+"&input="+input;
     var http = getHTTPObject();
     
     http.open("GET", url, false);
@@ -20,13 +20,41 @@ function show_statistic(description, input){
     document.getElementById('overlay').style.display = 'block';
     document.getElementById('custom_stat').innerHTML = result;
     centerMe('custom_stat')
-    document.getElementById('overlay').onclick = function () {closeDialog();};
+    document.getElementById('overlay').onclick = function () {closeStatOverlay();};
     document.getElementById('custom_stat').style.display = 'block';
     window.location.hash = '#tab1';
     location.hash = "tab1";
   
   }
   
+  function openImportOverlay(description){
+    url = "template/statistics.import_details.php?description="+description;
+    var http = getHTTPObject();
+    
+    http.open("GET", url, false);
+    http.onreadystatechange = handleHttpResponse(http);
+    http.send(null);
+    result = http.responseText;
+    
+    var body = document.body,
+      html = document.documentElement;
+  
+    var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+    var width = Math.max( body.scrollWidth, body.offsetWidth, html.clientWidth, html.scrollwidth, html.offsetwidth );
+  
+  
+    document.getElementById('overlay').style.height = height;
+    document.getElementById('overlay').style.width = width;
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('custom_stat').innerHTML = result;
+    centerMe('custom_stat')
+    document.getElementById('overlay').onclick = function () {closeImportOverlay();};
+    document.getElementById('custom_stat').style.display = 'block';
+    window.location.hash = '#tab1';
+    location.hash = "tab1";
+  
+  }
+
   function centerMe(element) {
     //pass element name to be centered on screen
       var pWidth = window.innerWidth;
@@ -40,13 +68,20 @@ function show_statistic(description, input){
     
     
     
-    function closeDialog() {
+    function closeStatOverlay() {
       document.getElementById('overlay').style.display = 'none';
       document.getElementById('custom_stat').style.display = 'none';
       document.getElementById('custom_stat').innerHTML = '';
       location.hash = "";
     }
   
+  function closeImportOverlay() {
+      document.getElementById('overlay').style.display = 'none';
+      document.getElementById('custom_stat').style.display = 'none';
+      document.getElementById('custom_stat').innerHTML = '';
+      location.hash = "";
+    }
+
   function handleHttpResponse(http) {
 
 if (http.readyState == 4) {

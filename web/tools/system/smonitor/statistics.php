@@ -32,12 +32,16 @@
  
  session_load(); 
  $stat_classes = get_stats_classes();
- 
+ $current_page="current_statistics";
+
  include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
+
+if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
+else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($action == "import_statistic") {
 	$stat_class = $_GET['class'];
