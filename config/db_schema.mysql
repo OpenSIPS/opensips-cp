@@ -107,3 +107,18 @@ CREATE TABLE `ocp_dashboard` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_extra_stats`
+-- 
+
+CREATE TABLE `ocp_extra_stats` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text DEFAULT NULL,
+  `input` text DEFAULT NULL,
+  `box_id` int(11) DEFAULT NULL,
+  `tool` varchar(60) DEFAULT NULL,
+  `class` varchar(60) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
