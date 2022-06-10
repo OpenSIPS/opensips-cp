@@ -58,7 +58,9 @@ $stm = $link->prepare( $sql_command );
 if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
-$stm->execute( $sql_vals );
+if ($stm->execute( $sql_vals ) === false) {
+	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+}
 $data_no = $stm->fetchColumn(0);
 
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -83,7 +85,7 @@ else
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 		if(!$_SESSION['read_only']){
-			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['class'].'\',\''.$resultset[$i]['input'].'\',\''.$resultset[$i]['tool'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['class'].'\',\''.$resultset[$i]['tool'].'\',\''.$resultset[$i]['tool'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/delete.png" border="0"></a>';
 			$edit_link = '<a href="'.$page_name.'?action=edit_statistic&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}

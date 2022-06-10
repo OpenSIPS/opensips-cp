@@ -34,6 +34,10 @@
  $stat_classes = get_stats_classes();
  $current_page="current_statistics";
 
+
+ $table_monitoring=get_settings_value("table_monitoring");
+ $table_monitored=get_settings_value("table_monitored");
+ 
  include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];
@@ -59,13 +63,25 @@ if ($action == "edit_statistic") {
  
 if ($action == "delete") {
 	$stat_id = $_GET['stat_id'];
+
+	$sql = "DELETE from ".$table_monitored." where name = (SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	if ($stm->execute( array( $stat_id)) == false) {
+		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
+	}	else {
+		$info="Stat was deleted";
+	}
+
 	$sql = "DELETE from ocp_extra_stats where id = ?;";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		if ($stm->execute( array( $stat_id)) == false) {
-			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+			die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
 		}	else {
 			$info="Stat was deleted";
 	}
@@ -85,11 +101,11 @@ if ($action == "add_modify_statistic") {
 	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`, box_id) VALUES (?,?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		
 		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $stat_class::get_tool(), $stat_class, $_SESSION['box_id'])) == false) {
-			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($stm->errorInfo(), true));
 		}	else {
 			$info="Stat was added";
 	}
@@ -98,16 +114,42 @@ if ($action == "add_modify_statistic") {
 if ($action == "modify_statistic") { 
 	$id = $_GET['id'];
 	
-	$sql = "UPDATE ocp_extra_stats SET `name`=?, `input`=?;";
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
+	$sql = "UPDATE ocp_monitoring_stats SET name= CONCAT('custom:', (SELECT tool from ocp_extra_stats where id = ?), ':', ?) where name=  
+	(SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	
+	if ($stm->execute( array($id, $_POST['name_id'], $id)) == false) {
+		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
+	}	else {
+		$info="Stat was added";
+	}
+
+	$sql = "UPDATE ocp_monitored_stats SET name= CONCAT('custom:', (SELECT tool from ocp_extra_stats where id = ?), ':', ?) where name=  
+	(SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		
-		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"])) == false) {
-			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-		}	else {
-			$info="Stat was added";
+	}
+	
+	if ($stm->execute( array($id, $_POST['name_id'], $id)) == false) {
+		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
+	}	else {
+		$info="Stat was added";
+	}
+
+	$sql = "UPDATE ocp_extra_stats SET `name`=?, `input`=? where id = ?";
+	$stm = $link->prepare($sql);
+	if ($stm === false) {
+		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+	}
+	
+	if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $id)) == false) {
+		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
+	}	else {
+		$info="Stat was added";
 	}
 } 
  
