@@ -107,3 +107,19 @@ CREATE TABLE `ocp_dashboard` (
   "order" int(11) DEFAULT NULL,
   positions text DEFAULT NULL
 )
+
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_extra_stats`
+-- 
+
+CREATE TABLE `ocp_extra_stats` (
+  id integer Primary KEY DEFAULT nextval('ocp_extra_stats'),
+  name text DEFAULT NULL,
+  input text DEFAULT NULL,
+  box_id integer default NULL,
+  tool text DEFAULT NULL,
+  class text DEFAULT NULL
+)
