@@ -1,6 +1,6 @@
 <script>
 function openStatOverlay(description, className, input, tool){
-    url = "template/statistics.details.php?class="+className+"&description="+description+"&tool="+tool+"&input="+input;
+    url = "statistics.details.php?class="+className+"&description="+description+"&tool="+tool+"&input="+input;
     var http = getHTTPObject();
     
     http.open("GET", url, false);
@@ -28,7 +28,7 @@ function openStatOverlay(description, className, input, tool){
   }
   
   function openImportOverlay(description){
-    url = "template/statistics.import_details.php?description="+description;
+    url = "statistics.import_details.php?description="+description;
     var http = getHTTPObject();
     
     http.open("GET", url, false);
