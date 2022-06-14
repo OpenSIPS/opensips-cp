@@ -47,7 +47,7 @@ if (!isset($boxes)) {
         $box_id = $elem['id'];
         $boxes[$i]['id'] = $box_id;
         foreach ($config->boxes as $param => $attr) {
-            if ($attr['nodes'] != null) {
+            if (isset($attr['nodes'])) {
                 $boxes[$i][$attr['nodes'][0]][$attr['nodes'][1]] = $elem[$param];
             }
             $boxes[$i][$param] = $elem[$param];

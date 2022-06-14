@@ -25,7 +25,7 @@
  require("../../../../config/tools/system/smonitor/db.inc.php");
  require("../../../../config/db.inc.php");
  require("lib/functions.inc.php");
- session_start(); 
+ require("../../../../config/session.inc.php");
  require("template/header.php");
  
  session_load(); 
@@ -37,7 +37,7 @@
  include("lib/db_connect.php");
  
  
- if ($_GET['var']!=null)
+ if (isset($_GET['var']))
  {
   $var_name = $_GET['var'];
   $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ?";
@@ -58,14 +58,14 @@
 	}
  }
 
- if ($_GET['module_id']!=null)
+ if (isset($_GET['module_id']))
  { 
   $module_id = $_GET['module_id'];
   if ($_SESSION['module_open'][$module_id]=="yes") $_SESSION['module_open'][$module_id]="no";
    else $_SESSION['module_open'][$module_id]="yes";
  }
 
- if ($_GET['custom_module_id']!=null)
+ if (isset($_GET['custom_module_id']))
  { 
   $module_id = $_GET['custom_module_id']; 
   if ($_SESSION['custom_module_open'][$module_id]=="yes") $_SESSION['custom_module_open'][$module_id]="no";
@@ -80,7 +80,7 @@
  for($i=0; $i<$_SESSION['custom_modules_no']; $i++)
   if ($_SESSION["custom_module_open"][$i]=="yes") $expanded=true;
  
- if ($_POST['reset_stats']!=null){
+ if (isset($_POST['reset_stats'])){
   $reset=$_POST['reset'];
   for($i=0; $i<sizeof($reset); $i++)
   if ($reset[$i]!=null) reset_var($reset[$i], $current_box);

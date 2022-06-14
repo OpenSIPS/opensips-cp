@@ -1,5 +1,5 @@
 <?php
-	session_start();
+	require_once("../../../../config/session.inc.php");
     require_once("../../../../web/common/cfg_comm.php");
     require_once("../../../../config/tools/system/smonitor/db.inc.php");
     require_once("../../../../config/db.inc.php");

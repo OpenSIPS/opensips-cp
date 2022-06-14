@@ -91,7 +91,7 @@ function mi_command($command, $params_array, $mi_url, &$errors)
 	$output = write2json( trim($command), $params_array, substr($mi_url,5)/*URL*/, $errors);
 
 	/* print here only the errors from MI level (bad param, no cmd, etc), but not errors from cmd level */
-	if ($errors && $errors["code"]<0) {
+	if (isset($errors["code"]) && $errors["code"]<0) {
 		echo "<font color='red'>"."MI command failed with code ".$errors["code"]." (".$errors["message"].")"."</font>";
 	}
 

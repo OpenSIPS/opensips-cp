@@ -29,8 +29,12 @@ include("lib/db_connect.php");
 require("../../../../config/globals.php");
 $table=$config->table_tools_config; 
 $current_page="current_page_tools_config";
-$box_id = $_GET['box_id'];
-if ($box_id == '') $box_id = null;
+
+unset($box_id);
+if (isset($_GET['box_id'])) {
+	$box_id = $_GET['box_id'];
+	if ($box_id == '') $box_id = null;
+}
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -43,7 +47,7 @@ if ($action=="modify_params")
 		$current_tool=$_GET['tool'];
         $tools_params=get_params();
 		foreach($tools_params as $param => $attr) {
-			if ($attr['validation_regex']) {
+			if (isset($attr['validation_regex'])) {
 				if (!preg_match("/".$attr['validation_regex']."/", $_POST[$param])) {
 					die("Failed to validate input for ".$attr['name']);
 				}

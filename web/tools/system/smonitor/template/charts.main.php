@@ -77,7 +77,7 @@ else
 
  $stat_chart=false;
  $stat_img="../../../images/share/chart.png";
- if ($_SESSION["group_open"][$key]=="yes") $stat_chart=true;
+ if (isset($_SESSION["group_open"][$key]) && $_SESSION["group_open"][$key]=="yes") $stat_chart=true;
  $sql = "SELECT min(time) as time FROM ".$table." WHERE box_id = ? AND name IN (".implode(",",array_fill(0, count($group), "?")).") ORDER BY time ASC LIMIT 1";
  $stm = $link->prepare($sql);
  if ($stm->execute(array_merge(array($box_id), $group)) === false)
@@ -108,14 +108,13 @@ else
   $stat_chart=false;
   $stat=$resultset[$j]['name'];
   $stat_img="../../../images/share/chart.png";
-  if ($_SESSION["stat_open"][$i]=="yes") $stat_chart=true;
+  if (isset($_SESSION["stat_open"][$i]) && $_SESSION["stat_open"][$i]=="yes") $stat_chart=true;
   $sql = "SELECT * FROM ".$table." WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
   $stm = $link->prepare($sql);
   if ($stm->execute(array($stat, $box_id)) === false)
     die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
   $from_time=date('j M Y, H:i:s',$result[0]['time']);
-  echo $result['time'];
   ?>
    <tr>
     <td class="searchRecord">

@@ -21,8 +21,7 @@
  */
 
  require_once("../../../common/cfg_comm.php");
-
- session_start(); 
+ require_once("../../../../config/session.inc.php");
 
  $current_box=$_SESSION['smon_current_box'];  
 

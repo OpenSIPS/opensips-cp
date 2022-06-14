@@ -21,6 +21,9 @@
  */
 	global $table_regex;
 
+if (!isset($config)) 
+    $config = new stdClass();
+
 $config->smonitor = array(
 	"title0" => array(
 		"type" => "title",
