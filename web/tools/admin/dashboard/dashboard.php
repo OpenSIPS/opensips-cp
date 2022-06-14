@@ -51,6 +51,55 @@ if ($action=="edit_panel")
 	exit();
 }
 
+if ($action =="import_widget") {
+	$panel_id = $_GET['panel_id'];
+	require("template/".$page_id.".import_widget.php");
+	require("template/footer.php");
+	exit();
+}
+
+
+if ($action =="import_widget_true") {
+	$panel_id = $_GET['panel_id'];
+	$widget_dir = $_GET['widget_dir'];
+	require_once($widget_dir."/def.php");
+	$widget_params = json_decode($widget_def['json'], true);
+	$widget_params['panel_id'] = $panel_id;
+	$widget_params['widget_id'] = "panel_".$panel_id."_widget_".($_SESSION['config']['panels'][$panel_id]['widget_no'] + 1);	
+	$new_widget = new $widget_params['widget_type']($widget_params);
+	$new_widget->set_id($widget_params['widget_id']);
+	$widget_array = $new_widget->get_as_array();
+	$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
+	$stored_widgets[$widget_params['widget_id']] = json_encode($widget_params);
+	if(!$_SESSION['read_only']){
+		
+		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+
+		if ($stm->execute( array(json_encode($stored_widgets), $panel_id)) == false)
+			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+
+		require("template/".$page_id.".main.php");
+		require("template/footer.php");
+		exit();
+  
+   } else {
+	   $errors= "User with Read-Only Rights";
+	  }
+
+}
+
+if ($action == "import_details") {
+	$widget_dir = $_GET['widget_dir'];
+	require_once($widget_dir."/def.php");
+	require("template/dashboard.import_details.php");
+	require("template/footer.php");
+	exit();
+}
+
 if ($action=="edit_widget")
 {  	
 	$widget_id = $_GET['widget_id'];
@@ -186,7 +235,7 @@ if ($action == "add_widget_verify") {
 		$widget_params['panel_id'] = $panel_id;
 		$widget_params['widget_id'] = "panel_".$panel_id."_widget_".($_SESSION['config']['panels'][$panel_id]['widget_no'] + 1);
 		$new_widget = new $widget_type($_POST);
-		$new_widget->set_id($_POST['widget_id']);
+		$new_widget->set_id($widget_params['widget_id']);
 		$widget_array = $new_widget->get_as_array();
 		$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
 		$stored_widgets[$widget_params['widget_id']] = json_encode($widget_params);

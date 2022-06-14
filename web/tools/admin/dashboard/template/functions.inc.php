@@ -49,4 +49,25 @@
         }
     }
 
+	
+    function get_imports_no() {
+        $files = glob("imports/*");
+        return sizeof($files);
+    }
+
+    function get_imports() {
+        $resultset = array();
+        $files = glob("imports/*");
+        $i = 0;
+        foreach ($files as $file) {
+			require_once($file."/def.php");
+            $resultset[$i]['info'] = $widget_def['info'];
+            $resultset[$i]['description'] = $widget_def['description'];
+            $resultset[$i]['json'] = $widget_def['json'];
+            $resultset[$i]['png'] = $file."/example.png";
+            $resultset[$i]['dir'] = $file;
+            $i++;
+		}
+        return $resultset;
+    }
 ?>

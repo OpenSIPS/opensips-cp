@@ -39,7 +39,7 @@ body {
     color: white;
   }
   .gridster .gs-w {
-    background: #61A9CF;
+    background: #e9ecef;
     cursor: pointer;
     -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
