@@ -27,7 +27,7 @@
  require("../../../common/cfg_comm.php"); 
  require("lib/functions.inc.php");
 
- session_start();
+ require_once("../../../../config/session.inc.php");
  get_priv("smonitor");
 
  header("Location: rt_stats.php");

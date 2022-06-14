@@ -26,7 +26,7 @@
  require("../../../../config/db.inc.php"); 
  require("lib/functions.inc.php");
 
- session_start();  
+ require("../../../../config/session.inc.php");
  require("template/header.php");
  include("lib/db_connect.php");
  session_load();
@@ -37,19 +37,19 @@
 
  $gauge_arr = get_vars_type($current_box);
  
- if ($_GET['stat_id']!=null)
+ if (isset($_GET['stat_id']))
  {
   $stat_id = $_GET['stat_id'];
   if ($_SESSION['stat_open'][$stat_id]=="yes") $_SESSION['stat_open'][$stat_id]="no";
    else $_SESSION['stat_open'][$stat_id]="yes";
  }
- if ($_GET['group_id']!=null) {
+ if (isset($_GET['group_id'])) {
    $group_id = $_GET['group_id'];
    if ($_SESSION['group_open'][$group_id] == "yes") $_SESSION['group_open'][$group_id]="no";
    else $_SESSION['group_open'][$group_id]="yes";
  }  
  
- if ($_POST['flush']!=null)
+ if (isset($_POST['flush']))
  {
   $sql = "DELETE FROM ".get_settings_value("table_monitoring")." WHERE box_id = ?";
   $stm = $link->prepare($sql);
@@ -59,7 +59,7 @@
  
  $expanded=false;
  for($i=0; $i<sizeof($_SESSION['stat_open']); $i++)
-  if ($_SESSION["stat_open"][$i]=="yes") $expanded=true;
+  if (isset($_SESSION["stat_open"][$i]) && $_SESSION["stat_open"][$i] == "yes") $expanded=true;
  
  require("template/".$page_id.".main.php");
  require("template/footer.php");

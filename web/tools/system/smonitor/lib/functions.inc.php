@@ -104,7 +104,7 @@ function get_custom_modules()
 	$module_counter = [];
 
 	foreach($modules as $module) {
-		if ($module_counter[$module['tool']])
+		if (isset($module_counter[$module['tool']]))
 			$module_counter[$module['tool']]++;
 		else $module_counter[$module['tool']] = 1;
 	}
@@ -241,7 +241,8 @@ function clean_stats_table(){
 function show_boxes($boxen){
 
 global $current_box;
-global $page_name ;  
+global $page_name;
+global $box_val;  
 
 echo ('<form action="'.$page_name.'?action=change_box&box_val="'.$box_val.' method="post" name="boxen_select" style="margin:0px!important">');
 echo ('<input type="hidden" name="box_val" class="formInput" method="post" value="">');

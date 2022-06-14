@@ -24,33 +24,29 @@ require_once("../../../common/forms.php");
 require_once("../../../common/cfg_comm.php");
 require_once("../../../../config/boxes.global.inc.php");
 require_once("functions.js");
- if (isset($form_error)) {
-                          echo(' <tr align="center">');
-                          echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
-                          echo(' </tr>');
-                         }
-	$id=$_GET['id'];
-	$box_id=$_GET['box_id'];
+	if (isset($form_error)) {
+		echo(' <tr align="center">');
+		echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
+		echo(' </tr>');
+	}
+	
+	unset($box_id);
+	if (isset($_GET['box_id']))
+		$box_id=$_GET['box_id'];
+	else $box_id = null;
+
 	$current_tool=$_SESSION['current_tool'];
 	$current_tool_name = get_tool_name();
 
-	$sql = "select * from ".$table." where id=?";
-	$stm = $link->prepare($sql);
-
-	if ($stm === false) {
-	  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-	$stm->execute( array($id) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-        $index_row=0;
-$permissions=array();
+    $index_row=0;
+	$permissions=array();
 ?> 
 
 <form action="<?=$page_name?>?action=modify_params&tool=<?=$current_tool?>&box_id=<?=$box_id?>" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
 	 <?php   
-	 if(is_null($box_id)) { ?>
+	 if(!isset($box_id)) { ?>
  <td colspan="3" height="10" class="mainTitle">Settings for <?=$current_tool_name?></td>
  <?php  } else { ?>
  <td colspan="3" height="10" class="mainTitle">Settings for <?=$current_tool_name?> for <?=$boxes[$box_id]['desc']?></td>
@@ -60,9 +56,9 @@ $permissions=array();
 	$tools_params=get_params();
 	
 	foreach ($tools_params as $module=>$params) {
-		if ($params['opt']) $opt = "y"; else $opt = "n";
-		if ($params['tip'])
-			$current_tip = $params[tip];
+		if (isset($params['opt'])) $opt = "y"; else $opt = "n";
+		if (isset($params['tip']))
+			$current_tip = $params['tip'];
 		else $current_tip = null;
 		switch ($params['type']) {
 			case "checklist":
@@ -73,9 +69,9 @@ $permissions=array();
 			case "json":
 				$flags = JSON_PRETTY_PRINT;
 				$validation = "validate_json";
-				if ($params['json_format'] == "object")
+				if (isset($params['json_format']) && $params['json_format'] == "object")
 					$flags |= JSON_FORCE_OBJECT;
-				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), (isset($params['maxlen'])?$params['maxlen']:NULL), $params['validation_regex'], $validation, $params['json_format']);
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), (isset($params['maxlen'])?$params['maxlen']:NULL), (isset($params['validation_regex'])?$params['validation_regex']:NULL), $validation, (isset($params['json_format'])?$params['json_format']:NULL));
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))
@@ -86,9 +82,9 @@ $permissions=array();
 					print '<tr> <td class=\'sectionTitle\'><b>'.$params['title'].'</b></td></tr>';
 				break;
 			default:
-				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 100, $params['validation_regex']);
+				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 100,(isset($params['validation_regex'])?$params['validation_regex']:NULL));
 		}
-		if ($params['example']) {
+		if (isset($params['example'])) {
 			print_example($params['example'], $params['name'], $module);
 		}
 	}

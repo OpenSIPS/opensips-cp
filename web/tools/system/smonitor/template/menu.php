@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-session_start(); 
+require_once("../../../../config/session.inc.php");
 
 $current_box=$_SESSION['smon_current_box'];  
 

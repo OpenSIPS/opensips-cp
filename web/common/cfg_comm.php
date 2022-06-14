@@ -330,7 +330,7 @@ function get_settings_value_from_tool($current_param, $current_tool, $box_id = n
 		if (!is_null($_SESSION['config'][$current_tool][$box_id][$current_param])) {
 			return $_SESSION['config'][$current_tool][$box_id][$current_param];}}
 	foreach($config->$current_tool as $module=>$params) {
-		if ($module == $current_param) return $params['default'];
+		if ($module == $current_param && $params['type'] != "title") return $params['default'];
 	}
 
 	return null;
