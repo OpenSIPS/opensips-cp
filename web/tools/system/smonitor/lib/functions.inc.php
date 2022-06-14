@@ -332,7 +332,7 @@ function show_graph($stat,$box_id){
 	if ($normal_chart) {
 		$_SESSION['normal'] = 1;
 	}
-	$_SESSION['normal'] = 1;
+	
 	require(__DIR__."/d3js.php");
 }
 
