@@ -27,9 +27,14 @@
  } else { ?>
  
  <a href=# onclick="lockPanel()" style="position:relative; left:110px; top:2px; content: url('../../../images/share/inactive.png');"></a>
-<form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
+ <table>
+     <tr><td>
+ <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Widget" class="formButton add-new-btn">') ?>
-</form>
+</form></td><td>
+<form action="<?=$page_name?>?action=import_widget&panel_id=<?=$panel_id?>" method="post">
+ <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Import New Widget" class="formButton add-new-btn">') ?>
+</form></td></tr></table>
 
 
 <head>
@@ -40,7 +45,10 @@
     <script src="jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
-
+</td>
+ </tr>
+</table>
+</center>
 <body>
 
 <div class="gridster"  >
@@ -93,7 +101,7 @@
             }
         }).data('gridster');
          
-         if (action == "add_widget_verify") { 
+         if (action == "add_widget_verify" || action == "import_widget_true") { 
             var wi = <?php echo json_encode($widget_array); ?>;
             addWidget(gridster,wi[0], Number(wi[1]), Number(wi[2]));
          }
@@ -117,6 +125,7 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     $new_widget->echo_content();
      ?>
 <script>
+	
     var widget_content = <?php echo json_encode($widget_array); ?>;
     var widget_type = <?php echo json_encode($widget_content['widget_type']);?>;
     var widget_positions = <?php echo json_encode($widget_positions); ?>;
@@ -129,7 +138,7 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
         row = widget_positions.row;
         sizeX= widget_positions.size_x;
         sizeY = widget_positions.size_y;
-    }
+    } 
     addWidget(gridster,widget_content[0], sizeX, sizeY, col, row);
     move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>

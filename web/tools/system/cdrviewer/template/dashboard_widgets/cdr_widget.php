@@ -35,7 +35,7 @@ class cdr_widget extends widget
 
     function echo_content() {
         echo ('<div id="'.$this->id.'_old">');
-        $this->display_test3();
+        $this->display_test();
         echo('</div>');
     }
 
