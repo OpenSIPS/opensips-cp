@@ -41,8 +41,9 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
   var margin = {top: 10, right: 30, bottom: 30, left: 50},
-      width = 660 - margin.left - margin.right,
+ 	  width = 660 - margin.left - margin.right,
       height = 300 - margin.top - margin.bottom;
+
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))
@@ -70,7 +71,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     function onMouseMove() {
 
       var yScale = d3.scaleLinear()
-      .domain([0, d3.max(data, function(d) { return +d.value; })])
+      .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
       .range([ height, 0 ]);
 
       const mousePosition = d3.mouse(this);
@@ -129,7 +130,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 
     // Add Y axis
     var y = d3.scaleLinear()
-      .domain([0, d3.max(data, function(d) { return +d.value; })])
+      .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
       .range([ height, 0 ]);
     var yAxis = svg.append("g")
      .attr("class", "yAxis")
@@ -305,7 +306,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
           xScale.domain(d3.extent(data2, function(d) { return d.date; }))
           xAxis.transition().call(d3.axisBottom(x).ticks(5))
           y
-          .domain([0, d3.max(data, function(d) { return +d.value; })])
+          .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
           .range([ height, 0 ]);
           yAxis 
           .transition()
