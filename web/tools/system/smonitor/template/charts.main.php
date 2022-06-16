@@ -32,7 +32,7 @@
 <?php 
 
 
-$sql = "SELECT DISTINCT name FROM ".$table." WHERE box_id = ? ORDER BY name ASC";
+$sql = "SELECT DISTINCT name FROM ".$name_table." WHERE box_id = ? ORDER BY name ASC";
 $stm = $link->prepare($sql);
 if ($stm->execute(array($box_id)) === false)
 	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
@@ -114,23 +114,25 @@ else
   if ($stm->execute(array($stat, $box_id)) === false)
     die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
   $result = $stm->fetchAll(PDO::FETCH_ASSOC);
-  $from_time=date('j M Y, H:i:s',$result[0]['time']);
-  ?>
-   <tr>
-    <td class="searchRecord">
-     <div id="stat_<?=$stat?>" class="Data"  onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?stat_id=<?=$i?>'">
-      <img src="<?=$stat_img?>"><b><?=$stat?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
-     </div>
-    </td>
-   </tr>
-   <?php
-    if ($stat_chart)
-    {
-     ?>
-      <tr><td class="rowEven"><?php show_graph($stat,$box_id); ?></td></tr>
-      <tr><td><img src="../../../images/share/spacer.gif"></td></tr>
-     <?php
-    }
+  if (isset($result[0]['time'])) {
+	$from_time=date('j M Y, H:i:s',$result[0]['time']);
+	?>
+	<tr>
+		<td class="searchRecord">
+		<div id="stat_<?=$stat?>" class="Data"  onMouseOver="this.style.cursor='pointer'" onClick="document.location.href='<?=$page_name?>?stat_id=<?=$i?>'">
+		<img src="<?=$stat_img?>"><b><?=$stat?></b> - monitored from <?=$from_time?> every <?=$sampling_time?> minute(s)
+		</div>
+		</td>
+	</tr>
+	<?php
+		if ($stat_chart)
+		{
+		?>
+		<tr><td class="rowEven"><?php show_graph($stat,$box_id); ?></td></tr>
+		<tr><td><img src="../../../images/share/spacer.gif"></td></tr>
+		<?php
+		}
+	}
   $i++;
  }
 }
