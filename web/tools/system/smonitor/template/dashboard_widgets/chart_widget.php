@@ -4,41 +4,22 @@ require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
 class chart_widget extends widget
 {
     public $chart;
+	public $chart_box;
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 4, 2, $array['widget_title']);
-        $this->color = $array['widget_color'];
-        $this->has_menu = $array['widget_menu'];
-        if ($this->has_menu == "yes")
-            $this->sizeY = 3;
+        $this->color = 'rgb(198,226,213)';
         $this->chart = $array['widget_chart'];
+		$this->chart_box = $array['widget_box'];
 
         
         require_once(__DIR__."/../../../../../common/cfg_comm.php");
         session_load_from_tool("smonitor");
     }
 
-    function get_html() {
-        if ($this->has_menu == "yes") 
-            $menu = '<header><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
-        $color = 'style="background-color: '.$this->color.';"';
-        return '<li type="chart" '.$color.' id='.$this->id.'>'.$menu.'</li>';
-    }
 
     function get_name() {
         return "Chart widget";
     }
-/*
-    function echo_content() {
-        ob_start();
-        $original_get = $_GET;
-        $_GET = [];
-        $file = "dashboard3.php";
-        require_once($file);
-        $_GET = $original_get;
-        $content_chart .= ob_get_contents();
-        ob_clean();
-        echo ("<div id=".$this->id."_old>".$content_chart."</div>");
-    } */
 
     function echo_content() {
         $wi = $this->id;
@@ -59,18 +40,21 @@ class chart_widget extends widget
     }
     
     function show_chart() {
+		$_SESSION['dashboard_active'] = 1;
         require_once(__DIR__."/../../lib/functions.inc.php");
         if (substr($this->chart, 0, 5) == "Group") {
             show_widget_graphs($this->chart);
         } else
-            show_graph($this->chart, 0);
+            show_graph($this->chart, $this->chart_box);
+		$_SESSION['dashboard_active'] = 0;
     }
 
-    public static function chart_box_selection($stats_list) {
+    public static function chart_box_selection($stats_list, $init) {
         $slist = json_encode($stats_list);
         echo ('
             <script>
             var slist = '.$slist.';
+			var init = '.$init.'
             var box_select = document.getElementById("widget_box");
             box_select.addEventListener("change", function(){update_options();}, false);
             function update_options() {
@@ -89,7 +73,7 @@ class chart_widget extends widget
                 } else {
                     chart_select.options.length = 0;
                 }
-            }
+            } if (init == 1) update_options();
             </script>
         ');
     }
@@ -103,14 +87,13 @@ class chart_widget extends widget
     }
 
     public static function new_form($params = null) {
-        $box_id = 0;
+        if (is_null($params))
+			$init = 1;
+		else $init = 0;
         $stats_list = self::get_stats_options();
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
-        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], $stats_list[0]);
+        form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], (!$init)?$stats_list[$params['widget_box']]:$stats_list[0]);
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
-        self::chart_box_selection($stats_list);
-        form_generate_input_text("Has menu", "", "widget_menu", null, $params['widget_menu'], 20,null);
-        form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
-        form_generate_input_text("Widget name", "", "widget_name", null, $params['widget_name'], 20,null);
+        self::chart_box_selection($stats_list, $init);
     }
 }

@@ -28,8 +28,8 @@ require_once("../../../common/cfg_comm.php");
 require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
 require("../../../../config/db.inc.php");
-require("../../../../config/boxes.global.inc.php");
 require("template/header.php");
+require("../../../../config/boxes.global.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
@@ -75,16 +75,25 @@ if ($action =="import_widget_true") {
 	$widget_array = $new_widget->get_as_array();
 	$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
 	$stored_widgets[$widget_params['widget_id']] = json_encode($widget_params);
+
+	$stored_positions = json_decode($_SESSION['config']['panels'][$panel_id]['positions']);
+	$new_widget_position['id'] = $widget_params['widget_id'];
+	$new_widget_position['size_x'] = $widget_array[1]; //size_x
+	$new_widget_position['size_y'] = $widget_array[2]; //size_y
+	$stored_positions[] = $new_widget_position;
+
 	if(!$_SESSION['read_only']){
 		
-		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ? ';
+		$sql = 'UPDATE '.$table.' SET content = ?, positions = ? WHERE id = ? ';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 
-		if ($stm->execute( array(json_encode($stored_widgets), $panel_id)) == false)
+		if ($stm->execute( array(json_encode($stored_widgets), json_encode($stored_positions), $panel_id)) == false)
 			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+
+		load_panels();
 
 		require("template/".$page_id.".main.php");
 		require("template/footer.php");
@@ -200,7 +209,7 @@ if ($action == "display_panel") {
 
 	foreach(json_decode($_SESSION['config']['panels'][$panel_id]['content']) as $el) {
 		if ($el->type == "chart") {
-			echo "<div id=chart_".$el->id.">".$content_chart."</div>";
+			//echo "<div id=chart_".$el->id.">".$content_chart."</div>";
 		}
 	}
 	require("template/".$page_id.".main.php");

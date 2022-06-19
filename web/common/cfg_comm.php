@@ -252,19 +252,24 @@ function load_panels() {
 	else {
 		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 		foreach ($resultset as $elem) {
+			$max_widget_no = 0;
 			$_SESSION['config']['panels'][$elem['id']]['name'] = $elem['name'];
 			$_SESSION['config']['panels'][$elem['id']]['content'] = $elem['content'];
+			$_SESSION['config']['panels'][$elem['id']]['positions'] = $elem['positions'];
 			foreach (json_decode($elem['content']) as $widget_id => $widget) {
+				$id_details = explode("_", $widget_id);
+				if ($id_details[3] > $max_widget_no )
+					$max_widget_no = $id_details[3]; // for creation of new ids
 				$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['content'] = $widget;
 				foreach (json_decode($elem['positions']) as $el) {
-					if ($el->id == $widget_id) { 
+					if ($el->id == $widget_id) {
 						$_SESSION['config']['panels'][$elem['id']]['widgets'][$widget_id]['positions'] = json_encode($el);
 					}
 				}
 			}
 			$_SESSION['config']['panels'][$elem['id']]['order'] = $elem['order'];
 			$_SESSION['config']['panels'][$elem['id']]['id'] = $elem['id'];
-			$_SESSION['config']['panels'][$elem['id']]['widget_no'] = count($_SESSION['config']['panels'][$elem['id']]['widgets']);
+			$_SESSION['config']['panels'][$elem['id']]['widget_no'] = $max_widget_no;
 			if ($elem['order'] > $max_order) $max_order = $elem['order'];
 		}
 	}

@@ -454,10 +454,19 @@ function get_stats_list_all_boxes() {
 	if ($stm->execute(array()) === false)
 		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	$data_no=count($resultset);
+	
+	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
+	require_once(__DIR__."/../../../../../config/db.inc.php");
+	require_once(__DIR__."/db_connect.php");
 
 	foreach($resultset as $key => $value) {
-		$stats_list[$value['box_id']][] = $value['name'];
+		$sql = "SELECT * FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
+		$stm = $link->prepare($sql);
+		if ($stm->execute(array($value['name'], $value['box_id'])) === false)
+			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (isset($result[0]['time']))
+			$stats_list[$value['box_id']][] = $value['name'];
 	}
 	return $stats_list;
 }
