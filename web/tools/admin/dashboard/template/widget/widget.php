@@ -39,6 +39,9 @@ abstract class widget
     }
 
     function get_html() {
+        $menu = '<header class="dashboard_menu dashboard_edit" style="background-color: #3e5771; position: absolute; top: -43px; left:0px; right:0px; border-radius: 25px 25px 0px 0px;  "><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
+        $color = 'style="background-color: '.$this->color.';"';
+        return '<li class="dashboard_edit" '.$color.' id='.$this->id.'>'.$menu.'</li>';
     }
 
     function set_id($id) {

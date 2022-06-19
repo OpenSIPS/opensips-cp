@@ -101,10 +101,6 @@
             }
         }).data('gridster');
          
-         if (action == "add_widget_verify" || action == "import_widget_true") { 
-            var wi = <?php echo json_encode($widget_array); ?>;
-            addWidget(gridster,wi[0], Number(wi[1]), Number(wi[2]));
-         }
 </script>
 
 </body>
@@ -142,13 +138,7 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     addWidget(gridster,widget_content[0], sizeX, sizeY, col, row);
     move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>
-     <?php
- } ?>
-	<script>
-		var positions = gridster.serialize();
-		positions.push (<?=$panel_id?>);
-		store_dashboard(positions);
-	</script>
- <?php
+     <?php 
+ } 
 }
 } ?>

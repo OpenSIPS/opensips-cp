@@ -19,7 +19,11 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-
+function consoole_log( $data ){
+	echo '<script>';
+	echo 'console.log('. json_encode( $data ) .')';
+	echo '</script>';
+  } //  DE_STERS
 require_once("../../../common/cfg_comm.php");
 require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
@@ -225,8 +229,7 @@ if ($action=="add_blank_panel")
         }
 
 }
-
-if ($action == "add_widget_verify") { 
+if ($action == "add_widget_verify") {  
 	if(!$_SESSION['read_only']){
 		$widget_params = $_POST;
 		$panel_id = $_GET['panel_id'];
@@ -237,17 +240,26 @@ if ($action == "add_widget_verify") {
 		$new_widget = new $widget_type($_POST);
 		$new_widget->set_id($widget_params['widget_id']);
 		$widget_array = $new_widget->get_as_array();
+
 		$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
 		$stored_widgets[$widget_params['widget_id']] = json_encode($widget_params);
+
+		$stored_positions = json_decode($_SESSION['config']['panels'][$panel_id]['positions']);
+		$new_widget_position['id'] = $widget_params['widget_id'];
+		$new_widget_position['size_x'] = $widget_array[1]; //size_x
+		$new_widget_position['size_y'] = $widget_array[2]; //size_y
+		$stored_positions[] = $new_widget_position;
 		
-		$sql = 'UPDATE '.$table.' SET content = ? WHERE id = ?';
+		$sql = 'UPDATE '.$table.' SET content = ?, positions = ?  WHERE id = ?';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 
-		if ($stm->execute( array(json_encode($stored_widgets), $panel_id)) == false)
+		if ($stm->execute( array(json_encode($stored_widgets), json_encode($stored_positions), $panel_id)) == false)
 			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+
+		load_panels();
 
 		require("template/".$page_id.".main.php");
 		require("template/footer.php");

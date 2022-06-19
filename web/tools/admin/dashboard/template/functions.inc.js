@@ -40,13 +40,18 @@ function getChartHtml() {
 function lockPanel() {
   if (gridster.drag_api.disabled) {
     gridster.enable();
+	const menus = document.getElementsByClassName('dashboard_menu');
+	for(const menu of menus) {
+	  menu.style.display = 'block';
+	}
   }
   else {
     gridster.disable();
+	const menus = document.getElementsByClassName('dashboard_menu');
+	for(const menu of menus) {
+	  menu.style.display = 'none';
+	}
   }
-  var test = document.getElementsByClassName('gridster');
-  //test[0].style = "background-color: #ffffff";
-  //console.log(test[0].style);
 }
 
 
