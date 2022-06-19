@@ -27,10 +27,10 @@ function consoole_log( $data ){
 require_once("../../../common/cfg_comm.php");
 require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
-require_once("template/functions.inc.js");
 require("../../../../config/db.inc.php");
 require("../../../../config/boxes.global.inc.php");
 require("template/header.php");
+require_once("template/functions.inc.js");
 require("../../../../config/tools/admin/dashboard/db.inc.php");
 require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");

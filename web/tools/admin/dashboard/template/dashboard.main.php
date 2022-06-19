@@ -26,7 +26,7 @@
      <?php 
  } else { ?>
  
- <a href=# onclick="lockPanel()" style="position:relative; left:110px; top:2px; content: url('../../../images/share/inactive.png');"></a>
+ <a href=# onclick="lockPanel()" id='lockButton' style="display:none; position:relative; left:110px; top:2px; content: url('../../../images/dashboard/unlock.png');"></a>
  <table>
      <tr><td>
  <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
@@ -70,6 +70,9 @@
 </style>
 
 <script type="text/javascript" id="code">
+	document.getElementById('lockButton').style.display = 'block'; //button is initially hidden
+	// to avoid seeing image loading when it hasnt cached yet. should find workaround
+
     var gridster;
     var action = "<?=$action?>";
     var widget_info = "<?=$widget_info?>";
@@ -139,6 +142,11 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>
      <?php 
- } 
+ }
+ ?> 
+ <script>
+	lockPanel();
+</script>
+ <?php
 }
 } ?>
