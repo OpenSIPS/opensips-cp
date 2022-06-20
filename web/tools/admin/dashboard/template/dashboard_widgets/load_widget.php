@@ -5,14 +5,9 @@ class load_widget extends widget
 {
     public $chart;
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 4, 2, $array['widget_title']);
-        $this->color = $array['widget_color'];
+        parent::__construct($array['panel_id'], $array['widget_title'], 5, 2, $array['widget_title']);
+        $this->color = 'rgb(219,255,244)';
         $this->chart = $array['widget_chart'];
-    }
-
-    function get_html() {
-        $color = 'style="background-color: '.$this->color.';"';
-        return '<li  '.$color.' id='.$this->id.'></li>';
     }
 
     function get_name() {
@@ -50,7 +45,5 @@ class load_widget extends widget
     public static function new_form($params = null) {  
         form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
-        form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
-        form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);
     }
 }

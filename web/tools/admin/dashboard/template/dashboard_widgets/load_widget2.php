@@ -6,7 +6,7 @@ class load_widget2 extends widget
     public $chart;
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 4, 2, $array['widget_title']);
-        $this->color = $array['widget_color'];
+        $this->color = 'rgb(219,255,244)';
         $this->chart = $array['widget_chart'];
     }
 

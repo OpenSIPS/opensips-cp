@@ -6,7 +6,7 @@ class registered_users_widget extends widget
     public $chart;
 	public $widget_box;
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 3, 3, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 4, 3, $array['widget_title']);
         $this->color = 'rgb(242,229,206)';
         $this->widget_box = $array['widget_box'];
     }
@@ -32,9 +32,7 @@ class registered_users_widget extends widget
         $total_subs = self::get_total_subs();
         $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $_SESSION['boxes'][$this->widget_box]['mi_conn'], $errors);
         $reg_contacts = mi_command("get_statistics", array("statistics" => array("location-contacts")), $_SESSION['boxes'][$this->widget_box]['mi_conn'], $errors);
-        $reg_subs = 12;
-        $total_subs = 19;
-        $reg_contacts = 2;
+
         $_SESSION['reg_subs'] = $reg_subs;
         $_SESSION['total_subs'] = $total_subs;
         $_SESSION['reg_contacts'] = $reg_contacts;
