@@ -46,7 +46,7 @@
             );
           $config->menu_item[] = array(
                 "dashboard.php?action=edit_panel", // page name
-                "Edit dashboards" // menu name
+                "Edit panels" // menu name
           );
         $first_item = true;
         if (!isset($config->menu_item)) echo('<font class="menuItemSelect">&nbsp;</font>');
