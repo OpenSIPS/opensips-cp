@@ -57,7 +57,7 @@ function display_indicator(arg1, arg2) {
 
         // Create SVG element
         svg = el.append('svg')
-		.attr('transform', "translate(" + (-20) + ", " + (0) + ")")
+		.attr('transform', "translate(" + (20) + ", " + (20) + ")")
 		.attr('width', width + margin.left + margin.right + 90).attr('height', height / 1.5 + margin.top + margin.bottom);		// height/1.5 To Remove Extra Bottom Space
 
         // Add layer for the panel
@@ -166,15 +166,14 @@ function display_indicator(arg1, arg2) {
 
         var trX = 180 - 210 * Math.cos(percToRad(percent / 2));
         var trY = 195 - 210 * Math.sin(percToRad(percent / 2));
-        // (180, 195) are the coordinates of the center of the gauge.
-
+		
         displayValue = function () {
             texts.append("text")
                 .text(function () {
                     return "Value: ".concat(dataset[0].value);
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (trX ) + ", " + trY + ")")
+                .attr('transform', "translate(" + (328 - 70) + ", " + 46 + ")")
                 .attr("font-size", 18)
                 .style("fill", '#000000');
         }
@@ -215,4 +214,5 @@ function display_indicator(arg1, arg2) {
 
     })();
 }
-    </script>
+</script>	
+<script src="../../system/smonitor/d3.v4.min.js"></script>

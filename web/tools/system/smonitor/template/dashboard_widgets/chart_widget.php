@@ -6,7 +6,7 @@ class chart_widget extends widget
     public $chart;
 	public $chart_box;
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 4, 2, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 4, 5, $array['widget_title']);
         $this->color = 'rgb(198,226,213)';
         $this->chart = $array['widget_chart'];
 		$this->chart_box = $array['widget_box'];
@@ -24,6 +24,7 @@ class chart_widget extends widget
     function echo_content() {
         $wi = $this->id;
         echo ("<div id=".$this->id."_old>");
+		echo('<br>'.$this->title);
         $this->show_chart();
         echo ("</div>");
     }
@@ -91,7 +92,7 @@ class chart_widget extends widget
 			$init = 1;
 		else $init = 0;
         $stats_list = self::get_stats_options();
-        form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
+        form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], (!$init)?$stats_list[$params['widget_box']]:$stats_list[0]);
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
         self::chart_box_selection($stats_list, $init);

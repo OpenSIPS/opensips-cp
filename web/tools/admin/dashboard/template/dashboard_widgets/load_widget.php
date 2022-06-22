@@ -5,7 +5,7 @@ class load_widget extends widget
 {
     public $chart;
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 5, 2, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 4, 5, $array['widget_title']);
         $this->color = 'rgb(219,255,244)';
         $this->chart = $array['widget_chart'];
     }
@@ -22,6 +22,7 @@ class load_widget extends widget
         $load_value = 75; //DE STERS LINIA ASTA
         $_SESSION['load_widget_value'] = $load_value;
         echo ("<div id=".$wi."_old>");
+		echo ('<br>'.$this->title);
         require(__DIR__."/../../lib/percent_d3js.php");
         echo ("</div>");
     }
@@ -43,6 +44,7 @@ class load_widget extends widget
     }
 
     public static function new_form($params = null) {  
+        form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
     }

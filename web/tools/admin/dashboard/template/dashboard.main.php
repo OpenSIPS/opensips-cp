@@ -77,7 +77,7 @@
     var action = "<?=$action?>";
     var widget_info = "<?=$widget_info?>";
     gridster = $(".gridster > ul").gridster({
-            widget_base_dimensions: [90, 90],
+            widget_base_dimensions: [87, 40],
             shift_widgets_up: false,
             shift_larger_widgets_down: false,
             collision: {
@@ -114,8 +114,9 @@
 
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
  foreach ($_SESSION['config']['panels'][$panel_id]['widgets'] as $widget)
- {
+ { 	
     $widget_content = json_decode($widget['content'], true);
+	consoole_log($widget_content['widget_type']);
     $widget_id = $widget_content['widget_id'];
     $widget_positions = json_decode($widget['positions'], true);
     $new_widget = new $widget_content['widget_type']($widget_content);

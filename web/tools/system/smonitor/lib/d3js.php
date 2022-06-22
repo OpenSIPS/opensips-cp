@@ -25,7 +25,7 @@ function display_graph(arg1, arg2, arg3, arg4, arg5) {
 
 //Read the data
 
-d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
+d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
 
   // When reading the csv, format variables:
   function(d){
@@ -36,12 +36,12 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
   },
 
   //  use this dataset:
-  function(data) {
+  function(data) { 
     var refresh = 1;
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
   if (arg5 == 1) {
-	var margin = {top: 10, right: 30, bottom: 30, left: 50},
+	var margin = {top: 10, right: 30, bottom: 30, left: 30},
 		width = 400 - margin.left - margin.right,
 		height = 190 - margin.top - margin.bottom;
   } else {
@@ -104,7 +104,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     const formatDate = d3.timeFormat("%c");
     tooltip.select("#date").text(formatDate(closestXValue));
 
-    const formatYvalue = (d) => d;
+    const formatYvalue = (d) => d.toFixed(2);
     tooltip.select("#internet").html(formatYvalue(closestYValue));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
@@ -116,8 +116,8 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
 		`translate(` + `calc( -50% + ${x}px),` + `calc(${y}px)` + `)`
 		);
 	} else {
-		const x = xScale(closestXValue) - 78 ;
-		const y = yScale(closestYValue) + window.pageYOffset - 85;
+		const x = xScale(closestXValue) - 98 ;
+		const y = yScale(closestYValue) + window.pageYOffset - 75;
 		tooltip.style(
 		"transform",
 		`translate(` + `calc( ${x}px),` + `calc(${y}px)` + `)`
@@ -298,12 +298,12 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     .style("opacity", 0);
 
 
-    var intervalID = window.setInterval(updateGr, 30000);
+    var intervalID = window.setInterval(updateGr, 300000);
 
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
+        d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
 
         // When reading the csv, I must format variables:
         function(d){
