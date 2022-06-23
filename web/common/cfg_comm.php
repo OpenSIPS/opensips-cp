@@ -162,16 +162,18 @@ function load_widgets() {
 		foreach ($files as $file) {
 			require_once($file);
 			$file_name = basename($file);
-			if (substr($file_name, 0, strlen($file_name) - 4)::$ignore != 1)
-				$widgets[] = substr($file_name, 0, strlen($file_name) - 4);
+			$wname = substr($file_name, 0, strlen($file_name) - 4);
+			if ($wname::$ignore != 1)
+				$widgets[] = $wname;
 		}
 	}
 	$files = glob('../../admin/dashboard/template/dashboard_widgets/*.php');
 	foreach ($files as $file) {
 		require_once($file);
 		$file_name = basename($file);
-		if (substr($file_name, 0, strlen($file_name) - 4)::$ignore != 1)
-			$widgets[] = substr($file_name, 0, strlen($file_name) - 4);
+		$wname = substr($file_name, 0, strlen($file_name) - 4);
+		if ($wname::$ignore != 1)
+			$widgets[] = $wname;
 	}
 	return $widgets;
 }
