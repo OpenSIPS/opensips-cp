@@ -11,14 +11,18 @@
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 <script>
 
+
+display_pie_chart(<?php echo json_encode($_SESSION['pie_elements']) ?>);
+
+function display_pie_chart(arg1) {
 var width = 490
     height = 350
     margin = 40
 
 var radius = Math.min(290, height) / 2 - margin
-var total = "<?php echo $_SESSION['total_subs'] ?>";
-var reg = "<?php echo $_SESSION['reg_subs'] ?>";
-var contacts = "<?php echo $_SESSION['reg_contacts'] ?>";
+var total = arg1['total_subs'];
+var reg = arg1['reg_subs'];
+var contacts = arg1['reg_contacts'];
 
 var svg = d3.select("#" + "<?=$_SESSION['ru_widget_id']?>")
   .append("svg")
@@ -63,10 +67,10 @@ svg
   .style("text-anchor", "middle")
   .style("font-size", 17)
 
-  svg.append("text").attr("x", 120).attr("y", -110 ).text("Total subscribers: " + total).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 100).attr("y", -110 ).text("Total subscribers: " + total).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
     
-  svg.append("text").attr("x", 120).attr("y", -85 ).text("Registered subs: " + reg).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 100).attr("y", -85 ).text("Registered subs: " + reg).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
     
-  svg.append("text").attr("x", 120).attr("y", -60 ).text("Registered contacts: " + contacts).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
-    
+  svg.append("text").attr("x", 100).attr("y", -60 ).text("Registered contacts: " + contacts).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+}
 </script>

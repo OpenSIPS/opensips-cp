@@ -1,13 +1,14 @@
 <?php
 require_once(__DIR__."/../widget/widget.php");
+require_once(__DIR__."/gauge_widget.php");
 
-class load_widget extends widget
+class load_widget extends gauge_widget
 {
     public $chart;
+	public static $ignore = 0;
+
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 4, 5, $array['widget_title']);
-        $this->color = 'rgb(219,255,244)';
-        $this->chart = $array['widget_chart'];
+        parent::__construct($array);
     }
 
     function get_name() {
@@ -15,20 +16,10 @@ class load_widget extends widget
     }
 
     function echo_content() {
-        $wi = $this->id;
-        $_SESSION['load_widget_id'] = $wi;
+		//consoole_log(mi_command("get_statistics", array("statistics" => array("real_used_size")), $_SESSION['boxes'][0]['mi_conn'], $errors));
         $load = mi_command("get_statistics", array("statistics" => array($this->chart)), $_SESSION['boxes'][0]['mi_conn'], $errors);
         $load_value = $load["load:".$this->chart];
-        $load_value = 75; //DE STERS LINIA ASTA
-        $_SESSION['load_widget_value'] = $load_value;
-        echo ("<div id=".$wi."_old>");
-		echo ('<br>'.$this->title);
-        require(__DIR__."/../../lib/percent_d3js.php");
-        echo ("</div>");
-    }
-
-    function get_as_array() {
-        return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
+		$this->display_chart($this->id, $this->title, $load_value);
     }
 
     public static function get_stats_options() {

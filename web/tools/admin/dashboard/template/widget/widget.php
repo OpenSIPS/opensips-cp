@@ -2,6 +2,7 @@
 
 abstract class widget
 {
+	public static $ignore = 0;
     public $name;
     public $id;
     public $sizeX, $sizeY;

@@ -116,7 +116,6 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
  foreach ($_SESSION['config']['panels'][$panel_id]['widgets'] as $widget)
  { 	
     $widget_content = json_decode($widget['content'], true);
-	consoole_log($widget_content['widget_type']);
     $widget_id = $widget_content['widget_id'];
     $widget_positions = json_decode($widget['positions'], true);
     $new_widget = new $widget_content['widget_type']($widget_content);
