@@ -737,9 +737,5 @@ p, li, td, .menu_active, input, button {
 	.chart-third{fill:#e92213}
 	.needle,.needle-center{fill:#464A4F}
 
-	.chart rect:first-of-type {
-		color: #fff;
-		stroke: #3994b6;
-		fill: white;
-	  }
+
 	  

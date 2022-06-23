@@ -30,7 +30,14 @@
 
 <table width="100%" class="ttable" cellspacing="2" cellpadding="2" border="0">
 <?php 
+// $time = time();
 
+// // $sql = "INSERT INTO ocp_monitoring_stats (name, time, value, box_id) VALUES (?,?,?,?)";
+// // $stm = $link->prepare($sql);
+// // for ($i = 0; $i < 300; $i ++) {
+// // 	if ($stm->execute(array("shmem:real_used_size", $time - $i * 60, rand(10, 20) + 150, 1)) === false)
+// // 	  die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+// // }
 
 $sql = "SELECT DISTINCT name FROM ".$name_table." WHERE box_id = ? ORDER BY name ASC";
 $stm = $link->prepare($sql);
@@ -102,6 +109,7 @@ else
      
    }
 }
+
 
  for($j=0;count($resultset)>$j;$j++)
  {

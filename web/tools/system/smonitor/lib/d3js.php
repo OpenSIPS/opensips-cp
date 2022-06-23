@@ -5,7 +5,7 @@
 <!-- Load d3.js -->
 <script src="d3.v4.min.js"></script>
 <!-- Create a div where the graph will take place -->
-<div id=<?=$_SESSION['stat']?>></div>
+<div id=<?=$_SESSION['stat']?>>
 
 <div id="tooltipd3<?php echo $_SESSION['stat'] ?>" class="tooltipd3">
                 <div class="tooltipd3-date">
@@ -15,17 +15,17 @@
                     Value: <span id="internet"></span>
                 </div>
             </div>
-
+</div>
 
 <script>
 
-display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>");
+display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>", "<?php echo $_SESSION['dashboard_active'] ?>");
 
-function display_graph(arg1, arg2, arg3, arg4) {
+function display_graph(arg1, arg2, arg3, arg4, arg5) {
 
 //Read the data
 
-d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
+d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
 
   // When reading the csv, format variables:
   function(d){
@@ -36,13 +36,19 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
   },
 
   //  use this dataset:
-  function(data) {
+  function(data) { 
     var refresh = 1;
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 30, left: 50},
- 	  width = 660 - margin.left - margin.right,
-      height = 300 - margin.top - margin.bottom;
+  if (arg5 == 1) {
+	var margin = {top: 10, right: 30, bottom: 30, left: 30},
+		width = 400 - margin.left - margin.right,
+		height = 190 - margin.top - margin.bottom;
+  } else {
+	var margin = {top: 10, right: 30, bottom: 30, left: 50},
+		width = 660 - margin.left - margin.right, 
+		height = 300 - margin.top - margin.bottom;
+  }
 
 
   // append the svg object to the body of the page
@@ -98,17 +104,25 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     const formatDate = d3.timeFormat("%c");
     tooltip.select("#date").text(formatDate(closestXValue));
 
-    const formatYvalue = (d) => d;
+    const formatYvalue = (d) => d.toFixed(2);
     tooltip.select("#internet").html(formatYvalue(closestYValue));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
-    const x = xScale(closestXValue) + offsets.left + margin.left ;
-    const y = yScale(closestYValue) + offsets.top + window.pageYOffset - 85;
-
-    tooltip.style(
-      "transform",
-      `translate(` + `calc( -50% + ${x}px),` + `calc(${y}px)` + `)`
-    );
+	if (arg5 == 0) {
+		const x = xScale(closestXValue) + offsets.left + margin.left ;
+		const y = yScale(closestYValue) + offsets.top + window.pageYOffset - 85;
+		tooltip.style(
+		"transform",
+		`translate(` + `calc( -50% + ${x}px),` + `calc(${y}px)` + `)`
+		);
+	} else {
+		const x = xScale(closestXValue) - 98 ;
+		const y = yScale(closestYValue) + window.pageYOffset - 75;
+		tooltip.style(
+		"transform",
+		`translate(` + `calc( ${x}px),` + `calc(${y}px)` + `)`
+		);		
+	}
     
     tooltip.style("opacity", 1);
     tooltip.style("width", "220px");
@@ -284,12 +298,12 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     .style("opacity", 0);
 
 
-    var intervalID = window.setInterval(updateGr, 3000);
+    var intervalID = window.setInterval(updateGr, 300000);
 
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
+        d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
 
         // When reading the csv, I must format variables:
         function(d){

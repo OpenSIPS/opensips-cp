@@ -1,18 +1,19 @@
 
 <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
-<div class="chart-gauge" id=<?=$_SESSION['load_widget_id']?>></div>
+<div class="chart-gauge" id=<?=$_SESSION['gauge_id']?>></div>
 <script>
 // D3.js Gauge Chart //
 // Data which need to be fetched
 
-display_indicator("<?php echo $_SESSION['load_widget_value'] ?>", "<?php echo $_SESSION['load_widget_id'] ?>");
+display_indicator("<?php echo $_SESSION['gauge_value'] ?>", "<?php echo $_SESSION['gauge_id'] ?>", "<?php echo $_SESSION['gauge_max'] ?>");
 
-function display_indicator(arg1, arg2) {
+function display_indicator(arg1, arg2, arg3) {
     var name = "";
     var value = arg1;    // My Desired Value To Show
-    var gaugeMaxValue = 100;
+    var gaugeMaxValue = arg3;
 
     // Data of calculation
+	console.log(arg3);
     var percentValue = value / gaugeMaxValue;
     var needleClient;
     (function () {
@@ -37,7 +38,7 @@ function display_indicator(arg1, arg2) {
             left: 20
         };
 
-        width = el[0][0].offsetWidth - margin.left - margin.right - 250;
+        width = 300;
         height = width;
         radius = Math.min(width, height) / 2;
         barWidth = 40 * width / 300;
@@ -56,10 +57,12 @@ function display_indicator(arg1, arg2) {
         };
 
         // Create SVG element
-        svg = el.append('svg').attr('width', width + margin.left + margin.right).attr('height', height / 1.5 + margin.top + margin.bottom);		// height/1.5 To Remove Extra Bottom Space
+        svg = el.append('svg')
+		.attr('transform', "translate(" + (20) + ", " + (20) + ")")
+		.attr('width', width + margin.left + margin.right + 90).attr('height', height / 1.5 + margin.top + margin.bottom);		// height/1.5 To Remove Extra Bottom Space
 
         // Add layer for the panel
-        chart = svg.append('g').attr('transform', "translate(" + ((width + margin.left) / 2 + 15) + ", " + ((height + margin.top) / 2) + ")");
+        chart = svg.append('g').attr('transform', "translate(" + ((width + margin.left) / 2 ) + ", " + ((height + margin.top) / 2) + ")");
 
         chart.append('path').attr('class', "arc chart-first");
         chart.append('path').attr('class', "arc chart-second");
@@ -164,16 +167,23 @@ function display_indicator(arg1, arg2) {
 
         var trX = 180 - 210 * Math.cos(percToRad(percent / 2));
         var trY = 195 - 210 * Math.sin(percToRad(percent / 2));
-        // (180, 195) are the coordinates of the center of the gauge.
-
+		
         displayValue = function () {
             texts.append("text")
                 .text(function () {
-                    return dataset[0].value;
+                    return "Value: ".concat(dataset[0].value);
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (trX ) + ", " + trY + ")")
-                .attr("font-size", 18)
+                .attr('transform', "translate(" + (0) + ", " + 16 + ")")
+                .attr("font-size", 12)
+                .style("fill", '#000000');
+			texts.append("text")
+                .text(function () {
+                    return "Percent: ".concat((arg1/arg3 * 100).toFixed(2)).concat("%");
+                })
+                .attr('id', "Value")
+                .attr('transform', "translate(" + (240) + ", " + 16 + ")")
+                .attr("font-size", 12)
                 .style("fill", '#000000');
         }
 
@@ -182,8 +192,8 @@ function display_indicator(arg1, arg2) {
                 return 0;
             })
             .attr('id', 'scale0')
-            .attr('transform', "translate(" + ((width + margin.left) / 100 + 15) + ", " + ((height + margin.top) / 2) + ")")
-            .attr("font-size", 15)
+            .attr('transform', "translate(" + ((width + margin.left) / 100 ) + ", " + ((height + margin.top) / 2) + ")")
+            .attr("font-size", 10)
             .style("fill", "#000000");
 
         texts.append("text")
@@ -191,8 +201,8 @@ function display_indicator(arg1, arg2) {
                 return gaugeMaxValue / 2;
             })
             .attr('id', 'scale10')
-            .attr('transform', "translate(" + ((width + margin.left) / 2.15 + 15) + ", " + ((height + margin.top) / 30) + ")")
-            .attr("font-size", 15)
+            .attr('transform', "translate(" + ((width + margin.left) / 2.15  ) + ", " + ((height + margin.top) / 30 + 5) + ")")
+            .attr("font-size", 10)
             .style("fill", "#000000");
 
 
@@ -201,8 +211,8 @@ function display_indicator(arg1, arg2) {
                 return gaugeMaxValue;
             })
             .attr('id', 'scale20')
-            .attr('transform', "translate(" + ((width + margin.left) / 1.03 + 15) + ", " + ((height + margin.top) / 2) + ")")
-            .attr("font-size", 15)
+            .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 5 ) + ", " + ((height + margin.top) / 2) + ")")
+            .attr("font-size", 10)
             .style("fill", "#000000");
 
         needle = new Needle(chart);
@@ -213,4 +223,5 @@ function display_indicator(arg1, arg2) {
 
     })();
 }
-    </script>
+</script>	
+<script src="../../system/smonitor/d3.v4.min.js"></script>

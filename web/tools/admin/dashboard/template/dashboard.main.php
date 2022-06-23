@@ -26,7 +26,7 @@
      <?php 
  } else { ?>
  
- <a href=# onclick="lockPanel()" style="position:relative; left:110px; top:2px; content: url('../../../images/share/inactive.png');"></a>
+ <a href=# onclick="lockPanel()" id='lockButton' style="display:none; position:relative; left:110px; top:2px; content: url('../../../images/dashboard/unlock.png');"></a>
  <table>
      <tr><td>
  <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
@@ -70,11 +70,14 @@
 </style>
 
 <script type="text/javascript" id="code">
+	document.getElementById('lockButton').style.display = 'block'; //button is initially hidden
+	// to avoid seeing image loading when it hasnt cached yet. should find workaround
+
     var gridster;
     var action = "<?=$action?>";
     var widget_info = "<?=$widget_info?>";
     gridster = $(".gridster > ul").gridster({
-            widget_base_dimensions: [90, 90],
+            widget_base_dimensions: [87, 40],
             shift_widgets_up: false,
             shift_larger_widgets_down: false,
             collision: {
@@ -101,10 +104,6 @@
             }
         }).data('gridster');
          
-         if (action == "add_widget_verify" || action == "import_widget_true") { 
-            var wi = <?php echo json_encode($widget_array); ?>;
-            addWidget(gridster,wi[0], Number(wi[1]), Number(wi[2]));
-         }
 </script>
 
 </body>
@@ -115,7 +114,7 @@
 
 if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
  foreach ($_SESSION['config']['panels'][$panel_id]['widgets'] as $widget)
- {
+ { 	
     $widget_content = json_decode($widget['content'], true);
     $widget_id = $widget_content['widget_id'];
     $widget_positions = json_decode($widget['positions'], true);
@@ -142,13 +141,12 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     addWidget(gridster,widget_content[0], sizeX, sizeY, col, row);
     move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>
-     <?php
- } ?>
-	<script>
-		var positions = gridster.serialize();
-		positions.push (<?=$panel_id?>);
-		store_dashboard(positions);
-	</script>
+     <?php 
+ }
+ ?> 
+ <script>
+	lockPanel();
+</script>
  <?php
 }
 } ?>

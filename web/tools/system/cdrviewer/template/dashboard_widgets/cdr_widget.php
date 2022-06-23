@@ -6,29 +6,17 @@ class cdr_widget extends widget
     public $cdr_entries;
 
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_name'], $array['widget_sizex'], $array['widget_sizey']);
+        parent::__construct($array['panel_id'], $array['widget_name'], 2,2);
         $this->set_cdr_entries();
-        $this->color = $array['widget_color'];
+        $this->color = "rgb(213, 107, 82)";
     }
 
-    function get_html() {  
-        $menu = "";
-        $color = "";
-
-        if ($this->has_menu == "yes") 
-            $menu = '<header><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
-        
-        if ($this->color)
-            $color = 'style="background-color: '.$this->color.';"';
-
-        return '<li type="cdr" '.$color.' style="background-color: '.$this->color.';" title="'.$this->title.'" id="'.$this->id.'">'.$menu.'<div>There are '.$this->cdr_entries.' CDR Viewer entries</div></li>';
-    }
 
     function get_name() {
         return "CDR widget";
     }
     function display_test() {
-        echo ('<iframe width="500" height="400" id="Megatest" src="./../../system/cdrviewer/index.php" title="description"></iframe>');
+        echo ('<div><hr style="height:5px; visibility:hidden;" />CDR Viewer entries:<br><br> <div style=" font-family: Helvetica; font-size: 150%;">'.$this->cdr_entries.'</div> </div>');
     }
 
 
@@ -55,10 +43,6 @@ class cdr_widget extends widget
 
     public static function new_form($params = null) {  
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
-        form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);
-        form_generate_input_text("SizeX", "", "widget_sizex", null, $params['widget_sizex'], 20,null);
-        form_generate_input_text("SizeY", "", "widget_sizey", null, $params['widget_sizey'], 20,null);
-        form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);
     }
 
 }

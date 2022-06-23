@@ -4,7 +4,7 @@ require_once("template/widget/widget.php");
 class vertical_title_widget extends widget
 {
     public $text;
-
+	public static $ignore = 1;
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 1, 5, $array['widget_title']);
         $this->text = $text;

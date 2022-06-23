@@ -36,17 +36,44 @@ function getChartHtml() {
    // console.log(Http.responseText);
   }
 }
-
+//box-shadow: -6px 0px 10px -5px rgba(0, 0, 0, 0.4);
 function lockPanel() {
   if (gridster.drag_api.disabled) {
+	const btn = document.getElementById('lockButton');
+	btn.style.content = "url('../../../images/dashboard/unlock.png')";
+	gridster.enable_resize();
     gridster.enable();
+	const menus = document.getElementsByClassName('dashboard_menu');
+	for(const menu of menus) { //display menu in editing mode
+	  menu.style.display = 'block';
+	}
+	const editables = document.getElementsByClassName('dashboard_edit');
+	for(const editable of editables) { //change shadow in editing mode
+	  editable.style['box-shadow'] = '-6px 0px 10px 0px rgba(0, 0, 0, 0.4)';
+	}
+	const editables_body = document.getElementsByClassName('dashboard_edit_body');
+	for(const editable_body of editables_body) { //change widget body corners when menu is active
+	  editable_body.style['border-radius'] = '0px 0px 7px 7px';
+	}
   }
   else {
+	const btn = document.getElementById('lockButton');
+	btn.style.content = "url('../../../images/dashboard/lock.png')";
+	gridster.disable_resize();
     gridster.disable();
+	const menus = document.getElementsByClassName('dashboard_menu');
+	for(const menu of menus) {
+	  menu.style.display = 'none';
+	}
+	const editables = document.getElementsByClassName('dashboard_edit');
+	for(const editable of editables) {
+	  editable.style['box-shadow'] = '0 0 5px rgb(0 0 0 / 30%)';
+	}
+	const editables_body = document.getElementsByClassName('dashboard_edit_body');
+	for(const editable_body of editables_body) {
+	  editable_body.style['border-radius'] = '7px 7px 7px 7px';
+	}
   }
-  var test = document.getElementsByClassName('gridster');
-  //test[0].style = "background-color: #ffffff";
-  //console.log(test[0].style);
 }
 
 

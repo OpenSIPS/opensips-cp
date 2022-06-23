@@ -2,6 +2,7 @@
 
 abstract class widget
 {
+	public static $ignore = 0;
     public $name;
     public $id;
     public $sizeX, $sizeY;
@@ -39,6 +40,10 @@ abstract class widget
     }
 
     function get_html() {
+        $menu = '<header class="dashboard_menu dashboard_edit" style="background-color: #3e5771; position: absolute; top: -43px; left:0px; right:0px; border-radius: 25px 25px 0px 0px;  "><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
+        $color = 'background-color: '.$this->color.'; ';
+		$border = 'border-radius: 7px 7px 7px 7px; ';
+        return '<li style="'.$color.$border.'" class="dashboard_edit dashboard_edit_body"  id='.$this->id.'>'.$menu.'</li>';
     }
 
     function set_id($id) {
