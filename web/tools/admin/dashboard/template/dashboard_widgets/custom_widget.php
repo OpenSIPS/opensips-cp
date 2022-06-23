@@ -4,7 +4,7 @@ require_once("template/widget/widget.php");
 class custom_widget extends widget
 {
     public $text;
-
+	public static $ignore = 1;
     function __construct($text, $name, $sizeX, $sizeY, $title=null) {
         parent::__construct($name, $sizeX, $sizeY, $title);
         $this->text = $text;

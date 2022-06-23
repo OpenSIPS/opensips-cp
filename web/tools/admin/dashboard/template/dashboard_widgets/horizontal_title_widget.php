@@ -4,6 +4,7 @@ require_once("template/widget/widget.php");
 class horizontal_title_widget extends widget
 {
     public $text;
+	public static $ignore = 1;
 
     function __construct($title) {
         parent::__construct($title, 5, 1, $title);

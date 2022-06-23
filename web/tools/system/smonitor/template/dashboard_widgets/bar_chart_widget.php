@@ -4,6 +4,7 @@ require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
 class bar_chart_widget extends widget
 {
     public $chart;
+	public static $ignore = 1;
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 4, 2, $array['widget_title']);
         $this->color = $array['widget_color'];
