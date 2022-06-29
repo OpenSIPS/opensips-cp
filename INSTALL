@@ -106,4 +106,5 @@ Now simply install the cron jobs by doing:
 	cp config/tools/system/smonitor/opensips_stats_cron /etc/cron.d/
 	
 
-NOTE: you may need to restart the cron service at this point. 
+NOTE: you may need to restart the cron service at this point.
+WARNING: for security concerns, make sure you replace in the config/tools/system/smonitor/opensips_stats_cron file the username that is running the cron job with a user that has limited capabilities (i.e. replace root with www-data for debian and apache for redhat).
