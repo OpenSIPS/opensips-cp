@@ -18,52 +18,46 @@ class pkg_widget extends widget
         return "PKG memory widget";
     }
     function display_test() {
-        echo ('
-		<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0" style="margin: auto;">
-		<tr align="center">
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">OpenSIPS ID</th>
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">PID</th>
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Description</th>
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Fragments</th>
-		</tr>');
-		foreach ($this->top_fragmented_info as $info) {
-			echo ('
-			<tr>
-			<td class="rowEven">&nbsp;'.$info['id'].'</td>
-			<td class="rowEven">&nbsp;'.$info['PID'].'</td>
-			<td class="rowEven">&nbsp;'.$info['desc'].'</td>
-			<td class="rowEven">&nbsp;'.$info['value'].'</td>
-			</tr>  ');
+		echo('<script> function show_tip(key) {
+			var tip = document.getElementById("widget_tip".concat(key));
+			tip.style.display = "block";
+		} 
+		function hide_tip(key) {
+			var tip = document.getElementById("widget_tip".concat(key));
+			tip.style.display = "none";
 		}
-		
-		echo('</table><br>');
+		</script>');
 		echo ('
-		<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0" style="margin: auto;">
+		<table class="ttable" style="table-layout: fixed;
+		width: 143px; height:20px; margin: auto;" cellspacing="2" cellpadding="2" border="0">
 		<tr align="center">
-		<th class="listTitle"  style="text-shadow: 0px 0px 0px #000;">OpenSIPS ID</th>
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">PID</th>
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Description</th>
+		<th class="listTitle"  style="text-shadow: 0px 0px 0px #000;">PID</th>
 		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Load</th>
 		</tr>');
-		foreach ($this->top_loaded_info as $info) {
+		foreach ($this->top_loaded_info as $key => $info) {
+			if ($info['value'] > 75)
+				$style = "color : red;";
+			else if ($info > 50)
+				$style = "color : orange;";
 			echo ('
 			<tr>
-			<td class="rowEven">&nbsp;'.$info['id'].'</td>
-			<td class="rowEven">&nbsp;'.$info['PID'].'</td>
-			<td class="rowEven">&nbsp;'.$info['desc'].'</td>
-			<td class="rowEven">&nbsp;'.$info['value'].'%</td>
+			<td class="rowEven">
+			<div class="tooltip" ><sup>
+			&nbsp;'.$info['PID'].'</sup>
+			<span style="left:-10px; top:-50px;  pointer-events: none;" class="tooltiptext">'.$info["desc"].'</span>
+			</div></td>
+			<td class="rowEven" style="'.$style.'" >&nbsp;'.$info['value'].'%</td>
 			</tr>  ');
 		}
 
 		echo('</table>');
+	
     }
 
 
 
     function echo_content() {
-        echo ('<div id="'.$this->id.'_old"><br>'.$this->title.'<br><br>');
         $this->display_test();
-        echo('</div>');
     }
 
     function compute_info() {

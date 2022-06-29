@@ -34,9 +34,7 @@ class bar_chart_widget extends widget
 
     function echo_content() {
         $wi = $this->id;
-        echo ("<div id=".$this->id."_old>");
         require(__DIR__."/../../lib/bar_d3js.php");
-        echo ("</div>");
     }
 
     function get_as_array() {
