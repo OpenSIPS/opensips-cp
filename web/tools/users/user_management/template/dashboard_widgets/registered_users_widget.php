@@ -39,9 +39,7 @@ class registered_users_widget extends widget
 		$elems['total_subs'] = $total_subs;
 		$elems['reg_contacts'] = $reg_contacts;
         $_SESSION['pie_elements'] = $elems;
-        echo ("<div id=".$wi."_old><br>".$this->title);
         require(__DIR__."/../../../../system/smonitor/lib/d3js_pie.php");
-        echo ("</div>");
     }
 
     function get_as_array() {

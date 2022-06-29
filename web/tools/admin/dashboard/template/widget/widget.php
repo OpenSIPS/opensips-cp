@@ -23,8 +23,12 @@ abstract class widget
         return $this->sizeX;
     }
 
-    function echo_content() {
-        
+    function display_widget() {
+        echo ("<div id=".$this->id."_old>
+		<div class='dashboard_edit dashboard_edit_body' style='background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 0px 0px;'>".$this->title."</div><br>
+		");
+		$this->echo_content();
+        echo ("</div>");
     }
 
     function get_sizeY() {

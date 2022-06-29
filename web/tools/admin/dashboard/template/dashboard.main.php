@@ -26,8 +26,11 @@
      <?php 
  } else { ?>
  
- <a href=# onclick="lockPanel()" id='lockButton' style="display:none; position:relative; left:110px; top:2px; content: url('../../../images/dashboard/unlock.png');"></a>
- <table>
+</td>
+ </tr>
+</table>
+</center>
+ <table style="position:relative; left: 100px; bottom :50px; " id="panel_buttons">
      <tr><td>
  <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Widget" class="formButton add-new-btn">') ?>
@@ -45,10 +48,6 @@
     <script src="jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
 
 </head>
-</td>
- </tr>
-</table>
-</center>
 <body>
 
 <div class="gridster"  >
@@ -121,7 +120,7 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     $new_widget = new $widget_content['widget_type']($widget_content);
     $new_widget->set_id($widget_content['widget_id']);
     $widget_array = $new_widget->get_as_array();
-    $new_widget->echo_content();
+    $new_widget->display_widget();
      ?>
 <script>
 	
@@ -149,4 +148,5 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
 </script>
  <?php
 }
-} ?>
+} 
+?>

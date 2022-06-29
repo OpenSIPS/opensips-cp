@@ -39,6 +39,8 @@ function getChartHtml() {
 //box-shadow: -6px 0px 10px -5px rgba(0, 0, 0, 0.4);
 function lockPanel() {
   if (gridster.drag_api.disabled) {
+	const edit_btn = document.getElementById('panel_buttons');
+	edit_btn.style.opacity = "1";
 	const btn = document.getElementById('lockButton');
 	btn.style.content = "url('../../../images/dashboard/unlock.png')";
 	gridster.enable_resize();
@@ -57,6 +59,8 @@ function lockPanel() {
 	}
   }
   else {
+	const edit_btn = document.getElementById('panel_buttons');
+	edit_btn.style.opacity = "0";
 	const btn = document.getElementById('lockButton');
 	btn.style.content = "url('../../../images/dashboard/lock.png')";
 	gridster.disable_resize();

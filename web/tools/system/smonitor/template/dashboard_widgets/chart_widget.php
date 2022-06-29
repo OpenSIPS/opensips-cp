@@ -23,10 +23,7 @@ class chart_widget extends widget
 
     function echo_content() {
         $wi = $this->id;
-        echo ("<div id=".$this->id."_old>");
-		echo('<br>'.$this->title);
         $this->show_chart();
-        echo ("</div>");
     }
 
     function get_as_array() {

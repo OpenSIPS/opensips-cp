@@ -59,6 +59,8 @@
         	$first_item = false;
         }
         ?>
+		<a href=# onclick="lockPanel()" id='lockButton' style="display:none; position:relative; left:-55px; bottom:25px; content: url('../../../images/dashboard/unlock.png');"></a>
+ 
       </div>
     </td> 
   </tr>
