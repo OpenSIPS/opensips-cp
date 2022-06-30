@@ -6,7 +6,7 @@ class cdr_widget extends widget
     public $cdr_entries;
 
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_name'], 2,2);
+        parent::__construct($array['panel_id'], $array['widget_name'], 2, 2, $array['widget_name']);
         $this->set_cdr_entries();
         $this->color = "rgb(213, 107, 82)";
     }
@@ -16,7 +16,7 @@ class cdr_widget extends widget
         return "CDR widget";
     }
     function display_test() {
-        echo ('<div><hr style="height:5px; visibility:hidden;" />CDR Viewer entries:<br><br> <div style=" font-family: Helvetica; font-size: 150%;">'.$this->cdr_entries.'</div> </div>');
+        echo ('CDR Viewer entries:<br><br> <div style=" font-family: Helvetica; font-size: 150%;">'.$this->cdr_entries.'</div> </div>');
     }
 
 

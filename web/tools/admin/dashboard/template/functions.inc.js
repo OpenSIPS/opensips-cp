@@ -15,6 +15,11 @@ function move(oldID, newID) {
 	}
 }
 
+function remove_content(id) {
+	var content = document.getElementById(id);
+	content.innerHTML = '';
+}
+
 function store_dashboard(arg) {
   const Http = new XMLHttpRequest();
   const url = 'store_dashboard.php';
@@ -57,6 +62,10 @@ function lockPanel() {
 	for(const editable_body of editables_body) { //change widget body corners when menu is active
 	  editable_body.style['border-radius'] = '0px 0px 7px 7px';
 	}
+	const title_bars = document.getElementsByClassName('widget_title_bar');
+	for(const title_bar of title_bars) { //change widget body corners when menu is active
+	  title_bar.style['border-radius'] = '0px 0px 1px 1px';
+	}
   }
   else {
 	const edit_btn = document.getElementById('panel_buttons');
@@ -76,6 +85,10 @@ function lockPanel() {
 	const editables_body = document.getElementsByClassName('dashboard_edit_body');
 	for(const editable_body of editables_body) {
 	  editable_body.style['border-radius'] = '7px 7px 7px 7px';
+	}
+	const title_bars = document.getElementsByClassName('widget_title_bar');
+	for(const title_bar of title_bars) { //change widget body corners when menu is active
+	  title_bar.style['border-radius'] = '7px 7px 1px 1px';
 	}
   }
 }

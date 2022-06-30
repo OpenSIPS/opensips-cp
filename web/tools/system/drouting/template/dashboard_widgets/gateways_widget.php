@@ -18,16 +18,18 @@ class gateways_widget extends widget
         return "Gateways widget";
     }
     function display_test() {
-		echo ('<br>
+		echo ('
 			<table class="ttable" style="table-layout: fixed;
 			width: 110px; height:15px; margin: auto;" cellspacing="0" cellpadding="0" border="0">
 			');
 		echo ('
 			<tr>
-			<td class="rowEven">Available: <span style="color:green;">'.$this->available.'</span></td></tr>
-			<tr><td class="rowEven">Inactive: <span style="color:red;">'.$this->inactive.'</span></td></tr>
-			<tr><td class="rowEven">Probing: <span style="color:yellow;">'.$this->probing.'</span></td>
-			</tr>  ');
+			<td class="rowEven">Available: <span style="color:green;">'.$this->available.'</span></td></tr>');
+		if ($this->inactive > 0)
+			echo ('<tr><td class="rowEven">Inactive: <span style="color:red;">'.$this->inactive.'</span></td></tr>');
+		if ($this->probing > 0)
+			echo ('<tr><td class="rowEven">Probing: <span style="color:orange;">'.$this->probing.'</span></td>
+			</tr>');
 		echo('</table>');
 	
 	}
