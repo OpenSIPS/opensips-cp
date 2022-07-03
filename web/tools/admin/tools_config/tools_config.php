@@ -53,7 +53,7 @@ if ($action=="modify_params")
 				}
 			}
 		}
-		if (is_null($box_id)) { 
+		if (is_null($box_id)) {
 			foreach ($tools_params as $module=>$params) {
 				if ($params['type'] == "title")
 					continue;
@@ -62,12 +62,24 @@ if ($action=="modify_params")
 					if (is_null($checklist_values)) $checklist_values = "";
 					$_POST[$module] = $checklist_values;
 				}
-				
-				$sql = "INSERT INTO $table (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
+				if ($params['default'] == $_POST[$module]) {
+					$sql = "DELETE FROM ".$table." where module=? and param=? and (box_id IS NULL OR box_id='')";
+					$stm = $link->prepare($sql);
+					if ($stm === false) {
+						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+					}
+					if ($stm->execute( array( $current_tool, $module)) == false) {
+						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
+					}    else {
+						$info="Admin credentials were modified";
+					}
+					continue;
+				}
+				$sql = "INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-			}
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
 				if ($stm->execute( array( $current_tool, $module, $_POST[$module], $current_tool, $module, $_POST[$module])) == false) {
 					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 				}    else {
@@ -99,7 +111,6 @@ if ($action=="modify_params")
 	}   else {
    		$errors= "User with Read-Only Rights";
    	} 
-	   
 	header('Location: ../../'.get_tool_path($_SESSION['current_tool']).'/index.php');
 }
 
