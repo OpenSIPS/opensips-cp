@@ -24,7 +24,7 @@ class monit_tools_widget extends widget
 		foreach($this->monitored_tools as $name => $tool) {
 			if ((int) $tool['number'] > 0) {
 				echo ('
-					<tr><td class="rowEven">'.$name.': '.(($name=="down")?'<span style="color:red;">':'').$tool['number'].'</span></td></tr>
+					<tr><td class="rowEven">'.$name.': '.(($name=="down")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span></td></tr>
 				');
 			}
 		}
@@ -39,7 +39,7 @@ class monit_tools_widget extends widget
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Accept: application/json',
-			'Authorization: Basic YWRtaW46bW9uaXQ=')                                                                       
+			'Authorization: Basic YWRtaW46bW9uaXRh')                                                                       
 		);
 		$response = curl_exec($ch);
 	

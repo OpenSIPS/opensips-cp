@@ -36,7 +36,7 @@ class monit_cpu_widget extends widget
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Accept: application/json',
-			'Authorization: Basic YWRtaW46bW9uaXQ=')                                                                       
+			'Authorization: Basic YWRtaW46bW9uaXRh')                                                                       
 		);
 		$response = curl_exec($ch);
 	

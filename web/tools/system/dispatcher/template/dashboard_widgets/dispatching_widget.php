@@ -23,11 +23,11 @@ class dispatching_widget extends widget
 			width: 110px; height:15px; margin: auto;" cellspacing="0" cellpadding="0" border="0">
 			');
 		echo ('
-			<tr><td class="rowEven">Available: <span style="color:green;">'.$this->active.'</span></td></tr>');
+			<tr><td class="rowEven">Available: <span style="color:green; font-weight: 900;">'.$this->active.'</span></td></tr>');
 		if ($this->inactive >0)
-			echo ('<tr><td class="rowEven">Inactive: <span style="color:red;">'.$this->inactive.'</span></td></tr>');
+			echo ('<tr><td class="rowEven">Inactive: <span style="color:red; font-weight: 900;">'.$this->inactive.'</span></td></tr>');
 		if ($this->probing > 0)
-			echo ('<tr><td class="rowEven">Probing: <span style="color:orange;">'.$this->probing.'</span></td>
+			echo ('<tr><td class="rowEven">Probing: <span style="color:orange; font-weight: 900;">'.$this->probing.'</span></td>
 			</tr>');
 		echo('</table>');
 	
