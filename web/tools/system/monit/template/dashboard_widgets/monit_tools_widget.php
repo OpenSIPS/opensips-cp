@@ -4,10 +4,12 @@ require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
 class monit_tools_widget extends widget
 {
     public $monitored_tools;
+	public $box_id;
 
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
-        $this->set_monitored();
+		$this->box_id = $array['widget_box'];
+		$this->set_monitored();
         $this->color = "rgb(207, 207, 207)";
     }
 
@@ -32,6 +34,13 @@ class monit_tools_widget extends widget
 	}
 
 	function set_monitored() {
+		foreach ($_SESSION['boxes'] as $box) {
+			if ($box['id'] == $this->box_id)
+				$widget_box = $box;
+		}
+		$auth_user = $box['monit_user'];
+		$auth_pass = $box['monit_pass'];
+		$auth = base64_encode($auth_user.":".$auth_pass);
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:2812/_report");
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
@@ -39,7 +48,7 @@ class monit_tools_widget extends widget
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
 			'Accept: application/json',
-			'Authorization: Basic YWRtaW46bW9uaXRh')                                                                       
+			'Authorization: Basic '.$auth)                                                                       
 		);
 		$response = curl_exec($ch);
 	
@@ -65,6 +74,13 @@ class monit_tools_widget extends widget
 		}
 	}
 
+    public static function get_boxes() {
+        $boxes_names = [];
+        foreach ($_SESSION['boxes'] as $box) {
+            $boxes_names[] = $box['id'];
+        }
+        return $boxes_names;
+    }
 
     function echo_content() {
         $this->display_test();
@@ -76,7 +92,8 @@ class monit_tools_widget extends widget
 
     public static function new_form($params = null) {  
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
-    }
+    	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+	}
 
 }
 

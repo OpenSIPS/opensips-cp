@@ -6,9 +6,16 @@ class dispatching_widget extends widget
     public $active = 0;
 	public $inactive = 0;
 	public $probing = 0;
+	public $box_id;
+	public $widget_box;
 
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
+		$this->box_id = $array['widget_box'];
+		foreach ($_SESSION['boxes'] as $box) {
+			if ($box['id'] == $this->box_id)
+				$this->widget_box = $box;
+		}
         $this->set_dispatching();
         $this->color = "rgb(207, 207, 207)";
     }
@@ -34,7 +41,7 @@ class dispatching_widget extends widget
 	}
 
 	function set_dispatching() {
-		$stat_res = mi_command("ds_list", array(), $_SESSION['boxes'][0]['mi_conn'], $errors);
+		$stat_res = mi_command("ds_list", array(), $this->widget_box['mi_conn'], $errors);
 		
 		foreach($stat_res["PARTITIONS"] as $key => $partition) {
 			foreach($partition["SETS"] as $key => $set) {
@@ -63,13 +70,22 @@ class dispatching_widget extends widget
         $this->display_test();
     }
 
+    public static function get_boxes() {
+        $boxes_names = [];
+        foreach ($_SESSION['boxes'] as $box) {
+            $boxes_names[] = $box['id'];
+        }
+        return $boxes_names;
+    }
+
     function get_as_array() {
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
     public static function new_form($params = null) {  
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
-    }
+    	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+	}
 
 }
 
