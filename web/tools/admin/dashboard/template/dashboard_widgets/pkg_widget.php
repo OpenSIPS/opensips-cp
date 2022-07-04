@@ -6,9 +6,16 @@ class pkg_widget extends widget
     public $cdr_entries;
 	public $top_loaded_info;
 	public $top_fragmented_info;
+	public $box_id;
+	public $widget_box;
 
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 7, 6, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
+		$this->box_id = $array['widget_box'];
+		foreach ($_SESSION['boxes'] as $box) {
+			if ($box['id'] == $this->box_id)
+				$this->widget_box = $box;
+		}
         $this->compute_info();
         $this->color = "rgb(225, 232, 239)";
     }
@@ -36,9 +43,10 @@ class pkg_widget extends widget
 		</tr>');
 		foreach ($this->top_loaded_info as $key => $info) {
 			if ($info['value'] > 75)
-				$style = "color : red;";
-			else if ($info > 50)
-				$style = "color : orange;";
+				$style = "color : red; ";
+			else if ($info['value'] > 50)
+				$style = "color : orange; ";
+			$style .= "font-weight: 900; ";
 			echo ('
 			<tr>
 			<td class="rowEven">
@@ -61,7 +69,7 @@ class pkg_widget extends widget
     }
 
     function compute_info() {
-		$pkg = mi_command("get_statistics", array("statistics" => array("pkmem:")), $_SESSION['boxes'][0]['mi_conn'], $errors);
+		$pkg = mi_command("get_statistics", array("statistics" => array("pkmem:")), $this->widget_box['mi_conn'], $errors);
 		$top_fragmented = $this->get_top_fragmented($pkg);
 		$this->top_fragmented_info = $this->get_proc_infos($top_fragmented);
 		$top_loaded = $this->get_top_loaded($pkg);
@@ -70,7 +78,7 @@ class pkg_widget extends widget
     }
 
 	function get_proc_infos($top_procs) {
-		$procs = mi_command("ps", array(), $_SESSION['boxes'][0]['mi_conn'], $errors);
+		$procs = mi_command("ps", array(), $this->widget_box['mi_conn'], $errors);
 		foreach($top_procs as $key => $top_proc) {
 			$found = false;
 			foreach($procs['Processes'] as $proc) {
@@ -123,13 +131,22 @@ class pkg_widget extends widget
 		return array_slice($top, 0 , 4);
 	}
 
+    public static function get_boxes() {
+        $boxes_names = [];
+        foreach ($_SESSION['boxes'] as $box) {
+            $boxes_names[] = $box['id'];
+        }
+        return $boxes_names;
+    }
+
     function get_as_array() {
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
     public static function new_form($params = null) {  
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
-    }
+		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+	}
 
 }
 

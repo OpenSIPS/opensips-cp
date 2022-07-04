@@ -23,9 +23,10 @@ abstract class widget
         return $this->sizeX;
     }
 
-    function display_widget() {
+    function display_widget($update = null) {
+
         echo ("<div id=".$this->id."_old>
-		<div class='dashboard_edit dashboard_edit_body' style='background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 0px 0px;'>".$this->title."</div><br>
+		<div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'>".$this->title."</div><hr style='height:10px; visibility:hidden;' />
 		");
 		$this->echo_content();
         echo ("</div>");
@@ -44,7 +45,7 @@ abstract class widget
     }
 
     function get_html() {
-        $menu = '<header class="dashboard_menu dashboard_edit" style="background-color: #3e5771; position: absolute; top: -43px; left:0px; right:0px; border-radius: 25px 25px 0px 0px;  "><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
+        $menu = '<header class="dashboard_menu dashboard_edit" style="background-color: #3e5771; position: absolute; top: -41px; left:0px; right:0px; border-radius: 25px 25px 0px 0px;  "><a href=\'dashboard.php?action=edit_widget&panel_id='.$this->panel_id.'&widget_id='.$this->id.'\' onclick="lockPanel()" style=" top:2px; content: url(\'../../../images/sett.png\');"></a></header>';
         $color = 'background-color: '.$this->color.'; ';
 		$border = 'border-radius: 7px 7px 7px 7px; ';
         return '<li style="'.$color.$border.'" class="dashboard_edit dashboard_edit_body"  id='.$this->id.'>'.$menu.'</li>';
