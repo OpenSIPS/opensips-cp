@@ -41,6 +41,7 @@
 
 
 <head>
+<meta http-equiv="refresh" content="30">
 <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
     <link rel="stylesheet" type="text/css" href="css/demo.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.gridster.min.css">
