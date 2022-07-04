@@ -41,5 +41,8 @@ if (!isset($config)) $config = new stdClass();
  $config->db_name = "opensips";
 
  if (!empty($config->db_port) ) $config->db_host = $config->db_host . ";port=" . $config->db_port;
+
+ //connection attributes, optional
+ //$config->db_attr = array(PDO::MYSQL_ATTR_LOCAL_INFILE => true);
  
 ?>

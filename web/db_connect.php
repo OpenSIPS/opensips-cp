@@ -27,7 +27,7 @@ global $config;
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	$link = new PDO($dsn, $config->db_user, $config->db_pass, isset($config->db_attr)?$config->db_attr:NULL);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";
