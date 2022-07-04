@@ -28,7 +28,9 @@ session_load();
 
 $command="dr_reload";
 if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
-	$command .= " ". get_settings_value("routing_partition");
+	$params = array("partition_name"=>get_settings_value("routing_partition"));
+else
+	$params = NULL;
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>
@@ -40,7 +42,7 @@ $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
-	$message=mi_command($command, NULL, $mi_connectors[$i], $errors);
+	$message=mi_command($command, $params, $mi_connectors[$i], $errors);
 
 	if (empty($errors)) {
 		echo "<font color='green'><b>Success</b></font>";
