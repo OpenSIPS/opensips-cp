@@ -34,7 +34,8 @@ $dr_form = array(
 	"socket" => "",
 	"state" => 0,
 	"attrs" => "",
-	"description" => ""
+	"description" => "",
+	"action" => "add"
 );
 ?>
 

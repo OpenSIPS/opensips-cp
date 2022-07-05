@@ -32,7 +32,8 @@ $dr_form = array(
 	"useonlyfirst" => 0,
 	"state" => 0,
 	"attrs" => "",
-	"description" => ""
+	"description" => "",
+	"action" => "add"
 );
 ?>
 

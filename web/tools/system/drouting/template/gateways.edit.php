@@ -25,6 +25,7 @@ if (isset($form_error)) {
 	echo(' </tr>');
 }
 $dr_form = $resultset[0];
+$dr_form["action"] = "edit";
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
