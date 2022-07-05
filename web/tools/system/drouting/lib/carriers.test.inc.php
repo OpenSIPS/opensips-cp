@@ -32,7 +32,7 @@
 	  // make $gwlist
 	  if (substr($gwlist,strlen($gwlist)-1,1)==",") $gwlist=substr($gwlist,0,strlen($gwlist)-1);
   }
-  if ($action != "edit"){
+  if ($action != "modify"){
 	  $sql="select count(*) from ".$table." where carrierid=?";
 	  $stm = $link->prepare($sql);
 	  if ($stm===FALSE) {
