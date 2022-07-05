@@ -143,12 +143,15 @@ if ($gw_attributes_mode == "input") {
   <th class="listTitle">Probe Mode</th>
   <th class="listTitle">Socket</th>
 <?php
+$gw_attrs_colspan = 0;
 if ($gw_attributes_mode != "none") {
 	if ($gw_attributes_mode == "input") {
 		echo('<th class="listTitle"><'.$gw_attributes["display_name"].'></th>');
+		$gw_attrs_colspan = 1;
 	} else {
 		foreach ($gw_attributes as $key => $value) {
 			echo('<th class="listTitle">'.(isset($value["display_main"])?$value["display_main"]:$value["display"]).'</th>');
+			$gw_attrs_colspan = count($gw_attributes);
 		}
 	}
 }
@@ -193,7 +196,7 @@ if (!is_null($message)) {
  require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
- $colspan = (count($gateways_types_cache) != 0?15:14);
+ $colspan = (count($gateways_types_cache) != 0?15:14) + $gw_attrs_colspan;
  if ($data_no==0) 
  	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else

@@ -84,15 +84,18 @@
   <th class="listTitle">Use only first</th>
   <th class="listTitle">Description</th>
 <?php
+$carrier_attrs_colspan = 0;
 $carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
 $carrier_attributes = get_settings_value("carrier_attributes");
 if ($carrier_attributes_mode != "none") {
 	if ($carrier_attributes_mode == "input") {
 		echo('<th class="listTitle"><'.$carrier_attributes["display_name"].'></th>');
+		$carrier_attrs_colspan = 1;
 	} else {
 		foreach ($carrier_attributes as $key => $value) {
 			echo('<th class="listTitle">'.(isset($value["display_main"])?$value["display_main"]:$value["display"]).'</th>');
 		}
+		$carrier_attrs_colspan = count($carrier_attributes);
 	}
 }
 ?>
@@ -139,8 +142,9 @@ if (!is_null($message)) {
  require("lib/".$page_id.".main.js");
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
+ $colspan = 11 + $carrier_attrs_colspan;
 
- if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=get_settings_value("results_per_page");
