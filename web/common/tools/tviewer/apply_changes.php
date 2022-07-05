@@ -45,15 +45,15 @@ $command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['c
 <?php
 
 $mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+if (strpos($command, " ")) {
+	$params = explode(" ", $command);
+	$command = array_shift($params);
+} else {
+	$params = NULL;
+}
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
-	if (strpos($command, " ")) {
-		$params = explode(" ", $command);
-		$command = array_shift($params);
-	} else {
-		$params = NULL;
-	}
 
 	$message=mi_command($command, $params, $mi_connectors[$i], $errors);
 
