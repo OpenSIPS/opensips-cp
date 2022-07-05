@@ -289,8 +289,10 @@ if ($gw_attributes_mode == "input") {
 		$val = dr_get_attrs_val($attr_map, $key, $value);
 		if ($value["type"] == "checkbox" && $val == true)
 			$val = "<img src='../../../images/share/active.png'>";
-		else if (isset($value["value_wrapper_func"]))
-			$val = $value["value_wrapper_func"]($attr_map[$key], $val);
+		else if (isset($value["value_wrapper_func"])) {
+			eval("\$func = ".$value['value_wrapper_func'].';');
+			$val = $func($attr_map[$key], $val);
+		}
 		echo("<td class=\"".$row_style."\">".$val."</td>");
 	}
 }
