@@ -75,7 +75,7 @@ else if (isset($success) && $success!="")
 									></textarea>
 									<?php break; ?>	
 							<?php case "checklist": ?>
-									<?php print_checklist($key, null, array_values($value['options']), array_keys($value['options']))?>
+									<?php print_custom_checklist($key, $value, $value['default_value']); ?>
 									<?php break; ?>		
 							<?php } ?>
 							</td>

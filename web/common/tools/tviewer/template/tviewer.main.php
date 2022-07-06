@@ -201,6 +201,7 @@ else {
 					?>
 				</tr>
 				<?php
+					$checklist_cache = array();
 					if (isset($resultset) && count($resultset) > 0){
 						for ($i=0; $i<count($resultset);$i++){
 							$row_style = ($i%2 == 1)?"rowOdd":"rowEven";
@@ -225,6 +226,9 @@ else {
 										$text = substr($resultset[$i][$key], 0, $size)."...";
 									else
 										$text = $resultset[$i][$key];
+									break;
+								case "checklist":
+									$text = display_custom_checklist($resultset[$i][$key], $value, $checklist_cache);
 									break;
 								}
 								if (isset($value['value_wrapper_func']))
