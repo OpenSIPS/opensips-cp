@@ -63,9 +63,9 @@ if ($action=="add_verify")
 	
 	$values_arr = array();
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
-		$fields.=$key.",";
-		$values.="?,";
 		if (isset($_POST[$key])){
+			$fields.=$key.",";
+			$values.="?,";
 			if ($value['type'] == "checklist") {
 				$val = build_custom_checklist_options($_POST[$key], $value);
 			} else {
@@ -77,6 +77,8 @@ if ($action=="add_verify")
 				$values_arr[] = $_POST[$key];
 		}
 		else if (isset($value["default_value"])){
+			$fields.=$key.",";
+			$values.="?,";
 			$values_arr[] = $value["default_value"];
 		}
 	}
