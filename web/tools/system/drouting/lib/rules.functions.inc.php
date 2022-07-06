@@ -92,7 +92,7 @@ function get_groupids()
     }
 	} else {
 		global $link;
-		$sql="select distinct groupid,description from ".get_settings_value("table_groups")." order by groupid asc";
+		$sql="select distinct ".get_settings_value("group_id_col"). " as groupid, ".get_settings_value("group_name_col"). " as description from ".get_settings_value("table_groups")." order by groupid asc";
 		$stm = $link->prepare($sql);
 		if ($stm===FALSE) {
 			die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);

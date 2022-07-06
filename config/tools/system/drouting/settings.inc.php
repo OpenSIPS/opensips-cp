@@ -206,6 +206,20 @@ $config->drouting = array(
 		"tip"     => "The SIP domain to be used for users when inserting a new record into the group table",
 		"validation_regex" => null,
 	),
+	"group_id_col" => array(
+		"default" => "groupid",
+		"name"    => "Group id Column",
+		"type"    => "text",
+		"validation_regex" => $table_regex,
+		"tip"    => "The column of the table_groups that indicates the id of the group",
+	),
+	"group_name_col" => array(
+		"default" => "description",
+		"name"    => "Group Name Column",
+		"type"    => "text",
+		"validation_regex" => $table_regex,
+		"tip"    => "The column of the table_groups that indicates the name of the group",
+	),
 
 	"title5" => array(
 		"type" => "title",
