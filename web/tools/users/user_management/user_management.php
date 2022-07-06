@@ -115,7 +115,7 @@ if ($action=="modify")
 				$sql_vals = array($uname,$domain,$passwd,$ha1);
 				foreach ( get_settings_value("subs_extra") as $key => $value ) {
 					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
-						$value = (isset($value["default"])?$value["default"]:NULL)
+						$value = (isset($value["default"])?$value["default"]:NULL);
 					} else {
 						$value = $_POST["extra_".$key];
 					}
@@ -139,7 +139,7 @@ if ($action=="modify")
 				$sql_vals = array($uname,$domain);
 				foreach ( get_settings_value("subs_extra") as $key => $value ) {
 					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
-						$value = (isset($value["default"])?$value["default"]:NULL)
+						$value = (isset($value["default"])?$value["default"]:NULL);
 					} else {
 						$value = $_POST["extra_".$key];
 					}
