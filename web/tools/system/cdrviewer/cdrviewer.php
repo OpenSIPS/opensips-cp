@@ -35,6 +35,15 @@ $cdr_repository_path = get_settings_value('cdr_repository_path');
 $cdr_set_field_names = get_settings_value('cdr_set_field_names');
 $delay = get_settings_value('delay');
 $show_field = get_settings_value('show_field');
+if (isset($show_field[0])) {
+	/* the array is not associative, so we shall convert it */
+	$num_fields = $show_field;
+	$show_field = array();
+	for ($i = 0; $i < count($num_fields); $i++) {
+		$k = array_keys($num_fields[$i])[0];
+		$show_field[$k] = $num_fields[$i][$k];
+	}
+}
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
