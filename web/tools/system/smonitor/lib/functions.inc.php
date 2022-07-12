@@ -278,7 +278,6 @@ return $newarr;
 }
 
 function get_box_id($current_box){
-
 	require('../../../../config/boxes.load.php');
 	foreach ($boxes as $ar) {
 		if ($ar['mi']['conn']==$current_box)
@@ -288,7 +287,6 @@ function get_box_id($current_box){
 }
 
 function get_box_id_by_name($box_name){
-
 	require('../../../../config/boxes.load.php');
 	foreach ($boxes as $ar) {
 		if ($ar['name']==$box_name)
@@ -337,9 +335,32 @@ function show_graph($stat,$box_id){
 	require(__DIR__."/d3js.php");
 }
 
-function show_graphs($stats, $box_ids, $scale){
+function show_graphs($key){
 	global $config;
 	global $gauge_arr;
+	$box_ids = [];
+	$stats = [];
+	$group_attr = get_settings_value_from_tool("groups", "smonitor")[$key];
+
+	$groupElements = $group_attr['stats'];
+	$scale = $group_attr['scale'];
+
+	foreach ($groupElements as $g) { // retrieve info about group, build stats boxes array etc
+		if (isset($g['box_name']) && !is_null(get_box_id_by_name($g['box_name'])))
+		  $stat_box_id = get_box_id_by_name($g['box_name']);
+		else
+		  $stat_box_id = get_box_id_default();
+		$box_ids[] = $stat_box_id;
+		if (preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
+		  foreach ($monitored_stats as $name => $id) {//first var is not available TODO
+			if (preg_match($g['name'], $name, $matches))
+			  $stats[] = $name;
+		  }
+		} else {
+		  $stats[] = $g['name'];
+		}
+	  }
+
 	$chart_history = get_settings_value("chart_history");
 	if ($chart_history == "auto") $chart_history = 3 * 24;
   
@@ -402,31 +423,19 @@ function show_pie_chart() {
 	require(__DIR__."/bar_d3js.php");
 }
 
+// returns array with names and starting sampling dates for each box stat
+// that is actively sampled and has db sampled history
 function get_stats_list($box_id) {
-	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
-	require_once(__DIR__."/../../../../../config/db.inc.php");
-	require_once(__DIR__."/db_connect.php");
+	require(__DIR__."/db_connect.php");
 	$stats_list = [];
+	$i = 0;
 	
-	foreach(get_settings_value_from_tool("groups", "smonitor", 0) as $key=>$group_attr) {
-		$groupElements = $group_attr['stats'];
-		$gName = "Group: ";
-		$matches = false;
-		$group = [];
-		foreach ($groupElements as $g) {
-		 if( preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
-		   foreach ($monitored_stats as $name => $id) {
-			 if (preg_match($g['name'], $name, $matches))
-				 $group[] = $name;
-		   }
-		 }
-		 else $group[] = $g['name'];
-		}
-	   foreach($group as $gr) {
-		 $gName.=$gr.", ";
-	   }
-	   $stats_list[] = $gName;
+	foreach(get_settings_value_from_tool("groups", "smonitor") as $key=>$group_attr) {
+	   $stats_list[$i]['name'] = "Group: ".$key;
+	   $stats_list[$i]['from_time'] = "1300";
+	   $i++;
 	}
+
 	$sql = "SELECT DISTINCT name FROM ocp_monitored_stats WHERE box_id = ".$box_id." ORDER BY name ASC";
 	$stm = $link->prepare($sql);
 	if ($stm->execute(array()) === false)
@@ -434,11 +443,22 @@ function get_stats_list($box_id) {
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	$data_no=count($resultset);
 
+	require(__DIR__."/db_connect.php");
+	$sql = "SELECT name, time FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? group by name order by time asc";
+	$stm = $link->prepare($sql);
 	for($j=0;count($resultset)>$j;$j++)
-	{
-		$stat_chart=false;
-		$stat=$resultset[$j]['name'];
-		$stats_list[] = $stat;
+	{	
+		if ($stm->execute(array($resultset[$j]['name'] , $box_id)) === false)
+		  die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
+		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		if (!is_null($result)) {
+			foreach($result as $stat_name) {
+				$stats_list[$i]['name'] = $stat_name['name'];
+				$from_time=date('j M Y, H:i:s',$stat_name['time']);
+				$stats_list[$i]['from_time'] = $from_time;
+				$i++;
+			}
+		}
 	}
 	return $stats_list;
 }
@@ -448,6 +468,10 @@ function get_stats_list_all_boxes() {
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
 	$stats_list = [];
+
+	foreach(get_settings_value_from_tool("groups", "smonitor") as $key=>$group_attr) {
+		$stats_list['Group'][] = "Group: ".$key;
+	 }
 
 	$sql = "SELECT DISTINCT name, box_id FROM ocp_monitored_stats ORDER BY name ASC";
 	$stm = $link->prepare($sql);
@@ -459,9 +483,10 @@ function get_stats_list_all_boxes() {
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
 
+	$sql = "SELECT * FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
+	$stm = $link->prepare($sql);
+
 	foreach($resultset as $key => $value) {
-		$sql = "SELECT * FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
-		$stm = $link->prepare($sql);
 		if ($stm->execute(array($value['name'], $value['box_id'])) === false)
 			die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
 		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
@@ -471,12 +496,12 @@ function get_stats_list_all_boxes() {
 	return $stats_list;
 }
 
-function show_widget_graphs($stats_list){ $box_id = 0;
+function show_widget_graphs($group_name){ $box_id = 0;
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
 	$group =[];
-	foreach(get_settings_value_from_tool("groups", "smonitor", 0) as $key=>$group_attr) {
+	foreach(get_settings_value_from_tool("groups", "smonitor") as $key=>$group_attr) {
 		$boxes = [];
 		$groupElements = $group_attr['stats'];
 		$scale = $group_attr['scale'];
@@ -496,7 +521,7 @@ function show_widget_graphs($stats_list){ $box_id = 0;
 	   foreach($group as $gr) {
 		 $gName.=$gr.", ";
 	   }
-	   if ($gName == $stats_list)
+	   if ($key == $group_name)
 	   	continue;
 	}
 	$stats = $group;
