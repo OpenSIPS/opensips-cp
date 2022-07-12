@@ -1,10 +1,8 @@
-<!-- Code from d3-graph-gallery.com -->
+
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<!-- Load d3.js -->
 <script src="d3.v4.min.js"></script>
-<!-- Create a div where the graph will take place -->
 <div id=<?=$_SESSION['stat']?>>
 
 <div id="tooltipd3<?php echo $_SESSION['stat'] ?>" class="tooltipd3">
@@ -23,11 +21,8 @@ display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_sta
 
 function display_graph(arg1, arg2, arg3, arg4, arg5) {
 
-//Read the data
-
 d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
 
-  // When reading the csv, format variables:
   function(d){
     if (d.value == "f") {
       d.value = null;
@@ -35,11 +30,10 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
     return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value}
   },
 
-  //  use this dataset:
   function(data) { 
     var refresh = 1;
     var zoomTrigger = false;
-  // set the dimensions and margins of the graph
+	
   if (arg5 == 1) {
 	var margin = {top: 10, right: 30, bottom: 30, left: 30},
 		width = 400 - margin.left - margin.right,
@@ -50,8 +44,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
 		height = 300 - margin.top - margin.bottom;
   }
 
-
-  // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))
     .append("svg")
       .attr("width", width + margin.left + margin.right)
@@ -133,7 +125,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
       .style("opacity", 1);
     }
 
-    // Add X axis --> it is a date format
     var x = d3.scaleTime()
       .domain(d3.extent(data, function(d) { return d.date; }))
       .range([ 0, width ]);
@@ -142,7 +133,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x).ticks(5));
 
-    // Add Y axis
     var y = d3.scaleLinear()
       .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
       .range([ height, 0 ]);
@@ -167,7 +157,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
           .attr("x2", 0)
           .attr("y2", 0);
 
-    // Add a clipPath: everything out of this area won't be drawn.
     var clip = svg.append("defs").append("svg:clipPath")
         .attr("id", "clip")
         .append("svg:rect")
@@ -178,21 +167,17 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
 
 
 
-    // Add brushing
-    var brush = d3.brushX()                   // Add the brush feature using the d3.brush function
-        .extent( [ [0,0], [width,height] ] )  // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
-        .on("end", updateChart)               // Each time the brush selection changes, trigger the 'updateChart' function
+    var brush = d3.brushX()
+        .extent( [ [0,0], [width,height] ] ) 
+        .on("end", updateChart)     
 
-    // Create the line variable: where both the line and the brush take place
+		
     var line = svg.append('g')
       .attr("clip-path", "url(#clip)")
 
-
-
-    // Add the line
     line.append("path")
       .datum(data)
-      .attr("class", "line")  // I add the class line to be able to modify this line later on.
+      .attr("class", "line") 
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
@@ -203,23 +188,18 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
         .defined(function (d) { if (d.value != null) return true; else return false; })
         )
 
-    // Add the brushing
     line
       .append("g")
         .attr("class", "brush")
         .call(brush);
 
-    // A function that set idleTimeOut to null
     var idleTimeout
     function idled() { idleTimeout = null; }
 
-    // A function that update the chart for given boundaries
     function updateChart() {
       refresh = 0;
-      // What are the selected boundaries?
       var extent = d3.event.selection
 
-      // If no selection, back to initial coordinate. Otherwise, update X axis domain
       if(!extent){
         if (!idleTimeout) return idleTimeout = setTimeout(idled, 350); 
         x.domain([ 4,8])
@@ -229,7 +209,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
         line.select(".brush").call(brush.move, null)
       }
 
-      // Update axis and line position
       xAxis.transition().duration(1000).call(d3.axisBottom(x).ticks(5))
       line
           .select('.line')
@@ -254,7 +233,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
             .attr("y2", 0);
     }
 
-    // If user double click, reinitialize the chart
     svg.on("dblclick",function(){
       refresh = 1;
       if (zoomTrigger == false) {
@@ -298,14 +276,13 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
     .style("opacity", 0);
 
 
-    var intervalID = window.setInterval(updateGr, 300000);
+    var intervalID = window.setInterval(updateGr, 5000);
 
 
     function updateGr() {
       if( refresh == 1) {
         d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
 
-        // When reading the csv, I must format variables:
         function(d){
           if (d.value == "f") {
             d.value = null;
@@ -313,7 +290,6 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
           return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value}
         },
 
-        // Now I can use this dataset:
         function(data2) { 
           data = data2;
           x.domain(d3.extent(data2, function(d) { return d.date; }))

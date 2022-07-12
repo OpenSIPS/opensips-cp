@@ -20,9 +20,9 @@
 <script>
 
 display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>, 
-<?php echo json_encode($_SESSION['boxes_list']) ?>, <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
+<?php echo json_encode($_SESSION['boxes_list']) ?>, <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>",  "<?php echo $_SESSION['dashboard_active'] ?>");
 
-function display_graphs(arg1, arg2, arg3, arg4, arg5) {
+function display_graphs(arg1, arg2, arg3, arg4, arg5, arg6) {
   //   var stats_list = "";
     var stats_list = encodeURIComponent(JSON.stringify(arg2));
     var box_list = encodeURIComponent(JSON.stringify(arg3));
@@ -42,9 +42,17 @@ function(d){
     var zoomTrigger = false;
     
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 100, left: 50},
+
+ if (arg6 == 1) {
+	var margin = {top: 10, right: 30, bottom: 30, left: 30},
+		width = 400 - margin.left - margin.right,
+		height = 220 - margin.top - margin.bottom;
+  } else {
+	var margin = {top: 10, right: 30, bottom: 100, left: 50},
       width = 660 - margin.left - margin.right,
       height = 370 - margin.top - margin.bottom;
+  }
+
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))
@@ -106,11 +114,11 @@ var xAxis = svg.append("g")
 var y = {};
 for(var i = 0 ; i < sumstat.length; i++) {
 y[sumstat[i].key] = d3.scaleLinear()
-  .domain([0, d3.max(sumstat[i].values, function(d) { return +d.value; })])
+  .domain([0, 1.1 * d3.max(sumstat[i].values, function(d) { return +d.value; })])
   .range([ height, 0 ]);
   }
 yAll = d3.scaleLinear()
-  .domain([0, d3.max(data, function(d) { return +d.value; })])
+  .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
   .range([ height, 0 ]);
     
 var yAxis;
@@ -292,13 +300,23 @@ var lines = svg.selectAll(".line")
     tooltip.select("#internet").html(formatYvalue(closestYValue));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
-    const xT = x(closestXValue) + offsets.left + margin.left ;
+
+	if (arg6 == 0) {
+		const xT = x(closestXValue) + offsets.left + margin.left ;
     const yT = yTemp(closestYValue) + offsets.top + window.pageYOffset - 85;
 
     tooltip.style(
       "transform",
       `translate(` + `calc( -50% + ${xT}px),` + `calc(${yT}px)` + `)`
     );
+	} else {
+		const xT = x(closestXValue) - 98 ;
+		const yT = yTemp(closestYValue) + window.pageYOffset - 75;
+		tooltip.style(
+		"transform",
+		`translate(` + `calc( ${xT}px),` + `calc(${yT}px)` + `)`
+		);		
+	}
     
     tooltip.style("opacity", 1);
     tooltip.style("width", "220px");
@@ -417,11 +435,11 @@ function updateGr(){
         var y = {};
         for(var i = 0 ; i <sumstat.length; i++) {
             y[sumstat[i].key] = d3.scaleLinear()
-            .domain([0, d3.max(sumstat[i].values, function(d) { return +d.value; })])
+            .domain([0, 1.1 * d3.max(sumstat[i].values, function(d) { return +d.value; })])
             .range([ height, 0 ]);
         }
         yAll = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return +d.value; })])
+        .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
         .range([ height, 0 ]);
 
         lines

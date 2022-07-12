@@ -32,7 +32,7 @@
     $stm = $link->prepare($sql);
 	$stm->execute(array($fstat, $box, time() - $chart_size * 3600));
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
-    if ($normal == 0) {
+    if ($normal == 1) {
         $prev = $row[0]['value'];
         for ($i = 1; $i < count($row); $i++) {
             $plot_value = $prev - $row[$i]['value'];
@@ -55,6 +55,7 @@
         else {
             if (is_null($r['value'])) $r['value'] = "f";
             $vals.="\n".date("Y-m-d-H-i-s", substr($r['time'], 0, 10));
+			//$r['value']  = 5;
             $vals.=",".$r['value'];
         }
         $last = intval($d);
