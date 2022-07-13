@@ -74,7 +74,7 @@ if ($action=="add_verify")
 			if ($val=="" && !(isset($value['keep_empty_str_val']) && $value['keep_empty_str_val']))
 				$values_arr[] = NULL;
 			else
-				$values_arr[] = $_POST[$key];
+				$values_arr[] = $val;
 		}
 		else if (isset($value["default_value"])){
 			$fields.=$key.",";
