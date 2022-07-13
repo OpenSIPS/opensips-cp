@@ -94,32 +94,16 @@ foreach ($boxes as $idx => $ar){
 			}
 			
 			foreach($extra_stats as $entry) {
-				if (in_array($entry['name'], $custom_stats)) {
-					$temp_stat = new $entry['class']($entry['input']);
+				if (in_array($entry['name'], $custom_stats)) { // custom_stats are fetched from ocp_monitored_stats
+					$temp_stat = new $entry['class'](json_decode($entry['input'], true));
 					$stat_value = $temp_stat->get_statistics();
-					if ($stat_value == NULL)
-					$stat_value ="0";
-					if ($stm->execute( array("custom:".$entry['tool'].":".$entry['name'],$stat_value,$time,$id) ) == false ) {
-						error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+					if (!is_null($stat_value)) {
+						if ($stm->execute( array("custom:".$entry['tool'].":".$entry['name'],$stat_value,$time,$id) ) == false ) {
+							error_log("Insert query failed :".print_r($stm->errorInfo(), true));
+						}
 					}
 				}
 			}
-			
-			/*
-			get_stats_classes();
-			$custom_stats = get_custom_statistics();
-
-			foreach ($custom_stats as $stat) {
-				$temp_stat = new $stat['class']($stat['input']);
-				$stat_value = $temp_stat->get_statistics();
-				error_log($stat['class']." balaur");
-				if ($stat_value == NULL)
-					$stat_value ="0";
-				if ($stm->execute( array($stat['tool'].":".$stat['name'],$stat_value,$time,$id) ) == false ) {
-					error_log("Insert query failed :".print_r($stm->errorInfo(), true));
-				}
-			} */
-
 		}
 	}
 }

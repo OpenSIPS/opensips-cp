@@ -27,6 +27,7 @@
  require("lib/functions.inc.php");
  require("../../../../config/session.inc.php");
  require("template/header.php");
+ require("../../../common/forms.php");
  
  session_load(); 
  get_mi_modules($current_box);
