@@ -5,16 +5,18 @@ class monit_cpu_widget extends widget
 {
     public $cpu_res;
 	public $box_id;
+	public $service;
 
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
 		$this->box_id = $array['widget_box'];
+		$this->service = $array['widget_service'];
         $this->set_cpu();
         $this->color = "rgb(207, 207, 207)";
     }
 
     function get_name() {
-        return "Monit CPU";
+        return "CPU monit widget";
     }
     function display_test() {
 		echo ('
@@ -34,11 +36,17 @@ class monit_cpu_widget extends widget
 			if ($box['id'] == $this->box_id)
 				$widget_box = $box;
 		}
-		$auth_user = $box['monit_user'];
-		$auth_pass = $box['monit_pass'];
+		$auth_user = $widget_box['monit_user'];
+		$auth_pass = $widget_box['monit_pass'];
+		$protocol = "http";
+		if ($widget_box['monit_ssl'])
+			$protocol = "https";
+		$host = $widget_box['monit_conn'];
+
+
 		$auth = base64_encode($auth_user.":".$auth_pass);
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:2812/_status?service=localhost.localdomain");
+		curl_setopt($ch, CURLOPT_URL, $protocol."://".$host."/_status?service=".$this->service);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
@@ -88,7 +96,11 @@ class monit_cpu_widget extends widget
     }
 
     public static function new_form($params = null) {  
-        form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
+		if (is_null($params)) {
+			$params['widget_service'] = "localhost.localdomain";
+		}
+        form_generate_input_text("Title", "", "widget_name", null, $params['widget_name'], 20,null);
+		form_generate_input_text("Service", "", "widget_service", null, $params['widget_service'], 20,null);
 		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
 	}
 

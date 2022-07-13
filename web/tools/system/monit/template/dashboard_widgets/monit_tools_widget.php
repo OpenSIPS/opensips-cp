@@ -38,11 +38,17 @@ class monit_tools_widget extends widget
 			if ($box['id'] == $this->box_id)
 				$widget_box = $box;
 		}
-		$auth_user = $box['monit_user'];
-		$auth_pass = $box['monit_pass'];
+		$auth_user = $widget_box['monit_user'];
+		$auth_pass = $widget_box['monit_pass'];
+		$protocol = "http";
+		if ($widget_box['monit_ssl'])
+			$protocol = "https";
+		$host = $widget_box['monit_conn'];
+
+
 		$auth = base64_encode($auth_user.":".$auth_pass);
 		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:2812/_report");
+		curl_setopt($ch, CURLOPT_URL, $protocol."://".$host."/_report");
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($ch, CURLOPT_HEADER, FALSE);
