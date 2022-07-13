@@ -42,7 +42,7 @@ class monit_tools_widget extends widget
 		$auth_pass = $widget_box['monit_pass'];
 		$protocol = "http";
 		if ($widget_box['monit_ssl'])
-			$protocol = "s";
+			$protocol = "https";
 		$host = $widget_box['monit_conn'];
 
 
