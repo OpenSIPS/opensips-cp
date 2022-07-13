@@ -26,7 +26,7 @@ abstract class widget
     function display_widget($update = null) {
 
         echo ("<div id=".$this->id."_old>
-		<div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'>".$this->title."</div><hr style='height:10px; visibility:hidden;' />
+		<div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'><span style='color:rgb(203, 235,221); position:relative; top:2px;'>".$this->title."</span></div><hr style='height:10px; visibility:hidden;' />
 		");
 		$this->echo_content();
         echo ("</div>");
