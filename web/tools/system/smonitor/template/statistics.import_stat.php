@@ -34,9 +34,7 @@ require_once("../../../common/forms.php");
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
 	 <?php   
-		form_generate_input_text("Custom statistic name:", null, "name_id", "y", "", null, null);
-		form_generate_input_textarea("Input:", null, "input_id", "y", "", null, null);
-
+		$stat_class::new_form();
 if (!$_SESSION['read_only']) {
 ?>
   <tr>

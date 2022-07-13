@@ -45,9 +45,7 @@ require_once("../../../common/forms.php");
 
  </tr>
   <?php
-    form_generate_input_text("Custom statistic name:", null, "name_id", "y", $resultset[0]['name'], null, null);
-    form_generate_input_textarea("Input:", null, "input_id", "y", $resultset[0]['input'], null, null);	
-	
+    $stat_class::new_form(json_decode($resultset[0]['input'], true));
 if (!$_SESSION['read_only']) {
 ?>
   <tr>

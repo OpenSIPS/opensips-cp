@@ -20,7 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
  
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
@@ -56,7 +55,8 @@ if ($action == "import_statistic") {
 
 if ($action == "edit_statistic") {
 	$stat_id = $_GET['stat_id'];
-    require("template/".$page_id.".edit.php");
+	$stat_class = $_GET['class'];
+	require("template/".$page_id.".edit.php");
 	require("template/footer.php");
 	exit();
 }
@@ -97,14 +97,14 @@ if ($action == "add_statistic") {
 
 if ($action == "add_modify_statistic") {
 	$stat_class = $_GET['class'];
-	
+	$input = json_encode($_POST);
 	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`, box_id) VALUES (?,?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		
-		if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $stat_class::get_tool(), $stat_class, $_SESSION['box_id'])) == false) {
+		if ($stm->execute( array( $_POST['name_id'], $input, $stat_class::get_tool(), $stat_class, $_SESSION['box_id'])) == false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($stm->errorInfo(), true));
 		}	else {
 			$info="Stat was added";
@@ -113,6 +113,7 @@ if ($action == "add_modify_statistic") {
  
 if ($action == "modify_statistic") { 
 	$id = $_GET['id'];
+	$input = json_encode($_POST);
 	
 	$sql = "UPDATE ocp_monitoring_stats SET name= CONCAT('custom:', (SELECT tool from ocp_extra_stats where id = ?), ':', ?) where name=  
 	(SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
@@ -146,7 +147,7 @@ if ($action == "modify_statistic") {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
 	
-	if ($stm->execute( array( $_POST['name_id'], $_POST["input_id"], $id)) == false) {
+	if ($stm->execute( array( $_POST['name_id'], $input, $id)) == false) {
 		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
 	}	else {
 		$info="Stat was added";
