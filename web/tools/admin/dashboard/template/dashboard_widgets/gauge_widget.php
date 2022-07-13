@@ -13,7 +13,7 @@ class gauge_widget extends widget
     }
 
     function display_chart($title, $value, $valueMax = 100) {
-        $_SESSION['gauge_id'] = $id;
+        $_SESSION['gauge_id'] = $this->id;
         $_SESSION['gauge_value'] = $value;
 		$_SESSION['gauge_max'] = $valueMax;
         require(__DIR__."/../../lib/percent_d3js.php");
