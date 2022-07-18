@@ -6,6 +6,8 @@ require_once("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 session_load();
 
+csrfguard_validate();
+
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 $message=mi_command( "ul_show_contact", array("table_name"=>"location","aor"=>$_GET["username"]."@".$_GET["domain"]), $mi_connectors[0], $errors);
 
@@ -122,6 +124,7 @@ if (!is_null($message)) {
 			<tr align="center">
 				<td class="listTitle" width="100%" colspan="2">
 					<form name="delcontact" action="#" method="POST">
+							<?php csrfguard_generate(); ?>
 							<input type="hidden" name="action" value="delcon"/>
 							<input type="hidden" name="username" value="<?= $_GET["username"] ?>"/>
 							<input type="hidden" name="domain" value="<?= $_GET["domain"] ?>"/>

@@ -30,6 +30,8 @@ require("../../../../config/globals.php");
 $table=$config->table_tools_config; 
 $current_page="current_page_tools_config";
 
+csrfguard_validate();
+
 unset($box_id);
 if (isset($_GET['box_id'])) {
 	$box_id = $_GET['box_id'];
@@ -114,6 +116,7 @@ if ($action=="modify_params")
 	}   else {
    		$errors= "User with Read-Only Rights";
    	} 
+
 	header('Location: ../../'.get_tool_path($_SESSION['current_tool']).'/index.php');
 }
 

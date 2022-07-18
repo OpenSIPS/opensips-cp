@@ -39,6 +39,7 @@ require_once("../../../common/forms.php");
 ?> 
 
 <form action="<?=$page_name?>?action=modify_statistic&id=<?=$stat_id?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
  <td colspan="3" height="10" class="mainTitle">Edit box</td>

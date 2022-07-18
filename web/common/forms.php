@@ -179,6 +179,7 @@ function toggleFormat(tool, id) {
 global $table_regex;
 $table_regex = "^[a-zA-Z0-9_]+$";
 
+
 function print_description() {
 	global $config;
 	$long = get_settings_value('tool_description');

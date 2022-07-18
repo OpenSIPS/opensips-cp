@@ -28,6 +28,7 @@ if(!$_SESSION['read_only']){
 echo '<h1>Edit widget</h1>'
 ?>
 <form action="<?=$page_name?>?action=edit_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_content['widget_type']?>&widget_id=<?=$widget_id?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Edit Widget</td>
@@ -47,5 +48,6 @@ echo '<h1>Edit widget</h1>'
 </table>
 </form>
 <form action="<?=$page_name?>?action=delete_widget&panel_id=<?=$panel_id?>&widget_id=<?=$widget_id?>" method="post">
+<?php csrfguard_generate(); ?>
 <input type="submit" style="background-color: red;" value="Delete" class="formButton">
 </form>

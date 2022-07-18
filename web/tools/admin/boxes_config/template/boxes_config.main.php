@@ -37,6 +37,7 @@ if(!$_SESSION['read_only']){
   }
 ?>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Box" class="formButton add-new-btn">') ?>
 </form>
 

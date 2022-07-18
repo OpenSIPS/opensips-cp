@@ -29,6 +29,8 @@ $current_page="current_page_cdrviewer";
 
 session_load();
 
+csrfguard_validate();
+
 include("lib/db_connect.php");
 
 $cdr_repository_path = get_settings_value('cdr_repository_path');

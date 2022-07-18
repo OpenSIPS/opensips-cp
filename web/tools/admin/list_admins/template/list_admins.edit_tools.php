@@ -40,6 +40,7 @@ require_once("../../../common/cfg_comm.php");
 $permissions=array();
 ?>
 <form action="<?=$page_name?>?action=modify_tools&id=<?=$_GET['id']?>&uname=<?=$_GET['uname']?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
  <td colspan="3" height="10" class="mainTitle">Permissions for admin "<?=$_GET['uname']?>"</td>

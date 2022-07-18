@@ -245,6 +245,7 @@ global $page_name;
 global $box_val;  
 
 echo ('<form action="'.$page_name.'?action=change_box&box_val="'.$box_val.' method="post" name="boxen_select" style="margin:0px!important">');
+csrfguard_generate();
 echo ('<input type="hidden" name="box_val" class="formInput" method="post" value="">');
 echo ('<select name="box_list" class="boxSelect" onChange=boxen_select.box_val.value=boxen_select.box_list.value;boxen_select.submit() >');
 

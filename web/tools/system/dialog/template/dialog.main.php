@@ -23,6 +23,7 @@
 
 <div align="right">
 	<form name="refreshform" action="<?=$page_name?>?action=refresh" method="post">
+	<?php csrfguard_generate(); ?>
 		<input type="submit" name="refresh" value="Refresh Dialog List" class="ButtonLink">
 	</form>
 </div>

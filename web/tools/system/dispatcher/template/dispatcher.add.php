@@ -23,6 +23,7 @@
 ?>
 
 <form action="<?=$page_name?>?action=do_add&id=<?=$_GET['id']?>" method="post">
+<?php csrfguard_generate(); ?>
 	<table width="400" cellspacing="2" cellpadding="2" border="0">
 	
 	<tr align="center">

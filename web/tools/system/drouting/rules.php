@@ -25,6 +25,8 @@
  require("template/header.php");
  require("lib/common.functions.inc.php");
 
+ csrfguard_validate();
+
  $table=get_settings_value("table_rules");
  $current_page="current_page_rules";
  

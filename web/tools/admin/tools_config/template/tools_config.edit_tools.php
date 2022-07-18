@@ -43,6 +43,7 @@ require_once("functions.js");
 ?> 
 
 <form action="<?=$page_name?>?action=modify_params&tool=<?=$current_tool?>&box_id=<?=$box_id?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
 	 <?php   

@@ -26,6 +26,8 @@ require("lib/functions.inc.php");
 
 session_start();
 
+csrfguard_validate();
+
 if ($_GET['action']=="change_box" && !empty($_POST['box_val'])) {
 	$current_box=$_POST['box_val'];
 	$_SESSION['mi_current_box']=$current_box ;

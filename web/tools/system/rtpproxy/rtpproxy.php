@@ -30,6 +30,8 @@ $current_page="current_page_rtpproxy";
 
 session_load();
 
+csrfguard_validate();
+
 include("lib/db_connect.php");
 
 if (isset($_POST['action'])) $action=$_POST['action'];

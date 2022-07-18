@@ -33,10 +33,12 @@
  <table style="position:relative; left: 100px; bottom :50px; " id="panel_buttons">
      <tr><td>
  <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Widget" class="formButton add-new-btn">') ?>
+ <?php csrfguard_generate();
+ if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Widget" class="formButton add-new-btn">') ?>
 </form></td><td>
 <form action="<?=$page_name?>?action=import_widget&panel_id=<?=$panel_id?>" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Import New Widget" class="formButton add-new-btn">') ?>
+ <?php csrfguard_generate();
+ if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Import New Widget" class="formButton add-new-btn">') ?>
 </form></td></tr></table>
 
 

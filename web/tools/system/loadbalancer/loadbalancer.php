@@ -26,6 +26,8 @@ require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
 session_load();
 
+csrfguard_validate();
+
 $table=get_settings_value("table_lb");
 $current_page="current_page_lb";
 $lb_probing_modes = array("No probing","On disabled","Permanent");

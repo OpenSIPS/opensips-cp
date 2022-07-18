@@ -29,7 +29,10 @@
  require("template/header.php");
  require("../../../common/forms.php");
  
- session_load(); 
+ session_load();
+ 
+ csrfguard_validate();
+
  get_mi_modules($current_box);
  get_custom_modules($current_box);
 

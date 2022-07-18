@@ -59,6 +59,7 @@ if (isset($_SESSION['delete']) && (isset($sql_search)) ){
 ?>
 
 <form action="<?=$page_name?>?action=search" method="post">
+<?php csrfguard_generate(); ?>
 <table width="70%" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord" width="115">RegExp </td>

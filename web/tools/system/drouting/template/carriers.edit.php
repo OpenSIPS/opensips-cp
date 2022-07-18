@@ -29,6 +29,7 @@ $dr_form["action"] = "edit";
 ?>
 
 <form action="<?=$page_name?>?action=modify&carrierid=<?=$_GET['carrierid']?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="465" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="mainTitle">Edit Carrier #<?=$_GET['carrierid']?></td>

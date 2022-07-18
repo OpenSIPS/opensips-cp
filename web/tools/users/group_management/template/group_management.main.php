@@ -54,6 +54,7 @@ if(!$_SESSION['read_only']){
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
+<?php csrfguard_generate(); ?>
 <table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
 <tr>
 	<td class="searchRecord" align="left">Username</td>
@@ -88,7 +89,8 @@ if(!$_SESSION['read_only']){
 
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Group" class="formButton add-new-btn">') ?>
+ <?php csrfguard_generate();
+ if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Group" class="formButton add-new-btn">') ?>
 </form>
 <br>
 

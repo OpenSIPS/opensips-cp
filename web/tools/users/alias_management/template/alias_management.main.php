@@ -29,6 +29,7 @@ $search_atype=$_SESSION['alias_type'];
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
+<?php csrfguard_generate(); ?>
 <table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
 <tr>
 <td class="searchRecord" align="left">Username</td>
@@ -60,6 +61,7 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <br>
 
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New Alias" class="formButton">') ?>
 </form>
 

@@ -35,7 +35,8 @@ if(!$_SESSION['read_only']){
 <div id="content" style="display:none"></div>
 
 <form action="<?=$page_name?>?action=add_statistic" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
+ <?php csrfguard_generate();
+ if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Stat" class="formButton add-new-btn">') ?>
 </form>
 
 

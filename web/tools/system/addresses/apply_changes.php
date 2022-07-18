@@ -26,6 +26,8 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 session_load();
 
+csrfguard_validate();
+
 $command="address_reload";
 
 ?>

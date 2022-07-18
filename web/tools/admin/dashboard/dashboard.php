@@ -36,6 +36,9 @@ require("../../../../config/tools/admin/dashboard/local.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 require_once("../../../common/forms.php");
+
+csrfguard_validate();
+
 $widgets = load_widgets();
 $table=$config->table_dashboard; 
 $box_id = $_GET['box_id'];

@@ -47,6 +47,7 @@ if (!$_SESSION['read_only']) {
 	?>
 
 	<form action="<?=$url?>" method="post">
+	<?php csrfguard_generate(); ?>
 		<table  width="350" cellspacing="2" cellpadding="2" border="0">
 		<tr align="center">
 			<td colspan="2" class="mainTitle">

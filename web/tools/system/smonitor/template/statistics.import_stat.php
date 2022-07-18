@@ -31,6 +31,7 @@ require_once("../../../common/forms.php");
 ?> 
 
 <form action="<?=$page_name?>?action=add_modify_statistic&class=<?=$stat_class?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
 	 <?php   
