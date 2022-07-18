@@ -61,6 +61,7 @@ if (($cdr_field!="") && ($search_regexp!="")) {
 ?>
 
 <form action="<?=$page_name?>?action=search" method="post">
+<?php csrfguard_generate(); ?>
 <table width="350" class="search-area" cellspacing="2" cellpadding="2" border="0">
 
  <tr>

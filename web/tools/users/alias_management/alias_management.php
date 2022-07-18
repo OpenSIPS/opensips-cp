@@ -27,6 +27,8 @@ require("../../../../config/globals.php");
 
 session_load();
 
+csrfguard_validate();
+
 foreach (get_settings_value("table_aliases") as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }

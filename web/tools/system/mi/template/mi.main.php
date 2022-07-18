@@ -23,6 +23,7 @@
 ?>
 
 <form action="<?=$page_name?>?action=execute" method="post" name="form">
+<?php csrfguard_generate(); ?>
 <table width="500" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td colspan="2" class="mainTitle" align="center">Execute MI Command</td>

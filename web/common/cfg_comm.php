@@ -474,4 +474,84 @@ function get_tools() {
 	return $tools;
 }
 
+
+function store_in_session($key,$value)
+{
+	if (isset($_SESSION))
+		$_SESSION[$key]=$value;
+}
+
+function unset_session($key)
+{
+	$_SESSION[$key]=' ';
+	unset($_SESSION[$key]);
+}
+
+function get_from_session($key)
+{
+	if (isset($_SESSION[$key]))
+		return $_SESSION[$key];
+	else
+		return false;
+}
+
+function csrfguard_generate_token($unique_form_name)
+{
+	if( !function_exists('random_bytes') )
+	{
+		function random_bytes($length = 6)
+		{
+			$characters = '0123456789';
+			$characters_length = strlen($characters);
+			$output = '';
+			for ($i = 0; $i < $length; $i++)
+				$output .= $characters[rand(0, $characters_length - 1)];
+
+			return $output;
+		}
+	}
+	$token = bin2hex(random_bytes(64));
+	store_in_session($unique_form_name,$token);
+	return $token;
+}
+
+function csrfguard_validate_token($unique_form_name,$token_value)
+{
+	$token = get_from_session($unique_form_name);
+	if (!is_string($token))
+		return false;
+	$result = ($token == $token_value);
+	unset_session($unique_form_name);
+	return $result;
+}
+
+function csrfguard_generate($prefix="")
+{
+	$name="CSRFGuard_".$prefix.mt_rand(0,mt_getrandmax());
+	$token=csrfguard_generate_token($name);
+	echo("<input type='hidden' name='CSRFName' value='{$name}' />
+		<input type='hidden' name='CSRFToken' value='{$token}' />");
+}
+
+function csrfguard_validate($deny = true)
+{
+	if (count($_POST) == 0)
+		return true;
+	if (isset($_POST['CSRFName']) and isset($_POST['CSRFToken']) ) {
+		$name = $_POST['CSRFName'];
+		$token = $_POST['CSRFToken'];
+		$valid = csrfguard_validate_token($name, $token);
+	} else {
+		$valid = false;
+	}
+	
+	if ($valid == false && $deny == true) {
+		//header("HTTP/1.1 401 Unauthorized");
+		throw new ErrorException("401 Unauthorized");
+		exit;
+	}
+	return $valid;
+}
+
+
 ?>

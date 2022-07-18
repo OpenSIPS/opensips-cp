@@ -25,7 +25,7 @@
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
-<?php
+<?php csrfguard_generate();
  if($_SESSION['read-only']) {
 	$colspan=9;
  } else {
@@ -123,6 +123,7 @@
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
   <input type="submit" name="add_new" value="Add Rule" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>

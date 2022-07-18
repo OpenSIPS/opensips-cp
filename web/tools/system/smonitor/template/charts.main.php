@@ -23,6 +23,7 @@
 ?>
 
 <form action="<?=$page_name?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="100%" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td align="center" class="mainTitle">Click a statistic to see its chart</td>

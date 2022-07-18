@@ -27,6 +27,8 @@
  require_once("lib/common.functions.inc.php");
  session_load();
 
+ csrfguard_validate();
+
  $table=get_settings_value("table_gateways");
  $current_page="current_page_gateways";
  

@@ -108,6 +108,7 @@ if ($dispatcher_group_mode == "static")
 <div id="content" style="display:none"></div>
 
 <form action="<?=$page_name?>?action=ds_search" method="post">
+<?php csrfguard_generate(); ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord">SetID</td>
@@ -146,6 +147,7 @@ if ($dispatcher_group_mode == "static")
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
   <input type="submit" name="add_new" value="Add Destination" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>

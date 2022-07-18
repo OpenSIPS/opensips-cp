@@ -27,6 +27,8 @@
  require("../../../../config/db.inc.php");
  session_load();
  
+ csrfguard_validate();
+
  $table=get_settings_value("table_trace");
  $current_page="current_page_tracer";
  

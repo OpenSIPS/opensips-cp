@@ -111,6 +111,7 @@ if ( $users == "online_usr" ) {
 }
   ?>
 <form action="<?=$page_name?>?action=dp_act" method="post">
+<?php csrfguard_generate(); ?>
 <table  class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord" align="left">Username</td>
@@ -159,7 +160,8 @@ foreach (get_settings_value("subs_extra") as $key => $value) {
 </form>
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
- <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
+ <?php csrfguard_generate();
+ if (!$_SESSION['read_only']) echo('<input type="submit" name="add" value="Add New" class="formButton">') ?>
 </form>
 <br>
 

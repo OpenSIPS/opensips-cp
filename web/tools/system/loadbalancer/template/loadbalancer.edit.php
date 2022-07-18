@@ -33,6 +33,7 @@ $lb_form = $stm->fetchAll(PDO::FETCH_ASSOC)[0];
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$id?>" method="post">
+<?php csrfguard_generate(); ?>
 	<table width="420" cellspacing="2" cellpadding="2" border="0">
 	
 	<tr align="center">

@@ -40,6 +40,7 @@ $index_row=0;
 ?>
 
 <form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr>
  <td colspan="2" class="mainTitle" align="center">Edit Admin Information</td>

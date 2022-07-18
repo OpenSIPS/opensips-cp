@@ -23,6 +23,7 @@
 ?>
 
 <form action="<?=$page_name?>" method="post"> 
+<?php csrfguard_generate(); ?>
 <table class="ttable" width="300" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <th colspan="2" align="center" class="mainTitle">Click a module to see its statistics</th>

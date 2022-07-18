@@ -46,6 +46,7 @@ if(!$_SESSION['read_only']){
 <div id="content" style="display:none"></div>
 
 <form action="<?=$page_name?>?action=search" method="post">
+<?php csrfguard_generate(); ?>
 <table width="50%" cellspacing="2" cellpadding="2" border="0">
   <tr>
   <td class="searchRecord">Cluster ID</td>
@@ -67,6 +68,7 @@ if(!$_SESSION['read_only']){
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
   <input type="submit" name="add_new" value="Add Node" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>

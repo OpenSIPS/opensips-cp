@@ -63,6 +63,7 @@
 ?>
 
 <form action="<?=$page_name?>?action=search" method="post">
+<?php csrfguard_generate(); ?>
 <table width="35%" cellspacing="2" cellpadding="2" border="0">
  <tr>
   <td class="searchRecord">Username </td>
@@ -88,6 +89,7 @@
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
   <input type="submit" name="add_new" value="Add Record" class="formButton"> &nbsp;&nbsp;&nbsp;
 </form>
 <?php } ?>

@@ -29,7 +29,10 @@
  require("lib/functions.inc.js");
  require("template/header.php");
  
- session_load(); 
+ session_load();
+ 
+ csrfguard_validate();
+
  $stat_classes = get_stats_classes();
  $current_page="current_statistics";
 

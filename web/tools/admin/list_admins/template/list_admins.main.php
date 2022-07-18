@@ -48,6 +48,7 @@ if(!$_SESSION['read_only']){
 }
 ?>
 <form action="<?=$page_name?>?action=dp_act" method="post">
+<?php csrfguard_generate(); ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="listTitle"></td>
@@ -78,6 +79,7 @@ if(!$_SESSION['read_only']){
 
 <br>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Admin" class="formButton add-new-btn">') ?>
 </form>
 <br>

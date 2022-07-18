@@ -24,6 +24,7 @@ require_once("../../../common/forms.php");
 if (!$_POST['type_val']) $widget_type = $widgets[0];
 else $widget_type = $_POST['type_val'];
 echo ('<form action="'.$page_name.'?action=add_widget&panel_id='.$panel_id.'" method="post" name="type_select" style="margin:0px!important">');
+csrfguard_generate();
 echo ('<input type="hidden" name="type_val" class="formInput" method="post" value="">');
 echo ('<select name="type_list" onChange=type_select.type_val.value=type_select.type_list.value;type_select.submit() >');
 foreach ( $widgets as $val ) {
@@ -34,6 +35,7 @@ foreach ( $widgets as $val ) {
 echo ('</select></form>');
 ?>
 <form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_type?>" name="add_widget_form" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0" name="add_widget_table">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Add New Widget</td>

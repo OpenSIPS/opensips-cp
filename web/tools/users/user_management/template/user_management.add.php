@@ -21,6 +21,7 @@
 */
 ?>
 <form action="<?=$page_name?>?action=add_verify&id=<?=(isset($_GET['id'])?$_GET['id']:"")?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Add New User</td>

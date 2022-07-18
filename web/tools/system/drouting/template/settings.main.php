@@ -25,7 +25,7 @@
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=gw_types" method="post">
-<?php
+<?php csrfguard_generate();
  $filename="../../../../config/tools/system/drouting/gw_types.txt";
  $handle=fopen($filename,"r");
  $content=fread($handle,filesize($filename));
@@ -59,7 +59,7 @@ if (get_settings_value("group_id_method")=="static")
 { 
 ?>
 <form action="<?=$page_name?>?action=groups" method="post">
-<?php
+<?php csrfguard_generate();
  $filename="../../../../config/tools/system/drouting/group_ids.txt";
  $handle=fopen($filename,"r");
  $content=fread($handle,filesize($filename));

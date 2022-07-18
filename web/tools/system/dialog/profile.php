@@ -25,6 +25,8 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
 
+csrfguard_validate();
+
 $current_page="current_page_dialog";
 
 if (isset($_POST['action'])) $action=$_POST['action'];

@@ -52,6 +52,7 @@ if($clone =="1"){
 
 ?>
 <form action="<?=$page_name?>?action=add_do&clone=<?=$_GET['clone']?>&id=<?=$_GET['id']?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="mainTitle">Add new Translation Rule</td>

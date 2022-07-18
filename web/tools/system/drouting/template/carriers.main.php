@@ -25,7 +25,7 @@
 <div onclick="closeDialog();" id="overlay" style="display:none"></div>
 <div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
-<?php
+<?php csrfguard_generate();
 
  $sql_search="";
  $sql_vals=array();

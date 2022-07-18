@@ -28,6 +28,8 @@ require("../../../../config/tools/admin/boxes_config/settings.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 
+csrfguard_validate();
+
 $table=$config->table_system_config; 
 $current_page="current_page_system_config";
 $box_id = $_GET['box_id'];

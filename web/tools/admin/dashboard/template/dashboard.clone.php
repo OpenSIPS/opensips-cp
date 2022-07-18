@@ -23,6 +23,7 @@
 require_once("../../../common/forms.php");
 ?>
 <form action="<?=$page_name?>?action=clone_panel_verify&panel_id=<?=$panel_id?>" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Clone Panel</td>

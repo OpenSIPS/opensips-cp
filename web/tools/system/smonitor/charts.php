@@ -31,6 +31,8 @@
  include("lib/db_connect.php");
  session_load();
  
+ csrfguard_validate();
+
  $box_id=get_box_id($current_box); 
  $table=get_settings_value("table_monitoring");
  $name_table=get_settings_value("table_monitored");

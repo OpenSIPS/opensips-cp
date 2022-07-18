@@ -28,6 +28,8 @@ require("../../../../config/globals.php");
 
 session_load();
 
+csrfguard_validate();
+
 $table=get_settings_value("table_users");
 $current_page="current_page_user_management";
 $errors='';

@@ -29,6 +29,8 @@
  $table=get_settings_value("table_carriers");
  $current_page="current_page_lists";
  
+ csrfguard_validate();
+
  if (isset($_POST['action'])) $action=$_POST['action'];
  else if (isset($_GET['action'])) $action=$_GET['action'];
       else $action="";

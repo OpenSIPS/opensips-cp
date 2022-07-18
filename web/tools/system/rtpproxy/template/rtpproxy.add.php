@@ -22,6 +22,7 @@
 ?>
 
 <form action="<?=$page_name?>?action=add_verify" method="post">
+<?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <td colspan="2" class="mainTitle">Add new RTPProxy Socket</td>

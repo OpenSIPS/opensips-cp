@@ -76,6 +76,7 @@ if ($dialplan_group_mode == "static")
 
 <?php if ($dialplan_group_mode != "static") { ?>
 <form action="<?=$page_name?>?action=search" method="post">
+<?php csrfguard_generate(); ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
   <tr>
   <td class="searchRecord">Dialplan ID :</td>
@@ -105,6 +106,7 @@ if ($dialplan_group_mode == "static")
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add&clone=0" method="post">
+<?php csrfguard_generate(); ?>
   <input type="submit" name="add_new" value="Add New Rule" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>

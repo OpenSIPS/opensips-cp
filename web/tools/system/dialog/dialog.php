@@ -29,6 +29,8 @@ $current_page="current_page_dialog";
 
 session_load();
 
+csrfguard_validate();
+
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
