@@ -89,18 +89,24 @@ if ($action=="add_verify")
 	if(!$_SESSION['read_only']){
 		if ($form_error=="") {
 
-				$sql = "INSERT INTO ".$table."(".$fields.") VALUES(".$values.") ";
-				$stm = $link->prepare($sql);
-				if ($stm->execute($values_arr) === false) {
-                	$form_error=print_r($stm->errorInfo(), true);
-					require("template/".$page_id.".add.php");
-					require("template/footer.php");
-                	exit();
-				}
+			if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_add_hook']))
+				$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_add_hook']($fields, $values);
 
-				$success="The new entry has been successfully added";
-				foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
-			                unset($_SESSION[$key]);
+			$sql = "INSERT INTO ".$table."(".$fields.") VALUES(".$values.") ";
+			$stm = $link->prepare($sql);
+			$ret = $stm->execute($values_arr);
+			if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_add_hook']))
+				$ret = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_add_hook']($fields, $values, $stm, $ret);
+			if ($ret === false) {
+				$form_error=print_r($stm->errorInfo(), true);
+				require("template/".$page_id.".add.php");
+				require("template/footer.php");
+				exit();
+			}
+
+			$success="The new entry has been successfully added";
+			foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
+				unset($_SESSION[$key]);
 		}
 	}else{
 		$errors= "User with Read-Only Rights";

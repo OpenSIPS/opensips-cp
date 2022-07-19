@@ -84,12 +84,18 @@ if ($action=="modify")
 		}
 		//trim the ending comma
 		$updatestring = substr($updatestring,0,-1);
-
-		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=?";
 		$qvalues[] = $id;
 
+		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_edit_hook']))
+			$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_edit_hook']($updatestring, $qvalues);
+
+		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=?";
+
 		$stm = $link->prepare($sql);
-		if($stm->execute($qvalues) === false) {
+		$ret = $stm->execute($qvalues);
+		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_edit_hook']))
+			$ret = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_edit_hook']($updatestring, $qvalues, $stm, $ret);
+		if($ret === false) {
 			error_log(print_r($stm->errorInfo(), true));
 			$form_error=print_r($stm->errorInfo(), true);
 			require("template/".$page_id.".edit.php");
