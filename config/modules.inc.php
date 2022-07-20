@@ -123,6 +123,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Statistics Monitor"
 			),
+			"statusreport"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Status Report"
+			),
 			"tls_mgm"			=> array (
 				"enabled"		=> true,
 				"name"			=> "TLS Management"
