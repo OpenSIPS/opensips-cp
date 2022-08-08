@@ -104,10 +104,9 @@ class pkg_widget extends widget
 				$top[] = $entry;
 			}
 		}
-		function cmp($a, $b) {
+		usort($top, function($a, $b) {
 			return $b['value'] - $a['value'];
-		}
-		usort($top, "cmp");
+		});
 		return array_slice($top, 0 , 4);
 	}
 
@@ -124,10 +123,9 @@ class pkg_widget extends widget
 				$top[] = $entry;
 			}
 		}
-		function cmp_load($a, $b) {
+		usort($top, function($a, $b) {
 			return $b['value'] - $a['value'];
-		}
-		usort($top, "cmp_load");
+		});
 		return array_slice($top, 0 , 4);
 	}
 
