@@ -104,6 +104,7 @@
   </td>
 </tr>
 <?php
+$gw_sockets = get_settings_value("sockets");
 $gw_attributes_mode = get_settings_value("gw_attributes_mode");
 $gw_attributes = get_settings_value("gw_attributes");
 if ($gw_attributes_mode == "input") {
@@ -278,7 +279,11 @@ if (!is_null($message)) {
   <td class="<?=$row_style?>"><?=$resultset[$i]['strip']?></td>
   <td class="<?=$row_style?>"><?=$pri_prefix?> </td>
   <td class="<?=$row_style?>"><?=$probe_mode?> </td>
+<?php if ($gw_sockets != "") { ?>
+  <td class="<?=$row_style?>"><?=array_search($resultset[$i]['socket'], $gw_sockets, true)?></td>
+<?php } else { ?>
   <td class="<?=$row_style?>"><?=$resultset[$i]['socket']?></td>
+<?php } ?>
 <?php
 if ($gw_attributes_mode == "input") {
 	if ($resultset[$i]['attrs']!="") $attrs=$resultset[$i]['attrs'];

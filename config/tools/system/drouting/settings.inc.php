@@ -118,6 +118,20 @@ $config->drouting = array(
 }"
 	),
 
+	"sockets" => array(
+		"default" => "",
+		"name"    => "Sockets",
+		"opt"     => "y",
+		"type"    => "json",
+		"tip"	  => "Sockets available on the OpenSIPS nodes that uses this gateway; empty string will result in manual input",
+		"example" => "
+{
+	\"external\" : \"udp:external\",
+	\"local\" : \"udp.127.0.0.1\"
+}"
+	),
+
+
 	"title2" => array(
 		"type" => "title",
 		"title" => "Carrier settings"

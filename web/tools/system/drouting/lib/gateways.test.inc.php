@@ -50,7 +50,7 @@ include("db_connect.php");
                   $form_error="- <b>Strip</b> field must be a positive number -";
                  }
   if ($form_valid)
-  	if ($socket != NULL && $socket != "")
+    if ($socket != NULL && $socket != "" && get_settings_value("sockets") != "")
 	   if (!preg_match('/^(sctp|tls|udp|tcp):(((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])))(:([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$/i',$socket)) {
                              $form_valid=false;
                              $form_error="- <b>Socket</b> is invalid -";

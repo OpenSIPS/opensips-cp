@@ -40,11 +40,17 @@ form_generate_input_text("Strip", "Number of digits to be stripped when sending 
 form_generate_input_text("PRI Prefix", "The prefix to be added to the called number when sending a call to the gateway",
 	"pri_prefix", "y", $dr_form['pri_prefix'], 128, "^.*$");
 
-form_generate_select("Probe Mode", "Indicates the probing mode for the gateway. use only the forst gateway",
+form_generate_select("Probe Mode", "Indicates the probing mode for the gateway. use only the first gateway",
 	"probe_mode", 128, $dr_form['probe_mode'], array(0, 1, 2), array("0 - Never", "1 - When disabled", "2 - Always"));
 
-form_generate_input_text("Socket", "The OpenSIPS' socket to be used when sending a call to the gateway",
-	"socket", "y", $dr_form['socket'], 128, "^(sctp|tls|udp|tcp):(((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])))(:([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$");
+$gw_sockets = get_settings_value("sockets");
+if ($gw_sockets == "") {
+	form_generate_input_text("Socket", "The OpenSIPS' socket to be used when sending a call to the gateway",
+		"socket", "y", $dr_form['socket'], 128, "^(sctp|tls|udp|tcp):(((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])))(:([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$");
+} else {
+	form_generate_select("Socket", "The OpenSIPS' socket to be used when sending a call to the gateway",
+		"socket", 128, $dr_form['socket'], array_values($gw_sockets), array_keys($gw_sockets));
+}
 
 form_generate_select("DB State", "Whether the gateways should be active, inactive or probing",
 	"state", 128, $dr_form['state'], array(0, 1), array("0 - Active", "1 - Inactive", "2 - Probing"));
