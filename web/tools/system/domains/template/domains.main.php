@@ -21,6 +21,7 @@
 */
 
 
+$has_attrs=(get_settings_value("attributes") == "1");
 if (!$_SESSION['read_only']) {
 
 	if ($action=="edit") {
@@ -28,7 +29,7 @@ if (!$_SESSION['read_only']) {
 		$url = $page_name."?action=save&id=".$_GET['id'];
 		$title = "Edit Domain name";
 		# populate the initial values for the form
-		$sql='SELECT domain FROM '.$table.' where id=?';
+		$sql='SELECT domain '.($has_attrs?", attrs":""). ' FROM '.$table.' where id=?';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -42,6 +43,8 @@ if (!$_SESSION['read_only']) {
 		$title = "New Domain name";
 		# populate the initial values for the form
 		$domain_form['domain'] = null;
+		if ($has_attrs)
+			$domain_form['attrs'] = null;
 		$button = "Add New Domain";
 	}
 	?>
@@ -94,13 +97,16 @@ $link=NULL;
 <table class="ttable" cellspacing="2" cellpadding="2" border="0">
 	<tr>
   		<th align="center" class="listTitle">Domain Name</th>
+<?php if ($has_attrs) { ?>
+  		<th align="center" class="listTitle">Attributes</th>
+<?php } ?>
   		<th align="center" class="listTitle">Last Modified</th>
 		<th align="center" class="listTitle">Edit</th>
 		<th align="center" class="listTitle">Delete</th>
 	</tr>
 	<?php
 	$index_row=0;
-	if ($data_no==0) echo('<tr><td class="rowEven" colspan="4" align="center"><br>'.$no_result.'<br><br></td></tr>');
+	if ($data_no==0) echo('<tr><td class="rowEven" colspan="'.($has_attrs?5:4).'" align="center"><br>'.$no_result.'<br><br></td></tr>');
 	else
 	while( $index_row<$data_no )
 	{
@@ -113,6 +119,9 @@ $link=NULL;
 		?>
 	<tr>
    		<td class="<?=$row_style?>"><?=$row['domain']?></td>
+<?php if ($has_attrs) { ?>
+   		<td class="<?=$row_style?>"><?=$row['attrs']?></td>
+<?php } ?>
 		<td class="<?=$row_style?>"><?=$row['last_modified']?></td>
 		<td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
   	 	<td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>

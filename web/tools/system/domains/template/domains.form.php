@@ -24,4 +24,8 @@ require("../../../common/forms.php");
 
 form_generate_input_text("SIP Domain", "A SIP Domain to be considered local by OpenSIPS - can be an IP or a FQDN",
 	"domain", "n", $domain_form['domain'], 128, "^(([0-9]{1,3}\\\.[0-9]{1,3}\\\.[0-9]{1,3}\\\.[0-9]{1,3})|(([A-Za-z0-9-]+\\\.)+[a-zA-Z]+))$");
+if ($has_attrs) {
+	form_generate_input_text("Attributes", "Attributes assigned to the domain",
+		"attrs", "y", $domain_form['attrs'], 128, get_settings_value("attributes_regex"));
+}
 ?>

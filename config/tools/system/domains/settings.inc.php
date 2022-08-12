@@ -34,6 +34,20 @@ $config->domains = array(
 		"tip" 	  => "As OCP can manage multiple OpenSIPS instances, this is the association 
 		ID pointing to the group of servers (system) which needs to be provision with this domain information."
 	),
+	"attributes" => array(
+		"default" => "0",
+		"name"    => "Attributes",
+		"options" => array('No'=>'0', 'Yes'=>'1'),
+		"type"    => "dropdown",
+		"tip"     => "Indicates whether the domains use attributes"
+	),
+	"attributes_regex" => array(
+		"default" => null,
+		"name"    => "Attributes Format",
+		"type"    => "text",
+		"opt"     => "y",
+		"tip"     => "Regular expression for enforcing when an attribute is provided"
+	),
 
 	"title1" => array(
 		"type" => "title",

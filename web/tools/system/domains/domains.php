@@ -29,6 +29,7 @@ session_load();
 csrfguard_validate();
 
 $table=get_settings_value("table_domains");
+$has_attrs=(get_settings_value("attributes") == "1");
 
 include("lib/db_connect.php");
 
@@ -45,12 +46,15 @@ $errors="";
 if ($action=="add")
 {
 	$domain=$_POST['domain'];
-	$sql = "INSERT INTO ".$table." (domain, last_modified) VALUES (? , NOW())";
+	$sql = "INSERT INTO ".$table." (domain" .($has_attrs?",attrs":""). ", last_modified) VALUES (?".($has_attrs?", ?":"").", NOW())";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($domain) )==FALSE ) {
+	$vals = array($domain);
+	if ($has_attrs)
+		$vals[] = $_POST['attrs'];
+	if ($stm->execute($vals)==FALSE) {
         	$errors = "Add/Insert to DB failed with: ". print_r($stm->errorInfo(), true);
 	} else {
 		$info="Domain Name has been inserted";
@@ -67,12 +71,16 @@ if ($action=="save")
 {
 	$id=$_GET['id'];
 	$domain=$_POST['domain'];
-	$sql = "UPDATE ".$table." SET domain=?, last_modified=NOW() WHERE id=?";
+	$sql = "UPDATE ".$table." SET domain=?".($has_attrs?", attrs=?":""). ", last_modified=NOW() WHERE id=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($domain,$id) )==FALSE ) {
+	$vals = array($domain);
+	if ($has_attrs)
+		$vals[] = $_POST['attrs'];
+	$vals[] = $id;
+	if ($stm->execute($vals)==FALSE) {
         	$errors = "Update to DB failed with: ". print_r($stm->errorInfo(), true);
 	} else {
 		$info="Domain name has been modified";
