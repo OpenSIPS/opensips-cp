@@ -39,11 +39,15 @@
           }
           $sorted_panels = $_SESSION['config']['panels'];
           array_multisort($orders, SORT_ASC, $sorted_panels);
-		  if (count($sorted_panels) > 0)
-		  	$default = $sorted_panels[0]['id'];
-		  if (!isset($_GET['action']))
-		  	$current_tab = $default;
+		  if (count($sorted_panels) > 0) {
+			if (isset($_GET['action']) && $_GET['action'] == "view_new_panel")
+				$default = end($sorted_panels)['id'];
+		  	else $default = $sorted_panels[0]['id'];
+		  }
 		  else $default = -1; // edit panels (no panels available);
+
+		  if (!isset($_GET['action']) || $_GET['action'] == "view_new_panel")
+		  	$current_tab = $default;
           foreach ( $sorted_panels as $id => $elem)
             $config->menu_item[] = array(
               "dashboard.php?action=display_panel&panel_id=".$elem['id'], // page name
