@@ -6,7 +6,7 @@ class registered_users_widget extends widget
     public $chart;
 	public $widget_box;
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 4, 6, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
         $this->color = 'rgb(242,229,206)';
         $this->widget_box = $array['widget_box'];
     }
@@ -32,10 +32,7 @@ class registered_users_widget extends widget
         $total_subs = self::get_total_subs();
         $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $_SESSION['boxes'][$this->widget_box]['mi_conn'], $errors);
         $reg_contacts = mi_command("get_statistics", array("statistics" => array("usrloc:location-contacts")), $_SESSION['boxes'][$this->widget_box]['mi_conn'], $errors);
-        $reg_subs = 12;
-        $total_subs = 19;
-        $reg_contacts = 2;
-		$elems['reg_subs'] = $reg_subs;
+		$elems['reg_subs'] = $reg_subs['usrloc:location-users'];
 		$elems['total_subs'] = $total_subs;
 		$elems['reg_contacts'] = $reg_contacts;
         $_SESSION['pie_elements'] = $elems;
@@ -46,16 +43,11 @@ class registered_users_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
     }
     
-    public static function get_boxes() {
-        $boxes_names = [];
-        foreach ($_SESSION['boxes'] as $box) {
-            $boxes_names[] = $box['id'];
-        }
-        return $boxes_names;
-    }
+
   
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) {
+		$boxes_info = self::get_boxes();
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
-        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }

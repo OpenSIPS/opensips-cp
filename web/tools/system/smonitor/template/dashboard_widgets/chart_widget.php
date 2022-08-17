@@ -77,15 +77,8 @@ class chart_widget extends widget
         ');
     }
 
-    public static function get_boxes() {
-        $boxes_names = [];
-        foreach ($_SESSION['boxes'] as $box) {
-            $boxes_names[] = $box['id'];
-        }
-        return $boxes_names;
-    }
-
     public static function new_form($params = null) {
+		$boxes_info = self::get_boxes();
         if (is_null($params))
 			$init = 1;
 		else $init = 0;
@@ -93,7 +86,7 @@ class chart_widget extends widget
 		$options = (!$init)?$stats_list[$params['widget_box']]:$stats_list[0];
 		$options = array_merge($stats_list["Group"], $options);
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
-        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
         form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], $options);
         self::chart_box_selection($stats_list, $init);
     }

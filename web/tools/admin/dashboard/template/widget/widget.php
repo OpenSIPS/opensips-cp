@@ -51,6 +51,18 @@ abstract class widget
         return '<li style="'.$color.$border.'" class="dashboard_edit dashboard_edit_body"  id='.$this->id.'>'.$menu.'</li>';
     }
 
+    public static function get_boxes() {
+        $boxes_names = [];
+		$boxes_ids = [];
+        foreach ($_SESSION['boxes'] as $box) {
+			$boxes_names[] = $box['name'];
+            $boxes_ids[] = $box['id'];
+        }
+		$boxes_info[0] = $boxes_ids;
+		$boxes_info[1] = $boxes_names;
+        return $boxes_info;
+    }
+
     function set_id($id) {
         $this->id = $id;
     }

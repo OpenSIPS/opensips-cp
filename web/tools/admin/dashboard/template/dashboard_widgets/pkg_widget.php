@@ -129,21 +129,14 @@ class pkg_widget extends widget
 		return array_slice($top, 0 , 4);
 	}
 
-    public static function get_boxes() {
-        $boxes_names = [];
-        foreach ($_SESSION['boxes'] as $box) {
-            $boxes_names[] = $box['id'];
-        }
-        return $boxes_names;
-    }
-
     function get_as_array() {
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) {
+		$boxes_info = self::get_boxes();
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
-		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 	}
 
 }

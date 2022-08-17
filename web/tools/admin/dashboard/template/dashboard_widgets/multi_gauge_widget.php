@@ -28,20 +28,13 @@ class multi_gauge_widget extends gauge_widget
         return array("shmem:real_used_size", "load:load", "load:load1m", "load:load10m");
     }
 
-    public static function get_boxes() {
-        $boxes_names = [];
-        foreach ($_SESSION['boxes'] as $box) {
-            $boxes_names[] = $box['desc'];
-        }
-        return $boxes_names;
-    }
-
     public static function new_form($params = null) {
+		$boxes_info = self::get_boxes();
 		if (!isset($params['widget_max']))
 			$params['widget_max'] = 100;
         form_generate_input_text("Title", "Title to be displayed on widget", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Statistic", "Statistic that widget should display", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_input_text("Max value", "Max value of statistic", "widget_max", "y", $params['widget_max'], 20,null);
-        form_generate_select("Box", "Box to extract data from", "widget_box", null,  $params['widget_box'], self::get_boxes());
+        form_generate_select("Box", "Box to extract data from", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }

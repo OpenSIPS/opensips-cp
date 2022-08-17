@@ -29,8 +29,7 @@
 </td>
  </tr>
 </table>
-</center>
- <table style="position:relative; left: 100px; bottom :50px; " id="panel_buttons">
+ <table style="position:relative;  bottom :50px; " id="panel_buttons">
      <tr><td>
  <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" method="post">
  <?php csrfguard_generate();
@@ -41,6 +40,7 @@
  if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Import New Widget" class="formButton add-new-btn">') ?>
 </form></td></tr></table>
 
+</center>
 
 <head>
 <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">

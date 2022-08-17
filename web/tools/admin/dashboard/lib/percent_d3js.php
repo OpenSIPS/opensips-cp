@@ -33,15 +33,15 @@ function display_indicator(arg1, arg2, arg3) {
 
         margin = {
             top: 20,
-            right: 20,
+            right: 40,
             bottom: 20,
-            left: 20
+            left: 60
         };
 
-        width = 300;
+        width = 150;
         height = width;
         radius = Math.min(width, height) / 2;
-        barWidth = 40 * width / 300;
+        barWidth = 20 * width / 150;
 
         // Utility methods 
         percToDeg = function (perc) {
@@ -58,8 +58,8 @@ function display_indicator(arg1, arg2, arg3) {
 
         // Create SVG element
         svg = el.append('svg')
-		.attr('transform', "translate(" + (20) + ", " + (20) + ")")
-		.attr('width', width + margin.left + margin.right + 90).attr('height', height / 1.5 + margin.top + margin.bottom);		// height/1.5 To Remove Extra Bottom Space
+		.attr('transform', "translate(" + (0) + ", " + (0) + ")")
+		.attr('width', width + margin.left + margin.right ).attr('height', height / 1.5 + margin.top + margin.bottom);		// height/1.5 To Remove Extra Bottom Space
 
         // Add layer for the panel
         chart = svg.append('g').attr('transform', "translate(" + ((width + margin.left) / 2 ) + ", " + ((height + margin.top) / 2) + ")");
@@ -174,16 +174,16 @@ function display_indicator(arg1, arg2, arg3) {
                     return "Value: ".concat(dataset[0].value);
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (0) + ", " + 16 + ")")
-                .attr("font-size", 12)
+                .attr('transform', "translate(" + (0) + ", " + 11 + ")")
+                .attr("font-size", 9)
                 .style("fill", '#000000');
 			texts.append("text")
                 .text(function () {
                     return "Percent: ".concat((arg1/arg3 * 100).toFixed(2)).concat("%");
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (240) + ", " + 16 + ")")
-                .attr("font-size", 12)
+                .attr('transform', "translate(" + (160) + ", " + 11 + ")")
+                .attr("font-size", 9)
                 .style("fill", '#000000');
         }
 
@@ -192,7 +192,7 @@ function display_indicator(arg1, arg2, arg3) {
                 return 0;
             })
             .attr('id', 'scale0')
-            .attr('transform', "translate(" + ((width + margin.left) / 100 ) + ", " + ((height + margin.top) / 2) + ")")
+            .attr('transform', "translate(" + ((width + margin.left) / 100  + 15) + ", " + ((height + margin.top) / 2) + ")")
             .attr("font-size", 10)
             .style("fill", "#000000");
 
@@ -211,7 +211,7 @@ function display_indicator(arg1, arg2, arg3) {
                 return gaugeMaxValue;
             })
             .attr('id', 'scale20')
-            .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 5 ) + ", " + ((height + margin.top) / 2) + ")")
+            .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 20 ) + ", " + ((height + margin.top) / 2) + ")")
             .attr("font-size", 10)
             .style("fill", "#000000");
 

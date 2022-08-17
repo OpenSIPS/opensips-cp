@@ -7,7 +7,7 @@ class gauge_widget extends widget
 	public static $ignore = 1;
 	
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 4, 5, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 3, 3, $array['widget_title']);
         $this->color = 'rgb(219,255,244)';
         $this->chart = $array['widget_chart'];
     }

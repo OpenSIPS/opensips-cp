@@ -51,6 +51,12 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
+if ($default == -1 && $action == "") {
+	$action = "edit_panel";
+} else if ($action == "") {
+	$action = "display_panel";
+}
+
 if ($action=="edit_panel")
 {  	
     require("template/".$page_id.".edit_panel.php");
@@ -162,7 +168,7 @@ if ($action=="delete")
 		$stm->execute( array($id) );
 		unset($_SESSION['config']['panels'][$id]);
 		$action = "edit_panel";
-		header("Refresh:0; url=dashboard.php");
+		header("Refresh:1");
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -208,7 +214,10 @@ if ($action == "details") {
 
 if ($action == "display_panel") {
 	
-	$panel_id = $_GET['panel_id'];
+	if (isset($_GET['panel_id']))
+		$panel_id = $_GET['panel_id'];
+	else $panel_id = $default;
+	
 
 	foreach(json_decode($_SESSION['config']['panels'][$panel_id]['content']) as $el) {
 		if ($el->type == "chart") {
@@ -302,10 +311,10 @@ if ($action == "add_verify") {
 		  print $form_error;
 		  $action="add_verify";
 		}
-		header("Refresh:0; url=dashboard.php?action=edit_panel");
    } else {
 	   $errors= "User with Read-Only Rights";
 	  }
+	  echo '<script>window.location = "index.php";</script>';
 }
 
 if ($action == "clone_panel") {
@@ -354,7 +363,7 @@ if ($action == "move_panels") {
 	if ($order_id1 != -1 && $order_id2 != -1) {
 		swap_panels($order_id1, $order_id2, $table);
 	}
-	header("Refresh:0; url=dashboard.php?action=edit_panel");
+	echo '<script>window.location = "dashboard.php?action=edit_panel";</script>';
 }
 
 require("template/".$page_id.".main.php");
