@@ -99,6 +99,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Load Balancer"
 			),
+			"stream"				=> array (
+				"enabled"		=> true,
+				"name"			=> "Stream"
+			),
 			"mi"				=> array (
 				"enabled"		=> true,
 				"name"			=> "MI Commands"
