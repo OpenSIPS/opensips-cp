@@ -5,7 +5,7 @@ require_once(__DIR__."/gauge_widget.php");
 class load_widget extends gauge_widget
 {
     public $chart;
-	public static $ignore = 0;
+	public static $ignore = 1;
 
     function __construct($array) {
         parent::__construct($array);
@@ -26,17 +26,10 @@ class load_widget extends gauge_widget
         return array("load", "load1m", "load10m");
     }
 
-    public static function get_boxes() {
-        $boxes_names = [];
-        foreach ($_SESSION['boxes'] as $box) {
-            $boxes_names[] = $box['desc'];
-        }
-        return $boxes_names;
-    }
-
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) {
+		$boxes_info = self::get_boxes();
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
-        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }

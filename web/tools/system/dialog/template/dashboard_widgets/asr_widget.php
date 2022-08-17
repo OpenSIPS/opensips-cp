@@ -17,10 +17,9 @@ class asr_widget extends gauge_widget
     function echo_content() {
         $processed_dialogs = mi_command("get_statistics", array("statistics" => array("processed_dialogs")), $_SESSION['boxes'][0]['mi_conn'], $errors);
         $failed_dialogs = mi_command("get_statistics", array("statistics" => array("failed_dialogs")), $_SESSION['boxes'][0]['mi_conn'], $errors);
-		
         $processed_dialogs = $processed_dialogs["dialog:processed_dialogs"];
 		$failed_dialogs = $failed_dialogs["dialog:failed_dialogs"];
-		$this->display_chart($this->id, $this->title, $processed_dialogs, $processed_dialogs + $failed_dialogs);
+		$this->display_chart($this->title, $processed_dialogs, $processed_dialogs + $failed_dialogs);
     }
 
     public static function new_form($params = null) {  

@@ -15,11 +15,11 @@
 display_pie_chart(<?php echo json_encode($_SESSION['pie_elements']) ?>);
 
 function display_pie_chart(arg1) {
-var width = 490
-    height = 350
-    margin = 40
+var width = 250
+    height = 143
+    margin = 16
 
-var radius = Math.min(290, height) / 2 - margin
+var radius = Math.min(118, height) / 2 - margin
 var total = arg1['total_subs'];
 var reg = arg1['reg_subs'];
 var contacts = arg1['reg_contacts'];
@@ -28,9 +28,9 @@ var svg = d3.select("#" + "<?=$_SESSION['ru_widget_id']?>")
   .append("svg")
     .attr("width", width)
     .attr("height", height)
-    .attr("transform", "translate(" + (1 - 50)+ "," + 0 + ")")
+    .attr("transform", "translate(" + (1 - 15)+ "," + (-13) + ")")
   .append("g")
-    .attr("transform", "translate(" + 160 + "," + (height / 2 - 40) + ")");
+    .attr("transform", "translate(" + 55 + "," + (height / 2) + ")");
 
 var data = {"Reg. Users": reg, "": total-reg}
 
@@ -65,12 +65,12 @@ svg
   .text(function(d){ return d.data.key + " " + (d.data.value/total * 100).toFixed(2) + "%"})
   .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
   .style("text-anchor", "middle")
-  .style("font-size", 17)
+  .style("font-size", 9)
 
-  svg.append("text").attr("x", 100).attr("y", -110 ).text("Total subscribers: " + total).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 51).attr("y", -45 ).text("Total subs: " + total).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
     
-  svg.append("text").attr("x", 100).attr("y", -85 ).text("Registered subs: " + reg).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 51).attr("y", -25 ).text("Reg. subs: " + reg).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
     
-  svg.append("text").attr("x", 100).attr("y", -60 ).text("Registered contacts: " + contacts).style("font-size", "13px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 51).attr("y", -5 ).text("Reg. contacts: " + contacts).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
 }
 </script>

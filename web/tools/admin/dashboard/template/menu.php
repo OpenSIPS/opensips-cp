@@ -39,6 +39,11 @@
           }
           $sorted_panels = $_SESSION['config']['panels'];
           array_multisort($orders, SORT_ASC, $sorted_panels);
+		  if (count($sorted_panels) > 0)
+		  	$default = $sorted_panels[0]['id'];
+		  if (!isset($_GET['action']))
+		  	$current_tab = $default;
+		  else $default = -1; // edit panels (no panels available);
           foreach ( $sorted_panels as $id => $elem)
             $config->menu_item[] = array(
               "dashboard.php?action=display_panel&panel_id=".$elem['id'], // page name
@@ -52,9 +57,10 @@
         if (!isset($config->menu_item)) echo('<font class="menuItemSelect">&nbsp;</font>');
         else
         while (list($key,$value) = each($config->menu_item))
-        {
+        {		
         	if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
-        	if ($current_tab!=$config->menu_item[$key]["0"]) echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$config->menu_item[$key]["1"].'</a>');
+        	if ($_SESSION['config']['panels'][$current_tab]['name'] != $config->menu_item[$key]["1"] && $current_req != $config->menu_item[$key]["0"])
+				echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$config->menu_item[$key]["1"].'</a>');
         	else echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItemSelect">'.$config->menu_item[$key]["1"].'</a>');
         	$first_item = false;
         }

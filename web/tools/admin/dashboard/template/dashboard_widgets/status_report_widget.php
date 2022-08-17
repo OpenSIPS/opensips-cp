@@ -52,25 +52,18 @@ class status_report_widget extends widget
        $this->display_test();
     }
 
-	public static function get_boxes() {
-        $boxes_names = [];
-        foreach ($_SESSION['boxes'] as $box) {
-            $boxes_names[] = $box['id'];
-        }
-        return $boxes_names;
-    }
-
     function get_as_array() {
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form($params = null) { 
+    public static function new_form($params = null) {
+		$boxes_info = self::get_boxes();
 		if (!isset($params['widget_identifier']))
 			$params['widget_identifier'] = "main"; 
         form_generate_input_text("Name", "", "widget_name", "n", $params['widget_name'], 20,null);
         form_generate_input_text("Group", "", "widget_group", "n", $params['widget_group'], 20,null);
         form_generate_input_text("Identifier", "", "widget_identifier", "n", $params['widget_identifier'], 20,null);
-    	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], self::get_boxes());
+    	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 	}
 
 }

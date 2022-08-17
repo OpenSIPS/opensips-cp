@@ -48,7 +48,7 @@ function lockPanel() {
 	edit_btn.style.opacity = "1";
 	const btn = document.getElementById('lockButton');
 	btn.style.content = "url('../../../images/dashboard/unlock.png')";
-	gridster.enable_resize();
+	//gridster.enable_resize();
     gridster.enable();
 	const menus = document.getElementsByClassName('dashboard_menu');
 	for(const menu of menus) { //display menu in editing mode
