@@ -19,11 +19,7 @@
 * along with this program; if not, write to the Free Software
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-function consoole_log( $data ){
-	echo '<script>';
-	echo 'console.log('. json_encode( $data ) .')';
-	echo '</script>';
-  } //  DE_STERS
+
 require_once("../../../common/cfg_comm.php");
 require_once("../../../common/mi_comm.php");
 require_once("template/functions.inc.php");
@@ -168,7 +164,7 @@ if ($action=="delete")
 		$stm->execute( array($id) );
 		unset($_SESSION['config']['panels'][$id]);
 		$action = "edit_panel";
-		header("Refresh:1");
+		echo '<script>window.location = "dashboard.php?action=edit_panel";</script>';
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -212,7 +208,7 @@ if ($action == "details") {
 	exit();
 }
 
-if ($action == "display_panel") {
+if ($action == "display_panel" || $action == "view_new_panel") {
 	
 	if (isset($_GET['panel_id']))
 		$panel_id = $_GET['panel_id'];
@@ -314,7 +310,7 @@ if ($action == "add_verify") {
    } else {
 	   $errors= "User with Read-Only Rights";
 	  }
-	  echo '<script>window.location = "index.php";</script>';
+	  echo '<script>window.location = "dashboard.php?action=view_new_panel";</script>';
 }
 
 if ($action == "clone_panel") {
