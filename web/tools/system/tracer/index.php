@@ -21,14 +21,14 @@
  */
 
  
- require("../../../../config/tools/system/statusreport/db.inc.php");
+ require("../../../../config/tools/system/tracer/db.inc.php");
  require("../../../../config/db.inc.php");
  require("../../../common/mi_comm.php"); 
  require("../../../common/cfg_comm.php"); 
 
  require_once("../../../../config/session.inc.php");
- get_priv("stream");
+ get_priv("tracer");
 
- header("Location: stream.php");
+ header("Location: tracer.php");
  
 ?>

@@ -99,9 +99,9 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Load Balancer"
 			),
-			"stream"				=> array (
+			"tracer"				=> array (
 				"enabled"		=> true,
-				"name"			=> "Stream"
+				"name"			=> "Tracer"
 			),
 			"mi"				=> array (
 				"enabled"		=> true,

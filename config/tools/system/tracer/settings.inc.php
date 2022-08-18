@@ -20,38 +20,38 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 	global $table_regex;
-
+	$re_ip = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
 if (!isset($config)) 
     $config = new stdClass();
 
-$config->stream = array(
+$config->tracer = array(
 	"hep_bind_ip" => array(
 		"default" => "",
 		"opt"     => "y",
 		"name"    => "HEP bind IP",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $re_ip
 	),
 	"hep_bind_port" => array(
 		"default" => "",
 		"opt"     => "y",
 		"name"    => "HEP bind port",
-		"type"    => "text",
-		"validation_regex" => null,
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
 	),
 	"hep_advertised_ip" => array(
 		"default" => "",
 		"opt"     => "y",
 		"name"    => "HEP advertised IP",
 		"type"    => "text",
-		"validation_regex" => null,
+		"validation_regex" => $re_ip,
 	),
 	"hep_advertised_port" => array(
 		"default" => "",
 		"opt"     => "y",
 		"name"    => "HEP advertised port",
-		"type"    => "text",
-		"validation_regex" => null,
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
 	),
 	"hep_trace_identifier_prefix" => array(
 		"default" => "opensips-cp",

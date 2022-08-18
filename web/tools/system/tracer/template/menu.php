@@ -48,7 +48,7 @@ $boxlist=inspect_config_mi();
 <table width="100%" border="0" cellpadding="0" cellspacing="0" align="center">
   <tr>
     <td class="breadcrumb">
-        <?php print "System / Stream / ".$_SESSION['permission']; ?>
+        <?php print "System / Tracer / ".$_SESSION['permission']; ?>
     </td>
     <td align=right style="border-bottom: 1px solid #ccc!important">
 

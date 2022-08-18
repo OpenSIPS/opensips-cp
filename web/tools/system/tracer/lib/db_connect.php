@@ -20,22 +20,25 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require_once("../../../../config/db.inc.php");
+require_once("../../../../config/tools/system/tracer/db.inc.php");
 
- //database host
- //$config->db_host_stream = "localhost";
- 
- //database port - leave empty for default
- //$config->db_port_stream = "";
- 
- //database connection user
- //$config->db_user_stream = "root";
- 
- //database connection password
- //$config->db_pass_stream = "mysql";
- 
- //database name
- //$config->db_name_stream = "opensips";
- 
- //if ($config->db_port_stream != "") $config->db_host_stream = $config->db_host_stream . ";port=" . $config->db_port_stream;
- 
+global $config;
+if (isset($config->db_host_tracer) && isset($config->db_user_tracer) && isset($config->db_name_tracer) ) {
+	$config->db_host = $config->db_host_tracer;
+	$config->db_port = $config->db_port_tracer;
+	$config->db_user = $config->db_user_tracer;
+	$config->db_pass = $config->db_pass_tracer;
+	$config->db_name = $config->db_name_tracer;
+}
+
+$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+try {
+	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+} catch (PDOException $e) {
+	error_log(print_r("Failed to connect to: ".$dsn, true));
+	print "Error!: " . $e->getMessage() . "<br/>";
+	die;
+}
+
 ?>

@@ -23,7 +23,7 @@
 
 require("../../../common/cfg_comm.php");
 require("../../../common/mi_comm.php");
-require("../../../../config/tools/system/smonitor/db.inc.php");
+require("../../../../config/tools/system/tracer/db.inc.php");
 require("../../../../config/db.inc.php");
 require_once('../../../../config/boxes.load.php');
 require("../../../../config/session.inc.php");
@@ -47,7 +47,7 @@ if ($action == "start") {
 
 }
 echo ('
-<form action="stream.php?action=start" method="post">
+<form action="tracer.php?action=start" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0" name="filters_table">
 <tr align="center">
 <td colspan="2" height="10" class="mainTitle">Set filters</td>
@@ -61,7 +61,7 @@ echo (' <tr>
   <table cellspacing=20>
 	<tr>
 	  <td class="dataRecord" align="left" width="50%"><input type="submit" name="setFilters" value="Start" class="formButton"></td>');
-	  if ($action == "start") echo ('<td class="dataRecord" align="right" width="50%"><input onclick="window.location.href=\'stream.php\';" class="formButton" value="Stop" type="button"></td>');
+	  if ($action == "start") echo ('<td class="dataRecord" align="right" width="50%"><input onclick="window.location.href=\'tracer.php\';" class="formButton" value="Stop" type="button"></td>');
 echo ('
 	</tr>
   </table>
@@ -101,7 +101,7 @@ if ($action == "start") {
 	}
 	$result = socket_bind($socket, $host, $port) or die(" bind fail\n");
 	$res = mi_command("trace_start", array("id" => $prefix.$random, "uri" => "hep:".$adv_ip.":".$adv_port.";transport=tcp;version=3"), $boxes[0]['mi_conn'], $errors);
-	consoole_log("trace start: ".$res);
+
 	$result = socket_listen($socket, 3) or die(" listen fail\n");
 	$i = 0;
 	while (true) {
@@ -141,7 +141,7 @@ if ($action == "start") {
 	   socket_close($spawn);
 	}
 	$res = mi_command("trace_stop", array("id" => $prefix.$random), $boxes[0]['mi_conn'], $errors);
-	consoole_log("trace stop: ".$res);
+
 }
 
 

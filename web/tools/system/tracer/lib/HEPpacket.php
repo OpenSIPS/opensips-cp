@@ -75,7 +75,6 @@ class HEPpacket
     function parse() { 
 		$payloads = $this->payloads;
 		$length = count($payloads);
-		consoole_log("New package");
 		while ($length > 0) { 
 			if ($length < 6) {
 				$this->errors .= "Payload too small\n";
@@ -94,7 +93,7 @@ class HEPpacket
 		}
 	}
 
-	function push_chunk($vendor, $type_id, $payload) { //consoole_log("Type: ".$type);
+	function push_chunk($vendor, $type_id, $payload) {
 		if ($vendor != 0) {
 			$this->errors .= "Unknown vendor id\n";
 			//throw new Exception('Unknown vendor id\n');

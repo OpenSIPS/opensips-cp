@@ -28,7 +28,7 @@
  require_once("lib/functions.inc.js");
  $page_name = basename($_SERVER['SCRIPT_NAME']);
  $page_id = substr($page_name, 0, strlen($page_name) - 4);
- $_SESSION['current_tool'] = 'stream';
+ $_SESSION['current_tool'] = 'tracer';
  $_SESSION['current_group'] = get_group();
  $no_result = "No Data Found.";
 ?>
@@ -38,12 +38,6 @@
 <head>
  <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
-<script>
-// function closeStream() {
-// 	closeTracing("capcaun");
-// 	return true;
-// }
-</script>
 <body bgcolor="#e9ecef" > 
 <center>
 <table width="90%" cellpadding="5" cellspacing="5" border="0">
