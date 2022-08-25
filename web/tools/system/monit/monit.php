@@ -26,9 +26,9 @@ require_once("../../../../config/session.inc.php");
 require("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 get_priv("monit");
-session_load();
 require("template/header.php");
-                    
+session_load();
+
 $current_box=$_SESSION['monit_current_box'];
 if (empty($current_box))
 $current_box="";
