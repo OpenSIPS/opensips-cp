@@ -87,6 +87,7 @@
 $carrier_attrs_colspan = 0;
 $carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
 $carrier_attributes = get_settings_value("carrier_attributes");
+$memory_status = get_settings_value("memory_status");
 if ($carrier_attributes_mode != "none") {
 	if ($carrier_attributes_mode == "input") {
 		echo('<th class="listTitle"><'.$carrier_attributes["display_name"].'></th>');
@@ -98,15 +99,20 @@ if ($carrier_attributes_mode != "none") {
 		$carrier_attrs_colspan = count($carrier_attributes);
 	}
 }
+if ($memory_status == "0")
+	$carrier_attrs_colspan--;
 ?>
   <th class="listTitle">DB State</th>
+<?php if ($memory_status != "0") { ?>
   <th class="listTitle">Memory State</th>
+<?php } ?>
   <th class="listTitle">Details</th>
   <th class="listTitle">Edit</th>
   <th class="listTitle">Delete</th>
  </tr>
 
 <?php
+if ($memory_status != "0") {
 //get status for all the gws
 $carrier_statuses = Array ();
 
@@ -122,6 +128,7 @@ if (!is_null($message)) {
 	$message = $message['Carriers'];
 	for ($j=0; $j<count($message); $j++)
 		$carrier_statuses[$message[$j]['ID']]= trim($message[$j]['Enabled']);
+}
 }
 //end get status
 
@@ -187,6 +194,7 @@ if (!is_null($message)) {
     else 
 		$description="&nbsp;";
 
+if ($memory_status != "0") {
 	//handle status
 	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
 
@@ -194,6 +202,7 @@ if (!is_null($message)) {
 	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
       else
 	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
+}
 
    switch ($resultset[$i]['state']) {
    	case "0" : $state = "Active"; break;

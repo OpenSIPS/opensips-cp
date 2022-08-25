@@ -107,6 +107,7 @@
 $gw_sockets = get_settings_value("sockets");
 $gw_attributes_mode = get_settings_value("gw_attributes_mode");
 $gw_attributes = get_settings_value("gw_attributes");
+$memory_status = get_settings_value("memory_status");
 if ($gw_attributes_mode == "input") {
 ?>
  <tr>
@@ -157,16 +158,21 @@ if ($gw_attributes_mode != "none") {
 		}
 	}
 }
+if ($memory_status == "0")
+	$gw_attrs_colspan--;
 ?>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
+<?php if ($memory_status != "0") { ?>
   <th class="listTitle">Memory State</th>
+<?php } ?>
   <th class="listTitle">Details</th>
   <th class="listTitle">Edit</th>
   <th class="listTitle">Delete</th>
  </tr>
 <?php
 
+if ($memory_status != "0") {
 //get status for all the gws (from the first server only)
 $gw_statuses = Array ();
 
@@ -181,6 +187,7 @@ if (!is_null($message)) {
 	for ($j=0; $j<count($message); $j++){
 		$gw_statuses[$message[$j]['ID']]= trim($message[$j]['State']);
 	}
+}
 }
 
  if ($sql_search=="") {
@@ -233,6 +240,7 @@ if (!is_null($message)) {
    if (strlen($resultset[$i]['description'])>23) $description=substr($resultset[$i]['description'],0,20)."...";
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
+if ($memory_status != "0") {
    $gw_status = $gw_statuses[$resultset[$i]['gwid']];
 	
 	switch ($gw_status) {
@@ -251,7 +259,8 @@ if (!is_null($message)) {
 		default: 
 			$status = "n/a";
 	}
-	
+}
+
    if ($resultset[$i]['pri_prefix']!="") $pri_prefix=$resultset[$i]['pri_prefix'];
     else $pri_prefix="&nbsp;";
 

@@ -39,9 +39,11 @@
     <td class="dataRecord"><b>Use only first:</b> <?=$resultset[0]['useonlyfirst']?></td>
  </tr>
 
+<?php if (get_settings_value("memory_status") != "0") { ?>
  <tr>
      <td class="dataRecord"><b>Memory state:</b> <?=$resultset[0]['enabled']?></td>
  </tr>
+<?php } ?>
  <tr>
 	<td class="dataRecord"><b>DB State:</b>
 		<?php 

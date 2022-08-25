@@ -42,7 +42,13 @@ $config->drouting = array(
 		"tip"     => "As OCP can manage multiple OpenSIPS instances, this is the association
 		 ID pointing to the group of servers (system) which needs to be provision with this drouting information."
 	),
-
+	"memory_status" => array(
+		"default" => "1",
+		"name"    => "Memory Status",
+		"options" => array('Enabled'=>'1', 'Disabled'=>'0'),
+		"type"    => "dropdown",
+		"tip"     => "Enables or disables the gateways and carriers memory status"
+	),
 
 	"title1" => array(
 		"type" => "title",
