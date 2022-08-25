@@ -59,9 +59,9 @@ CREATE TABLE ocp_boxes_config (
   monit_user text DEFAULT NULL,
   monit_pass text DEFAULT NULL,
   monit_ssl text DEFAULT NULL,
-  desc text NOT NULL DEFAULT '',
+  "desc" text NOT NULL DEFAULT '',
   smonitcharts text DEFAULT NULL,
-  assoc_id integer DEFAULT '-1',
+  assoc_id integer DEFAULT '-1'
 );
 
 INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
