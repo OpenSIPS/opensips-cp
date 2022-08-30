@@ -386,15 +386,14 @@ if ($action == "change_name_verify") {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		if ($stm->execute( array($_POST['panel_name'], $_GET['panel_id'])) == false) {
-			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
+			$errors= "Changing record into DB failed: ".print_r($stm->errorInfo(), true);
 			$form_valid=false;
 		} 
 		if ($form_valid) {
-		  print "New Panel added!";
+		  print "Panel name changed!";
 		  $action="edit_panel";
 		} else {
 		  print $form_error;
-		  $action="add_verify";
 		}
    } else {
 	   $errors= "User with Read-Only Rights";
