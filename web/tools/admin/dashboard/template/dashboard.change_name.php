@@ -29,7 +29,7 @@ require_once("../../../common/forms.php");
   <td colspan="2" height="10" class="mainTitle">Change Panel Name</td>
  </tr>
   <?php 
-    form_generate_input_text("New name", null, "panel_name", false, "", 20, null);   
+    form_generate_input_text("New name", null, "panel_name", false, $_SESSION['config']['panels'][$panel_id]['name'], 20, null);   
 ?>
 
  <tr>
