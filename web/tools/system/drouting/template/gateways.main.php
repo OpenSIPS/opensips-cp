@@ -314,7 +314,9 @@ if ($gw_attributes_mode == "input") {
 ?>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style?>"><?=$state?></td>
+<?php if ($memory_status != "0") { ?>
   <td class="<?=$row_style."Img"?>" align="center"><?=$status?></td>
+<?php } ?>
   <td class="<?=$row_style."Img"?>" align="center"><?=$details_link?></td>
   <td class="<?=$row_style."Img"?>" align="center"><?=$edit_link?></td>
   <td class="<?=$row_style."Img"?>" align="center"><?=$delete_link?></td>

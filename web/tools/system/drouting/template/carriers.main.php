@@ -240,7 +240,9 @@ if ($carrier_attributes_mode == "input") {
 }
 ?>
   <td class="<?=$row_style?>" align="center"><?=$state?></td>
+<?php if ($memory_status != "0") { ?>
   <td class="<?=$row_style?>" align="center"><?=$status?></td>
+<?php } ?>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$details_link?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$edit_link?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="1"><?=$delete_link?></td>
