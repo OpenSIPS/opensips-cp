@@ -65,11 +65,79 @@ if (!$stmt->execute($credentials)) {
 }
 
 $resultset = $stmt->fetchAll();
-
 if (isset($resultset) && count($resultset)==0) {
-    $log = "[NOK] [".date("d-m-Y")." ".date("H:i:s")."] '$name' / '$password' from '".$_SERVER['REMOTE_ADDR']."'\n";
-    header("Location:index.php?err=1");
-        exit();
+	$log = "[NOK] [".date("d-m-Y")." ".date("H:i:s")."] '$name' / '$password' from '".$_SERVER['REMOTE_ADDR']."'\n";
+	$err = 1;
+	if (isset($config->lockout_failed_attempts)) {
+		/* get the user's profile to see if it has to be locked out */
+		$stmt = $link->prepare("SELECT * FROM ocp_admin_privileges WHERE username = ?");
+		if (!$stmt->execute(array($name))) {
+			print_r("Failed to login!");
+			error_log(print_r($stmt->errorInfo(), true));
+			die;
+		}
+		$resultset = $stmt->fetchAll();
+		if (isset($resultset) && count($resultset)!=0) {
+			if ($resultset[0]['blocked'] == NULL) {
+				if ($resultset[0]['failed_attempts'] + 1 >= $config->lockout_failed_attempts) {
+					$query = "UPDATE ocp_admin_privileges SET blocked = NOW(), failed_attempts = failed_attempts + 1 WHERE username = ?";
+					$err = 3;
+				} else {
+					$query = "UPDATE ocp_admin_privileges SET failed_attempts = failed_attempts + 1 WHERE username = ?";
+				}
+				$stmt = $link->prepare($query);
+				if (!$stmt->execute(array($name))) {
+					print_r("Failed to login!");
+					error_log(print_r($stmt->errorInfo(), true));
+					die;
+				}
+			} else {
+				$block_time = strtotime($resultset[0]['blocked']);
+				if ($block_time + $config->lockout_block_time < $_SERVER['REQUEST_TIME']) {		
+					$query = "UPDATE  ocp_admin_privileges SET blocked = NULL, failed_attempts = 1 WHERE username = ?";
+				} else {
+					$err = 3;
+				}
+				if ($query != NULL) {
+					$stmt = $link->prepare($query);
+					if (!$stmt->execute(array($name))) {
+						print_r("Failed to login!");
+						error_log(print_r($stmt->errorInfo(), true));
+						die;
+					}
+				}
+			}
+		}
+	}
+	header("Location:index.php?err=$err");
+	exit();
+}
+
+if (isset($config->lockout_failed_attempts)) {
+	$err = NULL;
+	$query = NULL;
+	if ($resultset[0]['blocked'] != NULL) {
+		$block_time = strtotime($resultset[0]['blocked']);
+		if ($block_time + $config->lockout_block_time < $_SERVER['REQUEST_TIME']) {
+			$query = "UPDATE  ocp_admin_privileges SET blocked = NULL, failed_attempts = 0 WHERE username = ?";
+		} else {
+			$err = 3;
+		}
+	} else if ($resultset[0]['failed_attempts'] != 0) {
+		$query = "UPDATE  ocp_admin_privileges SET failed_attempts = 0 WHERE username = ?";
+	}
+	if ($query != NULL) {
+		$stmt = $link->prepare($query);
+		if (!$stmt->execute(array($name))) {
+			print_r("Failed to login!");
+			error_log(print_r($stmt->errorInfo(), true));
+			die;
+		}
+	}
+	if ($err != NULL) {
+		header("Location:index.php?err=$err");
+		exit();
+	}
 }
 
 $avail_tools = $resultset[0]['available_tools'];

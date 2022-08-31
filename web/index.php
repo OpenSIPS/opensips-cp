@@ -85,6 +85,7 @@
  if (isset($_GET['err'])) {
  if ($_GET['err']==1) echo('<div class="loginError">'.$login_err.'</div>');
  if ($_GET['err']==2) echo('<div class="loginError">'.$session_err.'</div>');
+ if ($_GET['err']==3) echo('<div class="loginError">Account Blocked</div>');
  }
 ?>
 </center>
