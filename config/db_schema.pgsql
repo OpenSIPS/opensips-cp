@@ -6,6 +6,8 @@ CREATE TABLE ocp_admin_privileges (
   username text NOT NULL default '',
   password text NOT NULL default '',
   ha1 text default '',
+  blocked text default NULL,
+  failed_attempts integer default 0,
   available_tools text NOT NULL default '',
   permissions text default NULL
 );

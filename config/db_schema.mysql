@@ -5,6 +5,8 @@ CREATE TABLE `ocp_admin_privileges` (
   `username` varchar(64) NOT NULL default '',
   `password` varchar(64) NOT NULL default '',
   `ha1` varchar(256) default '',
+  `blocked` varchar(60) default NULL,
+  `failed_attempts` int default 0,
   `available_tools` varchar(512) NOT NULL default '',
   `permissions` varchar(512) default NULL,
   PRIMARY KEY  (`id`)
