@@ -37,7 +37,7 @@ if(!$_SESSION['read_only']){
   <?php
   if(!$_SESSION['read_only']){
 
-  	echo('<th class="listTitle">Edit</th>
+  	echo('<th class="listTitle">Rename</th>
         <th class="listTitle">Clone</th>
 		<th class="listTitle">Delete</th>
 		<th class="listTitle">Move</th>');
@@ -87,7 +87,7 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$edit_link = '<a href="'.$page_name.'?action=display_panel&panel_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$edit_link = '<a href="'.$page_name.'?action=change_panel_name&panel_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 			$clone_link = '<a href="'.$page_name.'?action=clone_panel&panel_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&panel_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 			$move_link='<table style="width:40px; table-layout:fixed; border-spacing: 0px; "><tr><td style="border-left-width: 0px; border-bottom-width: 0px; border-top-width: 0px;">';

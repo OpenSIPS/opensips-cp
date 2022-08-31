@@ -362,6 +362,46 @@ if ($action == "move_panels") {
 	echo '<script>window.location = "dashboard.php?action=edit_panel";</script>';
 }
 
+if ($action == "change_panel_name") {
+	
+	extract($_POST);
+	$panel_id = $_GET['panel_id'];
+	if(!$_SESSION['read_only'])
+	{
+			require("template/".$page_id.".change_name.php");
+			require("template/footer.php");
+			exit();
+	} else {
+			$errors= "User with Read-Only Rights";
+	}
+}
+
+
+if ($action == "change_name_verify") { 
+	if(!$_SESSION['read_only']){
+		extract($_POST);
+		$sql = 'UPDATE '.$table.' SET name = ? WHERE id = ? ';
+				$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($_POST['panel_name'], $_GET['panel_id'])) == false) {
+			$errors= "Changing record into DB failed: ".print_r($stm->errorInfo(), true);
+			$form_valid=false;
+		} 
+		if ($form_valid) {
+		  print "Panel name changed!";
+		  $action="edit_panel";
+		} else {
+		  print $form_error;
+		}
+   } else {
+	   $errors= "User with Read-Only Rights";
+	  }
+	  echo '<script>window.location = "dashboard.php?action=edit_panel";</script>';
+}
+
+
 require("template/".$page_id.".main.php");
 if($errors) echo($errors);
 require("template/footer.php");
