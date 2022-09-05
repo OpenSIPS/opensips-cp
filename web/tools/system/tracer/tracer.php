@@ -47,15 +47,15 @@ if ($action == "start") {
 
 }
 echo ('
-<form action="tracer.php?actio	n=start" method="post">
+<form action="tracer.php?action=start" method="post">
 <table width="400" cellspacing="2" cellpadding="2" border="0" name="filters_table">
 <tr align="center">
 <td colspan="2" height="10" class="mainTitle">Set filters</td>
 </tr>
 ');
-form_generate_input_text("Caller", "Caller", "caller_id", "y", (isset($_GET['action'])?$_POST['caller_id']:NULL), 100, NULL);
-form_generate_input_text("Callee", "Callee", "callee_id", "y", (isset($_GET['action'])?$_POST['callee_id']:NULL), 100, NULL);
-form_generate_input_text("IP", "IP address", "ip_id", "y", (isset($_GET['action'])?$_POST['ip_id']:NULL), 100, NULL);
+form_generate_input_text("Caller", "Caller", "caller_id", "n", (isset($_GET['action'])?$_POST['caller_id']:NULL), 100, NULL);
+form_generate_input_text("Callee", "Callee", "callee_id", "n", (isset($_GET['action'])?$_POST['callee_id']:NULL), 100, NULL);
+form_generate_input_text("IP", "IP address", "ip_id", "n", (isset($_GET['action'])?$_POST['ip_id']:NULL), 100, NULL);
 
 echo (' <tr>
 <td colspan="2">
