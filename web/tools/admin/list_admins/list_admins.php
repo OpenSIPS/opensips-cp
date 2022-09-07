@@ -333,6 +333,30 @@ if ($action=="dp_act")
 # end search #
 ##############
 
+################
+# start reset #
+################
+if ($action=="reset2FA")
+{
+	if(!$_SESSION['read_only']){
+
+		$id = $_GET['id'];
+
+		$sql = "UPDATE $table SET secret=NULL WHERE id=?";
+      		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array($id) );
+	}else{
+
+		$errors= "User with Read-Only Rights";
+	}
+}
+##############
+# end reset #
+##############
+
 ##############
 # start main #
 ##############

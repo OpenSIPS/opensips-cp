@@ -143,20 +143,30 @@ if (isset($config->lockout_failed_attempts)) {
 $avail_tools = $resultset[0]['available_tools'];
 $avail_perms = $resultset[0]['permissions'];
 
-$_SESSION['user_login'] = $name;
+$_SESSION['temp_user_login'] = $name;
+if (!is_null($resultset[0]['secret']))
+	$_SESSION['secret'] = $resultset[0]['secret'];
+else unset($_SESSION['secret']);
 
 if ($avail_tools == "all") {;
-	$_SESSION['user_tabs'] = "*";
+	$_SESSION['temp_user_tabs'] = "*";
 } else {
-	$_SESSION['user_tabs'] = $avail_tools;
+	$_SESSION['temp_user_tabs'] = $avail_tools;
 }
 if ($avail_perms == "all") { 
-	$_SESSION['user_priv'] = "*";
+	$_SESSION['temp_user_priv'] = "*";
 } else { 
-	$_SESSION['user_priv'] = $avail_perms; 
+	$_SESSION['temp_user_priv'] = $avail_perms; 
 }
 $login_ok=true;
 $log = "[OK]  [".date("d-m-Y")." ".date("H:i:s")."] '$name' from '".$_SERVER['REMOTE_ADDR']."'\n";
-header("Location:main.php");
+if ($config->twoFactor)
+	header("Location:auth_index.php");
+else {
+	$_SESSION['user_login'] = $_SESSION['temp_user_login'];
+	$_SESSION['user_tabs'] = $_SESSION['temp_user_tabs'];
+	$_SESSION['user_priv'] = $_SESSION['temp_user_priv'];
+	header("Location:main.php");
+}
 exit();
 ?>

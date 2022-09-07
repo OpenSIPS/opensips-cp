@@ -30,6 +30,7 @@
 $config->permissions = array("read-only","read-write","admin");
 $config->lockout_failed_attempts = 3;
 $config->lockout_block_time = 60;
+$config->twoFactor = true;
 
 // Password can be saved in plain text mode by setting 
 // $config->admin_passwd_mode to 0 or chyphered mode, by setting it to 1
