@@ -81,7 +81,7 @@ if (is_null($_SESSION['secret'])) {
       </tr>
       <tr>
        <td width="40" align="right" valign="middle"><img height="10" src="images/arrow.gif" width="5" border="0">&nbsp;</td>
-       <td width="90" align="right"><b class="loginLabel"><?php echo("One time password:") ?>&nbsp;</b></td>
+       <td width="90" align="right"><b class="loginLabel"><?php echo("One time code:") ?>&nbsp;</b></td>
        <td><input type="text" name="otp" class="loginInput" autofocus></td>
       </tr>
       <tr>
