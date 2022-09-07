@@ -100,7 +100,14 @@ if ($action == "add_statistic") {
 
 if ($action == "add_modify_statistic") {
 	$stat_class = $_GET['class'];
-	$input = json_encode($_POST);
+	
+	$form_input = $_POST;
+	unset($form_input["CSRFName"]);
+	unset($form_input["CSRFToken"]);
+	unset($form_input["save"]);
+
+	$input = json_encode($form_input);
+	
 	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`, box_id) VALUES (?,?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
@@ -116,7 +123,12 @@ if ($action == "add_modify_statistic") {
  
 if ($action == "modify_statistic") { 
 	$id = $_GET['id'];
-	$input = json_encode($_POST);
+	$form_input = $_POST;
+	unset($form_input["CSRFName"]);
+	unset($form_input["CSRFToken"]);
+	unset($form_input["save"]);
+
+	$input = json_encode($form_input);
 	
 	$sql = "UPDATE ocp_monitoring_stats SET name= CONCAT('custom:', (SELECT tool from ocp_extra_stats where id = ?), ':', ?) where name=  
 	(SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";

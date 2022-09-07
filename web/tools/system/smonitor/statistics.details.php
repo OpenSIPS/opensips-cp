@@ -38,12 +38,11 @@
 				<?php
                 echo ('<td>Statistic description: '.$desc.'</td>');
                 ?>
-                </tr><tr><?php
-                echo ('<td>Statistic class: '.$class.'</td>'); ?></tr>
+                </tr>
 				<tr><?php
                 echo ('<td>Provisioning tool: '.$tool.'</td>'); ?></tr>
 				<tr><?php
-                echo ('<td>Statistic input: '.$input.'</td>'); ?></tr></table>
+                echo ('<td>Statistic input: '.base64_decode($input).'</td>'); ?></tr></table>
 			</td>
 		</tr>
 

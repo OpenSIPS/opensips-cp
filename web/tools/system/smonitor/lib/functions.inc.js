@@ -1,5 +1,5 @@
 <script>
-function openStatOverlay(description, className, input, tool){
+function openStatOverlay(description, className, tool, input){
     url = "statistics.details.php?class="+className+"&description="+description+"&tool="+tool+"&input="+input;
     var http = getHTTPObject();
     
