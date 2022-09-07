@@ -35,7 +35,6 @@ if(!$_SESSION['read_only']){
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
   <th class="listTitle">Statistic name</th>
-  <th class="listTitle">Statistic class name</th>
   <th class="listTitle">Provisioning tool</th>
   <th class="listTitle">Provisioning details</th>
   <?php
@@ -67,7 +66,7 @@ else
 	$i=0;
 	while (sizeof($resultset)>$i)
 	{
-		$stat_temp = new $resultset[$i]("input_1");
+		$stat_temp = $resultset[$i];
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
@@ -79,9 +78,8 @@ else
         }
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp->get_name();?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]?></td>
-  <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp->get_tool();?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp::get_name();?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print $stat_temp::get_tool();?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $details_link?></td>
 <?php
    if(!$_SESSION['read_only']){

@@ -86,7 +86,12 @@ else
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 		if(!$_SESSION['read_only']){
-			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['class'].'\',\''.$resultset[$i]['tool'].'\',\''.$resultset[$i]['tool'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$input = json_decode($resultset[$i]['input']);
+			$input_display = "<br>";
+			foreach ($input as $key => $value) {
+				$input_display .= $key." : ".$value."<br>";
+			}
+			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['class'].'\',\''.$resultset[$i]['tool'].'\',\''.base64_encode($input_display).'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/delete.png" border="0"></a>';
 			$edit_link = '<a href="'.$page_name.'?action=edit_statistic&class='.$resultset[$i]['class'].'&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
