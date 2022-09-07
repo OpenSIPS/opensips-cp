@@ -42,7 +42,7 @@ if($search_lname !="") {
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 5;
+	$colspan = 6;
 }else{
 	$colspan = 3;
 }
@@ -93,7 +93,8 @@ if(!$_SESSION['read_only']){
   if(!$_SESSION['read_only']){
 
   	echo('<th class="listTitle">Edit Info</th>
-  		<th class="listTitle">Delete</th>');
+  		<th class="listTitle">Delete</th>
+  		<th class="listTitle">Reset 2FA</th>');
   }
   ?>
  </tr>
@@ -141,6 +142,7 @@ else
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$reset_link = '<a href="'.$page_name.'?action=reset2FA&id='.$resultset[$i]['id'].'"><img src="../../../images/share/reset.png" border="0"></a>';
 		}
 ?>
  <tr>
@@ -150,7 +152,8 @@ else
 <?php
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
-			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');
+			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>
+			  <td class="'.$row_style.'Img" align="center">'.$reset_link.'</td>');
    }
 ?>
   </tr>  
