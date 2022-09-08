@@ -20,7 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-declare(strict_types=1);
 
 require  __DIR__.'/../googleAuth/FixedBitNotation.php';
 require  __DIR__.'/../googleAuth/GoogleAuthenticatorInterface.php';
