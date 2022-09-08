@@ -19,8 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
- 
-declare(strict_types=1);
 
 require  __DIR__.'/../googleAuth/FixedBitNotation.php';
 require  __DIR__.'/../googleAuth/GoogleAuthenticatorInterface.php';
@@ -29,6 +27,7 @@ require  __DIR__.'/../googleAuth/GoogleQrUrl.php';
 require  __DIR__.'/../googleAuth/RuntimeException.php';
 
 require("../config/local.inc.php");
+require("../config/globals.php");
 session_start();
 
 $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
@@ -38,7 +37,7 @@ if (is_null($secret))
 		$secret = $g->generateSecret();
 	else
 		$secret = $_SESSION['temp_secret'];
-$link =  \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($_SESSION['temp_user_login'], $secret, 'OpenSIPS');
+$link =  \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($_SESSION['temp_user_login'], $secret, $config->twoFactorDomain);
 
 ?>
 
