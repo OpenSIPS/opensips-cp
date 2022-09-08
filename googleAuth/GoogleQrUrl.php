@@ -56,7 +56,7 @@ final class GoogleQrUrl
      * @param string|null $issuer      Where you log in to
      * @param int         $size        Image size in pixels, 200 will make it 200x200
      */
-    public static function generate(string $accountName, string $secret, ?string $issuer = null, int $size = 200): string
+    public static function generate(string $accountName, string $secret, string $issuer = null, int $size = 200): string
     {
         if ('' === $accountName || false !== strpos($accountName, ':')) {
             throw RuntimeException::InvalidAccountName($accountName);
