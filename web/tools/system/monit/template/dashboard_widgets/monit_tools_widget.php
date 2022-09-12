@@ -25,6 +25,20 @@ class monit_tools_widget extends widget
 			');
 		foreach($this->monitored_tools as $name => $tool) {
 			if ((int) $tool['number'] > 0) {
+				switch ($name) {
+					case "up":
+						$name = "Running";
+						break;
+					case "unmonitored":
+						$name = "Not monitored";
+						break;
+					case "down":
+						$name = "Failed";
+						break;
+					default:
+						break;
+				}
+
 				echo ('
 					<tr><td class="rowEven">'.$name.': '.(($name=="down")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span></td></tr>
 				');

@@ -4,11 +4,12 @@ require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
 class registered_users_widget extends widget
 {
     public $chart;
-	public $widget_box;
+	public $widget_box_id;
+	
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
         $this->color = 'rgb(242,229,206)';
-        $this->widget_box = $array['widget_box'];
+        $this->widget_box_id = $array['widget_box'];
     }
 
 
@@ -26,15 +27,21 @@ class registered_users_widget extends widget
         return $row[0]['no'];
     }
 
+
     function echo_content() {
+		function consoole_log( $data ){
+			echo '<script>';
+			echo 'console.log('. json_encode( $data ) .')';
+			echo '</script>';
+		  } //  DE_STERS
         $wi = $this->id;
         $_SESSION['ru_widget_id'] = $wi;
         $total_subs = self::get_total_subs();
-        $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $_SESSION['boxes'][$this->widget_box]['mi_conn'], $errors);
-        $reg_contacts = mi_command("get_statistics", array("statistics" => array("usrloc:location-contacts")), $_SESSION['boxes'][$this->widget_box]['mi_conn'], $errors);
+        $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $_SESSION['boxes'][$this->widget_box_id]['mi_conn'], $errors);
+        $reg_contacts = mi_command("get_statistics", array("statistics" => array("location-contacts")), $_SESSION['boxes'][$this->widget_box_id]['mi_conn'], $errors);
 		$elems['reg_subs'] = $reg_subs['usrloc:location-users'];
 		$elems['total_subs'] = $total_subs;
-		$elems['reg_contacts'] = $reg_contacts;
+		$elems['reg_contacts'] = $reg_contacts['usrloc:location-contacts'];
         $_SESSION['pie_elements'] = $elems;
         require(__DIR__."/../../../../system/smonitor/lib/d3js_pie.php");
     }

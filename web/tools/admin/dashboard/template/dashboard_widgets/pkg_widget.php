@@ -20,6 +20,9 @@ class pkg_widget extends widget
         $this->color = "rgb(225, 232, 239)";
     }
 
+	static function get_description() {
+		return "PKG widget";
+	}
 
     function get_name() {
         return "PKG memory widget";
@@ -39,7 +42,7 @@ class pkg_widget extends widget
 		width: 143px; height:20px; margin: auto;" cellspacing="2" cellpadding="2" border="0">
 		<tr align="center">
 		<th class="listTitle"  style="text-shadow: 0px 0px 0px #000;">PID</th>
-		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Load</th>
+		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Usage</th>
 		</tr>');
 		foreach ($this->top_loaded_info as $key => $info) {
 			if ($info['value'] > 75)
@@ -109,8 +112,10 @@ class pkg_widget extends widget
 		});
 		return array_slice($top, 0 , 4);
 	}
+	
 
 	function get_top_loaded($pkg) {
+		
 		$top = [];
 		foreach ($pkg as $id=>$value) {
 			$entry = [];
@@ -124,7 +129,7 @@ class pkg_widget extends widget
 			}
 		}
 		usort($top, function($a, $b) {
-			return $b['value'] - $a['value'];
+			return $b['value'] * 100 - $a['value'] * 100;
 		});
 		return array_slice($top, 0 , 4);
 	}

@@ -15,14 +15,18 @@ class asr_widget extends gauge_widget
     }
 
     function echo_content() {
-        $processed_dialogs = mi_command("get_statistics", array("statistics" => array("processed_dialogs")), $_SESSION['boxes'][0]['mi_conn'], $errors);
-        $failed_dialogs = mi_command("get_statistics", array("statistics" => array("failed_dialogs")), $_SESSION['boxes'][0]['mi_conn'], $errors);
+        $processed_dialogs = mi_command("get_statistics", array("statistics" => array("processed_dialogs")), $this->widget_box['mi_conn'], $errors);
+        $failed_dialogs = mi_command("get_statistics", array("statistics" => array("failed_dialogs")), $this->widget_box['mi_conn'], $errors);
         $processed_dialogs = $processed_dialogs["dialog:processed_dialogs"];
 		$failed_dialogs = $failed_dialogs["dialog:failed_dialogs"];
 		$this->display_chart($this->title, $processed_dialogs, $processed_dialogs + $failed_dialogs);
     }
 
     public static function new_form($params = null) {  
+		$boxes_info = self::get_boxes(); 
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
+        form_generate_input_text("Warning threshold", "", "widget_warning", "n", $params['widget_warning'], 20,null);
+        form_generate_input_text("Critical threshold", "", "widget_critical", "n", $params['widget_critical'], 20,null);
+		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }

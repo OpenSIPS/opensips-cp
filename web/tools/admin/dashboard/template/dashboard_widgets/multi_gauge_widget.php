@@ -20,7 +20,7 @@ class multi_gauge_widget extends gauge_widget
 		//consoole_log(mi_command("get_statistics", array("statistics" => array("real_used_size")), $_SESSION['boxes'][0]['mi_conn'], $errors));	
 		$chart_type = explode(":", $this->chart)[0];
 		$chart_type .= ":";
-		$stat_res = mi_command("get_statistics", array("statistics" => array($chart_type)), $_SESSION['boxes'][0]['mi_conn'], $errors);
+		$stat_res = mi_command("get_statistics", array("statistics" => array($chart_type)), $this->widget_box['mi_conn'], $errors);
 		$this->display_chart($this->title, $stat_res[$this->chart], $this->max);
     }
 
@@ -35,6 +35,8 @@ class multi_gauge_widget extends gauge_widget
         form_generate_input_text("Title", "Title to be displayed on widget", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Statistic", "Statistic that widget should display", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_input_text("Max value", "Max value of statistic", "widget_max", "y", $params['widget_max'], 20,null);
+        form_generate_input_text("Warning threshold", "", "widget_warning", "n", $params['widget_warning'], 20,null);
+        form_generate_input_text("Critical threshold", "", "widget_critical", "n", $params['widget_critical'], 20,null);
         form_generate_select("Box", "Box to extract data from", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }

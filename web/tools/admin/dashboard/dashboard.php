@@ -325,23 +325,56 @@ if ($action == "clone_panel") {
 	}
 }
 
+
 if ($action == "clone_panel_verify") { 
 	if(!$_SESSION['read_only']){
 		extract($_POST);
 		$panel_id = $_GET['panel_id'];
-		$sql = 'INSERT INTO '.$table.' (`name`, content, `order`) VALUES (?,?,?) ';
+
+		$sql = 'INSERT INTO '.$table.' () VALUES () ';
 				$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($panel_name, $_SESSION['config']['panels'][$panel_id]['content'], $_SESSION['config']['panels_max_order'] + 1)) == false) {
+		if ($stm->execute( array()) == false) {
+			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
+			$form_valid=false;
+		} 
+		
+		$sql = 'select max(id) from '.$table;
+				$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array()) == false) {
+			$errors= "DB operation failed: ".print_r($stm->errorInfo(), true);
+			$form_valid=false;
+		} 
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+		$latest_panel = $resultset[0]["max(id)"];
+
+		$widget_contents = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
+		foreach($widget_contents as $key => $widget_content) {
+			$widget_content_decoded = json_decode($widget_content, true);
+			$widget_content_decoded['panel_id'] = $latest_panel;
+			$new_widget_content = json_encode($widget_content_decoded);
+			$widget_contents[$key] = $new_widget_content;
+		}
+		$widget_contents_json = json_encode($widget_contents);
+
+		$sql = 'UPDATE '.$table.' SET `name`=?, content=?, `order`=?, positions=? where id = ?';
+				$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute( array($panel_name, $widget_contents_json , $_SESSION['config']['panels_max_order'] + 1,
+		$_SESSION['config']['panels'][$panel_id]['positions'], $latest_panel)) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 			$form_valid=false;
 		} 
 		if ($form_valid) {
 		  print "New Panel added!";
 		  $action="edit_panel";
-		  header("Refresh:0; url=dashboard.php");
 		} else {
 		  print $form_error;
 		  $action="add_verify";
@@ -350,6 +383,7 @@ if ($action == "clone_panel_verify") {
    } else {
 	   $errors= "User with Read-Only Rights";
 	  }
+	echo '<script>window.location = "dashboard.php?action=edit_panel";</script>';
 }
 
 if ($action == "move_panels") {

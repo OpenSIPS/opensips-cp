@@ -26,10 +26,6 @@ else $widget_type = $_POST['type_val'];
 
 ?>
 
-
-
-
-
 <form action="<?=$page_name?>?action=add_widget&panel_id=<?=$panel_id?>" name="type_select" method="post">
 <?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0" name="type_select_table">
@@ -46,6 +42,9 @@ else $widget_type = $_POST['type_val'];
   echo ('<input type="hidden" name="type_val" class="formInput" method="post" value="">');
  form_generate_select("Widget type", "The type of widget you want to add",
  "type_list", 100, $_POST['type_val'], $vals, $keys);
+ echo("<tr><td>");
+ print_widget_description($widget_type::get_description());
+ echo("</td></tr>");
 ?>
 <script>
 	type_select.type_list.onchange = function() {
@@ -54,11 +53,6 @@ else $widget_type = $_POST['type_val'];
 </script>
 </table>
 </form>
-
-
-
-
-
 <form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_type?>" name="add_widget_form" method="post">
 <?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0" name="add_widget_table">
