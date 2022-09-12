@@ -55,7 +55,7 @@ abstract class widget
         $boxes_names = [];
 		$boxes_ids = [];
         foreach ($_SESSION['boxes'] as $box) {
-			$boxes_names[] = $box['name'];
+			$boxes_names[] = $box['name']." / ".$_SESSION['systems'][$box['assoc_id']]['name'];
             $boxes_ids[] = $box['id'];
         }
 		$boxes_info[0] = $boxes_ids;
@@ -67,5 +67,7 @@ abstract class widget
         $this->id = $id;
     }
 
+	static function get_description() {
+	}
 }
 ?>

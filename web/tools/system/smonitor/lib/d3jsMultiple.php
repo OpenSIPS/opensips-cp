@@ -245,7 +245,7 @@ var lines = svg.selectAll(".line")
     }
 
     function onMouseMove() {
-
+	  var scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
       const mousePosition = d3.mouse(this);
       const hoveredDate = x.invert(mousePosition[0]);
       var hoveredValue = {};
@@ -297,7 +297,7 @@ var lines = svg.selectAll(".line")
     tooltip.select("#date").text(formatDate(closestXValue));
 
     const formatYvalue = (d) => d;
-    tooltip.select("#internet").html(formatYvalue(closestYValue));
+    tooltip.select("#internet").html(formatYvalue(d3.format(".4s")(closestYValue)));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
 
@@ -311,7 +311,7 @@ var lines = svg.selectAll(".line")
     );
 	} else {
 		const xT = x(closestXValue) - 98 ;
-		const yT = yTemp(closestYValue) + window.pageYOffset - 75;
+		const yT = yTemp(closestYValue) + window.pageYOffset - 75 - scrollTop;
 		tooltip.style(
 		"transform",
 		`translate(` + `calc( ${xT}px),` + `calc(${yT}px)` + `)`

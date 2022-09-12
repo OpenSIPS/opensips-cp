@@ -5,17 +5,30 @@ class gauge_widget extends widget
 {
     public $chart;
 	public static $ignore = 1;
-	
+	public $box_id;
+	public $widget_box;
+	public $warning;
+	public $critical;
+
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 3, 3, $array['widget_title']);
         $this->color = 'rgb(219,255,244)';
+		$this->warning = $array['widget_warning'];
+		$this->critical = $array['widget_critical'];
         $this->chart = $array['widget_chart'];
+		$this->box_id = $array['widget_box'];
+		foreach ($_SESSION['boxes'] as $box) {
+			if ($box['id'] == $this->box_id)
+				$this->widget_box = $box;
+		}
     }
 
     function display_chart($title, $value, $valueMax = 100) {
         $_SESSION['gauge_id'] = $this->id;
         $_SESSION['gauge_value'] = $value;
 		$_SESSION['gauge_max'] = $valueMax;
+		$_SESSION['warning'] = $this->warning;
+		$_SESSION['critical'] = $this->critical;
         require(__DIR__."/../../lib/percent_d3js.php");
     }
 

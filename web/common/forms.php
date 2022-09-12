@@ -158,6 +158,23 @@ function readMore() {
             }
           }
 
+function toggleWidgetFormat() {
+	var id = "desc_";
+	var dots = document.getElementById(id.concat('dots'));
+	var moreText = document.getElementById(id.concat('more'));
+	var btnText = document.getElementById(id.concat('myBtn'));
+	
+	if (dots.style.display === 'none') {
+		dots.style.display = 'inline';
+		btnText.innerHTML = 'Show widget description'; 
+		moreText.style.display = 'none';
+	} else {
+		dots.style.display = 'none';
+		btnText.innerHTML = 'Hide widget description'; 
+		moreText.style.display = 'inline';
+	}
+}
+
 function toggleFormat(tool, id) {
             var dots = document.getElementById(id.concat('dots'));
             var moreText = document.getElementById(id.concat('more'));
@@ -192,6 +209,16 @@ function print_description() {
 	  <p class='breadcrumb'>".$short."<span id='dots'>. . .</span><span id='more' >".$long."</span></p>
 	  <a href='#' onclick='readMore()' id='myBtn' class='menuItemSelect'>Read more</a>"
 	);
+}
+
+function print_widget_description($desc) {
+	echo (
+		"<tr><td></td><td><style>
+		 #desc_more {display: none;}
+		 </style>
+		 <a href='#' onclick='toggleWidgetFormat()' id='desc_myBtn' class='exampleButton' >Show widget description</a>
+		 <p ><span id='desc_dots'></span><pre id='desc_more' >".$desc."</pre></p></td></tr>"
+	   );
 }
 
 function print_example($example, $param, $id) {

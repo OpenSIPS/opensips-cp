@@ -67,7 +67,7 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
     }
 
     function onMouseMove() {
-
+	  var scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
       var yScale = d3.scaleLinear()
       .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
       .range([ height, 0 ]);
@@ -96,9 +96,8 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
     const formatDate = d3.timeFormat("%c");
     tooltip.select("#date").text(formatDate(closestXValue));
 
-    const formatYvalue = (d) => d.toFixed(2);
+    const formatYvalue = (d) => d3.format(".4s")(d.toFixed(2));
     tooltip.select("#internet").html(formatYvalue(closestYValue));
-
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
 	if (arg5 == 0) {
 		const x = xScale(closestXValue) + offsets.left + margin.left ;
@@ -109,7 +108,7 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
 		);
 	} else {
 		const x = xScale(closestXValue) - 98 ;
-		const y = yScale(closestYValue) + window.pageYOffset - 75;
+		const y = yScale(closestYValue) + window.pageYOffset - 75 - scrollTop;
 		tooltip.style(
 		"transform",
 		`translate(` + `calc( ${x}px),` + `calc(${y}px)` + `)`

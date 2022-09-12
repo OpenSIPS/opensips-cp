@@ -5,15 +5,32 @@
 // D3.js Gauge Chart //
 // Data which need to be fetched
 
-display_indicator("<?php echo $_SESSION['gauge_value'] ?>", "<?php echo $_SESSION['gauge_id'] ?>", "<?php echo $_SESSION['gauge_max'] ?>");
+display_indicator("<?php echo $_SESSION['gauge_value'] ?>", "<?php echo $_SESSION['gauge_id'] ?>", "<?php echo $_SESSION['gauge_max'] ?>", "<?php echo $_SESSION['warning'] ?>",  "<?php echo $_SESSION['critical'] ?>");
 
-function display_indicator(arg1, arg2, arg3) {
+function nFormatter(num, digits) {
+  const lookup = [
+    { value: 1, symbol: "" },
+    { value: 1e3, symbol: "k" },
+    { value: 1e6, symbol: "M" },
+    { value: 1e9, symbol: "G" },
+    { value: 1e12, symbol: "T" },
+    { value: 1e15, symbol: "P" },
+    { value: 1e18, symbol: "E" }
+  ];
+  const rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+  var item = lookup.slice().reverse().find(function(item) {
+    return num >= item.value;
+  });
+  return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
+}
+
+function display_indicator(arg1, arg2, arg3, arg4, arg5) {
+	var warning = arg4;
+	var critical = arg5;
     var name = "";
     var value = arg1;    // My Desired Value To Show
     var gaugeMaxValue = arg3;
 
-    // Data of calculation
-	console.log(arg3);
     var percentValue = value / gaugeMaxValue;
     var needleClient;
     (function () {
@@ -76,19 +93,19 @@ function display_indicator(arg1, arg2, arg3) {
             perc = 0.5;
             var next_start = totalPercent;
             arcStartRad = percToRad(next_start);
-            arcEndRad = arcStartRad + percToRad(perc / 3);
-            next_start += perc / 3;
+            arcEndRad = arcStartRad + percToRad(perc * (warning / 100));
+            next_start += perc * warning / 100;
 
             arc1.startAngle(arcStartRad).endAngle(arcEndRad);
 
             arcStartRad = percToRad(next_start);
-            arcEndRad = arcStartRad + percToRad(perc / 3);
-            next_start += perc / 3;
+            arcEndRad = arcStartRad + percToRad( perc * (critical - warning) / 100);
+            next_start += perc * (critical - warning) / 100;
 
             arc2.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
 
             arcStartRad = percToRad(next_start);
-            arcEndRad = arcStartRad + percToRad(perc / 3);
+            arcEndRad = arcStartRad + percToRad( perc - (critical / 200));
 
             arc3.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
 
@@ -171,7 +188,7 @@ function display_indicator(arg1, arg2, arg3) {
         displayValue = function () {
             texts.append("text")
                 .text(function () {
-                    return "Value: ".concat(dataset[0].value);
+                    return "Value: ".concat(nFormatter(dataset[0].value, 3));
                 })
                 .attr('id', "Value")
                 .attr('transform', "translate(" + (0) + ", " + 11 + ")")
@@ -196,19 +213,11 @@ function display_indicator(arg1, arg2, arg3) {
             .attr("font-size", 10)
             .style("fill", "#000000");
 
-        texts.append("text")
-            .text(function () {
-                return gaugeMaxValue / 2;
-            })
-            .attr('id', 'scale10')
-            .attr('transform', "translate(" + ((width + margin.left) / 2.15  ) + ", " + ((height + margin.top) / 30 + 5) + ")")
-            .attr("font-size", 10)
-            .style("fill", "#000000");
 
 
         texts.append("text")
             .text(function () {
-                return gaugeMaxValue;
+                return nFormatter(gaugeMaxValue, 3);
             })
             .attr('id', 'scale20')
             .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 20 ) + ", " + ((height + margin.top) / 2) + ")")

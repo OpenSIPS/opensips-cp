@@ -15,13 +15,17 @@ class shmem_widget extends gauge_widget
     }
 
     function echo_content() {
-        $shmem = mi_command("get_statistics", array("statistics" => array("shmem:")), $_SESSION['boxes'][0]['mi_conn'], $errors);
-        $shmem_value = $shmem["shmem:used_size"];
-		$shmem_max = $shmem["shmem:max_used_size"];
-		$this->display_chart($this->id, $this->title, $shmem_value, $shmem_max);
+        $shmem = mi_command("get_statistics", array("statistics" => array("shmem:")), $this->widget_box['mi_conn'], $errors);
+        $shmem_value = $shmem["shmem:real_used_size"];
+		$shmem_max = $shmem["shmem:total_size"];
+		$this->display_chart($this->title, $shmem_value, $shmem_max);
     }
 
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) { 
+		$boxes_info = self::get_boxes(); 
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
+        form_generate_input_text("Warning threshold", "", "widget_warning", "n", $params['widget_warning'], 20,null);
+        form_generate_input_text("Critical threshold", "", "widget_critical", "n", $params['widget_critical'], 20,null);
+		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }
