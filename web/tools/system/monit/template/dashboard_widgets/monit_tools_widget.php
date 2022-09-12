@@ -40,7 +40,7 @@ class monit_tools_widget extends widget
 				}
 
 				echo ('
-					<tr><td class="rowEven">'.$name.': '.(($name=="down")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span></td></tr>
+					<tr><td class="rowEven">'.$name.': '.(($name=="down")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span> services</td></tr>
 				');
 			}
 		}

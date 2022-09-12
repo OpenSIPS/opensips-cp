@@ -5,11 +5,16 @@ class registered_users_widget extends widget
 {
     public $chart;
 	public $widget_box_id;
+	public $widget_box;
 	
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
         $this->color = 'rgb(242,229,206)';
         $this->widget_box_id = $array['widget_box'];
+		foreach ($_SESSION['boxes'] as $box) {
+			if ($box['id'] == $this->widget_box_id)
+				$this->widget_box = $box;
+		}
     }
 
 
@@ -29,16 +34,11 @@ class registered_users_widget extends widget
 
 
     function echo_content() {
-		function consoole_log( $data ){
-			echo '<script>';
-			echo 'console.log('. json_encode( $data ) .')';
-			echo '</script>';
-		  } //  DE_STERS
         $wi = $this->id;
         $_SESSION['ru_widget_id'] = $wi;
         $total_subs = self::get_total_subs();
-        $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $_SESSION['boxes'][$this->widget_box_id]['mi_conn'], $errors);
-        $reg_contacts = mi_command("get_statistics", array("statistics" => array("location-contacts")), $_SESSION['boxes'][$this->widget_box_id]['mi_conn'], $errors);
+        $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $this->widget_box['mi_conn'], $errors);
+        $reg_contacts = mi_command("get_statistics", array("statistics" => array("location-contacts")), $this->widget_box['mi_conn'], $errors);
 		$elems['reg_subs'] = $reg_subs['usrloc:location-users'];
 		$elems['total_subs'] = $total_subs;
 		$elems['reg_contacts'] = $reg_contacts['usrloc:location-contacts'];
