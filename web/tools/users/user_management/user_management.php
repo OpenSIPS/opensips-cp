@@ -105,14 +105,18 @@ if ($action=="modify")
 			if ($_POST['passwd']!="") {
 				if (get_settings_value("passwd_mode")==0) {
 					$ha1  = "";
+		                        $sha256 = "";
+		                        $sha512t256 = "";
 					$passwd = $_POST['passwd'];
 				} else if (get_settings_value("passwd_mode")==1) {
 					$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
+		                        $sha256 = hash("sha256", $uname.":".$domain.":".$_POST['passwd']);
+		                        $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$_POST['passwd']);
 					$passwd = "";
 				}
 				$sql = "UPDATE ".$table." SET username=?, domain=?,
-					 password=?, ha1=?";
-				$sql_vals = array($uname,$domain,$passwd,$ha1);
+					 password=?, ha1=?, ha1_sha256=?, ha1_sha512t256=?";
+				$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
 				foreach ( get_settings_value("subs_extra") as $key => $value ) {
 					$sql .= ", ".$key."=?";
 					array_push( $sql_vals, $_POST["extra_".$key]);
@@ -270,13 +274,23 @@ if ($action=="add_verify")
   if(!$_SESSION['read_only']){
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
-                if (get_settings_value("passwd_mode")==1) $passwd="";
-                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1';
+                if (get_settings_value("passwd_mode")==1) {
+                    $passwd="";
+		    $ha1 = md5($uname.":".$domain.":".$passwd);
+		    $sha256 = hash("sha256", $uname.":".$domain.":".$passwd);
+		    $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$passwd);
+                } else {
+		    $ha1 = "";
+		    $sha256 = "";
+		    $sha512t256 = "";
+                }
+		print_r(hash_algos());
+                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
 		foreach ( get_settings_value("subs_extra") as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
 				$sql .= ','.$key;
-		$sql .= ') VALUES (?, ?, ?, ? ';
-		$sql_vals = array($uname,$domain,$passwd,$ha1);
+		$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
+		$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
 		foreach ( get_settings_value("subs_extra") as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='') {
 				$sql .= ', ?';
