@@ -201,6 +201,7 @@ else {
 					?>
 				</tr>
 				<?php
+					$checklist_cache = array();
 					if (isset($resultset) && count($resultset) > 0){
 						for ($i=0; $i<count($resultset);$i++){
 							$row_style = ($i%2 == 1)?"rowOdd":"rowEven";
@@ -226,6 +227,9 @@ else {
 									else
 										$text = $resultset[$i][$key];
 									break;
+								case "checklist":
+									$text = display_custom_checklist($resultset[$i][$key], $value, $checklist_cache);
+									break;
 								}
 								if (isset($value['value_wrapper_func']))
 									echo $value['value_wrapper_func']( $key, $text, $resultset[$i] );
@@ -235,8 +239,11 @@ else {
 							}
 							if(!$_SESSION['read_only']){ 
 								for ($j=0; $j<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $j++) {
-										$action_link	 = null;
-										$action_link	 = "<a href='".$page_name."?action=";
+										if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['action_target']))
+											$custom_page_name = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['action_target'];
+										else
+											$custom_page_name = $page_name;
+										$action_link	 = "<a href='".$custom_page_name."?action=";
 										$action_link	.= $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$j]['action'];
 										$action_link	.= "&".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=";
 										$action_link	.= $resultset[$i][$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']];

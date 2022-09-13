@@ -69,30 +69,33 @@ if ($action=="modify")
 		$updatestring="";
 		$qvalues = array();
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
-			if ($value['type'] == "checklist") {
-				$checked = "";
-				foreach ($value['options'] as $checkkey=>$checkvalue) {
-					if (isset($_POST[$key.$checkvalue])) {
-						if ($checked != "") $checked.=$value['separator'];
-						$checked.=$_POST[$key.$checkvalue]; 
-					} 
-				}
-				$updatestring=$updatestring.$key."=?,";
-				$qvalues[] = $checked;
-			}
-			else if (isset($_POST[$key])){
+			if (isset($_POST[$key])){
 	        	$updatestring=$updatestring.$key."=?,";
-				$qvalues[] = $_POST[$key];
+				if ($value['type'] == "checklist") {
+					$val = build_custom_checklist_options($_POST[$key], $value);
+				} else {
+					$val = $_POST[$key];
+				}
+				if ($val=="" && !(isset($value['keep_empty_str_val']) && $value['keep_empty_str_val']))
+					$qvalues[] = NULL;
+				else
+					$qvalues[] = $val;
 			}
 		}
 		//trim the ending comma
 		$updatestring = substr($updatestring,0,-1);
-
-		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=?";
 		$qvalues[] = $id;
 
+		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_edit_hook']))
+			$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_edit_hook']($updatestring, $qvalues);
+
+		$sql = "UPDATE ".$table." SET ".$updatestring." WHERE ".$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key']."=?";
+
 		$stm = $link->prepare($sql);
-		if($stm->execute($qvalues) === false) {
+		$ret = $stm->execute($qvalues);
+		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_edit_hook']))
+			$ret = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_edit_hook']($updatestring, $qvalues, $stm, $ret);
+		if($ret === false) {
 			error_log(print_r($stm->errorInfo(), true));
 			$form_error=print_r($stm->errorInfo(), true);
 			require("template/".$page_id.".edit.php");

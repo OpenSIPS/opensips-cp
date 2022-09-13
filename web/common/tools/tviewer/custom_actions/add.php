@@ -33,7 +33,7 @@ if ($action=="add_verify")
 	$values="";
 
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
-		$_SESSION[$key] = $_POST[$key];	
+		$_SESSION[$key] = $_POST[$key];
 		if ($_POST[$key] == "" && isset($value["is_optional"]) && $value["is_optional"] == "y")
 			continue;
 		if (isset($value['validation_regex']) && !preg_match("/".$value['validation_regex']."/", $_POST[$key]))
@@ -63,24 +63,18 @@ if ($action=="add_verify")
 	
 	$values_arr = array();
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value){
-		if ($value['type'] == "checklist") {
-			$checked = "";
-			foreach ($value['options'] as $checkkey=>$checkvalue) {
-				if (isset($_POST[$key.$checkvalue])) {
-					if ($checked != "") $checked.=$value['separator'];
-					$checked.=$_POST[$key.$checkvalue]; 
-				} 
-			}
-			if ($checked != "") {
-				$fields.=$key.",";
-				$values.="?,";
-				$values_arr[] = $checked;
-			}
-		}
-		else if (isset($_POST[$key])){
+		if (isset($_POST[$key])){
 			$fields.=$key.",";
 			$values.="?,";
-			$values_arr[] = $_POST[$key];
+			if ($value['type'] == "checklist") {
+				$val = build_custom_checklist_options($_POST[$key], $value);
+			} else {
+				$val = $_POST[$key];
+			}
+			if ($val=="" && !(isset($value['keep_empty_str_val']) && $value['keep_empty_str_val']))
+				$values_arr[] = NULL;
+			else
+				$values_arr[] = $val;
 		}
 		else if (isset($value["default_value"])){
 			$fields.=$key.",";
@@ -88,25 +82,31 @@ if ($action=="add_verify")
 			$values_arr[] = $value["default_value"];
 		}
 	}
-	//chop the commma at the end :D	
+	//chop the commma at the end :D
 	$fields = substr($fields,0,-1);
 	$values = substr($values,0,-1);
 	
 	if(!$_SESSION['read_only']){
 		if ($form_error=="") {
 
-				$sql = "INSERT INTO ".$table."(".$fields.") VALUES(".$values.") ";
-				$stm = $link->prepare($sql);
-				if ($stm->execute($values_arr) === false) {
-                	$form_error=print_r($stm->errorInfo(), true);
-					require("template/".$page_id.".add.php");
-					require("template/footer.php");
-                	exit();
-				}
+			if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_add_hook']))
+				$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['pre_add_hook']($fields, $values);
 
-				$success="The new entry has been successfully added";
-				foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
-			                unset($_SESSION[$key]);
+			$sql = "INSERT INTO ".$table."(".$fields.") VALUES(".$values.") ";
+			$stm = $link->prepare($sql);
+			$ret = $stm->execute($values_arr);
+			if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_add_hook']))
+				$ret = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['post_add_hook']($fields, $values, $stm, $ret);
+			if ($ret === false) {
+				$form_error=print_r($stm->errorInfo(), true);
+				require("template/".$page_id.".add.php");
+				require("template/footer.php");
+				exit();
+			}
+
+			$success="The new entry has been successfully added";
+			foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
+				unset($_SESSION[$key]);
 		}
 	}else{
 		$errors= "User with Read-Only Rights";

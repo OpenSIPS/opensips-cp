@@ -53,7 +53,7 @@ function build_unique_check_query($custom_config,$table,$post_data,$id=NULL){
 	}
 
 	if ($build_query != NULL || $build_mul != NULL){
-		$query = "select count(*) from ".$table." where"; 
+		$query = "select count(*) from ".$table." where";
 		$query .= $build_query;
 		if ($build_query != NULL && $build_mul != NULL){
 			$build_mul = " OR ".$build_mul;
@@ -92,14 +92,14 @@ function get_custom_combo_options($combo)
 	global $module_id;
 	global $branch;
 
-        require_once("../../../../web/common/cfg_comm.php");
-        require_once("../../../../config/db.inc.php");
-        require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
-        require("db_connect.php");
+	require_once("../../../../web/common/cfg_comm.php");
+	require_once("../../../../config/db.inc.php");
+	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
+	require("db_connect.php");
 		
-		session_load_from_tool($module_id);
-		if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
-			require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
+	session_load_from_tool($module_id);
+	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
+		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	$options = array();
 
 	if ( isset($combo['combo_table']) && $combo['combo_table']!="" ){
@@ -137,6 +137,112 @@ function get_custom_combo_options($combo)
 	return $options;
 }
 
+function get_custom_checklist_options($checklist)
+{
+	global $config;
+	global $custom_config;
+	global $module_id;
+	global $branch;
+
+	require_once("../../../../web/common/cfg_comm.php");
+	require_once("../../../../config/db.inc.php");
+	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
+	require("db_connect.php");
+
+	session_load_from_tool($module_id);
+	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
+		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
+
+	$options = array();
+
+	if (isset($checklist['checklist_table']) && $checklist['checklist_table']!="") {
+		if (!isset($checklist['checklist_display_col']) || $checklist['checklist_display_col']=="")
+			$display_col = $checklist['checklist_value_col'];
+		else
+			$display_col = $checklist['checklist_display_col'];
+
+		if (!isset($checklist['checklist_hook_col']) || $checklist['checklist_hook_col']=="")
+			$hook_col = NULL;
+		else
+			$hook_col = $checklist['checklist_hook_col'];
+
+		$sql="select ".$checklist['checklist_value_col'].", ".$display_col.(($hook_col==NULL)?"":(", ".$hook_col))." from ".$checklist['checklist_table']." order by ".$checklist['checklist_value_col'];
+		$stm = $link->query($sql);
+		if($stm === false) {
+			die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+		}
+		$result = $stm->fetchAll(PDO::FETCH_ASSOC);
+		foreach ($result as $k=>$v) {
+			$options[$v[$checklist['checklist_value_col']]]['display'] = $v[$display_col] ;
+			if ($hook_col!=NULL)
+				$options[$v[$checklist['checklist_value_col']]]['hook'] = $v[$hook_col] ;
+		}
+
+	} else if (isset($checklist['checklist_default_values']) && $checklist['checklist_default_values']!=NULL) {
+		foreach ($checklist['checklist_default_values'] as $k=>$v) {
+			$options[$k]['display'] = $v ;
+			if (isset($checklist["checklist_default_hooks"]) && $checklist["checklist_default_hooks"]!=NULL)
+				$options[$k]['hook'] = $checklist["checklist_default_hooks"][$k] ;
+		}
+
+	}
+
+	return $options;
+}
+
+function build_custom_checklist_options($values, $checklist)
+{
+	$sep = ($checklist == NULL || !isset($checklist['checklist_separator']))?"":$checklist['checklist_separator'];
+	return implode($sep, $values);
+}
+
+function get_custom_checklist_selected($values, $checklist=NULL)
+{
+	$sep = ($checklist == NULL || !isset($checklist['checklist_separator']))?"":$checklist['checklist_separator'];
+	if ($sep != "")
+		return explode($sep, $values);
+	else
+		return str_split($values);
+}
+
+function display_custom_checklist($selected, $checklist, &$cache=NULL)
+{
+	if (!isset($checklist['checklist_display_col']))
+		return $selected;
+	if ($cache != NULL && isset($cache[$checklist['header']])) {
+		$values = $cache[$checklist['header']];
+	} else {
+		$values = get_custom_checklist_options($checklist);
+		if ($cache)
+			$cache[$checklist['header']] = $values;
+	}
+	$selected = get_custom_checklist_selected($selected, $checklist);
+	$sep = ($checklist == NULL || !isset($checklist['checklist_separator']))?"":$checklist['checklist_separator'];
+	$ret = array();
+	foreach ($selected as $val) {
+		$ret[] = $values[$val]['display'];
+	}
+	return implode($sep, $ret);
+}
+
+function print_custom_checklist($name, $checklist, $selected)
+{
+	$values = get_custom_checklist_options($checklist);
+	$selected = get_custom_checklist_selected($selected, $checklist);
+	print ("
+       <table style='width:100%' class='container'><tr><td>");
+	foreach ($values as $key=>$val) {
+print("
+       <input type='checkbox' name='".$name."[]' value='".$key."' id='".$name.$key."' ".((in_array($key, $selected))?"checked":"").">
+       <label for=".$name.$key." class='dataRecord'>".$val['display']."</label><br> ");
+	}
+	print("
+       </td>
+       <td width='20'>
+       <div id='".$name."_ok'></div>
+       </td></tr></table>
+");
+}
 
 function print_custom_combo($name, $combo, $init_val, $force_empty=FALSE)
 {
@@ -164,23 +270,6 @@ function print_custom_combo($name, $combo, $init_val, $force_empty=FALSE)
 	}
 	
 	echo '</select>';
-}
-
-function print_checklist($id, $selected, $vals, $texts=null)
-{
-	print (" 
-	<table style='width:100%' class='container'><tr><td>");
-for($i = 0; $i < count($vals); ++$i){
-print("
-	<input type='checkbox' name='".$id.$vals[$i]."' value='".$vals[$i]."' id='".$id.$vals[$i]."' ".((in_array($vals[$i], $selected))?"checked":"").">
-	<label for=".$id.$vals[$i]." class='dataRecord'>".($texts[$i]?$texts[$i]:$vals[$i])."</label><br> ");
-}
-print("
-	</td>
-	<td width='20'>
-	<div id='".$id."_ok'></div>
-	</td></tr></table>
-");
 }
 
 function get_checklist($key, $values, $valueNames = false) {
