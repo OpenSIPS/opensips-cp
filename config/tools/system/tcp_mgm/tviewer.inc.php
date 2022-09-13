@@ -129,7 +129,7 @@ $custom_config[$module_id][0]['page_range'] = 3;
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> true,
 					"is_optional"		=> "n",
-					"combo_default_values" => array("any","TCP","TLS")
+					"combo_default_values" => array("any"=>"any","tcp"=>"SIP TCP","tls"=>"SIP TLS", "bin"=>"BIN", "bins"=>"BIN TLS", "hep_tcp"=>"HEP TCP", "msrp"=>"MSRP", "smpp"=>"SMPP","ws"=>"SIP WS", "wss"=>"SIP WSS")
 			), 
 			"remote_addr" 	=> 	array (
 					"header" 			=> "Remote Address",
