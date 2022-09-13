@@ -139,6 +139,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "SMPP Gateway"
 			),
+			"tcp_mgm"			=> array (
+				"enabled"		=> true,
+				"name"			=> "TCP Management"
+			),
 		)
 	),
 );
