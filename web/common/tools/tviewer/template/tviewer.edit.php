@@ -87,10 +87,9 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 									<?=$validate?>
 									><?php if (isset($_SESSION[$key])) echo $_SESSION[$key]; else echo $resultset[0][$key];?></textarea>
 									<?php break; ?>	
-							<?php case "checklist":
-									$selected = get_checklist($key, $resultset[0][$key], false);
-									print_checklist($key, $selected, array_values($value['options']), array_keys($value['options']));
-									break; ?>	
+							<?php case "checklist": ?>
+									<?php print_custom_checklist($key, $value, isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value']); ?>
+									<?php break; ?>
 							<?php } ?>
 							</td>
 							<td width='20'>

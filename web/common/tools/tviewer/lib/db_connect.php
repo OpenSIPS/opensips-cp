@@ -11,6 +11,7 @@ if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['
 	$config->db_user = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_user'];
 	$config->db_pass = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_pass'];
 	$config->db_name = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_name'];
+	$config->db_attr = $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['db_attr'];
 
 	if (isset($config->db_port) && is_int((int)$config->db_port) && 1 < $config->db_port && $config->db_port < 65535) 
 		$config->db_host = $config->db_host.";port=".$config->db_port;
@@ -18,7 +19,7 @@ if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['
 
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	$link = new PDO($dsn, $config->db_user, $config->db_pass, isset($config->db_attr)?$config->db_attr:NULL);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";

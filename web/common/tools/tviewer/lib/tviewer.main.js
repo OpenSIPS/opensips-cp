@@ -126,6 +126,7 @@ function updateFilterCombo(update_combo, filter_combo)
 	var forValue = (f.options[f.selectedIndex].value != ""?
 		f.options[f.selectedIndex].value:f.options[f.selectedIndex].text);
 	var fields = document.getElementById(update_combo),i,val;
+	var show = null;
 
 	for(i = 0; i < fields.length; i++) {
 		val = fields[i];
@@ -135,8 +136,11 @@ function updateFilterCombo(update_combo, filter_combo)
 				val.selected=false;
 		} else {
 			val.hidden = false;
+			if (show == null)
+				show = val.value;
 		}
 	}
+	fields.value = show;
 }
 
 </script>
