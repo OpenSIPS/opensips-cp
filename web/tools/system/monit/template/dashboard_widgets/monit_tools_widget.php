@@ -20,17 +20,24 @@ class monit_tools_widget extends widget
 	
     function display_test() {
 		echo ('
-			<table class="ttable" style="table-layout: fixed;
-			width: 110px; height:15px; margin: auto;" cellspacing="0" cellpadding="0" border="0">
 			');
+		$total = 0;
 		foreach($this->monitored_tools as $name => $tool) {
-			if ((int) $tool['number'] > 0) {
+			$total += $tool['number'];
+		}
+		
+		echo (' <div style=" text-align: left; margin-left : 10px;">
+			 <span style="font-weight: 900;">Total: '.$total.'</span> service'.($total != 1? "s" :"").'<br><br>
+		');
+		$rows = 1;
+		foreach($this->monitored_tools as $name => $tool) {
+			if ((int) $tool['number'] > 0 && $name != "initialising") { $rows++;
 				switch ($name) {
 					case "up":
 						$name = "Running";
 						break;
 					case "unmonitored":
-						$name = "Not monitored";
+						$name = "Unmonitored";
 						break;
 					case "down":
 						$name = "Failed";
@@ -40,11 +47,14 @@ class monit_tools_widget extends widget
 				}
 
 				echo ('
-					<tr><td class="rowEven">'.$name.': '.(($name=="down")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span> services</td></tr>
+					'.$name.': '.(($name=="Failed")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span><br>
 				');
+				echo('<br style="line-height: 10px" />');
 			}
 		}
-		echo('</table>');
+		echo ('</div>');
+		if ($rows > 2)
+			$this->sizeY = 3;
 	}
 
 	function set_monitored() {

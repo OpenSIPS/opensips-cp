@@ -123,9 +123,17 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     $new_widget->set_id($widget_content['widget_id']);
     $widget_array = $new_widget->get_as_array();
     $new_widget->display_widget();
+	/*
+	widget_positions is fetched from db. The following lines ignore the db widget sizes,
+	to allow sizes to be modified in the widget class. Otherwise you can't tell if you
+	should use the class size or the db size. To re-enable widget manual resizing the
+	db sizes should be included in the widget constructor, and handled there. TODO
+	*/
+	$widget_positions['size_y'] = $new_widget->sizeY;
+	$widget_positions['size_x'] = $new_widget->sizeX;
+	
      ?>
 <script>
-	
     var widget_content = <?php echo json_encode($widget_array); ?>;
     var widget_type = <?php echo json_encode($widget_content['widget_type']);?>;
     var widget_positions = <?php echo json_encode($widget_positions); ?>;

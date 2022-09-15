@@ -32,11 +32,15 @@ class multi_gauge_widget extends gauge_widget
 		$boxes_info = self::get_boxes();
 		if (!isset($params['widget_max']))
 			$params['widget_max'] = 100;
+		if (!isset($params['widget_warning']))
+			$params['widget_warning'] = 50;
+		if (!isset($params['widget_critical']))
+			$params['widget_critical'] = 75;
         form_generate_input_text("Title", "Title to be displayed on widget", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Statistic", "Statistic that widget should display", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_input_text("Max value", "Max value of statistic", "widget_max", "y", $params['widget_max'], 20,null);
-        form_generate_input_text("Warning threshold", "", "widget_warning", "n", $params['widget_warning'], 20,null);
-        form_generate_input_text("Critical threshold", "", "widget_critical", "n", $params['widget_critical'], 20,null);
+        form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);
+        form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);
         form_generate_select("Box", "Box to extract data from", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }
