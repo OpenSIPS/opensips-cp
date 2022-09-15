@@ -166,7 +166,7 @@ function toggleWidgetFormat() {
 	
 	if (dots.style.display === 'none') {
 		dots.style.display = 'inline';
-		btnText.innerHTML = 'Show widget description'; 
+		btnText.innerHTML = 'Expand widget description'; 
 		moreText.style.display = 'none';
 	} else {
 		dots.style.display = 'none';
@@ -213,11 +213,11 @@ function print_description() {
 
 function print_widget_description($desc) {
 	echo (
-		"<tr><td></td><td><style>
+		"<tr><td></td><td class='breadcrumb'><style>
 		 #desc_more {display: none;}
 		 </style>
-		 <a href='#' onclick='toggleWidgetFormat()' id='desc_myBtn' class='exampleButton' >Show widget description</a>
-		 <p ><span id='desc_dots'></span><pre id='desc_more' >".$desc."</pre></p></td></tr>"
+		 <a href='#' onclick='toggleWidgetFormat()' id='desc_myBtn' class='exampleButton' >Expand widget description</a>
+		 <p ><span id='desc_dots'>".implode(" ", array_slice(explode(" ", $desc), 0, 10))."".(count(explode(" ", $desc))>5?"...":"")."</span><pre style=' white-space: pre-wrap;' id='desc_more' >".$desc."</pre></p></td></tr>"
 	   );
 }
 

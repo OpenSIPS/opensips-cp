@@ -10,6 +10,7 @@ abstract class widget
     public $color;
     public $has_menu;
     public $panel_id;
+	public $warning_level = 1;
 
     public function __construct($panel_id, $name, $sizeX, $sizeY, $title=null) {
         $this->panel_id = $panel_id;
@@ -22,14 +23,42 @@ abstract class widget
     function get_sizeX() {
         return $this->sizeX;
     }
+	
+
 
     function display_widget($update = null) {
-
         echo ("<div id=".$this->id."_old>
-		<div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'><span style='color:rgb(203, 235,221); position:relative; top:2px;'>".$this->title."</span></div><hr style='height:10px; visibility:hidden;' />
+		<div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'><span style='color:rgb(203, 235,221); position:relative; top:2px;'>".$this->title."</span>
+		<span id='".$this->id."_warning_circle' style='
+			position: absolute; 
+			right: 5px;
+			top: 4px;
+			height: 12px;
+			width: 12px;
+			background-color: blue;
+			border-radius: 50%;
+			display: inline-block;
+		'></span>
+		</div><hr style='height:10px; visibility:hidden;' />
 		");
 		$this->echo_content();
-        echo ("</div>");
+				
+		switch ($this->warning_level) {
+			case 1:
+				$warning_color = "chartreuse";
+				break;
+			case 0:
+				$warning_color = "red";
+				break;
+			default:
+				$warning_color = "orange";
+		}
+        echo ("</div>
+		<script>
+			var warning_circle = document.getElementById('".$this->id."_warning_circle');
+			warning_circle.style['background-color'] = '".$warning_color."'
+		</script>
+		");
     }
 
     function get_sizeY() {

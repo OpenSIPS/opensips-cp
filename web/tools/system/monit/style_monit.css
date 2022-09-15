@@ -608,7 +608,7 @@ p, li, td, .menu_active, input, button {
     z-index: 1;
     bottom: 125%;
     left: 50%;
-    margin-left: -60px;
+    margin-left: -90px;
     opacity: 0;
     white-space: normal;
 }

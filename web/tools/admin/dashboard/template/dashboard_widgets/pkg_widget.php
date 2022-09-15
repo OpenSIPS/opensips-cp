@@ -8,6 +8,8 @@ class pkg_widget extends widget
 	public $top_fragmented_info;
 	public $box_id;
 	public $widget_box;
+	public $warning;
+	public $critical;
 
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
@@ -16,12 +18,16 @@ class pkg_widget extends widget
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;
 		}
+		$this->critical = $array['widget_critical'];
+		$this->warning = $array['widget_warning'];
         $this->compute_info();
         $this->color = "rgb(225, 232, 239)";
     }
 
 	static function get_description() {
-		return "PKG widget";
+		return "
+A tool that aggregates the pkg memory from all processes and performs some statistics about which process is the most loaded, what is the highest fragmentation etc.
+";
 	}
 
     function get_name() {
@@ -45,10 +51,16 @@ class pkg_widget extends widget
 		<th class="listTitle" style="text-shadow: 0px 0px 0px #000;">Usage</th>
 		</tr>');
 		foreach ($this->top_loaded_info as $key => $info) {
-			if ($info['value'] > 75)
+			$style = "";
+			if ($info['value'] > $this->critical) {
 				$style = "color : red; ";
-			else if ($info['value'] > 50)
+				$this->warning_level *= 0;
+			}
+			else if ($info['value'] > $this->warning) {
 				$style = "color : orange; ";
+				$this->warning_level *= 2;
+			}
+			else $style = "color : green;";
 			$style .= "font-weight: 900; ";
 			echo ('
 			<tr>
@@ -140,9 +152,15 @@ class pkg_widget extends widget
 
     public static function new_form($params = null) {
 		$boxes_info = self::get_boxes();
+		if (!isset($params['widget_warning']))
+			$params['widget_warning'] = 50;
+		if (!isset($params['widget_critical']))
+			$params['widget_critical'] = 75;
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
 		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
-	}
+		form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);
+        form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);
+        }
 
 }
 

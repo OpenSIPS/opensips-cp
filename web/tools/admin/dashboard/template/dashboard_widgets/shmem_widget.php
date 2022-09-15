@@ -8,6 +8,7 @@ class shmem_widget extends gauge_widget
 
     function __construct($array) {
         parent::__construct($array);
+		$this->sizeX = 2;
     }
 
     function get_name() {
@@ -17,15 +18,31 @@ class shmem_widget extends gauge_widget
     function echo_content() {
         $shmem = mi_command("get_statistics", array("statistics" => array("shmem:")), $this->widget_box['mi_conn'], $errors);
         $shmem_value = $shmem["shmem:real_used_size"];
-		$shmem_max = $shmem["shmem:total_size"];
-		$this->display_chart($this->title, $shmem_value, $shmem_max);
+		$shmem_total = $shmem["shmem:total_size"];
+		$shmem_max = $shmem["shmem:max_used_size"];
+		$this->display_chart($this->title, $shmem_value, $shmem_total, $shmem_max);
     }
 
+	function display_chart($title, $value, $valueMax = 100, $maxEver) {
+        $_SESSION['gauge_id'] = $this->id;
+        $_SESSION['gauge_value'] = $value;
+		$_SESSION['gauge_max'] = $valueMax;
+		$_SESSION['warning'] = $this->warning;
+		$_SESSION['critical'] = $this->critical;
+		$_SESSION['max_ever'] = $maxEver;
+        require(__DIR__."/../../lib/percent_shmemd3js.php");
+    }
+
+
     public static function new_form($params = null) { 
-		$boxes_info = self::get_boxes(); 
+		$boxes_info = self::get_boxes();
+		if (!isset($params['widget_warning']))
+			$params['widget_warning'] = 50;
+		if (!isset($params['widget_critical']))
+			$params['widget_critical'] = 75;
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
-        form_generate_input_text("Warning threshold", "", "widget_warning", "n", $params['widget_warning'], 20,null);
-        form_generate_input_text("Critical threshold", "", "widget_critical", "n", $params['widget_critical'], 20,null);
-		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
+        form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);
+        form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);
+        form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
 }

@@ -70,4 +70,14 @@
 		}
         return $resultset;
     }
+
+	function print_description_widget($desc) {
+		$pixelNo = 60;
+		$id = "widget_description";
+		echo("
+		<textarea readonly style='height:".$pixelNo."px'   name='".$id."' cols=300  id='".$id."' class='dataInput'>".$desc."</textarea>
+				
+
+		");
+	}
 ?>
