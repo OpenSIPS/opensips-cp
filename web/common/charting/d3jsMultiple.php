@@ -3,7 +3,7 @@
 <meta charset="utf-8">
 
 <!-- Load d3.js -->
-<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="../../../common/charting/d3.v4.min.js"></script>
 <!-- Create a div where the graph will take place -->
 <div id=<?=$_SESSION['chart_group_id']?>></div>
 
@@ -20,14 +20,14 @@
 <script>
 
 display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>, 
-"<?php echo $_SESSION['box_id_graph'] ?> ", <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>");
+<?php echo json_encode($_SESSION['boxes_list']) ?>, <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>",  "<?php echo $_SESSION['dashboard_active'] ?>");
 
-function display_graphs(arg1, arg2, arg3, arg4, arg5) {
+function display_graphs(arg1, arg2, arg3, arg4, arg5, arg6) {
   //   var stats_list = "";
     var stats_list = encodeURIComponent(JSON.stringify(arg2));
+    var box_list = encodeURIComponent(JSON.stringify(arg3));
     var normal_list = encodeURIComponent(JSON.stringify(arg4));
-  
-d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&normal=").concat(normal_list),
+d3.csv("../../../common/charting/get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&normal=").concat(normal_list),
 
 function(d){
     if (d.value == "f") {
@@ -36,15 +36,23 @@ function(d){
     return { date : d3.timeParse("%Y-%m-%d-%H-%M-%S")(d.date), value : d.value, name : d.name}
   },
 
- function(data) { 
+ function(data) {
   var currentAxis = 0;
     var refresh = 1;
     var zoomTrigger = false;
     
   // set the dimensions and margins of the graph
-  var margin = {top: 10, right: 30, bottom: 100, left: 50},
+
+ if (arg6 == 1) {
+	var margin = {top: 10, right: 30, bottom: 30, left: 30},
+		width = 400 - margin.left - margin.right,
+		height = 220 - margin.top - margin.bottom;
+  } else {
+	var margin = {top: 10, right: 30, bottom: 100, left: 50},
       width = 660 - margin.left - margin.right,
       height = 370 - margin.top - margin.bottom;
+  }
+
 
   // append the svg object to the body of the page
   var svg = d3.select("#".concat(arg1))
@@ -106,11 +114,11 @@ var xAxis = svg.append("g")
 var y = {};
 for(var i = 0 ; i < sumstat.length; i++) {
 y[sumstat[i].key] = d3.scaleLinear()
-  .domain([0, d3.max(sumstat[i].values, function(d) { return +d.value; })])
+  .domain([0, 1.1 * d3.max(sumstat[i].values, function(d) { return +d.value; })])
   .range([ height, 0 ]);
   }
 yAll = d3.scaleLinear()
-  .domain([0, d3.max(data, function(d) { return +d.value; })])
+  .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
   .range([ height, 0 ]);
     
 var yAxis;
@@ -179,8 +187,8 @@ arg2.forEach ((element, i) => {
             .attr("y2", 0);
         }
     })
-    svg.append("text").attr("x", labelX  + 20 + 230*Math.floor(i/2)).attr("y", labelY + 30 + 30 * (i %2) ).text(arg2[i]).style("font-size", "15px").attr("alignment-baseline","middle").attr("cursor", "pointer")
-    .on( "click", function(d) {
+	svg.append("text").attr("x", labelX  + 20 + 230*Math.floor(i/2)).attr("y", labelY + 30 + 30 * (i %2) ).text(arg2[i]).style("font-size", "15px").attr("alignment-baseline","middle").attr("cursor", "pointer")
+	.on( "click", function(d) {
     if(!removed[element]) {
         removed[element] = 1;
         update_opacity();
@@ -237,14 +245,16 @@ var lines = svg.selectAll(".line")
     }
 
     function onMouseMove() {
-
+	  var scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop;
       const mousePosition = d3.mouse(this);
       const hoveredDate = x.invert(mousePosition[0]);
       var hoveredValue = {};
       const hoveredValueAll = yAll.invert(mousePosition[1]);
+      
       if (arg5 == 1) {
         for (var i = 0 ; i < sumstat.length ; i ++) {
           hoveredValue[sumstat[i].key] = y[sumstat[i].key].invert(mousePosition[1]);
+         
         } 
       }
       const xAccessor = (d) => {
@@ -261,15 +271,19 @@ var lines = svg.selectAll(".line")
       var smallestYdist = -1;
       var closestDataPoint;
       for (var i = 0; i < sumstat.length; i++) { 
+        var currentMax;
+        if (arg5 == 1)
+          currentMax = d3.max(sumstat[i].values, function(d) { return +d.value; }); //this could be computed only once
+        else currentMax = 1;
         var currentChartClosest = d3.scan(
           sumstat[i].values,
-          (a, b) => getDistanceFromHoveredDate(a) - getDistanceFromHoveredDate(b)
+          (a, b) => getDistanceFromHoveredDate(a) - getDistanceFromHoveredDate(b) //closest point on x-axis for current (i) chart
     ); 
         if(arg5 == 2 ) var hoveredValueTemp = hoveredValueAll;
         else var hoveredValueTemp = hoveredValue[sumstat[i].key];
-        if( Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp) < smallestYdist || smallestYdist == -1) {
+        if(Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp)/currentMax < smallestYdist || smallestYdist == -1) {
           closestDataPoint = sumstat[i].values[currentChartClosest];
-          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp);
+          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp)/currentMax;
         }
     }
     
@@ -283,16 +297,26 @@ var lines = svg.selectAll(".line")
     tooltip.select("#date").text(formatDate(closestXValue));
 
     const formatYvalue = (d) => d;
-    tooltip.select("#internet").html(formatYvalue(closestYValue));
+    tooltip.select("#internet").html(formatYvalue(d3.format(".4s")(closestYValue)));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
-    const xT = x(closestXValue) + offsets.left + margin.left ;
+
+	if (arg6 == 0) {
+		const xT = x(closestXValue) + offsets.left + margin.left ;
     const yT = yTemp(closestYValue) + offsets.top + window.pageYOffset - 85;
 
     tooltip.style(
       "transform",
       `translate(` + `calc( -50% + ${xT}px),` + `calc(${yT}px)` + `)`
     );
+	} else {
+		const xT = x(closestXValue) - 98 ;
+		const yT = yTemp(closestYValue) + window.pageYOffset - 75 - scrollTop;
+		tooltip.style(
+		"transform",
+		`translate(` + `calc( ${xT}px),` + `calc(${yT}px)` + `)`
+		);		
+	}
     
     tooltip.style("opacity", 1);
     tooltip.style("width", "220px");
@@ -389,7 +413,7 @@ svg.on("dblclick",function(){
 
 function updateGr(){ 
     if( refresh == 1 ) {
-        d3.csv("get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
+        d3.csv("../../../common/charting/get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list),
 
         // When reading the csv, I must format variables:
         function(d){
@@ -411,11 +435,11 @@ function updateGr(){
         var y = {};
         for(var i = 0 ; i <sumstat.length; i++) {
             y[sumstat[i].key] = d3.scaleLinear()
-            .domain([0, d3.max(sumstat[i].values, function(d) { return +d.value; })])
+            .domain([0, 1.1 * d3.max(sumstat[i].values, function(d) { return +d.value; })])
             .range([ height, 0 ]);
         }
         yAll = d3.scaleLinear()
-        .domain([0, d3.max(data, function(d) { return +d.value; })])
+        .domain([0, 1.1 * d3.max(data, function(d) { return +d.value; })])
         .range([ height, 0 ]);
 
         lines

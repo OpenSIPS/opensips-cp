@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 
-<script src="d3.v4.min.js"></script>
+<script src="../../../common/charting/d3.v4.min.js"></script>
 <div id=<?=$_SESSION['stat']?>>
 
 <div id="tooltipd3<?php echo $_SESSION['stat'] ?>" class="tooltipd3">
@@ -21,7 +21,7 @@ display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_sta
 
 function display_graph(arg1, arg2, arg3, arg4, arg5) {
 
-d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
+d3.csv("../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
 
   function(d){
     if (d.value == "f") {
@@ -275,13 +275,12 @@ d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_sta
     .style("opacity", 0);
 
 
-    var intervalID = window.setInterval(updateGr, 5000);
+    var intervalID = window.setInterval(updateGr, 3000);
 
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("../../system/smonitor/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
-
+        d3.csv("../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
         function(d){
           if (d.value == "f") {
             d.value = null;

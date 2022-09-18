@@ -29,7 +29,11 @@ class gauge_widget extends widget
 		$_SESSION['gauge_max'] = $valueMax;
 		$_SESSION['warning'] = $this->warning;
 		$_SESSION['critical'] = $this->critical;
-        require(__DIR__."/../../lib/percent_d3js.php");
+		if ($value / $valueMax * 100 > $this->critical)
+			$this->set_warning(3);
+		else if ($value / $valueMax * 100 > $this->warning)
+			$this->set_warning(2);
+        require(__DIR__."/../../../../../common/charting/percent_d3js.php");
     }
 
     function get_as_array() {

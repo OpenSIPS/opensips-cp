@@ -9,6 +9,7 @@ class multi_gauge_widget extends gauge_widget
 
     function __construct($array) {
         parent::__construct($array);
+        $this->color = 'rgb(198,226,213)';
 		$this->max = $array['widget_max'];
     }
 

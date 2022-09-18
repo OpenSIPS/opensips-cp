@@ -17,7 +17,6 @@ class gateways_widget extends widget
 				$this->widget_box = $box;
 		}
 		$this->set_gateways();
-        $this->color = "rgb(225, 229, 195)";
     }
 
 
@@ -26,16 +25,18 @@ class gateways_widget extends widget
     }
     function display_test() {
 		echo ('
-			<table class="ttable" style="table-layout: fixed;
-			width: 110px; height:15px; margin: auto;" cellspacing="0" cellpadding="0" border="0">
+			<table style="table-layout: fixed;
+				width: 180px; height:20px; margin: auto; margin-left: 30px; font-weight: bolder;" cellspacing="2" cellpadding="2" border="0">
 			');
 		echo ('
 			<tr>
-			<td class="rowEven">Available: <span style="color:green; font-weight: 900;">'.$this->available.'</span></td></tr>');
-		if ($this->inactive > 0)
-			echo ('<tr><td class="rowEven">Inactive: <span style="color:red; font-weight: 900;">'.$this->inactive.'</span></td></tr>');
+			<td class="rowEven">Available: </td><td><span style="color:green; font-weight: 900;">'.$this->available.'</span></td></tr>');
+		if ($this->inactive > 0) {
+			echo ('<tr><td class="rowEven">Inactive: </td><td><span style="color:red; font-weight: 900;">'.$this->inactive.'</span></td></tr>');
+			$this->set_warning(3);
+		}
 		if ($this->probing > 0)
-			echo ('<tr><td class="rowEven">Probing: <span style="color:orange; font-weight: 900;">'.$this->probing.'</span></td>
+			echo ('<tr><td class="rowEven">Probing: </td><td><span style="color:orange; font-weight: 900;">'.$this->probing.'</span></td>
 			</tr>');
 		echo('</table>');
 	
@@ -75,6 +76,10 @@ class gateways_widget extends widget
     	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 	}
 
+	static function get_description() {
+		return "
+Shows the number of available gateways vs probing/inactive ones";
+	}
 }
 
 ?>

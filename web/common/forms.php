@@ -216,8 +216,8 @@ function print_widget_description($desc) {
 		"<tr><td></td><td class='breadcrumb'><style>
 		 #desc_more {display: none;}
 		 </style>
-		 <a href='#' onclick='toggleWidgetFormat()' id='desc_myBtn' class='exampleButton' >Expand widget description</a>
-		 <p ><span id='desc_dots'>".implode(" ", array_slice(explode(" ", $desc), 0, 10))."".(count(explode(" ", $desc))>5?"...":"")."</span><pre style=' white-space: pre-wrap;' id='desc_more' >".$desc."</pre></p></td></tr>"
+		 ".(count(explode(" ", $desc))<=30?"":"<a href='#' onclick='toggleWidgetFormat()' id='desc_myBtn' class='exampleButton' >Expand widget description</a>")."
+		 <p ><span id='desc_dots' ><pre style=' white-space: pre-wrap;'  >".implode(" ", array_slice(explode(" ", $desc), 0, 30))."".(count(explode(" ", $desc))>30?"...":"")."</pre></span><pre style=' white-space: pre-wrap;' id='desc_more' >".$desc."</pre></p></td></tr>"
 	   );
 }
 

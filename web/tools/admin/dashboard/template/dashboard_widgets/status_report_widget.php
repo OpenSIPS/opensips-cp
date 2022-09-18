@@ -19,7 +19,6 @@ class status_report_widget extends widget
 		$this->mi_group = $array['widget_group'];
 		$this->mi_id = $array['widget_identifier'];
 		$this->set_params();
-        $this->color = "rgb(225, 229, 195)";
     }
 
 
@@ -27,12 +26,15 @@ class status_report_widget extends widget
         return "Status report widget";
     }
     function display_test() {
+		if (!$this->status['Readiness'])
+			$this->set_warning(3);
 		//echo ('<span style= "font-size:13px;">Status report for '.$this->mi_group.' '.$this->mi_id.':</span><br><br>');
-		echo('<table class="ttable" style="table-layout: fixed;
-		width: 150px; height:15px; margin: auto;" cellspacing="0" cellpadding="0" border="0">
+		echo('
+			<table style="table-layout: fixed;
+				width: 180px; height:20px; margin: auto; margin-left: 10px; font-weight: bolder;" cellspacing="2" cellpadding="2" border="0">
 		');
-		echo('<tr><td class="rowEven">Details: '.$this->status['Details'].' ('.$this->status['Status'].')</td></tr>');
-		echo('<tr><td class="rowEven">Readiness: '.(($this->status['Readiness'])?"<span style=\"font-weight: 900; color:green;\">True</span>":"<span style=\"font-weight: 900; color:red;\">False</span>").'</td></tr>');
+		echo('<tr><td class="rowEven">Details: </td><td>'.$this->status['Details'].' ('.$this->status['Status'].')</td></tr>');
+		echo('<tr><td class="rowEven">Readiness: </td><td>'.(($this->status['Readiness'])?"<span style=\"font-weight: 900; color:green;\">True</span>":"<span style=\"font-weight: 900; color:red;\">False</span>").'</td></tr>');
 		echo('</table>');
 	}
 
@@ -64,6 +66,11 @@ class status_report_widget extends widget
         form_generate_input_text("Group", "", "widget_group", "n", $params['widget_group'], 20,null);
         form_generate_input_text("Identifier", "", "widget_identifier", "n", $params['widget_identifier'], 20,null);
     	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
+	}
+
+	static function get_description() {
+		return "
+Display status reports";
 	}
 
 }

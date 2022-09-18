@@ -10,7 +10,6 @@ class monit_tools_widget extends widget
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
 		$this->box_id = $array['widget_box'];
 		$this->set_monitored();
-        $this->color = "rgb(207, 207, 207)";
     }
 
 
@@ -19,19 +18,18 @@ class monit_tools_widget extends widget
     }
 	
     function display_test() {
-		echo ('
-			');
 		$total = 0;
 		foreach($this->monitored_tools as $name => $tool) {
 			$total += $tool['number'];
 		}
-		
-		echo (' <div style=" text-align: left; margin-left : 10px;">
-			 <span style="font-weight: 900;">Total: '.$total.'</span> service'.($total != 1? "s" :"").'<br><br>
-		');
+		echo ('
+			<table style="table-layout: fixed;
+			width: 180px; height:20px; margin: auto; margin-left: 10px; font-weight: bolder;" cellspacing="2" cellpadding="2" border="0">
+			<tr><td class="rowEven">Total: </td><td style="position: absolute; margin-left: 10px;">'.$total.' service'.(($total==1)?'':'s').'</span></td></tr>
+			');
 		$rows = 1;
 		foreach($this->monitored_tools as $name => $tool) {
-			if ((int) $tool['number'] > 0 && $name != "initialising") { $rows++;
+			if ((int) $tool['number'] > 0 && $name !="initialising" ) { $rows++;
 				switch ($name) {
 					case "up":
 						$name = "Running";
@@ -41,19 +39,18 @@ class monit_tools_widget extends widget
 						break;
 					case "down":
 						$name = "Failed";
+						$this->set_warning(3);
 						break;
 					default:
 						break;
 				}
-
 				echo ('
-					'.$name.': '.(($name=="Failed")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span><br>
+					<tr><td class="rowEven">'.$name.': </td><td style="margin-left:10px; position:absolute;">'.(($name=="Failed")?'<span style="color:red; font-weight: 900;">':'<span style="font-weight: 900;">').$tool['number'].'</span></td></tr>
 				');
-				echo('<br style="line-height: 10px" />');
 			}
 		}
-		echo ('</div>');
-		if ($rows > 2)
+		echo('</table>');
+		if ($rows > 3)
 			$this->sizeY = 3;
 	}
 
@@ -116,6 +113,16 @@ class monit_tools_widget extends widget
 		$boxes_info = self::get_boxes();
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
     	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
+	}
+
+	
+	static function get_description() {
+		return "
+Displays several number of tools:<br>
+		Total Monitored<br>
+		Total unmonitored<br>
+		Failed
+		";
 	}
 
 }

@@ -8,11 +8,10 @@ class monit_cpu_widget extends widget
 	public $service;
 
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
+        parent::__construct($array['panel_id'], $array['widget_name'], 1,2, $array['widget_name']);
 		$this->box_id = $array['widget_box'];
 		$this->service = $array['widget_service'];
         $this->set_cpu();
-        $this->color = "rgb(207, 207, 207)";
     }
 
     function get_name() {
@@ -20,12 +19,12 @@ class monit_cpu_widget extends widget
     }
     function display_test() {
 		echo ('
-			<table class="ttable" style="table-layout: fixed;
-			width: 110px; height:15px; margin: auto;" cellspacing="0" cellpadding="0" border="0">
+			<table style="table-layout: fixed;
+			width: 90px; height:20px; margin: auto; margin-left: 1px; font-weight: bolder;" cellspacing="2" cellpadding="2" border="0">
 			');
 		echo ('
-			<tr><td class="rowEven"><span style="color:black;">USR: '.$this->cpu_res['usr'].'%</span></td></tr>
-			<tr><td class="rowEven"><span style="color:black;">SYS: '.$this->cpu_res['sys'].'%</span></td></tr>
+			<tr><td class="rowEven"><span style="color:black;">USR: </td><td>'.$this->cpu_res['usr'].'%</span></td></tr>
+			<tr><td class="rowEven"><span style="color:black;">SYS: </td><td>'.$this->cpu_res['sys'].'%</span></td></tr>
 			</tr>  ');
 		echo('</table>');
 	
@@ -92,11 +91,15 @@ class monit_cpu_widget extends widget
 		if (is_null($params)) {
 			$params['widget_service'] = "localhost.localdomain";
 		}
-        form_generate_input_text("Title", "", "widget_name", null, $params['widget_name'], 20,null);
+        form_generate_input_text("Title", "", "widget_name", null, $params['widget_name'], 5,null);
 		form_generate_input_text("Service", "", "widget_service", null, $params['widget_service'], 20,null);
 		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 	}
 
+	static function get_description() {
+		return "
+Gathers the CPU being used by the system and/or a specific monitored program";
+	}
 }
 
 ?>
