@@ -1,11 +1,8 @@
 
-<script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<script src="../../../common/charting/d3.v3.min.js"></script>
 <div class="chart-gauge" id=<?=$_SESSION['gauge_id']?>></div>
 <script>
-// D3.js Gauge Chart //
-// Data which need to be fetched
-
-display_indicator("<?php echo $_SESSION['gauge_value'] ?>", "<?php echo $_SESSION['gauge_id'] ?>", "<?php echo $_SESSION['gauge_max'] ?>", "<?php echo $_SESSION['warning'] ?>",  "<?php echo $_SESSION['critical'] ?>");
+display_indicator("<?php echo $_SESSION['gauge_value'] ?>", "<?php echo $_SESSION['gauge_id'] ?>", "<?php echo $_SESSION['gauge_max'] ?>", "<?php echo $_SESSION['warning'] ?>", "<?php echo $_SESSION['critical'] ?>", "<?php echo $_SESSION['max_ever'] ?>");
 
 function nFormatter(num, digits) {
   const lookup = [
@@ -24,11 +21,11 @@ function nFormatter(num, digits) {
   return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
 }
 
-function display_indicator(arg1, arg2, arg3, arg4, arg5) {
+function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
 	var warning = arg4;
 	var critical = arg5;
     var name = "";
-    var value = arg1;    // My Desired Value To Show
+    var value = arg1;
     var gaugeMaxValue = arg3;
 
     var percentValue = value / gaugeMaxValue;
@@ -50,9 +47,9 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
 
         margin = {
             top: 20,
-            right: 40,
+            right: 140,
             bottom: 20,
-            left: 60
+            left: 10
         };
 
         width = 150;
@@ -181,25 +178,33 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
             .data(dataset)
             .enter();
 
-
-        var trX = 180 - 210 * Math.cos(percToRad(percent / 2));
-        var trY = 195 - 210 * Math.sin(percToRad(percent / 2));
+        // var trX = 100 - 100 * Math.cos(percToRad(percent / 2));
+        // var trY = 11 + Math.abs(100 * Math.cos(percToRad(percent / 2)));
 		
+		var trX = 80 - 80 * Math.cos(percToRad(percent / 2)) - 10 * Math.sin(percToRad(percent / 2))  - Math.cos(percToRad(percent / 2)) * Math.cos(percToRad(percent / 2)) * 10;
+		var trY = 70 - 60 * Math.sin(percToRad(percent / 2));
+		// for(var i = 0; i < 100 ; i++) {
+		// 	var tempX = 80 - 80 * Math.cos(percToRad(i / 200)) - 10 * Math.sin(percToRad(i / 2))  - Math.cos(percToRad(i / 2)) * Math.cos(percToRad(i / 2)) * 10;
+		// 	var tempY = 70 - 60 * Math.sin(percToRad(i / 200));
+		// 	texts.append("text").text("29.44M").attr('transform', "translate(" + (tempX) + ", " + tempY + ")")
+        //         .attr("font-size", 9);
+		// 	console.log("" +tempX + " " + tempY);
+		// }
         displayValue = function () {
             texts.append("text")
                 .text(function () {
-                    return "Value: ".concat(nFormatter(dataset[0].value, 3));
+                    return "".concat(nFormatter(dataset[0].value, 3));
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (0) + ", " + 11 + ")")
+                .attr('transform', "translate(" + (trX) + ", " + trY + ")")
                 .attr("font-size", 9)
                 .style("fill", '#000000');
 			texts.append("text")
                 .text(function () {
-                    return "Percent: ".concat((arg1/arg3 * 100).toFixed(2)).concat("%");
+                    return "Peak value: ".concat(nFormatter(arg6, 3));
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (160) + ", " + 11 + ")")
+                .attr('transform', "translate(" + (40) + ", " + 105 + ")")
                 .attr("font-size", 9)
                 .style("fill", '#000000');
         }
@@ -209,7 +214,7 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
                 return 0;
             })
             .attr('id', 'scale0')
-            .attr('transform', "translate(" + ((width + margin.left) / 100  + 15) + ", " + ((height + margin.top) / 2) + ")")
+            .attr('transform', "translate(" + ((width + margin.left) / 100  + 5) + ", " + ((height + margin.top) / 2 + 10) + ")")
             .attr("font-size", 10)
             .style("fill", "#000000");
 
@@ -220,7 +225,7 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
                 return nFormatter(gaugeMaxValue, 3);
             })
             .attr('id', 'scale20')
-            .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 20 ) + ", " + ((height + margin.top) / 2) + ")")
+            .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 15 ) + ", " + ((height + margin.top) / 2 + 10) + ")")
             .attr("font-size", 10)
             .style("fill", "#000000");
 
@@ -233,4 +238,3 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
     })();
 }
 </script>	
-<script src="../../system/smonitor/d3.v4.min.js"></script>

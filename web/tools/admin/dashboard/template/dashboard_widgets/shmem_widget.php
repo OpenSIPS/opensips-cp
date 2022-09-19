@@ -8,6 +8,7 @@ class shmem_widget extends gauge_widget
 
     function __construct($array) {
         parent::__construct($array);
+        $this->color = 'rgb(198,226,213)';
 		$this->sizeX = 2;
     }
 
@@ -30,9 +31,12 @@ class shmem_widget extends gauge_widget
 		$_SESSION['warning'] = $this->warning;
 		$_SESSION['critical'] = $this->critical;
 		$_SESSION['max_ever'] = $maxEver;
-        require(__DIR__."/../../lib/percent_shmemd3js.php");
+		if ($value/$valueMax * 100 > $this->critical)
+			$this->set_warning(3);
+		else if ($value/$valueMax * 100 > $this->warning)
+			$this->set_warning(2);
+        require(__DIR__."/../../../../../common/charting/percent_shmemd3js.php");
     }
-
 
     public static function new_form($params = null) { 
 		$boxes_info = self::get_boxes();
@@ -45,4 +49,11 @@ class shmem_widget extends gauge_widget
         form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     }
+
+	
+	static function get_description() {
+		return "
+A clock-like chart that displays the percentage of the shared memory";
+	}
+
 }

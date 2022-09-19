@@ -333,7 +333,7 @@ function show_graph($stat,$box_id){
 		$_SESSION['normal'] = 1;
 	}
 	
-	require(__DIR__."/d3js.php");
+	require(__DIR__."/../../../../common/charting/d3js.php");
 }
 
 function show_graphs($key){
@@ -388,7 +388,7 @@ function show_graphs($key){
 	$_SESSION['boxes_list'] = $box_ids;
 	$_SESSION['scale'] = $scale; // 1 is individual
   
-	require("lib/d3jsMultiple.php");
+	require(__DIR__."/../../../../common/charting/d3jsMultiple.php");
 	
 }
 
@@ -421,9 +421,9 @@ function get_custom_statistics() {
 }
 
 function show_pie_chart() {
-	require(__DIR__."/bar_d3js.php");
+	require(__DIR__."/../../../../common/charting/bar_d3js.php");
 }
-
+	
 // returns array with names and starting sampling dates for each box stat
 // that is actively sampled and has db sampled history
 function get_stats_list($box_id) {
@@ -497,7 +497,7 @@ function get_stats_list_all_boxes() {
 	return $stats_list;
 }
 
-function show_widget_graphs($group_name){ $box_id = 0;
+function show_widget_graphs($group_name){
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
@@ -510,7 +510,11 @@ function show_widget_graphs($group_name){ $box_id = 0;
 		$matches = false;
 		$group = [];
 		foreach ($groupElements as $g) {
-			$boxes[] = $g['box_id'];
+			if (isset($g['box_name']) && !is_null(get_box_id_by_name($g['box_name'])))
+				$stat_box_id = get_box_id_by_name($g['box_name']);
+			else
+				$stat_box_id = get_box_id_default();
+			$box_ids[] = $stat_box_id;
 			if( preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
 			foreach ($monitored_stats as $name => $id) {
 				if (preg_match($g['name'], $name, $matches))
@@ -526,11 +530,11 @@ function show_widget_graphs($group_name){ $box_id = 0;
 	   	continue;
 	}
 	$stats = $group;
-
+	
 	global $config;
 	global $gauge_arr;
 	$box_id = $box_id;
-	$chart_size = get_settings_value_from_tool('chart_size', "smonitor", $box_id)+1;
+	$chart_size = get_settings_value_from_tool('chart_size', "smonitor")+1;
 
     $divId = "";
 	$_SESSION['normal'] = array();
@@ -544,11 +548,11 @@ function show_widget_graphs($group_name){ $box_id = 0;
 	
 	$_SESSION['full_stats'] = $stats;
 	$_SESSION['chart_group_id'] = $divId;
-	$_SESSION['stime'] = get_settings_value_from_tool("sampling_time", "smonitor", $box_id);
-	$_SESSION['csize'] = get_settings_value_from_tool("chart_size", "smonitor", $box_id);
-	$_SESSION['box_id_graph'] = $box_id;
+	$_SESSION['stime'] = get_settings_value_from_tool("sampling_time", "smonitor");
+	$_SESSION['csize'] = get_settings_value_from_tool("chart_size", "smonitor");
+	$_SESSION['boxes_list'] = $box_ids;
 	$_SESSION['scale'] = $scale; // 1 e individual
-	require(__DIR__."/d3jsMultiple.php");
+	require(__DIR__."/../../../../common/charting/d3jsMultiple.php");
 }
 
 ?>

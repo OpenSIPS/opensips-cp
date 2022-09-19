@@ -21,7 +21,6 @@ class pkg_widget extends widget
 		$this->critical = $array['widget_critical'];
 		$this->warning = $array['widget_warning'];
         $this->compute_info();
-        $this->color = "rgb(225, 232, 239)";
     }
 
 	static function get_description() {
@@ -44,7 +43,7 @@ A tool that aggregates the pkg memory from all processes and performs some stati
 		}
 		</script>');
 		echo ('
-		<table class="ttable" style="table-layout: fixed;
+		<table style="table-layout: fixed;
 		width: 143px; height:20px; margin: auto;" cellspacing="2" cellpadding="2" border="0">
 		<tr align="center">
 		<th class="listTitle"  style="text-shadow: 0px 0px 0px #000;">PID</th>
@@ -54,18 +53,18 @@ A tool that aggregates the pkg memory from all processes and performs some stati
 			$style = "";
 			if ($info['value'] > $this->critical) {
 				$style = "color : red; ";
-				$this->warning_level *= 0;
+				$this->set_warning(3);
 			}
 			else if ($info['value'] > $this->warning) {
 				$style = "color : orange; ";
-				$this->warning_level *= 2;
+				$this->set_warning(2);
 			}
 			else $style = "color : green;";
 			$style .= "font-weight: 900; ";
 			echo ('
 			<tr>
 			<td class="rowEven">
-			<div class="tooltip" ><sup>
+			<div class="tooltip" ><sup style="font-weight:900;">
 			&nbsp;'.$info['PID'].'</sup>
 			<span style="left:-10px; top:-50px;  pointer-events: none;" class="tooltiptext">'.$info["desc"].'</span>
 			</div></td>
@@ -160,8 +159,7 @@ A tool that aggregates the pkg memory from all processes and performs some stati
 		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 		form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);
         form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);
-        }
-
+    }
 }
 
 ?>

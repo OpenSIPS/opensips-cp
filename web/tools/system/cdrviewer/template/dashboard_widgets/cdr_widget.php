@@ -8,7 +8,6 @@ class cdr_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2, 2, $array['widget_name']);
         $this->set_cdr_entries();
-        $this->color = "rgb(213, 107, 82)";
     }
 
 

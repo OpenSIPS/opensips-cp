@@ -18,13 +18,12 @@ abstract class widget
         $this->sizeX = $sizeX;
         $this->sizeY = $sizeY;
         $this->title = $title;
+        $this->color = "rgb(225, 232, 239)";
     }
 
     function get_sizeX() {
         return $this->sizeX;
     }
-	
-
 
     function display_widget($update = null) {
         echo ("<div id=".$this->id."_old>
@@ -47,11 +46,14 @@ abstract class widget
 			case 1:
 				$warning_color = "chartreuse";
 				break;
-			case 0:
+			case 3:
 				$warning_color = "red";
 				break;
-			default:
+			case 2:
 				$warning_color = "orange";
+				break;
+			default:
+				$warning_color = "blue";
 		}
         echo ("</div>
 		<script>
@@ -97,6 +99,13 @@ abstract class widget
     }
 
 	static function get_description() {
+	}
+
+	function set_warning($level) {
+		if ($level == 3)
+			$this->warning_level = 3;
+		if ($level == 2 && $this->warning_level != 3)
+			$this->warning_level = 2;
 	}
 }
 ?>
