@@ -37,6 +37,9 @@ if (is_null($secret))
 		$secret = $g->generateSecret();
 	else
 		$secret = $_SESSION['temp_secret'];
+
+if (is_null($conifg->twoFactorDomain))
+	$config->twoFactorDomain = str_replace(":", "",$_SERVER['HTTP_HOST']);
 $link =  \Sonata\GoogleAuthenticator\GoogleQrUrl::generate($_SESSION['temp_user_login'], $secret, $config->twoFactorDomain);
 
 ?>
