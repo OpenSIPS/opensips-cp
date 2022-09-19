@@ -166,6 +166,19 @@ else {
 	$_SESSION['user_login'] = $_SESSION['temp_user_login'];
 	$_SESSION['user_tabs'] = $_SESSION['temp_user_tabs'];
 	$_SESSION['user_priv'] = $_SESSION['temp_user_priv'];
+
+
+	$query = "SELECT COUNT(*) as panel_no FROM ocp_dashboard;";
+	$stmt = $link->prepare($query);
+	if (!$stmt->execute(array($name))) {
+		print_r("Failed to fetch db!");
+		error_log(print_r($stmt->errorInfo(), true));
+		die;
+	}
+	$resultset = $stmt->fetchAll();
+	if ($resultset[0]['panel_no'] > 0)
+		$_SESSION['path'] = "tools/admin/dashboard/dashboard.php";
+	
 	header("Location:main.php");
 }
 exit();

@@ -14,6 +14,7 @@ class pkg_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
 		$this->box_id = $array['widget_box'];
+		$this->set_warning(1);
 		foreach ($_SESSION['boxes'] as $box) {
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;

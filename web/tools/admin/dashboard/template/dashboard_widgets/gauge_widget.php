@@ -21,6 +21,7 @@ class gauge_widget extends widget
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;
 		}
+		$this->set_warning(1);
     }
 
     function display_chart($title, $value, $valueMax = 100) {

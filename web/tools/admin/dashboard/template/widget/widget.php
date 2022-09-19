@@ -10,7 +10,7 @@ abstract class widget
     public $color;
     public $has_menu;
     public $panel_id;
-	public $warning_level = 1;
+	public $warning_level = 0;
 
     public function __construct($panel_id, $name, $sizeX, $sizeY, $title=null) {
         $this->panel_id = $panel_id;
@@ -43,6 +43,9 @@ abstract class widget
 		$this->echo_content();
 				
 		switch ($this->warning_level) {
+			case 0:
+				$warning_color = "#3E5771";
+				break;
 			case 1:
 				$warning_color = "chartreuse";
 				break;
@@ -106,6 +109,8 @@ abstract class widget
 			$this->warning_level = 3;
 		if ($level == 2 && $this->warning_level != 3)
 			$this->warning_level = 2;
+		if ($level == 1 && $this->warning_level < 2)
+			$this->warning_level = 1;
 	}
 }
 ?>

@@ -11,6 +11,7 @@ class status_report_widget extends widget
 
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
+		$this->set_warning(1);
 		$this->box_id = $array['widget_box'];
 		foreach ($_SESSION['boxes'] as $box) {
 			if ($box['id'] == $this->box_id)

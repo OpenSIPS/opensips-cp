@@ -28,6 +28,10 @@ if (!isset($_SESSION['user_login'])) {
 }
 
 $main_body="blank.php";
+if (isset($_SESSION['path'])) {
+	$main_body = $_SESSION['path'];
+	unset($_SESSION['path']);
+}
 if (isset($_SESSION['current_tool'])) {
 	foreach ($config_modules as $menuitem => $menuitem_config) {
 		if (!$menuitem_config['enabled'])

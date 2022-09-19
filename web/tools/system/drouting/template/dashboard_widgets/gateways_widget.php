@@ -12,6 +12,7 @@ class gateways_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
 		$this->box_id = $array['widget_box'];
+		$this->set_warning(1);
 		foreach ($_SESSION['boxes'] as $box) {
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;
