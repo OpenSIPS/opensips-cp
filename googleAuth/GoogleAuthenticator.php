@@ -48,7 +48,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      */
     private $periodSize = 30;
 
-    public function __construct(int $passCodeLength = 6, int $secretLength = 10, ?\DateTimeInterface $instanceTime = null, int $codePeriod = 30)
+    public function __construct($passCodeLength = 6, $secretLength = 10, $instanceTime = null, $codePeriod = 30)
     {
         /*
          * codePeriod is the duration in seconds that the code is valid.
@@ -61,7 +61,9 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         $this->codePeriod = $codePeriod;
         $this->periodSize = $codePeriod < $this->periodSize ? $codePeriod : $this->periodSize;
         $this->pinModulo = 10 ** $passCodeLength;
-        $this->instanceTime = $instanceTime ?? new \DateTimeImmutable();
+		if (isset($instanceTime) && !is_null($instanceTime))
+       		$this->instanceTime = $instanceTime;
+		else $this->instanceTime = new \DateTimeImmutable();
     }
 
     /**
@@ -69,7 +71,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      * @param string $code
      * @param int    $discrepancy
      */
-    public function checkCode($secret, $code, $discrepancy = 1): bool
+    public function checkCode($secret, $code, $discrepancy = 1)
     {
         /**
          * Discrepancy is the factor of periodSize ($discrepancy * $periodSize) allowed on either side of the
@@ -101,7 +103,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      * @param string                                   $secret
      * @param float|string|int|\DateTimeInterface|null $time
      */
-    public function getCode($secret, /* \DateTimeInterface */ $time = null): string
+    public function getCode($secret, /* \DateTimeInterface */ $time = null)
     {
         if (null === $time) {
             $time = $this->instanceTime;
@@ -141,7 +143,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
      *
      * @deprecated deprecated as of 2.1 and will be removed in 3.0. Use Sonata\GoogleAuthenticator\GoogleQrUrl::generate() instead.
      */
-    public function getUrl($user, $hostname, $secret): string
+    public function getUrl($user, $hostname, $secret)
     {
         @trigger_error(sprintf(
             'Using %s() is deprecated as of 2.1 and will be removed in 3.0. '.
@@ -149,7 +151,7 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
             __METHOD__
         ), \E_USER_DEPRECATED);
 
-        $issuer = \func_get_args()[3] ?? null;
+        $issuer = \func_get_args()[3];
         $accountName = sprintf('%s@%s', $user, $hostname);
 
         // manually concat the issuer to avoid a change in URL
@@ -162,13 +164,26 @@ final class GoogleAuthenticator implements GoogleAuthenticatorInterface
         return $url;
     }
 
-    public function generateSecret(): string
+    public function generateSecret()
     {
+		if( !function_exists('random_bytes') )
+		{
+			function random_bytes($length = 6)
+			{
+				$characters = '0123456789';
+				$characters_length = strlen($characters);
+				$output = '';
+				for ($i = 0; $i < $length; $i++)
+					$output .= $characters[rand(0, $characters_length - 1)];
+
+				return $output;
+			}
+		}
         return (new FixedBitNotation(5, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567', true, true))
             ->encode(random_bytes($this->secretLength));
     }
 
-    private function hashToInt(string $bytes, int $start): int
+    private function hashToInt($bytes, $start)
     {
         return unpack('N', substr(substr($bytes, $start), 0, 4))[1];
     }
