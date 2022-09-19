@@ -8,6 +8,7 @@ class shmem_widget extends gauge_widget
 
     function __construct($array) {
         parent::__construct($array);
+		$this->set_warning(1);
         $this->color = 'rgb(198,226,213)';
 		$this->sizeX = 2;
     }
