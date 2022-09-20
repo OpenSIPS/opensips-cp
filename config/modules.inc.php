@@ -99,6 +99,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Load Balancer"
 			),
+			"tracer"				=> array (
+				"enabled"		=> true,
+				"name"			=> "Tracer"
+			),
 			"mi"				=> array (
 				"enabled"		=> true,
 				"name"			=> "MI Commands"
