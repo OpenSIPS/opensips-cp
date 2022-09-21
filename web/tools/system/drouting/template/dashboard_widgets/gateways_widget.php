@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
+require_once(__DIR__."/../../../../system/dashboard/template/widget/widget.php");
 
 class gateways_widget extends widget
 {

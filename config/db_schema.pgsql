@@ -9,7 +9,8 @@ CREATE TABLE ocp_admin_privileges (
   blocked text default NULL,
   failed_attempts integer default 0,
   available_tools text NOT NULL default '',
-  permissions text default NULL
+  permissions text default NULL,
+  secret text default NULL
 );
 SET CLIENT_ENCODING TO 'latin1' ;
 
