@@ -28,6 +28,7 @@ require  __DIR__.'/../googleAuth/GoogleQrUrl.php';
 require  __DIR__.'/../googleAuth/RuntimeException.php';
 
 include("db_connect.php"); 
+require("../config/modules.inc.php");
 session_start();
 
 if (isset($_POST['otp'])) {
@@ -54,17 +55,29 @@ if ($g->checkCode($secret, $otp)) {
 	$_SESSION['user_tabs'] = $_SESSION['temp_user_tabs'];
 	$_SESSION['user_priv'] = $_SESSION['temp_user_priv'];
 
-	$query = "SELECT COUNT(*) as panel_no FROM ocp_dashboard;";
-	$stmt = $link->prepare($query);
-	if (!$stmt->execute(array($name))) {
-		print_r("Failed to fetch db!");
-		error_log(print_r($stmt->errorInfo(), true));
-		die;
+	foreach ($config_modules as $menuitem => $menuitem_config) {
+		if (!$menuitem_config['enabled'])
+			continue;
+		if (!isset($menuitem_config['modules']))
+			continue;
+		if (isset($menuitem_config['modules']['dashboard'])
+			&& $menuitem_config['modules']['dashboard']['enabled'])
+			$dashboard = true;
+		else $dashboard = false;
 	}
-	$resultset = $stmt->fetchAll();
-	if ($resultset[0]['panel_no'] > 0)
-		$_SESSION['path'] = "tools/admin/dashboard/dashboard.php";
 	
+	if ($dashboard) {
+		$query = "SELECT COUNT(*) as panel_no FROM ocp_dashboard;";
+		$stmt = $link->prepare($query);
+		if (!$stmt->execute(array($name))) {
+			print_r("Failed to fetch db!");
+			error_log(print_r($stmt->errorInfo(), true));
+			die;
+		}
+		$resultset = $stmt->fetchAll();
+		if ($resultset[0]['panel_no'] > 0)
+			$_SESSION['path'] = "tools/system/dashboard/dashboard.php";
+	}
 	header("Location:main.php");
 } else {
 	print_r("Incorrect code");

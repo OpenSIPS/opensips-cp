@@ -71,6 +71,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "CDR Viewer"
 			),
+			"dashboard"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Dashboard"
+			),
 			"dialog"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Dialog"

@@ -25,10 +25,10 @@
     }
 
     function swap_panels($first, $second, $table) {  
-        require("../../../../config/tools/admin/dashboard/db.inc.php");
+        require("../../../../config/tools/system/dashboard/db.inc.php");
         include("lib/db_connect.php");
         require("../../../../config/db.inc.php");
-        require("../../../../config/tools/admin/dashboard/local.inc.php");
+        require("../../../../config/tools/system/dashboard/local.inc.php");
 
         $sql = 'UPDATE '.$table.' SET `order` = 
         CASE

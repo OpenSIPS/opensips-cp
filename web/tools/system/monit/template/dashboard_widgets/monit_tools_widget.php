@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
+require_once(__DIR__."/../../../../system/dashboard/template/widget/widget.php");
 
 class monit_tools_widget extends widget
 {

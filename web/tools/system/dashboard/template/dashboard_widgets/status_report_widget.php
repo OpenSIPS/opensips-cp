@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
+require_once(__DIR__."/../widget/widget.php");
 
 class status_report_widget extends widget
 {

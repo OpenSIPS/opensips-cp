@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__."/../../../../admin/dashboard/template/widget/widget.php");
-require_once(__DIR__."/../../../../admin/dashboard/template/dashboard_widgets/gauge_widget.php");
+require_once(__DIR__."/../../../../system/dashboard/template/widget/widget.php");
+require_once(__DIR__."/../../../../system/dashboard/template/dashboard_widgets/gauge_widget.php");
 
 class asr_widget extends gauge_widget
 {
