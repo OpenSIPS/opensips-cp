@@ -9,7 +9,7 @@ CREATE TABLE `ocp_admin_privileges` (
   `failed_attempts` int default 0,
   `available_tools` varchar(512) NOT NULL default '',
   `permissions` varchar(512) default NULL,
-  `secret` varchart(20) default NULL,
+  `secret` varchar(20) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
