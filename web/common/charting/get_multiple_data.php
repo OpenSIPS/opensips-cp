@@ -34,7 +34,6 @@
     $vals.=",f,".$fstats[0];
 
     foreach($fstats as $idx => $stat) {
-		error_log(json_encode($boxes)." balaur");
         $sql = "SELECT * FROM ".$table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";
         $stm = $link->prepare($sql);
         $stm->execute(array($stat, $boxes[$idx], time() - $chart_size * 3600));
