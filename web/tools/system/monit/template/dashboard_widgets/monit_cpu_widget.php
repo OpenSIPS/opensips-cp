@@ -23,8 +23,8 @@ class monit_cpu_widget extends widget
 			width: 90px; height:20px; margin: auto; margin-left: 1px; font-weight: bolder;" cellspacing="2" cellpadding="2" border="0">
 			');
 		echo ('
-			<tr><td class="rowEven"><span style="color:black;">USR: </td><td>'.$this->cpu_res['usr'].'%</span></td></tr>
-			<tr><td class="rowEven"><span style="color:black;">SYS: </td><td>'.$this->cpu_res['sys'].'%</span></td></tr>
+			<tr><td class="rowEven"><span style="color:black;">USR: </td><td>'.(isset($this->cpu_res['usr'])?$this->cpu_res['usr']:$this->cpu_res['us']).'%</span></td></tr>
+			<tr><td class="rowEven"><span style="color:black;">SYS: </td><td>'.(isset($this->cpu_res['sys'])?$this->cpu_res['sys']:$this->cpu_res['sy']).'%</span></td></tr>
 			</tr>  ');
 		echo('</table>');
 	
@@ -69,7 +69,7 @@ class monit_cpu_widget extends widget
 			return NULL;
 		}
 
-		preg_match('/(cpu[\s\r\n]*(?<cpu_info>.*?)[\s\r\n]*memory)/s', $response, $matches);
+		preg_match('/(cpu[\s\r\n]*(.\[[0-9];[0-9]*m)?(?<cpu_info>.*?)[\s\r\n]*memory)/s', $response, $matches);
 		$cpu_info = utf8_encode($matches['cpu_info']);
 		preg_match_all('/(?<cpu_info>.*?) /', $cpu_info, $matches);
 		foreach($matches['cpu_info'] as $key => $entry) {
