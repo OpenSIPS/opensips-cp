@@ -296,7 +296,6 @@ if ($action=="add_verify")
 		    $sha256 = "";
 		    $sha512t256 = "";
                 }
-		print_r(hash_algos());
                 $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
 		foreach ( get_settings_value("subs_extra") as $key => $value )
 			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
