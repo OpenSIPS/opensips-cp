@@ -275,10 +275,10 @@ if ($action=="add_verify")
           require("lib/".$page_id.".test.inc.php");
           if ($form_valid) {
                 if (get_settings_value("passwd_mode")==1) {
-                    $passwd="";
 		    $ha1 = md5($uname.":".$domain.":".$passwd);
 		    $sha256 = hash("sha256", $uname.":".$domain.":".$passwd);
 		    $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$passwd);
+			$passwd="";
                 } else {
 		    $ha1 = "";
 		    $sha256 = "";
