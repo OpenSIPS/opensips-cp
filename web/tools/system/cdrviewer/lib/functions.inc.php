@@ -93,7 +93,7 @@ function get_field($string){
 function cdr_export($start_time,  $end_time ) {
 
 	global $config ;
-	global $export_csv;
+	$export_csv = get_settings_value("export_csv");
 	global $cdr_repository_path ;
 	global $cdr_set_field_names;
 	global $cdr_export_time_limit;
@@ -151,16 +151,14 @@ function cdr_export($start_time,  $end_time ) {
 
 	if ($cdr_set_field_names == 1 ) {
 
-		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
-
-
-			$line .= $export_csv[$i][key($export_csv[$i])];
-
-			if  ($i < count($export_csv) - 1 )
-
-			$line .= $field_separator ;
-
+		$i = 0;
+		foreach ($export_csv as $key=>$value) {
+			$line .= $value;
+			if ($i < count($export_csv) - 1)
+				$line .= $field_separator;
+			$i++;
 		}
+		
 		$line .=  $line_terminator ;
 
 		fwrite($f , $line , strlen($line));
@@ -169,17 +167,13 @@ function cdr_export($start_time,  $end_time ) {
 	for ($j=0;count($result)>$j;$j++) {
 		$line = "";
 
-		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
-
-
-			$line .= $result[$j][key($export_csv[$i])];
-
-			if  ($i < count($export_csv) - 1 )
-
-			$line .= $field_separator ;
-
+		$i = 0;
+		foreach ($export_csv as $key=>$value) {
+			$line .= $result[$j][$key];
+			if ($i < count($export_csv) - 1)
+				$line .= $field_separator;
+			$i++;
 		}
-
 
 		$line .=  $line_terminator ;
 
@@ -192,9 +186,9 @@ function cdr_export($start_time,  $end_time ) {
 }
 
 function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
-
+ 
 	global $config ;
-	global $export_csv;
+	$export_csv = get_settings_value("export_csv");
 	global $cdr_set_field_names;
 	global $cdr_export_time_limit;
 	global $link;
@@ -236,18 +230,17 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 	$field_separator = ",";
 	$line_terminator = "\n" ;
-
+	
 	if ($cdr_set_field_names == 1 ) {
 
-		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
-
-			$line .= $export_csv[$i][key($export_csv[$i])];
-
-			if  ($i < count($export_csv) - 1 )
-
-			$line .= $field_separator ;
-
+		$i = 0;
+		foreach($export_csv as $key=>$value) {
+			$line .= $value;
+			if ($i < count($export_csv) - 1)
+				$line .= $field_separator;
+			$i++;
 		}
+		
 		$line .=  $line_terminator ;
 
 		fwrite($f , $line , strlen($line));
@@ -259,25 +252,22 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 			process_cdr_line_for_export( $row );
 		$line = "";
 
-		for ($i = 0 ; $i < count($export_csv)  ; $i++) {
+		$i = 0;
+		foreach ($export_csv as $key => $value) {
 
-
-			$line .= $row[key($export_csv[$i])];
+			$line .= $row[$key];
 
 			if  ($i < count($export_csv) - 1 )
 
 			$line .= $field_separator ;
-
+			$i++;
 		}
 
 		$line .=  $line_terminator ;
-
 		fwrite($f , $line , strlen($line));
 	}
-
 	fclose($f);
 	$stm->closeCursor();
-
 
 	//	put to download
 
