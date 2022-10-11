@@ -31,8 +31,6 @@ require("template/header.php");
 require("lib/HEPpacket.php");
 require("../../../common/forms.php");
 
-
-
 if(isset($_GET['action'])) {
 	$action = $_GET['action'];
 }
@@ -53,15 +51,15 @@ echo ('
 <td colspan="2" height="10" class="mainTitle">Set filters</td>
 </tr>
 ');
-form_generate_input_text("Caller", "Caller", "caller_id", "n", (isset($_GET['action'])?$_POST['caller_id']:NULL), 100, NULL);
-form_generate_input_text("Callee", "Callee", "callee_id", "n", (isset($_GET['action'])?$_POST['callee_id']:NULL), 100, NULL);
-form_generate_input_text("IP", "IP address", "ip_id", "n", (isset($_GET['action'])?$_POST['ip_id']:NULL), 100, NULL);
+form_generate_input_text("Caller", "Caller", "caller_id", "y", (isset($_GET['action'])?$_POST['caller_id']:NULL), 100, NULL);
+form_generate_input_text("Callee", "Callee", "callee_id", "y", (isset($_GET['action'])?$_POST['callee_id']:NULL), 100, NULL);
+form_generate_input_text("IP", "IP address", "ip_id", "y", (isset($_GET['action'])?$_POST['ip_id']:NULL), 100, $re_ip);
 
 echo (' <tr>
 <td colspan="2">
   <table cellspacing=20>
 	<tr>
-	  <td class="dataRecord" align="left" width="50%"><input type="submit" name="setFilters" value="Start" class="formButton" disabled></td>');
+	  <td class="dataRecord" align="left" width="50%"><input type="submit" name="setFilters" onclick="return confirmStart()" value="Start" class="formButton" ></td>');
 	  if ($action == "start") echo ('<td class="dataRecord" align="right" width="50%"><input onclick="window.location.href=\'tracer.php\';" class="formButton" value="Stop" type="button"></td>');
 echo ('
 	</tr>

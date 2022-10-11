@@ -1,5 +1,18 @@
 <script language="JavaScript">
-  
+
+function confirmStart()
+{
+	
+	var caller = document.getElementById('caller_id').value;
+	var callee = document.getElementById('callee_id').value;
+	var ip = document.getElementById('ip_id').value;
+	if (!caller && !callee && !ip) {
+		var agree=confirm("Are you sure you want to start tracing without filters?");
+		if (agree)	return true;
+			else return false;
+	} else return true;
+}
+
 function closeTracing(arg) {
   const Http = new XMLHttpRequest();
   const url = 'close.php?id=' + arg;
