@@ -21,7 +21,6 @@
  */
 global $config;
 $config->db_config = array(
-	"name" => "test"
 );
 
 $config->results_per_page = 20;
