@@ -21,20 +21,20 @@
  */
 
  //database host
- //$config->db_host_user_management = "localhost";
+ //$config->db_host_db_config = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_user_management = "";
+ //$config->db_port_db_config = "";
  
- //database connection user_management
- //$config->db_user_management = "root";
+ //database connection user
+ //$config->db_user_db_config = "root";
  
  //database connection password
- //$config->db_pass_user_management = "mysql";
+ //$config->db_pass_db_config = "mysql";
  
  //database name
- //$config->db_name_user_management = "opensips";
+ //$config->db_name_db_config = "opensips";
  
- //if ($config->db_port_user_management != "") $config->db_host_user_management = $config->db_host_user_management . ";port=" . $config->db_port_user_management;
+ //if ($config->db_port_db_config != "") $config->db_host_db_config = $config->db_host_db_config . ";port=" . $config->db_port_db_config;
  
 ?>

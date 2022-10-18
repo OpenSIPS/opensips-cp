@@ -38,6 +38,13 @@ $config->rtpproxy = array(
 		"type" => "title",
 		"title" => "DB settings"
 	),
+	"db_config" => array(
+			"default" => 0,
+			"name" => "DB configuration",
+			"type" => "dropdown",
+			"options" => get_db_configs(),
+			"tip" => "DB configuration to use for this tool"
+	),
 	"table_rtpproxy" => array(
 		"default" => "rtpproxy_sockets",
 		"name" => "Table RTPproxy",

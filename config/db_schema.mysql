@@ -125,3 +125,19 @@ CREATE TABLE `ocp_extra_stats` (
   `class` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_db_config`
+-- 
+
+CREATE TABLE `ocp_db_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `config_name` varchar(64) NOT NULL,
+  `db_host` varchar(64) NOT NULL,
+  `db_port` varchar(64) NOT NULL,
+  `db_user` varchar(64) NOT NULL,
+  `db_pass` varchar(64) DEFAULT NULL,
+  `db_name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

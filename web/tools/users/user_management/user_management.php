@@ -21,6 +21,7 @@
 */
 
 require("../../../common/cfg_comm.php");
+load_db_config();
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");

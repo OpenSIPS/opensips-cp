@@ -20,24 +20,29 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-        global $config;
+global $config;
+if (get_settings_value("db_config")) {
+    $configuration = get_settings_value("db_config");
+    foreach($_SESSION['db_config'][$configuration] as $param => $value) {
+        $param_name = $param."_".$_SESSION['current_tool'];
+        $config->$param_name = $value;
+    }
+}
+require_once("".__DIR__."/../../../../../config/db.inc.php");
 
-        require_once("".__DIR__."/../../../../../config/tools/system/dashboard/db.inc.php");
-        require_once("".__DIR__."/../../../../../config/db.inc.php");
-
-        if (isset($config->db_host_dashboard) && isset($config->db_user_dashboard) && isset($config->db_name_dashboard) ) {
-                $config->db_host = $config->db_host_dashboard;
-                $config->db_port = $config->db_port_dashboard;
-                $config->db_user = $config->db_user_dashboard;
-                $config->db_pass = $config->db_pass_dashboard;
-                $config->db_name = $config->db_name_dashboard;
-        }
-	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
-	try {
-		$link = new PDO($dsn, $config->db_user, $config->db_pass);
-	} catch (PDOException $e) {
-		error_log(print_r("Failed to connect to: ".$dsn, true));
-		print "Error!: " . $e->getMessage() . "<br/>";
-		die();
-	}
+if (isset($config->db_host_dashboard) && isset($config->db_user_dashboard) && isset($config->db_name_dashboard) ) {
+        $config->db_host = $config->db_host_dashboard;
+        $config->db_port = $config->db_port_dashboard;
+        $config->db_user = $config->db_user_dashboard;
+        $config->db_pass = $config->db_pass_dashboard;
+        $config->db_name = $config->db_name_dashboard;
+}
+$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+try {
+    $link = new PDO($dsn, $config->db_user, $config->db_pass);
+} catch (PDOException $e) {
+    error_log(print_r("Failed to connect to: ".$dsn, true));
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
+}
 ?>

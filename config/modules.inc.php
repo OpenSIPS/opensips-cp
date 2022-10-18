@@ -31,6 +31,10 @@ $config_admin_modules = array (
 	"boxes_config"    => array (
 		"enabled"   => true,
 		"name"		=> "Boxes"
+	),
+	"db_config"    => array (
+		"enabled"   => true,
+		"name"		=> "DB config"
 	)
 );
 

@@ -19,9 +19,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-
-require_once("../../../../config/tools/system/monit/db.inc.php");
+if (get_settings_value("db_config")) {
+	$configuration = get_settings_value("db_config");
+	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
+		$param_name = $param."_".$_SESSION['current_tool'];
+		$config->$param_name = $value;
+	}
+}
 require_once("../../../../config/db.inc.php");
 
 	global $config;

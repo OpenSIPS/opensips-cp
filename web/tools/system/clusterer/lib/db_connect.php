@@ -20,24 +20,29 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-require_once("../../../../config/tools/system/clusterer/db.inc.php");
+if (get_settings_value("db_config")) {
+	$configuration = get_settings_value("db_config");
+	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
+		$param_name = $param."_".$_SESSION['current_tool'];
+		$config->$param_name = $value;
+	}
+}
 require_once("../../../../config/db.inc.php");
 
-        global $config;
-        if (isset($config->db_host_clusterer) && isset($config->db_user_clusterer) && isset($config->db_name_clusterer) ) {
-                $config->db_host = $config->db_host_clusterer;
-                $config->db_port = $config->db_port_clusterer;
-                $config->db_user = $config->db_user_clusterer;
-                $config->db_pass = $config->db_pass_clusterer;
-                $config->db_name = $config->db_name_clusterer;
-        }
-        $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
-        try {
-               $link = new PDO($dsn, $config->db_user, $config->db_pass);
-        } catch (PDOException $e) {
-               error_log(print_r("Failed to connect to: ".$dsn, true));
-               print "Error!: " . $e->getMessage() . "<br/>";
-               die();
-        }
+global $config;
+if (isset($config->db_host_clusterer) && isset($config->db_user_clusterer) && isset($config->db_name_clusterer) ) {
+        $config->db_host = $config->db_host_clusterer;
+        $config->db_port = $config->db_port_clusterer;
+        $config->db_user = $config->db_user_clusterer;
+        $config->db_pass = $config->db_pass_clusterer;
+        $config->db_name = $config->db_name_clusterer;
+}
+$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+try {
+        $link = new PDO($dsn, $config->db_user, $config->db_pass);
+} catch (PDOException $e) {
+        error_log(print_r("Failed to connect to: ".$dsn, true));
+        print "Error!: " . $e->getMessage() . "<br/>";
+        die();
+}
 ?>

@@ -21,8 +21,13 @@
  */
 
 
-
-require_once("../../../../config/tools/users/group_management/db.inc.php");
+if (get_settings_value("db_config")) {
+	$configuration = get_settings_value("db_config");
+	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
+		$param_name = $param."_".$_SESSION['current_tool'];
+		$config->$param_name = $value;
+	}
+}
 require_once("../../../../config/db.inc.php");
 
         global $config;

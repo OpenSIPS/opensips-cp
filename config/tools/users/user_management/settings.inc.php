@@ -112,6 +112,13 @@ $config->user_management = array(
 		"type" => "title",
 		"title" => "DB settings"
 	),
+	"db_config" => array(
+			"default" => 0,
+			"name" => "DB configuration",
+			"type" => "dropdown",
+			"options" => get_db_configs(),
+			"tip" => "DB configuration to use for this tool"
+	),
 	"table_users" => array(
 		"default" => "subscriber",
 		"name"    => "Users Table",
