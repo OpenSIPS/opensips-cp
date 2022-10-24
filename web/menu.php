@@ -21,8 +21,8 @@
  */
 
 
-session_start();
 
+require("../config/session.inc.php");
 require("../config/modules.inc.php");
 $super_admin=false;
 $available_tabs=array();
