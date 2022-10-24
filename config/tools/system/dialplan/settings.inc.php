@@ -58,6 +58,13 @@ $config->dialplan = array(
 		"type" => "title",
 		"title" => "DB settings"
 	),
+	"db_config" => array(
+			"default" => 0,
+			"name" => "DB configuration",
+			"type" => "dropdown",
+			"options" => get_db_configs(),
+			"tip" => "DB configuration to use for this tool"
+	),
 	"table_dialplan" => array(
 		"default" => "dialplan",
 		"name"    => "Table Dialplan",

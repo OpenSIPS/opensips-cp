@@ -131,3 +131,20 @@ CREATE TABLE ocp_extra_stats (
   tool text DEFAULT NULL,
   class text DEFAULT NULL
 );
+
+-- --------------------------------------------------------
+
+--
+-- Table for `ocp_db_config`
+--
+
+CREATE SEQUENCE ocp_db_config_id_seq;
+CREATE TABLE ocp_db_config (
+  id integer Primary KEY DEFAULT nextval('ocp_db_config_id_seq'),
+  config_name text NOT NULL default '',
+  db_host text NOT NULL default '',
+  db_port text NOT NULL default '',
+  db_user text NOT NULL default '',
+  db_pass text default NULL,
+  db_name text NOT NULL default ''
+);

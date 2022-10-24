@@ -1,5 +1,5 @@
 <?php
-/*
+ /*
  * Copyright (C) 2011 OpenSIPS Project
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
@@ -19,22 +19,14 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+global $config;
+$config->db_config = array(
+);
 
- //database host
- //$config->db_host_user_management = "localhost";
- 
- //database port - leave empty for default
- //$config->db_port_user_management = "";
- 
- //database connection user_management
- //$config->db_user_management = "root";
- 
- //database connection password
- //$config->db_pass_user_management = "mysql";
- 
- //database name
- //$config->db_name_user_management = "opensips";
- 
- //if ($config->db_port_user_management != "") $config->db_host_user_management = $config->db_host_user_management . ";port=" . $config->db_port_user_management;
- 
+$config->results_per_page = 20;
+$config->results_page_range = 5;
+
+//database tables
+$config->table_db_config = "ocp_db_config";
+
 ?>

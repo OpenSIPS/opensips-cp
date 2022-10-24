@@ -20,30 +20,36 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once("../../../../config/session.inc.php");
-require_once("../../../../config/db.inc.php");
-require_once("lib/functions.inc.php");
-$page_name = basename($_SERVER['SCRIPT_NAME']);
-$page_id = substr($page_name, 0, strlen($page_name) - 4);
-$_SESSION['current_tool'] = $page_id;
-$_SESSION['current_group'] = get_group();
-$no_result = "No Data Found.";
-session_load();
-header('Content-Type: text/html; charset=ISO-8859-1');
+function permission($option,$i,$disabled) {
+	global $config;
+	require("../../../../config/globals.php");
+	$permissions = $config->permissions;
+	if ($disabled=='disabled') {
+		?>
+		<select disabled="disabled" name="permission<?php print "_$i";?>" id="permission" size="1" style="width: 175px" class="dataSelect" >
+		<?php
+	} else {
+	?>
+		<select name="permission<?php print "_$i";?>" id="permission" size="1" style="width: 175px" class="dataSelect" >
+	<?php
+	}
+
+	if (!empty($option)) {
+             echo('<option value="'.$option. '" selected > '.$option.'</option>');			
+	}	
+		
+	foreach ($permissions as $key) { 
+		if ($key==$option){
+			continue;
+		} else {
+		
+             		echo('<option value="'.$key. '" > '.$key.'</option>');			
+		}
+	}
+	?>
+	</select>
+	<?php
+}
+
+
 ?>
-
-<html>
-
-<head>
- <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
-</head>
-
-<body bgcolor="#e9ecef">
-<center>
-<table width="90%" cellpadding="5" cellspacing="5" border="0">
- <tr  valign="top" height="20">
-  <td><?php require("template/menu.php") ?></td>
- </tr>
- <tr valign="top" align="center"> 
-  <td>
-   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>

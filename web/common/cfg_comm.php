@@ -280,53 +280,31 @@ function load_panels() {
 	$_SESSION['config']['panels_max_order'] = $max_order;
 }
 
-
-function load_boxes() {
-	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
-	global $config;
-	if (!isset($_SESSION['config'][$_SESSION['current_tool']])) {
-		$module_params = get_params();
-		if (is_null($box_id)) {
-			$sql = 'select param, value from tools_config where module=? ';
-			$stm = $link->prepare($sql);
-			if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-			}
-			if ($stm->execute( array($_SESSION['current_tool'])) == false)
-				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			else {
-				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($resultset as $elem) {
-					if ($module_params[$elem['param']]['type'] == "json") {
-						$_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = json_decode($elem['value'], true);
-					}
-					else $_SESSION['config'][$_SESSION['current_tool']][$elem['param']] = $elem['value'];
-				} 
-			}
-		} else {
-			$sql = 'select param, value, box_id from tools_config where module=? ';
-			$stm = $link->prepare($sql);
-			if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-			}
-		
-			if ($stm->execute( array($_SESSION['current_tool'])) == false)
-				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			else {
-				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($resultset as $elem) {
-					if ($module_params[$elem['param']]['type'] == "json") {
-						$_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
-					}
-					else $_SESSION['config'][$_SESSION['current_tool']][$elem['box_id']][$elem['param']] = $elem['value'];
-				}
-			}
-		} 
+function get_db_configs() {
+	$configs = array();
+	foreach($_SESSION['db_config'] as $id => $configuration) {
+		$configs[$configuration['config_name']] = $id;
 	}
-	foreach ($module_params as $module=>$params) {
-		$config->$module = get_settings_value($module); 
-	} 
+	$configs["Default config"] = 0;
+	return $configs;
+}
+
+function load_db_config() {
+	require("".__DIR__."/../tools/admin/db_config/lib/db_connect.php");
+	require("".__DIR__."/../../config/tools/admin/db_config/settings.inc.php");
+	global $config;
+	if (!isset($_SESSION['db_config'])) {
+		$sql = 'select * from '.$config->table_db_config;
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		$stm->execute( array() );
+		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
+		foreach($resultset as $elem) {
+			$_SESSION['db_config'][$elem['id']] = $elem;
+		}
+	}
 }
 
 function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {

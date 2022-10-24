@@ -20,8 +20,14 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+if (get_settings_value("db_config")) {
+	$configuration = get_settings_value("db_config");
+	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
+		$param_name = $param."_".$_SESSION['current_tool'];
+		$config->$param_name = $value;
+	}
+}
 require_once("../../../../config/db.inc.php");
-require_once("../../../../config/tools/system/statusreport/db.inc.php");
 
 global $config;
 if (isset($config->db_host_statusreport) && isset($config->db_user_statusreport) && isset($config->db_name_statusreport) ) {

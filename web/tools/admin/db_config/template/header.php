@@ -21,15 +21,14 @@
 */
 
 require_once("../../../../config/session.inc.php");
+require_once("../../../../config/tools/admin/db_config/db.inc.php");
 require_once("../../../../config/db.inc.php");
 require_once("lib/functions.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
-$_SESSION['current_tool'] = $page_id;
-$_SESSION['current_group'] = get_group();
+$_SESSION['current_group'] = "admin";
+$_SESSION['current_tool'] = "db_config";
 $no_result = "No Data Found.";
-session_load();
-header('Content-Type: text/html; charset=ISO-8859-1');
 ?>
 
 <html>
@@ -38,7 +37,7 @@ header('Content-Type: text/html; charset=ISO-8859-1');
  <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
 </head>
 
-<body bgcolor="#e9ecef">
+<body bgcolor="#e9ecef" id="admin_config">
 <center>
 <table width="90%" cellpadding="5" cellspacing="5" border="0">
  <tr  valign="top" height="20">

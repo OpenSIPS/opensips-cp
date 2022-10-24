@@ -20,22 +20,17 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-if (get_settings_value("db_config")) {
-	$configuration = get_settings_value("db_config");
-	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
-		$param_name = $param."_".$_SESSION['current_tool'];
-		$config->$param_name = $value;
-	}
-}
-require_once("../../../../config/db.inc.php");
-
         global $config;
-        if (isset($config->db_host_alias_management) && isset($config->db_user_alias_management) && isset($config->db_name_alias_management) ) {
-                $config->db_host = $config->db_host_alias_management;
-                $config->db_port = $config->db_port_alias_management;
-                $config->db_user = $config->db_user_alias_management;
-                $config->db_pass = $config->db_pass_alias_management;
-                $config->db_name = $config->db_name_alias_management;
+
+        require_once("".__DIR__."/../../../../../config/tools/admin/db_config/db.inc.php");
+        require_once("".__DIR__."/../../../../../config/db.inc.php");
+
+        if (isset($config->db_host_db_config) && isset($config->db_user_db_config) && isset($config->db_name_db_config) ) {
+                $config->db_host = $config->db_host_db_config;
+                $config->db_port = $config->db_port_db_config;
+                $config->db_user = $config->db_user_db_config;
+                $config->db_pass = $config->db_pass_db_config;
+                $config->db_name = $config->db_name_db_config;
         }
 	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 	try {

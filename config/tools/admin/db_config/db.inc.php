@@ -20,29 +20,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require_once("../../../common/cfg_comm.php");
- require_once("../../../../config/session.inc.php");
- require_once("../../../../config/db.inc.php");
- require_once("lib/functions.inc.php");
- $page_name = basename($_SERVER['SCRIPT_NAME']);
- $page_id = substr($page_name, 0, strlen($page_name) - 4);
- $_SESSION['current_tool'] = 'smonitor';
- $_SESSION['current_group'] = get_group();
- $no_result = "No Data Found.";
+ //database host
+ //$config->db_host_db_config = "localhost";
+ 
+ //database port - leave empty for default
+ //$config->db_port_db_config = "";
+ 
+ //database connection user
+ //$config->db_user_db_config = "root";
+ 
+ //database connection password
+ //$config->db_pass_db_config = "mysql";
+ 
+ //database name
+ //$config->db_name_db_config = "opensips";
+ 
+ //if ($config->db_port_db_config != "") $config->db_host_db_config = $config->db_host_db_config . ";port=" . $config->db_port_db_config;
+ 
 ?>
-
-<html>
-
-<head>
- <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
-</head>
-
-<body bgcolor="#e9ecef">
-<center>
-<table width="90%" cellpadding="5" cellspacing="5" border="0">
- <tr  valign="top" height="20">
-  <td><?php require("template/menu.php") ?></td>
- </tr>
- <tr valign="top" align="center"> 
-  <td>
-   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
