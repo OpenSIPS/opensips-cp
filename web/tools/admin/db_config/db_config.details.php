@@ -19,22 +19,16 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+extract($_GET);
 
-require(__DIR__."/../../../../../config/db.inc.php");
-require(__DIR__."/../../../../../config/tools/admin/db_config/settings.inc.php");
-if ($id == 0) {
-	$resultset = array();
-	$resultset[0]["db_host"] = $config->db_host;
-	$resultset[0]["db_port"] = $config->db_port;
-	$resultset[0]["db_user"] = $config->db_user;
-	$resultset[0]["db_name"] = $config->db_name;
-	$resultset[0]["db_pass"] = $config->db_pass;
+require(__DIR__."/../../../../config/db.inc.php");
+if ($db_id == 0) {
+	$host = $config->db_host;
+	$port = $config->db_port;
+	$user = $config->db_user;
+	$name = $config->db_name;
+	$pass = $config->db_pass;
 } else {
-	$sql = "select * from ".$table." where id=?";
-	$stm = $link->prepare($sql);
-	if ($stm->execute(array($id)) === false)
-		die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 }
 ?>
 	<table width="400" border="0">
@@ -49,26 +43,11 @@ if ($id == 0) {
 
 				<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
 				<?php
-
-				$i = 0;
-				foreach ($resultset[0] as $key => $value) {
-					if ($key != "id") {
-						$row_style = ($i%2 == 1)?"rowOdd":"rowEven";
-						$i++;
-						?>
-						<tr>
-						<td class="<?=$row_style?>">
-							<b><?=$key?></b>
-						</td>
-						<td class="<?=$row_style?>">
-								<?php
-									echo ($value);
-								?>
-						</td>
-					</tr>
-				<?php 
-					}
-				} 
+                echo("<tr><td>DB host</td><td>".$host."</td></tr>");
+                echo("<tr><td>DB port</td><td>".$port."</td></tr>");
+                echo("<tr><td>DB user</td><td>".$user."</td></tr>");
+                echo("<tr><td>DB name</td><td>".$name."</td></tr>");
+                echo("<tr><td>DB pass</td><td>".$pass."</td></tr>");
 				?>
 				</table>
 

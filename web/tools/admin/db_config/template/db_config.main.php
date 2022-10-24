@@ -29,6 +29,10 @@ if(!$_SESSION['read_only']){
 }
 
 ?>
+<div id="db_config" class="dialog" style="display:none"></div>
+<div onclick="closeStatOverlay();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
+
 <form action="<?=$page_name?>?action=add" method="post">
 <?php csrfguard_generate(); ?>
  <?php if (!$_SESSION['read_only']) echo('<input type="submit" name="add_new" value="Add New Configuration" class="formButton add-new-btn">') ?>
@@ -79,7 +83,7 @@ else
 	$index_row=0;
 	$i=0;
 
-	$details_link = '<a href="'.$page_name.'?action=details&db_id=0"><img src="../../../images/share/details.png" border="0"></a>';
+	$details_link = '<a href="javascript:;" onclick="openStatOverlay(\'pass\',\'pass\',\'pass\',\'pass\',\'pass\',\'0\')"><img src="../../../images/share/details.png" border="0"></a>';
 	echo('
  <tr>
   <td class="'.$row_style.'">&nbsp;Default</td>');
@@ -91,8 +95,9 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
+			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['db_host'].'\',\''.$resultset[$i]['db_port'].'\',\''.$resultset[$i]['db_user'].'\',
+            \''.$resultset[$i]['db_name'].'\',\''.$resultset[$i]['db_pass'].'\',\''.$resultset[$i]['id'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			$edit_link = '<a href="'.$page_name.'?action=edit_db&db_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-			$details_link = '<a href="'.$page_name.'?action=details&db_id='.$resultset[$i]['id'].'"><img src="../../../images/share/details.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&db_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
 ?>
