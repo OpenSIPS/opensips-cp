@@ -54,7 +54,7 @@ if (strpos($command, " ")) {
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
 
-	$message=mi_command($command, NULL, $mi_connectors[$i], $errors);
+	$message=mi_command($command, $params, $mi_connectors[$i], $errors);
 
 	if (empty($errors)) {
 		echo "<font color='green'><b>Success</b></font>";
