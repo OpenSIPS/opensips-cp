@@ -11,8 +11,8 @@
                 <div class="tooltipd3-date">
                     <span id="date"></span>
                 </div>
-                <div class="tooltipd3-Internet">
-                    Value: <span id="internet"></span>
+                <div class="tooltipd3-chartValue">
+                    Value: <span id="chartValue"></span>
                 </div>
             </div>
 
@@ -36,7 +36,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
   },
 
   //  use this dataset:
-  function(data) {
+  function(data) { console.log(data)
     var refresh = 1;
     var zoomTrigger = false;
   // set the dimensions and margins of the graph
@@ -98,7 +98,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
     tooltip.select("#date").text(formatDate(closestXValue));
 
     const formatYvalue = (d) => d;
-    tooltip.select("#internet").html(formatYvalue(closestYValue));
+    tooltip.select("#chartValue").html(formatYvalue(closestYValue));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
     const x = xScale(closestXValue) + offsets.left + margin.left ;
@@ -136,7 +136,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
       .call(d3.axisLeft(y)
       .tickFormat(d3.format(".2s")));
 
-      svg.selectAll("g.yAxis g.tick") 
+    svg.selectAll("g.yAxis g.tick") 
         .append("line") 
             .attr("class", "gridline")
             .attr("x1", 0) 
@@ -144,7 +144,7 @@ d3.csv("get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).conc
             .attr("x2", width)
             .attr("y2", 0);
             
-        svg.selectAll("g.xAxis g.tick") 
+    svg.selectAll("g.xAxis g.tick") 
       .append("line") 
           .attr("class", "gridline")
           .attr("x1", 0) 

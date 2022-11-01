@@ -11,8 +11,8 @@
                 <div class="tooltipd3-date">
                     <span id="date"></span>
                 </div>
-                <div class="tooltipd3-Internet">
-                    Value: <span id="internet"></span>
+                <div class="tooltipd3-chartValue">
+                    Value: <span id="chartValue"></span>
                 </div>
             </div>
 
@@ -260,16 +260,20 @@ var lines = svg.selectAll(".line")
       var closestIndex;
       var smallestYdist = -1;
       var closestDataPoint;
-      for (var i = 0; i < sumstat.length; i++) { 
+      for (var i = 0; i < sumstat.length; i++) {
+        var currentMax;
+        if (arg5 == 1)
+          currentMax = d3.max(sumstat[i].values, function(d) { return +d.value; }); //this could be computed only once
+        else currentMax = 1; 
         var currentChartClosest = d3.scan(
           sumstat[i].values,
           (a, b) => getDistanceFromHoveredDate(a) - getDistanceFromHoveredDate(b)
-    ); 
+        ); 
         if(arg5 == 2 ) var hoveredValueTemp = hoveredValueAll;
         else var hoveredValueTemp = hoveredValue[sumstat[i].key];
-        if( Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp) < smallestYdist || smallestYdist == -1) {
+        if( Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp)/currentMax < smallestYdist || smallestYdist == -1) {
           closestDataPoint = sumstat[i].values[currentChartClosest];
-          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp);
+          smallestYdist = Math.abs(sumstat[i].values[currentChartClosest].value - hoveredValueTemp)/currentMax;
         }
     }
     
@@ -283,7 +287,7 @@ var lines = svg.selectAll(".line")
     tooltip.select("#date").text(formatDate(closestXValue));
 
     const formatYvalue = (d) => d;
-    tooltip.select("#internet").html(formatYvalue(closestYValue));
+    tooltip.select("#chartValue").html(formatYvalue(d3.format(".4s")(closestYValue)));
 
     var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
     const xT = x(closestXValue) + offsets.left + margin.left ;
