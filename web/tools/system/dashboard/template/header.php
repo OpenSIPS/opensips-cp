@@ -28,7 +28,7 @@ $current_tab = $_GET['panel_id'];
 $current_req = basename($_SERVER['REQUEST_URI']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 $_SESSION['current_group'] = "system";
-//$_SESSION['current_tool'] = "dashboard";
+$_SESSION['current_tool'] = "dashboard";
 $no_result = "No Data Found.";
 load_panels();
 ?>

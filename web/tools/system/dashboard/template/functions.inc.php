@@ -28,7 +28,7 @@
         require("../../../../config/tools/system/dashboard/db.inc.php");
         include("lib/db_connect.php");
         require("../../../../config/db.inc.php");
-        require("../../../../config/tools/system/dashboard/local.inc.php");
+        require("../../../../config/tools/system/dashboard/settings.inc.php");
 
         $sql = 'UPDATE '.$table.' SET `order` = 
         CASE
