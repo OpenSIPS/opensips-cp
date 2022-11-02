@@ -242,7 +242,7 @@ function get_system_params() {
 
 function load_panels() {
 	require("".__DIR__."/../tools/system/dashboard/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/system/dashboard/local.inc.php");
+	require("".__DIR__."/../../config/tools/system/dashboard/settings.inc.php");
 	unset($_SESSION['config']['panels']);
 	$max_order = -1;
 	$sql = 'select `name`, id, content, positions, `order` from ocp_dashboard';
