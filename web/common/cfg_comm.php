@@ -167,14 +167,7 @@ function load_widgets() {
 				$widgets[] = $wname;
 		}
 	}
-	$files = glob('../../system/dashboard/template/dashboard_widgets/*.php');
-	foreach ($files as $file) {
-		require_once($file);
-		$file_name = basename($file);
-		$wname = substr($file_name, 0, strlen($file_name) - 4);
-		if ($wname::$ignore != 1)
-			$widgets[] = $wname;
-	}
+
 	return $widgets;
 }
 
