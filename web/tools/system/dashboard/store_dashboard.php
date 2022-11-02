@@ -1,4 +1,6 @@
 <?php
+  require("../../../common/cfg_comm.php");
+  $_SESSION['current_tool'] = "dashboard";
   require("../../../../config/tools/system/dashboard/db.inc.php");
   include("lib/db_connect.php");
   require("../../../../config/db.inc.php");
