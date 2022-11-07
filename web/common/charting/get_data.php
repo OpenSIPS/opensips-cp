@@ -21,7 +21,7 @@
     $table_monitoring = $_SESSION['tmonitoring'];
     $vals ="";
     $vals.="date,value";
-    $chart_size = $_SESSION['chart_size'];
+    $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:$_SESSION['chart_size'];
     if ($zoomOut == 'true') {
         $chart_size = $_SESSION['chart_history'];
         if ($chart_size == "auto")

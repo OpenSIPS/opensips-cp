@@ -23,7 +23,7 @@
     $table_monitoring = get_settings_value_from_tool("table_monitoring", "smonitor");
     $vals ="";
     $vals.="date,value,name";
-    $chart_size = get_settings_value_from_tool("chart_size", "smonitor");
+    $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:get_settings_value_from_tool("chart_size", "smonitor");
     if ($zoomOut == 'true') {
     	$chart_size = get_settings_value_from_tool("chart_history", "smonitor");
         if ($chart_size == "auto")
