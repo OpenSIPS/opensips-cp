@@ -112,6 +112,8 @@ class monit_tools_widget extends widget
 
     public static function new_form($params = null) {
 		$boxes_info = self::get_boxes();
+        if (!$params['widget_name'])
+            $params['widget_name'] = "Chart widget";
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
     	form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 	}

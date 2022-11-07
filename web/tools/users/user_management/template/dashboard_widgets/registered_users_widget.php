@@ -51,6 +51,8 @@ class registered_users_widget extends widget
     }
   
     public static function new_form($params = null) {
+        if (!$params['widget_title'])
+            $params['widget_title'] = "Registered Users widget";
 		$boxes_info = self::get_boxes();
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);

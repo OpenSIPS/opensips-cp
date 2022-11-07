@@ -37,6 +37,8 @@ class multi_gauge_widget extends gauge_widget
 			$params['widget_warning'] = 50;
 		if (!isset($params['widget_critical']))
 			$params['widget_critical'] = 75;
+        if (!$params['widget_title'])
+            $params['widget_title'] = "Percent widget";
         form_generate_input_text("Title", "Title to be displayed on widget", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Statistic", "Statistic that widget should display", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_input_text("Max value", "Max value of statistic", "widget_max", "y", $params['widget_max'], 20,null);
