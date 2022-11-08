@@ -103,13 +103,13 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Clusterer"
 			),
+			"keepalived"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Keepalived"
+			),
 			"loadbalancer"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Load Balancer"
-			),
-			"tracer"				=> array (
-				"enabled"		=> true,
-				"name"			=> "Tracer"
 			),
 			"mi"				=> array (
 				"enabled"		=> true,
@@ -155,6 +155,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "TCP Management"
 			),
+			"tracer"				=> array (
+				"enabled"		=> true,
+				"name"			=> "Tracer"
+            ),
 		)
 	),
 );
