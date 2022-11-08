@@ -102,7 +102,7 @@ class status_report_widget extends widget
 			$init = 1;
 		else $init = 0;
         if (!$params['widget_name'])
-            $params['widget_name'] = "Status report widget";
+            $params['widget_name'] = "Status report";
         $identifiers_list = self::get_identifiers_options();
 		$options = (!$init)?$identifiers_list[$params['widget_box']]:$identifiers_list[0];
         form_generate_input_text("Name", "", "widget_name", "n", $params['widget_name'], 20,null);

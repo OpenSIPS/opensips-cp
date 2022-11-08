@@ -87,7 +87,7 @@ class chart_widget extends widget
 			$init = 1;
 		else $init = 0;
         if (!$params['widget_title'])
-            $params['widget_title'] = "Chart widget";
+            $params['widget_title'] = "Chart";
         $stats_list = self::get_stats_options();
 		$options = (!$init)?$stats_list[$params['widget_box']]:$stats_list[0];
 		$options = array_merge($stats_list["Group"], $options);

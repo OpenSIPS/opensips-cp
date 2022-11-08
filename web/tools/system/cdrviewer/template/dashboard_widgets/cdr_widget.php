@@ -40,7 +40,7 @@ class cdr_widget extends widget
 
     public static function new_form($params = null) { 
         if (!$params['widget_name'])
-            $params['widget_name'] = "CDR widget";
+            $params['widget_name'] = "CDR";
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
     }
 

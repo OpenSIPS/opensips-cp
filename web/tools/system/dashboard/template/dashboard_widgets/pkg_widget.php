@@ -157,7 +157,7 @@ A tool that aggregates the pkg memory from all processes and performs some stati
 		if (!isset($params['widget_critical']))
 			$params['widget_critical'] = 75;
         if (!$params['widget_title'])
-            $params['widget_title'] = "PKG widget";
+            $params['widget_title'] = "PKG";
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
 		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 		form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);
