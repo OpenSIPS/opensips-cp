@@ -31,7 +31,7 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
     var value = arg1;    // My Desired Value To Show
     var gaugeMaxValue = arg3;
 
-    var percentValue = value / gaugeMaxValue;
+    var percentValue = Math.min(value, gaugeMaxValue) / gaugeMaxValue;
     var needleClient;
     (function () {
         var barWidth, chart, chartInset, degToRad, repaintGauge, height, margin, numSections, padRad, percToDeg, percToRad, percent, radius, sectionIndx, svg, totalPercent, width, recalcPointerPos;
@@ -196,7 +196,7 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
                 .style("fill", '#000000');
 			texts.append("text")
                 .text(function () {
-                    return "Percent: ".concat((arg1/arg3 * 100).toFixed(2)).concat("%");
+                    return "Percent: ".concat((percent * 100).toFixed(2)).concat("%");
                 })
                 .attr('id', "Value")
                 .attr('transform', "translate(" + (160) + ", " + 11 + ")")

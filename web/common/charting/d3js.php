@@ -17,12 +17,13 @@
 
 <script>
 
-display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>", "<?php echo $_SESSION['dashboard_active'] ?>");
+display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>", "<?php echo $_SESSION['dashboard_active'] ?>", "<?php echo $_SESSION['widget_chart_size'] ?>");
 
-function display_graph(arg1, arg2, arg3, arg4, arg5) {
-
-d3.csv("../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4),
-
+function display_graph(arg1, arg2, arg3, arg4, arg5, arg6) {
+data_url = "../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4);
+if (arg5 == 1)
+    data_url = data_url.concat("&chart_size=").concat(arg6);
+d3.csv(data_url,
   function(d){
     if (d.value == "f") {
       d.value = null;
@@ -280,7 +281,10 @@ d3.csv("../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_
 
     function updateGr() {
       if( refresh == 1) {
-        d3.csv("../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4),
+        data_url = "../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4);
+        if (arg5 == 1)
+            data_url = data_url.concat("&chart_size=").concat(arg6);
+        d3.csv(data_url,
         function(d){
           if (d.value == "f") {
             d.value = null;

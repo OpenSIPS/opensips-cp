@@ -33,7 +33,9 @@ class vertical_title_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) {
+        if (!$params['widget_title'])
+            $params['widget_title'] = "Title";
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
         form_generate_input_text("ID", "", "widget_id", null, $params['widget_id'], 20,null);
         form_generate_input_text("Has menu", "", "widget_menu", null, $params['widget_menu'], 20,null);

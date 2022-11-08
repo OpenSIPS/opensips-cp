@@ -91,6 +91,8 @@ class monit_cpu_widget extends widget
 		if (is_null($params)) {
 			$params['widget_service'] = "localhost.localdomain";
 		}
+        if (!$params['widget_name'])
+            $params['widget_name'] = "CPU";
         form_generate_input_text("Title", "", "widget_name", null, $params['widget_name'], 5,null);
 		form_generate_input_text("Service", "", "widget_service", null, $params['widget_service'], 20,null);
 		form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);

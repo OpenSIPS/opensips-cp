@@ -28,7 +28,7 @@ require("template/header.php");
 require("../../../../config/boxes.global.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/tools/system/dashboard/db.inc.php");
-require("../../../../config/tools/system/dashboard/local.inc.php");
+require("../../../../config/tools/system/dashboard/settings.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 require_once("../../../common/forms.php");
@@ -246,21 +246,28 @@ if ($action=="add_blank_panel")
         }
 
 }
-if ($action == "add_widget_verify") {  
+if ($action == "add_widget_verify") { //add widget in db 
 	if(!$_SESSION['read_only']){
-		$widget_params = $_POST;
-		$panel_id = $_GET['panel_id'];
-		$widget_type = $_GET['widget_type'];
-		$widget_params['widget_type'] = $widget_type;
-		$widget_params['panel_id'] = $panel_id;
+		$widget_params = $_POST; //params from widget form
+		$panel_id = $_GET['panel_id']; //panel to add widget in
+		$widget_type = $_GET['widget_type']; //widget type (class)
+		$widget_params['widget_type'] = $widget_type; //set widget type inside the params array
+		$widget_params['panel_id'] = $panel_id; //set widget panel inside the params array
+        //construct the widget id and add it to the params array
 		$widget_params['widget_id'] = "panel_".$panel_id."_widget_".($_SESSION['config']['panels'][$panel_id]['widget_no'] + 1);
-		$new_widget = new $widget_type($_POST);
+		//construct new widget object and pass form input to the constructor
+        $new_widget = new $widget_type($_POST);
+        //set id of new widget object
 		$new_widget->set_id($widget_params['widget_id']);
-		$widget_array = $new_widget->get_as_array();
+		$widget_array = $new_widget->get_as_array(); //returns widget html, widget sizes, widget id
 
+        //fetch widgets from db, and add the current widget (in the form of widget_id=>widget_params)
 		$stored_widgets = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
 		$stored_widgets[$widget_params['widget_id']] = json_encode($widget_params);
 
+        //set new widget positions (id, sizeX, sizeY, everything else goes into content column)
+        //widget id and size is stored separately because size is reloaded every time the 
+        //widget is dragged. 
 		$stored_positions = json_decode($_SESSION['config']['panels'][$panel_id]['positions']);
 		$new_widget_position['id'] = $widget_params['widget_id'];
 		$new_widget_position['size_x'] = $widget_array[1]; //size_x

@@ -29,6 +29,8 @@ class asr_widget extends gauge_widget
 			$params['widget_warning'] = 50;
 		if (!isset($params['widget_critical']))
 			$params['widget_critical'] = 75;
+        if (!$params['widget_title'])
+            $params['widget_title'] = "ASR";
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);
         form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);

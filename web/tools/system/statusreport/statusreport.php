@@ -20,14 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ require("../../../../config/session.inc.php");
  require("../../../common/cfg_comm.php");
  require("../../../common/mi_comm.php");
- require("../../../../config/tools/system/smonitor/db.inc.php");
  require("../../../../config/db.inc.php");
- require_once('../../../../config/boxes.load.php');
- require("lib/functions.inc.php");
- require("../../../../config/session.inc.php");
  require("template/header.php");
+ require_once('../../../../config/boxes.load.php');
  require("../../../common/forms.php");
  
  session_load();

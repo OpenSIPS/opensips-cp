@@ -1,8 +1,10 @@
 <?php
+  require("../../../common/cfg_comm.php");
+  $_SESSION['current_tool'] = "dashboard";
   require("../../../../config/tools/system/dashboard/db.inc.php");
   include("lib/db_connect.php");
   require("../../../../config/db.inc.php");
-  require("../../../../config/tools/system/dashboard/local.inc.php");
+  require("../../../../config/tools/system/dashboard/settings.inc.php");
   $table=$config->table_dashboard; 
 
   $str_json = file_get_contents('php://input');

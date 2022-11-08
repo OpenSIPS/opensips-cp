@@ -38,7 +38,9 @@ class cdr_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form($params = null) {  
+    public static function new_form($params = null) { 
+        if (!$params['widget_name'])
+            $params['widget_name'] = "CDR";
         form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
     }
 

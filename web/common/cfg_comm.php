@@ -167,14 +167,7 @@ function load_widgets() {
 				$widgets[] = $wname;
 		}
 	}
-	$files = glob('../../system/dashboard/template/dashboard_widgets/*.php');
-	foreach ($files as $file) {
-		require_once($file);
-		$file_name = basename($file);
-		$wname = substr($file_name, 0, strlen($file_name) - 4);
-		if ($wname::$ignore != 1)
-			$widgets[] = $wname;
-	}
+
 	return $widgets;
 }
 
@@ -242,7 +235,7 @@ function get_system_params() {
 
 function load_panels() {
 	require("".__DIR__."/../tools/system/dashboard/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/system/dashboard/local.inc.php");
+	require("".__DIR__."/../../config/tools/system/dashboard/settings.inc.php");
 	unset($_SESSION['config']['panels']);
 	$max_order = -1;
 	$sql = 'select `name`, id, content, positions, `order` from ocp_dashboard';

@@ -42,6 +42,8 @@ class bar_chart_widget extends widget
     }
 
     public static function new_form($params = null) {  
+        if (!$params['widget_title'])
+            $params['widget_title'] = "Bar";
         form_generate_input_text("Title", "", "widget_title", null, $params['widget_title'], 20,null);
         form_generate_input_text("Chart", "", "widget_chart", null, $params['widget_chart'], 20,null);
         form_generate_input_text("Color", "", "widget_color", null, $params['widget_color'], 20,null);

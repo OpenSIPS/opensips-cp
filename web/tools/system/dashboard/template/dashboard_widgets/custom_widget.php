@@ -22,7 +22,7 @@ class custom_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form() {  
+    public static function new_form() { 
         form_generate_input_text("Title", "", "widget_title", null, null, 20,null);
         form_generate_input_text("Content", "", "widget_content", null, null, 20,null);
         form_generate_input_text("ID", "", "widget_id", null, null, 20,null);

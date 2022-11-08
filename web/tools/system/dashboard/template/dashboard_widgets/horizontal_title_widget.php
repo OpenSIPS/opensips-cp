@@ -23,7 +23,9 @@ class horizontal_title_widget extends widget
         return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY());
     }
 
-    public static function new_form() {  
+    public static function new_form() {
+        if (!$params['widget_title'])
+            $params['widget_title'] = "Title"; 
         form_generate_input_text("Title", "", "widget_title", null, null, 20,null);
         form_generate_input_text("ID", "", "widget_id", null, null, 20,null);
     }

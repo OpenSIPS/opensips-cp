@@ -28,6 +28,8 @@ class load_widget extends gauge_widget
 
     public static function new_form($params = null) {
 		$boxes_info = self::get_boxes();
+        if (!$params['widget_title'])
+            $params['widget_title'] = "Load";
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Chart", "", "widget_chart", null,  $params['widget_chart'], self::get_stats_options());
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);

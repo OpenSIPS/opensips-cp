@@ -21,11 +21,8 @@
  */
 
  
- require("../../../../config/tools/system/statusreport/db.inc.php");
- require("../../../../config/db.inc.php");
  require("../../../common/mi_comm.php"); 
- require("../../../common/cfg_comm.php"); 
- require("lib/functions.inc.php");
+ require("../../../common/cfg_comm.php");
 
  require_once("../../../../config/session.inc.php");
  get_priv("statusreport");
