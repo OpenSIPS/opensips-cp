@@ -27,8 +27,8 @@ if(!$_SESSION['read_only']){
 }else{
 	$colspan = 2;
 }
-
 echo('<div class="breadcrumb"></div>');
+
 foreach(get_settings_value("machines") as $machine) {
     $has_master = false;
     echo('<table style="text-align: center;" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">');
@@ -36,6 +36,7 @@ foreach(get_settings_value("machines") as $machine) {
     echo('<tr><td colspan=3 style="font-weight: 900;">'.$machine['name'].'</td></tr><tr>');
     foreach($machine['boxes'] as $box) {
         $box_color = "grey";
+        $box = set_defaults($box);
         $state = ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $box['exec']." show_mode");
         if (strpos($state, "master") !== false) {
             $master = true;
@@ -46,10 +47,9 @@ foreach(get_settings_value("machines") as $machine) {
                 $box_color = "green";
             }
         } else $master = false;
-        $box_details = base64_encode(json_encode($box));
         echo('
 <td>
-<input type="submit" onclick="location.href = \'keepalived.php?action=switch_box&box_details='.$box_details.'\';" style="background-color:'.$box_color.';" name="'.$box['box'].'" value="'.$box['box'].'" class="formButton add-new-btn">
+<input type="submit" onclick="location.href = \'keepalived.php?action=switch_box&box='.$box['box'].'\';" style="background-color:'.$box_color.';" name="'.$box['box'].'" value="'.$box['box'].'" class="formButton add-new-btn">
 </td>');
     }
     echo('</tr>

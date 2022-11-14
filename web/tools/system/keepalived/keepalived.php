@@ -25,6 +25,7 @@ require("template/header.php");
 require("../../../../config/tools/system/keepalived/settings.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
+require_once("../../../common/mi_comm.php");
 require("lib/functions.inc.php");
 
 csrfguard_validate();
@@ -38,8 +39,13 @@ else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
 
 if ($action=="switch_box") {
-    $box =json_decode(base64_decode($_GET['box_details']), true);
-    $state = ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $box['exec']." go_secondary");
+    foreach(get_settings_value("machines") as $machine) {
+        foreach($machine['boxes'] as $box_details) {
+            if ($box_details['box'] == $_GET['box'])
+                $box = $box_details;
+            else    $state = ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $box['exec']." go_secondary");
+        }
+    }
     sleep(2);
 }
 

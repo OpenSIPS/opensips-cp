@@ -36,4 +36,24 @@ function ssh_conn($host, $port, $user, $pub_key, $prv_key, $command, $pass = nul
     return $out;
 }
 
+function set_defaults($box) {
+    foreach($_SESSION['boxes'] as $loaded_box) {
+        if ($loaded_box['name'] == $box['box'])
+            $default_box = $loaded_box;
+    }
+    if (!$box['ssh_ip'] && $default_box)
+        $box['ssh_ip'] = explode(":", $default_box['mi_conn'])[1];
+    if (!$box['ssh_port'])
+        $box['ssh_port'] = 22;
+    if (!$box['ssh_user'])
+        $box['ssh_user'] = "root";
+       if (!$box['ssh_pubkey'])
+        $box['ssh_pubkey'] = "id_rsa_keepalived.pub";
+    if (!$box['ssh_key'])
+        $box['ssh_key'] = "id_rsa_keepalived";
+    if (!$box['exec'])
+        $box['exec'] = "/etc/init.d/keepalived";
+    return $box;
+}
+
 ?>
