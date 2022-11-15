@@ -23,7 +23,7 @@
     $vals.="date,value";
     $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:$_SESSION['chart_size'];
     if ($zoomOut == 'true') {
-        $chart_size = $_SESSION['chart_history'];
+        $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:$_SESSION['chart_history'];
         if ($chart_size == "auto")
             $chart_size = 3 * 24; //3 days
     }
