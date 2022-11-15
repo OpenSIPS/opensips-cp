@@ -47,7 +47,7 @@ class status_report_widget extends widget
 		$params["group"] = $group;
 		if ($identifier)
 			$params["identifier"] = $identifier;
-		$stat_res = mi_command("sr_get_status", array("group" => $group), $this->widget_box['mi_conn'], $errors);
+        $stat_res = mi_command("sr_get_status", array("group" => $group), $this->widget_box['mi_conn'], $errors);
 		$this->status = $stat_res;
 	}
 
@@ -78,8 +78,14 @@ class status_report_widget extends widget
     }
 
     static function get_identifiers_options() {
+        function consoole_log( $data ){
+            echo '<script>';
+            echo 'console.log('. json_encode( $data ) .')';
+            echo '</script>';
+          } //  DE_STERS
         foreach($_SESSION['boxes'] as $id => $box) {
             $stat_res = mi_command("sr_list_identifiers", array(), $box['mi_conn'], $errors);
+            consoole_log($stat_res);
             foreach($stat_res as $group) {
                 foreach($group["Identifiers"] as $identifier)
                         $identifiers[$box['id']][] = $group["Group"]."/".$identifier;

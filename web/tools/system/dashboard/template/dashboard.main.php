@@ -121,7 +121,7 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     $widget_positions = json_decode($widget['positions'], true);
     $new_widget = new $widget_content['widget_type']($widget_content);
     $new_widget->set_id($widget_content['widget_id']);
-    $widget_array = $new_widget->get_as_array();
+    $widget_array = $new_widget->get_as_array();//this returns info of widget as array
     $new_widget->display_widget();
 	/*
 	widget_positions is fetched from db. The following lines ignore the db widget sizes,
@@ -134,20 +134,20 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
 	
      ?>
 <script>
-    var widget_content = <?php echo json_encode($widget_array); ?>;
+    var widget_info = <?php echo json_encode($widget_array); ?>;
     var widget_type = <?php echo json_encode($widget_content['widget_type']);?>;
     var widget_positions = <?php echo json_encode($widget_positions); ?>;
     
     var col, row;
-    var sizeX = Number(widget_content[1]);
-    var sizeY = Number(widget_content[2]);
+    var sizeX = Number(widget_info[1]);
+    var sizeY = Number(widget_info[2]);
     if (widget_positions) {
         col = widget_positions.col;
         row = widget_positions.row;
         sizeX= widget_positions.size_x;
         sizeY = widget_positions.size_y;
     } 
-    addWidget(gridster,widget_content[0], sizeX, sizeY, col, row);
+    addWidget(gridster,widget_info[0], sizeX, sizeY, col, row);
     move(widget_positions.id.concat("_old"), widget_positions.id);
 </script>
      <?php 
