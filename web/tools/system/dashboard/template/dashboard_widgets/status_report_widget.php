@@ -47,7 +47,7 @@ class status_report_widget extends widget
 		$params["group"] = $group;
 		if ($identifier)
 			$params["identifier"] = $identifier;
-        $stat_res = mi_command("sr_get_status", array("group" => $group), $this->widget_box['mi_conn'], $errors);
+		$stat_res = mi_command("sr_get_status", $params, $this->widget_box['mi_conn'], $errors);
 		$this->status = $stat_res;
 	}
 
