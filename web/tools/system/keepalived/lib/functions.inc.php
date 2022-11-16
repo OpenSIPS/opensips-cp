@@ -42,7 +42,7 @@ function set_defaults($box) {
             $default_box = $loaded_box;
     }
     if (!$box['ssh_ip'] && $default_box)
-        $box['ssh_ip'] = explode(":", $default_box['mi_conn'])[1];
+        $box['ssh_ip'] = preg_split("/[:\/]/", $default_box['mi_conn'])[1];
     if (!$box['ssh_port'])
         $box['ssh_port'] = 22;
     if (!$box['ssh_user'])
