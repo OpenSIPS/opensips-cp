@@ -22,20 +22,20 @@
 
 
  //database host
- //$config->db_host_statusreport = "localhost";
+ //$config->db_host_keepalived = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_statusreport = "";
+ //$config->db_port_keepalived = "";
  
  //database connection user
- //$config->db_user_statusreport = "root";
+ //$config->db_user_keepalived = "root";
  
  //database connection password
- //$config->db_pass_statusreport = "mysql";
+ //$config->db_pass_keepalived = "mysql";
  
  //database name
- //$config->db_name_statusreport = "opensips";
+ //$config->db_name_keepalived = "opensips";
  
- //if ($config->db_port_statusreport != "") $config->db_host_statusreport = $config->db_host_statusreport . ";port=" . $config->db_port_statusreport;
+ //if ($config->db_port_keepalived != "") $config->db_host_keepalived = $config->db_host_keepalived . ";port=" . $config->db_port_keepalived;
  
 ?>
