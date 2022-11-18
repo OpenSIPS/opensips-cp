@@ -58,6 +58,7 @@ SET CLIENT_ENCODING TO 'latin1' ;
 CREATE SEQUENCE ocp_boxes_config_id_seq;
 CREATE TABLE ocp_boxes_config (
   id integer Primary KEY DEFAULT nextval('ocp_boxes_config_id_seq'),
+  name text DEFAULT NULL,
   mi_conn text DEFAULT NULL,
   monit_conn text DEFAULT NULL,
   monit_user text DEFAULT NULL,
