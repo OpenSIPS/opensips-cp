@@ -26,10 +26,17 @@
 <div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
 <?php csrfguard_generate();
+ $rules_attributes_mode = get_settings_value("rules_attributes_mode");
  if($_SESSION['read-only']) {
 	$colspan=9;
  } else {
 	$colspan=7;
+ }
+ if ($rules_attributes_mode != "none") {
+        $rules_attributes = get_settings_value("rules_attributes");
+	$row_colspan = 11;
+ } else {
+	$row_colspan = 10;
  }
  $sql_search="";
  $sql_vals=array();
@@ -103,8 +110,7 @@
   <td class="searchRecord">Gateway List </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" class="searchInput"></td>
  </tr>
-<?php if (get_settings_value("rules_attributes_mode") != "none") { ?>
- <?php $rules_attributes = get_settings_value("rules_attributes"); ?>
+<?php if ($rules_attributes_mode != "none") { ?>
  <tr>
   <td class="searchRecord"><?=(isset($rules_attributes["display_name"])?$rules_attributes["display_name"]:"Attributes")?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$_SESSION['rules_search_attrs']?>" maxlength="128" class="searchInput"></td>
@@ -170,7 +176,7 @@ if ($rules_attributes_mode != "none")
  $stm->execute( $sql_vals );
  $data_no = $stm->fetchColumn(0);
 
- if ($data_no==0) echo('<tr><td colspan="11" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+ if ($data_no==0) echo('<tr><td colspan="'.$row_colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
   $res_no=get_settings_value("results_per_page");
@@ -218,21 +224,23 @@ if ($rules_attributes_mode != "none")
   <td class="<?=$row_style?>"><?=$resultset[$i]['priority']?></td>
   <td class="<?=$row_style?>"><?=$gwlist?></td>
   <td class="<?=$row_style?>"><?=dr_get_name_of_sort_alg($resultset[$i]['sort_alg'])?></td>
+<?php if ($rules_attributes_mode != "none") { ?>
   <td class="<?=$row_style?>"><?=$attrs?></td>
+<?php } ?>
   <td class="<?=$row_style?>"><?=$description?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$details_link?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$edit_link?></td>
   <td class="<?=$row_style."Img"?>" align="center" rowspan="2"><?=$delete_link?></td>
  </tr>
  <tr>
-  <td class="<?=$row_style?>" colspan="<?php print $colspan;?>"><?=parse_timerec_main($resultset[$i]['timerec'])?></td>
+  <td class="<?=$row_style?>" colspan="<?=$colspan?>"><?=parse_timerec_main($resultset[$i]['timerec'])?></td>
  </tr>
 <?php
   }
  }
 ?>
  <tr>
-  <th colspan="11">
+ <th colspan="<?=$row_colspan?>">
     <table class="pagingTable">
      <tr>
       <th align="left">Page:
