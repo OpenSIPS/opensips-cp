@@ -103,10 +103,13 @@
   <td class="searchRecord">Gateway List </td>
   <td class="searchRecord" width="200"><input type="text" name="search_gwlist" value="<?=$_SESSION['rules_search_gwlist']?>" maxlength="<?=(isset($config->gwlist_size)?$config->gwlist_size:255)?>" class="searchInput"></td>
  </tr>
+<?php if (get_settings_value("rules_attributes_mode") != "none") { ?>
+ <?php $rules_attributes = get_settings_value("rules_attributes"); ?>
  <tr>
-  <td class="searchRecord"><?=get_settings_value("gw_attributes")["display_name"] ?> </td>
+  <td class="searchRecord"><?=(isset($rules_attributes["display_name"])?$rules_attributes["display_name"]:"Attributes")?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$_SESSION['rules_search_attrs']?>" maxlength="128" class="searchInput"></td>
  </tr>
+<?php } ?>
  <tr>
   <td class="searchRecord">Description </td>
   <td class="searchRecord" width="200"><input type="text" name="search_description" value="<?=$_SESSION['rules_search_description']?>" maxlength="128" class="searchInput"></td>
@@ -120,6 +123,11 @@
  </tr>
 </table>
 </form>
+<?php
+$rules_attributes_mode = get_settings_value("rules_attributes_mode");
+if ($rules_attributes_mode != "none")
+	$rules_attributes = get_settings_value("rules_attributes");
+?>
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
@@ -137,7 +145,9 @@
   <th class="listTitle">Priority</th>
   <th class="listTitle">GW List</th>  
   <th class="listTitle">List Sort</th>  
-  <th class="listTitle"><?=get_settings_value("gw_attributes")["display_name"]?></th>
+<?php if ($rules_attributes_mode != "none") { ?>
+  <th class="listTitle"><?=(isset($rules_attributes["display_name"])?$rules_attributes["display_name"]:"Attributes")?></th>
+<?php } ?>
   <th class="listTitle">Description</th>
   <th class="listTitle">Details</th>
   <th class="listTitle">Edit</th>

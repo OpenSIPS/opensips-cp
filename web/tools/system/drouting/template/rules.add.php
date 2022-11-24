@@ -198,12 +198,15 @@
   <td class="dataRecord"><select name="list_sort" id="list_sort" style="width:230px;" class="dataSelect"><?php dr_get_options_of_list_sort(NULL)?></select></td>
  </tr>
 
+<?php if (get_settings_value("rules_attributes_mode") != "none") { ?>
+ <?php $rules_attributes = get_settings_value("rules_attributes"); ?>
  <tr>
-  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b></td>
-   <?php if (isset($attrs) || $attrs=="") $attrs=get_settings_value("gw_attributes")["add_prefill_value"] ?>
+  <td class="dataRecord"><b><?=(isset($rules_attributes["display_name"])?$rules_attributes["display_name"]:"Attributes")?></b></td>
+   <?php if (!isset($attrs) || $attrs=="") $attrs=$rules_attributes["add_prefill_value"] ?>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$attrs?>" style="width:230px;" maxlength="128" class="dataInput">
   </td>
  </tr>
+<?php } ?>
 
  <tr>
   <td class="dataRecord">Description</td>
