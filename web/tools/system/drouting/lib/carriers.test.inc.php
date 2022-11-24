@@ -53,7 +53,7 @@
 		  if (isset($carrier_attributes['validation_regexp']) &&
 			  !preg_match('/'.get_settings_value("carrier_attributes")['validation_regexp'].'/i',$attrs)) {
 			  $form_valid=false;
-			  $form_error="- <b>".$carrier_attributes['display_name']."</b> value is invalid: ".$carrier_attributes['validation_error'];
+			  $form_error="- <b>".(isset($carrier_attributes['display_name'])?$carrier_attributes['display_name']:"Attributes")."</b> value is invalid: ".$carrier_attributes['validation_error'];
 		  }
 	  }
   }

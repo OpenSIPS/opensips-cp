@@ -90,7 +90,7 @@ $carrier_attributes = get_settings_value("carrier_attributes");
 $memory_status = get_settings_value("memory_status");
 if ($carrier_attributes_mode != "none") {
 	if ($carrier_attributes_mode == "input") {
-		echo('<th class="listTitle"><'.$carrier_attributes["display_name"].'></th>');
+		echo('<th class="listTitle"><'.(isset($carrier_attributes["display_name"])?$carrier_attributes["display_name"]:"Attributes").'></th>');
 		$carrier_attrs_colspan = 1;
 	} else {
 		foreach ($carrier_attributes as $key => $value) {

@@ -111,7 +111,7 @@ $memory_status = get_settings_value("memory_status");
 if ($gw_attributes_mode == "input") {
 ?>
  <tr>
- <td class="searchRecord"><?=$gw_attributes["display_name"] ?> </td>
+ <td class="searchRecord"><?=(isset($gw_attributes["display_name"])?$gw_attributes["display_name"]:"Attributes")?> </td>
   <td class="searchRecord" width="200"><input type="text" name="search_attrs" value="<?=$search_attrs?>" maxlength="128" class="searchInput"></td>
  </tr>
 <?php } ?>
@@ -149,7 +149,7 @@ if ($gw_attributes_mode == "input") {
 $gw_attrs_colspan = 0;
 if ($gw_attributes_mode != "none") {
 	if ($gw_attributes_mode == "input") {
-		echo('<th class="listTitle"><'.$gw_attributes["display_name"].'></th>');
+		echo('<th class="listTitle">'.(isset($gw_attributes["display_name"])?$gw_attributes["display_name"]:"Attributes").'</th>');
 		$gw_attrs_colspan = 1;
 	} else {
 		foreach ($gw_attributes as $key => $value) {

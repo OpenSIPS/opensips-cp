@@ -58,7 +58,7 @@ form_generate_select("DB State", "Whether the gateways should be active, inactiv
 $gw_attributes_mode = get_settings_value("gw_attributes_mode");
 $gw_attributes = get_settings_value("gw_attributes");
 if ($gw_attributes_mode == "input") {
-    form_generate_input_text($gw_attributes["display_name"],
+    form_generate_input_text((isset($gw_attributes["display_name"])?$gw_attributes["display_name"]:"Attributes"),
 			       "attributes used for the gw",
 			       "attrs",
 			       "y",

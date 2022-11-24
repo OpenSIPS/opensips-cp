@@ -55,7 +55,7 @@ form_generate_select("DB State", "Whether the carrier should be initially active
 $carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
 $carrier_attributes = get_settings_value("carrier_attributes");
 if ($carrier_attributes_mode == "input") {
-    form_generate_input_text($carrier_attributes["display_name"],
+    form_generate_input_text((isset($carrier_attributes["display_name"])?$carrier_attributes["display_name"]:"Attributes"),
 			       "attributes used for the carrier",
 			       "attrs",
 			       "y",
