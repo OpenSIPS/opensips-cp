@@ -76,7 +76,7 @@ $config->drouting = array(
 		"name" => "Gateway Attributes Mode",
 		"type" => "dropdown",
 		"options" => array('None'=>'none', 'Input'=>'input','Params'=>'params'),
-		"tip"	  => "How to specify gateway's attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user of 'Params' when attributes are represented as URI parameters.",
+		"tip"	  => "How to specify gateway's attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user or 'Params' when attributes are represented as URI parameters.",
 		"default" => "input"
 	),
 
@@ -127,7 +127,7 @@ $config->drouting = array(
 		"name" => "Carrier Attributes Mode",
 		"type" => "dropdown",
 		"options" => array('None'=>'none', 'Input'=>'input','Params'=>'params'),
-		"tip"	  => "How to specify carrier's attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user of 'Params' when attributes are represented as URI parameters.",
+		"tip"	  => "How to specify carrier's attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user or 'Params' when attributes are represented as URI parameters.",
 		"default" => "input"
 	),
 
@@ -183,6 +183,33 @@ $config->drouting = array(
 	\"0\" : \"Default\",
 	\"1\" : \"Free\",
 	\"2\" : \"Premium\",
+}"
+	),
+
+	"rules_attributes_mode" => array(
+		"name" => "Rules Attributes Mode",
+		"type" => "dropdown",
+		"options" => array('None'=>'none', 'Input'=>'input'),
+		"tip"	  => "How to specify rules' attributes; possible values are: 'None' if attributes are not used, 'Input' when the attributes are typed in by the user.",
+		"default" => "none"
+	),
+
+	"rules_attributes" => array(
+		"default" => array(
+			"display_name"=>"Attributes",
+			"add_prefill_value"=>"",
+			"validation_regexp"=>NULL,
+			"validation_error"=>NULL,
+		),
+		"name"    => "Rules attributes",
+		"type"    => "json",
+		"tip"	  => "If 'Rules Atrributes Mode' is 'input', represents the JSON description of the attributes.",
+		"example" => "
+{
+	\"display_name\" : \"Attributes\",
+	\"add_prefill_value\" : \"\",
+	\"validation_regexp\" : null,
+	\"validation_error\" : null
 }"
 	),
 

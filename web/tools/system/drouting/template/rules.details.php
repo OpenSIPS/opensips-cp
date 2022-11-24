@@ -55,9 +55,12 @@
  <tr>
   <td class="dataRecord"><b>Gateway List:</b> <?=$gwlist?></td>
  </tr>
+<?php if (get_settings_value("rules_attributes_mode") != "none") { ?>
+<?php 	$rules_attributes = get_settings_value("rules_attributes"); ?>
  <tr>
-  <td class="dataRecord"><b><?=get_settings_value("gw_attributes")["display_name"]?></b> <?=$resultset[0]['attrs']?></td>
+  <td class="dataRecord"><b><?=(isset($rules_attributes["display_name"])?$rules_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>
  </tr>
+<?php } ?>
  <tr>
   <td class="dataRecord"><b>Description:</b> <?=$resultset[0]['description']?></td>
  </tr>
