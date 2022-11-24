@@ -101,8 +101,8 @@ $config->drouting = array(
 {
 	\"display_name\" : \"Attributes\",
 	\"add_prefill_value\" : \"\",
-	\"validation_regexp\" : NULL,
-	\"validation_error\" : NULL,
+	\"validation_regexp\" : null,
+	\"validation_error\" : null
 }
 
 /* 'Params' mode */
@@ -166,8 +166,8 @@ $config->drouting = array(
 {
 	\"display_name\" : \"Attributes\",
 	\"add_prefill_value\" : \"\",
-	\"validation_regexp\" : NULL,
-	\"validation_error\" : NULL,
+	\"validation_regexp\" : null,
+	\"validation_error\" : null
 }
 
 /* 'Params' mode */
