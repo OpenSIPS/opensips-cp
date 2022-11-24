@@ -70,7 +70,7 @@ $gw_attributes_mode = get_settings_value("gw_attributes_mode");
 $gw_attributes = get_settings_value("gw_attributes");
 if ($gw_attributes_mode != "none") { ?>
  <tr>
-  <td class="dataRecord"><b><?=($gw_attributes_mode == "input"?$gw_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>
+  <td class="dataRecord"><b><?=($gw_attributes_mode == "input" && isset($gw_attributes["display_name"])?$gw_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>
  </tr>
 <?php } ?>
  <tr>

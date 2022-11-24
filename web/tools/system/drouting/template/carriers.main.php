@@ -89,7 +89,7 @@ $carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
 $carrier_attributes = get_settings_value("carrier_attributes");
 if ($carrier_attributes_mode != "none") {
 	if ($carrier_attributes_mode == "input") {
-		echo('<th class="listTitle"><'.$carrier_attributes["display_name"].'></th>');
+		echo('<th class="listTitle"><'.(isset($carrier_attributes["display_name"])?$carrier_attributes["display_name"]:"Attributes").'></th>');
 		$carrier_attrs_colspan = 1;
 	} else {
 		foreach ($carrier_attributes as $key => $value) {
