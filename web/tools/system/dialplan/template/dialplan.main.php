@@ -199,7 +199,7 @@ default:
 	break;
 } ?>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['pr']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_op']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=($row[$i]['match_op']==0?'EQUAL':'REGEX')?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['match_exp']?></td>
   <td class="<?=$row_style?>">&nbsp;case <?=(($row[$i]['match_flags']==0)?"sensitive":"insensitive")?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$row[$i]['subst_exp']?></td>
