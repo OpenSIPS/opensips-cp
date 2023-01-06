@@ -29,6 +29,7 @@ session_load();
 csrfguard_validate();
 
 $table=get_settings_value("table_dialplan");
+$dialplan_attributes_mode = get_settings_value("dialplan_attributes_mode");
 $current_page="current_page_dialplan";
 
 include("lib/db_connect.php");
