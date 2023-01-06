@@ -27,6 +27,7 @@ require("../../../common/mi_comm.php");
 session_load();
 
 $table=get_settings_value("table_dialplan");
+$dialplan_attributes_mode = get_settings_value("dialplan_attributes_mode");
 $current_page="current_page_dialplan";
 
 include("lib/db_connect.php");

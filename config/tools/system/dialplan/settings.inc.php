@@ -48,9 +48,9 @@ $config->dialplan = array(
 		"tip" => "If \$dialplan_attributes_mode is set to 1, this array must define the possible attribute options.
 		 Each options is a char, the resulting string being the set of the options/chars that are enabled.",
 		"example" => "{
-	\"attr A\" => \"Description attr A\",
-	\"attr B\" => \"Description attr B\",
-	\"attr C\" => \"Description attr C\",
+	\"attr A\": \"Description attr A\",
+	\"attr B\": \"Description attr B\",
+	\"attr C\": \"Description attr C\",
 }"
 	),
 

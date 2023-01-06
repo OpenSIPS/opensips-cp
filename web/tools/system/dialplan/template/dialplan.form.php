@@ -85,7 +85,7 @@ if ( !isset($dialplan_attributes_mode) || $dialplan_attributes_mode==1 ) {
 } else {
 	foreach( get_settings_value("attrs_cb") as $id => $val ) {
 		$checked = ( strpos($dp_form['attrs'], (string)$id) === FALSE ) ? 0 : 1;
-		form_generate_input_checkbox("Attribute '".$id."'", "Script attribute", "dp_attr_".$id, $val, $checked);
+		form_generate_input_checkbox("Attribute '".$val."'", "Script attribute", "dp_attr_".$id, $val, $checked);
 	}
 }
 ?>
