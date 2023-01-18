@@ -62,9 +62,9 @@ CREATE TABLE ocp_boxes_config (
   monit_conn text DEFAULT NULL,
   monit_user text DEFAULT NULL,
   monit_pass text DEFAULT NULL,
-  monit_ssl text DEFAULT NULL,
+  monit_ssl smallint NOT NULL DEFAULT 0,
   "desc" text NOT NULL DEFAULT '',
-  smonitcharts text DEFAULT NULL,
+  smonitcharts smallint NULL DEFAULT 1,
   assoc_id integer DEFAULT '-1'
 );
 
