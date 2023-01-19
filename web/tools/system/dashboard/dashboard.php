@@ -299,25 +299,26 @@ if ($action == "add_verify") {
 	if(!$_SESSION['read_only']){
 		extract($_POST);
 		$sql = 'INSERT INTO '.$table.' (`name`, `order`) VALUES (?, ?) ';
-				$stm = $link->prepare($sql);
+		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
+		$errors=null;
 		if ($stm->execute( array($_POST['panel_name'], $_SESSION['config']['panels_max_order'] + 1)) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
-			$form_valid=false;
-		} 
-		if ($form_valid) {
-		  print "New Panel added!";
-		  $action="edit_panel";
-		} else {
-		  print $form_error;
-		  $action="add_verify";
 		}
-   } else {
-	   $errors= "User with Read-Only Rights";
-	  }
-	  echo '<script>window.location = "dashboard.php?action=view_new_panel";</script>';
+		if (!$errors) {
+			print "New Panel added!";
+			$action="edit_panel";
+		} else {
+			require("template/".$page_id.".add.php");
+			require("template/footer.php");
+			exit();
+		}
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
+	echo '<script>window.location = "dashboard.php?action=view_new_panel";</script>';
 }
 
 if ($action == "clone_panel") {

@@ -21,6 +21,8 @@
  * */
 
 require_once("../../../common/forms.php");
+if (isset($errors) && $errors!="")
+	echo '<div class="formError" ><strong>ERROR: </strong>'.$errors.'</div>';
 ?>
 <form action="<?=$page_name?>?action=add_verify" method="post">
 <?php csrfguard_generate(); ?>
