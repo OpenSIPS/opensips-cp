@@ -110,7 +110,7 @@ CREATE SEQUENCE ocp_dashboard_id_seq;
 CREATE TABLE ocp_dashboard (
   id integer Primary KEY DEFAULT nextval('ocp_dashboard_id_seq'),
   name text DEFAULT NULL,
-  content text NOT NULL,
+  content text DEFAULT NULL,
   "order" integer DEFAULT NULL,
   positions text DEFAULT NULL
 );

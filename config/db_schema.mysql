@@ -104,7 +104,7 @@ CREATE TABLE `ocp_tools_config` (
 CREATE TABLE `ocp_dashboard` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL,
-  `content` text NOT NULL,
+  `content` text DEFAULT NULL,
   `order` int(11) DEFAULT NULL,
   `positions` text DEFAULT NULL,
   PRIMARY KEY (`id`)
