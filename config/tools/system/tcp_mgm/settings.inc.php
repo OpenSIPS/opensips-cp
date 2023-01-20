@@ -25,24 +25,15 @@
 global $table_regex;
 
 $config->tcp_mgm = array(
-/*
-	"custom_table" => array(
-		"default" => "registrant",
-		"name" => "Custom table",
-		"validation_regex" => $table_regex,
-		"type" => "text"
+	"title0" => array(
+		"type" => "title",
+		"title" => "Database"
 	),
-	"per_page" => array(
-		"default" => 40,
-		"name"	=> "Results per page",
-		"type"	=> "number",
-		"validation_regex" => "^[0-9]+$",
+	"db_config" => array(
+		"default" => 0,
+		"name" => "DB configuration",
+		"type" => "dropdown",
+		"options" => get_db_configs(),
+		"tip" => "DB configuration to use for this tool"
 	),
-	"page_range" => array(
-		"default" => 5,
-		"name"	=> "Results page range",
-		"type"	=> "number",
-		"validation_regex" => "^[0-9]+$",
-	),
-*/
 );

@@ -5,7 +5,7 @@
   include("lib/db_connect.php");
   require("../../../../config/db.inc.php");
   require("../../../../config/tools/system/dashboard/settings.inc.php");
-  $table=$config->table_dashboard; 
+  $table=get_settings_value("custom_table");
 
   $str_json = file_get_contents('php://input');
   $result = json_decode($str_json);

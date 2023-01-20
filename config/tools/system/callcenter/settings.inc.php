@@ -19,10 +19,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-	global $table_regex;
+global $table_regex;
 
 $config->callcenter = array(
-    "talk_to_this_assoc_id" => array(
+	"db_config" => array(
+		"default" => 0,
+		"name" => "DB configuration",
+		"type" => "dropdown",
+		"options" => get_db_configs(),
+		"tip" => "DB configuration to use for this tool"
+	),
+	"talk_to_this_assoc_id" => array(
 		"default" => 1,
 		"name"    => "Linked system",
 		"options" => get_assoc_id(),
@@ -36,7 +43,7 @@ $config->callcenter = array(
 		"name" => "Submenu Items",
 		"type" => "json"
 	),
-	
+
 	"title0" => array(
 		"type" => "title",
 		"title" => "Agents"
@@ -52,14 +59,14 @@ $config->callcenter = array(
 		"name"    => "Results per page",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 	"agents_page_range" => array(
 		"default" => 3,
 		"name"    => "Results page range",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
-	
+	),
+
 	"title1" => array(
 		"type" => "title",
 		"title" => "Flows"
@@ -75,14 +82,14 @@ $config->callcenter = array(
 		"name"    => "Results per page",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 	"flows_page_range" => array(
 		"default" => 3,
 		"name"    => "Results page range",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
-	
+	),
+
 	"title2" => array(
 		"type" => "title",
 		"title" => "CDRs"
@@ -98,11 +105,11 @@ $config->callcenter = array(
 		"name"    => "Results per page",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 	"cdrs_page_range" => array(
 		"default" => 3,
 		"name"    => "Results page range",
 		"type"    => "number",
 		"validation_regex" => "^[0-9]+$",
-    ),
+	),
 );

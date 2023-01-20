@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2023 OpenSIPS Solutions
  *
  * This file is part of opensips-cp, a free Web Control Panel Application for 
  * OpenSIPS SIP server.
@@ -19,14 +19,40 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+global $table_regex;
 
-###############################################################################
-# Attention : advanced options !!
-
- $config->results_per_page = 20;
- $config->results_page_range = 5;
- 
- //database tables
- $config->table_dashboard = "ocp_dashboard";
-
-?>
+$config->dashboard = array(
+	"title0" => array(
+		"type" => "title",
+		"title" => "Database"
+	),
+	"db_config" => array(
+		"default" => 0,
+		"name" => "DB configuration",
+		"type" => "dropdown",
+		"options" => get_db_configs(),
+		"tip" => "DB configuration to use for this tool"
+	),
+	"custom_table" => array(
+		"default" => "ocp_dashboard",
+		"name" => "Dashboard table",
+		"validation_regex" => $table_regex,
+		"type" => "text"
+	),
+	"title1" => array(
+		"type" => "title",
+		"title" => "Layout"
+	),
+	"results_per_page" => array(
+		"default" => 20,
+		"name"    => "Results per page",
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
+	),
+	"results_page_range" => array(
+		"default" => 5,
+		"name"    => "Results page range",
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
+	),
+);

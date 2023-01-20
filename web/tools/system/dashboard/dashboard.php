@@ -32,11 +32,12 @@ require("../../../../config/tools/system/dashboard/settings.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 require_once("../../../common/forms.php");
+session_load();
 
 csrfguard_validate();
 
 $widgets = load_widgets();
-$table=$config->table_dashboard; 
+$table=get_settings_value("custom_table");
 $box_id = $_GET['box_id'];
 if ($box_id == '') $box_id = null;
 
