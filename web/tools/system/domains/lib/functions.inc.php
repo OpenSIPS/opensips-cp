@@ -25,9 +25,7 @@ function get_domains($module, $has_any)
 
 	global $config;
 
-	require("../../../../config/db.inc.php");
-	require("../../../../config/tools/system/domains/db.inc.php");
-	require("db_connect.php");
+	require("../../../../web/tools/system/domains/lib/db_connect.php");
 	session_load_from_tool("domains");
 	
 	$table_domains=get_settings_value_from_tool("table_domains", "domains");
