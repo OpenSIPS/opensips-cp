@@ -20,8 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ include("../../../../config/db.inc.php");
+ include("../../../../config/tools/system/siptrace/db.inc.php");
+ require("../../../common/cfg_comm.php");
  
  session_start();
+ get_priv("dashboard");
  header("Location: dashboard.php");
  
 ?>
