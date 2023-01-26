@@ -266,6 +266,7 @@ if ($action=="change_state") {
 # start main #
 ##############
 
+$errors=[];
 require("template/".$page_id.".main.php");
 if ($errors!="") echo('<tr><td align="center"><div class="formError">'.$errors.'</div></td></tr>');
 if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
