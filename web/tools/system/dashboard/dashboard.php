@@ -132,6 +132,10 @@ if ($action=="edit_widget")
 if ($action=="edit_widget_verify")
 {  	
 	$widget_params = $_POST;
+	foreach ($widget_params as $key => $value) {
+	    if (substr($key, 0, 4) === "CSRF")
+		    unset($widget_params[$key]);
+	}
 	$widget_id = $_GET['widget_id'];
 	$widget_type = $_GET['widget_type'];
 	$panel_id = $_GET['panel_id'];
@@ -250,6 +254,10 @@ if ($action=="add_blank_panel")
 if ($action == "add_widget_verify") { //add widget in db 
 	if(!$_SESSION['read_only']){
 		$widget_params = $_POST; //params from widget form
+		foreach ($widget_params as $key => $value) {
+			if (substr($key, 0, 4) === "CSRF")
+				unset($widget_params[$key]);
+		}
 		$panel_id = $_GET['panel_id']; //panel to add widget in
 		$widget_type = $_GET['widget_type']; //widget type (class)
 		$widget_params['widget_type'] = $widget_type; //set widget type inside the params array
@@ -257,7 +265,7 @@ if ($action == "add_widget_verify") { //add widget in db
         //construct the widget id and add it to the params array
 		$widget_params['widget_id'] = "panel_".$panel_id."_widget_".($_SESSION['config']['panels'][$panel_id]['widget_no'] + 1);
 		//construct new widget object and pass form input to the constructor
-        $new_widget = new $widget_type($_POST);
+        $new_widget = new $widget_type($widget_params);
         //set id of new widget object
 		$new_widget->set_id($widget_params['widget_id']);
 		$widget_array = $new_widget->get_as_array(); //returns widget html, widget sizes, widget id

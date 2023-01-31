@@ -1,5 +1,5 @@
 <?php
-	require_once(__DIR__."/../../../config/session.inc.php");
+    require_once(__DIR__."/../../../config/session.inc.php");
     require_once(__DIR__."/../../../config/tools/system/smonitor/db.inc.php");
     require_once(__DIR__."/../../../config/db.inc.php");
     
