@@ -17,9 +17,9 @@
 
 <script>
 
-display_graph("<?php echo $_SESSION['stat'] ?>", "<?php echo $_SESSION['full_stat'] ?>", "<?php echo $_SESSION['box_id_graph'] ?> ", "<?php echo $_SESSION['normal'] ?>", "<?php echo $_SESSION['dashboard_active'] ?>", "<?php echo $_SESSION['widget_chart_size'] ?>");
+display_graph("<?=$_SESSION['stat']?>", "<?=$_SESSION['full_stat']?>", "<?=$_SESSION['box_id_graph']?> ", "<?=$_SESSION['normal']?>", "<?=$_SESSION['dashboard_active']?>", "<?=$_SESSION['widget_chart_size']?>", <?=$_SESSION['refreshInterval']?>);
 
-function display_graph(arg1, arg2, arg3, arg4, arg5, arg6) {
+function display_graph(arg1, arg2, arg3, arg4, arg5, arg6, refreshInterval) {
 data_url = "../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4);
 if (arg5 == 1)
     data_url = data_url.concat("&chart_size=").concat(arg6);
@@ -276,7 +276,7 @@ d3.csv(data_url,
     .style("opacity", 0);
 
 
-    var intervalID = window.setInterval(updateGr, 3000);
+    var intervalID = window.setInterval(updateGr, refreshInterval);
 
 
     function updateGr() {
@@ -284,6 +284,7 @@ d3.csv(data_url,
         data_url = "../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4);
         if (arg5 == 1)
             data_url = data_url.concat("&chart_size=").concat(arg6);
+	refresh = 0;
         d3.csv(data_url,
         function(d){
           if (d.value == "f") {
@@ -325,7 +326,8 @@ d3.csv(data_url,
                 .attr("x2", 0)
                 .attr("y2", 0);
         
-        })
+	});
+	refresh = 1;
     }
 
       

@@ -50,6 +50,13 @@ $config->smonitor = array(
 		"validation_regex" => "^(auto|[0-9]+)$",
 		"tip"	 => "Amount of time (in hours) to keep samples before deleting them"
 	),
+	"refresh_period" => array(
+		"default" => 30,
+		"name"	=> "Chart Refresh Period",
+		"type"	=> "text",
+		"validation_regex" => "^([0-9]+)$",
+		"tip"	 => "Amount of time (in seconds) when charts should be refreshed"
+	),
 	"groups" => array(
 		"default" => "",
 		"name" => "Groups for multi-line charts",

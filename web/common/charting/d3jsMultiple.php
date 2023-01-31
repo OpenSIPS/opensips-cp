@@ -19,10 +19,10 @@
 
 <script>
 
-display_graphs("<?php echo $_SESSION['chart_group_id'] ?>", <?php echo json_encode($_SESSION['full_stats']) ?>, 
-<?php echo json_encode($_SESSION['boxes_list']) ?>, <?php echo json_encode($_SESSION['normal']) ?>, "<?php echo $_SESSION['scale'] ?>",  "<?php echo $_SESSION['dashboard_active'] ?>", "<?php echo $_SESSION['widget_chart_size'] ?>");
+display_graphs("<?=$_SESSION['chart_group_id']?>", <?=json_encode($_SESSION['full_stats'])?>, 
+<?=json_encode($_SESSION['boxes_list'])?>, <?=json_encode($_SESSION['normal'])?>, "<?=$_SESSION['scale']?>", "<?=$_SESSION['dashboard_active']?>", "<?=$_SESSION['widget_chart_size']?>", <?=$_SESSION['refreshInterval']?>);
 
-function display_graphs(arg1, arg2, arg3, arg4, arg5, arg6, arg7) {
+function display_graphs(arg1, arg2, arg3, arg4, arg5, arg6, arg7, refreshInterval) {
   //   var stats_list = "";
     var stats_list = encodeURIComponent(JSON.stringify(arg2));
     var box_list = encodeURIComponent(JSON.stringify(arg3));
@@ -412,13 +412,14 @@ svg.on("dblclick",function(){
     });  
 
     
-    var intervalID = window.setInterval(updateGr, 3000);
+    var intervalID = window.setInterval(updateGr, refreshInterval);
 
 function updateGr(){ 
     if( refresh == 1 ) {
         data_url = "../../../common/charting/get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list);
         if (arg6 == 1)
             data_url = data_url.concat("&chart_size=").concat(arg7);
+	refresh = 0;
         d3.csv(data_url,
 
         // When reading the csv, I must format variables:
@@ -473,7 +474,8 @@ function updateGr(){
                 .attr("x2", 0)
                 .attr("y2", 0);
         
-        })
+	});
+	refresh = 1;
     }
 }; 
 function update_opacity() {

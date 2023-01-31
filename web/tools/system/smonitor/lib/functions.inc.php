@@ -305,7 +305,7 @@ function get_box_id_default(){
 }
 
 
-function show_graph($stat,$box_id){
+function show_graph($stat,$box_id,$refresh=null){
 	global $config;
 	global $gauge_arr;
 	$var = $stat;
@@ -332,11 +332,12 @@ function show_graph($stat,$box_id){
 	if ($normal_chart) {
 		$_SESSION['normal'] = 1;
 	}
+	$_SESSION['refreshInterval'] = ($refresh?$refresh:get_settings_value_from_tool("refresh_period", "smonitor") * 1000);
 	
 	require(__DIR__."/../../../../common/charting/d3js.php");
 }
 
-function show_graphs($key){
+function show_graphs($key,$refresh=null){
 	global $config;
 	global $gauge_arr;
 	$box_ids = [];
@@ -368,7 +369,7 @@ function show_graphs($key){
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
 	require("db_connect.php");
-	$chart_size = get_settings_value('chart_size')+1;
+	$chart_size = get_settings_value_from_tool('chart_size', 'smonitor')+1;
 
     $divId = "";
 	$_SESSION['normal'] = array();
@@ -382,11 +383,12 @@ function show_graphs($key){
 	
 	$_SESSION['full_stats'] = $stats;
 	$_SESSION['chart_group_id'] = $divId;
-	$_SESSION['stime'] = get_settings_value("sampling_time", $box_id);
-	$_SESSION['csize'] = get_settings_value("chart_size", $box_id);
+	$_SESSION['stime'] = get_settings_value_from_tool("sampling_time", "smonitor");
+	$_SESSION['csize'] = get_settings_value_from_tool("chart_size", "smonitor");
 	$_SESSION['chart_history'] = $chart_history;
 	$_SESSION['boxes_list'] = $box_ids;
 	$_SESSION['scale'] = $scale; // 1 is individual
+	$_SESSION['refreshInterval'] = ($refresh?$refresh:get_settings_value_from_tool("refresh_period", "smonitor") * 1000);
   
 	require(__DIR__."/../../../../common/charting/d3jsMultiple.php");
 	
@@ -497,7 +499,7 @@ function get_stats_list_all_boxes() {
 	return $stats_list;
 }
 
-function show_widget_graphs($group_name){
+function show_widget_graphs($group_name, $refresh=null){
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
@@ -552,6 +554,8 @@ function show_widget_graphs($group_name){
 	$_SESSION['csize'] = get_settings_value_from_tool("chart_size", "smonitor");
 	$_SESSION['boxes_list'] = $box_ids;
 	$_SESSION['scale'] = $scale; // 1 e individual
+	$_SESSION['refreshInterval'] = ($refresh?$refresh:get_settings_value_from_tool("refresh_period", "smonitor") * 1000);
+
 	require(__DIR__."/../../../../common/charting/d3jsMultiple.php");
 }
 
