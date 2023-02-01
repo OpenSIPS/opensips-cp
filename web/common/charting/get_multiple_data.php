@@ -13,8 +13,8 @@
         die;
     }
 
-    $statID = $_GET['statID'];
-    $fstats = json_decode($_GET['full_stats']);
+    $statID = $_GET['id'];
+    $fstats = json_decode($_GET['stats']);
     
     $zoomOut = $_GET['zoomOut'];
     $boxes = json_decode($_GET['box']);

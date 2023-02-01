@@ -3,9 +3,9 @@
 <meta charset="utf-8">
 
 <script src="../../../common/charting/d3.v4.min.js"></script>
-<div id=<?=$_SESSION['stat']?>>
+<div id=<?=$_SESSION['id']?>>
 
-<div id="tooltipd3<?php echo $_SESSION['stat'] ?>" class="tooltipd3">
+<div id="tooltipd3<?php echo $_SESSION['id'] ?>" class="tooltipd3">
                 <div class="tooltipd3-date">
                     <span id="date"></span>
                 </div>
@@ -17,10 +17,10 @@
 
 <script>
 
-display_graph("<?=$_SESSION['stat']?>", "<?=$_SESSION['full_stat']?>", "<?=$_SESSION['box_id_graph']?> ", "<?=$_SESSION['normal']?>", "<?=$_SESSION['dashboard_active']?>", "<?=$_SESSION['widget_chart_size']?>", <?=$_SESSION['refreshInterval']?>);
+display_graph("<?=$_SESSION['id']?>", "<?=$_SESSION['stat']?>", "<?=$_SESSION['box_id_graph']?> ", "<?=$_SESSION['normal']?>", "<?=$_SESSION['dashboard_active']?>", "<?=$_SESSION['widget_chart_size']?>", <?=$_SESSION['refreshInterval']?>);
 
-function display_graph(arg1, arg2, arg3, arg4, arg5, arg6, refreshInterval) {
-data_url = "../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&normal=").concat(arg4);
+function display_graph(id, stat, arg3, arg4, arg5, arg6, refreshInterval) {
+data_url = "../../../common/charting/get_data.php?id=".concat(id).concat("&stat=").concat(stat).concat("&box=").concat(arg3).concat("&normal=").concat(arg4);
 if (arg5 == 1)
     data_url = data_url.concat("&chart_size=").concat(arg6);
 d3.csv(data_url,
@@ -45,11 +45,11 @@ d3.csv(data_url,
 		height = 300 - margin.top - margin.bottom;
   }
 
-  var svg = d3.select("#".concat(arg1))
+  var svg = d3.select("#".concat(id))
     .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      .attr("id", arg2.concat("_position"))
+      .attr("id", stat.concat("_position"))
     .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")")
@@ -99,7 +99,7 @@ d3.csv(data_url,
 
     const formatYvalue = (d) => d3.format(".4s")(d.toFixed(2));
     tooltip.select("#internet").html(formatYvalue(closestYValue));
-    var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
+    var offsets = document.getElementById(stat.concat("_position")).getBoundingClientRect();
 	if (arg5 == 0) {
 		const x = xScale(closestXValue) + offsets.left + margin.left ;
 		const y = yScale(closestYValue) + offsets.top + window.pageYOffset - 85;
@@ -265,7 +265,7 @@ d3.csv(data_url,
 
 
     
-  const tooltip = d3.select("#tooltipd3".concat(arg1));
+  const tooltip = d3.select("#tooltipd3".concat(id));
   const tooltipCircle = svg
     .append("circle")
     .attr("class", "tooltipd3-circle")
@@ -281,7 +281,7 @@ d3.csv(data_url,
 
     function updateGr() {
       if( refresh == 1) {
-        data_url = "../../../common/charting/get_data.php?stat=".concat(arg1).concat("&full_stat=").concat(arg2).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4);
+        data_url = "../../../common/charting/get_data.php?id=".concat(id).concat("&stat=").concat(stat).concat("&box=").concat(arg3).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(arg4);
         if (arg5 == 1)
             data_url = data_url.concat("&chart_size=").concat(arg6);
 	refresh = 0;

@@ -60,7 +60,7 @@ foreach (get_stats_list($box_id) as $stat_details) {
 	
 		if (isset($_SESSION["stat_open"][$i]) && $_SESSION["stat_open"][$i]=="yes") {
 			?>
-			<tr><td class="rowEven"><?php if (!$group) show_graph($stat,$box_id); else show_graphs($stat) ?></td></tr>
+			<tr><td class="rowEven"><?php if (!$group) show_graph(str_replace(':', '', $stat), $stat,$box_id); else show_graphs("group".$i, $stat) ?></td></tr>
 			<tr><td><img src="../../../images/share/spacer.gif"></td></tr>
 			<?php
 		}

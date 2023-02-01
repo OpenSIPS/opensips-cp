@@ -27,7 +27,6 @@ class chart_widget extends widget
     }
 
     function echo_content() {
-        $wi = $this->id;
         $this->show_chart();
     }
 
@@ -46,9 +45,9 @@ class chart_widget extends widget
         $_SESSION['widget_chart_refresh'] = $this->chart_refresh;
         require_once(__DIR__."/../../lib/functions.inc.php");
 	if (substr($this->chart, 0, 5) == "Group") {
-		show_widget_graphs(substr($this->chart, 7), $this->chart_refresh);
+		show_widget_graphs($this->id, substr($this->chart, 7), $this->chart_refresh);
 	} else
-		show_graph($this->chart, $this->chart_box, $this->chart_refresh);
+		show_graph($this->id, $this->chart, $this->chart_box, $this->chart_refresh);
 	$_SESSION['dashboard_active'] = 0;
     }
 

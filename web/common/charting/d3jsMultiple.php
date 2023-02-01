@@ -5,9 +5,9 @@
 <!-- Load d3.js -->
 <script src="../../../common/charting/d3.v4.min.js"></script>
 <!-- Create a div where the graph will take place -->
-<div id=<?=$_SESSION['chart_group_id']?>></div>
+<div id=<?=$_SESSION['id']?>></div>
 
-<div id="tooltipd3<?php echo $_SESSION['chart_group_id'] ?>" class="tooltipd3">
+<div id="tooltipd3<?php echo $_SESSION['id'] ?>" class="tooltipd3">
                 <div class="tooltipd3-date">
                     <span id="date"></span>
                 </div>
@@ -19,15 +19,15 @@
 
 <script>
 
-display_graphs("<?=$_SESSION['chart_group_id']?>", <?=json_encode($_SESSION['full_stats'])?>, 
+display_graphs("<?=$_SESSION['id']?>", <?=json_encode($_SESSION['stats'])?>, 
 <?=json_encode($_SESSION['boxes_list'])?>, <?=json_encode($_SESSION['normal'])?>, "<?=$_SESSION['scale']?>", "<?=$_SESSION['dashboard_active']?>", "<?=$_SESSION['widget_chart_size']?>", <?=$_SESSION['refreshInterval']?>);
 
-function display_graphs(arg1, arg2, arg3, arg4, arg5, arg6, arg7, refreshInterval) {
+function display_graphs(id, stats, arg3, arg4, arg5, arg6, arg7, refreshInterval) {
   //   var stats_list = "";
-    var stats_list = encodeURIComponent(JSON.stringify(arg2));
+    var stats_list = encodeURIComponent(JSON.stringify(stats));
     var box_list = encodeURIComponent(JSON.stringify(arg3));
     var normal_list = encodeURIComponent(JSON.stringify(arg4));
-    var data_url = "../../../common/charting/get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&normal=").concat(normal_list);
+    var data_url = "../../../common/charting/get_multiple_data.php?id=".concat(id).concat("&stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&normal=").concat(normal_list);
     if (arg6 == 1)
         data_url = data_url.concat("&chart_size=").concat(arg7);
 d3.csv(data_url,
@@ -58,11 +58,11 @@ function(d){
 
 
   // append the svg object to the body of the page
-  var svg = d3.select("#".concat(arg1))
+  var svg = d3.select("#".concat(id))
     .append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
-      .attr("id", arg2.concat("_position"))
+      .attr("id", stats.concat("_position"))
     .append("g")
       .attr("transform",
             "translate(" + margin.left + "," + margin.top + ")")
@@ -78,7 +78,7 @@ function(d){
     .attr("y", 0);
 
     
-    const tooltip = d3.select("#tooltipd3".concat(arg1));
+    const tooltip = d3.select("#tooltipd3".concat(id));
     const tooltipCircle = svg
     .append("circle")
     .attr("class", "tooltipd3-circle")
@@ -90,7 +90,7 @@ function(d){
     const labelX = 0;
     const labelY = 270;
     var removed = {};
-    arg2.forEach((element, i) => removed[element] = 0);
+    stats.forEach((element, i) => removed[element] = 0);
  
 
 // group the data: I want to draw one line per group
@@ -172,7 +172,7 @@ svg.selectAll("g.xAxis g.tick")
 
 // color palette
 
-arg2.forEach ((element, i) => {
+stats.forEach ((element, i) => {
     svg.append("circle").attr("cx",labelX + 230*Math.floor(i/2)).attr("cy",labelY + 30 + 30 * (i %2)).attr("r", 6).style("fill", color(element))
     .on("click", function() {
         if (arg5 == 1) {
@@ -190,7 +190,7 @@ arg2.forEach ((element, i) => {
             .attr("y2", 0);
         }
     })
-	svg.append("text").attr("x", labelX  + 20 + 230*Math.floor(i/2)).attr("y", labelY + 30 + 30 * (i %2) ).text(arg2[i]).style("font-size", "15px").attr("alignment-baseline","middle").attr("cursor", "pointer")
+	svg.append("text").attr("x", labelX  + 20 + 230*Math.floor(i/2)).attr("y", labelY + 30 + 30 * (i %2) ).text(stats[i]).style("font-size", "15px").attr("alignment-baseline","middle").attr("cursor", "pointer")
 	.on( "click", function(d) {
     if(!removed[element]) {
         removed[element] = 1;
@@ -302,7 +302,7 @@ var lines = svg.selectAll(".line")
     const formatYvalue = (d) => d;
     tooltip.select("#internet").html(formatYvalue(d3.format(".4s")(closestYValue)));
 
-    var offsets = document.getElementById(arg2.concat("_position")).getBoundingClientRect();
+    var offsets = document.getElementById(stats.concat("_position")).getBoundingClientRect();
 
 	if (arg6 == 0) {
 		const xT = x(closestXValue) + offsets.left + margin.left ;
@@ -416,7 +416,7 @@ svg.on("dblclick",function(){
 
 function updateGr(){ 
     if( refresh == 1 ) {
-        data_url = "../../../common/charting/get_multiple_data.php?statID=".concat(arg1).concat("&full_stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list);
+        data_url = "../../../common/charting/get_multiple_data.php?id=".concat(id).concat("&stats=").concat(stats_list).concat("&box=").concat(box_list).concat("&zoomOut=").concat(zoomTrigger).concat("&normal=").concat(normal_list);
         if (arg6 == 1)
             data_url = data_url.concat("&chart_size=").concat(arg7);
 	refresh = 0;

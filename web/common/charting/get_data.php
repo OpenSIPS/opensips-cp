@@ -12,8 +12,8 @@
         die;
     }
 
+    $id = $_GET['id'];
     $stat = $_GET['stat'];
-    $fstat = $_GET['full_stat'];
     $zoomOut = $_GET['zoomOut'];
     $box = $_GET['box'];
     $normal = $_GET['normal'];
@@ -30,7 +30,7 @@
 
     $sql = "SELECT * FROM ".$table_monitoring." WHERE name = ? AND box_id = ? AND time > ? ORDER BY time DESC";
     $stm = $link->prepare($sql);
-	$stm->execute(array($fstat, $box, time() - $chart_size * 3600));
+	$stm->execute(array($stat, $box, time() - $chart_size * 3600));
     $row = $stm->fetchAll(PDO::FETCH_ASSOC);
     if ($normal == 1) {
         $prev = $row[0]['value'];
