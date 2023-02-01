@@ -33,7 +33,8 @@ $custom_system_params = [];
 foreach($config->systems as $key => $value) {
   $elem = $value;
   $elem['key'] = $key;
-  if ($elem['show_in_main'] == true) $custom_box_params[] = $elem;
+  if (isset($elem['show_in_main']) && $elem['show_in_main'] == true)
+	  $custom_system_params[] = $elem;
 }
 ?>
 <form action="<?=$page_name?>?action=add" method="post">
@@ -47,7 +48,7 @@ foreach($config->systems as $key => $value) {
   <th class="listTitle">Name</th>
   <th class="listTitle">Description</th>
   <?php
-	foreach ($custom_box_params as $elem) {
+	foreach ($custom_system_params as $elem) {
 		echo('<th class="listTitle">'.$elem['name'].'</th>');
 	}
   if(!$_SESSION['read_only']){
@@ -63,7 +64,7 @@ $stm = $link->prepare( $sql_command );
 if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
-$stm->execute( $sql_vals );
+$stm->execute();
 $data_no = $stm->fetchColumn(0);
 
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -108,7 +109,7 @@ else
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['name']?></td>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['desc']?></td>
 <?php
-   foreach ($custom_box_params as $elem) 
+   foreach ($custom_system_params as $elem) 
 	echo ('<td class="'.$row_style.'">&nbsp;'.$resultset[$i][$elem['key']].'</td>');
    if(!$_SESSION['read_only']){
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>

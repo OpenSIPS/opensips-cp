@@ -33,16 +33,18 @@ require("../../../common/forms.php");
 
 if(isset($_GET['action'])) {
 	$action = $_GET['action'];
-}
 
-if ($action == "start") {
-	session_write_close();
+	if ($action == "start") {
+		session_write_close();
 
-	set_time_limit(0);              // making maximum execution time unlimited
-	ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
-	ob_end_flush(); 
+		set_time_limit(0);              // making maximum execution time unlimited
+		ob_implicit_flush(1);           // Send content immediately to the browser on every statement which produces output
+		ob_end_flush(); 
 
 
+	}
+} else {
+	$action = NULL;
 }
 echo ('
 <form action="tracer.php?action=start" method="post">
@@ -69,6 +71,8 @@ echo ('
 </form>');
 $i = 0;
 $test_pack;
+$spawn = null;
+$socket = null;
 if ($action == "start") {
 	echo ('
 	<table class="ttable" width="95%" cellspacing="1" cellpadding="1" border="1" align="right">
@@ -147,7 +151,8 @@ if ($action == "start") {
 				} else continue;
 			}
 		} while (true);
-	   socket_close($spawn);
+		if ($spawn)
+			socket_close($spawn);
 	}
 	$res = mi_command("trace_stop", array("id" => $prefix.$random), $boxes[0]['mi_conn'], $errors);
 
@@ -155,7 +160,9 @@ if ($action == "start") {
 
 
 
-socket_close($spawn);
-socket_close($socket);
+if ($spawn)
+	socket_close($spawn);
+if ($socket)
+	socket_close($socket);
 die(1);
 ?>

@@ -29,6 +29,7 @@ require  __DIR__.'/../googleAuth/RuntimeException.php';
 require("../config/local.inc.php");
 require("../config/globals.php");
 session_start();
+global $config;
 
 $g = new \Sonata\GoogleAuthenticator\GoogleAuthenticator();
 $secret = $_SESSION['secret'];

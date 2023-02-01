@@ -31,8 +31,10 @@ require_once("../../../common/forms.php");
   <?php 
     $box_params = get_boxes_params();
     foreach($box_params as $attr => $params) {
-      $value = $params['default'];
-			if ($params['opt']) $opt = "y"; else $opt = "n";
+      $value = (isset($params['default']))?$params['default']:"";
+      $opt = (isset($params['opt']) && $params['opt'])?"y":"n";
+      $current_tip = isset($params['tip'])?$params['tip']:NULL;
+      $regexp = isset($params['validation_regex'])?$params['validation_regex']:NULL;
       switch ($params['type']) {
 			case "checklist":
 				if (isAssoc($params['options']))
@@ -40,7 +42,7 @@ require_once("../../../common/forms.php");
 				else form_generate_input_checklist($params['name'], $current_tip, $attr, 64, $value, array_value($params['options']));
 				break;
 			case "json":
-				form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), (isset($params['maxlen'])?$params['maxlen']:NULL), $params['validation_regex'], 'validate_json');
+				form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), (isset($params['maxlen'])?$params['maxlen']:NULL), $regexp, 'validate_json');
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))
@@ -51,7 +53,7 @@ require_once("../../../common/forms.php");
         form_generate_passwords($attr, "", "", $minimum=6,$current_tip,$opt);
         break;
 			default:
-				form_generate_input_text($params['name'], $current_tip, $attr, $opt, $value, 64, $params['validation_regex']);
+				form_generate_input_text($params['name'], $current_tip, $attr, $opt, $value, 64, $regexp);
 	    }
     }
 ?>

@@ -59,6 +59,7 @@ if ($action=="modify_params")
 			$info="Configuration was modified";
 		}
 		unset($_SESSION['db_config']);
+		load_db_config();
 	}   else {
    		$errors= "User with Read-Only Rights";
    	} 
@@ -85,6 +86,8 @@ if ($action=="delete")
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		$stm->execute( array($id) );
+		unset($_SESSION['db_config']);
+		load_db_config();
 	}else{
 
 		$errors= "User with Read-Only Rights";
@@ -122,18 +125,17 @@ if ($action == "add_verify") {
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
+		$form_valid = true;
 		if ($stm->execute(array($config_name, $db_host, $db_name, $db_port, $db_pass, $db_user)) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 			$form_valid=false;
 		} 
 		unset ($_SESSION['db_config']);
+		load_db_config();
 	
 		if ($form_valid) {
 		  print "New configuration added!";
 		  $action="add";
-		} else {
-		  print $form_error;
-		  $action="add_verify";
 		}
    } else {
 	   $errors= "User with Read-Only Rights";
@@ -141,7 +143,7 @@ if ($action == "add_verify") {
 }
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if(isset($errors)) echo($errors);
 require("template/footer.php");
 exit();
 

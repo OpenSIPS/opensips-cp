@@ -29,18 +29,18 @@ require_once("../../../common/forms.php");
   <td colspan="2" height="10" class="mainTitle">Add New Configuration</td>
  </tr>
   <?php 
-    	form_generate_input_text("Configuration name", "Name of the configuration",
-					"config_name", "n", $selected_config['config_name'], 64);
-				form_generate_input_text("DB host", "Database host", "db_host", "n",
-					$selected_config['db_host'], 64);
-				form_generate_input_text("DB port", "Database port", "db_port", "n",
-					$selected_config['db_port'], 64);
-				form_generate_input_text("DB user", "Database user", "db_user", "n",
-					$selected_config['db_user'], 64);
-				form_generate_input_text("DB password", "Database password", "db_pass",
-					"y", $selected_config['db_pass'], 64);
-				form_generate_input_text("DB name", "Database name", "db_name",
-					"n", $selected_config["db_name"], 64);
+form_generate_input_text("Configuration name", "Name of the configuration",
+	"config_name", "n", "", 64, null);
+form_generate_input_text("DB host", "Database host", "db_host", "n",
+	"", 64, null);
+form_generate_input_text("DB port", "Database port", "db_port", "y",
+	"", 64, '^([0-9]\+)$');
+form_generate_input_text("DB user", "Database user", "db_user", "n",
+	"", 64, null);
+form_generate_input_text("DB password", "Database password", "db_pass",
+	"y", "", 64, null);
+form_generate_input_text("DB name", "Database name", "db_name",
+	"n", "", 64, null);
 ?>
 
  <tr>
@@ -53,4 +53,5 @@ require_once("../../../common/forms.php");
     </table>
  </tr>
 </table>
+<script> form_init_status(); </script>
 </form>

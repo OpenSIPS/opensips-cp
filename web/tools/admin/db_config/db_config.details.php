@@ -22,6 +22,7 @@
 extract($_GET);
 
 require(__DIR__."/../../../../config/db.inc.php");
+require(__DIR__."/../../../../web/common/cfg_comm.php");
 if ($db_id == 0) {
 	$host = $config->db_host;
 	$port = $config->db_port;

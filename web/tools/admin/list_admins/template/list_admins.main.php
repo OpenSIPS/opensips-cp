@@ -23,9 +23,9 @@
 $sql_search="";
 $sql_vals=array();
 
-$search_uname = $_SESSION['list_uname'];
-$search_fname = $_SESSION['list_fname'];
-$search_lname = $_SESSION['list_lname'];
+$search_uname = isset($_SESSION['list_uname'])?$_SESSION['list_uname']:"";
+$search_fname = isset($_SESSION['list_fname'])?$_SESSION['list_fname']:"";
+$search_lname = isset($_SESSION['list_lname'])?$_SESSION['list_lname']:"";
 if($search_uname !="") {
 	$sql_search.=" AND username like ?";
 	array_push( $sql_vals, $search_uname."%");

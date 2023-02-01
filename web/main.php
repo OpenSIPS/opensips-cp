@@ -59,6 +59,8 @@ if (isset($_SESSION['current_tool'])) {
 		}
 	}
 }
+require_once("common/cfg_comm.php");
+load_db_config();
 ?>
 
 <html>

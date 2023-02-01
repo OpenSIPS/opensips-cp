@@ -22,7 +22,8 @@
 
 session_start();
 require_once("../../cfg_comm.php");
-get_priv($_GET['module_id']);
+$module_id = isset($_GET['module_id'])?$_GET['module_id']:$_SESSION['module_id'];
+get_priv($module_id);
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 

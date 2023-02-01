@@ -19,10 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-	global $table_regex;
-
-if (!isset($config)) 
-    $config = new stdClass();
+global $table_regex;
+global $config;
 
 $config->statusreport = array(
 );

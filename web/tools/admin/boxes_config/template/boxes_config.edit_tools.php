@@ -29,20 +29,9 @@ require_once("functions.js");
                           echo('  <td colspan="2" class="dataRecord"><div class="formError">'.$form_error.'</div></td>');
                           echo(' </tr>');
                          }
-	$id=$_GET['id'];
 	$box_id=$_GET['box_id'];
 	$current_tool=$_SESSION['current_tool'];
 	$current_tool_name = get_tool_name();
-	$sql = "select * from ".$table." where id=?";
-	$stm = $link->prepare($sql);
-
-	if ($stm === false) {
-	  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-	$stm->execute( array($id) );
-	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-        $index_row=0;
-	$permissions=array();
 ?> 
 
 <form action="<?=$page_name?>?action=modify_params&tool=<?=$current_tool?>&box_id=<?=$box_id?>" method="post">
@@ -60,12 +49,11 @@ require_once("functions.js");
 	$box_params = get_boxes_params();
 	foreach ($box_params as $attr=>$params) {
 		if ($params['show_in_edit_form']) {
-			if ($params['opt']) $opt = "y"; else $opt = "n";
-			if ($params['tip'])
-				$current_tip = $params[tip];
-			else $current_tip = null;
-			if ($params['nodes']) $value = $selected_box[$params['nodes'][0]][$params['nodes'][1]];
+      			$opt = (isset($params['opt']) && $params['opt'])?"y":"n";
+      			$current_tip = isset($params['tip'])?$params['tip']:NULL;
+			if (isset($params['nodes']) && $params['nodes']) $value = $selected_box[$params['nodes'][0]][$params['nodes'][1]];
 			else $value = $selected_box[$attr];
+			$regexp = isset($params['validation_regex'])?$params['validation_regex']:NULL;
 
 			switch ($params['type']) {
 				case "password":
@@ -77,7 +65,7 @@ require_once("functions.js");
 					else form_generate_input_checklist($params['name'], $current_tip, $attr, 64, $value, array_value($params['options']));
 					break;
 				case "json":
-					form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), (isset($params['maxlen'])?$params['maxlen']:NULL), $params['validation_regex'], 'validate_json');
+					form_generate_input_textarea($params['name'], $current_tip, $attr, $opt, json_encode($value, JSON_PRETTY_PRINT | JSON_FORCE_OBJECT), (isset($params['maxlen'])?$params['maxlen']:NULL), $regexp, 'validate_json');
 					break;
 				case "dropdown": 
 					if (isAssoc($params['options']))
@@ -85,7 +73,7 @@ require_once("functions.js");
 					else form_generate_select($params['name'], $current_tip, $attr, 64,  $value, array_values($params['options']));
 					break;
 				default:
-					form_generate_input_text($params['name'], $current_tip, $attr, $opt, $value, 64, $params['validation_regex']);
+					form_generate_input_text($params['name'], $current_tip, $attr, $opt, $value, 64, $regexp);
 			}
 		}
 	}

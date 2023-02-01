@@ -32,8 +32,7 @@ csrfguard_validate();
 
 $table=$config->table_system_config; 
 $current_page="current_page_system_config";
-$box_id = $_GET['box_id'];
-if ($box_id == '') $box_id = null;
+$box_id = ((isset($_GET['box_id']) && $_GET['box_id'] != '')?$_GET['box_id']:NULL);
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -164,7 +163,7 @@ if ($action == "add_verify") {
 }
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if(isset($errors)) echo($errors);
 require("template/footer.php");
 exit();
 

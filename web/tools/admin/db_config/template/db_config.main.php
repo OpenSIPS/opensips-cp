@@ -56,7 +56,7 @@ $stm = $link->prepare( $sql_command );
 if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
 }
-$stm->execute( $sql_vals );
+$stm->execute();
 $data_no = $stm->fetchColumn(0);
 
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
@@ -80,14 +80,14 @@ else
 	$stm->execute();
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 	require("lib/".$page_id.".main.js");
-	$index_row=0;
+	$index_row=1;
 	$i=0;
 
 	$details_link = '<a href="javascript:;" onclick="openStatOverlay(\'pass\',\'pass\',\'pass\',\'pass\',\'pass\',\'0\')"><img src="../../../images/share/details.png" border="0"></a>';
 	echo('
  <tr>
-  <td class="'.$row_style.'">&nbsp;Default</td>');
-	echo('<td class='.$row_styleImg."Img".' align="center">'.$details_link.'</td><td></td><td></td></tr>');
+  <td class="rowOdd">&nbsp;Default</td>');
+	echo('<td class="rowOddImg" align="center">'.$details_link.'</td><td></td><td></td></tr>');
 	while (count($resultset)>$i)
 	{
 		$index_row++;
@@ -104,7 +104,7 @@ else
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['config_name']?></td>
 <?php
-		echo('<td class='.$row_styleImg."Img".' align="center">'.$details_link.'</td>');
+		echo('<td class='.$row_style."Img".' align="center">'.$details_link.'</td>');
    if(!$_SESSION['read_only'])
    	echo('<td class="'.$row_style.'Img" align="center">'.$edit_link.'</td>
 			  <td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');

@@ -21,6 +21,7 @@
  */
 
 // Global configuration parameters used by more then one module
+global $config;
 
 
 // The permissions parameter is also used by more the one module,

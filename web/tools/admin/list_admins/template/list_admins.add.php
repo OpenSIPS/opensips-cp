@@ -29,27 +29,27 @@
  <tr>
   <td class="dataRecord" >First Name</td>
   <td class="dataRecord" width="275"><input type="text" name="add_fname"
-  value="<?=$fname?>" class="dataInput"></td>
+  value="<?=isset($fname)?$fname:""?>" class="dataInput"></td>
  </td>
  <tr>
   <td class="dataRecord" >Last Name</td>
   <td class="dataRecord" width="275"><input type="text" name="add_lname"
-  value="<?=$lname?>" class="dataInput"></td>
+  value="<?=isset($lname)?$lname:""?>" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord" >Username</td>
   <td class="dataRecord" width="275"><input type="text" name="add_uname"
-  value="<?=$uname?>" class="dataInput"></td>
+  value="<?=isset($uname)?$uname:""?>" class="dataInput"></td>
  </tr>
  <tr>
   <td class="dataRecord" >Password</td>
   <td class="dataRecord" width="275"><input type="password" name="add_passwd"
-  value="<?=$passwd?>" class="dataInput" autocomplete="off"></td>
+  value="<?=isset($passwd)?$passwd:""?>" class="dataInput" autocomplete="off"></td>
  </tr>
  <tr>
   <td class="dataRecord" >Confirm Password</td>
   <td class="dataRecord" width="275"><input type="password" name="confirm_passwd"
-  value="<?=$confirm_passwd?>" class="dataInput" autocomplete="off"></td>
+  value="<?=isset($confirm_passwd)?$confirm_passwd:""?>" class="dataInput" autocomplete="off"></td>
  </tr>
  <tr>
   <td colspan="2">

@@ -362,7 +362,7 @@ if ($action=="reset2FA")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if(isset($errors)) echo($errors);
 require("template/footer.php");
 exit();
 

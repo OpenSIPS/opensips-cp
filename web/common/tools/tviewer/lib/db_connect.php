@@ -11,8 +11,11 @@ elseif (get_settings_value_from_tool("db_config", $module_id))
 else
 	$configuation = null;
 
-if ($configuration)
+if ($configuration) {
+	if (!isset($_SESSION['db_config']))
+		load_db_config();
 	$configuration = $_SESSION['db_config'][$configuration];
+}
 
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
@@ -33,7 +36,7 @@ if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['
 	$config->db_user = $configuration['db_user'];
 	$config->db_pass = isset($configuration['db_pass'])?$configuration['db_pass']:'';
 	$config->db_name = $configuration['db_name'];
-	$config->db_attr = $configuration['db_attr'];
+	$config->db_attr = isset($configuration['db_attr'])?$configuration['db_attr']:NULL;
 
 	if (isset($configuration->db_port) && is_int((int)$configuration->db_port) && 1 < $configuration->db_port && $configuration->db_port < 65535) 
 		$config->db_host = $config->db_host.";port=".$configuration->db_port;

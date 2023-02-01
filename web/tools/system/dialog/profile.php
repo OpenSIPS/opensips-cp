@@ -65,7 +65,7 @@ if ($action=="delete")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
+if(isset($errors))
 echo('!!! ');echo($errors);
 require("template/footer.php");
 exit();

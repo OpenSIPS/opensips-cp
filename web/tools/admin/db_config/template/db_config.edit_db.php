@@ -55,17 +55,17 @@ require_once("functions.js");
 	}
 	
 	form_generate_input_text("Configuration name", "Name of the configuration",
-	 "config_name", "n", $selected_config['config_name'], 64);
+	 "config_name", "n", $selected_config['config_name'], 64, null);
 	form_generate_input_text("DB host", "Database host", "db_host", "n",
-	 $selected_config['db_host'], 64);
-	form_generate_input_text("DB port", "Database port", "db_port", "n",
-	 $selected_config['db_port'], 64);
+	 $selected_config['db_host'], 64, null);
+	form_generate_input_text("DB port", "Database port", "db_port", "y",
+	 $selected_config['db_port'], 64, '^([0-9]\+)$');
 	form_generate_input_text("DB user", "Database user", "db_user", "n",
-		$selected_config['db_user'], 64);
+		$selected_config['db_user'], 64, null);
 	form_generate_input_text("DB password", "Database password", "db_pass",
-		"y", $selected_config['db_pass'], 64);
+		"y", $selected_config['db_pass'], 64, null);
 	form_generate_input_text("DB name", "Database name", "db_name",
-	 "n", $selected_config["db_name"], 64);
+	 "n", $selected_config["db_name"], 64, null);
 	
 	
 	
@@ -85,5 +85,6 @@ if (!$_SESSION['read_only']) {
 ?>
   </table>
 
+<script> form_init_status(); </script>
 </form>
 

@@ -112,8 +112,10 @@ function get_priv($my_tool) {
 function get_assoc_id() {
 	require_once("".__DIR__."/../../config/boxes.global.inc.php");
 	$assoc_ids = array();
-	foreach( $_SESSION['systems'] as $el) {
-		$assoc_ids[$el['name']] = $el['assoc_id'];
+	if (isset($_SESSION['systems'])) {
+		foreach( $_SESSION['systems'] as $el) {
+			$assoc_ids[$el['name']] = $el['assoc_id'];
+		}
 	}
 	return $assoc_ids;
 }
@@ -122,6 +124,8 @@ function get_assoc_id() {
 
 function get_tool_name() {
 	require("../../../../config/modules.inc.php");
+	if (isset($config_admin_modules) && isset($config_admin_modules[$_SESSION['current_tool']]))
+		return $config_admin_modules[$_SESSION['current_tool']];
 	return $config_modules[$_SESSION['current_group']]['modules'][$_SESSION['current_tool']]['name'];
 }
 
@@ -275,8 +279,10 @@ function load_panels() {
 
 function get_db_configs() {
 	$configs = array();
-	foreach($_SESSION['db_config'] as $id => $configuration) {
-		$configs[$configuration['config_name']] = $id;
+	if (isset($_SESSION['db_config'])) {
+		foreach($_SESSION['db_config'] as $id => $configuration) {
+			$configs[$configuration['config_name']] = $id;
+		}
 	}
 	$configs["Default config"] = 0;
 	return $configs;
@@ -303,7 +309,7 @@ function load_db_config() {
 function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {
 	require("".__DIR__."/../../config/tools/".get_tool_path($current_tool)."/settings.inc.php");
 	if (is_null($box_id)){
-		if (!is_null($_SESSION['config'][$current_tool][$current_param])){ 
+		if (isset($_SESSION['config'][$current_tool][$current_param])){ 
 			return $_SESSION['config'][$current_tool][$current_param];}}
 
 	else {

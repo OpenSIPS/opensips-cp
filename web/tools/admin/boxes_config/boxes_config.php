@@ -32,8 +32,7 @@ csrfguard_validate();
 
 $table=$config->table_boxes_config; 
 $current_page="current_page_boxes_config";
-$box_id = $_GET['box_id'];
-if ($box_id == '') $box_id = null;
+$box_id = ((isset($_GET['box_id']) && $_GET['box_id'] != '')?$_GET['box_id']:null);
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
@@ -48,7 +47,7 @@ if ($action=="modify_params")
         extract($_POST);
 		$box_id = $_GET['box_id'];
 		$current_tool=$_GET['tool'];
-        $box_params=get_boxes_params();
+		$box_params=get_boxes_params();
 		$params_names = "";
 		$unknowns ="";
 		$update_query ="";
@@ -172,7 +171,7 @@ if ($action == "add_verify") {
 }
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if(isset($errors)) echo($errors);
 require("template/footer.php");
 exit();
 

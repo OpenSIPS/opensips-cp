@@ -19,10 +19,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-	global $table_regex;
-	$re_ip = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
-if (!isset($config)) 
-    $config = new stdClass();
+global $table_regex;
+global $config;
+$re_ip = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
 
 $config->tracer = array(
 	"hep_bind_ip" => array(
