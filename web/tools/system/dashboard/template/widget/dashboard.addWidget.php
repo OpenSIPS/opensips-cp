@@ -68,4 +68,5 @@ else $widget_type = $_POST['type_val'];
     </table>
  </tr>
 </table>
+<script> form_init_status(); </script>
 </form>

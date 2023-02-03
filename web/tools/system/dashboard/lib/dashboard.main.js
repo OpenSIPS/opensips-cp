@@ -1,8 +1,8 @@
 <script language="JavaScript">
   
-function confirmDelete()
+function confirmDelete(name)
 {
- var agree=confirm("Are you sure you want to delete this entry?");
+ var agree=confirm("Are you sure you want to delete this "+name+"?");
  if (agree)	return true;
   else return false;
 }

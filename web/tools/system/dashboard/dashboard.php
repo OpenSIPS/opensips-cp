@@ -454,7 +454,7 @@ if ($action == "change_name_verify") {
 
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if(isset($errors)) echo($errors);
 require("template/footer.php");
 exit();
 

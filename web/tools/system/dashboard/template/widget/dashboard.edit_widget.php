@@ -20,6 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+require("lib/".$page_id.".main.js");
+
 if(!$_SESSION['read_only']){
 	$colspan = 5;
 }else{
@@ -46,8 +48,9 @@ echo '<h1>Edit widget</h1>'
     </table>
  </tr>
 </table>
+<script> form_init_status(); </script>
 </form>
 <form action="<?=$page_name?>?action=delete_widget&panel_id=<?=$panel_id?>&widget_id=<?=$widget_id?>" method="post">
 <?php csrfguard_generate(); ?>
-<input type="submit" style="background-color: red;" value="Delete" class="formButton">
+<input type="submit" name="delete" value="Delete" class="formButton" onclick="return confirmDelete('widget')">
 </form>
