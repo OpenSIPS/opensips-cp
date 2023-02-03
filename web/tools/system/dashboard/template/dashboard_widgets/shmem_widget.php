@@ -8,7 +8,7 @@ class shmem_widget extends gauge_widget
 
     function __construct($array) {
         parent::__construct($array);
-		$this->set_warning(1);
+		$this->set_status(widget::STATUS_OK);
         $this->color = 'rgb(198,226,213)';
 		$this->sizeX = 2;
     }
@@ -33,9 +33,9 @@ class shmem_widget extends gauge_widget
 		$_SESSION['critical'] = $this->critical;
 		$_SESSION['max_ever'] = $maxEver;
 		if ($value/$valueMax * 100 > $this->critical)
-			$this->set_warning(3);
+			$this->set_status(widget::STATUS_CRIT);
 		else if ($value/$valueMax * 100 > $this->warning)
-			$this->set_warning(2);
+			$this->set_status(widget::STATUS_WARN);
         require(__DIR__."/../../../../../common/charting/percent_shmemd3js.php");
     }
 

@@ -14,7 +14,7 @@ class pkg_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
 		$this->box_id = $array['widget_box'];
-		$this->set_warning(1);
+		$this->set_status(widget::STATUS_OK);
 		foreach ($_SESSION['boxes'] as $box) {
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;
@@ -54,11 +54,11 @@ A tool that aggregates the pkg memory from all processes and performs some stati
 			$style = "";
 			if ($info['value'] > $this->critical) {
 				$style = "color : red; ";
-				$this->set_warning(3);
+				$this->set_status(widget::STATUS_CRIT);
 			}
 			else if ($info['value'] > $this->warning) {
 				$style = "color : orange; ";
-				$this->set_warning(2);
+				$this->set_status(widget::STATUS_WARN);
 			}
 			else $style = "color : green;";
 			$style .= "font-weight: 900; ";

@@ -10,8 +10,13 @@ abstract class widget
   public $color;
   public $has_menu;
   public $panel_id;
-  public $warning_level = 0;
+  public $_status = 0;
   public $refresh_period = 0;
+
+  const STATUS_UNKNOWN = 0;
+  const STATUS_OK = 1;
+  const STATUS_WARN = 2;
+  const STATUS_CRIT = 3;
 
   public function __construct($panel_id, $name, $sizeX, $sizeY, $title=null, $refresh=0) {
     $this->panel_id = $panel_id;
@@ -30,7 +35,7 @@ abstract class widget
   function display_widget($update = null) {
     echo ("<div id=".$this->id."_old>
       <div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'><span style='color:rgb(203, 235,221); position:relative; top:2px;'>".$this->title."</span>
-      <span id='".$this->id."_warning_circle' style='
+      <span id='".$this->id."_status_indicator' style='
       position: absolute;
     right: 5px;
     top: 4px;
@@ -49,26 +54,22 @@ abstract class widget
     $this->echo_content();
     echo('</div>');
 
-    $warning_color = $this->get_warning_color();
+    $status_color = $this->get_status_color();
 
     echo ("</div>
-      <script>refresh_widget_warning('".$warning_color."','".$this->id."');</script>");
+      <script>refresh_widget_status('".$status_color."','".$this->id."');</script>");
   }
 
-  function get_warning_color() {
-    switch ($this->warning_level) {
-    case 0:
+  function get_status_color() {
+    switch ($this->_status) {
+    case self::STATUS_UNKNOWN:
       return "#3E5771";
-      break;
-    case 1:
+    case self::STATUS_OK:
       return "chartreuse";
-      break;
-    case 3:
+    case self::STATUS_CRIT:
       return "red";
-      break;
-    case 2:
+    case self::STATUS_WARN:
       return "orange";
-      break;
     default:
       return "blue";
     }
@@ -124,13 +125,8 @@ abstract class widget
   static function get_description() {
   }
 
-  function set_warning($level) {
-    if ($level == 3)
-      $this->warning_level = 3;
-    if ($level == 2 && $this->warning_level != 3)
-      $this->warning_level = 2;
-    if ($level == 1 && $this->warning_level < 2)
-      $this->warning_level = 1;
+  function set_status($level) {
+    $this->_status = $level;
   }
 }
 // vim:set sw=2 ts=2 et ft=php fdm=marker:

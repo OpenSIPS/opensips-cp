@@ -121,9 +121,9 @@ function show_widget(widget_path){
 
 }
 
-function refresh_widget_warning(color, widget_id) {
-  var warning_circle = document.getElementById(widget_id + "_warning_circle");
-  warning_circle.style['background-color'] = color;
+function refresh_widget_status(color, widget_id) {
+  var status_indicator = document.getElementById(widget_id + "_status_indicator");
+  status_indicator.style['background-color'] = color;
 }
 
 function refresh_widget(func, widget_id) {
@@ -136,10 +136,10 @@ function refresh_widget(func, widget_id) {
   http.onreadystatechange = handleHttpResponse(http);
   http.send(null);
   data = http.responseText;
-  // first line is the warning color
+  // first line is the status color
   var color = data.split('\n')[0];
   data = data.slice(color.length + 1);
-  refresh_widget_warning(color, widget_id);
+  refresh_widget_status(color, widget_id);
 
   const element = document.getElementById(widget_id).getElementsByClassName('widget_body')[0];
 

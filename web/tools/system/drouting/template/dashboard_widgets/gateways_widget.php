@@ -12,7 +12,7 @@ class gateways_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
 		$this->box_id = $array['widget_box'];
-		$this->set_warning(1);
+		$this->set_status(widget::STATUS_OK);
 		foreach ($_SESSION['boxes'] as $box) {
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;
@@ -34,7 +34,7 @@ class gateways_widget extends widget
 			<td class="rowEven">Available: </td><td><span style="color:green; font-weight: 900;">'.$this->available.'</span></td></tr>');
 		if ($this->inactive > 0) {
 			echo ('<tr><td class="rowEven">Inactive: </td><td><span style="color:red; font-weight: 900;">'.$this->inactive.'</span></td></tr>');
-			$this->set_warning(3);
+			$this->set_status(widget::STATUS_CRIT);
 		}
 		if ($this->probing > 0)
 			echo ('<tr><td class="rowEven">Probing: </td><td><span style="color:orange; font-weight: 900;">'.$this->probing.'</span></td>

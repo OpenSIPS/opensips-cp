@@ -16,7 +16,7 @@ class dispatching_widget extends widget
       $r = 60000; # one minute is the default
     parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name'],$r);
     $this->box_id = $array['widget_box'];
-    $this->set_warning(1);
+    $this->set_status(widget::STATUS_OK);
     foreach ($_SESSION['boxes'] as $box) {
       if ($box['id'] == $this->box_id)
         $this->widget_box = $box;
@@ -70,7 +70,9 @@ class dispatching_widget extends widget
       }
     }
     if ($this->inactive > 0)
-      $this->set_warning(3);
+      $this->set_status(widget::STATUS_CRIT);
+    else if ($this->probing > 0)
+      $this->set_status(STATUS_WARN);
   }
 
   function echo_content() {

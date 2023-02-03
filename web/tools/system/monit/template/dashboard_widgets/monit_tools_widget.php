@@ -9,7 +9,7 @@ class monit_tools_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
 		$this->box_id = $array['widget_box'];
-		$this->set_warning(1);
+		$this->set_status(widget::STATUS_OK);
 		$this->set_monitored();
     }
 
@@ -40,7 +40,7 @@ class monit_tools_widget extends widget
 						break;
 					case "down":
 						$name = "Failed";
-						$this->set_warning(3);
+						$this->set_status(widget::STATUS_CRIT);
 						break;
 					default:
 						break;

@@ -11,7 +11,7 @@ class status_report_widget extends widget
 
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_name'], 2,2, $array['widget_name']);
-		$this->set_warning(1);
+		$this->set_status(widget::STATUS_OK);
 		$this->box_id = $array['widget_box'];
 		foreach ($_SESSION['boxes'] as $box) {
 			if ($box['id'] == $this->box_id)
@@ -29,7 +29,7 @@ class status_report_widget extends widget
 
     function display_test() {
 		if (!$this->status['Readiness'])
-			$this->set_warning(3);
+			$this->set_status(widget::STATUS_CRIT);
 		//echo ('<span style= "font-size:13px;">Status report for '.$this->mi_group.' '.$this->mi_id.':</span><br><br>');
 		echo('
 			<table style="table-layout: fixed;

@@ -21,7 +21,7 @@ class gauge_widget extends widget
 			if ($box['id'] == $this->box_id)
 				$this->widget_box = $box;
 		}
-		$this->set_warning(1);
+		$this->set_status(widget::STATUS_OK);
     }
 
     function display_chart($title, $value, $valueMax = 100) {
@@ -31,9 +31,9 @@ class gauge_widget extends widget
 		$_SESSION['warning'] = $this->warning;
 		$_SESSION['critical'] = $this->critical;
 		if ($value / $valueMax * 100 > $this->critical)
-			$this->set_warning(3);
+			$this->set_status(widget::STATUS_CRIT);
 		else if ($value / $valueMax * 100 > $this->warning)
-			$this->set_warning(2);
+			$this->set_status(widget::STATUS_WARN);
         require(__DIR__."/../../../../../common/charting/percent_d3js.php");
     }
 
