@@ -12,8 +12,8 @@ class chart_widget extends widget
         parent::__construct($array['panel_id'], $array['widget_title'], 4, 5, $array['widget_title']);
         $this->color = 'rgb(198,226,213)';
         $this->chart = $array['widget_chart'];
-		$this->chart_box = $array['widget_box'];
-        $this->chart_size = $array['widget_chart_size'];
+	$this->chart_box = $array['widget_box'];
+        $this->chart_size = isset($array['widget_chart_size'])?$array['widget_chart_size']:1;
 	if (isset($array['widget_chart_refresh']) && $array['widget_chart_refresh'] != '')
 		$this->chart_refresh = intval($array['widget_chart_refresh']) * 1000;
         
@@ -28,10 +28,6 @@ class chart_widget extends widget
 
     function echo_content() {
         $this->show_chart();
-    }
-
-    function get_as_array() {
-        return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
     }
 
     public static function get_stats_options() {
@@ -90,14 +86,16 @@ class chart_widget extends widget
 		else $init = 0;
         if (!$params['widget_title'])
             $params['widget_title'] = "Chart";
+        if (!$params['widget_chart_size'])
+            $params['widget_chart_size'] = 1;
         $stats_list = self::get_stats_options();
 		$options = (!$init)?$stats_list[$params['widget_box']]:$stats_list[0];
 		$options = array_merge($stats_list["Group"], $options);
         form_generate_input_text("Title", "Widget name", "widget_title", "n", $params['widget_title'], 20,null);
-        form_generate_input_text("Chart size", "Chart timespan (hours)", "widget_chart_size", "n", $params['widget_chart_size'], 20,null);
-        form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]\+)$');
         form_generate_select("Box", "Widget box", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
         form_generate_select("Chart", "Statistic to view", "widget_chart", null,  $params['widget_chart'], $options);
+        form_generate_input_text("Chart size", "Chart timespan in hours (defaults to 1)", "widget_chart_size", "n", $params['widget_chart_size'], 20,null);
+        form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]\+)$');
         self::chart_box_selection($stats_list, $init);
     }
 }
