@@ -21,6 +21,7 @@
  */
 
  global $config;
+ if (!isset($config)) $config = new stdClass();
 
  //database driver mysql or pgsql
  $config->db_driver = "mysql";
