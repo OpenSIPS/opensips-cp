@@ -56,7 +56,7 @@ function form_full_check() {
 			if ( !(elem[i].getAttribute("opt")=="y" && elem[i].value=="") &&
 				!(elem[i].getAttribute("valid")=="ok") )
 				ret = false;
-		} else if (elem[i].type=="submit")
+		} else if (button == null && elem[i].type=="submit")
 			button = elem[i];
 	}
 	if (button!=null) {
