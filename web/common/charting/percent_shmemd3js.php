@@ -1,8 +1,8 @@
 
 <script src="../../../common/charting/d3.v3.min.js"></script>
-<div class="chart-gauge" id=<?=$_SESSION['gauge_id']?>></div>
+<div class="chart-gauge" id="gauge_<?=$_SESSION['gauge_id']?>"></div>
 <script>
-display_indicator("<?php echo $_SESSION['gauge_value'] ?>", "<?php echo $_SESSION['gauge_id'] ?>", "<?php echo $_SESSION['gauge_max'] ?>", "<?php echo $_SESSION['warning'] ?>", "<?php echo $_SESSION['critical'] ?>", "<?php echo $_SESSION['max_ever'] ?>");
+display_indicator("<?=$_SESSION['gauge_value']?>", "<?=$_SESSION['gauge_id']?>", "<?=$_SESSION['gauge_max']?>", "<?=$_SESSION['warning']?>", "<?=$_SESSION['critical']?>", "<?=$_SESSION['max_ever']?>", <?=(isset($_SESSION['refreshInterval']))?$_SESSION['refreshInterval']:'null'?>);
 
 function nFormatter(num, digits) {
   const lookup = [
@@ -21,16 +21,12 @@ function nFormatter(num, digits) {
   return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
 }
 
-function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
-	var warning = arg4;
-	var critical = arg5;
-    var name = "";
-    var value = arg1;
-    var gaugeMaxValue = arg3;
+function display_indicator(value, id, gaugeMaxValue, warning, critical, peak, refreshInterval) {
 
     var percentValue = value / gaugeMaxValue;
     var needleClient;
-    (function () {
+ 
+    var repaint_indicator = (function () {
         var barWidth, chart, chartInset, degToRad, repaintGauge, height, margin, numSections, padRad, percToDeg, percToRad, percent, radius, sectionIndx, svg, totalPercent, width, recalcPointerPos;
 
         percent = percentValue;
@@ -43,7 +39,7 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
         // Orientation of Gauge:
         totalPercent = .75;
 
-        el = d3.select("#" + arg2);
+        el = d3.select("#gauge_" + id);
 
         margin = {
             top: 20,
@@ -78,15 +74,15 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
         // Add layer for the panel
         chart = svg.append('g').attr('transform', "translate(" + ((width + margin.left) / 2 ) + ", " + ((height + margin.top) / 2) + ")");
 
-        chart.append('path').attr('class', "arc chart-first");
-        chart.append('path').attr('class', "arc chart-second");
-        chart.append('path').attr('class', "arc chart-third");
+        chart.append('path').attr('class', "arc chart-first").attr('id', id+"-chart-first");
+        chart.append('path').attr('class', "arc chart-second").attr('id', id+"-chart-second");
+        chart.append('path').attr('class', "arc chart-third").attr('id', id+"-chart-third");
 
         arc3 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
         arc2 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
         arc1 = d3.svg.arc().outerRadius(radius - chartInset).innerRadius(radius - chartInset - barWidth)
 
-        repaintGauge = function () {
+        repaintGauge = function (id) {
             perc = 0.5;
             var next_start = totalPercent;
             arcStartRad = percToRad(next_start);
@@ -106,9 +102,9 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
 
             arc3.startAngle(arcStartRad + padRad).endAngle(arcEndRad);
 
-            chart.select(".chart-first").attr('d', arc1);
-            chart.select(".chart-second").attr('d', arc2);
-            chart.select(".chart-third").attr('d', arc3);
+            chart.select("#"+id+"-chart-first").attr('d', arc1);
+            chart.select("#"+id+"-chart-second").attr('d', arc2);
+            chart.select("#"+id+"-chart-third").attr('d', arc3);
         }	
         
         var Needle = (function () {
@@ -128,40 +124,42 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
                 return "M " + leftX + " " + leftY + " L " + topX + " " + topY + " L " + rightX + " " + rightY;
             };
 
-            function Needle(el) {
+            function Needle(el, id) {
                 this.el = el;
+                this.id = id;
+		this.inited = false;
                 this.len = width / 2.5;
                 this.radius = this.len / 8;
             }
 
             Needle.prototype.render = function () {
                 this.el.append('circle').attr('class', 'needle-center').attr('cx', 0).attr('cy', 0).attr('r', this.radius);
-                return this.el.append('path').attr('class', 'needle').attr('id', 'client-needle').attr('d', recalcPointerPos.call(this, 0));
+                return this.el.append('path').attr('class', 'needle').attr('id', this.id + '-client-needle').attr('d', recalcPointerPos.call(this, 0));
             };
 
             Needle.prototype.moveTo = function (perc) {
-                var self,
-                    oldValue = this.perc || 0;
+                var self, oldValue = this.perc || 0;
                 this.perc = perc;
                 self = this;
 
-                // Reset pointer position
-                this.el.transition().delay(100).ease('quad').duration(200).select('.needle').tween('reset-progress', function () {
-                    return function (percentOfPercent) {
-                        var progress = (1 - percentOfPercent) * oldValue;
-                        repaintGauge(progress);
-                        return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
-                    };
-                });
+		if (!this.inited) {
+                    // Reset pointer position
+                    this.el.transition().delay(100).ease('quad').duration(200).select('#'+this.id+'-client-needle').tween('reset-progress', function () {
+                        return function (percentOfPercent) {
+                            var progress = (1 - percentOfPercent) * oldValue;
+                            return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
+                        };
+                    });
+		    this.inited = true;
+		}
 
-                this.el.transition().delay(300).ease('bounce').duration(1500).select('.needle').tween('progress', function () {
-                    return function (percentOfPercent) {
-                        var progress = percentOfPercent * perc;
+               this.el.transition().delay(300).ease('bounce').duration(1500).select('#'+this.id+'-client-needle').tween('progress', function () {
+                   return function (percentOfPercent) {
+                       var progress = oldValue + (percentOfPercent * (perc - oldValue));
 
-                        repaintGauge(progress);
-                        return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
-                    };
-                });
+                       return d3.select(this).attr('d', recalcPointerPos.call(self, progress));
+                   };
+               });
 
             };
 
@@ -170,7 +168,7 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
         })();
 
         var dataset = [{
-            metric: name,
+            metric: "",
             value: value
         }]
 
@@ -178,63 +176,70 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5, arg6) {
             .data(dataset)
             .enter();
 
-        // var trX = 100 - 100 * Math.cos(percToRad(percent / 2));
-        // var trY = 11 + Math.abs(100 * Math.cos(percToRad(percent / 2)));
-		
-		var trX = 80 - 80 * Math.cos(percToRad(percent / 2)) - 10 * Math.sin(percToRad(percent / 2))  - Math.cos(percToRad(percent / 2)) * Math.cos(percToRad(percent / 2)) * 10;
-		var trY = 70 - 60 * Math.sin(percToRad(percent / 2));
-		// for(var i = 0; i < 100 ; i++) {
-		// 	var tempX = 80 - 80 * Math.cos(percToRad(i / 200)) - 10 * Math.sin(percToRad(i / 2))  - Math.cos(percToRad(i / 2)) * Math.cos(percToRad(i / 2)) * 10;
-		// 	var tempY = 70 - 60 * Math.sin(percToRad(i / 200));
-		// 	texts.append("text").text("29.44M").attr('transform', "translate(" + (tempX) + ", " + tempY + ")")
-        //         .attr("font-size", 9);
-		// 	console.log("" +tempX + " " + tempY);
-		// }
-        displayValue = function () {
-            texts.append("text")
-                .text(function () {
-                    return "".concat(nFormatter(dataset[0].value, 3));
-                })
-                .attr('id', "Value")
-                .attr('transform', "translate(" + (trX) + ", " + trY + ")")
-                .attr("font-size", 9)
-                .style("fill", '#000000');
-			texts.append("text")
-                .text(function () {
-                    return "Peak value: ".concat(nFormatter(arg6, 3));
-                })
-                .attr('id', "Value")
-                .attr('transform', "translate(" + (40) + ", " + 105 + ")")
-                .attr("font-size", 9)
-                .style("fill", '#000000');
-        }
+	texts.append("text")
+		.attr('id', id + "_value")
+		.attr("font-size", 9)
+		.style("fill", '#000000');
+	texts.append("text")
+		.attr('id', id + "_peak")
+		.attr("font-size", 9)
+		.attr('transform', "translate(" + (40) + ", " + 105 + ")")
+		.style("fill", '#000000');
 
         texts.append("text")
-            .text(function () {
-                return 0;
-            })
-            .attr('id', 'scale0')
+            .text('0')
+            .attr('id', id + '_valueMin')
             .attr('transform', "translate(" + ((width + margin.left) / 100  + 5) + ", " + ((height + margin.top) / 2 + 10) + ")")
             .attr("font-size", 10)
             .style("fill", "#000000");
 
 
-
         texts.append("text")
-            .text(function () {
-                return nFormatter(gaugeMaxValue, 3);
-            })
-            .attr('id', 'scale20')
+            .attr('id', id + '_valueMax')
             .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 15 ) + ", " + ((height + margin.top) / 2 + 10) + ")")
             .attr("font-size", 10)
             .style("fill", "#000000");
 
-        needle = new Needle(chart);
+        repaintGauge(id);
+        needle = new Needle(chart, id);
         needle.render();
-        needle.moveTo(percent);
 
-        setTimeout(displayValue, 1350);
+	updateValues = function (needle, val, peak, max) {
+		var percent = val / max;
 
-    })();
+		var trX = 80 - 80 * Math.cos(percToRad(percent / 2)) - 10 * Math.sin(percToRad(percent / 2))  - Math.cos(percToRad(percent / 2)) * Math.cos(percToRad(percent / 2)) * 10;
+		var trY = 70 - 60 * Math.sin(percToRad(percent / 2));
+
+		d3.selectAll("#"+needle.id+"_value")
+			.text("".concat(nFormatter(val, 3)))
+			.attr('transform', "translate(" + (trX) + ", " + trY + ")");
+		d3.selectAll("#"+needle.id+"_peak")
+			.text("Peak value: ".concat(nFormatter(peak, 3)));
+		d3.selectAll("#"+needle.id+"_valueMax")
+                	.text(nFormatter(max, 3));
+
+        	needle.moveTo(percent);
+	}
+	updateValues(needle, value, peak, gaugeMaxValue);
+
+    });
+    repaint_indicator();
+
+    async function fetchData(id) {
+	    let response = await fetch("dashboard.refresh.php?id="+id);
+	    if (response.status === 200) {
+		    let data = await response.json();
+		    return data;
+	    }
+    }
+
+    if (refreshInterval != null) {
+	    window.setInterval(function(needle) {
+	  	fetchData(id).then(data=>{
+			refresh_widget_status(data.status, id);
+			updateValues(needle, data.data[0], data.data[1], data.data[2]);
+	    	});
+	    }, refreshInterval, needle);
+    }
 }
 </script>	

@@ -13,33 +13,36 @@ class gauge_widget extends widget
     function __construct($array) {
         parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
         $this->color = 'rgb(219,255,244)';
-		$this->warning = $array['widget_warning'];
-		$this->critical = $array['widget_critical'];
+	$this->warning = $array['widget_warning'];
+	$this->critical = $array['widget_critical'];
         $this->chart = $array['widget_chart'];
-		$this->box_id = $array['widget_box'];
-		foreach ($_SESSION['boxes'] as $box) {
-			if ($box['id'] == $this->box_id)
-				$this->widget_box = $box;
-		}
+	$this->box_id = $array['widget_box'];
+	$this->widget_box = null;
+	foreach ($_SESSION['boxes'] as $box) {
+		if ($box['id'] == $this->box_id)
+			$this->widget_box = $box;
+	}
+	if ($this->widget_box == null)
+		$this->set_status(widget::STATUS_CRIT);
+	else
 		$this->set_status(widget::STATUS_OK);
+	$this->refresh = (isset($array['widget_refresh'])?$array['widget_refresh'] * 1000:null);
     }
 
     function display_chart($title, $value, $valueMax = 100) {
         $_SESSION['gauge_id'] = $this->id;
         $_SESSION['gauge_value'] = $value;
-		$_SESSION['gauge_max'] = $valueMax;
-		$_SESSION['warning'] = $this->warning;
-		$_SESSION['critical'] = $this->critical;
-		if ($value / $valueMax * 100 > $this->critical)
-			$this->set_status(widget::STATUS_CRIT);
-		else if ($value / $valueMax * 100 > $this->warning)
-			$this->set_status(widget::STATUS_WARN);
+	$_SESSION['gauge_max'] = $valueMax;
+	$_SESSION['warning'] = $this->warning;
+	$_SESSION['critical'] = $this->critical;
+	if ($this->refresh != null)
+		$_SESSION['refreshInterval'] = $this->refresh;
+	else
+		$_SESSION['refreshInterval'] = null;
+	if ($value / $valueMax * 100 > $this->critical)
+		$this->set_status(widget::STATUS_CRIT);
+	else if ($value / $valueMax * 100 > $this->warning)
+		$this->set_status(widget::STATUS_WARN);
         require(__DIR__."/../../../../../common/charting/percent_d3js.php");
     }
-
-    function get_as_array() {
-        return array($this->get_html(), $this->get_sizeX(), $this->get_sizeY(), $this->get_id());
-    }
-
-
 }
