@@ -51,11 +51,13 @@ $widget_type = $widget['widget_type'];
 $new_widget = new $widget['widget_type']($widget);
 $new_widget->set_id($widget['widget_id']);
 
-echo($new_widget->get_status());
 $data = $new_widget->get_data();
-if ($data === false)
+if ($data === false) {
+  echo($new_widget->get_status()."\n");
   $new_widget->echo_content();
-else
-  echo(json_encode($data));
+} else {
+  $response = array("status"=>$new_widget->get_status(), "data"=>$data);
+  echo(json_encode($response));
+}
 // vim:set sw=2 ts=2 et ft=php fdm=marker:
 ?>

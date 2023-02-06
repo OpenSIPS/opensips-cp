@@ -126,29 +126,38 @@ function refresh_widget_status(status, widget_id) {
   status_indicator.className = "status-indicator status" + status;
 }
 
-function refresh_widget(func, widget_id) {
+async function fetch_widget_data(widget_id) {
+	  let response = await fetch("dashboard.refresh.php?id="+widget_id);
+	  if (response.status === 200) {
+      let data = await response.text();
+      return data;
+	  }
+    return null;
+}
 
-  url = "dashboard.refresh.php?id="+widget_id;
+function refresh_widget_json(widget_id, func) {
 
-  var http = getHTTPObject();
+  fetch_widget_data(widget_id).then(data => {
+    var response = JSON.parse(data);
+    refresh_widget_status(response.status, widget_id);
 
-  http.open("GET", url, false);
-  http.onreadystatechange = handleHttpResponse(http);
-  http.send(null);
-  data = http.responseText;
-  // first line is the status indicatoe
-  var status = data.split('\n')[0];
-  data = data.slice(status.length + 1);
-  refresh_widget_status(status, widget_id);
+    const element = document.getElementById(widget_id).getElementsByClassName('widget_body')[0];
 
-  const element = document.getElementById(widget_id).getElementsByClassName('widget_body')[0];
+    func(element, response.data);
+  });
+}
 
-  if (func == '') {
+function refresh_widget_html(widget_id) {
+
+  fetch_widget_data(widget_id).then(data => {
+    var status = data.split('\n')[0];
+    data = data.slice(status.length + 1);
+    refresh_widget_status(status, widget_id);
+
+    const element = document.getElementById(widget_id).getElementsByClassName('widget_body')[0];
+
     element.innerHTML = data;
-  } else {
-    var f = Function("element", "data", func);
-    f(element, data);
-  }
+  });
 
 }
 

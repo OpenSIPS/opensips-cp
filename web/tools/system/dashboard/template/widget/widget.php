@@ -39,7 +39,12 @@ abstract class widget
       </div><hr style='height:10px; visibility:hidden;' />
       ");
     if ($this->refresh_period != 0) {
-      echo ('<script type="text/javascript">window.setInterval(function() { refresh_widget(\''.base64_encode($this->refresh()).'\', "'.$this->id.'");}, '. $this->refresh_period .');</script>');
+      $func = $this->refresh();
+      if ($func)
+        $func = "refresh_widget_json('".$this->id."', ".$func.")";
+      else
+        $func = "refresh_widget_html('".$this->id."')";
+      echo ('<script type="text/javascript">window.setInterval(function() { '.$func.';}, '. $this->refresh_period .');</script>');
     }
     echo("<div class='widget_body'>");
     $this->echo_content();
@@ -77,7 +82,7 @@ abstract class widget
     }
 
     function refresh() {
-      return '';
+      return false;
     }
 
     function get_data() {
