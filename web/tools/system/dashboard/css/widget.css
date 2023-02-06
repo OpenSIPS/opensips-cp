@@ -16,26 +16,6 @@ body {
     border-collapse: collapse;
     border-spacing: 0;
   }
-  .demo {
-    margin: 3em 0;
-    padding: 7.5em 0 5.5em;
-    background: #080808;
-  }
-  #ugabuga {
-    background-color:rgb(210, 235, 68);
-  }
-  .demo:hover .gridster {
-    margin: 0 auto;
-    opacity: .8;
-    -webkit-transition: opacity .6s;
-    -moz-transition: opacity .6s;
-    -o-transition: opacity .6s;
-    -ms-transition: opacity .6s;
-    transition: opacity .6s;
-  }
-  /* .content {
-    color: white;
-  } */
   .gridster .gs-w {
     background: #e9ecef;
     cursor: pointer;
@@ -81,3 +61,39 @@ body {
   .controls {
     margin-bottom: 20px;
   }
+
+.status-indicator {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  height: 12px;
+  width: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  background-color: #3E5771;
+}
+
+.status-indicator.status0 {
+}
+
+.status-indicator.status1 {
+  background-color: chartreuse;
+}
+
+.status-indicator.status2 {
+  background-color: orange;
+}
+
+.status-indicator.status3 {
+  background-color: red;
+}
+
+.gridster li header {
+  background: #999;
+  display: block;
+  font-size: 20px;
+  line-height: normal;
+  padding: 4px 0 6px;
+  margin-bottom: 20px;
+  cursor: move;
+}

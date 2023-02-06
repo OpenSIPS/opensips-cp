@@ -19,7 +19,18 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+?>
+<head>
+<link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
+    <link rel="stylesheet" type="text/css" href="css/widget.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.gridster.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
 
+</head>
+<body>
+
+<?php
  if (is_null($panel_id)) {
      ?> 
      <h1> DASHBOARD 0.1</h1>
@@ -42,33 +53,10 @@
 
 </center>
 
-<head>
-<link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
-    <link rel="stylesheet" type="text/css" href="css/demo.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery.gridster.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="jquery.gridster.min.js" type="text/javascript" charset="utf-8"></script>
-
-</head>
-<body>
-
 <div class="gridster"  >
     <ul>
     </ul>
 </div>
-<style type="text/css">
-
-    .gridster li header {
-        background: #999;
-        display: block;
-        font-size: 20px;
-        line-height: normal;
-        padding: 4px 0 6px;
-        margin-bottom: 20px;
-        cursor: move;
-    }
-
-</style>
 
 <script type="text/javascript" id="code">
 	document.getElementById('lockButton').style.display = 'block'; //button is initially hidden

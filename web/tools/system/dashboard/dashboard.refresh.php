@@ -51,7 +51,7 @@ $widget_type = $widget['widget_type'];
 $new_widget = new $widget['widget_type']($widget);
 $new_widget->set_id($widget['widget_id']);
 
-echo($new_widget->get_status_color());
+echo($new_widget->get_status());
 $data = $new_widget->get_data();
 if ($data === false)
   $new_widget->echo_content();

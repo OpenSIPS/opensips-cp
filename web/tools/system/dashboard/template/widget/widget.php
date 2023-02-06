@@ -35,16 +35,7 @@ abstract class widget
   function display_widget($update = null) {
     echo ("<div id=".$this->id."_old>
       <div class='widget_title_bar' style='height: 20px; background-color: #3e5771; position: absolute; top: 0px; left:0px; right:0px; border-radius: 7px 7px 1px 1px;'><span style='color:rgb(203, 235,221); position:relative; top:2px;'>".$this->title."</span>
-      <span id='".$this->id."_status_indicator' style='
-      position: absolute;
-    right: 5px;
-    top: 4px;
-    height: 12px;
-    width: 12px;
-    background-color: blue;
-    border-radius: 50%;
-    display: inline-block;
-    '></span>
+      <span id='".$this->id."_status_indicator' class='status_indicator'></span>
       </div><hr style='height:10px; visibility:hidden;' />
       ");
     if ($this->refresh_period != 0) {
@@ -54,25 +45,12 @@ abstract class widget
     $this->echo_content();
     echo('</div>');
 
-    $status_color = $this->get_status_color();
-
     echo ("</div>
-      <script>refresh_widget_status('".$status_color."','".$this->id."');</script>");
+      <script>refresh_widget_status(".$this->get_status().",'".$this->id."');</script>");
   }
 
-  function get_status_color() {
-    switch ($this->_status) {
-    case self::STATUS_UNKNOWN:
-      return "#3E5771";
-    case self::STATUS_OK:
-      return "chartreuse";
-    case self::STATUS_CRIT:
-      return "red";
-    case self::STATUS_WARN:
-      return "orange";
-    default:
-      return "blue";
-    }
+  function get_status() {
+    return $this->_status;
   }
 
     function get_sizeY() {
