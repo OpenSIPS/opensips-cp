@@ -50,9 +50,9 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
 
         margin = {
             top: 20,
-            right: 40,
+            right: 100,
             bottom: 20,
-            left: 60
+            left: 40
         };
 
         width = 150;
@@ -182,24 +182,26 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
             .enter();
 
 
-        var trX = 180 - 210 * Math.cos(percToRad(percent / 2));
-        var trY = 195 - 210 * Math.sin(percToRad(percent / 2));
+	var trX = 80 - 80 * Math.cos(percToRad(percent / 2)) - 10 * Math.sin(percToRad(percent / 2))  - Math.cos(percToRad(percent / 2)) * Math.cos(percToRad(percent / 2)) * 10;
+	var trY = 70 - 60 * Math.sin(percToRad(percent / 2));
 		
         displayValue = function () {
             texts.append("text")
                 .text(function () {
-                    return "Value: ".concat(nFormatter(dataset[0].value, 3));
+                    return "".concat(nFormatter(dataset[0].value, 3));
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (0) + ", " + 11 + ")")
-                .attr("font-size", 9)
+                .attr('x', trX)
+                .attr('y', trY)
+                .attr('font-size', 9)
                 .style("fill", '#000000');
-			texts.append("text")
+	    texts.append("text")
                 .text(function () {
-                    return "Percent: ".concat((percent * 100).toFixed(2)).concat("%");
+                    return "".concat((percent * 100).toFixed(2)).concat("%");
                 })
                 .attr('id', "Value")
-                .attr('transform', "translate(" + (160) + ", " + 11 + ")")
+                .attr('x', '80')
+                .attr('y', '105')
                 .attr("font-size", 9)
                 .style("fill", '#000000');
         }
@@ -209,8 +211,9 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
                 return 0;
             })
             .attr('id', 'scale0')
-            .attr('transform', "translate(" + ((width + margin.left) / 100  + 15) + ", " + ((height + margin.top) / 2) + ")")
-            .attr("font-size", 10)
+	    .attr('x', ((width + margin.left) / 100 + 35))
+	    .attr('y', ((height + margin.top) / 2 + 10))
+            .attr("font-size", 9)
             .style("fill", "#000000");
 
 
@@ -220,8 +223,10 @@ function display_indicator(arg1, arg2, arg3, arg4, arg5) {
                 return nFormatter(gaugeMaxValue, 3);
             })
             .attr('id', 'scale20')
-            .attr('transform', "translate(" + ((width + margin.left) / 1.03 - 20 ) + ", " + ((height + margin.top) / 2) + ")")
-            .attr("font-size", 10)
+	    .attr('x', ((width + margin.left) / 1.03 - 35))
+	    .attr('y', ((height + margin.top) / 2 + 10))
+	    .attr('text-anchor', 'middle')
+            .attr("font-size", 9)
             .style("fill", "#000000");
 
         needle = new Needle(chart);

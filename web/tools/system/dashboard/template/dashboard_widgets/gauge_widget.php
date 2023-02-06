@@ -11,7 +11,7 @@ class gauge_widget extends widget
 	public $critical;
 
     function __construct($array) {
-        parent::__construct($array['panel_id'], $array['widget_title'], 3, 3, $array['widget_title']);
+        parent::__construct($array['panel_id'], $array['widget_title'], 2, 3, $array['widget_title']);
         $this->color = 'rgb(219,255,244)';
 		$this->warning = $array['widget_warning'];
 		$this->critical = $array['widget_critical'];
