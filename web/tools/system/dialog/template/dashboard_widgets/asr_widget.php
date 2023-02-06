@@ -4,7 +4,7 @@ require_once(__DIR__."/../../../../system/dashboard/template/dashboard_widgets/g
 
 class asr_widget extends gauge_widget
 {
-	public static $ignore = 0;
+	public static $ignore = 1;
 
     function __construct($array) {
         parent::__construct($array);
