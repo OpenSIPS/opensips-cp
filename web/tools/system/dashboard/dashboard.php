@@ -38,15 +38,14 @@ csrfguard_validate();
 
 $widgets = load_widgets();
 $table=get_settings_value("custom_table");
-$box_id = $_GET['box_id'];
-if ($box_id == '') $box_id = null;
+if (isset($_GET['box_id']) && $_GET['box_id'] != '')
+	$box_id = $_GET['box_id'];
+else
+	$box_id = null;
 
 if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
-
-if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
-else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($default == -1 && $action == "") {
 	$action = "edit_panel";
@@ -219,12 +218,6 @@ if ($action == "display_panel" || $action == "view_new_panel") {
 		$panel_id = $_GET['panel_id'];
 	else $panel_id = $default;
 	
-
-	foreach(json_decode($_SESSION['config']['panels'][$panel_id]['content']) as $el) {
-		if ($el->type == "chart") {
-			//echo "<div id=chart_".$el->id.">".$content_chart."</div>";
-		}
-	}
 	require("template/".$page_id.".main.php");
 	require("template/footer.php");
 	exit();

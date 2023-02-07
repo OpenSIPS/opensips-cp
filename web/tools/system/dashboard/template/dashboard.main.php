@@ -64,7 +64,6 @@
 
     var gridster;
     var action = "<?=$action?>";
-    var widget_info = "<?=$widget_info?>";
     gridster = $(".gridster > ul").gridster({
             widget_base_dimensions: [87, 40],
             shift_widgets_up: false,

@@ -21,7 +21,7 @@
  * */
 
 require_once("../../../common/forms.php");
-if (!$_POST['type_val']) $widget_type = $widgets[0];
+if (!isset($_POST['type_val']) || !$_POST['type_val']) $widget_type = $widgets[0];
 else $widget_type = $_POST['type_val'];
 
 ?>
@@ -41,7 +41,7 @@ else $widget_type = $_POST['type_val'];
   }
   echo ('<input type="hidden" name="type_val" class="formInput" method="post" value="">');
  form_generate_select("Widget type", "The type of widget you want to add",
- "type_list", 100, $_POST['type_val'], $vals, $keys);
+ "type_list", 100, $widget_type, $vals, $keys);
  if (!is_null($widget_type::get_description()))
  	print_widget_description($widget_type::get_description());
 ?>

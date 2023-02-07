@@ -3,7 +3,6 @@ require_once(__DIR__."/../widget/widget.php");
 
 class gauge_widget extends widget
 {
-    public $chart;
 	public static $ignore = 1;
 	public $box_id;
 	public $widget_box;
@@ -15,7 +14,6 @@ class gauge_widget extends widget
         $this->color = 'rgb(219,255,244)';
 	$this->warning = $array['widget_warning'];
 	$this->critical = $array['widget_critical'];
-        $this->chart = $array['widget_chart'];
 	$this->box_id = $array['widget_box'];
 	$this->widget_box = null;
 	foreach ($_SESSION['boxes'] as $box) {

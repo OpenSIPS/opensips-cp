@@ -5,12 +5,14 @@ require_once(__DIR__."/gauge_widget.php");
 class multi_gauge_widget extends gauge_widget
 {
     public $max;
-	public static $ignore = 0;
+    public $chart;
+    public static $ignore = 0;
 
     function __construct($array) {
         parent::__construct($array);
         $this->color = 'rgb(198,226,213)';
-		$this->max = $array['widget_max'];
+	$this->max = $array['widget_max'];
+	$this->chart = $array['widget_chart'];
     }
 
     function get_name() {
