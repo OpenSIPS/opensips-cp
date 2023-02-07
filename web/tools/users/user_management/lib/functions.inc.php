@@ -83,6 +83,17 @@ function print_domains($type,$value,$has_any)
 	echo('</select>');
 }
 
+function get_total_users() {
+	session_load_from_tool("user_management");
+        require_once(__DIR__."/db_connect.php");
+	$users_table=get_settings_value_from_tool("table_users", "user_management");
+        $sql = "select count(*) as no from ".$users_table;
+        $stm = $link->prepare($sql);
+        $stm->execute();
+        $row = $stm->fetchAll(PDO::FETCH_ASSOC);
+        return $row[0]['no'];
+}
+
 function secs2hms($secs) {
 	if ($secs<0) return false;
 	$m = (int)($secs / 60); $s = $secs % 60;

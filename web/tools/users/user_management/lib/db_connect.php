@@ -19,17 +19,17 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
+global $config;
 
-if (get_settings_value("db_config")) {
-	$configuration = get_settings_value("db_config");
+if (get_settings_value_from_tool("db_config", "user_management")) {
+	$configuration = get_settings_value_from_tool("db_config", "user_management");
 	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
-		$param_name = $param."_".$_SESSION['current_tool'];
+		$param_name = $param."_user_management";
 		$config->$param_name = $value;
 	}
 }
 require_once("../../../../config/db.inc.php");
 
-	global $config;
 	if (isset($config->db_host_user_management) && isset($config->db_user_user_management) && isset($config->db_name_user_management) ) {
 		$config->db_host = $config->db_host_user_management;
 		$config->db_port = $config->db_port_user_management;

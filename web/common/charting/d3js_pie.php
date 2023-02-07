@@ -67,9 +67,9 @@ svg
   .style("text-anchor", "middle")
   .style("font-size", 9)
 
-  svg.append("text").attr("x", 51).attr("y", -45 ).text("Total subs: " + total).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 51).attr("y", -45 ).text("Total users: " + total).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
     
-  svg.append("text").attr("x", 51).attr("y", -25 ).text("Reg. subs: " + reg).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
+  svg.append("text").attr("x", 51).attr("y", -25 ).text("Reg. users: " + reg).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
     
   svg.append("text").attr("x", 51).attr("y", -5 ).text("Reg. contacts: " + contacts).style("font-size", "9px").attr("alignment-baseline","middle").attr("cursor", "pointer");
 }

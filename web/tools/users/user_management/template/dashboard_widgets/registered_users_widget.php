@@ -19,17 +19,12 @@ class registered_users_widget extends widget
 
 
     function get_name() {
-        return "Registered Users widget";
+        return "Users widget";
     }
 
     public static function get_total_subs() {
-        require(__DIR__."/../../lib/db_connect.php");
-        $users_table = get_settings_value_from_tool("table_users", "user_management");
-        $sql = "select count(*) as no from ".$users_table;
-        $stm = $link->prepare($sql);
-        $stm->execute();
-        $row = $stm->fetchAll(PDO::FETCH_ASSOC);
-        return $row[0]['no'];
+        require_once(__DIR__."/../../lib/functions.inc.php");
+	return get_total_users();
     }
 
 
@@ -39,9 +34,9 @@ class registered_users_widget extends widget
         $total_subs = self::get_total_subs();
         $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $this->widget_box['mi_conn'], $errors);
         $reg_contacts = mi_command("get_statistics", array("statistics" => array("location-contacts")), $this->widget_box['mi_conn'], $errors);
-		$elems['reg_subs'] = $reg_subs['usrloc:location-users'];
-		$elems['total_subs'] = $total_subs;
-		$elems['reg_contacts'] = $reg_contacts['usrloc:location-contacts'];
+	$elems['reg_subs'] = $reg_subs['usrloc:location-users'];
+	$elems['total_subs'] = $total_subs;
+	$elems['reg_contacts'] = $reg_contacts['usrloc:location-contacts'];
         $_SESSION['pie_elements'] = $elems;
         require(__DIR__."/../../../../../common/charting/d3js_pie.php");
     }
@@ -52,7 +47,7 @@ class registered_users_widget extends widget
   
     public static function new_form($params = null) {
         if (!$params['widget_title'])
-            $params['widget_title'] = "Registered Users";
+            $params['widget_title'] = "Users";
 		$boxes_info = self::get_boxes();
 	if (!isset($params['widget_box']))
 		$params['widget_box'] = $boxes_info[0];
@@ -63,7 +58,7 @@ class registered_users_widget extends widget
 	
 	static function get_description() {
 		return "
-Displays the percentage of users registered (percentage of registered subscribers out of total subscribers number)";
+Displays the percentage of users registered (percentage of registered users out of total number or users)";
 	}
 
 }
