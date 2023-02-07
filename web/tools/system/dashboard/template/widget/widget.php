@@ -101,6 +101,17 @@ abstract class widget
         return $boxes_info;
     }
 
+  public static function get_box($params) {
+    if (!isset($params['widget_box']))
+      return null;
+    foreach ($_SESSION['boxes'] as $b) {
+      if ($b['id'] == $params['widget_box'])
+        return $b;
+    }
+    return null;
+  }
+
+
     function set_id($id) {
         $this->id = $id;
     }
