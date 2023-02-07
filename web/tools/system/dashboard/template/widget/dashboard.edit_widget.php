@@ -31,14 +31,14 @@ echo '<h1>Edit widget</h1>'
 ?>
 <form action="<?=$page_name?>?action=edit_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_content['widget_type']?>&widget_id=<?=$widget_id?>" method="post">
 <?php csrfguard_generate(); ?>
-<table width="400" cellspacing="2" cellpadding="2" border="0">
+<table width="400" cellspacing="2" cellpadding="2" border="0" id="widget_table">
  <tr align="center">
   <td colspan="2" height="10" class="mainTitle">Edit Widget</td>
  </tr>
  <?php
   $widget_content['widget_type']::new_form($widget_content);
 ?>
- <tr>
+ <tr id="buttons_row">
   <td colspan="2">
     <table cellspacing=20>
       <tr>

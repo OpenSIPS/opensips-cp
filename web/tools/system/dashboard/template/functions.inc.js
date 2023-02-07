@@ -135,6 +135,18 @@ async function fetch_widget_data(widget_id) {
     return null;
 }
 
+async function fetch_widget_info(widget_type, cmd, params) {
+  var url = "dashboard.info.php?widget_type="+widget_type+"&widget_command="+cmd;
+  if (params != undefined && params.length != 0)
+    url += "&"+params;
+  let response = await fetch(url);
+  if (response.status === 200) {
+     let data = await response.json();
+     return data;
+  }
+  return null;
+}
+
 function refresh_widget_json(widget_id, func) {
 
   fetch_widget_data(widget_id).then(data => {

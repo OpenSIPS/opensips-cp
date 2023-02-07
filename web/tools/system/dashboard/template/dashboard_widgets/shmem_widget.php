@@ -11,7 +11,7 @@ class shmem_widget extends gauge_widget
         $this->color = 'rgb(198,226,213)';
 	$this->sizeX = 2;
 	$this->get_data();
-	if (($this->value/$this->total * 100) > $this->critical)
+	if ($this->value == null || ($this->value/$this->total * 100) > $this->critical)
 		$this->set_status(widget::STATUS_CRIT);
 	else if (($this->value/$this->total * 100) > $this->warning)
 		$this->set_status(widget::STATUS_WARN);
@@ -28,11 +28,15 @@ class shmem_widget extends gauge_widget
     }
 
     function get_data() {
-    	require_once("../../../common/mi_comm.php");
-        $shmem = mi_command("get_statistics", array("statistics" => array("shmem:")), $this->widget_box['mi_conn'], $errors);
-        $this->value = $shmem["shmem:real_used_size"];
-	$this->total = $shmem["shmem:total_size"];
-	$this->maximum = $shmem["shmem:max_used_size"];
+	if ($this->widget_box != null) {
+            require_once("../../../common/mi_comm.php");
+            $shmem = mi_command("get_statistics", array("statistics" => array("shmem:")), $this->widget_box['mi_conn'], $errors);
+            $this->value = $shmem["shmem:real_used_size"];
+    	    $this->total = $shmem["shmem:total_size"];
+    	    $this->maximum = $shmem["shmem:max_used_size"];
+	} else {
+            $this->value = $this->total = $this->maximum = null;
+	}
 	return array($this->value, $this->total, $this->maximum);
     }
 
@@ -53,8 +57,10 @@ class shmem_widget extends gauge_widget
 		$params['widget_warning'] = 50;
 	if (!isset($params['widget_critical']))
 		$params['widget_critical'] = 75;
-        if (!$params['widget_title'])
+        if (!isset($params['widget_title']))
             $params['widget_title'] = "Shared memory";
+        if (!isset($params['widget_refresh']))
+            $params['widget_refresh'] = 60;
         form_generate_input_text("Title", "", "widget_title", "n", $params['widget_title'], 20,null);
         form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
         form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (yellow)", "widget_warning", "n", $params['widget_warning'], 20,null);

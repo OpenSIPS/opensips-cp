@@ -2,7 +2,7 @@
 <script src="../../../common/charting/d3.v3.min.js"></script>
 <div class="chart-gauge" id="gauge_<?=$_SESSION['gauge_id']?>"></div>
 <script>
-display_indicator("<?=$_SESSION['gauge_value']?>", "<?=$_SESSION['gauge_id']?>", "<?=$_SESSION['gauge_max']?>", "<?=$_SESSION['warning']?>", "<?=$_SESSION['critical']?>", "<?=$_SESSION['max_ever']?>", <?=(isset($_SESSION['refreshInterval']))?$_SESSION['refreshInterval']:'null'?>);
+display_indicator("<?=$_SESSION['gauge_id']?>", "<?=$_SESSION['gauge_value']?>", "<?=$_SESSION['gauge_max']?>", "<?=$_SESSION['warning']?>", "<?=$_SESSION['critical']?>", "<?=$_SESSION['max_ever']?>", <?=(isset($_SESSION['refreshInterval']))?$_SESSION['refreshInterval']:'null'?>);
 
 function nFormatter(num, digits) {
   const lookup = [
@@ -21,7 +21,7 @@ function nFormatter(num, digits) {
   return item ? (num / item.value).toFixed(digits).replace(rx, "$1") + item.symbol : "0";
 }
 
-function display_indicator(value, id, gaugeMaxValue, warning, critical, peak, refreshInterval) {
+function display_indicator(id, value, gaugeMaxValue, warning, critical, peak, refreshInterval) {
 
     var percentValue = value / gaugeMaxValue;
     var needleClient;
@@ -163,6 +163,23 @@ function display_indicator(value, id, gaugeMaxValue, warning, critical, peak, re
 
             };
 
+            Needle.prototype.update = function (val, max, peak) {
+		var percent = val / max;
+
+		var trX = 80 - 80 * Math.cos(percToRad(percent / 2)) - 10 * Math.sin(percToRad(percent / 2))  - Math.cos(percToRad(percent / 2)) * Math.cos(percToRad(percent / 2)) * 10;
+		var trY = 70 - 60 * Math.sin(percToRad(percent / 2));
+
+		d3.selectAll("#"+this.id+"_value")
+			.text("".concat(nFormatter(val, 3)))
+			.attr('transform', "translate(" + (trX) + ", " + trY + ")");
+		d3.selectAll("#"+this.id+"_peak")
+			.text("Peak value: ".concat(nFormatter(peak, 3)));
+		d3.selectAll("#"+this.id+"_valueMax")
+                	.text(nFormatter(max, 3));
+
+        	this.moveTo(percent);
+	    }
+
             return Needle;
 
         })();
@@ -203,25 +220,7 @@ function display_indicator(value, id, gaugeMaxValue, warning, critical, peak, re
         repaintGauge(id);
         needle = new Needle(chart, id);
         needle.render();
-
-	updateValues = function (needle, val, peak, max) {
-		var percent = val / max;
-
-		var trX = 80 - 80 * Math.cos(percToRad(percent / 2)) - 10 * Math.sin(percToRad(percent / 2))  - Math.cos(percToRad(percent / 2)) * Math.cos(percToRad(percent / 2)) * 10;
-		var trY = 70 - 60 * Math.sin(percToRad(percent / 2));
-
-		d3.selectAll("#"+needle.id+"_value")
-			.text("".concat(nFormatter(val, 3)))
-			.attr('transform', "translate(" + (trX) + ", " + trY + ")");
-		d3.selectAll("#"+needle.id+"_peak")
-			.text("Peak value: ".concat(nFormatter(peak, 3)));
-		d3.selectAll("#"+needle.id+"_valueMax")
-                	.text(nFormatter(max, 3));
-
-        	needle.moveTo(percent);
-	}
-	updateValues(needle, value, peak, gaugeMaxValue);
-
+	needle.update(value, gaugeMaxValue, peak);
     });
     repaint_indicator();
 
@@ -237,7 +236,7 @@ function display_indicator(value, id, gaugeMaxValue, warning, critical, peak, re
 	    window.setInterval(function(needle) {
 	  	fetchData(id).then(data=>{
 			refresh_widget_status(data.status, id);
-			updateValues(needle, data.data[0], data.data[1], data.data[2]);
+			needle.update(data.data[0], data.data[1], data.data[2]);
 	    	});
 	    }, refreshInterval, needle);
     }

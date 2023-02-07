@@ -54,11 +54,11 @@ else $widget_type = $_POST['type_val'];
 </form>
 <form action="<?=$page_name?>?action=add_widget_verify&panel_id=<?=$panel_id?>&widget_type=<?=$widget_type?>" name="add_widget_form" method="post">
 <?php csrfguard_generate(); ?>
-<table width="400" cellspacing="2" cellpadding="2" border="0" name="add_widget_table">
+<table width="400" cellspacing="2" cellpadding="2" border="0" id="widget_table">
  <?php
   $widget_type::new_form();
 ?>
- <tr>
+ <tr id="buttons_row">
   <td colspan="2">
     <table cellspacing=20>
       <tr>
