@@ -36,6 +36,23 @@
  
  include("lib/db_connect.php");
  
+ if (isset($_GET['group']))
+ {
+	 $group = $_GET['group'] . ": ";
+	 $len = strlen($group);
+	 if (isset($_GET['id']))
+		 $name = $group . $_GET['id'];
+	 else
+		 $name = null;
+	 for($i=0; $i<$_SESSION['identifiers_no']; $i++) {
+		 if ((substr($_SESSION['identifier_name'][$i], 0, $len) == $group) &&
+				 ($name == null || $name == $_SESSION['identifier_name'][$i])) {
+   			$_SESSION['identifier_open'][$i]="yes";
+		 } else {
+   			$_SESSION['identifier_open'][$i]="no";
+		 }
+	 }
+ }
  if (isset($_GET['identifier_id']))
  { 
   $identifier_id = $_GET['identifier_id'];

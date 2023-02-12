@@ -27,6 +27,11 @@
  require_once("../../../../config/session.inc.php");
  get_priv("statusreport");
 
- header("Location: statusreport.php");
+ if (isset($_SERVER['QUERY_STRING']))
+	         $query_string = "?".$_SERVER['QUERY_STRING'];
+ else
+	         $query_string = "";
+
+ header("Location: statusreport.php".$query_string);
  
 ?>
