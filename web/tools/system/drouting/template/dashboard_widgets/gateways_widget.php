@@ -24,6 +24,7 @@ class gateways_widget extends widget
       $this->set_status(widget::STATUS_CRIT);
     else
       $this->set_gateways();
+    $this->status_report_id = ($this->partition == null?"Default":$this->partition) . ';events';
   }
 
 

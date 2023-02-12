@@ -122,11 +122,15 @@ function get_assoc_id() {
 
 
 
-function get_tool_name() {
+function get_tool_name($tool = null, $group = null) {
+	if ($tool == null)
+		$tool = $_SESSION['current_tool'];
+	if ($group == null)
+		$group = $_SESSION['current_group'];
 	require("../../../../config/modules.inc.php");
 	if (isset($config_admin_modules) && isset($config_admin_modules[$_SESSION['current_tool']]))
-		return $config_admin_modules[$_SESSION['current_tool']];
-	return $config_modules[$_SESSION['current_group']]['modules'][$_SESSION['current_tool']]['name'];
+		return $config_admin_modules[$tool];
+	return $config_modules[$group]['modules'][$tool]['name'];
 }
 
 function get_group_name() {

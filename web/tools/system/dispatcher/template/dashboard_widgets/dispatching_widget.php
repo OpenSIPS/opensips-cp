@@ -30,6 +30,7 @@ class dispatching_widget extends widget
       $this->set_status(widget::STATUS_CRIT);
     else
       $this->update();
+    $this->status_report_id = ($this->partition == null?"default":$this->partition) . ';events';
   }
 
 

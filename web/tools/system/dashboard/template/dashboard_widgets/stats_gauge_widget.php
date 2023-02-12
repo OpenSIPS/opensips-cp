@@ -8,6 +8,7 @@ class stats_gauge_widget extends gauge_widget
     public $stat_val;
     public $stat_max;
     public static $ignore = 0;
+    public $status_module = "smonitor";
 
     function __construct($array) {
         parent::__construct($array);

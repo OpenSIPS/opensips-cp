@@ -88,6 +88,39 @@ body {
   background-color: red;
 }
 
+.status-indicator:hover .dropdown-content {display: block;}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #263441;
+  min-width: 120px;
+  max-width: 240px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border-radius: 10px;
+  z-index: 20;
+  right: 0px;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  text-decoration: none;
+  padding: 6px 10px 6px 10px;
+  font-size: 12px;
+  display: block;
+  color: #b4c0cc;
+  cursor: pointer;
+  text-align: center;
+  border-bottom: 1px solid #394f68;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {color:#1bbd9b;}
+.dropdown-content a:last-child {border-bottom: unset;}
+
+
+
 .gridster li header {
   background: #999;
   display: block;

@@ -9,6 +9,7 @@ class pkg_widget extends widget
   public $widget_box;
   public $warning;
   public $critical;
+  public $status_module = "smonitor";
 
   function __construct($array) {
     if (isset($array['widget_refresh']) && $array['widget_refresh'] != '')

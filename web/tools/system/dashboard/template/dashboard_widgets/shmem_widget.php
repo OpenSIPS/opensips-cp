@@ -5,6 +5,7 @@ require_once(__DIR__."/gauge_widget.php");
 class shmem_widget extends gauge_widget
 {
     public static $ignore = 0;
+    public $status_module = "smonitor";
 
     function __construct($array) {
         parent::__construct($array);
