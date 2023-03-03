@@ -26,8 +26,8 @@ class cdr_widget extends widget
     echo ('
       <tr><td class="rowEven" width="55%">Today: </td><td style="text-align: right;">'.$this->today_cdrs.'</td></tr>
       <tr><td class="rowEven">Yesterday: </td><td style="text-align: right;">'.$this->yesterday_cdrs.'</td></tr>
-      <tr><td class="rowEven">Prev week: </td><td style="text-align: right;">'.$this->last_week_cdrs.'</td></tr>
-      <tr><td class="rowEven">Week before: </td><td style="text-align: right;">'.$this->prev_week_cdrs.'</td></tr>
+      <tr><td class="rowEven">Last 7 days: </td><td style="text-align: right;">'.$this->last_week_cdrs.'</td></tr>
+      <tr><td class="rowEven">Prev 7 days: </td><td style="text-align: right;">'.$this->prev_week_cdrs.'</td></tr>
       <tr><td class="rowEven" width="40%">Total: </td><td style="text-align: right;">'.$this->total_cdrs.'</td></tr>');
     echo('</table>');
 	}
