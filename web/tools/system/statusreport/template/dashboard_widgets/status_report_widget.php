@@ -35,8 +35,7 @@ class status_report_widget extends widget
       <table style="table-layout: fixed;
         width: 160px; height:20px; margin: auto; margin-left: 10px; font-weight: bolder;" cellspacing="2" cellpadding="1" border="0">
     ');
-    echo('<tr><td class="rowOdd" style="text-align: center">'.$this->mi_group.'</td></tr>');
-    echo('<tr><td class="rowEven" style="text-align: center">'.$this->mi_id.'</td></tr>');
+    echo('<tr><td class="rowOdd" style="text-align: center">'.$this->mi_group.' / '.$this->mi_id.'</td></tr>');
     echo('<tr><td class="rowOdd" style="text-align: center; font-weight: 900; color:'.($this->status['Readiness']?"green":"red").'">'.$this->status['Details'].'<span style="color:black;"> ('.$this->status['Status'].')</span></td></tr>');
     echo('</table>');
   }
