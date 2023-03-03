@@ -28,7 +28,8 @@ class monit_tools_widget extends widget
 			width: 180px; height:20px; margin: auto; font-weight: bolder; text-align: center;" cellspacing="3" cellpadding="2" border="0">
 			<tr><td class="rowEven" colspan="3" style="font-size:14px; margin-bottom=10px;"><b>'.$this->monitored_total.' service'.(($this->monitored_total==1)?'':'s').'</b></td></tr><tr>
 			');
-		echo ('<td class="rowOdd"><div class="tooltip"><sup>'.$this->monitored_tools[0].'</sup><span style="top:-50px;  pointer-events: none;" class="tooltiptext">Running</span>');
+		echo ('<td class="rowOdd"><div class="tooltip"'.($this->monitored_tools[0] > 0?' style="color: green;"':'').'"><sup>'.$this->monitored_tools[0].'</sup><span style="top:-50px;  pointer-events: none;" class="tooltiptext">Running</span>');
+
 		echo ('<td class="rowEven"><div class="tooltip"'.($this->monitored_tools[1] > 0?' style="color: orange;"':'').'"><sup>'.$this->monitored_tools[1].'</sup><span style="top:-50px;  pointer-events: none;" class="tooltiptext">Not Monitored</span>');
 		echo ('<td class="rowOdd"><div class="tooltip"'.($this->monitored_tools[2] > 0?' style="color: red;"':'').'"><sup>'.$this->monitored_tools[2].'</sup><span style="top:-50px;  pointer-events: none;" class="tooltiptext">Failed</span>');
 		echo('</tr></table>');
