@@ -304,10 +304,20 @@ function get_box_id_default(){
 	return $boxes[0]["id"];
 }
 
+function get_box_id_url($box) {
+	require('../../../../config/boxes.load.php');
+	foreach ($boxes as $ar) {
+		if ($ar['id']==$box)
+			return $ar['mi']["conn"];
+	}
+	return null;
+}
+
 
 function show_graph($id,$stat,$box_id,$refresh=null){
 	global $config;
-	global $gauge_arr;
+	if (!isset($gauge_arr) || !isset($gauge_arr[$box_id]))
+		$gauge_arr[$box_id] = get_vars_type(get_box_id_url($box_id));
 	$chart_history = get_settings_value_from_tool("chart_history", "smonitor");
 	if ($chart_history == "auto") $chart_history = 3 * 24;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
@@ -322,7 +332,7 @@ function show_graph($id,$stat,$box_id,$refresh=null){
 	$_SESSION['box_id_graph'] = $box_id;
 	$_SESSION['chart_history'] = $chart_history;
 	$_SESSION['tmonitoring'] = get_settings_value_from_tool("table_monitoring", "smonitor");
-	$_SESSION['normal'] = (in_array($stat, $gauge_arr)?1:0);
+	$_SESSION['normal'] = (in_array($stat, $gauge_arr[$box_id])?0:1);
 
 	$_SESSION['refreshInterval'] = ($refresh?$refresh:get_settings_value_from_tool("refresh_period", "smonitor") * 1000);
 	
@@ -345,6 +355,8 @@ function show_graphs($id,$key,$refresh=null){
 		else
 		  $stat_box_id = get_box_id_default();
 		$box_ids[] = $stat_box_id;
+		if (!isset($gauge_arr) || !isset($gauge_arr[$stat_box_id]))
+			$gauge_arr[$stat_box_id] = get_vars_type(get_box_id_url($stat_box_id));
 		if (preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
 		  foreach ($monitored_stats as $name => $id) {//first var is not available TODO
 			if (preg_match($g['name'], $name, $matches))
@@ -365,9 +377,10 @@ function show_graphs($id,$key,$refresh=null){
 
     $divId = "";
 	$_SESSION['normal'] = array();
+	$box_id = 0;
 	foreach ($stats as $var) {
-		$normal_chart = 0 ;
-		if (in_array($var , $gauge_arr ))  $normal_chart = 1;
+		$normal_chart = 1 ;
+		if (in_array($var , $gauge_arr[$box_ids[$box_id++]]))  $normal_chart = 0;
 		$_SESSION['normal'][] = $normal_chart;
 	}
 	$nGraphs = sizeof($stats);
@@ -491,6 +504,8 @@ function get_stats_list_all_boxes() {
 }
 
 function show_widget_graphs($id, $group_name, $refresh=null){
+	global $config;
+	global $gauge_arr;
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
@@ -508,6 +523,8 @@ function show_widget_graphs($id, $group_name, $refresh=null){
 			else
 				$stat_box_id = get_box_id_default();
 			$box_ids[] = $stat_box_id;
+			if (!isset($gauge_arr) || !isset($gauge_arr[$stat_box_id]))
+				$gauge_arr[$stat_box_id] = get_vars_type(get_box_id_url($stat_box_id));
 			if( preg_match("/^\/.+\/[a-z]*$/i",$g['name'])) {
 			foreach ($monitored_stats as $name => $id) {
 				if (preg_match($g['name'], $name, $matches))
@@ -524,15 +541,13 @@ function show_widget_graphs($id, $group_name, $refresh=null){
 	}
 	$stats = $group;
 	
-	global $config;
-	global $gauge_arr;
-	$box_id = $box_id;
 	$chart_size = get_settings_value_from_tool('chart_size', "smonitor")+1;
 
 	$_SESSION['normal'] = array();
+	$box_id = 0;
 	foreach ($stats as $var) {
 		$normal_chart = 1 ;
-		if (in_array($var , $gauge_arr ))  $normal_chart = 1;
+		if (in_array($var , $gauge_arr[$box_ids[$box_id++]]))  $normal_chart = 0;
 		$_SESSION['normal'][] = $normal_chart;
 	}
 	$nGraphs = sizeof($stats);
