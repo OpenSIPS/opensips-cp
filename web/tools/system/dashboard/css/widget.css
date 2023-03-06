@@ -70,7 +70,7 @@ body {
   width: 12px;
   border-radius: 50%;
   display: inline-block;
-  background-color: #3E5771;
+  background-color: #6984a3;
 }
 
 .status-indicator.status0 {
@@ -85,7 +85,7 @@ body {
 }
 
 .status-indicator.status3 {
-  background-color: red;
+  background-color: #FF0D00;
 }
 
 .status-indicator:hover .dropdown-content {display: block;}
