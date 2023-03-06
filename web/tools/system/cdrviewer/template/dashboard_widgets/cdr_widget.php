@@ -62,6 +62,10 @@ class cdr_widget extends widget
     form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
 	}
 
+  static function get_description() {
+    return "Shows the various CDR countings (from the acc table) on different time intervals (as history)";
+  }
+
 }
 // vim:set sw=2 ts=2 et ft=php fdm=marker:
 ?>

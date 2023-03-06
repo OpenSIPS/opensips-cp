@@ -202,7 +202,7 @@ class clusterer_shtags_widget extends widget
   }
 
   static function get_description() {
-    return "Shows the status of sharing tags within a cluster";
+    return "Shows the status of the sharing tags (active or not) from a certain cluster. The information is provided from the perspective of the node/Box the CP is connecting to via MI";
   }
 }
 

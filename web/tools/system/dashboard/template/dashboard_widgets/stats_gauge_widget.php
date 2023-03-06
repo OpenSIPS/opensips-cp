@@ -165,7 +165,6 @@ class stats_gauge_widget extends gauge_widget
     }
 
     public static function get_description() {
-	    return "Displays a gauge graph of a particular statistic in OpenSIPS.<br>
-The value reported to as total can be either a static maximum value or another OpenSIPS statistic.";
+	    return "Displays a gauge graph of a particular statistic in OpenSIPS. Such graph suits only statistics that also have a max value - this can be either a static maximum value or another OpenSIPS statistic (like usaged shared memory versus total shared memory).";
     }
 }

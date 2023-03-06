@@ -71,7 +71,7 @@ class shmem_widget extends gauge_widget
 
 	static function get_description() {
 		return "
-A clock-like chart that displays the percentage of the shared memory";
+A clock-like chart that displays the percentage of the shared memory of a ceratin OpenSIPS/Box. The information is retrieved via MI.";
 	}
 
 }

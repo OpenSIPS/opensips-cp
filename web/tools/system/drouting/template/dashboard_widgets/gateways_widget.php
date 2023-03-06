@@ -155,8 +155,7 @@ class gateways_widget extends widget
   }
 
   static function get_description() {
-    return "
-Shows the number of available gateways vs probing/inactive ones";
+    return "Shows the number of available gateways vs probing/inactive ones. The information is fetched via MI from a certain OpenSIPS/Box.";
   }
 }
 

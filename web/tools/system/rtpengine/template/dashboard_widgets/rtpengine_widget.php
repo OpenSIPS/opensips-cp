@@ -150,7 +150,7 @@ class rtpengine_widget extends widget
   }
 
   static function get_description() {
-    return "Shows the number of available RTPEngine servers vs inactive/disabled ones";
+    return "Shows the number of available RTPEngine servers vs inactive/disabled ones. The information is fetched via MI form a given OpenSIPS/Box";
   }
 }
 

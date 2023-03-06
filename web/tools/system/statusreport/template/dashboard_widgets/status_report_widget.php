@@ -114,8 +114,7 @@ class status_report_widget extends widget
   }
 
   static function get_description() {
-    return "
-Display status reports";
+    return "Display the Status of a given OpenSIPS SR indentifier.";
   }
 }
 // vim:set sw=2 ts=2 et ft=php fdm=marker:

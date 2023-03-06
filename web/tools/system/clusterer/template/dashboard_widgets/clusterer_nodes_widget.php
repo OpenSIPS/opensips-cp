@@ -204,7 +204,7 @@ class clusterer_nodes_widget extends widget
   }
 
   static function get_description() {
-    return "Shows the status of a cluster";
+    return "Shows the status of the nodes of a given cluster - which nodes are up or down. The status info is provided from the perspective of a node/Box the CP is connecting to via MI";
   }
 }
 

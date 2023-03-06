@@ -127,12 +127,7 @@ class monit_tools_widget extends widget
 
 	
 	static function get_description() {
-		return "
-Displays several number of tools:<br>
-		Total Monitored<br>
-		Total unmonitored<br>
-		Failed
-		";
+		return "Displays information about the monitored services (via Monit) from a certain Box, like the total number of monitored service versus the number of unmonitored or failed services.";
 	}
 
 }

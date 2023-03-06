@@ -184,7 +184,7 @@ class clusterer_capabilities_widget extends widget
   }
 
   static function get_description() {
-    return "Shows the status of the clusterer capabilities";
+    return "Shows the status of the capabilities (sync'ed or not) from a certain cluster. The information is provided from the perspective of the node/Box the CP is connecting to via MI.";
   }
 }
 

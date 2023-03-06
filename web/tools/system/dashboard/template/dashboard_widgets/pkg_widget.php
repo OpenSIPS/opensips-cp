@@ -23,12 +23,6 @@ class pkg_widget extends widget
     $this->compute_info();
   }
 
-  static function get_description() {
-    return "
-A tool that aggregates the pkg memory from all processes and performs some statistics about which process is the most loaded, what is the highest fragmentation etc.
-";
-  }
-
   function get_name() {
     return "PKG Usage widget";
   }
@@ -161,6 +155,11 @@ A tool that aggregates the pkg memory from all processes and performs some stati
     form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20,null);
     form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
   }
+
+  static function get_description() {
+    return "Display the top 4 processes in terms of PKG memory usage from a given OpenSIPS Box. Thresholds may be defined for displaying purposes only.";
+  }
+
 }
 // vim:set sw=2 ts=2 et ft=php fdm=marker:
 ?>

@@ -161,8 +161,7 @@ class monit_cpu_widget extends widget
 	}
 
 	static function get_description() {
-		return "
-Gathers the CPU being used by the system and/or a specific monitored program";
+		return "Gathers the CPU usage info (via Monit) from a certain Box and/or a specific monitored application/service. Thresholds may be defined for reporting purposes only.";
 	}
 }
 

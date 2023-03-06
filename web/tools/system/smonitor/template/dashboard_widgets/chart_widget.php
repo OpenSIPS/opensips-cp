@@ -23,7 +23,7 @@ class chart_widget extends widget
 
 
     function get_name() {
-        return "Chart widget";
+        return "Statistic Chart widget";
     }
 
     function echo_content() {
@@ -98,4 +98,9 @@ class chart_widget extends widget
         form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]\+)$');
         self::chart_box_selection($stats_list, $init);
     }
+
+    static function get_description() {
+        return "Charts a certain statistic (simple or grouped) from a given OpenSIPS Box. Note that you can display here only the statistics which are already enabled for charting in the Statiscs Monitor tool!.";
+    }
+
 }

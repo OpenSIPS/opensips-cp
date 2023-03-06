@@ -58,7 +58,7 @@ class registered_users_widget extends widget
 	
 	static function get_description() {
 		return "
-Displays the percentage of users registered (percentage of registered users out of total number or users)";
+Displays information on users, like total number of provisioned users versus the number of registered users and the number of registered contacts";
 	}
 
 }
