@@ -39,6 +39,18 @@ $config_admin_modules = array (
 );
 
 $config_modules 	= array (
+	"dashboard"		=> array (
+		"enabled"	=> true,
+		"name"		=> "Dashboard",
+		"icon"		=> "images/icon-dashboard.png",
+		"modules"	=> array (
+			"dashboard"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Dashboard",
+				"path"			=> "system/dashboard"
+			),
+		)
+	),
 	"users"			=> array (
 		"enabled" 	=> true,
 		"name" 		=> "Users",
@@ -74,10 +86,6 @@ $config_modules 	= array (
 			"cdrviewer"			=> array (
 				"enabled"		=> true,
 				"name"			=> "CDR Viewer"
-			),
-			"dashboard"			=> array (
-				"enabled"		=> true,
-				"name"			=> "Dashboard"
 			),
 			"dialog"			=> array (
 				"enabled"		=> true,

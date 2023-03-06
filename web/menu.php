@@ -61,19 +61,11 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 	}
 	# check to see if there is a tool within this module that is active
 	if (isset($_SESSION['current_tool']) &&
-			in_array($_SESSION['current_tool'], $menuitem_config['modules'])){
+			in_array($_SESSION['current_tool'], $menuitem_config['modules']))
+		$active = true;
+	else
+		$active = false;
 ?>
-<div id="menu<?=$menuitem?>" class="menu_active" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
-<span id="<?=$menuitem?>" class="submenu" style="display: block;">
-<?php
-	} else {
-?>
-<div id="menu<?=$menuitem?>" class="menu" onclick="SwitchMenu('<?=$menuitem?>')"><?=$menuitem_config['name']?></div>
-<span id="<?=$menuitem?>" class="submenu" style="display: none;">
-<?php
-	}
-?>
-<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
 <?php
 	$menu_link_text=array();
 	# now go through each tool and see if it is activated
@@ -95,28 +87,43 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 	}
 	reset($available_tabs);
 	//asort($menu_link_text);
-
-	foreach ($menu_link_text as $key=>$val) {      
+	if (count($menu_link_text) == 1) {
 		$path = 'tools/';
 		if (!isset($menuitem_config['modules'][$key]['path']))
 			$path .= $menuitem . '/' . $key;
 		else
 			$path .= $menuitem_config['modules'][$key]['path'];
 		$path .= '/index.php';
+		$single_module = true;
+		$onclick = "SwitchMenu('".$menuitem."');top.frames['main_body'].location.href='".$path."'";
+	} else {
+		$single_module = false;
+		$onclick = "SwitchMenu('".$menuitem."')";
+	}
+?>
+<div id="menu<?=$menuitem?>" class="menu<?=($active?"_active":"")?>" onclick="<?=$onclick?>"><?=$menuitem_config['name']?></div>
+<?php
+	if ($single_module)
+		continue;
+?>
+<span id="<?=$menuitem?>" class="submenu" style="display: <?=($active?"block":"none")?>;">
+<table cellspacing="2" cellpadding="0" border="0" id="tbl_menu" >
+<?php
+	foreach ($menu_link_text as $key=>$val) {
+		$path = 'tools/';
+		if (!isset($menuitem_config['modules'][$key]['path']))
+			$path .= $menuitem . '/' . $key;
+		else
+			$path .= $menuitem_config['modules'][$key]['path'];
+		$path .= '/index.php';
+		if (isset($_SESSION['current_tool']) && $_SESSION['current_tool'] == $key)
+			$active = true;
+		else
+			$active = false;
 ?>
 <tr height="20">
 <td onClick="top.frames['main_body'].location.href='<?=$path?>';">
-<?php
-		if (isset($_SESSION['current_tool']) && $_SESSION['current_tool'] == $key) {
-?>
-<a id="<?=$key?>" class="submenuItemActive" onclick="SwitchSubMenu('<?=$key?>')" href12="<?=$path?>"><?=$val?></a>
-<?php
-		} else {
-?>
-<a id="<?=$key?>" class="submenuItem" onclick="SwitchSubMenu('<?=$key?>')" href12="<?=$path?>"><?=$val?></a>
-<?php
-		}
-?>
+<a id="<?=$key?>" class="submenuItem<?=($active?"Active":"")?>" onclick="SwitchSubMenu('<?=$key?>')" href12="<?=$path?>"><?=$val?></a>
 </td>
 </tr>
 <?php
