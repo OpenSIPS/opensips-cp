@@ -213,6 +213,7 @@ else
 		   switch ($resultset[$i]['state']) {
 			case "0" : $db_state = "Active"; break;
 			case "1" : $db_state = "Inactive"; break;
+			case "2" : $db_state = "Probing"; break;
 		   }
 		$index_row++;
 		if ($index_row%2==1) $row_style="rowOdd";
