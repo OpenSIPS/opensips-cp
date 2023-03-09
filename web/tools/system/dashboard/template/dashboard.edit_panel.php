@@ -65,7 +65,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select `name`, id, `order` from ".$table."  order by `order` asc limit ".$res_no.";";
+	$sql_command="select `name`, id, `order` from ".$table."  order by `order` asc limit ".$res_no;
 	if ($start_limit!=0)
 		$sql_command.=" OFFSET " . $start_limit;
 	$stm = $link->prepare( $sql_command );
@@ -137,9 +137,9 @@ else
        	// current pages
        	for($i=$start_page;$i<=$end_page;$i++)
        	if ($i==$page) echo('<font class="pageActive">'.$i.'</font>&nbsp;');
-       	else echo('<a href="'.$page_name.'?page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
+       	else echo('<a href="'.$page_name.'?action=edit_panel&page='.$i.'" class="pageList">'.$i.'</a>&nbsp;');
        	// next block
-       	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
+       	if ($end_page!=$page_no) echo('&nbsp;<a href="'.$page_name.'?action=edit_panel&page='.($start_page+$max_pages).'" class="menuItem"><b>&gt;&gt;</b></a>&nbsp;');
        }
        ?>
       </th>
