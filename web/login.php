@@ -169,6 +169,7 @@ else {
 	$_SESSION['user_priv'] = $_SESSION['temp_user_priv'];
 
 	
+	$dashboard = false;
 	foreach ($config_modules as $menuitem => $menuitem_config) {
 		if (!$menuitem_config['enabled'])
 			continue;
@@ -177,7 +178,6 @@ else {
 		if (isset($menuitem_config['modules']['dashboard'])
 			&& $menuitem_config['modules']['dashboard']['enabled'])
 			$dashboard = true;
-		else $dashboard = false;
 	}
 
 	if ($dashboard) {
