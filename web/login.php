@@ -170,6 +170,7 @@ else {
 
 	
 	$dashboard = false;
+	$default_path = NULL;
 	foreach ($config_modules as $menuitem => $menuitem_config) {
 		if (!$menuitem_config['enabled'])
 			continue;
@@ -178,9 +179,25 @@ else {
 		if (isset($menuitem_config['modules']['dashboard'])
 			&& $menuitem_config['modules']['dashboard']['enabled'])
 			$dashboard = true;
+		foreach ($menuitem_config['modules'] as $module => $values) {
+			if (isset($values['enabled']) && !$values['enabled'])
+				continue;
+			if (isset($values['default']) && $values['default']) {
+				$default_path = 'tools/';
+				if (!isset($value['path']))
+					$default_path .= $menuitem . '/' . $module;
+				else
+					$default_path .= $value['path'];
+				$default_path .= '/index.php';
+				if (!file_exists($default_path))
+					$default_path = NULL;
+			}
+		}
 	}
 
-	if ($dashboard) {
+	if ($default_path != NULL) {
+		$_SESSION['path'] = $default_path;
+	} else if ($dashboard) {
 		$query = "SELECT COUNT(*) as panel_no FROM ocp_dashboard;";
 		$stmt = $link->prepare($query);
 		if (!$stmt->execute(array($name))) {
