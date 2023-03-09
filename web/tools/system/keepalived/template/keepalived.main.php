@@ -35,18 +35,21 @@ foreach(get_settings_value("machines") as $machine) {
     $boxes_no = count($machine['boxes']);
     echo('<tr><td colspan=3 style="font-weight: 900;">'.$machine['name'].'</td></tr><tr>');
     foreach($machine['boxes'] as $box) {
-        $box_color = "grey";
+        $box_color = "red";
         $box = set_defaults($box);
-        $state = ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $box['exec']." show_mode");
-        if (strpos($state, "master") !== false) {
-            $master = true;
-            if ($has_master == true) {
-                $box_color = "red";
-            } else {
-                $has_master = true;
-                $box_color = "green";
-            }
-        } else $master = false;
+        $state = ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $box['check_exec']);
+	if ($state) {
+	       if (preg_match('/'.$box['check_pattern'].'/', $state)) {
+		       if (!$has_master) {
+			       $box_color = "green";
+			       $has_master = true;
+		       } else {
+			       $box_color = "red";
+		       }
+	       } else {
+		       $box_color = "grey";
+	       }
+	}
         echo('
 <td>
 <input type="submit" onclick="location.href = \'keepalived.php?action=switch_box&box='.$box['box'].'\';" style="background-color:'.$box_color.';" name="'.$box['box'].'" value="'.$box['box'].'" class="formButton add-new-btn">

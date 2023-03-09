@@ -23,6 +23,10 @@
 function ssh_conn($host, $port, $user, $pub_key, $prv_key, $command, $pass = null) {
     $connection=ssh2_connect($host, $port);
     if ($connection) {
+	if ($pub_key[0] != '/')
+		$pub_key = '../../../../config/tools/system/keepalived/'.$pub_key;
+	if ($prv_key[0] != '/')
+		$prv_key = '../../../../config/tools/system/keepalived/'.$prv_key;
         $auth=ssh2_auth_pubkey_file($connection, $user, $pub_key, $prv_key, $pass);
         if (!$auth) return(false);
     }
@@ -37,22 +41,25 @@ function ssh_conn($host, $port, $user, $pub_key, $prv_key, $command, $pass = nul
 }
 
 function set_defaults($box) {
+    $default_box = NULL;
     foreach($_SESSION['boxes'] as $loaded_box) {
         if ($loaded_box['name'] == $box['box'])
             $default_box = $loaded_box;
     }
-    if (!$box['ssh_ip'] && $default_box)
+    if (!isset($box['ssh_ip']) && $default_box)
         $box['ssh_ip'] = preg_split("/[:\/]/", $default_box['mi_conn'])[1];
-    if (!$box['ssh_port'])
+    if (!isset($box['ssh_port']))
         $box['ssh_port'] = 22;
-    if (!$box['ssh_user'])
+    if (!isset($box['ssh_user']))
         $box['ssh_user'] = "root";
-       if (!$box['ssh_pubkey'])
-        $box['ssh_pubkey'] = "id_rsa_keepalived.pub";
-    if (!$box['ssh_key'])
-        $box['ssh_key'] = "id_rsa_keepalived";
-    if (!$box['exec'])
-        $box['exec'] = "/etc/init.d/keepalived";
+    if (!isset($box['ssh_pubkey']))
+        $box['ssh_pubkey'] = get_settings_value("ssh_pubkey");
+    if (!isset($box['ssh_key']))
+        $box['ssh_key'] = get_settings_value("ssh_key");
+    if (!isset($box['check_exec']))
+        $box['check_exec'] = get_settings_value("check_exec");
+    if (!isset($box['check_pattern']))
+        $box['check_pattern'] = get_settings_value("check_pattern");
     return $box;
 }
 
