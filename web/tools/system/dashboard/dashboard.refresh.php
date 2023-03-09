@@ -48,6 +48,8 @@ if (!isset($widgets[$widget_id])) {
 load_widgets();
 $widget = json_decode($widgets[$widget_id], true);
 $widget_type = $widget['widget_type'];
+if (!class_exists($widget['widget_type']))
+	return;
 $new_widget = new $widget['widget_type']($widget);
 $new_widget->set_id($widget['widget_id']);
 
