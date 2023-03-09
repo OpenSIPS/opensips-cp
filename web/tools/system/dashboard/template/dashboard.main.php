@@ -106,6 +106,8 @@ if ($_SESSION['config']['panels'][$panel_id]['content'] != null) {
     $widget_content = json_decode($widget['content'], true);
     $widget_id = $widget_content['widget_id'];
     $widget_positions = json_decode($widget['positions'], true);
+    if (!class_exists($widget_content['widget_type']))
+	    continue;
     $new_widget = new $widget_content['widget_type']($widget_content);
     $new_widget->set_id($widget_content['widget_id']);
     $widget_array = $new_widget->get_as_array();//this returns info of widget as array
