@@ -40,10 +40,15 @@ else $action="";
 
 if ($action=="switch_box") {
     foreach(get_settings_value("machines") as $machine) {
-        foreach($machine['boxes'] as $box_details) {
-            if ($box_details['box'] == $_GET['box'])
-                $box = $box_details;
-            else    $state = ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $box['exec']." go_secondary");
+        foreach($machine['boxes'] as $box) {
+	    $box = set_defaults($box);
+            if ($box['box'] != $_GET['box'])
+		$mode = "backup";
+	    else
+		$mode = "primary";
+	    $command = isset($box[$mode.'_exec'])?$box[$mode.'_exec']:get_settings_value($mode.'_exec');
+	    if ($command && $command != "")
+		    ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $command);
         }
     }
     sleep(2);
