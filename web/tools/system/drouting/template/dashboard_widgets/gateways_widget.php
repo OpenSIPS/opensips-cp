@@ -67,7 +67,8 @@ class gateways_widget extends widget
         case "Active":
           $this->available ++;
           break;
-        case "Inactive": 
+        case "Disabled MI":
+        case "Inactive":
           $this->inactive ++;
           break;
         case "probing":
