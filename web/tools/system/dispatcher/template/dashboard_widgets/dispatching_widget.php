@@ -91,7 +91,7 @@ class dispatching_widget extends widget
           $this->count_destinations($set);
       }
     }
-    if ($this->inactive > 0)
+    if (count($errors) != 0 || $this->inactive > 0)
       $this->set_status(widget::STATUS_CRIT);
     else if ($this->probing > 0)
       $this->set_status(STATUS_WARN);
