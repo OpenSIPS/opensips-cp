@@ -73,6 +73,10 @@ class pkg_widget extends widget
   function compute_info() {
     require_once("../../../common/mi_comm.php");
     $pkg = mi_command("get_statistics", array("statistics" => array("pkmem:")), $this->widget_box['mi_conn'], $errors);
+    if (count($errors) != 0) {
+      $this->set_status(widget::STATUS_CRIT);
+      return;
+    }
     $top_fragmented = $this->get_top_fragmented($pkg);
     $this->top_fragmented_info = $this->get_proc_infos($top_fragmented);
     $top_loaded = $this->get_top_loaded($pkg);

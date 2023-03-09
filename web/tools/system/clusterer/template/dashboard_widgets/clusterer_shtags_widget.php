@@ -86,6 +86,7 @@ class clusterer_shtags_widget extends widget
 
   function update() {
     require_once("../../../common/mi_comm.php");
+    $status = widget::STATUS_OK;
     foreach ($_SESSION['boxes'] as $box) {
       if ($box['assoc_id'] != $this->system_id)
         continue;
@@ -94,6 +95,7 @@ class clusterer_shtags_widget extends widget
       $clusters_res = mi_command("clusterer_list_shtags", null, $box['mi_conn'], $errors);
       if (count($errors) != 0) {
         error_log(print_r($errors, true));
+        $status = widget::STATUS_CRIT;
       } else {
         foreach ($clusters_res as $shtag) {
           if ($this->cluster != null && $shtag['Cluster'] != $this->cluster)
@@ -107,7 +109,6 @@ class clusterer_shtags_widget extends widget
       $this->boxes[$box['name']] = $tags;
     }
     /* verify state */
-    $status = widget::STATUS_OK;
     foreach ($this->shtags as $shtag=>$state) {
       $active = 0;
       foreach ($this->boxes as $box=>$shtags) {
