@@ -29,6 +29,7 @@ $dr_sort_alg = array(
 
 function dr_get_name_of_sort_alg($char)
 {
+	global $dr_sort_alg;
 	if (isset($dr_sort_alg[$char]))
 		return $dr_sort_alg[$char];
 	return "unknown";
