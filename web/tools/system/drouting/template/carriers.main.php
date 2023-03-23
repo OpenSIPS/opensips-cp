@@ -71,6 +71,7 @@
 
 <?php if (!$_SESSION['read_only']) { ?>
 <form action="<?=$page_name?>?action=add" method="post">
+<?php csrfguard_generate(); ?>
   <input type="submit" name="add_new" value="Add Carrier" class="formButton"> &nbsp;&nbsp;&nbsp;
   <input onclick="apply_changes()" name="reload" class="formButton" value="Reload on Server" type="button"/>
 </form>
