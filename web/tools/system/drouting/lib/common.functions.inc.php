@@ -20,20 +20,22 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+$dr_sort_alg = array(
+	"N" => "none",
+	"W" => "weight",
+	"Q" => "quality",
+);
+
+
 function dr_get_name_of_sort_alg($char)
 {
-	$dr_sort_alg = array(
-		"N" => "none",
-		"W" => "weight",
-		"Q" => "quality",
-	);
-
 	if (isset($dr_sort_alg[$char]))
 		return $dr_sort_alg[$char];
 	return "unknown";
-}
+} 
 
-function dr_get_options_of_list_sort($selected)
+
+function dr_get_options_of_list_sort($selected) 
 {
 	
 	if ($selected==NULL || $selected=="") {
