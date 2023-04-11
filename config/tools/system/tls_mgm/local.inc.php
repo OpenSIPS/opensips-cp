@@ -159,7 +159,7 @@ $custom_config[$module_id][0]['page_range'] = 3;
 					"show_in_add_form" 	=> true,
 					"show_in_edit_form"	=> true,
 					"searchable" 		=> true,
-					"combo_default_values"	=> array("0"=>"Both", "1"=>"Client", "2"=>"Server"),
+					"combo_default_values"	=> array("1"=>"Client", "2"=>"Server"),
 					"default_value" 	=> "1"
 			),
 			"method" 	=> 	array (
