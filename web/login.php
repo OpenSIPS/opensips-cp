@@ -200,7 +200,7 @@ else {
 	} else if ($dashboard) {
 		$query = "SELECT COUNT(*) as panel_no FROM ocp_dashboard;";
 		$stmt = $link->prepare($query);
-		if (!$stmt->execute(array($name))) {
+		if (!$stmt->execute(NULL)) {
 			print_r("Failed to fetch db!");
 			error_log(print_r($stmt->errorInfo(), true));
 			die;
