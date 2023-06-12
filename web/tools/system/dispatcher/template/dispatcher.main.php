@@ -33,7 +33,11 @@ $errors="";
 if ($message!=NULL) {
 	if ($message['PARTITIONS'])
 		$message = $message['PARTITIONS'][0];
-	$message = $message['SETS'];
+
+	if (isset($message['SETS']))
+		$message = $message['SETS'];
+	else
+		$message = array();
 
 	# iterate through the SETs
 	for ($j=0; $j<count($message); $j++){
