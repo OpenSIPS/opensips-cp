@@ -59,7 +59,7 @@ switch ($dispatcher_group_mode) {
 }
 
 form_generate_input_text("Destination", "SIP URI pointing to the destination",
-	"destination", "n", $ds_form['destination'], 192, "^sip:([^@]+@)?[^:]+(:[0-9]+)?(;transport=(tls|tcp|udp))?$");
+	"destination", "n", $ds_form['destination'], 192, "^sip:([^@]+@)?[^:]+(:[0-9]+)?(;[a-z]+=.+(?))?$");
 
 form_generate_input_text("Socket", "The OpenSIPS network listener (as proto:ip:port) to be used for reaching this destination (leave empty if not needed)",
 	"socket", "y", $ds_form['socket'], 128, $re_socket);
