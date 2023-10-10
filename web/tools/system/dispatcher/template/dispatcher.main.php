@@ -22,13 +22,13 @@
 
 
 $flag = array();
+$errors = array();
 $sipURI = array();
 
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 // date input from the first box only
-$message=mi_command('ds_list', NULL, $mi_connectors[0], $errors);
-$errors="";
+$message=mi_command("ds_list", NULL, $mi_connectors[0], $errors);
 
 if ($message!=NULL) {
 	if ($message['PARTITIONS'])
