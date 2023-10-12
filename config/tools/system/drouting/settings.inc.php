@@ -57,7 +57,7 @@ $config->drouting = array(
 	),
 	"gateway_types_file" => array(
 		"default" => array(
-			"0" => "Gateway",
+			"1" => "Gateway",
         	),
 		"name"    => "Gateway's Types",
 		"type"    => "json",
