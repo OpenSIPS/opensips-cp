@@ -22,7 +22,7 @@
 
 require("../../../common/cfg_comm.php");
 require("template/header.php");
-require("lib/".$page_id.".main.js");
+require("lib/dialog.main.js");
 require ("../../../common/mi_comm.php");
 
 csrfguard_validate();

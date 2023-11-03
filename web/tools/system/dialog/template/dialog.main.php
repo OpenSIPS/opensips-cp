@@ -28,6 +28,9 @@
 	</form>
 </div>
 <br>
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 
 <?php
 
@@ -55,11 +58,12 @@ echo '<th class="listTitle">Start Time</th>';
 echo '<th class="listTitle">Timeout Time</th>';
 echo '<th class="listTitle">Duration</th>';
 echo '<th class="listTitle">State</th>';
+echo '<th class="listTitle">Details</th>';
 if(!$_SESSION['read_only']) {
 	echo('<th class="listTitle">Stop Call</th>');
-	$colspan=8;
+	$colspan=9;
 } else {
-	$colspan=7;
+	$colspan=8;
 }
 echo '</tr>';
 

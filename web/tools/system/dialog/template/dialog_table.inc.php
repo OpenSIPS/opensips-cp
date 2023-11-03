@@ -20,6 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+$state_values = array(1 => "Unconfirmed Call", 2 => "Early Call", 3 => "Confirmed Not Acknoledged Call", 4 => "Confirmed Call", 5 => "Deleted Call");
 
 function display_dialog_table($message){
 
@@ -38,7 +39,6 @@ function display_dialog_table($message){
 
 		echo '<tr>';
 
-		$state_values = array(1 => "Unconfirmed Call", 2 => "Early Call", 3 => "Confirmed Not Acknoledged Call", 4 => "Confirmed Call", 5 => "Deleted Call");
 		$entry[$i]['state'] = $state_values[$message[$i]['state']];
 
 		//timestart and duration
@@ -78,6 +78,7 @@ function display_dialog_table($message){
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["expire_time"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["duration"]."</td>";
 		echo "<td class=".$row_style.">&nbsp;".$entry[$i]["state"]."</td>";
+		echo('<td class="'.$row_style.'Img" align="center"><a href="javascript:;" onclick="dlg_list_ctx(\''.$message[$i]['callid'].'\',\''.$message[$i]['caller_tag'].'\')"><img src="../../../images/share/details.png" border="0"</a></td>');
 
 		if(!$_SESSION['read_only']){
 			echo('<td class="'.$row_style.'Img" align="center">'.$delete_link.'</td>');

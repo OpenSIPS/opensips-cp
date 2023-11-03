@@ -20,6 +20,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 ?>
+<div id="dialog" class="dialog" style="display:none"></div>
+<div onclick="closeDialog();" id="overlay" style="display:none"></div>
+<div id="content" style="display:none"></div>
 
 <form action="<?=$page_name?>?action=profile_list" method="post">
 <?php csrfguard_generate(); ?>
@@ -93,12 +96,17 @@ if (isset($_POST['dialogs'])) {
 	echo '<th class="listTitle">Timeout Time</th>';
 	echo '<th class="listTitle">Duration</th>';
 	echo '<th class="listTitle">State</th>';
-	if(!$_SESSION['read_only'])
+	echo '<th class="listTitle">Details</th>';
+	if(!$_SESSION['read_only']) {
 		echo('<th class="listTitle">Stop Call</th>');
+		$colspan=9;
+	} else {
+		$colspan=8;
+	}
 	echo '</tr>';
 
 	if ($profile_size=="0")
-		echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 	else {
 		$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 		// get status from the first one only
@@ -108,12 +116,12 @@ if (isset($_POST['dialogs'])) {
 			$dialogs = $message['Dialogs'];
 			display_dialog_table($dialogs);
 		} else {
-			echo('<tr><td colspan="7" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
+			echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 		}
 	}
 
 	echo '<tr>';
-	echo '<th colspan="7" class="listTitle">Total Records: '.$profile_size.'&nbsp;</th>';
+	echo '<th colspan="'.$colspan.'" class="listTitle">Total Records: '.$profile_size.'&nbsp;</th>';
 	echo '</table>';
  }
 ?>
