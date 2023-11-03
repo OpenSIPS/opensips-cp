@@ -83,16 +83,17 @@ if ($action=="do_add")
 		$state = $_POST['state'];
 		$weight = $_POST['weight'];
 		$attrs = $_POST['attrs'];
+		$probe_mode = $_POST['probe_mode'];
 		$description = $_POST['description'];
 
-		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, description) VALUES ".
+		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, probe_mode, description) VALUES ".
 			"(?, ?, ?, ?, ?, ?, ?)";
 
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description) ) == FALSE) {
+		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$probe_mode,$description) ) == FALSE) {
 			$errors="Adding record to DB failed with: ". print_r($stm->errorInfo(), true);
 		} else {
 			$info="The new record was added";
@@ -144,17 +145,18 @@ if ($action=="modify")
 		$state = $_POST['state'];
 		$weight = $_POST['weight'];
 		$attrs = $_POST['attrs'];
+		$probe_mode = $_POST['probe_mode'];
 		$description = $_POST['description'];
 
 
 		$sql = "UPDATE ".$table." SET ". 
-			"setid=?, destination = ?, socket = ?, state = ?, weight = ?, attrs = ?, description = ?".
+			"setid=?, destination = ?, socket = ?, state = ?, weight = ?, attrs = ?, probe_mode = ?, description = ?".
 			"WHERE id=?";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$description,$id) )==FALSE) {
+		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$probe_mode,$description,$id) )==FALSE) {
 			$errors="Updating record to DB failed with: ". print_r($stm->errorInfo(), true);
 		} else {
 			$info="Record has been updated";

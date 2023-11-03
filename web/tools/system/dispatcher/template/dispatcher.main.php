@@ -170,6 +170,7 @@ if ($dispatcher_group_mode == "static")
   <th class="listTitle">Attributes</th>
   <th class="listTitle">Description</th>
   <th class="listTitle">DB State</th>
+  <th class="listTitle">Probe Mode</th>
   <?php
   if(!$_SESSION['read_only']){
   	echo('<th class="listTitle">Memory State</th>
@@ -258,6 +259,7 @@ default:
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['attrs']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['description']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$db_state?></td>
+  <td class="<?=$row_style?>">&nbsp;<?=($resultset[$i]['probe_mode'] == 1?"Always":"Default")?></td>
   <?php 
    if(!$_SESSION['read_only']){
    	echo '<td class="'.$row_style.'Img" align="center">'.$state_link.'</td>';

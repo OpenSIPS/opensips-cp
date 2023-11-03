@@ -67,6 +67,9 @@ form_generate_input_text("Socket", "The OpenSIPS network listener (as proto:ip:p
 form_generate_select("State", "The intial state (active or inactive) of the destination",
 	"state", 200, $ds_form['state'], array("0","1"),array("Active","Inactive"));
 
+form_generate_select("Probing", "Always probe this destination, regardless its status, or use the default setting.",
+	"probe_mode", 200, $ds_form['probe_mode'], array("0","1"),array("Default","Always"));
+
 form_generate_input_text("Weight", "The weight of the destination inside the set - it can be a number or a FreeSWITCH URL (fs://[username]:password@host[:port])",
 	"weight", "n", $ds_form['weight'], 128, "^([0-9]+)|(fs://[a-zA-Z0-9]*:[^@]+@[^:]+(:[0-9]+)?)$");
 

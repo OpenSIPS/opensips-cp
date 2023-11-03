@@ -41,6 +41,7 @@
 	$ds_form['weight'] = 1;
 	$ds_form['attrs'] = null;
 	$ds_form['description'] = null;
+	$ds_form['probe_mode'] = 0;
 
 	require("dispatcher.form.php");
 	?>
