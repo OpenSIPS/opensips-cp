@@ -132,7 +132,7 @@ if ($action=="disablecar"){
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($gwlist,$flags,$list_sort,$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
+	if ($stm->execute( array($gwlist,$flags,$sort_alg,$state,$description,$attrs,$_GET['carrierid']) ) == FALSE)
 		echo "Updating DB record failed with: ". print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
@@ -193,7 +193,7 @@ if ($action=="disablecar"){
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
-	if ($stm->execute( array($carrierid,$gwlist,$flags,$list_sort,$state,$description,$attrs) ) == FALSE)
+	if ($stm->execute( array($carrierid,$gwlist,$flags,$sort_alg,$state,$description,$attrs) ) == FALSE)
 		echo "Inserting the record into DB failed with: ". print_r($stm->errorInfo(), true);
   }
   if ($form_valid) $action="";
