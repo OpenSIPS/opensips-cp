@@ -44,7 +44,7 @@ if ($dr_form["action"] == "add") {
   </tr>
 <?php
 form_generate_select("List Sorting", "How gateways should be sorted inside the carrier",
-	"list_sort", 128, $dr_form['list_sort'], array_keys($dr_sort_alg), array_values($dr_sort_alg));
+	"sort_alg", 128, $dr_form['sort_alg'], array_keys($dr_sort_alg), array_values($dr_sort_alg));
 
 form_generate_select("Use only first", "Whether to use only the first gateway",
 	"useonlyfirst", 128, $dr_form['useonlyfirst'], array(0, 1), array("0 - No", "1 - Yes"));
