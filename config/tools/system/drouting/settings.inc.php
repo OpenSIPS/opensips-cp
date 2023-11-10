@@ -89,7 +89,7 @@ $config->drouting = array(
 		),
 		"name"    => "Gateway attributes",
 		"type"    => "json",
-		"tip"	  => "If 'Gateways Atrributes Mode' is not 'none', represents the JSON description of the attributes.",
+		"tip"	  => "If 'Gateways Attributes Mode' is not 'none', represents the JSON description of the attributes.",
 		"example" => "
 /* 'Input' mode */
 {
@@ -140,7 +140,7 @@ $config->drouting = array(
 		),
 		"name"    => "Carrier attributes",
 		"type"    => "json",
-		"tip"	  => "If 'Carrier Atrributes Mode' is not 'none', represents the JSON description of the attributes.",
+		"tip"	  => "If 'Carrier Attributes Mode' is not 'none', represents the JSON description of the attributes.",
 		"example" => "
 /* 'Input' mode */
 {

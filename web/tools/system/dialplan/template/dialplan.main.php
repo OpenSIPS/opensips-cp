@@ -121,7 +121,7 @@ if ($dialplan_group_mode == "static")
   <th class="listTitle">Matching Flags</th>
   <th class="listTitle">Substitution Regular Expression</th>
   <th class="listTitle">Replacement Expression</th>
-  <th class="listTitle">Atrributes</th>
+  <th class="listTitle">Attributes</th>
   <?php
   if(!$_SESSION['read_only']){
 
