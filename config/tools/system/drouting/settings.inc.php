@@ -203,7 +203,7 @@ $config->drouting = array(
 		),
 		"name"    => "Rules attributes",
 		"type"    => "json",
-		"tip"	  => "If 'Rules Atrributes Mode' is 'input', represents the JSON description of the attributes.",
+		"tip"	  => "If 'Rules Attributes Mode' is 'input', represents the JSON description of the attributes.",
 		"example" => "
 {
 	\"display_name\" : \"Attributes\",
