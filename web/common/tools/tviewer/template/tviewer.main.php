@@ -147,7 +147,7 @@ else {
 			
 			<!-- ACTION BUTTONS START HERE -->
 			<table style="width:1px!important" align="center" cellspacing="2" cellpadding="4" border="0"><tr>
-				<?php if (!$_SESSION['read_only']) { ?>
+				<?php if (!$_SESSION['read_only'] && isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'])) { ?>
 					<?php for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) { ?>
 					<td align="center">
 						<form action="<?=$page_name?>?action=<?=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action']?>" method="post">
