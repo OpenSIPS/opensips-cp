@@ -72,9 +72,8 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 									$text = isset($resultset[0][$key]) ? $combo_cache[$key][ $resultset[0][$key] ]['display'] : "";
 									break;
 								case "text":
-									$text = $resultset[0][$key];
-									break;
 								case "textarea":
+								default:
 									$text = $resultset[0][$key];
 									break;
 								}
