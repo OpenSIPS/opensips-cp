@@ -214,9 +214,6 @@ else {
 								case "combo":
 									$text = isset($resultset[$i][$key]) ? $combo_cache[$key][ $resultset[$i][$key] ]['display'] : "";
 									break;
-								case "text":
-									$text = $resultset[$i][$key];
-									break;
 								case "textarea":
 									if (isset($value['textarea_display_size']))
 										$size = $value['textarea_display_size'];
@@ -229,6 +226,10 @@ else {
 									break;
 								case "checklist":
 									$text = display_custom_checklist($resultset[$i][$key], $value, $checklist_cache);
+									break;
+								case "text":
+								default:
+									$text = $resultset[$i][$key];
 									break;
 								}
 								if (isset($value['value_wrapper_func']))
