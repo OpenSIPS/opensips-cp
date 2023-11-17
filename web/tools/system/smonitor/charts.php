@@ -36,6 +36,7 @@
  $box_id=get_box_id($current_box); 
  $table=get_settings_value("table_monitoring");
  $name_table=get_settings_value("table_monitored");
+ $_SESSION['stat_open'] = array();
 
  $gauge_arr = get_vars_type($current_box);
  
