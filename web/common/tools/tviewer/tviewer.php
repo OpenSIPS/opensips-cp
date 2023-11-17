@@ -65,9 +65,11 @@ else {
 # include custom columns action scripts  #
 ##########################################
 
-for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
-	if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']) && $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']!="" && file_exists($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']))
-		require($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']);
+if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']) {
+	for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
+		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']) && $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']!="" && file_exists($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']))
+			require($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']);
+	}
 }
 
 ##############################################
@@ -80,9 +82,11 @@ for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_it
 # include custom buttons action scripts  #
 ##########################################
 
-for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) {
-	if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']) && $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']!="" && file_exists($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']))
-		require($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']);
+if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'])) {
+	for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons']); $i++) {
+		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']) && $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']!="" && file_exists($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']))
+			require($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_buttons'][$i]['action_script']);
+	}
 }
 
 
@@ -91,7 +95,8 @@ for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_it
 # include custom search - if enabled #
 ######################################
 
-if ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['enabled'])
+if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['enabled']) &&
+		$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['enabled'])
 	require($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_search']['action_script']);
 
 ##############
