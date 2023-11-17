@@ -28,7 +28,7 @@ $qvalues = array();
 foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 	if (isset($_SESSION[$key]))
 		if ($_SESSION[$key] != "") {
-			if ($value["type"] == "text") {
+			if ($value["type"] == "text" && (!isset($value['search_exact_match']) || !$value['search_exact_match'])) {
 				$where.=" and ".$key." like ?";
 				$qvalues[] = "%".$_SESSION[$key]."%";
 			} else {
