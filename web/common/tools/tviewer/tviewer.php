@@ -65,7 +65,7 @@ else {
 # include custom columns action scripts  #
 ##########################################
 
-if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']) {
+if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'])) {
 	for ($i=0; $i<count($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns']); $i++) {
 		if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']) && $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']!="" && file_exists($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']))
 			require($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_action_columns'][$i]['action_script']);
