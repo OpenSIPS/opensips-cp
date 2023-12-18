@@ -87,7 +87,7 @@ if ($action=="do_add")
 		$description = $_POST['description'];
 
 		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, probe_mode, description) VALUES ".
-			"(?, ?, ?, ?, ?, ?, ?)";
+			"(?, ?, ?, ?, ?, ?, ?, ?)";
 
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
