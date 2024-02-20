@@ -60,7 +60,7 @@ if (!$_read_only)
  </tr>
  <?php
 
- $data_no=sizeof($_SESSION['mi_command']);
+ $data_no=sizeof((array)$_SESSION['mi_command']);
  if ($data_no==0) echo('<tr><td colspan="2" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else {
  	$n=$data_no-1;

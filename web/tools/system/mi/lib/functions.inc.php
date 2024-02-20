@@ -22,8 +22,8 @@
 
 
 function get_command_list($mi_url)
-{
-	$message = mi_command( "which", NULL, $mi_url, $errors);
+{        
+	$message = (array)mi_command( "which", NULL, $mi_url, $errors);
 
 	$cmds = array();
 	for ($i=0;$i<count($message);$i++){
