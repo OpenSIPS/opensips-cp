@@ -64,7 +64,7 @@
 		$first_item = true;
 		if (!isset($config->menu_item)) echo('<font class="menuItemSelect">&nbsp;</font>');
 		else
-		while (list($key,$value) = each($config->menu_item))
+		foreach ($config->menu_item as $key => $value)
 		{		
 			if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
 			if ($_SESSION['config']['panels'][$current_tab]['name'] != $config->menu_item[$key]["1"] && $current_req != $config->menu_item[$key]["0"])
