@@ -78,22 +78,26 @@ if ($action=="do_add")
 		$setid=$_POST['setid'];
 		if (!isset($setid))
 			$setid = get_settings_value("dispatcher_groups");
-		$destination=$_POST['destination'];
-		$socket = $_POST['socket'];
-		$state = $_POST['state'];
-		$weight = $_POST['weight'];
-		$attrs = $_POST['attrs'];
-		$probe_mode = $_POST['probe_mode'];
-		$description = $_POST['description'];
 
-		$sql = "INSERT INTO ".$table." (setid, destination, socket, state, weight, attrs, probe_mode, description) VALUES ".
-			"(?, ?, ?, ?, ?, ?, ?)";
+		$cols = [
+			"setid" => $setid,
+			"destination" => $_POST['destination'],
+			"socket" => $_POST['socket'],
+			"state" => $_POST['state'],
+			"weight" => $_POST['weight'],
+			"attrs" => $_POST['attrs'],
+			"probe_mode" => $_POST['probe_mode'],
+			"description" => $_POST['description'],
+		];
+
+		$sql = "INSERT INTO ".$table." (". join(",", array_keys($cols)) .") ".
+		                       "VALUES (". join(",",array_fill(0, count($cols), '?')) .")";
 
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($setid,$destination,$socket,$state,$weight,$attrs,$probe_mode,$description) ) == FALSE) {
+		if ($stm->execute(array_values($cols)) == FALSE) {
 			$errors="Adding record to DB failed with: ". print_r($stm->errorInfo(), true);
 		} else {
 			$info="The new record was added";
