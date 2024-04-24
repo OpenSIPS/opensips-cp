@@ -78,6 +78,8 @@ if ($action=="add_verify")
 		$src_ip=$_POST['ip'];
 		$mask=$_POST['mask'];
 		$port=$_POST['port'];
+		if (!$port)
+			$port = 0;
 		$proto=$_POST['proto'];
 		$from_pattern = $_POST['pattern'];
 		$context_info= $_POST['context_info'];
@@ -137,6 +139,8 @@ if ($action=="modify")
                 $src_ip=$_POST['ip'];
                 $mask=$_POST['mask'];
                 $port=$_POST['port'];
+				if (!$port)
+					$port = 0;
                 $proto=$_POST['proto'];
                 $from_pattern = $_POST['pattern'];
                 $context_info= $_POST['context_info'];
