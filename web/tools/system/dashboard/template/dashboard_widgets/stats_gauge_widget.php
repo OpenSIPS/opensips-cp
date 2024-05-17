@@ -89,7 +89,7 @@ class stats_gauge_widget extends gauge_widget
 		stat_select.options.length = 0;
                 var stat_max_select = document.getElementById("widget_stat_max"); 
 		stat_max_select.options.length = 1;
-		fetch_widget_info("'.get_class($this).'", "fetch_box_stats", "box="+selected_box)
+		fetch_widget_info("stats_gauge_widget", "fetch_box_stats", "box="+selected_box)
 		.then(data => {
 		  data.forEach(element => {
 		    var opt = document.createElement("option");
