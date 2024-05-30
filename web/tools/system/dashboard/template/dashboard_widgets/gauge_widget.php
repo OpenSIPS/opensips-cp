@@ -41,6 +41,8 @@ class gauge_widget extends widget
 		$this->set_status(widget::STATUS_CRIT);
 	else if ($value / $valueMax * 100 > $this->warning)
 		$this->set_status(widget::STATUS_WARN);
+	else
+		$this->set_status(widget::STATUS_OK);
         require(__DIR__."/../../../../../common/charting/percent_d3js.php");
     }
 }
