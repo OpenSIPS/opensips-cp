@@ -20,7 +20,7 @@ class stats_gauge_widget extends gauge_widget
 		$this->total = $array['widget_max'];
 	}
 	$this->get_data();
-	if ($this->value == null || ($this->value/$this->total * 100) > $this->critical)
+	if (($this->value == null && $this->value != 0) || ($this->value/$this->total * 100) > $this->critical)
 		$this->set_status(widget::STATUS_CRIT);
 	else if (($this->value/$this->total * 100) > $this->warning)
 		$this->set_status(widget::STATUS_WARN);
