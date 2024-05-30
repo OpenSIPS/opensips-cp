@@ -26,9 +26,10 @@ $errors = array();
 $sipURI = array();
 
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$dispatcher_partition = get_settings_value("dispatcher_partition");
 
 // date input from the first box only
-$message=mi_command("ds_list", NULL, $mi_connectors[0], $errors);
+$message=mi_command("ds_list", array("partition"=>$dispatcher_partition), $mi_connectors[0], $errors);
 
 if ($message!=NULL) {
 	if ($message['PARTITIONS'])
