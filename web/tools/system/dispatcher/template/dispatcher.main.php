@@ -58,6 +58,7 @@ $search_descr=$_SESSION['dispatcher_descr'];
 
 $dispatcher_group = get_settings_value("dispatcher_groups");
 $dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");
+$dispatcher_display_only_known = get_settings_value("display_only_known");
 switch ($dispatcher_group_mode) {
 	case "database":
 		$set_cache = array();
@@ -66,6 +67,11 @@ switch ($dispatcher_group_mode) {
 			"FROM " . $dispatcher_group['table'];
 
 		$stm = $link->prepare($query);
+		if ($search_setid !="") {
+			$query .= " WHERE " . $dispatcher_groups['name'] . " LIKE ?";
+			array_push($set_values, "%".$search_setid."%");
+			$search_setid = "";
+		}
 		if ($stm===FALSE) {
 			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
 		}
@@ -76,7 +82,12 @@ switch ($dispatcher_group_mode) {
 		break;
 
 	case "array":
-		$set_cache = $dispatcher_group;
+		if ($search_setid !="") {
+			$set_cache = array();
+			$set_cache[$search_setid] = $dispatcher_group[$search_setid];
+		} else {
+			$set_cache = $dispatcher_group;
+		}
 		break;
 
 	case "static":
@@ -84,7 +95,17 @@ switch ($dispatcher_group_mode) {
 		break;
 }
 
-if ($search_setid != "") {
+if (($search_setid !="" || $dispatcher_display_only_known) && count($set_cache) != 0) {
+        /* here set_cache contains all the values */
+        $results_no = count($set_cache);
+        if ($results_no > 1) {
+            $inclause=implode(',',array_fill(0,$results_no,'?'));
+            $sql_search.=" and setid IN (" . $inclause . ")";
+        } else
+            $sql_search.=" and setid=?";
+        foreach ($set_cache as $key => $value)
+            array_push($sql_vals, $key);
+} else {
 	$sql_search.=" and setid=?";
 	array_push( $sql_vals, $search_setid);
 }
