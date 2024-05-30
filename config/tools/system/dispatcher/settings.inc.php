@@ -89,6 +89,7 @@ $config->dispatcher = array(
 		"type"    => "text",
 		"tip"     => "The name of the dispatcher partition to work with; if empty, it will assume no partition support in OpenSIPS",
 		"validation_regex" => null,
+		"default" => "default",
 	),
 
 	"title1" => array(
