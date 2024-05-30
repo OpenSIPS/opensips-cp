@@ -105,7 +105,7 @@ if (($search_setid !="" || $dispatcher_display_only_known) && count($set_cache) 
             $sql_search.=" and setid=?";
         foreach ($set_cache as $key => $value)
             array_push($sql_vals, $key);
-} else {
+} else if ($search_setid != "") {
 	$sql_search.=" and setid=?";
 	array_push( $sql_vals, $search_setid);
 }
