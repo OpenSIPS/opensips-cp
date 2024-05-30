@@ -52,7 +52,7 @@ class chart_widget extends widget
         echo ('
             <script>
             var slist = '.$slist.';
-			var init = '.$init.'
+            var init = '.$init.'
             var box_select = document.getElementById("widget_box");
             box_select.addEventListener("change", function(){update_options();}, false);
             function update_options() {
@@ -80,23 +80,33 @@ class chart_widget extends widget
     }
 
     public static function new_form($params = null) {
-		$boxes_info = self::get_boxes();
-        if (is_null($params))
-			$init = 1;
-		else $init = 0;
-        if (!$params['widget_title'])
-            $params['widget_title'] = "Chart";
-        if (!$params['widget_chart_size'])
-            $params['widget_chart_size'] = 1;
-        $stats_list = self::get_stats_options();
-		$options = (!$init)?$stats_list[$params['widget_box']]:$stats_list[0];
-		$options = array_merge($stats_list["Group"], $options);
-        form_generate_input_text("Title", "Widget name", "widget_title", "n", $params['widget_title'], 20,null);
-        form_generate_select("Box", "Widget box", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
-        form_generate_select("Chart", "Statistic to view", "widget_chart", null,  $params['widget_chart'], $options);
-        form_generate_input_text("Chart size", "Chart timespan in hours (defaults to 1)", "widget_chart_size", "n", $params['widget_chart_size'], 20,null);
-        form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]\+)$');
-        self::chart_box_selection($stats_list, $init);
+	    $boxes_info = self::get_boxes();
+	    if (is_null($params)) {
+		    $params = array();
+		    $init = 1;
+	    }  else {
+		    $init = 0;
+	    }
+	    if (!$params['widget_title'])
+		    $params['widget_title'] = "Chart";
+	    if (!$params['widget_chart_size'])
+		    $params['widget_chart_size'] = 1;
+	    $stats_list = self::get_stats_options();
+	    if (!isset($stats_list["Group"]))
+		    $stats_list["Group"] = array();
+	    if ($init) {
+		    $options = array_shift(array_values($stats_list));
+	    } else {
+		    $options = $stats_list[$params['widget_box']];
+	    }
+
+	    $options = array_merge($stats_list["Group"], $options);
+	    form_generate_input_text("Title", "Widget name", "widget_title", "n", $params['widget_title'], 20,null);
+	    form_generate_select("Box", "Widget box", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
+	    form_generate_select("Chart", "Statistic to view", "widget_chart", null,  $params['widget_chart'], $options);
+	    form_generate_input_text("Chart size", "Chart timespan in hours (defaults to 1)", "widget_chart_size", "n", $params['widget_chart_size'], 20,null);
+	    form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]\+)$');
+	    self::chart_box_selection($stats_list, $init);
     }
 
     static function get_description() {
