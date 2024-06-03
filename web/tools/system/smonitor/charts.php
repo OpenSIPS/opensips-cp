@@ -55,8 +55,10 @@
  }
  
  $expanded=false;
- for($i=0; $i<sizeof($_SESSION['stat_open']); $i++)
-  if (isset($_SESSION["stat_open"][$i]) && $_SESSION["stat_open"][$i] == "yes") $expanded=true;
+ if (isset($_SESSION['stat_open'])) {
+  for($i=0; $i<sizeof($_SESSION['stat_open']); $i++)
+   if (isset($_SESSION["stat_open"][$i]) && $_SESSION["stat_open"][$i] == "yes") $expanded=true;
+ }
  
  require("template/".$page_id.".main.php");
  require("template/footer.php");

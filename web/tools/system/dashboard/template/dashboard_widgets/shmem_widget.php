@@ -41,7 +41,7 @@ class shmem_widget extends gauge_widget
 	return array($this->value, $this->total, $this->maximum);
     }
 
-    function display_chart($title, $value, $valueMax = 100, $maxEver) {
+    function display_chart($title, $value, $valueMax = 100, $maxEver = null) {
         $_SESSION['gauge_id'] = $this->id;
         $_SESSION['gauge_value'] = $value;
 	$_SESSION['gauge_max'] = $valueMax;
