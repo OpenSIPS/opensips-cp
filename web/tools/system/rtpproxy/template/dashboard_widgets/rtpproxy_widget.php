@@ -63,7 +63,7 @@ class rtpproxy_widget extends widget
   function update() {
     require_once("../../../common/mi_comm.php");
     $stat_res = mi_command("rtpproxy_show", array(), $this->widget_box['mi_conn'], $errors);
-    if (count($errors) != 0) {
+    if ($errors != null && count($errors) != 0) {
       error_log(print_r($errors, true));
       $this->set_status(widget::STATUS_CRIT);
       return;
