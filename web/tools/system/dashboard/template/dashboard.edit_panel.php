@@ -65,7 +65,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
-	$sql_command="select `name`, id, `order` from ".$table."  order by `order` asc limit ".$res_no;
+	$sql_command='select "name", id, "order" from '.$table.'  order by "order" asc limit '.$res_no;
 	if ($start_limit!=0)
 		$sql_command.=" OFFSET " . $start_limit;
 	$stm = $link->prepare( $sql_command );

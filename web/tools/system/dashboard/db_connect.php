@@ -32,9 +32,17 @@ if (isset($config->db_host_smonitor) && isset($config->db_user_smonitor) && isse
 	$config->db_name = $config->db_name_smonitor;
 }
 
+if (!isset($config->$db_attr))
+	$db_attr = array();
+else
+	$db_attr = $config->db_attr;
+
+// dashboard uses "identifier" quoting in queries, so try to stay Postgres-compatible too
+$db_attr[PDO::MYSQL_ATTR_INIT_COMMAND] = "SET sql_mode='ANSI_QUOTES'";
+
 $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass);
+	$link = new PDO($dsn, $config->db_user, $config->db_pass, options: $db_attr);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";

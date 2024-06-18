@@ -44,6 +44,8 @@
  if (!empty($config->db_port) ) $config->db_host = $config->db_host . ";port=" . $config->db_port;
 
  //connection attributes, optional
- //$config->db_attr = array(PDO::MYSQL_ATTR_LOCAL_INFILE => true);
+ //$config->db_attr = array(
+ //  PDO::MYSQL_ATTR_LOCAL_INFILE => true,
+ //  PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="ANSI_QUOTES"');
  
 ?>

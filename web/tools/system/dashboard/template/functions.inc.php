@@ -30,12 +30,12 @@
         require("../../../../config/db.inc.php");
         require("../../../../config/tools/system/dashboard/settings.inc.php");
 
-        $sql = 'UPDATE '.$table.' SET `order` = 
+        $sql = 'UPDATE '.$table.' SET "order" = 
         CASE
-         WHEN `order` = ? THEN ?
-         WHEN `order` = ? THEN ?
+         WHEN "order" = ? THEN ?
+         WHEN "order" = ? THEN ?
         END
-        WHERE `order` = ? or `order` = ?
+        WHERE "order" = ? or "order" = ?
         ';
         $stm = $link->prepare($sql);
         if ($stm === false) {
