@@ -24,8 +24,14 @@ require_once("../../../common/forms.php");
 require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
 
-form_generate_input_text("Username", "The name of the user", "uname",
-	"n", $um_form['username'], 128, get_settings_value("user_format"));
+$dp_id = get_settings_value("user_dialplan");
+if ($dp_id) {
+	print_r("dialplan");
+	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, null, "validate_dialplan", $dp_id);
+} else {
+	print_r("regex");
+	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, get_settings_value("user_format"));
+}
 
 $domains = get_domains("user_management", false);
 form_generate_select("Domain", "Users's domain", "domain", 200,
