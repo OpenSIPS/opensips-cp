@@ -43,7 +43,13 @@ $config->user_management = array(
 		"default" => "^[a-zA-Z0-9&=+$,;?/%]+$",
 		"opt"     => true
 	),
-
+	"user_dialplan" => array(
+		"default" => "",
+		"name"    => "User Dialplan To Check Format",
+		"type"    => "text",
+		"tip"     => "Dialplan group that should be used to check the user format",
+		"opt"     => "true"
+	),
 	"table_aliases" => array(
 		"default" => array( 
 			"DBaliases" => "dbaliases"
