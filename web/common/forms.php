@@ -278,7 +278,7 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 	
 	print("
 		<tr>
-			<td class='dataRecord'> 
+			<td class='dataRecord'>
 				<b>".$title."</b>");
 	if (!is_null($tip))
 		print("			
@@ -307,7 +307,6 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validati
 		$value = "";
 
 	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".($validation?$validation:"null").",\"".$format."\")'";
-	print_r($validate);
 
 	print("
 		<tr>
