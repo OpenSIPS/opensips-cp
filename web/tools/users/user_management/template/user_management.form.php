@@ -26,10 +26,8 @@ require_once("lib/functions.inc.php");
 
 $dp_id = get_settings_value("user_dialplan");
 if ($dp_id) {
-	print_r("dialplan");
 	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, null, "validate_dialplan", $dp_id);
 } else {
-	print_r("regex");
 	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, get_settings_value("user_format"));
 }
 
