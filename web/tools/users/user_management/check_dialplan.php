@@ -22,7 +22,6 @@ try {
             $command = $input['command'];
             $params = $input['params'];
 
-            // Obține proxys
             $mi_connectors = get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
             if (empty($mi_connectors)) {

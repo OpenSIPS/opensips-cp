@@ -82,7 +82,7 @@ function validate_dialplan(str, dp_id) {
     };
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "check_dialplan.php", false); // false pentru cerere sincrona
+    xhr.open("POST", "check_dialplan.php", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     const body = JSON.stringify(requestData);
     let ret = false;
