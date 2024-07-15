@@ -42,7 +42,7 @@ if (!is_null($message)) {
 $rtpengine_cache = array();
 
 // $message is an array of sets right now
-for ($i=0; $i<count($message);$i++) {
+for ($i=0; $i<$data_no;$i++) {
 	// get each node from the SET
 	$set = $message[$i]['Set'];
 	for ($j=0; $j<count($message[$i]['Nodes']); $j++){
