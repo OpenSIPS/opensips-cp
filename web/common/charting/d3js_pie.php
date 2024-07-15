@@ -32,7 +32,7 @@ var svg = d3.select("#" + "<?=$_SESSION['ru_widget_id']?>")
   .append("g")
     .attr("transform", "translate(" + 55 + "," + (height / 2) + ")");
 
-var data = {"Reg. Users": reg, "": total-reg}
+var data = {"Reg. Users": reg, "": (total?total:1)-reg}
 
 var color = d3.scaleOrdinal()
   .domain(data)
@@ -62,7 +62,7 @@ svg
   .data(data_ready)
   .enter()
   .append('text')
-  .text(function(d){ return d.data.key + " " + (d.data.value/total * 100).toFixed(2) + "%"})
+  .text(function(d){ return (d.data.key==""?"":d.data.key + " " + ((total?d.data.value/total:0) * 100).toFixed(2) + "%")})
   .attr("transform", function(d) { return "translate(" + arcGenerator.centroid(d) + ")";  })
   .style("text-anchor", "middle")
   .style("font-size", 9)
