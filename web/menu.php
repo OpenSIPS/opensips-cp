@@ -68,6 +68,7 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 ?>
 <?php
 	$menu_link_text=array();
+	$last_available_key = null;
 	# now go through each tool and see if it is activated
 	foreach ($menuitem_config['modules'] as $key => $value) {
 		# if the module is not available, skip it
@@ -82,9 +83,12 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 		else
 			$path = $value['path'];
 		# check if the module actually exists
-		if (file_exists('tools/'.$path.'/index.php'))
+		if (file_exists('tools/'.$path.'/index.php')) {
 			$menu_link_text[$key] = $value['name'];
+			$last_available_key = $key;
+		}
 	}
+	$key = $last_available_key;
 	reset($available_tabs);
 	//asort($menu_link_text);
 	if (count($menu_link_text) == 1) {
