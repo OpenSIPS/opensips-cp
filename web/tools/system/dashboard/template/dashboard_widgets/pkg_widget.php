@@ -72,6 +72,7 @@ class pkg_widget extends widget
 
   function compute_info() {
     require_once("../../../common/mi_comm.php");
+    $errors = array();
     $pkg = mi_command("get_statistics", array("statistics" => array("pkmem:")), $this->widget_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       $this->set_status(widget::STATUS_CRIT);
@@ -133,8 +134,8 @@ class pkg_widget extends widget
       if (strpos($id, "fragments")) {
         preg_match('/(pkmem:(?<id>\d+)-fragments)/', $id, $matches);
         $entry['id'] = $matches['id'];
-        if ($pkg['pkmem:'.$entry['id'].'-max_used_size'] == 0 ) continue;
-        $entry['value'] = $pkg['pkmem:'.$entry['id'].'-used_size'] / $pkg['pkmem:'.$entry['id'].'-max_used_size'];
+        if ($pkg['pkmem:'.$entry['id'].'-total_size'] == 0 ) continue;
+        $entry['value'] = $pkg['pkmem:'.$entry['id'].'-used_size'] / $pkg['pkmem:'.$entry['id'].'-total_size'];
         $entry['value'] = round($entry['value'] * 100, 2);
         $top[] = $entry;
       }
