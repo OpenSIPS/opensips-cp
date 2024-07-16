@@ -62,6 +62,7 @@ class rtpengine_widget extends widget
 
   function update() {
     require_once("../../../common/mi_comm.php");
+    $errors = array();
     $stat_res = mi_command("rtpengine_show", array(), $this->widget_box['mi_conn'], $errors, true);
     if (count($errors) != 0) {
       error_log(print_r($errors, true));
