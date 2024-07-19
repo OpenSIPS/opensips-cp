@@ -71,6 +71,34 @@ function auto_grow(element) {
     element.style.height = "5px";
     element.style.height = (element.scrollHeight)+"px";
 }
+
+function validate_dialplan(str, dp_id) {
+    const requestData = {
+        command: 'dp_translate',
+        params: {
+            dpid: dp_id,
+            input: str
+        }
+    };
+
+    const xhr = new XMLHttpRequest();
+    xhr.open("POST", "check_dialplan.php", false);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    const body = JSON.stringify(requestData);
+    let ret = false;
+
+    xhr.send(body);
+
+    if (xhr.status == 200) {
+        console.log("status: " + xhr.status);
+        console.log(xhr.response);
+        ret = true;
+    }
+
+    return ret;
+}
+
+
 function validate_json(str, format) {
     try {
         JSON.parse(str);
@@ -271,14 +299,14 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 }
 
 
-function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validation=null) {
+function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validation=null, $format=null) {
 
 	if ($val!=null)
 		$value=" value='".$val."' valid='ok'";
 	else 
 		$value = "";
 
-	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.")'";
+	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".($validation?$validation:"null").",\"".$format."\")'";
 
 	print("
 		<tr>
