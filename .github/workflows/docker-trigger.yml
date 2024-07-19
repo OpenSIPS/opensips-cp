@@ -18,7 +18,7 @@ jobs:
     - name: Repository Dispatch
       uses: myrotvorets/trigger-repository-dispatch-action@1.1.0
       with:
-        token: ${{ secrets.DOCKER_OPENSIPS_CP_PAT }}
+        token: ${{ secrets.DOCKER_OPENSIPS_CLI_PAT }}
         repo: OpenSIPS/docker-opensips-cp
         type: OpenSIPS CP trigger
         payload: '{"docker_tag": "${{ env.DOCKER_TAG }}"}'
