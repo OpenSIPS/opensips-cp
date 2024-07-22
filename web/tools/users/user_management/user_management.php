@@ -386,6 +386,22 @@ if ($action=="add_verify")
 # end add new #
 ###############
 
+########################
+# start custom actions #
+########################
+$subs_extra_actions = get_settings_value("subs_extra_actions");
+if (isset($subs_extra_actions)) {
+	foreach ( $subs_extra_actions as $key => $value ) {
+		if (isset($value["action"]) && $action == $value["action"] && isset($value["action_file"]))
+			require($value["action_file"]);
+	}
+}
+
+
+########################
+# end custom actions   #
+########################
+
 
 ##############
 # start main #
