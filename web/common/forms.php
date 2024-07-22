@@ -23,6 +23,30 @@
 
 <script language="JavaScript">
 
+function run_in_window( url ){
+
+       var http = getHTTPObject();
+
+       http.open("GET", url, false);
+       http.onreadystatechange = handleHttpResponse(http);
+       http.send(null);
+       result = http.responseText;
+
+       var body = document.body,
+               html = document.documentElement;
+
+       var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+
+       document.getElementById('overlay').style.height = height;
+       document.getElementById('overlay').style.display = 'block';
+       document.getElementById('dialog').innerHTML = result;
+       centerMe('dialog')
+       document.getElementById('overlay').onclick = function () {closeDialog();};
+       document.getElementById('dialog').style.display = 'block';
+       return true;
+}
+
 function get_elements() {
 	var arr=[];
 
