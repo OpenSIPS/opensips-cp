@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Set docker-tag variable
-      run:  BRANCH="${GITHUB_REF#refs/heads/}"; echo "DOCKER_TAG=${BRANCH//master/latest}" >> $GITHUB_ENV
+      run:  BRANCH="${GITHUB_REF#refs/heads/}"; echo -e "BRANCH=$BRANCH\nDOCKER_TAG=${BRANCH//master/latest}" >> $GITHUB_ENV
     
     - name: Repository Dispatch
       uses: myrotvorets/trigger-repository-dispatch-action@1.1.0
@@ -21,4 +21,4 @@ jobs:
         token: ${{ secrets.DOCKER_OPENSIPS_CLI_PAT }}
         repo: OpenSIPS/docker-opensips-cp
         type: OpenSIPS CP trigger
-        payload: '{"docker_tag": "${{ env.DOCKER_TAG }}"}'
+        payload: '{"docker_tag": "${{ env.DOCKER_TAG }}", "branch": "${{ env.BRANCH}}"}'
