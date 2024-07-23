@@ -122,9 +122,9 @@ if($search_descr !="") {
 require("lib/".$page_id.".main.js");
 
 if(!$_SESSION['read_only']){
-	$colspan = 10;
+	$colspan = 11;
 }else{
-	$colspan = 7;
+	$colspan = 8;
 }
 if ($dispatcher_group_mode == "static")
 	$colspan--;
