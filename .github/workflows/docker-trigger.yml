@@ -13,7 +13,7 @@ jobs:
 
     steps:
     - name: Set docker-tag variable
-      run: echo "DOCKER_TAG=${GITHUB_REF#refs/heads/}" >> $GITHUB_ENV
+      run:  BRANCH="${GITHUB_REF#refs/heads/}"; echo "DOCKER_TAG=${BRANCH//master/latest}" >> $GITHUB_ENV
     
     - name: Repository Dispatch
       uses: myrotvorets/trigger-repository-dispatch-action@1.1.0
