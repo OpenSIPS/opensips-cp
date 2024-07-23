@@ -74,6 +74,9 @@ require_once("functions.js");
 					$flags |= JSON_FORCE_OBJECT;
 				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), (isset($params['maxlen'])?$params['maxlen']:NULL), (isset($params['validation_regex'])?$params['validation_regex']:NULL), $validation, (isset($params['json_format'])?$params['json_format']:NULL));
 				break;
+			case "textarea":
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id));
+				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))
 					form_generate_select($params['name'], $current_tip, $module, 100,  get_settings_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));

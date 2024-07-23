@@ -43,12 +43,16 @@ $config->user_management = array(
 		"default" => "^[a-zA-Z0-9&=+$,;?/%]+$",
 		"opt"     => true
 	),
-	"user_dialplan_func" => array(
+	"user_format_func" => array(
 		"default" => "",
-		"name"    => "User Dialplan Function To Check Format",
-		"type"    => "text",
+		"name"    => "User Fromat Function",
+		"type"    => "textarea",
 		"tip"     => "Function that receives the user as input and shall return true if the username matches, or false otherwise",
-		"opt"     => "true"
+		"opt"     => "true",
+		"example" => "function(\$user) {
+	return true;
+}"
+
 	),
 	"table_aliases" => array(
 		"default" => array( 
