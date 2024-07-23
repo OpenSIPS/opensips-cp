@@ -310,6 +310,8 @@ else
 				$custom_extra_action = $func($resultset[$i]);
 			} else if (isset($value['action_url']) && $value['action_url'] != NULL) {
 				$custom_extra_action = $value['action_url'];
+			} else if (isset($value['action_js']) && $value['action_js'] != NULL) {
+				$custom_extra_action = 'javascript:;" onclick="'.$value['action_js'].'"';
 			} else {
 				$custom_extra_action = "";
 			}

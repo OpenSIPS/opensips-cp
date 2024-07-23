@@ -117,6 +117,7 @@ if ($action=="modify")
 		                        $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$_POST['passwd']);
 					$passwd = "";
 				}
+                
 				$sql = "UPDATE ".$table." SET username=?, domain=?,
 					 password=?, ha1=?, ha1_sha256=?, ha1_sha512t256=?";
 				$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
@@ -142,29 +143,42 @@ if ($action=="modify")
 					print "The user's info was modified";
 				}
 			} else {
-				$sql = "UPDATE ".$table." SET username=?, domain=?";
-				$sql_vals = array($uname,$domain);
-				foreach ( get_settings_value("subs_extra") as $key => $value ) {
-					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
-						$value = (isset($value["default"])?$value["default"]:NULL);
-					} else {
-						$value = $_POST["extra_".$key];
-					}
-					$sql .= ", ".$key."=?";
-					array_push( $sql_vals, $value);
-				}
-				$sql .= " WHERE id=?";
-				array_push( $sql_vals, $id);
+                $dp = get_settings_value('user_dialplan');
+                $res = true;
 
-				$stm = $link->prepare($sql);
-				if ($stm === false) {
-					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-				}
-				if ($stm->execute( $sql_vals ) == false) {
-					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
-				} else {
-					print "The user's info was modified, password not changed";
-				}
+                if ($dp) {
+                    $mi_connectors = get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));	
+                    $res = mi_command("dp_translate", array("dpid" => $dp, "input" => $uname), $mi_connectors[0], $errors);
+                }
+
+                if (!$res) {
+                    $errors[] = "Invalid Username format!";
+                    $action="edit";
+                } else {
+                    $sql = "UPDATE ".$table." SET username=?, domain=?";
+                    $sql_vals = array($uname,$domain);
+                    foreach ( get_settings_value("subs_extra") as $key => $value ) {
+                        if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
+                            $value = (isset($value["default"])?$value["default"]:NULL);
+                        } else {
+                            $value = $_POST["extra_".$key];
+                        }
+                        $sql .= ", ".$key."=?";
+                        array_push( $sql_vals, $value);
+                    }
+                    $sql .= " WHERE id=?";
+                    array_push( $sql_vals, $id);
+
+                    $stm = $link->prepare($sql);
+                    if ($stm === false) {
+                        die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+                    }
+                    if ($stm->execute( $sql_vals ) == false) {
+                        $errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
+                    } else {
+                        print "The user's info was modified, password not changed";
+                    }
+                }
 			}
 		}
 	}else{
@@ -296,54 +310,68 @@ if ($action=="add_verify")
 		    $ha1 = "";
 		    $sha256 = "";
 		    $sha512t256 = "";
-                }
-                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
-		foreach ( get_settings_value("subs_extra") as $key => $value )
-			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
-				$sql .= ','.$key;
-		$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
-		$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
-		foreach ( get_settings_value("subs_extra") as $key => $value ) {
-			if (!isset($_POST['extra_'.$key]) || $_POST["extra_".$key] == "") {
-				if (!isset($value["default"]))
-					continue;
-				$value = $value["default"];
-			} else {
-				$value = $_POST["extra_".$key];
-			}
-			$sql .= ', ?';
-			array_push( $sql_vals, $value);
 		}
-		$sql .= ')';
 
-                $stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		if ($stm->execute( $sql_vals ) == false) {
-			$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true);
+        $dp = get_settings_value('user_dialplan');
+        $res = true;
+
+        if ($dp) {
+            $mi_connectors = get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));	
+            $res = mi_command("dp_translate", array("dpid" => $dp, "input" => $uname), $mi_connectors[0], $errors);
+        }
+
+		if (!$res) {
+            $errors[] = "Invalid Username format!";
+			$action="add";
 		} else {
-
-			if ($alias!="") {
-				$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
-        	       		$stm = $link->prepare($sql);
-				if ($stm === false) {
-					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+            $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
+			foreach ( get_settings_value("subs_extra") as $key => $value )
+				if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
+					$sql .= ','.$key;
+			$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
+			$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
+			foreach ( get_settings_value("subs_extra") as $key => $value ) {
+				if (!isset($_POST['extra_'.$key]) || $_POST["extra_".$key] == "") {
+					if (!isset($value["default"]))
+						continue;
+					$value = $value["default"];
+				} else {
+					$value = $_POST["extra_".$key];
 				}
-				if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
-					$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true);
-				}
+				$sql .= ', ?';
+				array_push( $sql_vals, $value);
 			}
+			$sql .= ')';
 
-			$lname=NULL;
-			$fname=NULL;
-			$uname=NULL;
-			$alias=NULL;
-			$passwd=NULL;
-			$confirm_passwd=NULL;
+                	$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( $sql_vals ) == false) {
+				$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true);
+			} else {
 
-                	print "New User added!";
-                	$action="add";
+				if ($alias!="") {
+					$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
+        		       		$stm = $link->prepare($sql);
+					if ($stm === false) {
+						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+					}
+					if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
+						$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true);
+					}
+				}
+
+				$lname=NULL;
+				$fname=NULL;
+				$uname=NULL;
+				$alias=NULL;
+				$passwd=NULL;
+				$confirm_passwd=NULL;
+
+                		print "New User added!";
+                		$action="add";
+			}
 		}
           } else {
                 print $form_error;
@@ -358,13 +386,29 @@ if ($action=="add_verify")
 # end add new #
 ###############
 
+########################
+# start custom actions #
+########################
+$subs_extra_actions = get_settings_value("subs_extra_actions");
+if (isset($subs_extra_actions)) {
+	foreach ( $subs_extra_actions as $key => $value ) {
+		if (isset($value["action"]) && $action == $value["action"] && isset($value["action_file"]))
+			require($value["action_file"]);
+	}
+}
+
+
+########################
+# end custom actions   #
+########################
+
 
 ##############
 # start main #
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if($errors) echo '<font_color="red"><b>'.$errors[0].'</b></font>';
 require("template/footer.php");
 exit();
 

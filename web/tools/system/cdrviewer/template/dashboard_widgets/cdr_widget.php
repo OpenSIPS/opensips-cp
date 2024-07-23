@@ -40,10 +40,10 @@ class cdr_widget extends widget
     session_load_from_tool("cdrviewer");
 		require(__DIR__."/../../lib/db_connect.php");
 		$cdr_table = get_settings_value_from_tool("cdr_table", "cdrviewer");
-    $sql = "select count(*) from ".$cdr_table. " union ".
-      "select count(*) from ".$cdr_table." where time > curdate() union ".
-      "select count(*) from ".$cdr_table." where time > curdate() - interval 1 day and time < now() - interval 1 day union ".
-      "select count(*) from ".$cdr_table." where time < NOW() and time > NOW() - interval 1 week union ".
+    $sql = "select count(*) from ".$cdr_table. " union all ".
+      "select count(*) from ".$cdr_table." where time > curdate() union all ".
+      "select count(*) from ".$cdr_table." where time > curdate() - interval 1 day and time < now() - interval 1 day union all ".
+      "select count(*) from ".$cdr_table." where time < NOW() and time > NOW() - interval 1 week union all ".
       "select count(*) from ".$cdr_table." where time < NOW() - interval 1 week and time > NOW() - interval 2 week;";
 		$stm = $link->prepare($sql);
 		$stm->execute();
