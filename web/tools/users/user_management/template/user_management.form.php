@@ -24,9 +24,9 @@ require_once("../../../common/forms.php");
 require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
 
-$dp_id = get_settings_value("user_dialplan");
-if ($dp_id) {
-	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, null, "validate_dialplan", $dp_id);
+$dp_func = get_settings_value("user_dialplan_func");
+if ($dp_func) {
+	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, null, "validate_func", generate_validate_function("username", $dp_func));
 } else {
 	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, get_settings_value("user_format"));
 }

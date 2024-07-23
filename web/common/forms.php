@@ -96,26 +96,20 @@ function auto_grow(element) {
     element.style.height = (element.scrollHeight)+"px";
 }
 
-function validate_dialplan(str, dp_id) {
+function validate_func(str, func) {
     const requestData = {
-        command: 'dp_translate',
-        params: {
-            dpid: dp_id,
-            input: str
-        }
+        func: func,
+	input: str
     };
 
     const xhr = new XMLHttpRequest();
-    xhr.open("POST", "check_dialplan.php", false);
+    xhr.open("POST", "../../../common/validate.php", false);
     xhr.setRequestHeader("Content-Type", "application/json");
     const body = JSON.stringify(requestData);
+    xhr.send(body);
     let ret = false;
 
-    xhr.send(body);
-
     if (xhr.status == 200) {
-        console.log("status: " + xhr.status);
-        console.log(xhr.response);
         ret = true;
     }
 
@@ -488,6 +482,11 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
 		</tr>");
 }
 
+function generate_validate_function($name, $func) {
+	$name=$name . "-" . hash("md5", __FILE__);
+	$_SESSION["valid-".$name] = $func;
+	return $name;
+}
 
 function form_generate_select_refresh($title,$tip,$id,$mlen,$val,$vals,$texts=null) {
 	if (!$_POST['selected_val']) $selected = $val;
