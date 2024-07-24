@@ -45,7 +45,7 @@ $config->user_management = array(
 	),
 	"user_format_func" => array(
 		"default" => "",
-		"name"    => "User Fromat Function",
+		"name"    => "User Format Function",
 		"type"    => "textarea",
 		"tip"     => "Function that receives the user as input and shall return true if the username matches, or false otherwise",
 		"opt"     => "true",
