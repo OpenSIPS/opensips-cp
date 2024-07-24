@@ -451,7 +451,7 @@ function get_stats_list($box_id) {
 	$data_no=count($resultset);
 
 	require(__DIR__."/db_connect.php");
-	$sql = "SELECT name, time FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? group by name order by time asc";
+	$sql = "SELECT name, max(time) as time FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? group by name order by time asc";
 	$stm = $link->prepare($sql);
 	for($j=0;count($resultset)>$j;$j++)
 	{	
