@@ -94,10 +94,11 @@ INSERT INTO ocp_system_config (assoc_id, name, "desc") values (1,'System 0','Def
 CREATE SEQUENCE ocp_tools_config_id_seq;
 CREATE TABLE ocp_tools_config (
   id integer Primary KEY DEFAULT nextval('ocp_tools_config_id_seq'),
-  module text NOT NULL UNIQUE,
-  param text NOT NULL UNIQUE,
+  module text NOT NULL,
+  param text NOT NULL,
   value text DEFAULT NULL,
-  box_id text DEFAULT '' UNIQUE
+  box_id text DEFAULT '',
+  UNIQUE(module, param, box_id)
 );
 
 -- --------------------------------------------------------
