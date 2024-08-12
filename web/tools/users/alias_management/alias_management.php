@@ -33,6 +33,8 @@ foreach (get_settings_value("table_aliases") as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
 
+$implicit_domain = get_settings_value("implicit_domain");
+
 $current_page="current_page_alias_management";
 
 
@@ -74,7 +76,7 @@ if ($action=="add_verified")
         if(!$_SESSION['read_only']){
 				
                 $alias_username = $_POST['alias_username'];
-                $alias_domain = $_POST['alias_domain'];
+                $alias_domain = $implicit_domain ? $_POST['domain'] : $_POST['alias_domain'];
                 $alias_type = $_POST['alias_type'];
                 $username = $_POST['username'];
                 $domain = $_POST['domain'];
