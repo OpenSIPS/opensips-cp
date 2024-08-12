@@ -33,7 +33,7 @@ $am_edit = FALSE;
 $am_form['username'] = $_SESSION['username'];
 $am_form['domain'] = $_SESSION['domain'];
 $am_form['alias_username'] = null;
-$am_form['domain_username'] = $_SESSION['domain'];
+$am_form['alias_domain'] = $_SESSION['domain'];
 $am_form['alias_type'] = null;
 require("alias_management.form.php");
 ?>

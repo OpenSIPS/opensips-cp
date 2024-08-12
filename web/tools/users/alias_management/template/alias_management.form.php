@@ -27,6 +27,7 @@ require_once("lib/functions.inc.php");
 $domains = get_domains("user_management", false);
 $alias_types = get_settings_value("table_aliases");
 $alias_format = get_settings_value("alias_format");
+$implicit_domain = get_settings_value("implicit_domain");
 
 form_generate_input_text("Username", "The name of the user", "username",
 	"n", $am_form['username'], 128, "^[a-zA-Z0-9&=+$,;?/%]+$");
@@ -37,8 +38,9 @@ form_generate_select("Domain", "Users's domain", "domain", 200,
 form_generate_input_text("Alias Username", "The name of the alias", "alias_username",
 	"n", $am_form['alias_username'], 128, $alias_format);
 
-form_generate_select("Domain", "Alias's domain", "alias_domain", 200,
-	$am_form['alias_domain'], $domains);
+if ($am_edit || !$implicit_domain)
+    form_generate_select("Domain", "Alias's domain", "alias_domain", 200,
+        $am_form['alias_domain'], $domains);
 
 if (!$am_edit)
 	form_generate_select("Alias Type", "The type of the alias, as you may have multiple type/groups of aliases, for different purposes",
