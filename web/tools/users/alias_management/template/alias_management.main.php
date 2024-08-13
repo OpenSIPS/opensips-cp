@@ -22,42 +22,54 @@
 
 
 $search_ausername=$_SESSION['username'];
+$search_domain=$_SESSION['domain'];
 $search_aaliasusername=$_SESSION['alias_username'];
 $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
 
 $implicit_domain = get_settings_value("implicit_domain");
-$domain_box_name = $implicit_domain ? "Domain" : "Alias Domain";
 
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
 <?php csrfguard_generate(); ?>
 <table class="search-area" width="350" cellspacing="2" cellpadding="2" border="0">
+
 <tr>
 <td class="searchRecord" align="left">Username</td>
 <td class="searchRecord" width="200"><input type="text" name="username"
 value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
+</tr>
+
 <tr>
+<td class="searchRecord" align="left">Domain</td>
+<td class="searchRecord" width="200"><?php print_domains("domain",$search_domain,TRUE);?></td>
+</tr>
 
 <tr>
 <td class="searchRecord" align="left">Alias Username</td>
 <td class="searchRecord" width="200"><input type="text" name="alias_username"
 value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
-<tr>
-<td class="searchRecord" align="left"><?=$domain_box_name?></td>
-<td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain,TRUE);?> 
 </tr>
+
+<?php if (!$implicit_domain) { ?>
+<tr>
+<td class="searchRecord" align="left">Alias Domain</td>
+<td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain,TRUE);?></td>
+</tr>
+<?php } ?>
+
 <tr>
 <td class="searchRecord" align="left">Alias Type</td>
 <td class="searchRecord" width="200"><?php print_aliasType($search_atype,TRUE)?></td>
 </tr>
-</tr>
+
 <tr height="10" class="">
 <td colspan="2" class="searchRecord border-bottom-devider" align="center">
 <input type="submit" name="search" value="Search" class="searchButton">&nbsp;&nbsp;&nbsp;
 <input type="submit" name="show_all" value="Show All" class="searchButton"></td>
 </tr>
+
 </table>
 </form>
 
@@ -95,6 +107,10 @@ if ($search_ausername !="") {
 	$sql_search.=" and username like ?";
 	array_push( $sql_vals, "%".$search_ausername."%");
 }
+if (($search_domain != 'ANY') && ($search_domain != "")) {
+    $sql_search.=" and domain=?";
+    array_push( $sql_vals, $search_domain);
+}
 if ($search_aaliasusername !="") {
 	$sql_search.=" and alias_username like ?";
 	array_push( $sql_vals, "%".$search_aaliasusername."%");
@@ -103,7 +119,6 @@ if (($search_adomain != 'ANY') && ($search_adomain != "")) {
 	$sql_search.=" and alias_domain=?";
 	array_push( $sql_vals, $search_adomain);
 }
-
 if ($sql_search!="")
 	$sql_search = " where ".substr($sql_search,4);
 
