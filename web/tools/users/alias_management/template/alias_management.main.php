@@ -133,7 +133,7 @@ for($k=0;$k<count($options);$k++)
 	$labels[$options[$k]['value']] = $options[$k]['label'];
 
 if(!$_SESSION['read_only']){
-        $colspan = 7;
+        $colspan = $implicit_domain ? 6 : 7;
 }else{
         $colspan = 5;
 }
