@@ -26,6 +26,9 @@ $search_aaliasusername=$_SESSION['alias_username'];
 $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
 
+$implicit_domain = get_settings_value("implicit_domain");
+$domain_box_name = $implicit_domain ? "Domain" : "Alias Domain";
+
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
@@ -42,7 +45,7 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 <td class="searchRecord" width="200"><input type="text" name="alias_username"
 value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <tr>
-<td class="searchRecord" align="left">Alias Domain</td>
+<td class="searchRecord" align="left"><?=$domain_box_name?></td>
 <td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain,TRUE);?> 
 </tr>
 <tr>
@@ -68,9 +71,11 @@ value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 <br>
 
 <table class="ttable" width="95%" cellspacing="2" cellpadding="2" border="0">
-<tr align="center">
 <th class="listTitle">Alias Username</th>
-<th class="listTitle">Alias Domain</th>
+<?php
+if (!$implicit_domain)
+    echo('<th class="listTitle">Alias Domain</th>');
+?>
 <th class="listTitle">Alias Type</th>
 <th class="listTitle">Username</th>
 <th class="listTitle">Domain</th>
@@ -166,7 +171,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 ?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_domain']?></td>
+  <?php
+  if (!$implicit_domain)
+    echo('<td class="'.$row_style.'">&nbsp;'.$resultset[$i]['alias_domain'].'</td>');
+  ?>
   <td class="<?=$row_style?>">&nbsp;<?=(isset($labels[$table])?$labels[$table]:$table)?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
@@ -261,7 +269,10 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 		?>
  <tr>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_username']?></td>
-  <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['alias_domain']?></td>
+  <?php
+  if (!$implicit_domain)
+    echo('<td class="'.$row_style.'">&nbsp;'.$resultset[$i]['alias_domain'].'</td>');
+  ?>
   <td class="<?=$row_style?>">&nbsp;<?=(isset($labels[$table])?$labels[$table]:$table)?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
