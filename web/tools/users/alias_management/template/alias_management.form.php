@@ -39,7 +39,7 @@ form_generate_input_text("Alias Username", "The name of the alias", "alias_usern
 	"n", $am_form['alias_username'], 128, $alias_format);
 
 if ($am_edit || !$implicit_domain)
-    form_generate_select("Domain", "Alias's domain", "alias_domain", 200,
+    form_generate_select("Alias Domain", "Alias's domain", "alias_domain", 200,
         $am_form['alias_domain'], $domains);
 
 if (!$am_edit)
