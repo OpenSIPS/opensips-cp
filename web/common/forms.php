@@ -459,25 +459,49 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
 	if (!is_null($tip))
 		print("	<div class='tooltip'><sup>?</sup>
 				<span class='tooltiptext'>".$tip."</span>
-				</div> ");
+				</div>");
 	print("
 			</td>
 			<td class='dataRecord' width='250'>
-				<table style='width:100%'><tr><td>
-				<select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
-	if ($is_optional) {
-		print("                                 <option value=''".(($val=="")?" selected":"").">Empty ...</option>");
-	}
-	for($i = 0; $i < count($vals); ++$i){
-		print("
-					<option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".($texts[$i]?$texts[$i]:$vals[$i])."</option>");
-	}
-	print("
-				</select>
-				</td>
-				<td width='20'>
-				<div id='".$id."_ok'></div>
-				</td></tr></table>
+				<table style='width:100%'>
+                    <tr>
+                        <td>");
+
+    $options_count = count($vals);
+    if ($options_count == 1 && !$is_optional) {
+        print("             <input type='text' name='".$id."' value='".$vals[0]."' readonly style='width: 205px' class='dataSelect'>");
+    } else {
+        if ($options_count == 0) {
+            $text = $is_optional ? "Empty ..." : "No options available";
+
+            if (!$is_optional) {
+                print("     <select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect' disabled>");
+                print("         <option value=''>".$text."</option>");
+                print("     </select>");
+            } else {
+                print("     <input type='text' name='".$id."' value='' readonly style='width: 205px' class='dataSelect' placeholder='".$text."'>");
+            }
+        } else {
+            print("         <select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
+
+            if ($is_optional) {
+                print("         <option value=''".(($val=="")?" selected":"").">Empty ...</option>");
+            }
+
+            for($i = 0; $i < count($vals); ++$i){
+                print("         <option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".($texts[$i]?$texts[$i]:$vals[$i])."</option>");
+            }
+
+            print("         </select>");
+        }
+    }
+
+    print("             </td>
+                        <td width='20'>
+                            <div id='".$id."_ok'></div>
+                        </td>
+                    </tr>
+                </table>
 			</td>
 		</tr>");
 }

@@ -36,6 +36,14 @@ function print_aliasType($value)
 	$options = get_alias_types();
         $start_index = 0;
         $end_index = sizeof($options);
+
+        if ($end_index == 0)
+            return;
+
+        if ($end_index == 1) {
+            echo('<input type="text" name="'.$type.'" value="'.$options[0][label].'" readonly style="width: 205px" class="dataSelect">');
+            return;
+        }
 ?>
         <select name="alias_type" id="alias_type" size="1" style="width: 205px" class="dataSelect">
          <?php
@@ -66,6 +74,14 @@ function print_domains($type,$value,$has_any)
 	$start_index = 0;
 	$temp = '';
 	$end_index = sizeof($domains);
+
+    if ($end_index == 0)
+        return;
+
+    if ($end_index == 1) {
+        echo('<input type="text" name="'.$type.'" value="'.$domains[0].'" readonly style="width: 205px" class="dataSelect">');
+        return;
+    }
 
 	echo('<select name='.$type.' id='.$type.' size="1" style="width: 205px" class="dataSelect">');
 	if ($value!=NULL && $value!="") {

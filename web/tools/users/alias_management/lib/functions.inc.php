@@ -49,6 +49,14 @@ function print_domains($type,$value,$has_any)
 	$temp ='';
         $end_index = sizeof($options);
 
+        if ($end_index == 0)
+            return;
+
+        if ($end_index == 1) {
+            echo('<input type="text" name="'.$type.'" value="'.$options[0][value].'" readonly style="width: 205px" class="dataSelect">');
+            return;
+        }
+
 		echo('<select ');
 		if (isset($_SESSION['fromusrmgmt']) && ($_SESSION['fromusrmgmt'])) echo "disabled ";
 		echo('name='.$type.' id='.$type.' size="1" style="width: 205px" class="dataSelect">');
@@ -78,6 +86,14 @@ function print_aliasType($value, $has_any)
         }
         $start_index = 0;
         $end_index = sizeof($options);
+
+        if ($end_index == 0)
+            return;
+
+        if ($end_index == 1) {
+            echo('<input type="text" name="'.$type.'" value="'.$options[0][label].'" readonly style="width: 205px" class="dataSelect">');
+            return;
+        }
 ?>
         <select name="alias_type" id="alias_type" size="1" style="width: 190px" class="dataSelect">
          <?php
