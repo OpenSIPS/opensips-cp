@@ -46,16 +46,16 @@ $config->alias_management = array(
 	\"DIDaliases\": \"my_dids\",
 }"
 	),
-    "implicit_domain" => array(
-        "default" => "No",
-        "name" => "Implicit Alias Domain",
-        "type" => "dropdown",
-        "options" => array(
-            "No" => FALSE,
-            "Yes" => TRUE
-        ),
-        "tip" => "If checked, the domain will automatically be used as the alias domain."
-    ),
+	"implicit_domain" => array(
+		"default" => False,
+		"name" => "Implicit Alias Domain",
+		"type" => "dropdown",
+		"options" => array(
+			"No" => FALSE,
+			"Yes" => TRUE
+		),
+		"tip" => "If checked, the domain will automatically be used as the alias domain."
+	),
 	"alias_format" => array(
 		"name" => "Alias Format",
 		"tip"  => "Pattern/regexp to validate the inserted aliases (in order to enforce a certain format for the aliases).",
