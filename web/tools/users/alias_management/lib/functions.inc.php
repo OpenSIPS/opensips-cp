@@ -75,6 +75,18 @@ function print_domains($type,$value,$has_any)
 		echo('</select>');
 }
 
+function get_alias_types()
+{
+	global $config;
+    require("../../../../config/globals.php");
+
+    $aliases_map = get_settings_value("table_aliases");
+    foreach ($aliases_map as $k=>$v) {
+        $aliases[]=array("label"=>$k,"value"=>$v);
+    }
+    return $aliases;
+}
+
 function print_aliasType($value, $has_any)
 {
         global $config;

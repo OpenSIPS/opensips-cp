@@ -28,22 +28,32 @@ $domains = get_domains("user_management", false);
 $alias_types = get_settings_value("table_aliases");
 $alias_format = get_settings_value("alias_format");
 $implicit_domain = get_settings_value("implicit_domain");
+$show_one_option = get_settings_value("show_one_option");
 
 form_generate_input_text("Username", "The name of the user", "username",
 	"n", $am_form['username'], 128, "^[a-zA-Z0-9&=+$,;?/%]+$");
 
-form_generate_select("Domain", "Users's domain", "domain", 200,
-	$am_form['domain'], $domains);
+if (count($domains) != 1 || $show_one_option)
+    form_generate_select("Domain", "Users's domain", "domain", 200,
+        $am_form['domain'], $domains);
 
 form_generate_input_text("Alias Username", "The name of the alias", "alias_username",
 	"n", $am_form['alias_username'], 128, $alias_format);
 
-if ($am_edit || !$implicit_domain)
+if (($am_edit || !$implicit_domain) && (count($domains) != 1 || $show_one_option))
     form_generate_select("Alias Domain", "Alias's domain", "alias_domain", 200,
         $am_form['alias_domain'], $domains);
 
-if (!$am_edit)
+if (!$am_edit && (count($alias_types) != 1 || $show_one_option))
 	form_generate_select("Alias Type", "The type of the alias, as you may have multiple type/groups of aliases, for different purposes",
-		"alias_type", 64, $am_form['alias_type'], array_values($alias_types), array_keys($alias_types) );
+		"alias_type", 64, $am_form['alias_type'], array_values($alias_types), array_keys($alias_types));
 
+if (count($domains) == 1 && !$show_one_option) {
+    form_generate_hidden("domain", $domains[0]);
+    form_generate_hidden("alias_domain", $domains[0]);
+}
+
+if (count($alias_types) == 1 && !$show_one_option) {
+    form_generate_hidden("alias_type", array_values($alias_types)[0]);
+}
 ?>
