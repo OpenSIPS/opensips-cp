@@ -469,18 +469,13 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
 
     $options_count = count($vals);
     if ($options_count == 1 && !$is_optional) {
-        print("             <input type='text' name='".$id."' value='".$vals[0]."' readonly style='width: 205px' class='dataSelect'>");
+        print("             <input type='text' name='".$id."-mask' value='".($texts[0]?$texts[0]:$vals[0])."' readonly style='width: 205px' class='dataSelect'>");
+        print("             <input type='hidden' name='".$id."' value='".$vals[0]."'>");
     } else {
         if ($options_count == 0) {
             $text = $is_optional ? "Empty ..." : "No options available";
-
-            if (!$is_optional) {
-                print("     <select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect' disabled>");
-                print("         <option value=''>".$text."</option>");
-                print("     </select>");
-            } else {
-                print("     <input type='text' name='".$id."' value='' readonly style='width: 205px' class='dataSelect' placeholder='".$text."'>");
-            }
+            print("         <input type='text' name='".$id."-mask' value='".$text."' readonly style='width: 205px' class='dataSelect'>");
+            print("         <input type='hidden' name='".$id."' value='".$vals[0]."'>");
         } else {
             print("         <select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
 
@@ -568,6 +563,10 @@ function get_combo_options($combo)
 	}
 
 	return $options;
+}
+
+function form_generate_hidden($id,$val) {
+    print("<input type='hidden' name='".$id."' value='".$val."'>");
 }
 
 // Helpers to build complet validation regexp
