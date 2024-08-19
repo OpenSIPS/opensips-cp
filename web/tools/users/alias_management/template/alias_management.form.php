@@ -46,8 +46,4 @@ if ($am_edit || !$implicit_domain)
 if (!$am_edit && (count($alias_types) != 1 || !$suppress_atype))
 	form_generate_select("Alias Type", "The type of the alias, as you may have multiple type/groups of aliases, for different purposes",
 		"alias_type", 64, $am_form['alias_type'], array_values($alias_types), array_keys($alias_types));
-
-if (count($alias_types) == 1 && $suppress_atype) {
-    form_generate_hidden("alias_type", array_values($alias_types)[0]);
-}
 ?>
