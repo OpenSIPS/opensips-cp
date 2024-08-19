@@ -28,11 +28,8 @@ $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
 
 $implicit_domain = get_settings_value("implicit_domain");
-$show_one_option = get_settings_value("show_one_option");
 
-require_once("../../../tools/system/domains/lib/functions.inc.php");
-$domains = get_domains("user_management", false);
-
+$suppress_alias_type = get_settings_value("suppress_alias_type");
 $alias_types = get_alias_types();
 ?>
 
@@ -46,12 +43,10 @@ $alias_types = get_alias_types();
 value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 
-<?php if ($show_one_option || count($domains) != 1) { ?>
 <tr>
 <td class="searchRecord" align="left">Domain</td>
 <td class="searchRecord" width="200"><?php print_domains("domain",$search_domain,TRUE);?></td>
 </tr>
-<?php } ?>
 
 <tr>
 <td class="searchRecord" align="left">Alias Username</td>
@@ -59,21 +54,14 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 </tr>
 
-<?php if (!$implicit_domain && ($show_one_option || count($domains) != 1)) { ?>
+<?php if (!$implicit_domain) { ?>
 <tr>
 <td class="searchRecord" align="left">Alias Domain</td>
 <td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain,TRUE);?></td>
 </tr>
 <?php } ?>
 
-<?php 
-if (!$show_one_option && count($domains) == 1) { 
-    $search_domain = $domains[0]; 
-    $search_adomain = $domains[0];
-}
-?>
-
-<?php if ($show_one_option || count($alias_types) != 1) { ?>
+<?php if (!$suppress_alias_type || count($alias_types) != 1) { ?>
 <tr>
 <td class="searchRecord" align="left">Alias Type</td>
 <td class="searchRecord" width="200"><?php print_aliasType($search_atype,TRUE)?></td>
@@ -81,7 +69,7 @@ if (!$show_one_option && count($domains) == 1) {
 <?php } ?>
 
 <?php 
-if (!$show_one_option && count($alias_types) == 1) { 
+if ($suppress_alias_type && count($alias_types) == 1) { 
     $search_atype = $alias_types[0]['label'];
 }
 ?>
@@ -109,8 +97,9 @@ if (!$show_one_option && count($alias_types) == 1) {
 <?php
 if (!$implicit_domain)
     echo('<th class="listTitle">Alias Domain</th>');
+if (!$suppress_alias_type || count($alias_types) != 1)
+    echo('<th class="listTitle">Alias Type</th>');
 ?>
-<th class="listTitle">Alias Type</th>
 <th class="listTitle">Username</th>
 <th class="listTitle">Domain</th>
 <?php
@@ -155,7 +144,11 @@ for($k=0;$k<count($options);$k++)
 	$labels[$options[$k]['value']] = $options[$k]['label'];
 
 if(!$_SESSION['read_only']){
-        $colspan = $implicit_domain ? 6 : 7;
+        $colspan = 7;
+        if ($implicit_domain)
+            $colspan--;
+        if ($suppress_alias_type && count($alias_types) == 1)
+            $colspan--;
 }else{
         $colspan = 5;
 }
@@ -309,8 +302,9 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
   <?php
   if (!$implicit_domain)
     echo('<td class="'.$row_style.'">&nbsp;'.$resultset[$i]['alias_domain'].'</td>');
+  if (!$suppress_alias_type || count($alias_types) != 1)
+    echo('<td class="'.$row_style.'">&nbsp;'.(isset($labels[$table])?$labels[$table]:$table).'</td>');
   ?>
-  <td class="<?=$row_style?>">&nbsp;<?=(isset($labels[$table])?$labels[$table]:$table)?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['username']?></td>
   <td class="<?=$row_style?>">&nbsp;<?=$resultset[$i]['domain']?></td>
    <?php
