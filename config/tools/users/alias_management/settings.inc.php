@@ -56,15 +56,15 @@ $config->alias_management = array(
 		),
 		"tip" => "If checked, the domain will automatically be used as the alias domain."
 	),
-    "show_one_option" => array(
-        "default" => True,
-        "name" => "Show One Option",
+    "suppress_alias_type" => array(
+        "default" => False,
+        "name" => "Suppress Alias Type",
         "type" => "dropdown",
         "options" => array(
             "No" => False,
             "Yes" => True
         ),
-        "tip" => "If checked, select boxes will be shown even if there is only one option."
+        "tip" => "Suppress alias type checkbox if only one choice is available."
     ),
 	"alias_format" => array(
 		"name" => "Alias Format",
