@@ -35,6 +35,9 @@ foreach (get_settings_value("table_aliases") as $key=>$value) {
 
 $implicit_domain = get_settings_value("implicit_domain");
 
+$suppress_alias_type = get_settings_value("suppress_alias_type");
+$suppress_alias_type = $suppress_alias_type && (count($options) == 1);
+
 $current_page="current_page_alias_management";
 
 
@@ -81,6 +84,9 @@ if ($action=="add_verified")
                 $username = $_POST['username'];
                 $domain = $_POST['domain'];
 
+                if ($suppress_alias_type) {
+                    $alias_type = $options[0]['value'];
+                }
                 
                 $sql = "INSERT INTO ".$alias_type."
                 (alias_username, alias_domain, username, domain) VALUES (?, ?, ?, ?)";
@@ -144,6 +150,10 @@ if ($action=="modify")
                 $alias_domain=$_POST['alias_domain'];
                 $username = $_POST['username'];
                 $domain= $_POST['domain'];
+
+                if ($suppress_alias_type) {
+                    $user_table = $options[0]['value'];
+                }
 
                 if ($alias_username=="" || $alias_domain=="" || $username=="" || $domain=="") {
                         $errors = "Invalid data, the entry was not modified in the database";
