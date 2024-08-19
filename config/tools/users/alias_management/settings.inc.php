@@ -51,11 +51,21 @@ $config->alias_management = array(
 		"name" => "Implicit Alias Domain",
 		"type" => "dropdown",
 		"options" => array(
-			"No" => FALSE,
-			"Yes" => TRUE
+			"No" => False,
+			"Yes" => True
 		),
 		"tip" => "If checked, the domain will automatically be used as the alias domain."
 	),
+    "show_one_option" => array(
+        "default" => True,
+        "name" => "Show One Option",
+        "type" => "dropdown",
+        "options" => array(
+            "No" => False,
+            "Yes" => True
+        ),
+        "tip" => "If checked, select boxes will be shown even if there is only one option."
+    ),
 	"alias_format" => array(
 		"name" => "Alias Format",
 		"tip"  => "Pattern/regexp to validate the inserted aliases (in order to enforce a certain format for the aliases).",

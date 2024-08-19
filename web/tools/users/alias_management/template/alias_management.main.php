@@ -28,7 +28,12 @@ $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
 
 $implicit_domain = get_settings_value("implicit_domain");
+$show_one_option = get_settings_value("show_one_option");
 
+require_once("../../../tools/system/domains/lib/functions.inc.php");
+$domains = get_domains("user_management", false);
+
+$alias_types = get_alias_types();
 ?>
 
 <form action="<?=$page_name?>?action=dp_act" method="post">
@@ -41,10 +46,12 @@ $implicit_domain = get_settings_value("implicit_domain");
 value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 </tr>
 
+<?php if ($show_one_option || count($domains) != 1) { ?>
 <tr>
 <td class="searchRecord" align="left">Domain</td>
 <td class="searchRecord" width="200"><?php print_domains("domain",$search_domain,TRUE);?></td>
 </tr>
+<?php } ?>
 
 <tr>
 <td class="searchRecord" align="left">Alias Username</td>
@@ -52,17 +59,32 @@ value="<?=$search_ausername?>" maxlength="16" class="searchInput"></td>
 value="<?=$search_aaliasusername?>" maxlength="16" class="searchInput"></td>
 </tr>
 
-<?php if (!$implicit_domain) { ?>
+<?php if (!$implicit_domain && ($show_one_option || count($domains) != 1)) { ?>
 <tr>
 <td class="searchRecord" align="left">Alias Domain</td>
 <td class="searchRecord" width="200"><?php print_domains("alias_domain",$search_adomain,TRUE);?></td>
 </tr>
 <?php } ?>
 
+<?php 
+if (!$show_one_option && count($domains) == 1) { 
+    $search_domain = $domains[0]; 
+    $search_adomain = $domains[0];
+}
+?>
+
+<?php if ($show_one_option || count($alias_types) != 1) { ?>
 <tr>
 <td class="searchRecord" align="left">Alias Type</td>
 <td class="searchRecord" width="200"><?php print_aliasType($search_atype,TRUE)?></td>
 </tr>
+<?php } ?>
+
+<?php 
+if (!$show_one_option && count($alias_types) == 1) { 
+    $search_atype = $alias_types[0]['label'];
+}
+?>
 
 <tr height="10" class="">
 <td colspan="2" class="searchRecord border-bottom-devider" align="center">
