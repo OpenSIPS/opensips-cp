@@ -111,6 +111,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Clusterer"
 			),
+			"config"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Config"
+			),
 			"keepalived"		=> array (
 				"enabled"		=> true,
 				"name"			=> "Keepalived"
