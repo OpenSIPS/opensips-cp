@@ -143,3 +143,15 @@ CREATE TABLE `ocp_db_config` (
   `db_name` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
 );
+
+-- 
+-- Table for `config` tool
+-- 
+
+CREATE TABLE `config` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '',
+  PRIMARY KEY (`id`)
+);
