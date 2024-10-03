@@ -11,7 +11,7 @@ CREATE TABLE `ocp_admin_privileges` (
   `permissions` varchar(512) default NULL,
   `secret` varchar(20) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','opensips','Super','Admin',md5('admin:opensips'),'all','all');
 
@@ -24,7 +24,7 @@ CREATE TABLE `ocp_monitored_stats` (
   `name` varchar(64) NOT NULL,
   `box_id` mediumint(8) unsigned NOT NULL default '0',
   PRIMARY KEY  (`name`,`box_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- --------------------------------------------------------
 
@@ -39,7 +39,7 @@ CREATE TABLE `ocp_monitoring_stats` (
   `value` varchar(64) NOT NULL default '0',
   `box_id` mediumint(8) unsigned NOT NULL default '0',
   PRIMARY KEY  (`name`,`time`,`box_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- --------------------------------------------------------
 
@@ -60,7 +60,7 @@ CREATE TABLE `ocp_boxes_config` (
   `desc` varchar(128) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_key` (`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 INSERT INTO ocp_boxes_config (mi_conn,`desc`,assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
 
@@ -75,7 +75,7 @@ CREATE TABLE `ocp_system_config` (
   `name` varchar(64) DEFAULT NULL,
   `desc` varchar(64) DEFAULT '',
   PRIMARY KEY (`assoc_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 INSERT INTO ocp_system_config (assoc_id, name, `desc`) values (1,'System 0','Default system');
 
@@ -93,7 +93,7 @@ CREATE TABLE `ocp_tools_config` (
   `box_id` varchar(15) DEFAULT '',
   PRIMARY KEY (`id`),
   UNIQUE KEY `box_key` (`module`,`param`,`box_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ CREATE TABLE `ocp_dashboard` (
   `order` int(11) DEFAULT NULL,
   `positions` text DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 
 INSERT INTO `ocp_dashboard` VALUES (1,'Default','{\"panel_1_widget_1\":\"{\\\"widget_title\\\":\\\"Users\\\",\\\"widget_box\\\":\\\"1\\\",\\\"addwidget\\\":\\\"Add\\\",\\\"widget_type\\\":\\\"registered_users_widget\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_id\\\":\\\"panel_1_widget_1\\\"}\",\"panel_1_widget_2\":\"{\\\"widget_name\\\":\\\"CDR\\\",\\\"widget_refresh\\\":\\\"30\\\",\\\"addwidget\\\":\\\"Add\\\",\\\"widget_type\\\":\\\"cdr_widget\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_id\\\":\\\"panel_1_widget_2\\\"}\",\"panel_1_widget_3\":\"{\\\"widget_title\\\":\\\"PKG Usage\\\",\\\"widget_box\\\":\\\"1\\\",\\\"widget_warning\\\":\\\"50\\\",\\\"widget_critical\\\":\\\"75\\\",\\\"widget_refresh\\\":\\\"\\\",\\\"addwidget\\\":\\\"Add\\\",\\\"widget_type\\\":\\\"pkg_widget\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_id\\\":\\\"panel_1_widget_3\\\"}\",\"panel_1_widget_4\":\"{\\\"widget_title\\\":\\\"Shared memory\\\",\\\"widget_box\\\":\\\"1\\\",\\\"widget_warning\\\":\\\"50\\\",\\\"widget_critical\\\":\\\"75\\\",\\\"widget_refresh\\\":\\\"60\\\",\\\"addwidget\\\":\\\"Add\\\",\\\"widget_type\\\":\\\"shmem_widget\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_id\\\":\\\"panel_1_widget_4\\\"}\",\"panel_1_widget_6\":\"{\\\"widget_name\\\":\\\"Dispatching\\\",\\\"widget_box\\\":\\\"1\\\",\\\"widget_partition\\\":\\\"default\\\",\\\"widget_set\\\":\\\"\\\",\\\"widget_refresh\\\":\\\"30\\\",\\\"editwidget\\\":\\\"Edit\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_type\\\":\\\"dispatching_widget\\\",\\\"widget_id\\\":\\\"panel_1_widget_6\\\"}\",\"panel_1_widget_7\":\"{\\\"widget_name\\\":\\\"Dynamic Routing\\\",\\\"widget_box\\\":\\\"1\\\",\\\"widget_partition\\\":\\\"\\\",\\\"widget_refresh\\\":\\\"30\\\",\\\"editwidget\\\":\\\"Edit\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_type\\\":\\\"gateways_widget\\\",\\\"widget_id\\\":\\\"panel_1_widget_7\\\"}\",\"panel_1_widget_11\":\"{\\\"widget_name\\\":\\\"RTPProxy\\\",\\\"widget_box\\\":\\\"1\\\",\\\"widget_set\\\":\\\"0\\\",\\\"widget_refresh\\\":\\\"60\\\",\\\"addwidget\\\":\\\"Add\\\",\\\"widget_type\\\":\\\"rtpproxy_widget\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_id\\\":\\\"panel_1_widget_11\\\"}\",\"panel_1_widget_15\":\"{\\\"widget_name\\\":\\\"RTPEngine\\\",\\\"widget_box\\\":\\\"1\\\",\\\"widget_set\\\":\\\"0\\\",\\\"widget_refresh\\\":\\\"60\\\",\\\"addwidget\\\":\\\"Add\\\",\\\"widget_type\\\":\\\"rtpengine_widget\\\",\\\"panel_id\\\":\\\"1\\\",\\\"widget_id\\\":\\\"panel_1_widget_15\\\"}\"}',1,'[{\"id\":\"panel_1_widget_1\",\"col\":6,\"row\":1,\"size_x\":2,\"size_y\":3},{\"id\":\"panel_1_widget_2\",\"col\":8,\"row\":1,\"size_x\":2,\"size_y\":3},{\"id\":\"panel_1_widget_3\",\"col\":4,\"row\":1,\"size_x\":2,\"size_y\":3},{\"id\":\"panel_1_widget_4\",\"col\":2,\"row\":1,\"size_x\":2,\"size_y\":3},{\"id\":\"panel_1_widget_6\",\"col\":2,\"row\":6,\"size_x\":2,\"size_y\":2},{\"id\":\"panel_1_widget_7\",\"col\":4,\"row\":6,\"size_x\":2,\"size_y\":2},{\"id\":\"panel_1_widget_11\",\"col\":6,\"row\":6,\"size_x\":2,\"size_y\":2},{\"id\":\"panel_1_widget_15\",\"col\":8,\"row\":6,\"size_x\":2,\"size_y\":2}]');
 
@@ -126,7 +126,7 @@ CREATE TABLE `ocp_extra_stats` (
   `tool` varchar(60) DEFAULT NULL,
   `class` varchar(60) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
 -- --------------------------------------------------------
 
 -- 
@@ -142,4 +142,4 @@ CREATE TABLE `ocp_db_config` (
   `db_pass` varchar(64) DEFAULT NULL,
   `db_name` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+);
