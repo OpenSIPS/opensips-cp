@@ -149,3 +149,11 @@ CREATE TABLE ocp_db_config (
   db_pass text default NULL,
   db_name text NOT NULL default ''
 );
+
+CREATE SEQUENCE config_id_seq;
+CREATE TABLE config (
+  id integer Primary KEY DEFAULT nextval('config_id_seq'),
+  name text NOT NULL,
+  value text DEFAULT NULL,
+  description text NOT NULL DEFAULT ''
+);
