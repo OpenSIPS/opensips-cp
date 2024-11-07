@@ -177,7 +177,8 @@ else {
 		if (!isset($menuitem_config['modules']))
 			continue;
 		if (isset($menuitem_config['modules']['dashboard'])
-			&& $menuitem_config['modules']['dashboard']['enabled'])
+			&& $menuitem_config['modules']['dashboard']['enabled']
+			&& ($avail_tools == "all" || array_key_exists("dashboard", explode(",",$avail_tools))))
 			$dashboard = true;
 		foreach ($menuitem_config['modules'] as $module => $values) {
 			if (isset($values['enabled']) && !$values['enabled'])
