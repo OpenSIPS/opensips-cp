@@ -55,18 +55,37 @@ if ($g->checkCode($secret, $otp)) {
 	$_SESSION['user_tabs'] = $_SESSION['temp_user_tabs'];
 	$_SESSION['user_priv'] = $_SESSION['temp_user_priv'];
 
+
+	$dashboard = false;
+	$default_path = NULL;
 	foreach ($config_modules as $menuitem => $menuitem_config) {
 		if (!$menuitem_config['enabled'])
 			continue;
 		if (!isset($menuitem_config['modules']))
 			continue;
 		if (isset($menuitem_config['modules']['dashboard'])
-			&& $menuitem_config['modules']['dashboard']['enabled'])
+			&& $menuitem_config['modules']['dashboard']['enabled']
+			&& ($avail_tools == "all" || array_key_exists("dashboard", explode(",",$avail_tools))))
 			$dashboard = true;
-		else $dashboard = false;
+		foreach ($menuitem_config['modules'] as $module => $values) {
+			if (isset($values['enabled']) && !$values['enabled'])
+				continue;
+			if (isset($values['default']) && $values['default']) {
+				$default_path = 'tools/';
+				if (!isset($value['path']))
+					$default_path .= $menuitem . '/' . $module;
+				else
+					$default_path .= $value['path'];
+				$default_path .= '/index.php';
+				if (!file_exists($default_path))
+					$default_path = NULL;
+			}
+		}
 	}
-	
-	if ($dashboard) {
+
+	if ($default_path != NULL) {
+		$_SESSION['path'] = $default_path;
+	} else if ($dashboard) {
 		$query = "SELECT COUNT(*) as panel_no FROM ocp_dashboard;";
 		$stmt = $link->prepare($query);
 		if (!$stmt->execute(array($name))) {
