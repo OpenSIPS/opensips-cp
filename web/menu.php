@@ -100,6 +100,8 @@ foreach ($config_modules as $menuitem => $menuitem_config) {
 		$path .= '/index.php';
 		$single_module = true;
 		$onclick = "SwitchMenu('".$menuitem."');top.frames['main_body'].location.href='".$path."'";
+	} else if (count($menu_link_text) == 0) {
+		continue;
 	} else {
 		$single_module = false;
 		$onclick = "SwitchMenu('".$menuitem."')";
