@@ -246,7 +246,7 @@ function load_panels() {
 	require("".__DIR__."/../../config/tools/system/dashboard/settings.inc.php");
 	unset($_SESSION['config']['panels']);
 	$max_order = -1;
-	$sql = 'select `name`, id, content, positions, `order` from ocp_dashboard';
+	$sql = 'select "name", id, content, positions, "order" from ocp_dashboard';
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
