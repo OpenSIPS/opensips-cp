@@ -81,11 +81,4 @@ $config->config = array(
 		"validation_regex" => "^[a-zA-Z][a-zA-Z0-9]*$",
 		"tip" => "The column used for configuration entry description.",
 	),
-	"config_id" => array(
-		"default" => "config",
-		"name" => "Cacher Id",
-		"type" => "text",
-		"validation_regex" => "^[a-zA-Z][a-zA-Z0-9]*$",
-		"tip" => "The name of the sql cacher id used in OpenSIPS configuration file.."
-	),
 );
