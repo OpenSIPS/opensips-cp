@@ -52,6 +52,7 @@ if ($message!=NULL) {
 
 $sql_search="";
 $sql_vals=array();
+$set_cache = array();
 
 $search_setid=$_SESSION['dispatcher_setid'];
 $search_dest=$_SESSION['dispatcher_dest'];
@@ -62,7 +63,6 @@ $dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");
 $dispatcher_display_only_known = get_settings_value("display_only_known");
 switch ($dispatcher_group_mode) {
 	case "database":
-		$set_cache = array();
 		$query = "SELECT " . $dispatcher_group['id'] . " AS id, " .
 			$dispatcher_group['name'] . " AS name " .
 			"FROM " . $dispatcher_group['table'];
@@ -84,7 +84,6 @@ switch ($dispatcher_group_mode) {
 
 	case "array":
 		if ($search_setid !="") {
-			$set_cache = array();
 			$set_cache[$search_setid] = $dispatcher_group[$search_setid];
 		} else {
 			$set_cache = $dispatcher_group;
