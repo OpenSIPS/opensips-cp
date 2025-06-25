@@ -136,8 +136,12 @@
 #################
  if ($action=="add")
  {
-  if ($_POST['add']=="Add") extract($_POST);
-   else {
+  if ($_POST['add']=="Add") {
+    $username=$_POST['username'];
+    $domain=$_POST['domain'];
+    $groupid=$_POST['groupid'];
+    $description=$_POST['description'];
+  } else {
          $groupid="0";
          $domain=get_settings_value("default_domain");
         }
@@ -171,20 +175,23 @@
  if ($action=="search")
  {
   $_SESSION[$current_page]=1;
-  extract($_POST);
+  $search_username=$_POST['search_username'];
+  $search_domain=$_POST['search_domain'];
+  $search_groupid=$_POST['search_groupid'];
+  $search_description=$_POST['search_description'];
+  $show_all=$_POST['show_all'];
   if ($show_all=="Show All") {
-                              $_SESSION['groups_search_username']="";
-                              $_SESSION['groups_search_domain']="";
-                              $_SESSION['groups_search_groupid']="";
-                              $_SESSION['groups_search_description']="";
-                             }
-   else {
-         $_SESSION['groups_search_username']=$search_username;
-         $_SESSION['groups_search_domain']=$search_domain;
-         $_SESSION['groups_search_groupid']=$search_groupid;
-         $_SESSION['groups_search_description']=$search_description;
-        }
- }
+    $_SESSION['groups_search_username']="";
+    $_SESSION['groups_search_domain']="";
+    $_SESSION['groups_search_groupid']="";
+    $_SESSION['groups_search_description']="";
+  } else {
+    $_SESSION['groups_search_username']=$search_username;
+    $_SESSION['groups_search_domain']=$search_domain;
+    $_SESSION['groups_search_groupid']=$search_groupid;
+    $_SESSION['groups_search_description']=$search_description;
+  }
+}
 ##############
 # end search #
 ##############

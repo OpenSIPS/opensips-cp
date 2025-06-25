@@ -6,7 +6,6 @@
 
 if ($action=="add")
 {
-	extract($_POST);
 	if(!$_SESSION['read_only'])
 	{
 		require("template/".$page_id.".add.php");

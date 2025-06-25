@@ -20,8 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+  $uname = $_POST['uname'];
+  $domain = $_POST['domain'];
+  $passwd = $_POST['passwd'];
+  $confirm_passwd = $_POST['confirm_passwd'];
+  $alias = $_POST['alias'];
 
-  extract($_POST);
   global $config;
 
   $form_valid=true;

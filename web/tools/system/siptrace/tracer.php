@@ -88,7 +88,28 @@ else
 if ($action=="search")
  {
   $_SESSION[$current_page]=1;
-  extract($_POST);
+  
+  $delete=$_POST['delete'];
+  $show_all=$_POST['show_all'];
+  $search=$_POST['search'];
+  $search_regexp=$_POST['search_regexp'];
+  $search_callid=$_POST['search_callid'];
+  $search_traced_user=$_POST['search_traced_user'];
+  $set_start=$_POST['set_start'];
+  $set_end=$_POST['set_end'];
+  $set_grouped=$_POST['set_grouped'];
+  $start_year=$_POST['start_year'];
+  $start_month=$_POST['start_month'];
+  $start_day=$_POST['start_day'];
+  $start_hour=$_POST['start_hour'];
+  $start_minute=$_POST['start_minute'];
+  $start_second=$_POST['start_second'];
+  $end_year=$_POST['end_year'];
+  $end_month=$_POST['end_month'];
+  $end_day=$_POST['end_day'];
+  $end_hour=$_POST['end_hour'];
+  $end_minute=$_POST['end_minute'];
+  $end_second=$_POST['end_second'];
 
   if ($delete=="Delete Listed") {
   		
