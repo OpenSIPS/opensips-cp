@@ -234,9 +234,7 @@ if ($action == "add_widget") {
 }
 
 if ($action=="add_blank_panel")
-{ 
-        extract($_POST);
-
+{
         if(!$_SESSION['read_only'])
         {
                 require("template/".$page_id.".add.php");
@@ -302,7 +300,6 @@ if ($action == "add_widget_verify") { //add widget in db
 
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){
-		extract($_POST);
 		$sql = 'INSERT INTO '.$table.' (`name`, `order`) VALUES (?, ?) ';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
@@ -341,7 +338,6 @@ if ($action == "clone_panel") {
 
 if ($action == "clone_panel_verify") { 
 	if(!$_SESSION['read_only']){
-		extract($_POST);
 		$panel_id = $_GET['panel_id'];
 
 		$sql = 'INSERT INTO '.$table.' () VALUES () ';
@@ -410,8 +406,6 @@ if ($action == "move_panels") {
 }
 
 if ($action == "change_panel_name") {
-	
-	extract($_POST);
 	$panel_id = $_GET['panel_id'];
 	if(!$_SESSION['read_only'])
 	{
@@ -426,9 +420,9 @@ if ($action == "change_panel_name") {
 
 if ($action == "change_name_verify") { 
 	if(!$_SESSION['read_only']){
-		extract($_POST);
 		$sql = 'UPDATE '.$table.' SET name = ? WHERE id = ? ';
-				$stm = $link->prepare($sql);
+		$stm = $link->prepare($sql);
+
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}

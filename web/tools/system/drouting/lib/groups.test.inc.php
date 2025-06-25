@@ -20,8 +20,11 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-
-  extract($_POST);
+  $username=$_POST['username'];
+  $domain=$_POST['domain'];
+  $groupid=$_POST['groupid'];
+  $description=$_POST['description'];
+  
   $form_valid=true;
   if ($form_valid)
    if ($username=="") {

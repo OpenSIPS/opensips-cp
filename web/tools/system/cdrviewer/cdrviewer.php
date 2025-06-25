@@ -60,7 +60,22 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if ($action=="search")
 {
 	$_SESSION[$current_page]=1;
-	extract($_POST);
+
+	$show_all = $_POST['show_all'];
+	$search_regexp = $_POST['search_regexp'];
+	$cdr_field = $_POST['cdr_field'];
+	$start_year = $_POST['start_year'];
+	$start_month = $_POST['start_month'];
+	$start_day = $_POST['start_day'];
+	$start_hour = $_POST['start_hour'];
+	$start_minute = $_POST['start_minute'];
+	$start_second = $_POST['start_second'];
+	$end_year = $_POST['end_year'];
+	$end_month = $_POST['end_month'];
+	$end_day = $_POST['end_day'];
+	$end_hour = $_POST['end_hour'];
+	$end_minute = $_POST['end_minute'];
+	$end_second = $_POST['end_second'];
 
 	if ($show_all=="Show All") {
 
