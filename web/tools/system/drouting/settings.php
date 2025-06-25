@@ -30,7 +30,7 @@
  
  if ($action=="gw_types")
  {
-  extract($_POST);
+  $data=$_POST['data'];
   $gw_error="";
   $rows=explode("\n",$data);
   if ((sizeof($rows)==1) && (trim($rows[0])=="")) $gw_error="no Gateway Types defined";
@@ -57,7 +57,7 @@
 
  if ($action=="groups")
  {
-  extract($_POST);
+  $data=$_POST['data'];
   $groups_error="";
   $rows=explode("\n",$data);
   if ((sizeof($rows)==1) && (trim($rows[0])=="")) $groups_error="no Group IDs defined";
