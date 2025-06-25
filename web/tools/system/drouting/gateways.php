@@ -211,8 +211,18 @@ if ($action=="probegw"){
 #################
  if ($action=="add")
  {
-  if ($_POST['add']=="Add") extract($_POST);
-   else $strip="0";
+  if ($_POST['add']=="Add") {
+	$gwid = $_POST['gwid'];
+	$address = $_POST['address'];
+	$strip = $_POST['strip'];
+	$pri_prefix = $_POST['pri_prefix'];
+	$probe_mode = $_POST['probe_mode'];
+	$socket = $_POST['socket'];
+	$state = $_POST['state'];
+	$description = $_POST['description'];
+  } else {
+	$strip="0";
+  }
   require("lib/".$page_id.".functions.inc.php");
   require("template/".$page_id.".add.php");
   require("template/footer.php");
@@ -303,7 +313,15 @@ if ($action=="delete"){
 if ($action=="search") {
 
 	$_SESSION[$current_page]=1;
-	extract($_POST);
+
+	$search = $_POST['search'];
+	$show_all = $_POST['show_all'];
+	$search_gwid = $_POST['search_gwid'];
+	$search_type = $_POST['search_type'];
+	$search_address = $_POST['search_address'];
+	$search_pri_prefix = $_POST['search_pri_prefix'];
+	$probe_mode = $_POST['probe_mode'];
+	$search_description = $_POST['search_description'];
 
 	if ($show_all=="Show All") {
 		$_SESSION['gateways_search_gwid']="";
