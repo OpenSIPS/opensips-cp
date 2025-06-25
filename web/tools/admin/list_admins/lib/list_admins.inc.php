@@ -21,7 +21,12 @@
  */
 
 
-  extract($_POST);
+  $listfname=$_POST['list_fname'];
+  $listlname=$_POST['list_lname'];
+  $listuname=$_POST['list_uname'];
+  $listpasswd=$_POST['list_passwd'];
+  $conf_passwd=$_POST['confirm_passwd'];
+  
   global $config;
   $form_valid=true;
   if ($form_valid)

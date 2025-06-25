@@ -87,7 +87,8 @@ $query="";
 	$_SESSION['dlg_state']= $_POST['dlg_state'];
 
 	$_SESSION[$current_page]=1;
-	extract($_POST);
+	$show_all=$_POST['show_all'];
+	$search=$_POST['search'];
 	if ($show_all=="Show All") {
 		$_SESSION['dlg_from_uri']="";
 		$_SESSION['dlg_to_uri']="";

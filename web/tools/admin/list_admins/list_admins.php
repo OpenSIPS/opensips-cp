@@ -45,7 +45,6 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($action=="add")
 {
-        extract($_POST);
         if(!$_SESSION['read_only'])
         {
                 require("template/".$page_id.".add.php");
@@ -118,11 +117,7 @@ if ($action=="add_verify")
 ##############
 if ($action=="edit")
 {
-
 	if(!$_SESSION['read_only']){
-
-		extract($_POST);
-
 		require("template/".$page_id.".edit.php");
 		require("template/footer.php");
 		exit();
@@ -202,11 +197,7 @@ if ($action=="modify")
 ####################
 if ($action=="edit_tools")
 {
-
         //if(!$_SESSION['read_only']){
-
-                extract($_POST);
-
                 require("template/".$page_id.".edit_tools.php");
                 require("template/footer.php");
                 exit();
@@ -225,7 +216,6 @@ if ($action=="edit_tools")
 if ($action=="modify_tools")
 {
   if(!$_SESSION['read_only']){
-	extract($_POST);
 	$id = $_GET['id'];
 	$uname = $_GET['uname'];
 	$perm = "";
@@ -316,7 +306,8 @@ if ($action=="dp_act")
 	$_SESSION['list_id']=$_POST['list_id'];
 
 	$_SESSION[$current_page]=1;
-	extract($_POST);
+	$show_all = $_POST['show_all'];
+	$search = $_POST['search'];
 	if ($show_all=="Show All") {
 		$_SESSION['list_uname']="";
 		$_SESSION['list_fname']="";

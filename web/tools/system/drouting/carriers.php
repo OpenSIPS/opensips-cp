@@ -206,7 +206,15 @@ if ($action=="disablecar"){
 #################
  if ($action=="add")
  {
-  if ($_POST['add']=="Add") extract($_POST);
+  if ($_POST['add']=="Add") {
+    $carrierid = $_POST['carrierid'];
+    $gwlist = $_POST['gwlist'];
+    $sort_alg = $_POST['sort_alg'];
+    $useonlyfirst = $_POST['useonlyfirst'];
+    $state = $_POST['state'];
+    $weight = $_POST['weight'];
+    $edit = $_POST['edit'];
+  }
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".add.php");
   require("template/footer.php");
@@ -279,7 +287,11 @@ if ($action=="search")
 		$sql_search="";
 	}
 	else {
-		extract($_POST);
+        $search = $_POST['search'];
+        $show_all = $_POST['show_all'];
+        $search_gwlist = $_POST['search_gwlist'];
+        $search_description = $_POST['search_description'];
+        $delete = $_POST['delete'];
 		if ($search=="Search") {
 			$_SESSION['rules_search_gwlist']=$search_gwlist;
 			$_SESSION['rules_search_description']=$search_description;

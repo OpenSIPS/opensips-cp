@@ -47,7 +47,6 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($action=="add")
 {
-        extract($_POST);
         if(!$_SESSION['read_only'])
         {
                 require("template/".$page_id.".add.php");
@@ -106,9 +105,6 @@ if ($action=="edit")
 {
 
         if(!$_SESSION['read_only']){
-
-                extract($_POST);
-
                 require("template/".$page_id.".edit.php");
                 require("template/footer.php");
                 exit();
@@ -206,23 +202,26 @@ if ($action=="dp_act")
 	        $_SESSION['grp_domain']=$_GET['domain'];
 	}
 
-        $_SESSION['grp_id']=$_POST['grp_id'];
+	$_SESSION['grp_id']=$_POST['grp_id'];
+	$_SESSION[$current_page]=1;
 
-        $_SESSION[$current_page]=1;
-        extract($_POST);
-        if ($show_all=="Show All") {
-                $_SESSION['grp_username']="";
-                $_SESSION['grp_domain']="";
-                $_SESSION['grp_group']="";
-        } else if($search=="Search"){
-                $_SESSION['grp_username']=$_POST['username'];
-                $_SESSION['grp_domain']=$_POST['domain'];
-                $_SESSION['grp_group']=$_POST['group'];
-        } else if($_SESSION['read_only']){
+	$show_all = $_POST['show_all'];
+	$search = $_POST['search'];
+	$delete = $_POST['delete'];
 
-                $errors= "User with Read-Only Rights";
+	if ($show_all=="Show All") {
+			$_SESSION['grp_username']="";
+			$_SESSION['grp_domain']="";
+			$_SESSION['grp_group']="";
+	} else if($search=="Search"){
+			$_SESSION['grp_username']=$_POST['username'];
+			$_SESSION['grp_domain']=$_POST['domain'];
+			$_SESSION['grp_group']=$_POST['group'];
+	} else if($_SESSION['read_only']){
 
+			$errors= "User with Read-Only Rights";
 	}
+
 	if ($delete=="Delete") {
         	$sql_query = "";
 		$sql_vals = array();

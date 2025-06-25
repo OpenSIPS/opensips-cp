@@ -52,7 +52,6 @@ switch ($action) {
 # start add new #
 #################
 case "add":
-	extract($_POST);
 	require("template/".$page_id.".add.php");
 	require("template/footer.php");
 	exit();
@@ -96,8 +95,6 @@ case "do_add":
 # start edit	#
 #################
 case "edit":
-	extract($_POST);
-
 	require("template/".$page_id.".edit.php");
 	require("template/footer.php");
 	exit();
@@ -200,7 +197,8 @@ if ($action=="search")
 {
 	$_SESSION['cl_cid']=$_POST['cl_cid'];
 	$_SESSION['cl_url']=$_POST['cl_url'];
-	extract($_POST);
+	$search=$_POST['search'];
+	$show_all=$_POST['show_all'];
 	if ($show_all=="Show All") {
 		$_SESSION['cl_cid']="";
 		$_SESSION['cl_url']="";

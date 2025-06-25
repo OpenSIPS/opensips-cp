@@ -135,11 +135,54 @@
 #################
  if ($action=="add")
  {
-  if ($_POST['add']=="Add") extract($_POST);
-   else {
-         $priority="0";
-         $routeid="0";
-        }
+  if ($_POST['add']=="Add") {
+	$groupid=$_POST['groupid'];
+	$prefix=$_POST['prefix'];
+	$time_recurrence = $_POST['time_recurrence'];
+	$dtstart_day = $_POST['dtstart_day'];
+	$dtstart_month = $_POST['dtstart_month'];
+	$dtstart_year = $_POST['dtstart_year'];
+	$dtstart_hour = $_POST['dtstart_hour'];
+	$dtstart_minute = $_POST['dtstart_minute'];
+	$dtstart_second = $_POST['dtstart_second'];
+	$duration = $_POST['duration'];
+	$duration_days = $_POST['duration_days'];
+	$duration_hours = $_POST['duration_hours'];
+	$duration_minutes = $_POST['duration_minutes'];
+	$duration_seconds = $_POST['duration_seconds'];
+	$duration_weeks = $_POST['duration_weeks'];
+	$frequency = $_POST['frequency'];
+	$daily_interval = $_POST['daily_interval'];
+	$weekly_interval = $_POST['weekly_interval'];
+	$weekly_byday = $_POST['weekly_byday'];
+	$monthly_interval = $_POST['monthly_interval'];
+	$monthly_byday = $_POST['monthly_byday'];
+	$monthly_bymonthday = $_POST['monthly_bymonthday'];
+	$yearly_interval = $_POST['yearly_interval'];
+	$yearly_byday = $_POST['yearly_byday'];
+	$yearly_bymonthday = $_POST['yearly_bymonthday'];
+	$yearly_byyearday = $_POST['yearly_byyearday'];
+	$yearly_byweekno = $_POST['yearly_byweekno'];
+	$yearly_bymonth = $_POST['yearly_bymonth'];
+	$bound = $_POST['bound'];
+	$until_day = $_POST['until_day'];
+	$until_month = $_POST['until_month'];
+	$until_year = $_POST['until_year'];
+	$until_hour = $_POST['until_hour'];
+	$until_minute = $_POST['until_minute'];
+	$until_second = $_POST['until_second'];
+	$priority = $_POST['priority'];
+	$routeid = $_POST['routeid'];
+	$gwlist = $_POST['gwlist'];
+	$gw_weight = $_POST['gw_weight'];
+	$car_weight = $_POST['car_weight'];
+	$list_sort = $_POST['list_sort'];
+	$attrs = $_POST['attrs'];
+	$description = $_POST['description'];
+  } else {
+    $priority="0";
+    $routeid="0";
+  }
   require("lib/".$page_id.".add.edit.js");
   require("template/".$page_id.".add.php");
   require("template/footer.php");
@@ -182,7 +225,15 @@ if ($action=="search")
                                        $sql_search="";
 	}
 	else {
-		extract($_POST);
+		$search=$_POST['search'];
+		$delete=$_POST['delete'];
+		$search_groupid=$_POST['search_groupid'];
+		$search_prefix=$_POST['search_prefix'];
+		$search_priority=$_POST['search_priority'];
+		$search_routeid=$_POST['search_routeid'];
+		$search_gwlist=$_POST['search_gwlist'];
+		$search_attrs=$_POST['search_attrs'];
+		$search_description=$_POST['search_description'];
 		if ($search=="Search") {
 			$_SESSION['rules_search_groupid']=$search_groupid;
 			$_SESSION['rules_search_prefix']=$search_prefix;
