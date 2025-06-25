@@ -55,7 +55,6 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($action=="add")
 {
-        extract($_POST);
         if(!$_SESSION['read_only'])
         {
                 require("template/".$page_id.".add.php");
@@ -118,8 +117,6 @@ if ($action=="edit")
 {
 
         if(!$_SESSION['read_only']){
-
-                extract($_POST);
 
                 require("template/".$page_id.".edit.php");
                 require("template/footer.php");
@@ -219,7 +216,10 @@ if ($action=="dp_act")
 	$_SESSION['alias_id']=$_POST['alias_id'];
 
 	$_SESSION[$current_page]=1;
-	extract($_POST);
+
+	$show_all = $_POST['show_all'];
+	$search = $_POST['search'];
+
 	if ($show_all=="Show All") {
 		if (isset($_SESSION['fromusrmgmt']))
 			$_SESSION['fromusrmgmt']=0;

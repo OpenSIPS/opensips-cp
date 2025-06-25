@@ -58,7 +58,6 @@ switch ($action) {
 # start add new #
 #################
 case "add":
-	extract($_POST);
 	require("template/".$page_id.".add.php");
 	require("template/footer.php");
 	exit();
@@ -101,8 +100,6 @@ case "do_add":
 # start edit #
 ##############
 case "edit":
-	extract($_POST);
-
 	require("template/".$page_id.".edit.php");
 	require("template/footer.php");
 	exit();
@@ -198,7 +195,10 @@ if ($action=="search")
 	$_SESSION['lb_resources']= $_POST['lb_resources'];
 
 	$_SESSION[$current_page]=1;
-	extract($_POST);
+
+	$show_all = $_POST['show_all'];
+	$search = $_POST['search'];
+
 	if ($show_all=="Show All") {
 		$_SESSION['lb_groupid']="";
 		$_SESSION['lb_dsturi']="";
