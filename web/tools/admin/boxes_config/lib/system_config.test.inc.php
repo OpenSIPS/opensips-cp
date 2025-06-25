@@ -21,8 +21,9 @@
  */
 
 
-  extract($_POST);
   global $config;
+  $name = $_POST['name'];
+  $desc = $_POST['desc'];
   $form_valid=true;
   if ($form_valid)
    if ($name=="") {

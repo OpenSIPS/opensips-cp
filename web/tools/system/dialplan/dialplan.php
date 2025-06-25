@@ -54,7 +54,6 @@ if ( $_SESSION['read_only'] && $action!="search") {
 
 if ($action=="add")
 {
-	extract($_POST);
 	require("template/".$page_id.".add.php");
 	require("template/footer.php");
 	exit();
@@ -71,7 +70,6 @@ if ($action=="add")
 
 if ($action=="clone")
 {
-	extract($_POST);
 	require("template/".$page_id.".add.php");
 	require("template/footer.php");
 	exit();
@@ -135,7 +133,6 @@ if ($action=="add_do")
 
 if ($action=="edit")
 {
-	extract($_POST);
 	require("template/".$page_id.".edit.php");
 	require("template/footer.php");
 	exit();
@@ -222,7 +219,9 @@ if ($action=="delete")
 if ($action=="search")
 {
 
-	extract($_POST);
+	$show_all=$_POST['show_all'];
+	$search=$_POST['search'];
+
 	$_SESSION['dialplan_id']=$_POST['dialplan_id'];
 	$_SESSION[$current_page]=1;
 

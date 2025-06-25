@@ -50,7 +50,6 @@ $errors="";
 
 if ($action=="add")
 {
-	extract($_POST);
 	if(!$_SESSION['read_only'])
 	{
 		require("template/".$page_id.".add.php");
@@ -112,9 +111,6 @@ if ($action=="edit")
 {
 
 	if(!$_SESSION['read_only']){
-
-		extract($_POST);
-
 		require("template/".$page_id.".edit.php");
 		require("template/footer.php");
 		exit();
@@ -200,8 +196,10 @@ if ($action=="ds_search")
 {
 
 	$_SESSION[$current_page]=1;
-	extract($_GET);
-	extract($_POST);
+
+	$show_all=$_POST['show_all'];
+	$search=$_POST['search'];
+
 	if ($show_all=="Show All") {
 		$_SESSION['dispatcher_setid']="";
 		$_SESSION['dispatcher_dest']="";
