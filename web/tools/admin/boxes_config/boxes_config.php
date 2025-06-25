@@ -44,7 +44,6 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if ($action=="modify_params")
 { 
     if(!$_SESSION['read_only']){
-        extract($_POST);
 		$box_id = $_GET['box_id'];
 		$current_tool=$_GET['tool'];
 		$box_params=get_boxes_params();
@@ -119,7 +118,6 @@ if ($action == "details") {
 
 if ($action=="add")
 {
-        extract($_POST);
         if(!$_SESSION['read_only'])
         {
                 require("template/".$page_id.".add.php");
@@ -133,7 +131,6 @@ if ($action=="add")
 
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){
-		extract($_POST);
 		$box_params=get_boxes_params();
 		$params_names = "";
 		$unknowns ="";

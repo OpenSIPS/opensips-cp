@@ -20,7 +20,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-  extract($_POST);
+  $gwlist = $_POST['gwlist'];
+  $carrierid = $_POST['carrierid'];
+  $sort_alg = $_POST['sort_alg'];
+  $useonlyfirst = $_POST['useonlyfirst'];
+  $state = $_POST['state'];
+  $description = $_POST['description'];
+
   $form_valid=true;
   if ($form_valid)
 	  if ($gwlist=="") {

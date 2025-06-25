@@ -21,7 +21,12 @@
  */
 
 
-  extract($_POST);
+  $add_fname=$_POST['add_fname'];
+  $add_lname=$_POST['add_lname'];
+  $add_uname=$_POST['add_uname'];
+  $add_passwd=$_POST['add_passwd'];
+  $confirm_passwd=$_POST['confirm_passwd'];
+
   global $config;
   $form_valid=true;
   if ($form_valid)
