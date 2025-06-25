@@ -20,7 +20,50 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-  extract($_POST);
+  $groupid = $_POST['groupid'];
+  $prefix = $_POST['prefix'];
+  $time_recurrence = $_POST['time_recurrence'];
+  $dtstart_day = $_POST['dtstart_day'];
+  $dtstart_month = $_POST['dtstart_month'];
+  $dtstart_year = $_POST['dtstart_year'];
+  $dtstart_hour = $_POST['dtstart_hour'];
+  $dtstart_minute = $_POST['dtstart_minute'];
+  $dtstart_second = $_POST['dtstart_second'];
+  $duration = $_POST['duration'];
+  $duration_weeks = $_POST['duration_weeks'];
+  $duration_days = $_POST['duration_days'];
+  $duration_hours = $_POST['duration_hours'];
+  $duration_minutes = $_POST['duration_minutes'];
+  $duration_seconds = $_POST['duration_seconds'];
+  $frequency = $_POST['frequency'];
+  $daily_interval = $_POST['daily_interval'];
+  $weekly_interval = $_POST['weekly_interval'];
+  $weekly_byday = $_POST['weekly_byday'];
+  $monthly_interval = $_POST['monthly_interval'];
+  $monthly_bymonthday = $_POST['monthly_bymonthday'];
+  $monthly_byday = $_POST['monthly_byday'];
+  $yearly_interval = $_POST['yearly_interval'];
+  $yearly_byday = $_POST['yearly_byday'];
+  $yearly_byweekno = $_POST['yearly_byweekno'];
+  $yearly_bymonthday = $_POST['yearly_bymonthday'];
+  $yearly_byyearday = $_POST['yearly_byyearday'];
+  $yearly_bymonth = $_POST['yearly_bymonth'];
+  $bound = $_POST['bound'];
+  $until_year = $_POST['until_year'];
+  $until_month = $_POST['until_month'];
+  $until_day = $_POST['until_day'];
+  $until_hour = $_POST['until_hour'];
+  $until_minute = $_POST['until_minute'];
+  $until_second = $_POST['until_second'];
+  $priority = $_POST['priority'];
+  $routeid = $_POST['routeid'];
+  $gwlist = $_POST['gwlist'];
+  $gwlist_value = $_POST['gwlist_value'];
+  $gw_weight = $_POST['gw_weight'];
+  $car_weight = $_POST['car_weight'];
+  $list_sort = $_POST['list_sort'];
+  $description = $_POST['description'];
+
 if (!empty($lists)) $gwlist=$lists;
   $form_valid=true;
   if ($form_valid)

@@ -43,7 +43,6 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if ($action=="modify_params")
 {
     if(!$_SESSION['read_only']){
-        extract($_POST);
 		$assoc_id = $_GET['assoc_id'];
 		$current_tool=$_GET['tool'];
         $system_params=get_system_params();
@@ -108,7 +107,6 @@ if ($action=="edit_tools")
 
 if ($action=="add")
 {
-        extract($_POST);
         if(!$_SESSION['read_only'])
         {
                 require("template/".$page_id.".add.php");
@@ -121,8 +119,7 @@ if ($action=="add")
 }
 
 if ($action == "add_verify") { 
-	if(!$_SESSION['read_only']){
-		extract($_POST);
+	if(!$_SESSION['read_only']) {
 		require("lib/".$page_id.".test.inc.php");
 		$system_params=get_system_params();
 		$params_names = "";

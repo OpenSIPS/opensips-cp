@@ -40,7 +40,6 @@ else $action="";
 if ($action=="modify_params")
 {
     if(!$_SESSION['read_only']){
-        extract($_POST);
 		$current_tool=$_GET['tool'];
         $tools_params=get_params();
 		foreach($tools_params as $param => $attr) {

@@ -21,7 +21,15 @@
  */
 
 include("db_connect.php");
-  extract($_POST);
+  $gwid = $_POST['gwid'];
+  $address = $_POST['address'];
+  $strip = $_POST['strip'];
+  $socket = $_POST['socket'];
+  $pri_prefix = $_POST['pri_prefix'];
+  $probe_mode = $_POST['probe_mode'];
+  $state = $_POST['state'];
+  $description = $_POST['description'];
+
   $form_valid=true;
 
   if ($form_valid)
