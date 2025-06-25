@@ -44,7 +44,13 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 if ($action=="modify_params")
 { 
 	if(!$_SESSION['read_only']){
-		extract($_POST);
+		$config_name = $_POST['config_name'];
+		$db_host = $_POST['db_host'];
+		$db_name = $_POST['db_name'];
+		$db_port = $_POST['db_port'];
+		$db_pass = $_POST['db_pass'];
+		$db_user = $_POST['db_user'];
+
 		$id = $_GET['db_id'];
 		$sql = "UPDATE ".$table." SET config_name=?, db_host=?, db_pass=?,
 		 db_user=?, db_name=?, db_port=? WHERE id=?";
@@ -104,7 +110,6 @@ if ($action == "details") {
 
 if ($action=="add")
 {
-	extract($_POST);
 	if(!$_SESSION['read_only'])
 	{
 									require("template/".$page_id.".add.php");
@@ -117,7 +122,12 @@ if ($action=="add")
 
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){
-		extract($_POST);
+		$config_name = $_POST['config_name'];
+		$db_host = $_POST['db_host'];
+		$db_name = $_POST['db_name'];
+		$db_port = $_POST['db_port'];
+		$db_pass = $_POST['db_pass'];
+		$db_user = $_POST['db_user'];
 	
 		$sql = 'INSERT INTO '.$table.' (config_name, db_host, db_name,
 		db_port, db_pass, db_user) VALUES (?,?,?,?,?,?)';

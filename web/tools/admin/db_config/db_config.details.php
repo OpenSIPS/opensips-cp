@@ -19,7 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-extract($_GET);
+
+$db_id = $_GET['db_id'];
 
 require(__DIR__."/../../../../config/db.inc.php");
 require(__DIR__."/../../../../web/common/cfg_comm.php");
@@ -30,6 +31,11 @@ if ($db_id == 0) {
 	$name = $config->db_name;
 	$pass = $config->db_pass;
 } else {
+	$host = $_GET['host'];
+	$port = $_GET['port'];
+	$user = $_GET['user'];
+	$name = $_GET['name'];
+	$pass = $_GET['pass'];
 }
 ?>
 	<table width="400" border="0">
