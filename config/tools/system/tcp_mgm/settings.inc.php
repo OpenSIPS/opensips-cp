@@ -28,6 +28,16 @@ global $config;
 $config->tcp_mgm = array(
 	"title0" => array(
 		"type" => "title",
+		"title" => "General Settings"
+	),
+	"talk_to_this_assoc_id" => array(
+		"default" => 1,
+		"name"	=> "Linked system",
+		"options" => get_assoc_id(),
+		"type"	=> "dropdown",
+	),
+	"title1" => array(
+		"type" => "title",
 		"title" => "Database"
 	),
 	"db_config" => array(
