@@ -290,7 +290,7 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 	else
 		$maxlen = "";
 
-	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".$validation.",\"".$json_format."\")'";
+	$validate=" opt='".$opt."' oninput='auto_grow(this);validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".preg_quote($re, '/')."\"":"null").",".$validation.",\"".$json_format."\")'";
 	$pixelNo = substr_count($val, "\n") * 16 + 35;
 
 	
@@ -324,7 +324,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validati
 	else 
 		$value = "";
 
-	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".$re."\"":"null").",".($validation?$validation:"null").",\"".$format."\")'";
+	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".preg_quote($re, '/')."\"":"null").",".($validation?$validation:"null").",\"".$format."\")'";
 
 	print("
 		<tr>

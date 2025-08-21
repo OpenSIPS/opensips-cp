@@ -47,7 +47,7 @@ else if (isset($success) && $success!="")
 						<?php if (!isset($value['validation_regex']))
 							$regex = "null";
 						else
-							$regex = '"'.$value['validation_regex'].'"';
+							$regex = '"'.preg_quote($value['validation_regex'], '/').'"';
 						$opt = isset($value['is_optional'])?$value['is_optional']:"y";
 						$validate=" opt='".$opt."' oninput='validate_input(\"".$key."\", \"".$key."_ok\",".$regex.")'";
 						?>
