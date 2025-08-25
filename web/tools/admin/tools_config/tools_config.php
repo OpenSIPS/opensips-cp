@@ -79,7 +79,13 @@ if ($action=="modify_params")
 					}
 					continue;
 				}
-				$sql = "INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
+
+				if ($config->db_driver == "mysql") {
+					$sql = "INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
+				} else if ($config->db_driver == "pgsql") {
+					$sql = "INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON CONFLICT(module, param, box_id) DO UPDATE SET module=?,param=?,value=?";
+				}
+
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
