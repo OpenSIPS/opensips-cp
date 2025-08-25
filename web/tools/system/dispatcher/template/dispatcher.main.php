@@ -202,7 +202,7 @@ if ($dispatcher_group_mode == "static")
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="from ".$table." order by setid asc";
+if ($sql_search=="") $sql_command="from ".$table;
 else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
 $stm = $link->prepare("select count(*) ".$sql_command);
 if ($stm===FALSE) {
