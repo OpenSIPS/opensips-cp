@@ -79,6 +79,10 @@ $config_modules 	= array (
 				"enabled"		=> true,
 				"name"			=> "Addresses"
 			),
+			"config"		=> array (
+				"enabled"		=> true,
+				"name"			=> "Config"
+			),
 			"callcenter"		=> array (
 				"enabled"		=> true,
 				"name"			=> "Callcenter"
@@ -110,10 +114,6 @@ $config_modules 	= array (
 			"clusterer"			=> array (
 				"enabled"		=> true,
 				"name"			=> "Clusterer"
-			),
-			"config"			=> array (
-				"enabled"		=> true,
-				"name"			=> "Config"
 			),
 			"keepalived"		=> array (
 				"enabled"		=> true,
@@ -158,6 +158,10 @@ $config_modules 	= array (
 			"uac_registrant"		=> array (
 				"enabled"		=> true,
 				"name"			=> "UAC Registrant"
+			),
+			"sockets_mgm"			=> array (
+				"enabled"		=> true,
+				"name"			=> "Sockets Management"
 			),
 			"smpp"				=> array (
 				"enabled"		=> true,
