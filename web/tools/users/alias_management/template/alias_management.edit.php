@@ -26,8 +26,8 @@ if (isset($form_error)) {
           echo(' </tr>');
 }
 $id=$_GET['id'];
-	
-$sql = "select * from ".$_GET['table']." where id=?";
+
+$sql = "select * from ".$user_table." where id=?";
 $stm = $link->prepare($sql);
 if ($stm === false) {
 	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -39,7 +39,7 @@ $link=NULL;
 $index_row=0;
 ?>
 
-<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>&table=<?=$_GET['table']?>" method="post">
+<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>&table=<?=urlencode($user_table)?>" method="post">
 <?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
  <tr align="center">
@@ -68,4 +68,3 @@ require("alias_management.form.php");
 
 </table>
 </form>
-
