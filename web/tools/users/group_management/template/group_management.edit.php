@@ -41,7 +41,7 @@ $link=NULL;
 $index_row=0;
 ?>
 
-<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>&table=<?=$_GET['table']?>" method="post">
+<form action="<?=$page_name?>?action=modify&id=<?=$_GET['id']?>&table=<?=urlencode($table)?>" method="post">
 <?php csrfguard_generate(); ?>
 <table width="400" cellspacing="2" cellpadding="2" border="0">
 <table width="400" cellspacing="2" cellpadding="2" border="0">
@@ -70,4 +70,3 @@ require("group_management.form.php");
 
 </table>
 </form>
-
