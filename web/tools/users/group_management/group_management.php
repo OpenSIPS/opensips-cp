@@ -105,14 +105,19 @@ if ($action=="add_verified")
 #################
 if ($action=="edit")
 {
-
-        if(!$_SESSION['read_only']){
-                require("template/".$page_id.".edit.php");
-                require("template/footer.php");
-                exit();
-        }else{
-                $errors= "User with Read-Only Rights";
-        }
+	if(!$_SESSION['read_only']){
+		$requested_table = isset($_GET['table']) ? $_GET['table'] : $table;
+		if ($requested_table !== $table) {
+			$errors = "Invalid group table";
+		} else {
+			$table = $requested_table;
+			require("template/".$page_id.".edit.php");
+			require("template/footer.php");
+			exit();
+		}
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
 }
 #############
 # end edit      #
@@ -124,21 +129,21 @@ if ($action=="edit")
 #################
 if ($action=="modify")
 {
+	$info="";
+	$errors="";
 
-        $info="";
-        $errors="";
+	if(!$_SESSION['read_only']){
+		$id = $_GET['id'];
+		$requested_table = isset($_GET['table']) ? $_GET['table'] : $table;
+		$group_username=$_POST['username'];
+		$group_domain=$_POST['domain'];
+		$group_grp = $_POST['group'];
 
-        if(!$_SESSION['read_only']){
-
-                $id = $_GET['id'];
-                $group_username=$_POST['username'];
-                $group_domain=$_POST['domain'];
-                $group_grp = $_POST['group'];
-
-                if ($group_username=="" || $group_domain=="" || $group_grp==""){
-                        $errors = "Invalid data, the entry was not modified in the database";
-                } else {
-				
+		if ($requested_table !== $table) {
+			$errors = "Invalid group table";
+		} else if ($group_username=="" || $group_domain=="" || $group_grp==""){
+			$errors = "Invalid data, the entry was not modified in the database";
+		} else {		
 			$sql = "select count(*) from subscriber where username=? and domain=?";
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
@@ -148,8 +153,7 @@ if ($action=="modify")
 			if ($stm->fetchColumn(0)<1) {
 				$errors="This user does not exist !!!";
 			} else {
-	
-	                	$sql = "SELECT * FROM ".$table." WHERE username=? AND domain=? AND grp=? AND id!=?";
+				$sql = "SELECT * FROM ".$table." WHERE username=? AND domain=? AND grp=? AND id!=?";
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -161,8 +165,8 @@ if ($action=="modify")
 			}
 		}
 
-                if ($errors=="") {
-                        $sql = "UPDATE ".$table." SET username=?, domain=?, grp=? WHERE id=?";
+		if ($errors=="") {
+			$sql = "UPDATE ".$table." SET username=?, domain=?, grp=? WHERE id=?";
 			$stm = $link->prepare($sql);
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -170,13 +174,12 @@ if ($action=="modify")
 			if ($stm->execute( array($group_username, $group_domain, $group_grp, $id) ) == false) {
 				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
-                        	$info="The Group was modified";
+							$info="The Group was modified";
 			}
-                }
-        }else{
-                $errors= "User with Read-Only Rights";
-        }
-
+		}
+	} else {
+			$errors= "User with Read-Only Rights";
+	}
 }
 #################
 # end modify    #
@@ -260,19 +263,21 @@ if ($action=="dp_act")
 if ($action=="delete")
 {
         if(!$_SESSION['read_only']){
-
-                $id=$_GET['id'];
-		$table=$_GET['table'];
-
-                $sql = "DELETE FROM ".$table." WHERE id=?";
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		$stm->execute( array($id) );
-        }else{
-
-                $errors= "User with Read-Only Rights";
+			$id=$_GET['id'];
+			$requested_table = isset($_GET['table']) ? $_GET['table'] : NULL;
+			if ($requested_table !== $table) {
+				$errors = "Invalid group table";
+			} else {
+				$table = $requested_table;
+				$sql = "DELETE FROM ".$table." WHERE id=?";
+				$stm = $link->prepare($sql);
+				if ($stm === false) {
+					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+				}
+				$stm->execute( array($id) );
+			}
+        } else {
+			$errors= "User with Read-Only Rights";
         }
 }
 ##############

@@ -32,6 +32,10 @@ csrfguard_validate();
 foreach (get_settings_value("table_aliases") as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
+$allowed_alias_tables = array();
+for ($i = 0; $i < count($options); $i++) {
+	$allowed_alias_tables[] = $options[$i]['value'];
+}
 
 $implicit_domain = get_settings_value("implicit_domain");
 
@@ -115,15 +119,21 @@ if ($action=="add_verified")
 #################
 if ($action=="edit")
 {
-
-        if(!$_SESSION['read_only']){
-
-                require("template/".$page_id.".edit.php");
-                require("template/footer.php");
-                exit();
-        }else{
-                $errors= "User with Read-Only Rights";
-        }
+	if(!$_SESSION['read_only']){
+		$user_table = isset($_GET['table']) ? $_GET['table'] : NULL;
+		if ($suppress_alias_type) {
+			$user_table = $options[0]['value'];
+		}
+		if ($user_table === NULL || !in_array($user_table, $allowed_alias_tables, true)) {
+			$errors = "Invalid alias table";
+		} else {
+			require("template/".$page_id.".edit.php");
+			require("template/footer.php");
+			exit();
+		}
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
 }
 #############
 # end edit      #
@@ -136,36 +146,36 @@ if ($action=="edit")
 if ($action=="modify")
 {
 
-        $info="";
-        $errors="";
+	$info="";
+	$errors="";
 
-        if(!$_SESSION['read_only']){
+	if(!$_SESSION['read_only']){
+		$id = $_GET['id'];
+		$user_table = isset($_GET['table']) ? $_GET['table'] : NULL;
+		$alias_username=$_POST['alias_username'];
+		$alias_domain=$_POST['alias_domain'];
+		$username = $_POST['username'];
+		$domain= $_POST['domain'];
 
-                $id = $_GET['id'];
-                $user_table = $_GET['table'];
-                $alias_username=$_POST['alias_username'];
-                $alias_domain=$_POST['alias_domain'];
-                $username = $_POST['username'];
-                $domain= $_POST['domain'];
+		if ($suppress_alias_type) {
+			$user_table = $options[0]['value'];
+		}
 
-                if ($suppress_alias_type) {
-                    $user_table = $options[0]['value'];
-                }
-
-                if ($alias_username=="" || $alias_domain=="" || $username=="" || $domain=="") {
-                        $errors = "Invalid data, the entry was not modified in the database";
-                } else {
+		if ($user_table === NULL || !in_array($user_table, $allowed_alias_tables, true)) {
+			$errors = "Invalid alias table";
+		} else if ($alias_username=="" || $alias_domain=="" || $username=="" || $domain=="") {
+			$errors = "Invalid data, the entry was not modified in the database";
+		} else {
 			$sql = "SELECT count(*) FROM ".$user_table." WHERE alias_username=? AND alias_domain=? AND id!=?";
 			$stm = $link->prepare($sql);
 			if ($stm === FALSE)
 				die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
 			$stm->execute(array($alias_username, $alias_domain, $id));
-			
+
 			if ($stm->fetchColumn(0)>0) {
 				$errors = "Alias already exists!";
 			} else {
-
-	                        $sql = "UPDATE ".$user_table." SET alias_username=?, alias_domain=?, username=?, domain=? WHERE id=?";
+				$sql = "UPDATE ".$user_table." SET alias_username=?, alias_domain=?, username=?, domain=? WHERE id=?";
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -173,15 +183,13 @@ if ($action=="modify")
 				if ($stm->execute(array($alias_username, $alias_domain, $username, $domain, $id)) == false) {
 					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
 				} else {
-	                        	$info="The alias was modified";
+								$info="The alias was modified";
 				}
 			}
-                }
-        }else{
-
-                $errors= "User with Read-Only Rights";
-        }
-
+		}
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
 }
 #################
 # end modify    #
@@ -249,21 +257,23 @@ if ($action=="dp_act")
 ################
 if ($action=="delete")
 {
-        if(!$_SESSION['read_only']){
+	if(!$_SESSION['read_only']){
+		$id=$_GET['id'];
+		$table = isset($_GET['table']) ? $_GET['table'] : NULL;
+		if ($table === NULL || !in_array($table, $allowed_alias_tables, true)) {
+			$errors = "Invalid alias table";
+		} else {
 
-                $id=$_GET['id'];
-		$table=$_GET['table'];
-
-                $sql = "DELETE FROM ".$table." WHERE id=?";
-		$stm = $link->prepare($sql);
-		if ($stm===FALSE) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			$sql = "DELETE FROM ".$table." WHERE id=?";
+			$stm = $link->prepare($sql);
+			if ($stm===FALSE) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			$stm->execute( array($id) );
 		}
-		$stm->execute( array($id) );
-        }else{
-
-                $errors= "User with Read-Only Rights";
-        }
+	} else {
+		$errors= "User with Read-Only Rights";
+	}
 }
 ##############
 # end delete #
