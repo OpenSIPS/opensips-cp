@@ -23,7 +23,7 @@ class pkg_widget extends widget
     $this->compute_info();
   }
 
-  function get_name() {
+  public static function get_name() {
     return "PKG Usage widget";
   }
 

@@ -29,7 +29,7 @@ class clusterer_nodes_widget extends widget
   }
 
 
-  function get_name() {
+  public static function get_name() {
     return "Clusterer Nodes";
   }
 

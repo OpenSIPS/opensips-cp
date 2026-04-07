@@ -39,7 +39,7 @@ class clusterer_shtags_widget extends widget
   }
 
 
-  function get_name() {
+  public static function get_name() {
     return "Clusterer Sharing Tags";
   }
 

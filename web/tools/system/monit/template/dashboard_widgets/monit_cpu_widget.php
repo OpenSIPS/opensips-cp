@@ -68,7 +68,7 @@ class monit_cpu_widget extends widget
 	$this->set_cpu_val($this->cpu_sys, 'n\a');
     }
 
-    function get_name() {
+    public static function get_name() {
         return "CPU monit widget";
     }
     function display_test() {

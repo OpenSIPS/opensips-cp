@@ -18,7 +18,7 @@ class monit_tools_widget extends widget
     }
 
 
-    function get_name() {
+    public static function get_name() {
         return "Monit tools";
     }
 	

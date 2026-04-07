@@ -14,7 +14,7 @@ class custom_widget extends widget
         return '<li type="custom" title='.$this->title.' id='.$this->id.'><header>'.$this->title.'<a href=\'dashboard.php?action=edit_widget&widget_name='.$this->name.'\' onclick="lockPanel()" style="position:relative; left:60px; top:2px; content: url(\'../../../images/sett.png\');"></a></header><div>'.$this->text.'</div></li>';
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Custom widget";
     }
 

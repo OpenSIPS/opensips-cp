@@ -26,7 +26,7 @@ class status_report_widget extends widget
     $this->set_params();
   }
 
-  function get_name() {
+  public static function get_name() {
     return "Status widget";
   }
 

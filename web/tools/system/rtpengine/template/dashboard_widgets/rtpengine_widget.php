@@ -24,7 +24,7 @@ class rtpengine_widget extends widget
   }
 
 
-  function get_name() {
+  public static function get_name() {
     return "RTPEngine Servers";
   }
   function display_test() {

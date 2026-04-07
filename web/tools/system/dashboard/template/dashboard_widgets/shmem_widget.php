@@ -20,7 +20,7 @@ class shmem_widget extends gauge_widget
 		$this->set_status(widget::STATUS_OK);
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Shared memory widget";
     }
 
