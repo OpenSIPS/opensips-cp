@@ -15,7 +15,7 @@ class horizontal_title_widget extends widget
         return '<li type="horizontalTitle" title='.$this->title.' id='.$this->id.'><div>'.$this->title.'</div></li>';
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Horizontal title widget";
     }
 

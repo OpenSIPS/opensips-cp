@@ -44,7 +44,7 @@ class stats_gauge_widget extends gauge_widget
 	return array($this->value, $this->total);
     }
 
-    function get_name() {
+	public static function get_name() {
         return "Statistic Gauge widget";
     }
 

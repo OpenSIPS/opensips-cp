@@ -25,7 +25,7 @@ class vertical_title_widget extends widget
         return '<li type="verticalTitle" '.$color.' title='.$this->title.' id='.$this->id.'>'.$menu.'<div>'.$this->title.'</div></li>';
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Vertical title widget";
     }
 
