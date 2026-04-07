@@ -11,7 +11,7 @@ class asr_widget extends gauge_widget
         $this->color = 'rgb(198,226,213)';
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Answer seizure rate widget";
     }
 

@@ -11,7 +11,7 @@ class load_widget extends gauge_widget
         parent::__construct($array);
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Load widget";
     }
 
