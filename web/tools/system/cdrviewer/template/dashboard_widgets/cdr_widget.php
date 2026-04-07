@@ -14,7 +14,7 @@ class cdr_widget extends widget
 		$this->set_cdr_entries();
 	}
 
-	function get_name() {
+	public static function get_name() {
 		return "CDR widget";
 	}
 

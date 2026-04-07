@@ -16,7 +16,7 @@ class bar_chart_widget extends widget
         return '<li type="bar_chart" '.$color.' id='.$this->id.'></li>';
     }
 
-    function get_name() {
+    public static function get_name() {
         return "Bar-chart widget";
     }
 /*

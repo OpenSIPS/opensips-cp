@@ -22,7 +22,7 @@ class chart_widget extends widget
     }
 
 
-    function get_name() {
+    public static function get_name() {
         return "Statistic Chart widget";
     }
 
