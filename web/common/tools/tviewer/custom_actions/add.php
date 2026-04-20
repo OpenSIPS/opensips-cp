@@ -32,6 +32,8 @@ if ($action=="add_verify")
 	$values="";
 
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
+		if (isset($value['show_in_add_form']) && $value['show_in_add_form'] == false)
+			continue;
 		$_SESSION[$key] = $_POST[$key];
 		if ($_POST[$key] == "" && isset($value["is_optional"]) && $value["is_optional"] == "y")
 			continue;
