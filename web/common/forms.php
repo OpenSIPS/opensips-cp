@@ -281,7 +281,7 @@ function print_example($example, $param, $id) {
 }
 
 function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=null,$validation=null,$json_format=null) {
-	if ($val!=null)
+	if ($val !== null)
 		$valid=" valid='ok'";
 	else
 		$valid = "";
@@ -310,8 +310,8 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 				<textarea style='height:".$pixelNo."px'   name='".$id."'".$valid.$maxlen." cols=30  id='".$id."' class='dataInput'".$validate.">".$val."</textarea>
 				</td>
 				<td width='20'>
-				<div id='".$id."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
-				</td></tr></table>   
+				<div id='".$id."_ok'>".(($opt=='y' || $val !== null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
+				</td></tr></table>
 			</td>
 		</tr>");
 }
@@ -319,9 +319,9 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 
 function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validation=null, $format=null) {
 
-	if ($val!=null)
+	if ($val !== null)
 		$value=" value='".$val."' valid='ok'";
-	else 
+	else
 		$value = "";
 
 	$validate=" opt='".$opt."' oninput='validate_input(\"".$id."\", \"".$id."_ok\",".($re?"\"".preg_quote($re, '/')."\"":"null").",".($validation?$validation:"null").",\"".$format."\")'";
@@ -341,7 +341,7 @@ function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validati
 				<input type='text' name='".$id."'".$value." id='".$id."' maxlength='".$mlen."' class='dataInput'".$validate.">
 				</td>
 				<td width='20'>
-				<div id='".$id."_ok'>".(($opt=='y' || $val!=null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
+				<div id='".$id."_ok'>".(($opt=='y' || $val !== null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
 				</td></tr></table>
 			</td>
 		</tr>");
