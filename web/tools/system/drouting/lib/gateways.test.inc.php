@@ -22,6 +22,7 @@
 
 include("db_connect.php");
   $gwid = $_POST['gwid'];
+  if (isset($_POST['type'])) $type = $_POST['type'];
   $address = $_POST['address'];
   $strip = $_POST['strip'];
   $socket = $_POST['socket'];
