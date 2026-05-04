@@ -53,7 +53,7 @@ switch ($dialplan_group_mode) {
 		if ($dialplan_group_mode == "array")
 			$set_cache = $dialplan_group;
 		form_generate_select("Dialplan ID", "The dialplan ID of the rule",
-			"dpid", "n", $dp_form['grp'],
+			"dpid", "n", $dp_form['dpid'],
 			array_keys($set_cache), array_values($set_cache));
 		break;
 }
