@@ -29,44 +29,44 @@
  $sql_search="";
  $sql_vals=array();
 
- $search_gwid=$_SESSION['gateways_search_gwid'];
+ $search_gwid=$_SESSION['gateways_search_gwid'] ?? "";
  if ($search_gwid!="") {
      $sql_search.=" and gwid like ? ";
      array_push( $sql_vals, "%".$search_gwid."%");
  }
 
 
- $search_type=$_SESSION['gateways_search_type'];
+ $search_type=$_SESSION['gateways_search_type'] ?? "";
  if ($search_type!="") {
 	 $sql_search.=" and type=?";
 	 array_push( $sql_vals, $search_type);
  }
 
- $search_address=$_SESSION['gateways_search_address'];
+ $search_address=$_SESSION['gateways_search_address'] ?? "";
  if ($search_address!="") {
 	 $sql_search.=" and address like ? ";
 	 array_push( $sql_vals, "%".$search_address."%");
- } 
- 
- $search_pri_prefix=$_SESSION['gateways_search_pri_prefix'];
+ }
+
+ $search_pri_prefix=$_SESSION['gateways_search_pri_prefix'] ?? "";
  if ($search_pri_prefix!="") {
 	 $sql_search.=" and pri_prefix=?";
 	 array_push( $sql_vals, $search_pri_prefix);
  }
 
- $search_probe_mode=$_SESSION['gateways_search_probe_mode'];
+ $search_probe_mode=$_SESSION['gateways_search_probe_mode'] ?? "";
  if ($search_probe_mode!="") {
 	$sql_search.=" and probe_mode=?";
 	array_push( $sql_vals, $search_probe_mode);
  }
 
- $search_description=$_SESSION['gateways_search_description'];
- if ($search_description!="") { 
+ $search_description=$_SESSION['gateways_search_description'] ?? "";
+ if ($search_description!="") {
 	$sql_search.=" and description like ?";
 	array_push( $sql_vals, "%".$search_description."%");
  }
 
- $search_attrs=$_SESSION['gateways_search_attrs'];
+ $search_attrs=$_SESSION['gateways_search_attrs'] ?? "";
  if ($search_attrs!="") {
         $sql_search.=" and attrs like ?";
 	array_push( $sql_vals, "%".$search_attrs."%");

@@ -322,6 +322,7 @@ if ($action=="search") {
 	$search_pri_prefix = $_POST['search_pri_prefix'];
 	$probe_mode = $_POST['probe_mode'];
 	$search_description = $_POST['search_description'];
+	$search_attrs = $_POST['search_attrs'] ?? "";
 
 	if ($show_all=="Show All") {
 		$_SESSION['gateways_search_gwid']="";
