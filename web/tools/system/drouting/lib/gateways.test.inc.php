@@ -29,6 +29,7 @@ include("db_connect.php");
   $probe_mode = $_POST['probe_mode'];
   $state = $_POST['state'];
   $description = $_POST['description'];
+  $attrs = $_POST['attrs'] ?? "";
 
   $form_valid=true;
 
