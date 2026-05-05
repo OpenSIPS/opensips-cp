@@ -53,15 +53,16 @@ for ($i=0; $i<$data_no;$i++) {
 		
 		if ($node['disabled'] == 1){
 			$rtpengine_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
-		} else if ($node['attributes']['disabled'] == 0){
+		} else if ($node['disabled'] == 0){
 			$rtpengine_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
 		}
 	}
 } 	
 
 $sql_search="";
-$search_setid=$_SESSION['rtpengine_setid'];
-$search_sock=$_SESSION['rtpengine_sock'];
+$search_setid=$_SESSION['rtpengine_setid'] ?? '';
+$search_sock=$_SESSION['rtpengine_sock'] ?? '';
+$sql_values = [];
 
 if($search_setid!="") { 
 	$sql_search.="and set_id = ?";
@@ -173,17 +174,19 @@ if(!$_SESSION['read_only']){
 	$edit_link = '<a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 	$delete_link='<a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 }
+// MI url has no =weight suffix; strip it from the DB socket for cache lookup
+$cache_sock = explode('=', $result[$i]['socket'], 2)[0];
 ?>
 <tr>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['id']?></td>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['socket']?></td>
 <td class="<?=$row_style?>">&nbsp;<?=$result[$i]['set_id']?></td>
-<td class="<?=$row_style?>">&nbsp;<?=isset($rtpengine_cache[$result[$i]['set_id']][$result[$i]['socket']]['weight'])?$rtpengine_cache[$result[$i]['set_id']][$result[$i]['socket']]['weight']:"n/a"?></td>
-<td class="<?=$row_style?>">&nbsp;<?=isset($rtpengine_cache[$result[$i]['set_id']][$result[$i]['socket']]['ticks'])?$rtpengine_cache[$result[$i]['set_id']][$result[$i]['socket']]['ticks']:"n/a"?></td>
-<?php 
+<td class="<?=$row_style?>">&nbsp;<?=isset($rtpengine_cache[$result[$i]['set_id']][$cache_sock]['weight'])?$rtpengine_cache[$result[$i]['set_id']][$cache_sock]['weight']:(strpos($result[$i]['socket'],'=')!==false?explode('=',$result[$i]['socket'],2)[1]:"n/a")?></td>
+<td class="<?=$row_style?>">&nbsp;<?=isset($rtpengine_cache[$result[$i]['set_id']][$cache_sock]['ticks'])?$rtpengine_cache[$result[$i]['set_id']][$cache_sock]['ticks']:"n/a"?></td>
+<?php
 if(!$_SESSION['read_only']){
 ?>
-<td class="<?=$row_style?>Img" align="center"><?=isset($rtpengine_cache[$result[$i]['set_id']][$result[$i]['socket']]['state_link'])?$rtpengine_cache[$result[$i]['set_id']][$result[$i]['socket']]['state_link']:"n/a"?></td>
+<td class="<?=$row_style?>Img" align="center"><?=isset($rtpengine_cache[$result[$i]['set_id']][$cache_sock]['state_link'])?$rtpengine_cache[$result[$i]['set_id']][$cache_sock]['state_link']:"n/a"?></td>
 <td class="<?=$row_style?>Img" align="center"><?=$edit_link?></td>
 <td class="<?=$row_style?>Img" align="center"><?=$delete_link?></td>
 <?php
