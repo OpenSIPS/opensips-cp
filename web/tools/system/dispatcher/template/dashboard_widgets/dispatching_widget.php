@@ -191,7 +191,7 @@ class dispatching_widget extends widget
     form_generate_select("Box", null, "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     form_generate_select("Partition", "Partition to track destinations for; Empty means all partitions are considered", "widget_partition", null, $params['widget_partition'], array(), null, true);
     form_generate_select("Set", "Set within partition to track destinations for; Empty means all sets within partition are considered", "widget_set", null, $params['widget_set'], array(), null, true);
-    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
+    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]+)$');
     self::ds_box_selection($params['widget_partition'], $params['widget_set']);
   }
 

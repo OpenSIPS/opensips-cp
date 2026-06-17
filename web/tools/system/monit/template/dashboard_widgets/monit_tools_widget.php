@@ -122,7 +122,7 @@ class monit_tools_widget extends widget
             $params['widget_name'] = "Monit";
 	form_generate_input_text("Name", null, "widget_name", null, $params['widget_name'], 20,null);
 	form_generate_select("Box", null, "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
-	form_generate_input_text("Refresh period", "Period (in seconds) when the widget should updated", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
+	form_generate_input_text("Refresh period", "Period (in seconds) when the widget should updated", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]+)$');
 	}
 
 	

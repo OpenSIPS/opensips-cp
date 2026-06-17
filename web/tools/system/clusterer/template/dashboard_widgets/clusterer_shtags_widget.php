@@ -198,7 +198,7 @@ class clusterer_shtags_widget extends widget
     form_generate_input_text("Name", null, "widget_name", null, $params['widget_name'], 20,null);
     form_generate_select("System", null, "widget_system", null,  $params['widget_system'], array_keys($systems), array_values($systems));
     form_generate_select("Cluster", "Cluster to filter sharing tags; if empty, all sharing tags withn all clusters are consudered", "widget_cluster", null, $params['widget_cluster'], array(), null, true);
-    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "n", $params['widget_refresh'], 20, '^([0-9]\+)$');
+    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "n", $params['widget_refresh'], 20, '^([0-9]+)$');
     self::cluster_system_selection($params['widget_cluster']);
   }
 

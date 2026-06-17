@@ -145,7 +145,7 @@ class rtpproxy_widget extends widget
     form_generate_input_text("Name", null, "widget_name", null, $params['widget_name'], 20,null);
     form_generate_select("Box", null, "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     form_generate_select("Set", "RTProxy set to track; Empty means all servers are considered", "widget_set", null, $params['widget_set'], array(), null, true);
-    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "n", $params['widget_refresh'], 20, '^([0-9]\+)$');
+    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "n", $params['widget_refresh'], 20, '^([0-9]+)$');
     self::rtp_box_selection($params['widget_set']);
   }
 

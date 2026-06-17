@@ -109,7 +109,7 @@ class status_report_widget extends widget
     form_generate_input_text("Name", "", "widget_name", "n", $params['widget_name'], 20,null);
     form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     form_generate_select("Group/ID", "", "widget_identifier", null, $params['widget_identifier'], $options);
-    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
+    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]+)$');
     self::box_selection($identifiers_list, $init);
   }
 

@@ -155,9 +155,9 @@ class monit_cpu_widget extends widget
 	form_generate_input_text("Title", null, "widget_name", null, $params['widget_name'], 5,null);
 	form_generate_input_text("Service", "The name of the monit 'service' name, usually the hostname", "widget_service", null, $params['widget_service'], 20,null);
 	form_generate_select("Box", null, "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
-        form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (orange)", "widget_warning", "n", $params['widget_warning'], 20, "^[0-9]\+(\\\.[0-9]\+)?$");
-        form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20, "^[0-9]\+(\\\.[0-9]\+)?$");
-	form_generate_input_text("Refresh period", "Period (in seconds) when the widget should updated", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
+        form_generate_input_text("Warning threshold", "The percent after which the indicator will display the warning section (orange)", "widget_warning", "n", $params['widget_warning'], 20, "^[0-9]+(\\.[0-9]+)?$");
+        form_generate_input_text("Critical threshold", "The percent after which the indicator will display the warning section (red)", "widget_critical", "n", $params['widget_critical'], 20, "^[0-9]+(\\.[0-9]+)?$");
+	form_generate_input_text("Refresh period", "Period (in seconds) when the widget should updated", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]+)$');
 	}
 
 	static function get_description() {

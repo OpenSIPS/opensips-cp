@@ -105,7 +105,7 @@ class chart_widget extends widget
 	    form_generate_select("Box", "Widget box", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
 	    form_generate_select("Chart", "Statistic to view", "widget_chart", null,  $params['widget_chart'], $options);
 	    form_generate_input_text("Chart size", "Chart timespan in hours (defaults to 1)", "widget_chart_size", "n", $params['widget_chart_size'], 20,null);
-	    form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]\+)$');
+	    form_generate_input_text("Chart refresh period", "Period (in seconds) when the chart should be refreshed", "widget_chart_refresh", "y", $params['widget_chart_refresh'], 20, '^([0-9]+)$');
 	    self::chart_box_selection($stats_list, $init);
     }
 
