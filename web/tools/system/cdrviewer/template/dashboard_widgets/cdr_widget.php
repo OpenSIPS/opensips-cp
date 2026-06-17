@@ -59,7 +59,7 @@ class cdr_widget extends widget
 		if (!$params['widget_name'])
 			$params['widget_name'] = "CDR";
 		form_generate_input_text("Name", "", "widget_name", null, $params['widget_name'], 20,null);
-    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]\+)$');
+    form_generate_input_text("Refresh period", "Period (in seconds) when the widget should update", "widget_refresh", "y", $params['widget_refresh'], 20, '^([0-9]+)$');
 	}
 
   static function get_description() {
