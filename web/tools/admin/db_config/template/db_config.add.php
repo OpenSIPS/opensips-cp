@@ -34,7 +34,7 @@ form_generate_input_text("Configuration name", "Name of the configuration",
 form_generate_input_text("DB host", "Database host", "db_host", "n",
 	"", 64, null);
 form_generate_input_text("DB port", "Database port", "db_port", "y",
-	"", 64, '^([0-9]\+)$');
+	"", 64, '^([0-9]+)$');
 form_generate_input_text("DB user", "Database user", "db_user", "n",
 	"", 64, null);
 form_generate_input_text("DB password", "Database password", "db_pass",
