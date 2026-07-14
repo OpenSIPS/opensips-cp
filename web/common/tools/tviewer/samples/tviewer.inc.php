@@ -157,7 +157,11 @@ Example table: table1
  //need to reload 0 or 1
  $custom_config[$module_id][0]['reload'] = 1;
 
- //if you need reload please specify the MI command to be ran
+ //if you need reload please specify the MI command to be ran.
+ //this may be either a string ("command" or "command param1 param2" for
+ //positional params) or an array of the form
+ //array("command", array("param1"=>"value1", ...)) to pass named params:
+ //  $custom_config[$module_id][0]['custom_mi_command'] = array("dr_reload", array("partition_name"=>"dids"));
  $custom_config[$module_id][0]['custom_mi_command'] = "do_reload";
  
  //the system ID to send the reload MI command to
