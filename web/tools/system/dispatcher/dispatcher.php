@@ -272,7 +272,7 @@ if ($action=="change_state") {
 ##############
 
 require("template/".$page_id.".main.php");
-if (!empty($errors)) echo('<tr><td align="center"><div class="formError">'.join(", ", $errors).'</div></td></tr>');
+if (!empty($errors)) echo('<tr><td align="center"><div class="formError">'.mi_error_text($errors).'</div></td></tr>');
 if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();

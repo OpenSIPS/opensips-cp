@@ -77,7 +77,7 @@ if ($action=="enablegw"){
 		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
-		echo "Error while enabling gateway ".$_GET['gwid']." (".$errors[0].")";
+		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
 }
 ##################
 # end enable gw  #
@@ -98,7 +98,7 @@ if ($action=="disablegw"){
 		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
-		echo "Error while enabling gateway ".$_GET['gwid']." (".$errors[0].")";
+		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
 }
 ##################
 # end disable gw  #
@@ -118,7 +118,7 @@ if ($action=="probegw"){
 		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
-		echo "Error while enabling gateway ".$_GET['gwid']." (".$errors[0].")";
+		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
 }
 ##################
 # end probing gw #
