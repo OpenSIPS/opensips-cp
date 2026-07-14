@@ -114,6 +114,7 @@ if ($action=="modify")
 		                        $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$_POST['passwd']);
 					$passwd = "";
 				}
+                
 				$sql = "UPDATE ".$table." SET username=?, domain=?,
 					 password=?, ha1=?, ha1_sha256=?, ha1_sha512t256=?";
 				$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
@@ -280,73 +281,74 @@ if ($action=="add")
 #################
 if ($action=="add_verify")
 {
-  if(!$_SESSION['read_only']){
-          require("lib/".$page_id.".test.inc.php");
-          if ($form_valid) {
-                if (get_settings_value("passwd_mode")==1) {
-		    $ha1 = md5($uname.":".$domain.":".$passwd);
-		    $sha256 = hash("sha256", $uname.":".$domain.":".$passwd);
-		    $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$passwd);
-			$passwd="";
-                } else {
-		    $ha1 = "";
-		    $sha256 = "";
-		    $sha512t256 = "";
-                }
-                $sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
-		foreach ( get_settings_value("subs_extra") as $key => $value )
-			if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
-				$sql .= ','.$key;
-		$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
-		$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
-		foreach ( get_settings_value("subs_extra") as $key => $value ) {
-			if (!isset($_POST['extra_'.$key]) || $_POST["extra_".$key] == "") {
-				if (!isset($value["default"]))
-					continue;
-				$value = $value["default"];
+	if(!$_SESSION['read_only']){
+		require("lib/".$page_id.".test.inc.php");
+		if ($form_valid) {
+			if (get_settings_value("passwd_mode")==1) {
+				$ha1 = md5($uname.":".$domain.":".$passwd);
+				$sha256 = hash("sha256", $uname.":".$domain.":".$passwd);
+				$sha512t256 = hash("sha512/256", $uname.":".$domain.":".$passwd);
+				$passwd="";
 			} else {
-				$value = $_POST["extra_".$key];
+				$ha1 = "";
+				$sha256 = "";
+				$sha512t256 = "";
 			}
-			$sql .= ', ?';
-			array_push( $sql_vals, $value);
-		}
-		$sql .= ')';
 
-                $stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		if ($stm->execute( $sql_vals ) == false) {
-			$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true);
+			$sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
+			foreach ( get_settings_value("subs_extra") as $key => $value )
+				if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
+					$sql .= ','.$key;
+			$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
+			$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
+			foreach ( get_settings_value("subs_extra") as $key => $value ) {
+				if (!isset($_POST['extra_'.$key]) || $_POST["extra_".$key] == "") {
+					if (!isset($value["default"]))
+						continue;
+					$value = $value["default"];
+				} else {
+					$value = $_POST["extra_".$key];
+				}
+				$sql .= ', ?';
+				array_push( $sql_vals, $value);
+			}
+			$sql .= ')';
+
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( $sql_vals ) == false) {
+				$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true);
+			} else {
+
+				if ($alias!="") {
+					$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
+					$stm = $link->prepare($sql);
+					if ($stm === false) {
+						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+					}
+					if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
+						$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true);
+					}
+				}
+
+				$lname=NULL;
+				$fname=NULL;
+				$uname=NULL;
+				$alias=NULL;
+				$passwd=NULL;
+				$confirm_passwd=NULL;
+
+				print "New User added!";
+				$action="add";
+			}
 		} else {
-
-			if ($alias!="") {
-				$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
-        	       		$stm = $link->prepare($sql);
-				if ($stm === false) {
-					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-				}
-				if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
-					$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true);
-				}
-			}
-
-			$lname=NULL;
-			$fname=NULL;
-			$uname=NULL;
-			$alias=NULL;
-			$passwd=NULL;
-			$confirm_passwd=NULL;
-
-                	print "New User added!";
-                	$action="add";
+			print $form_error;
+			$action="add_verify";
 		}
-          } else {
-                print $form_error;
-                $action="add_verify";
-          }
 
-} else {
+	} else {
         $errors= "User with Read-Only Rights";
         }
 }
@@ -360,7 +362,7 @@ if ($action=="add_verify")
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors) echo($errors);
+if($errors) echo '<font color="red"><b>'.mi_error_text($errors).'</b></font>';
 require("template/footer.php");
 exit();
 

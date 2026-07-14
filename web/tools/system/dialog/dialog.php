@@ -114,8 +114,8 @@ $query="";
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors)
-echo('!!! ');echo($errors);
+if(!empty($errors))
+	echo('!!! '.mi_error_text($errors));
 require("template/footer.php");
 exit();
 

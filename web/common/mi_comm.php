@@ -21,6 +21,23 @@
  */
 
 
+/*
+ * Normalize the $errors value populated by mi_command()/write2json() into a
+ * human-readable string. $errors may be either a numeric array of transport
+ * messages (curl/HTTP errors) or the associative MI error object
+ * (['code'=>.., 'message'=>..]) returned by OpenSIPS.
+ */
+function mi_error_text($errors)
+{
+	if (isset($errors['message']))
+		return $errors['message'];
+	if (is_array($errors))
+		return $errors[0] ?? 'Unknown error';
+	if (is_string($errors) && $errors !== '')
+		return $errors;
+	return 'Unknown error';
+}
+
 function write2json($command, $params_array, $json_url, &$errors){
 	global $config;
 

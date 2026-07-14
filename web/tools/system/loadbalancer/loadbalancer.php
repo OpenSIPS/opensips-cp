@@ -218,7 +218,7 @@ if ($action=="search")
 # start main #
 ##############
 require("template/".$page_id.".main.php");
-if ($errors!="") echo('<tr><td align="center"><div class="formError">'.$errors.'</div></td></tr>');
+if (!empty($errors)) echo('<tr><td align="center"><div class="formError">'.mi_error_text($errors).'</div></td></tr>');
 if ($info!="") echo('<tr><td  align="center"><div class="formInfo">'.$info.'</div></td></tr>');
 require("template/footer.php");
 exit();
