@@ -88,7 +88,7 @@ if ($action=="enablecar"){
         $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
     }
     if (!empty($errors))
-        echo "Error while enabling carrier ".$_GET['carrierid']." (".$errors[0].")";
+        echo "Error while enabling carrier ".$_GET['carrierid']." (".mi_error_text($errors).")";
 }
 ######################
 # end enable carrier #
@@ -109,7 +109,7 @@ if ($action=="disablecar"){
         $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
     }
     if (!empty($errors))
-        echo "Error while enabling carrier ".$_GET['carrierid']." (".$errors[0].")";
+        echo "Error while enabling carrier ".$_GET['carrierid']." (".mi_error_text($errors).")";
 }
 ########################
 # end disable carrier  #

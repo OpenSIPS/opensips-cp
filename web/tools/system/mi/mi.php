@@ -112,7 +112,7 @@ if ($_GET['action']=="execute")
 			$params = NULL;	
 
 		if (!empty($errors)) {
-			echo "<font color='red'>".$errors[0]."</font>";
+			echo "<font color='red'>".mi_error_text($errors)."</font>";
 		} else {
 			$message=mi_command($command,$params,$current_box,$errors);
 

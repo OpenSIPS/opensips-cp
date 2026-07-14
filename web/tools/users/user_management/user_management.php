@@ -378,7 +378,7 @@ if (isset($subs_extra_actions)) {
 ##############
 
 require("template/".$page_id.".main.php");
-if($errors) echo '<font_color="red"><b>'.$errors[0].'</b></font>';
+if($errors) echo '<font color="red"><b>'.mi_error_text($errors).'</b></font>';
 require("template/footer.php");
 exit();
 
