@@ -46,7 +46,7 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	if (!$errors) {
 		echo "<font color='green'><b>Success</b></font>";
 	} else {
-		echo '<tr><td align="center"><div class="formError">'.join(", ", $errors).'</div></td></tr>';
+		echo '<tr><td align="center"><div class="formError">'.mi_error_text($errors).'</div></td></tr>';
 	}
 	echo "<br>";
 }

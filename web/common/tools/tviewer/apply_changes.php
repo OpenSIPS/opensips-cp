@@ -60,7 +60,7 @@ for ($i=0;$i<count($mi_connectors);$i++){
 	if (empty($errors)) {
 		echo "<font color='green'><b>Success</b></font>";
 	} else {
-		echo "<font color='red'><b>ERROR: </b></font>".implode(",",$errors);
+		echo "<font color='red'><b>ERROR: </b></font>".mi_error_text($errors);
 	}
 	echo "<br>";
 }
