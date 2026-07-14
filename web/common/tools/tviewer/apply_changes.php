@@ -39,18 +39,29 @@ if (file_exists("../../../../config/tools/".get_tool_path($module_id)."/tviewer.
 
 $command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_mi_command'];
 
+/*
+ * custom_mi_command may be given either as:
+ *   - a string: "command" or "command param1 param2" (space-separated
+ *     positional params), or
+ *   - an array: array("command", array("param1"=>"value1", ...)) to pass
+ *     named params (the second element may be omitted for no params).
+ */
+if (is_array($command)) {
+	$params = isset($command[1]) ? $command[1] : NULL;
+	$command = $command[0];
+} elseif (strpos($command, " ")) {
+	$params = explode(" ", $command);
+	$command = array_shift($params);
+} else {
+	$params = NULL;
+}
+
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>
 <br>
 <?php
 
 $mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
-if (strpos($command, " ")) {
-	$params = explode(" ", $command);
-	$command = array_shift($params);
-} else {
-	$params = NULL;
-}
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";
