@@ -37,7 +37,7 @@ session_load_from_tool($module_id);
 if (file_exists("../../../../config/tools/".get_tool_path($module_id)."/tviewer.inc.php"))
 	require_once("../../../../config/tools/".get_tool_path($module_id)."/tviewer.inc.php");
 
-$command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_mi_command'];
+$custom_mi_command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_mi_command'];
 
 /*
  * custom_mi_command may be given either as:
@@ -46,18 +46,24 @@ $command=$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['c
  *   - an array: array("command", array("param1"=>"value1", ...)) to pass
  *     named params (the second element may be omitted for no params).
  */
-if (is_array($command)) {
-	$params = isset($command[1]) ? $command[1] : NULL;
-	$command = $command[0];
-} elseif (strpos($command, " ")) {
-	$params = explode(" ", $command);
+if (is_array($custom_mi_command)) {
+	$params = isset($custom_mi_command[1]) ? $custom_mi_command[1] : NULL;
+	$command = $custom_mi_command[0];
+} elseif (strpos($custom_mi_command, " ")) {
+	$params = explode(" ", $custom_mi_command);
 	$command = array_shift($params);
 } else {
 	$params = NULL;
+	$command = $custom_mi_command;
+}
+
+$display_command = $command;
+if (!empty($params)) {
+	$display_command .= " " . json_encode($params);
 }
 
 ?>
-<fieldset><legend>Sending MI command: <?=$command?></legend>
+<fieldset><legend>Sending MI command: <?=htmlspecialchars($display_command)?></legend>
 <br>
 <?php
 
