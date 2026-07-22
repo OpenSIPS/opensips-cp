@@ -62,7 +62,7 @@
   if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
     $params['partition_name'] = get_settings_value("routing_partition");
 
-  $message=mi_command( "dr_carrier_status", $params, $mi_connectors[0], $errors);
+  $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[0], $errors);
   $resultset[0]['enabled'] = $message['Enabled']=="yes"?"enabled":"disabled";
 
   require("template/".$page_id.".details.php");
@@ -85,7 +85,7 @@ if ($action=="enablecar"){
        $params['partition_name'] = get_settings_value("routing_partition");
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
+        $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[$i], $errors);
     }
     if (!empty($errors))
         echo "Error while enabling carrier ".$_GET['carrierid']." (".mi_error_text($errors).")";
@@ -106,7 +106,7 @@ if ($action=="disablecar"){
        $params['partition_name'] = get_settings_value("routing_partition");
 
     for ($i=0;$i<count($mi_connectors);$i++){
-        $message=mi_command( "dr_carrier_status", $params, $mi_connectors[$i], $errors);
+        $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[$i], $errors);
     }
     if (!empty($errors))
         echo "Error while enabling carrier ".$_GET['carrierid']." (".mi_error_text($errors).")";

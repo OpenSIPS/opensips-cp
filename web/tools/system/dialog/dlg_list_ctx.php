@@ -28,7 +28,7 @@ if ($callid) {
 	$params = array("callid"=>$callid);
 	if ($from_tag != null)
 		$params["from_tag"] = $from_tag;
-	$message=mi_command("dlg_list_ctx", $params, $mi_connectors[0], $errors);
+	$message=mi_command("dialog:list_ctx", $params, $mi_connectors[0], $errors);
 
 	unset($dlg);
 	if (!is_null($message)) {

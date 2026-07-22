@@ -20,7 +20,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-  //consoole_log(mi_command("sr_list_reports", array("group" => "drouting", "identifier" => "Default"), $boxes[0]['mi_conn'], $errors));
+  //consoole_log(mi_command("status_report:reports", array("group" => "drouting", "identifier" => "Default"), $boxes[0]['mi_conn'], $errors));
 ?>
 
 <form action="<?=$page_name?>" method="post"> 

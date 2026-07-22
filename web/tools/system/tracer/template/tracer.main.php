@@ -122,7 +122,7 @@ if ($data_no==0)
 else {
 	// get in memory status for the entries we want to list
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
-	$message = mi_command('lb_list', NULL, $mi_connectors[0], $errors);
+	$message = mi_command('load_balancer:list', NULL, $mi_connectors[0], $errors);
 
 	$lb_state = array();
 	$lb_res = array();

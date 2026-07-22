@@ -180,7 +180,7 @@ $params = NULL;
 if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
 	$params['partition_name'] = get_settings_value("routing_partition");
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
-$message=mi_command( "dr_gw_status", $params, $mi_connectors[0], $errors);
+$message=mi_command( "drouting:gw_status", $params, $mi_connectors[0], $errors);
 
 if (!is_null($message)) {
 	$message = $message['Gateways'];

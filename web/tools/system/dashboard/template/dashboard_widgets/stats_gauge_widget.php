@@ -34,7 +34,7 @@ class stats_gauge_widget extends gauge_widget
 	    if ($this->stat_max != null)
 	        $stats[] = explode(":", $this->stat_max)[1];
             require_once("../../../common/mi_comm.php");
-            $stats = mi_command("get_statistics", array("statistics" => $stats), $this->widget_box['mi_conn'], $errors);
+            $stats = mi_command("statistics:get", array("statistics" => $stats), $this->widget_box['mi_conn'], $errors);
 	    $this->value = $stats[$this->stat_val];
 	    if ($this->stat_max != null)
 	    	$this->total = $stats[$this->stat_max];
@@ -70,7 +70,7 @@ class stats_gauge_widget extends gauge_widget
 		return array();
 	$errors = [];
         require_once("../../../common/mi_comm.php");
-        $all = mi_command("get_statistics", array("statistics" => array("all")), $mi_box['mi_conn'], $errors);
+        $all = mi_command("statistics:get", array("statistics" => array("all")), $mi_box['mi_conn'], $errors);
 	if (count($errors) == 0)
 		return array_keys($all);
 	else

@@ -57,7 +57,7 @@ class gateways_widget extends widget
       $params = array("partition_name"=>$this->partition);
     else
       $params = null;
-    $stat_res = mi_command("dr_gw_status", $params, $this->widget_box['mi_conn'], $errors);
+    $stat_res = mi_command("drouting:gw_status", $params, $this->widget_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       $this->set_status(widget::STATUS_CRIT);
       return;
@@ -95,7 +95,7 @@ class gateways_widget extends widget
     if ($mi_box == null)
       return array();
     require_once("../../../common/mi_comm.php");
-    $partitions = mi_command("dr_reload_status", null, $mi_box['mi_conn'], $errors);
+    $partitions = mi_command("drouting:reload_status", null, $mi_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       error_log(print_r($errors, true));
       return array();

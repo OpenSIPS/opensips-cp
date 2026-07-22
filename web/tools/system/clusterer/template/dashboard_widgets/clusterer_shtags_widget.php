@@ -92,7 +92,7 @@ class clusterer_shtags_widget extends widget
         continue;
       $tags = array();
       $errors = array();
-      $clusters_res = mi_command("clusterer_list_shtags", null, $box['mi_conn'], $errors);
+      $clusters_res = mi_command("clusterer:list_shtags", null, $box['mi_conn'], $errors);
       if (count($errors) != 0) {
         error_log(print_r($errors, true));
         $status = widget::STATUS_CRIT;
@@ -138,7 +138,7 @@ class clusterer_shtags_widget extends widget
       if ($box['assoc_id'] != $params['widget_system'])
         continue;
       $errors = array();
-      $clusters_ret = mi_command("clusterer_list", null, $box['mi_conn'], $errors);
+      $clusters_ret = mi_command("clusterer:list", null, $box['mi_conn'], $errors);
       if (count($errors) == 0) {
         foreach ($clusters_ret['Clusters'] as $cluster) {
           if (!in_array($cluster['cluster_id'], $ret))

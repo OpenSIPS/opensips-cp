@@ -75,13 +75,13 @@ class dispatching_widget extends widget
   function update() {
     require_once("../../../common/mi_comm.php");
     if ($this->partition == null) {
-      $stat_res = mi_command("ds_list", array(), $this->widget_box['mi_conn'], $errors);
+      $stat_res = mi_command("dispatcher:list", array(), $this->widget_box['mi_conn'], $errors);
 
       foreach($stat_res["PARTITIONS"] as $key => $partition)
         foreach($partition["SETS"] as $key => $set)
           $this->count_destinations($set);
     } else {
-      $stat_res = mi_command("ds_list", array("partition"=>$this->partition), $this->widget_box['mi_conn'], $errors);
+      $stat_res = mi_command("dispatcher:list", array("partition"=>$this->partition), $this->widget_box['mi_conn'], $errors);
       if ($this->set != null) {
         foreach($stat_res["PARTITIONS"][0]["SETS"] as $key => $set)
           if ($set["id"] == $this->set)
@@ -107,7 +107,7 @@ class dispatching_widget extends widget
     if ($mi_box == null)
       return array();
     require_once("../../../common/mi_comm.php");
-    $parititons = mi_command("ds_list", null, $mi_box['mi_conn'], $errors);
+    $parititons = mi_command("dispatcher:list", null, $mi_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       error_log(print_r($errors, true));
       return array();

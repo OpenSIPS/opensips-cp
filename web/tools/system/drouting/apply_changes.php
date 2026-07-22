@@ -26,7 +26,7 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 session_load();
 
-$command="dr_reload";
+$command="drouting:reload";
 if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
 	$params = array("partition_name"=>get_settings_value("routing_partition"));
 else

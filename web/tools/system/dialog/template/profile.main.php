@@ -71,7 +71,7 @@ if (isset($_POST['submit'])) {
 		$params = array("profile"=>$profile);
 		if (!empty($profile_param))
 			$params["value"] = $profile_param;
-		$msg=mi_command("profile_get_size", $params, $mi_connectors[0], $errors);
+		$msg=mi_command("dialog:profile_get_size", $params, $mi_connectors[0], $errors);
 
 		if (!empty($msg)) {
 			$profile_size = $msg["Profile"]["count"];
@@ -110,7 +110,7 @@ if (isset($_POST['dialogs'])) {
 	else {
 		$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 		// get status from the first one only
-		$message=mi_command("profile_list_dlgs", array("profile"=>$profile), $mi_connectors[0], $errors);
+		$message=mi_command("dialog:profile_list_dlgs", array("profile"=>$profile), $mi_connectors[0], $errors);
 
 		if (!empty($msg)) {
 			$dialogs = $message['Dialogs'];

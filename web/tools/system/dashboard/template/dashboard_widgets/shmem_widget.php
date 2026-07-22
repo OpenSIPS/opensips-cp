@@ -31,7 +31,7 @@ class shmem_widget extends gauge_widget
     function get_data() {
 	if ($this->widget_box != null) {
             require_once("../../../common/mi_comm.php");
-            $shmem = mi_command("get_statistics", array("statistics" => array("shmem:")), $this->widget_box['mi_conn'], $errors);
+            $shmem = mi_command("statistics:get", array("statistics" => array("shmem:")), $this->widget_box['mi_conn'], $errors);
             $this->value = $shmem["shmem:real_used_size"];
     	    $this->total = $shmem["shmem:total_size"];
     	    $this->maximum = $shmem["shmem:max_used_size"];

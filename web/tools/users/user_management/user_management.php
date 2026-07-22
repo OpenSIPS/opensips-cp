@@ -57,7 +57,7 @@ if ($action=="delcon"){
     $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
     for ($i=0;$i<count($mi_connectors);$i++){
 	$params = array( "table_name"=>"location", "aor"=>$_POST["username"]."@".$_POST["domain"] , "contact"=>$_POST["contact"]);
-        $mess=mi_command( "ul_rm_contact", $params, $mi_connectors[$i], $errors);
+        $mess=mi_command( "usrloc:rm_contact", $params, $mi_connectors[$i], $errors);
     }
     $keepoverlay = true;
 }

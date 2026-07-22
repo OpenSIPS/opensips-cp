@@ -49,7 +49,7 @@ function get_mi_modules($mi_url)
 {
 	global $config;
  
-	$message=mi_command("get_statistics", array("statistics"=>array("all")), $mi_url, $errors);
+	$message=mi_command("statistics:get", array("statistics"=>array("all")), $mi_url, $errors);
 	if (!empty($errors))
 		return;
 
@@ -144,7 +144,7 @@ function get_vars($module, $mi_url)
 {
 	global $config;
 
-	$message=mi_command( "get_statistics", array("statistics"=>array($module.":")), $mi_url, $errors);
+	$message=mi_command( "statistics:get", array("statistics"=>array($module.":")), $mi_url, $errors);
 	if (!empty($errors))
 		return;
 
@@ -165,7 +165,7 @@ function get_vars_type( $mi_url )
 {
 	global $config;
  
-	$message=mi_command("list_statistics", NULL, $mi_url, $errors);
+	$message=mi_command("statistics:list", NULL, $mi_url, $errors);
 	if (!empty($errors))
 		return;
 
@@ -190,7 +190,7 @@ function get_all_vars( $mi_url , $stats_list)
 	} else {
 		$list = explode(" ",$stats_list);
 	}
-	$message=mi_command( "get_statistics", array("statistics"=>$list), $mi_url, $errors);
+	$message=mi_command( "statistics:get", array("statistics"=>$list), $mi_url, $errors);
 	if (!empty($errors)) 
 		return;
 
@@ -209,7 +209,7 @@ function reset_var($stats, $mi_url)
 {
  	global $config;
  
- 	$message=mi_command("reset_statistics", array("statistics"=>array($stats)), $mi_url, $errors);
+ 	$message=mi_command("statistics:reset", array("statistics"=>array($stats)), $mi_url, $errors);
 
 	return;
 }

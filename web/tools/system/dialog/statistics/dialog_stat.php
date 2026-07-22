@@ -30,7 +30,7 @@ class dialog_stat extends custom_statistic
 		$params = array("profile"=>$this->profile);
         $errors = "";
 		$mi_connectors=get_proxys_by_assoc_id(get_settings_value_from_tool('talk_to_this_assoc_id', "dialog"));
-		$msg=mi_command("profile_get_size", $params, $mi_connectors[0], $errors);
+		$msg=mi_command("dialog:profile_get_size", $params, $mi_connectors[0], $errors);
 		$profile_size = $msg["Profile"]["count"];
         return $profile_size;
     }

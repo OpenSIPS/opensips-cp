@@ -73,7 +73,7 @@ class pkg_widget extends widget
   function compute_info() {
     require_once("../../../common/mi_comm.php");
     $errors = array();
-    $pkg = mi_command("get_statistics", array("statistics" => array("pkmem:")), $this->widget_box['mi_conn'], $errors);
+    $pkg = mi_command("statistics:get", array("statistics" => array("pkmem:")), $this->widget_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       $this->set_status(widget::STATUS_CRIT);
       return;

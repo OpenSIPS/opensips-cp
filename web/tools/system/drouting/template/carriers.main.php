@@ -123,7 +123,7 @@ $params = NULL;
 if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
 	$params['partition_name'] = get_settings_value("routing_partition");
 
-$message=mi_command( "dr_carrier_status", $params, $mi_connectors[0], $errors);
+$message=mi_command( "drouting:carrier_status", $params, $mi_connectors[0], $errors);
 
 if (!is_null($message)) {
 	$message = $message['Carriers'];

@@ -28,7 +28,7 @@ session_load();
 
 csrfguard_validate();
 
-$command="address_reload";
+$command="permissions:address_reload";
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

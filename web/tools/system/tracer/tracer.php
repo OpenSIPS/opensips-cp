@@ -93,7 +93,7 @@ if ($action == "start") {
 	$random = substr(sha1(rand()), 0, 6);
 
 	register_shutdown_function(function() {
-		$res = mi_command("trace_stop", array("id" => $prefix.$random), $boxes[0]['mi_conn'], $errors);
+		$res = mi_command("tracer:stop", array("id" => $prefix.$random), $boxes[0]['mi_conn'], $errors);
 	});
 
 	$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP) or die("create fail\n");
@@ -113,7 +113,7 @@ if ($action == "start") {
 	if (isset($_POST['ip_id'])) {
 		$filter['ip'] = $_POST['ip_id'];
 	}
-	$res = mi_command("trace_start", array("id" => $prefix.$random, "uri" => "hep:".$adv_ip.":".$adv_port.";transport=tcp;version=3", "filter" => $filter), $boxes[0]['mi_conn'], $errors);
+	$res = mi_command("tracer:start", array("id" => $prefix.$random, "uri" => "hep:".$adv_ip.":".$adv_port.";transport=tcp;version=3", "filter" => $filter), $boxes[0]['mi_conn'], $errors);
 
 	$result = socket_listen($socket, 3) or die(" listen fail\n");
 	$i = 0;
@@ -154,7 +154,7 @@ if ($action == "start") {
 		if ($spawn)
 			socket_close($spawn);
 	}
-	$res = mi_command("trace_stop", array("id" => $prefix.$random), $boxes[0]['mi_conn'], $errors);
+	$res = mi_command("tracer:stop", array("id" => $prefix.$random), $boxes[0]['mi_conn'], $errors);
 
 }
 

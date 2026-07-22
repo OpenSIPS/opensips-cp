@@ -55,7 +55,7 @@ if ($action=="toggle") {
 		$sip_trace	= "off" ;
 	}
 
-	$command="trace";
+	$command="tracer:trace";
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 	for ($i=0;$i<count($mi_connectors);$i++){	
@@ -67,7 +67,7 @@ if ($action=="toggle") {
 
 // get the current status of the tracing engine
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
-$msg = mi_command( "trace", NULL, $mi_connectors[0], $errors);
+$msg = mi_command( "tracer:trace", NULL, $mi_connectors[0], $errors);
 if (!is_null($msg)) {
 	$state = $msg['global'];
 } else

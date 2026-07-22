@@ -16,8 +16,8 @@ class load_widget extends gauge_widget
     }
 
     function echo_content() {
-		//consoole_log(mi_command("get_statistics", array("statistics" => array("real_used_size")), $_SESSION['boxes'][0]['mi_conn'], $errors));
-        $load = mi_command("get_statistics", array("statistics" => array($this->chart)), $_SESSION['boxes'][0]['mi_conn'], $errors);
+		//consoole_log(mi_command("statistics:get", array("statistics" => array("real_used_size")), $_SESSION['boxes'][0]['mi_conn'], $errors));
+        $load = mi_command("statistics:get", array("statistics" => array($this->chart)), $_SESSION['boxes'][0]['mi_conn'], $errors);
         $load_value = $load["load:".$this->chart];
 		$this->display_chart($this->id, $this->title, $load_value);
     }

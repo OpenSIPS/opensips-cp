@@ -28,7 +28,7 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 session_load();
 
-$command="rtpproxy_reload";
+$command="rtpproxy:reload";
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

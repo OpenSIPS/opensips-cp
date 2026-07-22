@@ -227,7 +227,7 @@
  $custom_config[$module_id][0]['reload'] = 1;
 
  //if you need reload please specify the MI command to be ran
- $custom_config[$module_id][0]['custom_mi_command'] = "reg_reload";
+ $custom_config[$module_id][0]['custom_mi_command'] = "uac_registrant:reload";
  
  //the system ID to send the reload MI command to
  $talk_to_this_assoc_id = 1;

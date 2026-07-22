@@ -74,7 +74,7 @@ if ($action=="enablegw"){
 		$params['partition_name'] = get_settings_value("routing_partition");
 
     	for ($i=0;$i<count($mi_connectors);$i++){
-		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
+		$message=mi_command("drouting:gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
 		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
@@ -95,7 +95,7 @@ if ($action=="disablegw"){
 		$params['partition_name'] = get_settings_value("routing_partition");
 
     	for ($i=0;$i<count($mi_connectors);$i++){
-		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
+		$message=mi_command("drouting:gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
 		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
@@ -115,7 +115,7 @@ if ($action=="probegw"){
 		$params['partition_name'] = get_settings_value("routing_partition");
 
     	for ($i=0;$i<count($mi_connectors);$i++){
-		$message=mi_command("dr_gw_status", $params, $mi_connectors[$i], $errors);
+		$message=mi_command("drouting:gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
 		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";

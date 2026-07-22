@@ -32,11 +32,11 @@ class registered_users_widget extends widget
         $wi = $this->id;
         $_SESSION['ru_widget_id'] = $wi;
         $total_subs = self::get_total_subs();
-        $reg_subs = mi_command("get_statistics", array("statistics" => array("location-users")), $this->widget_box['mi_conn'], $errors);
-        $reg_contacts = mi_command("get_statistics", array("statistics" => array("location-contacts")), $this->widget_box['mi_conn'], $errors);
-	$elems['reg_subs'] = $reg_subs['usrloc:location-users'];
-	$elems['total_subs'] = $total_subs;
-	$elems['reg_contacts'] = $reg_contacts['usrloc:location-contacts'];
+        $reg_subs = mi_command("statistics:get", array("statistics" => array("location-users")), $this->widget_box['mi_conn'], $errors);
+        $reg_contacts = mi_command("statistics:get", array("statistics" => array("location-contacts")), $this->widget_box['mi_conn'], $errors);
+        $elems['reg_subs'] = $reg_subs['usrloc:location-users'];
+        $elems['total_subs'] = $total_subs;
+        $elems['reg_contacts'] = $reg_contacts['usrloc:location-contacts'];
         $_SESSION['pie_elements'] = $elems;
         require(__DIR__."/../../../../../common/charting/d3js_pie.php");
     }

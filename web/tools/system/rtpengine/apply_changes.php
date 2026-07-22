@@ -30,7 +30,7 @@ session_load();
 
 csrfguard_validate();
 
-$command="rtpengine_reload";
+$command="rtpengine:reload";
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

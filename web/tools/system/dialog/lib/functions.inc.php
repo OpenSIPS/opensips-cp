@@ -25,7 +25,7 @@ function print_profile() {
 
 	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 	// get status from the first one only
-	$message=mi_command("list_all_profiles", NULL, $mi_connectors[0], $errors);
+	$message=mi_command("dialog:list_all_profiles", NULL, $mi_connectors[0], $errors);
 
 	if (!empty($message))
 		for( $i=0 ; $i<sizeof($message['Profiles']) ; $i++) 

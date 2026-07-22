@@ -259,7 +259,7 @@ if ($action=="change_state") {
 		$params["group"] = $dispatcher_partition . ":" . $params["group"];
 
 	for ($i=0;$i<count($mi_connectors);$i++){
-	        $message=mi_command("ds_set_state", $params, $mi_connectors[$i],$errors);
+	        $message=mi_command("dispatcher:set_state", $params, $mi_connectors[$i],$errors);
 	}
 	if ($errors)
 		$errors=join(", ", $errors);

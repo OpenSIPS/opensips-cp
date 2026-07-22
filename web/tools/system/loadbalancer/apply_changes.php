@@ -28,7 +28,7 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 session_load();
 
-$command="lb_reload";
+$command="load_balancer:reload";
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

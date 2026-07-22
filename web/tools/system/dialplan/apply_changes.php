@@ -26,7 +26,7 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 session_load();
 
-$command="dp_reload";
+$command="dialplan:reload";
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

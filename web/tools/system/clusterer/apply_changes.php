@@ -28,7 +28,7 @@ require_once("../../../../config/session.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 session_load();
-$command="clusterer_reload";
+$command="clusterer:reload";
 
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>

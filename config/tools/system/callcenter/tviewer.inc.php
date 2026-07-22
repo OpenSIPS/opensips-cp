@@ -192,7 +192,7 @@
  $custom_config[$module_id][0]['reload'] = 1;
 
  //if you need reload please specify the MI command to be ran
- $custom_config[$module_id][0]['custom_mi_command'] = "cc_reload";
+ $custom_config[$module_id][0]['custom_mi_command'] = "call_center:reload";
 
  // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;
@@ -513,7 +513,7 @@ $custom_config[$module_id][0]['custom_search'] = 	array ( "enabled" => true,
  $custom_config[$module_id][1]['reload'] = 1;
 
  //if you need reload please specify the MI command to be ran
- $custom_config[$module_id][1]['custom_mi_command'] = "cc_reload";
+ $custom_config[$module_id][1]['custom_mi_command'] = "call_center:reload";
 
  // what system to talk to for MI functions
  $talk_to_this_assoc_id = 1 ;

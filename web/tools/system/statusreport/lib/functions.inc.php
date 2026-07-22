@@ -30,7 +30,7 @@ require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/system/statusreport/db.inc.php");
 
 function get_report($mi_url, $group, $id) {
-	$message = mi_command("sr_list_reports", array("group" => $group, "identifier" => $id), $mi_url, $errors);
+	$message = mi_command("status_report:reports", array("group" => $group, "identifier" => $id), $mi_url, $errors);
 	if (!empty($errors))
 		return;
 	return $message;
@@ -40,7 +40,7 @@ function get_mi_identifiers($mi_url)
 {
 	global $config;
  
-	$message = mi_command("sr_list_identifiers", null, $mi_url, $errors);
+	$message = mi_command("status_report:identifiers", null, $mi_url, $errors);
 	if (!empty($errors))
 		return;
 	$temp = array();
@@ -69,7 +69,7 @@ function reset_var($stats, $mi_url)
 {
  	global $config;
  
- 	$message=mi_command("reset_statistics", array("statistics"=>array($stats)), $mi_url, $errors);
+ 	$message=mi_command("statistics:reset", array("statistics"=>array($stats)), $mi_url, $errors);
 
 	return;
 }

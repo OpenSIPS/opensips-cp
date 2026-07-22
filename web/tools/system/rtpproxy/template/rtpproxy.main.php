@@ -33,7 +33,7 @@
 $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 
 // fetch data from the first box only
-$message = mi_command('rtpproxy_show', NULL, $mi_connectors[0], $errors);
+$message = mi_command('rtpproxy:show', NULL, $mi_connectors[0], $errors);
 
 if (!is_null($message)) {
 	$data_no = count($message);

@@ -82,7 +82,7 @@ class clusterer_capabilities_widget extends widget
 
   function update() {
     require_once("../../../common/mi_comm.php");
-    $clusters_res = mi_command("clusterer_list_cap", array(), $this->widget_box['mi_conn'], $errors);
+    $clusters_res = mi_command("clusterer:list_cap", array(), $this->widget_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       error_log(print_r($errors, true));
       $this->set_status(widget::STATUS_CRIT);
@@ -123,7 +123,7 @@ class clusterer_capabilities_widget extends widget
     if ($mi_box == null)
       return array();
     require_once("../../../common/mi_comm.php");
-    $clusters_ret = mi_command("clusterer_list_cap", null, $mi_box['mi_conn'], $errors);
+    $clusters_ret = mi_command("clusterer:list_cap", null, $mi_box['mi_conn'], $errors);
     if (count($errors) != 0) {
       error_log(print_r($errors, true));
       return array();

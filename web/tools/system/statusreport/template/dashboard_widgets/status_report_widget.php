@@ -48,7 +48,7 @@ class status_report_widget extends widget
     $params["group"] = $group;
     if ($identifier)
       $params["identifier"] = $identifier;
-    $stat_res = mi_command("sr_get_status", $params, $this->widget_box['mi_conn'], $errors);
+    $stat_res = mi_command("status_report:get", $params, $this->widget_box['mi_conn'], $errors);
     $this->status = $stat_res;
     if (!$this->status['Readiness'])
       $this->set_status(widget::STATUS_CRIT);
@@ -84,7 +84,7 @@ class status_report_widget extends widget
 
   static function get_identifiers_options() {
     foreach($_SESSION['boxes'] as $id => $box) {
-      $stat_res = mi_command("sr_list_identifiers", array(), $box['mi_conn'], $errors);
+      $stat_res = mi_command("status_report:identifiers", array(), $box['mi_conn'], $errors);
       foreach($stat_res as $group) {
         foreach($group["Identifiers"] as $identifier)
           $identifiers[$box['id']][] = $group["Group"]."/".$identifier;

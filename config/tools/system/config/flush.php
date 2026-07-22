@@ -10,7 +10,7 @@ $success = 0;
 $mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
 for ($i=0;$i<count($mi_connectors);$i++){
 
-	$message=mi_command("config_flush", NULL, $mi_connectors[$i], $errors);
+	$message=mi_command("config:flush", NULL, $mi_connectors[$i], $errors);
 
 	if (empty($errors)) {
 		$success++;
