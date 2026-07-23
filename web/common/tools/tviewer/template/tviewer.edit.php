@@ -72,7 +72,7 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 										name="<?=$key?>" 
 										class="dataInput" 
 										type="text" 
-										value="<?php if (isset($_SESSION[$key])) echo $_SESSION[$key]; else echo $resultset[0][$key];?>" 
+										value="<?php if (isset($_SESSION['tviewer_form'][$key])) echo $_SESSION['tviewer_form'][$key]; else echo $resultset[0][$key];?>"
 										<?=$validate?>
 									/> 
 									<?php break; ?>	
@@ -85,7 +85,7 @@ $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 									class="dataInput" 
 									style="height:100px"
 									<?=$validate?>
-									><?php if (isset($_SESSION[$key])) echo $_SESSION[$key]; else echo $resultset[0][$key];?></textarea>
+									><?php if (isset($_SESSION['tviewer_form'][$key])) echo $_SESSION['tviewer_form'][$key]; else echo $resultset[0][$key];?></textarea>
 									<?php break; ?>	
 							<?php case "checklist": ?>
 									<?php print_custom_checklist($key, $value, isset($resultset[0][$key])?$resultset[0][$key]:$value['default_value']); ?>

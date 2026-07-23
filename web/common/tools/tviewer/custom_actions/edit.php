@@ -7,8 +7,8 @@ if ($action=="edit")
 {
 
 	if(!$_SESSION['read_only']){
-		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
-			$_SESSION[$key] = $_POST[$key];
+		// fresh edit form: drop any values buffered by a previous failed edit
+		unset($_SESSION['tviewer_form']);
 
 		require("template/".$page_id.".edit.php");
 		require("template/footer.php");
@@ -35,7 +35,7 @@ if ($action=="modify")
 		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 			if (isset($value['show_in_edit_form']) && $value['show_in_edit_form'] == false)
 				continue;
-			$_SESSION[$key] = $_POST[$key];
+			$_SESSION['tviewer_form'][$key] = $_POST[$key];
 			if ($_POST[$key] == "" && isset($value["is_optional"]) && $value["is_optional"] == "y")
 				continue;
 			if (isset($value['validation_regex']) && !preg_match("/".$value['validation_regex']."/", $_POST[$key]))
@@ -106,16 +106,14 @@ if ($action=="modify")
 		$success="The entry has been successfully updated";
 
 		//clear session info
-		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
-			unset($_SESSION[$key]);
+		unset($_SESSION['tviewer_form']);
 
 		require("template/".$page_id.".edit.php");
 		require("template/footer.php");
 		exit();
 	}
 	else {
-		foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
-			unset($_SESSION[$key]);
+		unset($_SESSION['tviewer_form']);
 
 		unset($_POST);
 		unset($_GET);
