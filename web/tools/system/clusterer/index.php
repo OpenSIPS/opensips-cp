@@ -2,7 +2,7 @@
 /*
  * Copyright (C) 2016 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -20,9 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../common/cfg_comm.php");
- session_start();
- get_priv("clusterer");
- header("Location: clusterer.php");
- 
+$branch = "system";
+$module_id = "clusterer";
+
+require_once("../../../common/tools/tviewer/redirect.php");
 ?>
