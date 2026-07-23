@@ -95,6 +95,27 @@ a.menuItem:focus, a.menuItem:active {
 
 #masterdiv {
         list-style:none;
+        /* Side menu scroll region: fill the frame and scroll internally when
+           the enabled-tool list is taller than the viewport. */
+        height: 100vh;
+        overflow-y: auto;
+        overflow-x: hidden;
+        scrollbar-width: thin;
+        scrollbar-color: #55708c #374d66;
+}
+/* slim dark scrollbar to match the side menu (WebKit/Blink) */
+#masterdiv::-webkit-scrollbar {
+        width: 8px;
+}
+#masterdiv::-webkit-scrollbar-track {
+        background: #374d66;
+}
+#masterdiv::-webkit-scrollbar-thumb {
+        background: #55708c;
+        border-radius: 4px;
+}
+#masterdiv::-webkit-scrollbar-thumb:hover {
+        background: #6a86a3;
 }
 
 .menu:visited {
