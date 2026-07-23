@@ -8,6 +8,8 @@ if ($action=="add")
 {
 	if(!$_SESSION['read_only'])
 	{
+		// fresh add form: drop any values buffered by a previous failed add
+		unset($_SESSION['tviewer_form']);
 		require("template/".$page_id.".add.php");
 		require("template/footer.php");
 		exit();
@@ -34,7 +36,7 @@ if ($action=="add_verify")
 	foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) {
 		if (isset($value['show_in_add_form']) && $value['show_in_add_form'] == false)
 			continue;
-		$_SESSION[$key] = $_POST[$key];
+		$_SESSION['tviewer_form'][$key] = $_POST[$key];
 		if ($_POST[$key] == "" && isset($value["is_optional"]) && $value["is_optional"] == "y")
 			continue;
 		if (isset($value['validation_regex']) && !preg_match("/".$value['validation_regex']."/", $_POST[$key]))
@@ -106,8 +108,7 @@ if ($action=="add_verify")
 			}
 
 			$success="The new entry has been successfully added";
-			foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value)
-				unset($_SESSION[$key]);
+			unset($_SESSION['tviewer_form']);
 		}
 	}else{
 		$errors= "User with Read-Only Rights";

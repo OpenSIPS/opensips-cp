@@ -59,7 +59,7 @@ else if (isset($success) && $success!="")
 										name="<?=$key?>" 
 										class="dataInput" 
 										type="text" 
-										value="<?=(isset($_SESSION[$key]))?$_SESSION[$key]:((isset($value['default_value']))?$value['default_value']:"")?>" 
+										value="<?=(isset($_SESSION['tviewer_form'][$key]))?$_SESSION['tviewer_form'][$key]:((isset($value['default_value']))?$value['default_value']:"")?>"
 										<?=$validate?>
 									/> 
 									<?php break; ?>	
@@ -67,12 +67,12 @@ else if (isset($success) && $success!="")
 									<?php print_custom_combo($key,$value, $value['default_value'], FALSE); ?>
 									<?php break; ?>	
 							<?php case "textarea": ?>
-								<textarea id="<?=$key?>" 
-									name="<?=$key?>" 
-									class="dataInput" 
+								<textarea id="<?=$key?>"
+									name="<?=$key?>"
+									class="dataInput"
 									style="height:100px"
 									<?=$validate?>
-									></textarea>
+									><?=(isset($_SESSION['tviewer_form'][$key]))?$_SESSION['tviewer_form'][$key]:((isset($value['default_value']))?$value['default_value']:"")?></textarea>
 									<?php break; ?>	
 							<?php case "checklist": ?>
 									<?php print_custom_checklist($key, $value, $value['default_value']); ?>
@@ -92,7 +92,7 @@ else if (isset($success) && $success!="")
 					<tr>
 						<td colspan="2" class="dataRecord" align="center">
 							<input type="submit" name="add" value="Add" class="formButton">
-							<input type="button" value="Reset" class="formButton" href="javascript:;" onclick="document.getElementById('addnewentry').reset();">
+							<input type="button" value="Reset" class="formButton" href="javascript:;" onclick="window.location.href='tviewer.php?action=add';">
 							<?php print_back_input(); ?>
 						</td>
 					</tr>
