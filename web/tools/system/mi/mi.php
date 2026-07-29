@@ -81,9 +81,9 @@ if ($_GET['action']=="execute")
 					$has_name=TRUE;
 				}
 				$p = explode("=",$tokens[$i]);
-				if ( array_key_exists( $command, $mi_func_exception) && $p[0]=$mi_func_exception[$command][1]) {
+				if ( array_key_exists( $command, $mi_func_exception) && $p[0]==$mi_func_exception[$command][1]) {
 					$ar = array( $p[1] );
-					$params[ $p[0] ] = array_merge( $ar, array_slice($tokens, $i) ); 
+					$params[ $p[0] ] = array_merge( $ar, array_slice($tokens, $i+1) );
 					$i = count($tokens);
 				} else {
 					$params[ $p[0] ] = $p[1]; 
