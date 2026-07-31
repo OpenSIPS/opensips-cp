@@ -21,7 +21,15 @@
 					echo('&nbsp;&nbsp;&nbsp;&nbsp;');
 				}
 				else {
-					if (!isset($_SESSION[$module_id]['submenu_item_id'])){
+					/*
+					 * Fall back to the first tab when the remembered one is gone.
+					 * A tool may drop a tab between requests -- clusterer hides
+					 * Cluster Bridges when its setting is turned off -- and a
+					 * session still pointing at it would otherwise land on an
+					 * undefined config and be told the module is unconfigured.
+					 */
+					if (!isset($_SESSION[$module_id]['submenu_item_id']) ||
+					    !isset($custom_config[$module_id]['submenu_items'][$_SESSION[$module_id]['submenu_item_id']])){
 						$_SESSION[$module_id]['submenu_item_id'] = 0;
 					}
 
