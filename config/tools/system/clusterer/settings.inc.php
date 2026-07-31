@@ -65,7 +65,7 @@ $config->clusterer = array(
 		"default" => "0",
 		"name" => "Enable Bridges tab",
 		"type" => "dropdown",
-		"options" => array("0" => "Disabled", "1" => "Enabled"),
+		"options" => array("Disabled" => "0", "Enabled" => "1"),
 		"tip" => "Show the 'Cluster Bridges' tab for managing the clusterer_bridge table
 		(replication links between separate OpenSIPS clusters, available since OpenSIPS 4.0)."
 	),
