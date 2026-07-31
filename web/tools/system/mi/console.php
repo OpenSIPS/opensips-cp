@@ -19,12 +19,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-?>
-<table class="mi-menu" border="0" cellpadding="0" cellspacing="0">
- <tr>
-  <td class="breadcrumb">System / MI Commands / <?=$_SESSION['permission']?></td>
-  <td style="border-bottom: 1px solid #ccc!important">&nbsp;</td>
-  <?php display_settings_button(); ?>
- </tr>
-</table>
-<br>
+
+require("lib/mi.inc.php");
+
+require("template/header.php");
+get_priv("mi");
+
+require("template/console.main.php");
+require("template/footer.php");

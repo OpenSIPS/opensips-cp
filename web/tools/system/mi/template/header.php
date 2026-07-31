@@ -1,8 +1,8 @@
 <?php
 /*
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2026 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -20,27 +20,21 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require_once("../../../../config/session.inc.php");
- require_once("lib/functions.inc.php");
- $page_name = basename($_SERVER['SCRIPT_NAME']);
- $page_id = substr($page_name, 0, strlen($page_name) - 4);
- $_SESSION['current_tool'] = 'mi';
- $_SESSION['current_group'] = get_group();
- $no_result = "No Data Found.";
+require_once("../../../../config/session.inc.php");
+
+$page_name = basename($_SERVER['SCRIPT_NAME']);
+$page_id = substr($page_name, 0, strlen($page_name) - 4);
+$_SESSION['current_tool'] = 'mi';
+$_SESSION['current_group'] = get_group();
+session_load();
 ?>
-
 <html>
-
 <head>
- <link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
+<link href="../../../style_tools.css" type="text/css" rel="StyleSheet">
+<style>
+<?php require("lib/console.css"); ?>
+</style>
 </head>
-
 <body bgcolor="#e9ecef">
-<center>
-<table width="705" cellpadding="5" cellspacing="5" border="0">
- <tr  valign="top" height="20">
-  <td><?php require("template/menu.php") ?></td>
- </tr>
- <tr valign="top" align="center"> 
-  <td>
-   <img src="../../../images/share/spacer.gif" width="10" height="5"><br>
+<div class="mi-page">
+<?php require("template/menu.php"); ?>

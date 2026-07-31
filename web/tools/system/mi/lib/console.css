@@ -1,0 +1,552 @@
+/*
+ * Every other tool is a table sized by style_tools.css's "table { width: 600px }"
+ * inside a cellpadding=5 cellspacing=5 wrapper, so it measures 620 and holds 600
+ * of content. Matching those numbers keeps this tool the same width as the rest.
+ */
+.mi-page {
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 4px 10px 24px;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	color: #1f2937;
+}
+
+.mi-mono {
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+}
+
+/*
+ * style_tools.css sets a blanket "table { width: 600px }", and author CSS beats
+ * the width="100%" attribute -- so the breadcrumb bar has to be widened here to
+ * line its rule up with the cards below it.
+ */
+.mi-menu {
+	width: 100%;
+}
+
+/* ---- command runner ---- */
+
+.mi-runner {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, .06);
+	padding: 14px 16px 12px;
+}
+
+.mi-head {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	margin-bottom: 8px;
+}
+
+.mi-label {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: #6b7280;
+}
+
+.mi-inputwrap {
+	position: relative;
+}
+
+/* box picker and the help mark on the left, Run pushed to the right */
+.mi-controls {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 10px;
+}
+
+.mi-controls .mi-btn {
+	margin-left: auto;
+}
+
+.mi-select {
+	padding: 7px 10px;
+	border: 1px solid #d5dbe3;
+	border-radius: 7px;
+	background: #fff;
+	font-size: 12.5px;
+	color: #374151;
+	cursor: pointer;
+	outline: none;
+}
+
+.mi-select:focus {
+	border-color: #1bbd9b;
+	box-shadow: 0 0 0 3px rgba(27, 189, 155, .15);
+}
+
+/* shrinks before Run does, so a long address never pushes the button away */
+.mi-url {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 11.5px;
+	color: #9ca3af;
+}
+
+#line {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 9px 12px;
+	border: 1px solid #d5dbe3;
+	border-radius: 7px;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 13px;
+	color: #111827;
+	background: #fff;
+	outline: none;
+	transition: border-color .12s, box-shadow .12s;
+}
+
+#line:focus {
+	border-color: #1bbd9b;
+	box-shadow: 0 0 0 3px rgba(27, 189, 155, .15);
+}
+
+#line:disabled {
+	background: #f3f4f6;
+	color: #9ca3af;
+}
+
+.mi-btn {
+	padding: 9px 18px;
+	border: none;
+	border-radius: 7px;
+	background: #1bbd9b;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	cursor: pointer;
+	transition: background .12s;
+}
+
+.mi-btn:hover {
+	background: #17a487;
+}
+
+.mi-btn:disabled {
+	background: #cbd5e1;
+	cursor: not-allowed;
+}
+
+.mi-btn-ghost {
+	padding: 5px 12px;
+	border: 1px solid #d5dbe3;
+	border-radius: 6px;
+	background: #fff;
+	color: #4b5563;
+	font-size: 12px;
+	cursor: pointer;
+}
+
+.mi-btn-ghost:hover {
+	background: #f9fafb;
+	color: #111827;
+}
+
+/* ---- parameter hint rows ---- */
+
+.mi-hintrow {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	padding: 6px 10px;
+	border-radius: 5px;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 12.5px;
+	cursor: default;
+}
+
+.mi-hintrow.mi-hint-ready {
+	background: #f0fdf6;
+}
+
+.mi-hint-filled {
+	color: #111827;
+}
+
+.mi-hint-req {
+	color: #d92d20;
+	font-weight: 600;
+}
+
+.mi-hint-opt {
+	color: #9ca3af;
+}
+
+.mi-hint-check {
+	margin-left: auto;
+	color: #12b76a;
+	font-weight: 700;
+}
+
+.mi-cmderr {
+	margin-top: 9px;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 12px;
+	color: #b42318;
+}
+
+/* ---- syntax help ---- */
+
+.mi-help {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 18px;
+	height: 18px;
+	border: 1px solid #d5dbe3;
+	border-radius: 50%;
+	font-size: 11px;
+	font-weight: 600;
+	color: #9ca3af;
+	cursor: help;
+	user-select: none;
+}
+
+.mi-help:hover,
+.mi-help:focus {
+	border-color: #1bbd9b;
+	color: #1bbd9b;
+	outline: none;
+}
+
+.mi-help-text {
+	visibility: hidden;
+	opacity: 0;
+	transition: opacity .12s;
+	/* opens downward: the card sits near the top of the page, so there is no
+	   room above the mark but plenty below it */
+	position: absolute;
+	top: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 30;
+	width: 330px;
+	max-width: 80vw;
+	padding: 10px 12px;
+	background: #1f2937;
+	border-radius: 8px;
+	box-shadow: 0 8px 24px rgba(16, 24, 40, .18);
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 1.7;
+	color: #e5e7eb;
+	text-align: left;
+	cursor: default;
+}
+
+.mi-help-text::after {
+	content: "";
+	position: absolute;
+	bottom: 100%;
+	left: 50%;
+	margin-left: -5px;
+	border: 5px solid transparent;
+	border-bottom-color: #1f2937;
+}
+
+.mi-help:hover .mi-help-text,
+.mi-help:focus .mi-help-text {
+	visibility: visible;
+	opacity: 1;
+}
+
+.mi-help-text code {
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	background: rgba(255, 255, 255, .1);
+	border-radius: 4px;
+	padding: 1px 5px;
+	color: #fff;
+}
+
+.mi-help-text b {
+	color: #fff;
+}
+
+/* ---- completion dropdown ---- */
+
+.mi-suggest {
+	position: absolute;
+	top: calc(100% + 4px);
+	left: 0;
+	right: 0;
+	z-index: 20;
+	max-height: 260px;
+	overflow-y: auto;
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 8px;
+	box-shadow: 0 8px 24px rgba(16, 24, 40, .12);
+	padding: 4px;
+}
+
+.mi-opt {
+	padding: 6px 10px;
+	border-radius: 5px;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 12.5px;
+	color: #374151;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.mi-opt.mi-active,
+.mi-opt:hover {
+	background: #1bbd9b;
+	color: #fff;
+}
+
+/* ---- results ---- */
+
+.mi-results-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 22px 0 10px;
+}
+
+.mi-results-title {
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: #6b7280;
+}
+
+.mi-empty {
+	background: #fff;
+	border: 1px dashed #e5e7eb;
+	border-radius: 10px;
+	padding: 28px;
+	text-align: center;
+	color: #9ca3af;
+	font-size: 13px;
+}
+
+.mi-card {
+	background: #fff;
+	border: 1px solid #e5e7eb;
+	border-radius: 10px;
+	box-shadow: 0 1px 2px rgba(16, 24, 40, .06);
+	padding: 12px 14px;
+	margin-bottom: 10px;
+}
+
+.mi-card-cmd {
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 13px;
+	color: #111827;
+	word-break: break-all;
+	cursor: pointer;
+}
+
+.mi-card-cmd:hover {
+	color: #1bbd9b;
+}
+
+.mi-spacer {
+	flex: 1;
+}
+
+.mi-copy {
+	padding: 3px 9px;
+	border: 1px solid #e5e7eb;
+	border-radius: 5px;
+	background: #fff;
+	color: #6b7280;
+	font-size: 11px;
+	cursor: pointer;
+}
+
+.mi-copy:hover:not(:disabled) {
+	background: #f9fafb;
+	color: #111827;
+}
+
+.mi-copy:disabled {
+	color: #d1d5db;
+	border-color: #f0f2f5;
+	cursor: not-allowed;
+}
+
+/* ---- table / JSON switch ---- */
+
+.mi-seg {
+	display: inline-flex;
+	border: 1px solid #e5e7eb;
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.mi-seg-btn {
+	padding: 3px 10px;
+	border: none;
+	background: #fff;
+	color: #6b7280;
+	font-size: 11px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.mi-seg-btn:hover {
+	background: #f9fafb;
+	color: #111827;
+}
+
+.mi-seg-btn.mi-seg-on {
+	background: #1bbd9b;
+	color: #fff;
+}
+
+/* ---- table view ---- */
+
+.mi-table-wrap {
+	margin-top: 10px;
+}
+
+.mi-table-cap {
+	margin-bottom: 6px;
+	font-size: 11.5px;
+	color: #9ca3af;
+}
+
+.mi-table-scroll {
+	border: 1px solid #f0f2f5;
+	border-radius: 7px;
+	max-height: 420px;
+	overflow: auto;
+}
+
+.mi-table {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 12.5px;
+	color: #374151;
+}
+
+.mi-table th {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+	padding: 7px 10px;
+	background: #f9fafb;
+	border-bottom: 1px solid #e5e7eb;
+	text-align: left;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .02em;
+	text-transform: uppercase;
+	color: #6b7280;
+	white-space: nowrap;
+}
+
+.mi-table td {
+	padding: 6px 10px;
+	border-top: 1px solid #f3f4f6;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	white-space: nowrap;
+}
+
+.mi-table tbody tr:hover td {
+	background: #f9fafb;
+}
+
+.mi-table .mi-num {
+	text-align: right;
+}
+
+.mi-table .mi-pad {
+	width: 100%;
+	padding: 0;
+}
+
+.mi-card-meta {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	margin-top: 7px;
+	font-size: 11.5px;
+	color: #9ca3af;
+}
+
+/* the box a command was sent to; the exact address is on its title */
+.mi-card-box {
+	max-width: 240px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	cursor: help;
+}
+
+.mi-pill {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 2px 9px;
+	border-radius: 999px;
+	font-size: 11px;
+	font-weight: 600;
+	letter-spacing: .02em;
+}
+
+.mi-pill::before {
+	content: "";
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: currentColor;
+}
+
+.mi-pill-ok {
+	background: #ecfdf3;
+	color: #067647;
+}
+
+.mi-pill-err {
+	background: #fef3f2;
+	color: #b42318;
+}
+
+.mi-pill-run {
+	background: #f3f4f6;
+	color: #6b7280;
+}
+
+.mi-card-body {
+	margin: 10px 0 0;
+	padding: 10px 12px;
+	background: #f9fafb;
+	border: 1px solid #f0f2f5;
+	border-radius: 7px;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 12.5px;
+	line-height: 1.55;
+	color: #374151;
+	white-space: pre-wrap;
+	word-break: break-word;
+	max-height: 420px;
+	overflow: auto;
+}
+
+.mi-card-body.mi-muted {
+	color: #9ca3af;
+	font-style: italic;
+}
+
+.mi-card-body.mi-err {
+	background: #fef3f2;
+	border-color: #fee4e2;
+	color: #b42318;
+}

@@ -1,10 +1,4 @@
-  </td>
- </tr>
-</table>
-</center>
+</div>
 </body>
-
 </html>
-<?php
- $_SESSION['user_active_page']=$page_name;
-?>
+<?php $_SESSION['user_active_page'] = $page_name; ?>

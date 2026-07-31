@@ -1,8 +1,8 @@
 <?php
 /*
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2026 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -20,10 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- require("../../../common/cfg_comm.php");
+require("../../../common/cfg_comm.php");
 
- session_start();
- get_priv("mi");
- header("Location: mi.php");
- 
-?>
+session_start();
+get_priv("mi");
+header("Location: console.php");
