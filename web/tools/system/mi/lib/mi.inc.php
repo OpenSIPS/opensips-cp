@@ -119,6 +119,47 @@ function mi_value($raw)
 }
 
 /*
+ * Parameters that are lists, as name => position in the signature.
+ *
+ * "which" reports parameter names and nothing about their types, so a list
+ * cannot be told from a value by asking the box -- this is read off the module
+ * documentation. Both spellings are kept, the pre-3.0 name and the
+ * module:command one, since a box may be either.
+ *
+ * Checked against OpenSIPS 4.0. b2b_logic:trigger_scenario is deliberately
+ * absent: the scenario_params it used to take is gone, and what sits in that
+ * position now is "context", a plain string. To add a command, run
+ * "core:which <cmd>" for the position and read the module docs for the type.
+ */
+function mi_list_params($cmd)
+{
+	static $lists = array(
+		"get_statistics"                    => array("statistics" => 0),
+		"statistics:get"                    => array("statistics" => 0),
+		"list_statistics"                   => array("statistics" => 0),
+		"statistics:list"                   => array("statistics" => 0),
+		"reset_statistics"                  => array("statistics" => 0),
+		"statistics:reset"                  => array("statistics" => 0),
+		"fs_subscribe"                      => array("events" => 1),
+		"freeswitch_scripting:subscribe"    => array("events" => 1),
+		"fs_unsubscribe"                    => array("events" => 1),
+		"freeswitch_scripting:unsubscribe"  => array("events" => 1),
+		"raise_event"                       => array("params" => 1),
+		"evi:raise"                         => array("params" => 1),
+		"dlg_push_var"                      => array("DID" => 2),
+		"dialog:push_var"                   => array("DID" => 2),
+		"cluster_broadcast_mi"              => array("cmd_params" => 2),
+		"clusterer:broadcast_mi"            => array("cmd_params" => 2),
+		"trace_start"                       => array("filter" => 2),
+		"tracer:start"                      => array("filter" => 2),
+		"dfks_set_feature"                  => array("values" => 4),
+		"presence_dfks:set_feature"         => array("values" => 4)
+	);
+
+	return isset($lists[$cmd]) ? $lists[$cmd] : array();
+}
+
+/*
  * "cmd a b"           -> params [a, b]              (positional)
  * "cmd x=1 y=2"       -> params {x:1, y:2}          (named)
  * "cmd [a,b]"         -> params [[a, b]]            (a list argument)
@@ -160,6 +201,19 @@ function parse_command($line, $group = -1)
 	if ($group >= 0 && empty($named) && count($positional) > $group + 1)
 		array_splice($positional, $group, count($positional),
 			array(array_slice($positional, $group)));
+
+	/*
+	 * One value for a list parameter is still a list -- "statistics:get shmem:"
+	 * asks for one statistic, not for a statistic named shmem: in the singular.
+	 * Nothing to do when it is already one, which is how a folded tail and the
+	 * bracket form arrive here.
+	 */
+	foreach (mi_list_params($cmd) as $name => $at) {
+		if (isset($named[$name]) && !is_array($named[$name]))
+			$named[$name] = array($named[$name]);
+		if (isset($positional[$at]) && !is_array($positional[$at]))
+			$positional[$at] = array($positional[$at]);
+	}
 
 	$params = empty($named) ? $positional : $named;
 
