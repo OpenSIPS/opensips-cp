@@ -655,12 +655,23 @@
 		// a flavor that takes nothing still ends the name, so it keeps the space:
 		// a line without one reads as a command still being typed, and the
 		// dropdown would answer with the matching-command list all over again
-		input.value = (sp === -1 ? v : v.substring(0, sp)) + (slots || ' ');
+		var line = (sp === -1 ? v : v.substring(0, sp)) + (slots || ' ');
+
+		// a second click on a row that is written out with every parameter filled
+		// in, optional ones included, has nothing left to give, so it is read as
+		// done with the list and dismisses it. A row with a slot still empty keeps
+		// the list up: it is the thing saying what may still go there. Either way
+		// the Run lock is refreshed, silently in the first case, since the line is
+		// what it judges.
+		var again = line === input.value && hints[i].every(function (p) {
+			return p.filled;
+		});
+		input.value = line;
 
 		closeSuggest();
 		input.focus();
 		caretToFirstSlot();
-		updateSuggest();
+		updateSuggest(again);
 	}
 
 	// straight into the first empty slot -- an "=" with nothing behind it -- so
