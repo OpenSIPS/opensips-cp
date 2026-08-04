@@ -32,6 +32,14 @@ var MITable = (function () {
 		};
 	}
 
+	function fromFlat(obj, title) {
+		return {
+			title: title,
+			columns: ['Name', 'Value'],
+			rows: Object.keys(obj).map(function (k) { return [k, obj[k]]; })
+		};
+	}
+
 	function fromArray(arr, title) {
 		if (!arr.length) return null;
 		if (arr.every(flatObject)) return fromObjects(arr, title);
@@ -47,7 +55,8 @@ var MITable = (function () {
 	/*
 	 * Most MI replies wrap their payload in a one-key envelope -- ps answers
 	 * {"Processes": [...]}, dlg_list {"Dialogs": [...]} -- so that key names the
-	 * table and the array inside it holds the rows.
+	 * table and what it holds makes the rows: an array is a row per element, a
+	 * flat object a row per key, the way get_statistics answers a group.
 	 *
 	 * A reply is only tabulated when every cell is a scalar. Nesting is left to
 	 * the JSON view rather than flattened or summarised, so a table never hides
@@ -74,14 +83,10 @@ var MITable = (function () {
 			t = fromArray(data, null);
 		} else if (data !== null && typeof data === 'object') {
 			var keys = Object.keys(data);
-			if (keys.length === 1 && Array.isArray(data[keys[0]]))
-				t = fromArray(data[keys[0]], keys[0]);
-			else if (flatObject(data))
-				t = {
-					title: null,
-					columns: ['Name', 'Value'],
-					rows: keys.map(function (k) { return [k, data[k]]; })
-				};
+			var inner = keys.length === 1 ? data[keys[0]] : null;
+			if (Array.isArray(inner)) t = fromArray(inner, keys[0]);
+			else if (flatObject(inner)) t = fromFlat(inner, keys[0]);
+			else if (flatObject(data)) t = fromFlat(data, null);
 		}
 
 		return t && numericColumns(t);
