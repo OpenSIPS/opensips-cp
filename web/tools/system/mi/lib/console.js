@@ -370,6 +370,10 @@
 		if (!line || (!ready && !cfg.unlocked)) return;
 		input.value = '';
 		closeSuggest();
+		// the line the complaint was about is gone with it -- reachable only when
+		// Run is unlocked, which is the one way a refused line can be sent
+		argErr = '';
+		clearNameError();
 		setReady(true);
 		remember(line);
 		run(line);
