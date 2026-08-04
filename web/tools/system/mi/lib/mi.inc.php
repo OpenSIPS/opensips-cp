@@ -168,8 +168,21 @@ function mi_call($command, $params, $url)
 	if (empty($errors))
 		return array("ok" => true, "data" => $data);
 
-	if (isset($errors['code']))
-		return array("ok" => false, "error" => "[".$errors['code']."] ".mi_error_text($errors));
+	if (isset($errors['code'])) {
+		$text = "[".$errors['code']."] ".mi_error_text($errors);
+
+		/*
+		 * "Invalid params" on its own leaves the user guessing which one. The
+		 * JSON-RPC "data" member is where OpenSIPS says -- "Bad PID", "Bad
+		 * log level" -- and mi_error_text() only reads "message", so it is
+		 * appended here rather than thrown away.
+		 */
+		if (isset($errors['data']) && $errors['data'] !== "")
+			$text .= ": ".(is_string($errors['data'])
+				? $errors['data'] : json_encode($errors['data']));
+
+		return array("ok" => false, "error" => $text);
+	}
 
 	return array("ok" => false, "error" => mi_error_text($errors));
 }
