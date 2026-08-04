@@ -641,13 +641,17 @@
 		var v = input.value.trim();
 		var sp = v.indexOf(' ');
 
-		input.value = (sp === -1 ? v : v.substring(0, sp)) +
-			hints[i].map(function (p) {
-				// a token still being typed reads as a value, but it is as likely
-				// the start of a parameter name -- either way the slot goes back
-				// to empty rather than trapping "ind" as the value of callid
-				return ' ' + p.name + '=' + (p.filled && !p.partial ? p.raw : '');
-			}).join('');
+		var slots = hints[i].map(function (p) {
+			// a token still being typed reads as a value, but it is as likely
+			// the start of a parameter name -- either way the slot goes back
+			// to empty rather than trapping "ind" as the value of callid
+			return ' ' + p.name + '=' + (p.filled && !p.partial ? p.raw : '');
+		}).join('');
+
+		// a flavor that takes nothing still ends the name, so it keeps the space:
+		// a line without one reads as a command still being typed, and the
+		// dropdown would answer with the matching-command list all over again
+		input.value = (sp === -1 ? v : v.substring(0, sp)) + (slots || ' ');
 
 		closeSuggest();
 		input.focus();
