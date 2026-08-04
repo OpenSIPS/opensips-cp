@@ -356,6 +356,7 @@
 }
 
 .mi-card-cmd {
+	position: relative;
 	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
 	font-size: 13px;
 	color: #111827;
@@ -365,6 +366,30 @@
 
 .mi-card-cmd:hover {
 	color: #1bbd9b;
+}
+
+/* the syntax "?" bubble again, anchored to the left edge of the command and
+   held back until the pointer has settled -- a delay is the whole point, so
+   it does not flash at every card the pointer crosses on its way down */
+.mi-card-hint {
+	left: 0;
+	transform: none;
+	width: max-content;
+	max-width: 100%;
+	font-size: 11.5px;
+	line-height: 1.5;
+	transition: opacity .12s, visibility 0s .62s;
+}
+
+.mi-card-hint::after {
+	left: 18px;
+	margin-left: 0;
+}
+
+.mi-card-cmd:hover .mi-card-hint {
+	visibility: visible;
+	opacity: 1;
+	transition: opacity .12s .5s, visibility 0s .5s;
 }
 
 .mi-spacer {

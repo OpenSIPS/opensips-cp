@@ -155,8 +155,11 @@
 
 		var card = el('div', 'mi-card');
 
+		// the bubble replaces the native title: it says the same thing, in the
+		// same voice as the rest of the page, and waits half a second so it is
+		// a nudge for something clickable rather than a flash on every pass
 		var cmd = el('div', 'mi-card-cmd', line);
-		cmd.title = 'Click to put this command back in the input';
+		cmd.appendChild(el('span', 'mi-help-text mi-card-hint', 'Run this again'));
 		cmd.addEventListener('click', function () {
 			input.value = line;
 			input.focus();
