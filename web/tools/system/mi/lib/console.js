@@ -443,13 +443,26 @@
 	}
 
 	/*
+	 * Two things can be wrong with a line and one place says so, the argument
+	 * complaint first because it is the one holding Run down.
+	 *
 	 * An unknown command is never called out while it is still being typed --
-	 * the matching-command list is the useful thing at that point. The
-	 * complaint only appears once the field is left alone.
+	 * the matching-command list is the useful thing at that point -- so that
+	 * complaint waits for the field to be left alone. The argument one is said
+	 * as it happens: it is nearly always a space that should have been quoted,
+	 * and the only other sign of it is a Run button that quietly stays off.
 	 */
+	var nameErr = '';
+	var argErr = '';
+
+	function showError() {
+		cmdErr.textContent = argErr || nameErr;
+		cmdErr.style.display = cmdErr.textContent ? 'block' : 'none';
+	}
+
 	function clearNameError() {
-		cmdErr.textContent = '';
-		cmdErr.style.display = 'none';
+		nameErr = '';
+		showError();
 	}
 
 	function refreshNameError() {
@@ -461,8 +474,8 @@
 		var info = lookup(name, true);
 		if (!info || info.known) return clearNameError();
 
-		cmdErr.textContent = '"' + name + '" is not an MI command on this box';
-		cmdErr.style.display = 'block';
+		nameErr = '"' + name + '" is not an MI command on this box';
+		showError();
 	}
 
 	/*
@@ -483,7 +496,9 @@
 				var cls, text;
 				if (p.filled) {
 					cls = 'mi-hint-filled';
-					text = p.name + '=' + p.value;
+					// an empty string was asked for by name, so it is shown the
+					// way it was written rather than as nothing at all
+					text = p.name + '=' + (p.value === '' ? '""' : p.value);
 				} else if (p.pending) {
 					cls = 'mi-hint-req';
 					text = p.name + '=?';
@@ -539,7 +554,9 @@
 		clearTimeout(lookupTimer);
 
 		var v = input.value;
+		argErr = '';
 		if (v === '') {
+			showError();
 			setReady(true);
 			return closeSuggest();
 		}
@@ -561,10 +578,17 @@
 		// named/positional mixture are both refused by the parser outright, so
 		// neither ever counts as ready.
 		var known = !info || info.known;
-		var args = sp === -1 ? { toks: [], open: false } : MI.splitArgs(v.substring(sp));
+		var tail = sp === -1 ? '' : v.substring(sp);
+		var args = MI.splitArgs(tail);
 		var bad = args.open || isMixed(args.toks);
-		var lines = known && info ? MI.buildLines(info.flavors, sp === -1 ? '' : v.substring(sp)) : [];
+		var lines = known && info ? MI.buildLines(info.flavors, tail) : [];
 		setReady(info ? known && !bad && lines.some(MI.flavorReady) : true);
+
+		// while a quote is still open the line is mid-value and says nothing yet
+		if (!args.open && isMixed(settled(args.toks, tail)))
+			argErr = 'Named and positional parameters cannot be mixed -- ' +
+				'a value with a space in it has to be quoted';
+		showError();
 		if (silent || recalling) return closeSuggest();
 
 		if (sp === -1) {
@@ -605,11 +629,13 @@
 	 * Picking a flavor writes the whole branch out: every parameter it takes,
 	 * optional ones included, each as an empty slot ready for its value.
 	 *
-	 *   dialog:list  ->  dialog:list index="" counter=""
+	 *   dialog:list  ->  dialog:list index= counter=
 	 *
-	 * Values already on the line are carried over as typed. Slots left untouched
-	 * are dropped on the way out (MI.dropPlaceholders), so the optional tail
-	 * costs nothing but is there to be filled if it is wanted.
+	 * A slot stops at the "=" so it reads as a value owed rather than a value
+	 * given -- name="" would be the empty string, which is a thing a command can
+	 * legitimately be sent. Values already on the line are carried over as typed.
+	 * Slots left untouched are dropped on the way out (MI.dropPlaceholders), so
+	 * the optional tail costs nothing but is there to be filled if it is wanted.
 	 */
 	function acceptHint(i) {
 		var v = input.value.trim();
@@ -620,7 +646,7 @@
 				// a token still being typed reads as a value, but it is as likely
 				// the start of a parameter name -- either way the slot goes back
 				// to empty rather than trapping "ind" as the value of callid
-				return ' ' + p.name + '=' + (p.filled && !p.partial ? p.raw : '""');
+				return ' ' + p.name + '=' + (p.filled && !p.partial ? p.raw : '');
 			}).join('');
 
 		closeSuggest();
@@ -629,10 +655,11 @@
 		updateSuggest();
 	}
 
-	// straight into the first empty slot, so the value can just be typed
+	// straight into the first empty slot -- an "=" with nothing behind it -- so
+	// the value can just be typed
 	function caretToFirstSlot() {
-		var at = input.value.indexOf('=""');
-		var pos = at === -1 ? input.value.length : at + 2;
+		var at = input.value.search(/=(\s|$)/);
+		var pos = at === -1 ? input.value.length : at + 1;
 		input.setSelectionRange(pos, pos);
 	}
 
@@ -692,6 +719,12 @@
 
 	function isMixed(toks) {
 		return toks.some(isNamed) && !toks.every(isNamed);
+	}
+
+	// a bare token still being typed is as likely the start of a parameter name
+	// as it is a value, so it only counts as positional once a space ends it
+	function settled(toks, tail) {
+		return /\s$/.test(tail) ? toks : toks.slice(0, -1);
 	}
 
 	/*

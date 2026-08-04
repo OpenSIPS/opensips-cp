@@ -102,9 +102,9 @@ function mi_tokenize($line)
 function mi_value($raw)
 {
 	/*
-	 * The outer quotes delimit the value and are not part of it -- "" is how
-	 * the console writes an empty slot, and quoting is the only way to keep a
-	 * space in a value. They come off first, so what is left is read exactly as
+	 * The outer quotes delimit the value and are not part of it -- quoting is
+	 * the only way to keep a space in a value, and "" is how the empty string
+	 * is asked for. They come off first, so what is left is read exactly as
 	 * if it had been typed bare: "[a,b]" is the list [a,b].
 	 */
 	if (strlen($raw) >= 2 && $raw[0] == '"' && substr($raw, -1) == '"')

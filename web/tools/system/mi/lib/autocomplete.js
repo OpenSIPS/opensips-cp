@@ -37,9 +37,10 @@ var MI = (function () {
 	}
 
 	// Runnable only when the filled parameters form a valid prefix of the flavor:
-	// no pending "name=", no gaps, and the first empty slot is optional.
+	// no gaps, and the first empty slot is optional. An empty "name=" slot is not
+	// counted as a value owed -- a template writes one for every optional
+	// parameter too, and those must not hold the command back.
 	function flavorReady(parts) {
-		if (parts.some(function (p) { return p.pending; })) return false;
 		var firstEmpty = -1;
 		for (var i = 0; i < parts.length; i++)
 			if (!parts[i].filled) { firstEmpty = i; break; }
@@ -83,13 +84,14 @@ var MI = (function () {
 			? raw.slice(1, -1) : raw;
 	}
 
-	// An empty pair of quotes is the slot a flavor template left behind, not a
-	// value. Dropping the untouched ones here is what lets a template carry the
-	// optional parameters too: leave one empty and it simply does not go.
+	// A name with nothing after the "=" is the slot a flavor template left behind,
+	// not a value. Dropping the untouched ones here is what lets a template carry
+	// the optional parameters too: leave one empty and it simply does not go.
+	// Quotes are a value, so name="" still goes, as the empty string it says.
 	function dropPlaceholders(line) {
 		return splitArgs(line).toks.filter(function (t) {
 			var eq = t.indexOf('=');
-			return !(eq > 0 && t.charAt(0) !== '[' && t.substring(eq + 1) === '""');
+			return !(eq > 0 && t.charAt(0) !== '[' && t.substring(eq + 1) === '');
 		}).join(' ');
 	}
 
@@ -132,13 +134,13 @@ var MI = (function () {
 				lines.push(fl.map(function (p) {
 					var present = used.hasOwnProperty(p.name);
 					var raw = present ? used[p.name] : '';
-					var val = unquote(raw);
-					var hasVal = val !== '';
-					// an untouched "" is an empty slot, not a value owed: unlike a
-					// bare "name=" it leaves the parameter simply not supplied
+					// anything after the "=" is a value, quotes included, so name=""
+					// counts as supplied -- an empty string is what it asks for.
+					// "pending" marks a bare name= for the hint row to point at; it
+					// is only ever a slot waiting to be filled, never a value.
 					return {
-						name: p.name, value: hasVal ? val : '', raw: raw, filled: hasVal,
-						optional: p.optional, pending: present && !hasVal && raw !== '""'
+						name: p.name, value: unquote(raw), raw: raw, filled: raw !== '',
+						optional: p.optional, pending: present && raw === ''
 					};
 				}));
 			});
