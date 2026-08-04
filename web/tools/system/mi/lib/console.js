@@ -168,9 +168,14 @@
 		var meta = el('div', 'mi-card-meta');
 		meta.appendChild(pill);
 		meta.appendChild(el('span', null, time === undefined ? now() : time));
+		// the box a command ran on, as a hover mark like the syntax "?" -- the
+		// name is what matters, the address is one hover (or Tab) away
 		var on = where || boxInfo(box);
-		var target = el('span', 'mi-card-box', on.name);
-		target.title = on.url || '';
+		var target = el('span', 'mi-card-box');
+		target.tabIndex = 0;
+		target.setAttribute('aria-label', 'MI address of ' + on.name);
+		target.appendChild(el('span', 'mi-card-boxname', on.name));
+		if (on.url) target.appendChild(el('span', 'mi-help-text mi-card-url', on.url));
 		meta.appendChild(target);
 
 		meta.appendChild(el('span', 'mi-spacer'));

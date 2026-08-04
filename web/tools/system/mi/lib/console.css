@@ -263,8 +263,11 @@
 	border-bottom-color: #1f2937;
 }
 
+/* the card's box mark carries the same bubble, so it reveals it the same way */
 .mi-help:hover .mi-help-text,
-.mi-help:focus .mi-help-text {
+.mi-help:focus .mi-help-text,
+.mi-card-box:hover .mi-help-text,
+.mi-card-box:focus .mi-help-text {
 	visibility: visible;
 	opacity: 1;
 }
@@ -489,13 +492,42 @@
 	color: #9ca3af;
 }
 
-/* the box a command was sent to; the exact address is on its title */
+/* the box a command was sent to: a hover mark carrying its address, built
+   like the syntax "?" -- same bubble, same teal on hover and focus */
 .mi-card-box {
+	position: relative;
+	flex: none;
+	padding: 1px 9px;
+	border: 1px solid #d5dbe3;
+	border-radius: 999px;
+	cursor: help;
+	user-select: none;
+}
+
+.mi-card-box:hover,
+.mi-card-box:focus {
+	border-color: #1bbd9b;
+	color: #1bbd9b;
+	outline: none;
+}
+
+/* the label is what gets clipped -- the mark itself has to stay
+   overflow-visible or it would cut the bubble off */
+.mi-card-boxname {
+	display: block;
 	max-width: 240px;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	cursor: help;
+}
+
+.mi-card-url {
+	width: max-content;
+	max-width: 320px;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 11.5px;
+	line-height: 1.5;
+	color: #fff;
 }
 
 .mi-pill {
