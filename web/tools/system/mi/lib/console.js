@@ -886,10 +886,16 @@
 		submit();
 	});
 
-	// close on an outside click, but not while reaching for anything in the card
+	/*
+	 * Close on an outside click, but not while reaching for anything in the
+	 * card. Judged on the way down: picking a row redraws the dropdown, and by
+	 * the time the event bubbled back up here the row that was clicked would be
+	 * a detached node with no card above it -- an inside click reported as an
+	 * outside one, closing what the pick had just reopened.
+	 */
 	document.addEventListener('mousedown', function (e) {
 		if (!e.target.closest('.mi-runner')) closeSuggest();
-	});
+	}, true);
 
 	runBtn.addEventListener('click', submit);
 	clearBtn.addEventListener('click', clearLog);
