@@ -50,19 +50,22 @@ var MI = (function () {
 	}
 
 	/*
-	 * Whitespace separates arguments, except inside a [ ] list -- the same rule
-	 * the server-side parser applies, so the two agree on where an argument
-	 * ends. "open" reports a list the user has not closed yet.
+	 * Whitespace separates arguments, except inside a [ ] list or a " " quote --
+	 * the same rule the server-side parser applies, so the two agree on where an
+	 * argument ends. "open" reports a list or a quote the user has not closed.
 	 */
 	function splitArgs(text) {
-		var toks = [], depth = 0, cur = '';
+		var toks = [], depth = 0, quoted = false, cur = '';
 
 		for (var i = 0; i < text.length; i++) {
 			var c = text.charAt(i);
-			if (c === '[') depth++;
-			else if (c === ']' && depth) depth--;
+			if (c === '"') quoted = !quoted;
+			else if (!quoted) {
+				if (c === '[') depth++;
+				else if (c === ']' && depth) depth--;
+			}
 
-			if (depth === 0 && /\s/.test(c)) {
+			if (!quoted && depth === 0 && /\s/.test(c)) {
 				if (cur !== '') { toks.push(cur); cur = ''; }
 			} else {
 				cur += c;
@@ -70,11 +73,29 @@ var MI = (function () {
 		}
 		if (cur !== '') toks.push(cur);
 
-		return { toks: toks, open: depth > 0 };
+		return { toks: toks, open: depth > 0 || quoted };
+	}
+
+	// quotes wrap a value and are not part of it, so they come off before
+	// anything reads it -- mi_value() does the same on the way to OpenSIPS
+	function unquote(raw) {
+		return raw.length >= 2 && raw.charAt(0) === '"' && raw.charAt(raw.length - 1) === '"'
+			? raw.slice(1, -1) : raw;
+	}
+
+	// An empty pair of quotes is the slot a flavor template left behind, not a
+	// value. Dropping the untouched ones here is what lets a template carry the
+	// optional parameters too: leave one empty and it simply does not go.
+	function dropPlaceholders(line) {
+		return splitArgs(line).toks.filter(function (t) {
+			var eq = t.indexOf('=');
+			return !(eq > 0 && t.charAt(0) !== '[' && t.substring(eq + 1) === '""');
+		}).join(' ');
 	}
 
 	// argText is everything typed after the command name. Returns one line per
-	// matching flavor: [{ name, value, filled, optional, pending }]
+	// matching flavor: [{ name, value, raw, filled, optional, pending, partial }]
+	// -- "value" is what the user meant, "raw" what they typed.
 	function buildLines(flavors, argText) {
 		var parsed = splitArgs(argText);
 		var toks = parsed.toks;
@@ -86,7 +107,7 @@ var MI = (function () {
 		if (toks.length === 0) {
 			flavors.forEach(function (fl) {
 				lines.push(fl.map(function (p) {
-					return { name: p.name, value: '', filled: false, optional: p.optional };
+					return { name: p.name, value: '', raw: '', filled: false, optional: p.optional };
 				}));
 			});
 			return lines;
@@ -110,10 +131,14 @@ var MI = (function () {
 				})) return;
 				lines.push(fl.map(function (p) {
 					var present = used.hasOwnProperty(p.name);
-					var hasVal = present && used[p.name] !== '';
+					var raw = present ? used[p.name] : '';
+					var val = unquote(raw);
+					var hasVal = val !== '';
+					// an untouched "" is an empty slot, not a value owed: unlike a
+					// bare "name=" it leaves the parameter simply not supplied
 					return {
-						name: p.name, value: hasVal ? used[p.name] : '', filled: hasVal,
-						optional: p.optional, pending: present && !hasVal
+						name: p.name, value: hasVal ? val : '', raw: raw, filled: hasVal,
+						optional: p.optional, pending: present && !hasVal && raw !== '""'
 					};
 				}));
 			});
@@ -124,7 +149,14 @@ var MI = (function () {
 		flavors.forEach(function (fl) {
 			if (fl.length < toks.length) return;
 			lines.push(fl.map(function (p, i) {
-				return { name: p.name, value: i < toks.length ? toks[i] : '', filled: i < toks.length, optional: p.optional };
+				var raw = i < toks.length ? toks[i] : '';
+				return {
+					name: p.name, value: unquote(raw), raw: raw, filled: i < toks.length,
+					optional: p.optional,
+					// the token still being typed reads as a value here, but it may
+					// as easily be the start of a name -- see acceptHint()
+					partial: !endsWithSpace && i === toks.length - 1
+				};
 			}));
 		});
 
@@ -135,6 +167,7 @@ var MI = (function () {
 		computeFlavors: computeFlavors,
 		flavorReady: flavorReady,
 		buildLines: buildLines,
-		splitArgs: splitArgs
+		splitArgs: splitArgs,
+		dropPlaceholders: dropPlaceholders
 	};
 })();

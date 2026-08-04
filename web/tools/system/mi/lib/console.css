@@ -162,11 +162,19 @@
 	border-radius: 5px;
 	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
 	font-size: 12.5px;
-	cursor: default;
+	cursor: pointer;
 }
 
 .mi-hintrow.mi-hint-ready {
 	background: #f0fdf6;
+}
+
+/* a filled parameter, an optional one and a missing one each carry their own
+ * colour, so the row under the pointer is marked with a ring rather than the
+ * solid fill the command list uses -- that would swallow all three */
+.mi-hintrow:hover {
+	background: #e7f8f4;
+	box-shadow: inset 0 0 0 1px #1bbd9b;
 }
 
 .mi-hint-filled {

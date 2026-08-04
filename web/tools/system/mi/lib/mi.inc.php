@@ -62,31 +62,36 @@ function mi_csrf_ok()
 		&& hash_equals($_SESSION['mi_csrf'], $_POST['csrf']);
 }
 
-/* split on whitespace, except inside a [ ] list */
+/* split on whitespace, except inside a [ ] list or a " " quote */
 function mi_tokenize($line)
 {
 	$tokens = array();
 	$cur = "";
 	$depth = 0;
+	$quoted = false;
 
 	for ($i = 0; $i < strlen($line); $i++) {
 		$c = $line[$i];
-		if ($c == '[')
-			$depth++;
-		if ($c == ']' && --$depth < 0)
-			return NULL;
+		if ($c == '"') {
+			$quoted = !$quoted;
+		} else if (!$quoted) {
+			if ($c == '[')
+				$depth++;
+			if ($c == ']' && --$depth < 0)
+				return NULL;
 
-		if ($depth == 0 && ctype_space($c)) {
-			if ($cur !== "") {
-				$tokens[] = $cur;
-				$cur = "";
+			if ($depth == 0 && ctype_space($c)) {
+				if ($cur !== "") {
+					$tokens[] = $cur;
+					$cur = "";
+				}
+				continue;
 			}
-			continue;
 		}
 		$cur .= $c;
 	}
 
-	if ($depth != 0)
+	if ($depth != 0 || $quoted)
 		return NULL;
 	if ($cur !== "")
 		$tokens[] = $cur;
@@ -96,6 +101,15 @@ function mi_tokenize($line)
 
 function mi_value($raw)
 {
+	/*
+	 * The outer quotes delimit the value and are not part of it -- "" is how
+	 * the console writes an empty slot, and quoting is the only way to keep a
+	 * space in a value. They come off first, so what is left is read exactly as
+	 * if it had been typed bare: "[a,b]" is the list [a,b].
+	 */
+	if (strlen($raw) >= 2 && $raw[0] == '"' && substr($raw, -1) == '"')
+		$raw = substr($raw, 1, -1);
+
 	if (strlen($raw) < 2 || $raw[0] != '[' || substr($raw, -1) != ']')
 		return $raw;
 
@@ -117,7 +131,7 @@ function parse_command($line)
 {
 	$tokens = mi_tokenize($line);
 	if ($tokens === NULL)
-		return array("error" => "Unbalanced [ ] in the command line");
+		return array("error" => "Unbalanced [ ] or \" in the command line");
 	if (empty($tokens))
 		return array("error" => "Empty command");
 

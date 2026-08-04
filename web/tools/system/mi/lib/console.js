@@ -17,6 +17,7 @@
 	var inFlight = {};
 	var matches = [];
 	var allMatches = [];
+	var hints = [];
 	var active = -1;
 	var ready = true;
 	var history = [];
@@ -333,7 +334,9 @@
 	}
 
 	function submit() {
-		var line = input.value.trim();
+		// slots the user never filled in are not empty values -- they never
+		// happened, so neither the history nor OpenSIPS hears about them
+		var line = MI.dropPlaceholders(input.value.trim());
 		if (!line || (!ready && !cfg.unlocked)) return;
 		input.value = '';
 		closeSuggest();
@@ -365,6 +368,7 @@
 		suggest.textContent = '';
 		matches = [];
 		allMatches = [];
+		hints = [];
 		active = -1;
 	}
 
@@ -472,6 +476,22 @@
 		return row;
 	}
 
+	// The hint rows are pickable, but with the mouse only: the keyboard is
+	// already spoken for -- Enter runs the line and the arrows walk the history,
+	// both of which are worth more here than picking a flavor.
+	function drawHints() {
+		suggest.textContent = '';
+		hints.forEach(function (parts, i) {
+			var row = hintRow(parts);
+			row.addEventListener('mousedown', function (e) {
+				e.preventDefault();
+				acceptHint(i);
+			});
+			suggest.appendChild(row);
+		});
+		suggest.style.display = 'block';
+	}
+
 	// "Always allow Run" gives up the lock entirely, for boxes whose MI metadata
 	// is too thin to judge a command by. The hints still say what they think.
 	function setReady(state) {
@@ -540,9 +560,8 @@
 
 		if (!lines.length) return closeSuggest();
 
-		suggest.textContent = '';
-		lines.forEach(function (parts) { suggest.appendChild(hintRow(parts)); });
-		suggest.style.display = 'block';
+		hints = lines;
+		drawHints();
 	}
 
 	function accept(i) {
@@ -550,6 +569,41 @@
 		closeSuggest();
 		input.focus();
 		updateSuggest();
+	}
+
+	/*
+	 * Picking a flavor writes the whole branch out: every parameter it takes,
+	 * optional ones included, each as an empty slot ready for its value.
+	 *
+	 *   dialog:list  ->  dialog:list index="" counter=""
+	 *
+	 * Values already on the line are carried over as typed. Slots left untouched
+	 * are dropped on the way out (MI.dropPlaceholders), so the optional tail
+	 * costs nothing but is there to be filled if it is wanted.
+	 */
+	function acceptHint(i) {
+		var v = input.value.trim();
+		var sp = v.indexOf(' ');
+
+		input.value = (sp === -1 ? v : v.substring(0, sp)) +
+			hints[i].map(function (p) {
+				// a token still being typed reads as a value, but it is as likely
+				// the start of a parameter name -- either way the slot goes back
+				// to empty rather than trapping "ind" as the value of callid
+				return ' ' + p.name + '=' + (p.filled && !p.partial ? p.raw : '""');
+			}).join('');
+
+		closeSuggest();
+		input.focus();
+		caretToFirstSlot();
+		updateSuggest();
+	}
+
+	// straight into the first empty slot, so the value can just be typed
+	function caretToFirstSlot() {
+		var at = input.value.indexOf('=""');
+		var pos = at === -1 ? input.value.length : at + 2;
+		input.setSelectionRange(pos, pos);
 	}
 
 	/* ---- tab completion ---- */
@@ -734,7 +788,8 @@
 		if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
 			e.preventDefault();
 			// arrows walk the completion list while it is open, the recall
-			// history otherwise
+			// history otherwise -- the hint rows do not take part, they are
+			// picked with the mouse
 			if (matches.length) {
 				active = (active + (e.key === 'ArrowDown' ? 1 : matches.length - 1)) % matches.length;
 				drawSuggest();
