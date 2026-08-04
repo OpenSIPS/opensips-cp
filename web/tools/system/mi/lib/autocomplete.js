@@ -148,13 +148,26 @@ var MI = (function () {
 		}
 
 		// bare values, assigned in order
+		var widest = flavors.reduce(function (m, fl) { return Math.max(m, fl.length); }, 0);
+
 		flavors.forEach(function (fl) {
-			if (fl.length < toks.length) return;
+			/*
+			 * Values past the last parameter of the widest signature are taken as
+			 * more of that parameter: a command only accepts them at all when it
+			 * ends in a list, the way statistics:get takes any number of names.
+			 * groupIndex() sends the position along so the server folds the same
+			 * way, and a shorter signature stays out of it -- one fold per line.
+			 */
+			var fold = fl.length === widest && fl.length > 0 && toks.length > fl.length;
+			if (fl.length < toks.length && !fold) return;
+
 			lines.push(fl.map(function (p, i) {
-				var raw = i < toks.length ? toks[i] : '';
+				var last = fold && i === fl.length - 1;
+				var items = last ? toks.slice(i).map(unquote) : null;
+				var raw = last ? toks.slice(i).join(' ') : (i < toks.length ? toks[i] : '');
 				return {
 					name: p.name, value: unquote(raw), raw: raw, filled: i < toks.length,
-					optional: p.optional,
+					optional: p.optional, list: last, items: items,
 					// the token still being typed reads as a value here, but it may
 					// as easily be the start of a name -- see acceptHint()
 					partial: !endsWithSpace && i === toks.length - 1

@@ -126,8 +126,15 @@ function mi_value($raw)
  *
  * OpenSIPS distinguishes a positional array from a named object purely by the
  * JSON type, so the two forms must never be blended into one params value.
+ *
+ * $group is the position of a parameter that swallows everything from there on
+ * as one list -- "statistics:get shmem: net:" with group 0 sends
+ * [["shmem:", "net:"]], which is the array that command wants. The console
+ * works it out from the signature the box reported and passes it in; a line
+ * with fewer values than that never groups, so brackets stay the way to write
+ * a list anywhere else.
  */
-function parse_command($line)
+function parse_command($line, $group = -1)
 {
 	$tokens = mi_tokenize($line);
 	if ($tokens === NULL)
@@ -149,6 +156,10 @@ function parse_command($line)
 
 	if (!empty($named) && !empty($positional))
 		return array("error" => "Cannot mix named and positional parameters");
+
+	if ($group >= 0 && empty($named) && count($positional) > $group + 1)
+		array_splice($positional, $group, count($positional),
+			array(array_slice($positional, $group)));
 
 	$params = empty($named) ? $positional : $named;
 

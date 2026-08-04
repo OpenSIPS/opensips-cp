@@ -344,6 +344,33 @@
 		});
 	}
 
+	/*
+	 * A command that ends in a list takes any number of values there --
+	 * "statistics:get shmem: net:" is two names for one parameter, not two
+	 * parameters -- and the signature cannot say which parameter that is, only
+	 * how many there are. So values past the last one of the widest signature
+	 * are folded back into it, and the position is what the server is told.
+	 *
+	 * Only positional lines fold. A named value is written as a list the way it
+	 * always was, in brackets, which is unambiguous and needs no signature.
+	 */
+	function groupIndex(line) {
+		var sp = line.indexOf(' ');
+		if (sp === -1) return -1;
+
+		var info = lookup(line.substring(0, sp), false);
+		if (!info || !info.known) return -1;
+
+		var toks = MI.splitArgs(line.substring(sp)).toks;
+		if (!toks.length || toks.some(isNamed)) return -1;
+
+		var widest = info.flavors.reduce(function (m, fl) {
+			return Math.max(m, fl.length);
+		}, 0);
+
+		return widest > 0 && toks.length > widest ? widest - 1 : -1;
+	}
+
 	function run(line) {
 		var at = now();
 		var on = boxInfo(box);
@@ -351,6 +378,9 @@
 		var body = new URLSearchParams();
 		body.set('line', line);
 		body.set('csrf', cfg.csrf);
+
+		var group = groupIndex(line);
+		if (group >= 0) body.set('group', group);
 
 		function done(payload) {
 			render(slot, payload);
@@ -500,9 +530,13 @@
 				var cls, text;
 				if (p.filled) {
 					cls = 'mi-hint-filled';
-					// an empty string was asked for by name, so it is shown the
-					// way it was written rather than as nothing at all
-					text = p.name + '=' + (p.value === '' ? '""' : p.value);
+					// values are shown as they were typed, quotes and all: they are
+					// what holds a value with a space in it together, and a row
+					// that dropped them would read as two arguments. Folded ones
+					// are shown as the list they will be sent as, where the comma
+					// separates and nothing needs quoting.
+					text = p.list ? p.name + '=[' + p.items.join(',') + ']'
+						: p.name + '=' + p.raw;
 				} else if (p.pending) {
 					cls = 'mi-hint-req';
 					text = p.name + '=?';
@@ -646,6 +680,9 @@
 		var sp = v.indexOf(' ');
 
 		var slots = hints[i].map(function (p) {
+			// values folded into a list only stay one argument if the brackets
+			// are written out, which is what the named form needs anyway
+			if (p.list) return ' ' + p.name + '=[' + p.items.join(',') + ']';
 			// a token still being typed reads as a value, but it is as likely
 			// the start of a parameter name -- either way the slot goes back
 			// to empty rather than trapping "ind" as the value of callid

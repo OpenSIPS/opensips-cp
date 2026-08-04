@@ -95,7 +95,11 @@ if ($op == "run") {
 		fail(403, "Invalid CSRF token");
 
 	$line = isset($_POST['line']) ? $_POST['line'] : "";
-	$parsed = parse_command($line);
+	// where the trailing values fold into one list, worked out by the console
+	// from the signature -- absent, or nonsense, means no folding at all
+	$group = isset($_POST['group']) && ctype_digit((string)$_POST['group'])
+		? (int)$_POST['group'] : -1;
+	$parsed = parse_command($line, $group);
 	if (isset($parsed['error']))
 		fail(400, $parsed['error']);
 
