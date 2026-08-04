@@ -215,8 +215,14 @@
 
 	/* ---- table view ---- */
 
-	function preferred() {
-		return localStorage.getItem('mi.view') === 'json' ? 'json' : 'table';
+	// the drawn view is what a card opens with, unless the switch was last left
+	// on JSON -- and a box too old to be asked is answered the same way
+	function preferred(key) {
+		try {
+			return localStorage.getItem(key) !== 'json';
+		} catch (e) {
+			return true;
+		}
 	}
 
 	function cell(v, cls) {
@@ -262,43 +268,110 @@
 		return wrap;
 	}
 
-	function addToggle(slot, table, body) {
-		var seg = el('div', 'mi-seg');
-		var tBtn = el('button', 'mi-seg-btn', 'Table');
-		var jBtn = el('button', 'mi-seg-btn', 'JSON');
-		tBtn.type = jBtn.type = 'button';
+	/* ---- tree view ---- */
 
-		function show(asTable) {
-			table.style.display = asTable ? '' : 'none';
-			body.style.display = asTable ? 'none' : '';
-			tBtn.classList.toggle('mi-seg-on', asTable);
-			jBtn.classList.toggle('mi-seg-on', !asTable);
-			// selecting a table yields the rendered grid rather than the reply,
-			// so Copy is only offered over the JSON it can reproduce exactly
-			slot.copy.disabled = asTable;
-			slot.copy.title = asTable ? 'Switch to JSON to copy the reply' : '';
+	function count(v) {
+		return Array.isArray(v) ? '[' + v.length + ']'
+			: '{' + Object.keys(v).length + '}';
+	}
+
+	/*
+	 * A leaf is a row, a branch a <details> -- disclosure, keyboard and
+	 * find-in-page come with the element and cost nothing to write. The children
+	 * of a closed branch are built the first time it opens: ul_dump on a busy box
+	 * runs to tens of thousands of leaves, and the ones nobody looks at should
+	 * not be in the document at all.
+	 */
+	function treeNode(key, value, depth) {
+		if (value === null || typeof value !== 'object') {
+			var row = el('div', 'mi-tree-row');
+			row.appendChild(el('span', 'mi-tree-key', key));
+			row.appendChild(el('span',
+				'mi-tree-val' + (typeof value === 'number' ? ' mi-tree-num' : ''),
+				value === null ? 'null' : String(value)));
+			return row;
 		}
 
-		function pick(asTable) {
-			show(asTable);
+		var branch = el('details', 'mi-tree-branch');
+		var head = el('summary');
+		head.appendChild(el('span', 'mi-tree-key', key));
+		head.appendChild(el('span', 'mi-tree-count', count(value)));
+		branch.appendChild(head);
+		// the first level is the shape of the answer, and is worth seeing at once
+		branch.open = depth === 0;
+
+		var built = false;
+		function build() {
+			if (built) return;
+			built = true;
+			var kids = el('div', 'mi-tree-kids');
+			// a position in a list is not a name, and reads as one without the
+			// brackets: "[0]" among the dialogs, "callid" inside one of them
+			var list = Array.isArray(value);
+			Object.keys(value).forEach(function (k) {
+				kids.appendChild(treeNode(list ? '[' + k + ']' : k, value[k], depth + 1));
+			});
+			branch.appendChild(kids);
+		}
+
+		if (branch.open) build();
+		else branch.addEventListener('toggle', build);
+
+		return branch;
+	}
+
+	function treeView(data) {
+		var wrap = el('div', 'mi-tree');
+		var list = Array.isArray(data);
+		Object.keys(data).forEach(function (k) {
+			wrap.appendChild(treeNode(list ? '[' + k + ']' : k, data[k], 0));
+		});
+		return wrap;
+	}
+
+	/* ---- view switch ---- */
+
+	// "alt" is whichever rendering the reply earned -- a table, or the tree that
+	// stands in for one when the reply does not fit a grid -- against the JSON
+	// it was built from. Each remembers its own side of the switch.
+	function addToggle(slot, alt, body, label, key) {
+		var seg = el('div', 'mi-seg');
+		var aBtn = el('button', 'mi-seg-btn', label);
+		var jBtn = el('button', 'mi-seg-btn', 'JSON');
+		aBtn.type = jBtn.type = 'button';
+
+		function show(asAlt) {
+			alt.style.display = asAlt ? '' : 'none';
+			body.style.display = asAlt ? 'none' : '';
+			aBtn.classList.toggle('mi-seg-on', asAlt);
+			jBtn.classList.toggle('mi-seg-on', !asAlt);
+			// selecting a rendering yields what is drawn rather than the reply, so
+			// Copy is only offered over the JSON it can reproduce exactly
+			slot.copy.disabled = asAlt;
+			slot.copy.title = asAlt ? 'Switch to JSON to copy the reply' : '';
+		}
+
+		function pick(asAlt) {
+			show(asAlt);
 			try {
-				localStorage.setItem('mi.view', asTable ? 'table' : 'json');
+				localStorage.setItem(key, asAlt ? 'alt' : 'json');
 			} catch (e) {}
 		}
 
-		tBtn.addEventListener('click', function () { pick(true); });
+		aBtn.addEventListener('click', function () { pick(true); });
 		jBtn.addEventListener('click', function () { pick(false); });
 
-		seg.appendChild(tBtn);
+		seg.appendChild(aBtn);
 		seg.appendChild(jBtn);
 		slot.meta.insertBefore(seg, slot.copy);
 
-		show(preferred() === 'table');
+		show(preferred(key));
 	}
 
 	function render(slot, payload) {
 		var body = el('pre', 'mi-card-body');
 		var table = null;
+		var tree = null;
 		var text = '';
 
 		if (payload.dropped) {
@@ -319,6 +392,9 @@
 			} else {
 				text = body.textContent = JSON.stringify(d, null, 2);
 				table = MITable.build(d);
+				// nesting is what keeps a reply out of a grid, and nesting is
+				// exactly what the tree is for
+				if (!table && typeof d === 'object') tree = treeView(d);
 			}
 		} else {
 			slot.pill.className = 'mi-pill mi-pill-err';
@@ -330,7 +406,10 @@
 		if (table) {
 			var view = tableView(table);
 			slot.card.appendChild(view);
-			addToggle(slot, view, body);
+			addToggle(slot, view, body, 'Table', 'mi.view');
+		} else if (tree) {
+			slot.card.appendChild(tree);
+			addToggle(slot, tree, body, 'Tree', 'mi.treeview');
 		}
 		slot.card.appendChild(body);
 

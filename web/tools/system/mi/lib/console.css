@@ -508,6 +508,81 @@
 	padding: 0;
 }
 
+/* ---- tree ---- */
+
+.mi-tree {
+	margin-top: 10px;
+	padding: 8px 10px;
+	border: 1px solid #f0f2f5;
+	border-radius: 7px;
+	overflow-x: auto;
+	font-family: Menlo, Consolas, "DejaVu Sans Mono", monospace;
+	font-size: 12.5px;
+	line-height: 1.7;
+	color: #374151;
+}
+
+.mi-tree-row {
+	white-space: nowrap;
+}
+
+/* the marker is the only thing saying a branch opens, so it stays put while
+   the row it sits on takes the pointer */
+.mi-tree-branch > summary {
+	white-space: nowrap;
+	cursor: pointer;
+	list-style: none;
+}
+
+.mi-tree-branch > summary::-webkit-details-marker {
+	display: none;
+}
+
+.mi-tree-branch > summary::before {
+	display: inline-block;
+	width: 12px;
+	color: #9ca3af;
+	content: "▸";
+}
+
+.mi-tree-branch[open] > summary::before {
+	content: "▾";
+}
+
+.mi-tree-branch > summary:hover {
+	background: #f9fafb;
+}
+
+/* leaves line up under the name of the branch they hang off */
+.mi-tree-row,
+.mi-tree-kids {
+	padding-left: 12px;
+}
+
+.mi-tree-key {
+	color: #6b7280;
+}
+
+.mi-tree-key::after {
+	content: ":";
+	color: #d1d5db;
+}
+
+.mi-tree-count {
+	margin-left: 6px;
+	color: #9ca3af;
+	font-size: 11px;
+}
+
+.mi-tree-val {
+	margin-left: 6px;
+	color: #111827;
+}
+
+.mi-tree-val.mi-tree-num {
+	color: #1d4ed8;
+}
+
 .mi-card-meta {
 	display: flex;
 	align-items: center;
