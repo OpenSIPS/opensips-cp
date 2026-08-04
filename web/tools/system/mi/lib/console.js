@@ -33,6 +33,26 @@
 		return node;
 	}
 
+	// navigator.clipboard only exists on https or localhost, and the panel is
+	// usually served over plain http on a LAN address -- fall back to the old
+	// select-and-copy there rather than leaving a dead button
+	function copyText(text) {
+		if (window.isSecureContext && navigator.clipboard)
+			return navigator.clipboard.writeText(text);
+
+		var ta = el('textarea');
+		ta.value = text;
+		ta.readOnly = true;
+		ta.style.position = 'fixed';
+		ta.style.opacity = '0';
+		document.body.appendChild(ta);
+		ta.select();
+		var ok = false;
+		try { ok = document.execCommand('copy'); } catch (e) {}
+		ta.remove();
+		return ok ? Promise.resolve() : Promise.reject();
+	}
+
 	function now() {
 		var d = new Date();
 		return ('0' + d.getHours()).slice(-2) + ':' +
@@ -315,10 +335,12 @@
 		slot.card.appendChild(body);
 
 		slot.copy.addEventListener('click', function () {
-			navigator.clipboard.writeText(text).then(function () {
-				slot.copy.textContent = 'Copied';
+			function flash(word) {
+				slot.copy.textContent = word;
 				setTimeout(function () { slot.copy.textContent = 'Copy'; }, 1200);
-			});
+			}
+			copyText(text).then(function () { flash('Copied'); },
+				function () { flash('Failed'); });
 		});
 	}
 
