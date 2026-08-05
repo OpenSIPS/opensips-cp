@@ -802,12 +802,43 @@
 		updateSuggest(again);
 	}
 
-	// straight into the first empty slot -- an "=" with nothing behind it -- so
-	// the value can just be typed
+	// every empty slot on the line -- an "=" with nothing behind it -- as the
+	// caret position that fills it
+	function slots() {
+		var at = [];
+		var re = /=(?=\s|$)/g;
+		var m;
+		while ((m = re.exec(input.value)) !== null) at.push(m.index + 1);
+		return at;
+	}
+
+	// straight into the first empty slot, so the value can just be typed
 	function caretToFirstSlot() {
-		var at = input.value.search(/=(\s|$)/);
-		var pos = at === -1 ? input.value.length : at + 1;
+		var at = slots();
+		var pos = at.length ? at[0] : input.value.length;
 		input.setSelectionRange(pos, pos);
+	}
+
+	/*
+	 * A picked flavor leaves the line dotted with empty slots, and Tab walks
+	 * them in the order they are written, wrapping round at the end -- so a
+	 * whole command is filled in without reaching for the mouse or the arrows.
+	 * Slots that already hold a value are done with and are not stopped at.
+	 */
+	function tabToSlot(back) {
+		var at = slots();
+		if (!at.length) return false;
+
+		var here = input.selectionStart;
+		var next = back ? at[at.length - 1] : at[0];
+
+		for (var i = 0; i < at.length; i++) {
+			if (!back && at[i] > here) { next = at[i]; break; }
+			if (back && at[i] < here) next = at[i];
+		}
+
+		input.setSelectionRange(next, next);
+		return true;
 	}
 
 	/* ---- tab completion ---- */
@@ -1021,6 +1052,9 @@
 			// unfinished value, and testing that ahead of tabComplete would
 			// stop the cycle dead on its second press
 			if (tabComplete(e.shiftKey)) return e.preventDefault();
+			// nothing to complete: the empty slots of a picked flavor are the
+			// next thing Tab is for, each in turn
+			if (tabToSlot(e.shiftKey)) return e.preventDefault();
 			// nothing to complete -- hold the field anyway while a value is
 			// still owed or a list is still open, rather than moving the focus
 			var st = argState(input.value);
