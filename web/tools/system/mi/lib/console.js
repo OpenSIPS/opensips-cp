@@ -22,6 +22,7 @@
 	var ready = true;
 	var history = [];
 	var histPos = -1;
+	var draft = '';
 	var lookupTimer = null;
 	var cycle = null;
 	var recalling = false;
@@ -76,6 +77,9 @@
 		if (history[history.length - 1] !== line) history.push(line);
 		history = history.slice(-cfg.historySize);
 		histPos = -1;
+		// the line that was being written has just been sent, so there is no
+		// draft left to come back to
+		draft = '';
 		try {
 			localStorage.setItem('mi.history', JSON.stringify(history));
 		} catch (e) {}
@@ -92,9 +96,17 @@
 		if (!history.length) return;
 		if (histPos === -1) histPos = history.length;
 		histPos = Math.min(history.length, Math.max(0, histPos + step));
-		input.value = histPos === history.length ? '' : history[histPos];
+		// past the newest entry sits the line that was being written when the
+		// walk started -- walking back down returns to it, not to an empty field
+		input.value = histPos === history.length ? draft : history[histPos];
 		recalling = true;
 		updateSuggest();
+	}
+
+	// the draft is whatever is in the field while the walk is at its own end, so
+	// it follows the typing until an arrow steps off it and freezes it there
+	function keepDraft() {
+		if (histPos === -1 || histPos === history.length) draft = input.value;
 	}
 
 	/* ---- stored results ----
@@ -969,6 +981,7 @@
 	input.addEventListener('input', function () {
 		cycle = null;
 		recalling = false;
+		keepDraft();
 		clearNameError();
 		updateSuggest();
 	});
