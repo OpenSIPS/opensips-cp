@@ -62,6 +62,22 @@ function mi_csrf_ok()
 		&& hash_equals($_SESSION['mi_csrf'], $_POST['csrf']);
 }
 
+/*
+ * Names the console's browser-side stores, which hold the commands run and the
+ * replies they returned -- so they have to end where the login ends. The
+ * session id will not do: nothing regenerates it, so it outlives a logout and
+ * the next user on that browser would inherit the stores. This does not.
+ * session_unset() takes it, the next login mints another, and whatever the
+ * previous session left behind is orphaned under a key nobody reads again.
+ */
+function mi_store_key()
+{
+	if (empty($_SESSION['mi_store']))
+		$_SESSION['mi_store'] = bin2hex(random_bytes(8));
+
+	return $_SESSION['mi_store'];
+}
+
 /* split on whitespace, except inside a [ ] list or a " " quote */
 function mi_tokenize($line)
 {

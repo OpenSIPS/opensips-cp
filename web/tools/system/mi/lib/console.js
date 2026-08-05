@@ -62,6 +62,31 @@
 			('0' + d.getSeconds()).slice(-2);
 	}
 
+	/* ---- per-login storage ----
+	 * Both stores below outlive the page, so both are named after the login
+	 * rather than the origin: cfg.store is minted from the PHP session, which a
+	 * logout empties, so a second user on the same browser reads under a key of
+	 * their own. Entries under any older key belonged to a session that has
+	 * ended -- sweep them at startup instead of leaving MI replies on disk.
+	 *
+	 * The sweep is what actually ends them, and it only runs when this tool is
+	 * opened; a logout alone leaves the old entries in place, unread, until
+	 * someone loads the console again. Clearing them at logout would take JS on
+	 * a page that only redirects.
+	 */
+
+	var HKEY = 'mi.history.' + cfg.store;
+	var RKEY = 'mi.results.' + cfg.store;
+
+	// backwards: removeItem renumbers everything above the key it drops
+	function sweep(store, prefix, keep) {
+		for (var i = store.length - 1; i >= 0; i--) {
+			var k = store.key(i);
+			if (k !== keep && k.lastIndexOf(prefix, 0) === 0)
+				store.removeItem(k);
+		}
+	}
+
 	/* ---- recall history ----
 	 * only the command lines are kept, like a shell's .bash_history; results
 	 * stay in the page because a single MI reply can be megabytes.
@@ -69,7 +94,7 @@
 
 	function loadHistory() {
 		try {
-			var raw = JSON.parse(localStorage.getItem('mi.history'));
+			var raw = JSON.parse(localStorage.getItem(HKEY));
 			if (Array.isArray(raw)) history = raw;
 		} catch (e) {}
 	}
@@ -82,7 +107,7 @@
 		// draft left to come back to
 		draft = '';
 		try {
-			localStorage.setItem('mi.history', JSON.stringify(history));
+			localStorage.setItem(HKEY, JSON.stringify(history));
 		} catch (e) {}
 	}
 
@@ -124,14 +149,14 @@
 	function saveResults() {
 		while (results.length) {
 			try {
-				sessionStorage.setItem('mi.results', JSON.stringify(results));
+				sessionStorage.setItem(RKEY, JSON.stringify(results));
 				return;
 			} catch (e) {
 				results.shift();
 			}
 		}
 		try {
-			sessionStorage.removeItem('mi.results');
+			sessionStorage.removeItem(RKEY);
 		} catch (e) {}
 	}
 
@@ -148,7 +173,7 @@
 
 	function loadResults() {
 		try {
-			var raw = JSON.parse(sessionStorage.getItem('mi.results'));
+			var raw = JSON.parse(sessionStorage.getItem(RKEY));
 			if (Array.isArray(raw)) results = raw;
 		} catch (e) {}
 
@@ -1129,6 +1154,9 @@
 			loadCommands();
 		});
 	}
+
+	sweep(localStorage, 'mi.history', HKEY);
+	sweep(sessionStorage, 'mi.results', RKEY);
 
 	if (!loadResults()) showEmpty();
 	showUrl();
