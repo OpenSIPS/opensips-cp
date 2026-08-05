@@ -287,14 +287,29 @@
 			: '{' + Object.keys(v).length + '}';
 	}
 
+	// How much of a reply may be laid open at once. Everything open means
+	// everything built, and ul_dump on a busy box runs to tens of thousands of
+	// leaves -- past this, only the first level opens and the rest waits to be
+	// asked for.
+	var TREE_OPEN_MAX = 2000;
+
+	// what is left of the budget, which stops as soon as it runs out: the
+	// question is only whether the whole reply fits, not by how far it misses
+	function budget(value, left) {
+		if (value === null || typeof value !== 'object') return left - 1;
+		var keys = Object.keys(value);
+		for (var i = 0; i < keys.length && left > 0; i++)
+			left = budget(value[keys[i]], left);
+		return left;
+	}
+
 	/*
 	 * A leaf is a row, a branch a <details> -- disclosure, keyboard and
 	 * find-in-page come with the element and cost nothing to write. The children
-	 * of a closed branch are built the first time it opens: ul_dump on a busy box
-	 * runs to tens of thousands of leaves, and the ones nobody looks at should
-	 * not be in the document at all.
+	 * of a closed branch are built the first time it opens, so the half of a big
+	 * reply nobody looks at is never in the document at all.
 	 */
-	function treeNode(key, value, depth) {
+	function treeNode(key, value, depth, openAll) {
 		if (value === null || typeof value !== 'object') {
 			var row = el('div', 'mi-tree-row');
 			row.appendChild(el('span', 'mi-tree-key', key));
@@ -309,8 +324,9 @@
 		head.appendChild(el('span', 'mi-tree-key', key));
 		head.appendChild(el('span', 'mi-tree-count', count(value)));
 		branch.appendChild(head);
-		// the first level is the shape of the answer, and is worth seeing at once
-		branch.open = depth === 0;
+		// a reply small enough to hold open is read, not navigated; a big one
+		// still shows its first level, which is the shape of the answer
+		branch.open = openAll || depth === 0;
 
 		var built = false;
 		function build() {
@@ -321,7 +337,8 @@
 			// brackets: "[0]" among the dialogs, "callid" inside one of them
 			var list = Array.isArray(value);
 			Object.keys(value).forEach(function (k) {
-				kids.appendChild(treeNode(list ? '[' + k + ']' : k, value[k], depth + 1));
+				kids.appendChild(treeNode(list ? '[' + k + ']' : k, value[k],
+					depth + 1, openAll));
 			});
 			branch.appendChild(kids);
 		}
@@ -334,9 +351,10 @@
 
 	function treeView(data) {
 		var wrap = el('div', 'mi-tree');
+		var openAll = budget(data, TREE_OPEN_MAX) > 0;
 		var list = Array.isArray(data);
 		Object.keys(data).forEach(function (k) {
-			wrap.appendChild(treeNode(list ? '[' + k + ']' : k, data[k], 0));
+			wrap.appendChild(treeNode(list ? '[' + k + ']' : k, data[k], 0, openAll));
 		});
 		return wrap;
 	}
