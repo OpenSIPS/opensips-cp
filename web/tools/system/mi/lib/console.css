@@ -65,6 +65,32 @@
 	margin-left: auto;
 }
 
+/* sits next to Run, and reads as the exception it is rather than a setting */
+.mi-force {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	margin-left: auto;
+	font-size: 11.5px;
+	color: #9ca3af;
+	white-space: nowrap;
+	cursor: pointer;
+}
+
+.mi-force:hover {
+	color: #6b7280;
+}
+
+.mi-force input {
+	margin: 0;
+	cursor: pointer;
+}
+
+/* Run keeps its place at the end: the label has taken the slack before it */
+.mi-controls .mi-force + .mi-btn {
+	margin-left: 0;
+}
+
 .mi-select {
 	padding: 7px 10px;
 	border: 1px solid #d5dbe3;

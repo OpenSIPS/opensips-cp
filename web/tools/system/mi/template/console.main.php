@@ -50,6 +50,11 @@
   </select>
   <span id="miurl" class="mi-url" title="MI address of the selected box"></span>
 
+  <label class="mi-force" for="force"
+   title="Send the line even if the checks refuse it. Clears itself once the command has run.">
+   <input id="force" type="checkbox"
+    <?php if ($_SESSION['read_only']) echo 'disabled'; ?>>Force</label>
+
   <button id="run" type="button" class="mi-btn"
    <?php if ($_SESSION['read_only']) echo 'disabled'; ?>>Run</button>
  </div>
@@ -67,7 +72,6 @@
 		"urls"        => array_column(mi_boxes(), 'url'),
 		"csrf"        => mi_csrf_token(),
 		"readOnly"    => (bool)$_SESSION['read_only'],
-		"unlocked"    => get_settings_value("unlock_run") == "1",
 		"historySize" => max(1, (int)get_settings_value("history_size"))
 	), JSON_HEX_TAG);
 ?></script>

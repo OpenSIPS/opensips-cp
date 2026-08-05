@@ -29,16 +29,5 @@ $config->mi = array(
 		"type" => "number",
 		"validation_regex" => "^[0-9]+$",
 		"tip" => "How many past command lines the console keeps for arrow-key recall."
-	),
-	"unlock_run" => array(
-		"default" => "0",
-		"name" => "Always allow Run",
-		"type" => "dropdown",
-		"options" => array("Disabled" => "0", "Enabled" => "1"),
-		"tip" => "Normally Run stays disabled until the command exists and the
-		parameters typed satisfy one of its signatures, as reported by 'which'.
-		Enable this to keep Run available whatever those checks say - useful when
-		a module reports incomplete parameter metadata and a perfectly valid
-		command is refused. The parameter hints are shown either way."
 	)
 );

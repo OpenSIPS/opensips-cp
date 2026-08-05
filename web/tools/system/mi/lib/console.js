@@ -10,6 +10,7 @@
 	var cmdErr = document.getElementById('cmderr');
 	var boxsel = document.getElementById('boxsel');
 	var miurl = document.getElementById('miurl');
+	var force = document.getElementById('force');
 
 	var box = 0;
 	var cmdCache = {};
@@ -506,13 +507,15 @@
 		// slots the user never filled in are not empty values -- they never
 		// happened, so neither the history nor OpenSIPS hears about them
 		var line = MI.dropPlaceholders(input.value.trim());
-		if (!line || (!ready && !cfg.unlocked)) return;
+		if (!line || !(ready || forced())) return;
 		input.value = '';
 		closeSuggest();
-		// the line the complaint was about is gone with it -- reachable only when
-		// Run is unlocked, which is the one way a refused line can be sent
+		// the line the complaint was about is gone with it -- reachable only by
+		// running anyway, which is the one way a refused line can be sent
 		argErr = '';
 		clearNameError();
+		// the override was for the line just sent, not for the next one
+		if (force) force.checked = false;
 		setReady(true);
 		remember(line);
 		run(line);
@@ -684,12 +687,17 @@
 		suggest.style.display = 'block';
 	}
 
-	// "Always allow Run" gives up the lock entirely, for boxes whose MI metadata
-	// is too thin to judge a command by. The hints still say what they think.
+	// "Force" lifts the lock for one line, for a module whose MI metadata is too
+	// thin to judge a command by. It says nothing about the hints, which go on
+	// reporting what they think of the line.
+	function forced() {
+		return !!force && force.checked;
+	}
+
 	function setReady(state) {
 		if (cfg.readOnly) return;
 		ready = state;
-		runBtn.disabled = !(ready || cfg.unlocked);
+		runBtn.disabled = !(ready || forced());
 	}
 
 	/* ---- dropdown ---- */
@@ -1099,6 +1107,9 @@
 
 	runBtn.addEventListener('click', submit);
 	clearBtn.addEventListener('click', clearLog);
+
+	// ticking it releases Run there and then, rather than at the next keystroke
+	if (force) force.addEventListener('change', function () { setReady(ready); });
 
 	// shown for reference only -- a command is still addressed by box index, so
 	// the address never travels back to the server
