@@ -660,11 +660,10 @@
 	}
 
 	/*
-	 * "optional" marks a point where the command may stop, not a parameter that
-	 * can be dropped on its own: tracer:start takes id uri, or id uri filter, or
-	 * all five, but never type without scope. So the brackets nest -- everything
-	 * past a stopping point is part of that optional tail --
-	 * "id uri [filter [scope type]]" rather than "id uri [filter] [scope] type".
+	 * One row per signature the box reported, so every parameter on a row is a
+	 * parameter that call takes: tracer:start reads as "id uri", "id uri filter"
+	 * and "id uri filter scope type", three rows, rather than one row with the
+	 * shorter calls written into it as an optional tail.
 	 */
 	function hintRow(parts) {
 		var row = el('div', 'mi-hintrow');
@@ -672,7 +671,6 @@
 		if (!parts.length) {
 			row.appendChild(el('span', 'mi-hint-opt', '(no parameters)'));
 		} else {
-			var depth = 0, last = null;
 			parts.forEach(function (p) {
 				var cls, text;
 				if (p.filled) {
@@ -684,18 +682,12 @@
 					// separates and nothing needs quoting.
 					text = p.list ? p.name + '=[' + p.items.join(',') + ']'
 						: p.name + '=' + p.raw;
-				} else if (p.pending) {
-					cls = 'mi-hint-req';
-					text = p.name + '=?';
 				} else {
-					if (p.optional) depth++;
-					cls = depth ? 'mi-hint-opt' : 'mi-hint-req';
-					text = (p.optional ? '[' : '') + p.name;
+					cls = 'mi-hint-req';
+					text = p.pending ? p.name + '=?' : p.name;
 				}
-				last = el('span', cls, text);
-				row.appendChild(last);
+				row.appendChild(el('span', cls, text));
 			});
-			if (depth) last.textContent += new Array(depth + 1).join(']');
 		}
 
 		if (MI.flavorReady(parts)) {
@@ -794,7 +786,11 @@
 		var args = MI.splitArgs(tail);
 		var bad = args.open || isMixed(args.toks);
 		var lines = known && info ? MI.buildLines(info.flavors, tail) : [];
-		setReady(info ? known && !bad && lines.some(MI.flavorReady) : true);
+		// judged on the line as it will be sent, with the slots a template wrote
+		// and nobody filled taken out of it: a five-parameter row with three left
+		// empty is the two-parameter call, and that is a signature of its own
+		var sent = known && info ? MI.buildLines(info.flavors, MI.dropPlaceholders(tail)) : [];
+		setReady(info ? known && !bad && sent.some(MI.flavorReady) : true);
 
 		// while a quote is still open the line is mid-value and says nothing yet
 		if (!args.open && isMixed(settled(args.toks, tail)))

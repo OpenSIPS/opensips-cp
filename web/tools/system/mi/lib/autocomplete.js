@@ -1,39 +1,20 @@
 var MI = (function () {
 	'use strict';
 
-	// Collapse the raw "which" output (an array of parameter-name arrays) into
-	// readable flavors: the signatures go into a prefix tree and every leaf path
-	// becomes one flavor, so branching signatures split instead of colliding. A
-	// parameter is optional when its parent node is itself a valid signature.
-	// [], [a], [a,b], [a,b,c], [d], [d,c]  ->  {} , {a, b?, c?} , {d, c?}
+	// One flavor per signature, in the order "which" reports them. OpenSIPS
+	// already lists every combination it accepts -- [], [a], [a,b] are three
+	// answers, not one answer with two optional tails -- so each is shown as
+	// the command it is. Nothing here is optional: a row says exactly what it
+	// takes, and a shorter call is the shorter row.
+	// [], [a], [a,b], [a,b,c], [d], [d,c]  ->  {} , {a} , {a,b} , {a,b,c} , {d} , {d,c}
 	function computeFlavors(sigs) {
-		var root = { children: {}, order: [], terminal: false };
-		sigs.forEach(function (sig) {
-			if (!Array.isArray(sig)) return;
-			if (sig.length === 0) { root.terminal = true; return; }
-			var node = root;
-			sig.forEach(function (name) {
-				if (!node.children[name]) {
-					node.children[name] = { children: {}, order: [], terminal: false };
-					node.order.push(name);
-				}
-				node = node.children[name];
+		return sigs.filter(function (sig) {
+			return Array.isArray(sig);
+		}).map(function (sig) {
+			return sig.map(function (name) {
+				return { name: name, optional: false };
 			});
-			node.terminal = true;
 		});
-
-		var flavors = [];
-		if (root.terminal) flavors.push([]);
-		(function walk(node, isRoot, path) {
-			node.order.forEach(function (name) {
-				var child = node.children[name];
-				var next = path.concat([{ name: name, optional: isRoot ? false : node.terminal }]);
-				if (child.order.length === 0) flavors.push(next);
-				else walk(child, false, next);
-			});
-		})(root, true, []);
-
-		return flavors;
 	}
 
 	// Runnable only when the filled parameters form a valid prefix of the flavor:
