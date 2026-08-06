@@ -698,13 +698,14 @@
 		return row;
 	}
 
-	// The hint rows are pickable, but with the mouse only: the keyboard is
-	// already spoken for -- Enter runs the line and the arrows walk the history,
-	// both of which are worth more here than picking a flavor.
+	// The rows are walked with the arrows and taken with Enter, the same way the
+	// command list is, but nothing is active until an arrow says so: Enter on a
+	// line that is ready has to run it, not rewrite it as a template.
 	function drawHints() {
 		suggest.textContent = '';
 		hints.forEach(function (parts, i) {
 			var row = hintRow(parts);
+			if (i === active) row.classList.add('mi-active');
 			row.addEventListener('mousedown', function (e) {
 				e.preventDefault();
 				acceptHint(i);
@@ -712,6 +713,7 @@
 			suggest.appendChild(row);
 		});
 		suggest.style.display = 'block';
+		if (active >= 0) suggest.children[active].scrollIntoView({ block: 'nearest' });
 	}
 
 	// "Force" lifts the lock for one line, for a module whose MI metadata is too
@@ -1125,18 +1127,22 @@
 
 		if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
 			e.preventDefault();
-			// arrows walk the completion list while it is open, the recall
-			// history otherwise -- the hint rows do not take part, they are
-			// picked with the mouse. The list standing open over an empty field
-			// is browsing, not completing, and the field being empty is exactly
-			// where the history is reached for, so it keeps the arrows.
-			if (matches.length && !browsing) {
-				active = (active + (e.key === 'ArrowDown' ? 1 : matches.length - 1)) % matches.length;
-				drawSuggest();
-			} else {
-				recall(e.key === 'ArrowDown' ? 1 : -1);
+			var down = e.key === 'ArrowDown';
+			// arrows walk whatever the dropdown is showing, the command list or
+			// the flavor rows, and the recall history once it is shut -- Escape
+			// gets there. The one open list they leave alone is the one standing
+			// over an empty field: that is browsing rather than completing, and
+			// an empty field is exactly where the history is reached for.
+			var list = matches.length && !browsing ? matches : (hints.length ? hints : null);
+			if (!list) {
+				recall(down ? 1 : -1);
+				return;
 			}
-			return;
+			// nothing is active on a list that has only been drawn, and the step
+			// off it goes to whichever end the arrow came from
+			active = active === -1 ? (down ? 0 : list.length - 1)
+				: (active + (down ? 1 : list.length - 1)) % list.length;
+			return list === matches ? drawSuggest() : drawHints();
 		}
 
 		/*
@@ -1162,7 +1168,10 @@
 
 		if (e.key !== 'Enter') return;
 		e.preventDefault();
-		if (matches.length && active >= 0) return accept(active);
+		if (active >= 0 && matches.length) return accept(active);
+		// a flavor the arrows stopped on is written out rather than run: the
+		// line it would run is the one that row is offering to complete
+		if (active >= 0 && hints.length) return acceptHint(active);
 		submit();
 	});
 
