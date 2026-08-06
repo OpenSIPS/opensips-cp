@@ -735,6 +735,12 @@
 	function updateSuggest(silent) {
 		clearTimeout(lookupTimer);
 
+		// every change to the line comes through here, typed or written by a
+		// pick, a completion or a card, so this is where the draft is taken --
+		// what a walk comes back down to is the line as it stood, not the part
+		// of it that happened to be typed by hand
+		keepDraft();
+
 		var v = input.value;
 		argErr = '';
 		if (v === '') {
@@ -1095,7 +1101,6 @@
 	input.addEventListener('input', function () {
 		cycle = null;
 		recalling = false;
-		keepDraft();
 		clearNameError();
 		updateSuggest();
 	});
