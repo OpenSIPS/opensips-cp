@@ -825,10 +825,14 @@
 			// values folded into a list only stay one argument if the brackets
 			// are written out, which is what the named form needs anyway
 			if (p.list) return ' ' + p.name + '=[' + p.items.join(',') + ']';
-			// a token still being typed reads as a value, but it is as likely
-			// the start of a parameter name -- either way the slot goes back
-			// to empty rather than trapping "ind" as the value of callid
-			return ' ' + p.name + '=' + (p.filled && !p.partial ? p.raw : '');
+			// a token still being typed only reads as the start of a parameter
+			// name when it is the start of one this flavor offers: "ind" would
+			// be trapped as the value of callid, so the slot goes back to empty,
+			// while "sip:1.2.3.4" prefixes nothing and is the value it looks like
+			var namish = p.partial && hints[i].some(function (q) {
+				return q.name.toLowerCase().indexOf(p.raw.toLowerCase()) === 0;
+			});
+			return ' ' + p.name + '=' + (p.filled && !namish ? p.raw : '');
 		}).join('');
 
 		// a flavor that takes nothing still ends the name, so it keeps the space:
