@@ -27,6 +27,10 @@
 	var lookupTimer = null;
 	var cycle = null;
 	var recalling = false;
+	// the list is standing open over an empty field rather than filtering
+	// something typed, which is the one state where the arrows are still the
+	// history's -- see the keydown handler
+	var browsing = false;
 
 	function el(tag, cls, text) {
 		var node = document.createElement(tag);
@@ -553,7 +557,12 @@
 		cmdCache[box] = [];
 		fetch('api.php?op=commands&box=' + box)
 			.then(function (r) { return r.json(); })
-			.then(function (j) { cmdCache[box] = j.ok ? j.commands.slice().sort() : []; })
+			.then(function (j) {
+				cmdCache[box] = j.ok ? j.commands.slice().sort() : [];
+				// a list already standing open was drawn from whatever had
+				// arrived by then -- redraw it now the rest is here
+				if (browsing) updateSuggest();
+			})
 			.catch(function () {});
 	}
 
@@ -571,6 +580,7 @@
 		allMatches = [];
 		hints = [];
 		active = -1;
+		browsing = false;
 	}
 
 	function drawSuggest() {
@@ -738,8 +748,30 @@
 		if (v === '') {
 			showError();
 			setReady(true);
-			return closeSuggest();
+			/*
+			 * An empty field with the caret in it is a place to start looking,
+			 * so it stands the whole command list open -- the same rows a typed
+			 * fragment filters, and the same list Tab has always cycled from
+			 * here. Only when the field is actually being used: a recall walking
+			 * back to an empty draft, or a programmatic pass with the focus
+			 * elsewhere, leaves the dropdown shut as before.
+			 */
+			if (silent || recalling || document.activeElement !== input)
+				return closeSuggest();
+			// every command, not the 50 a typed fragment stops at: this list is
+			// the one being read rather than narrowed, and it is what Tab then
+			// cycles, so the rows on screen and the rows Tab walks are the same
+			allMatches = cmdCache[box] || [];
+			matches = allMatches.slice();
+			if (!matches.length) return closeSuggest();
+			hints = [];
+			// nothing is preselected: Enter on an empty line has nothing to run
+			// and must not pick a command the user only meant to look at
+			active = -1;
+			browsing = true;
+			return drawSuggest();
 		}
+		browsing = false;
 
 		var sp = v.indexOf(' ');
 		var name = sp === -1 ? v : v.substring(0, sp);
@@ -1073,7 +1105,15 @@
 	});
 
 	input.addEventListener('blur', refreshNameError);
+
 	input.addEventListener('focus', clearNameError);
+
+	// a click on an empty field asks for the command list. The focus is not the
+	// trigger: the console takes it on load, and arriving at the tool is not
+	// asking to be shown everything.
+	input.addEventListener('click', function () {
+		if (input.value === '' && !browsing) updateSuggest();
+	});
 
 	input.addEventListener('keydown', function (e) {
 		// any key other than the history arrows means the user is composing
@@ -1086,8 +1126,10 @@
 			e.preventDefault();
 			// arrows walk the completion list while it is open, the recall
 			// history otherwise -- the hint rows do not take part, they are
-			// picked with the mouse
-			if (matches.length) {
+			// picked with the mouse. The list standing open over an empty field
+			// is browsing, not completing, and the field being empty is exactly
+			// where the history is reached for, so it keeps the arrows.
+			if (matches.length && !browsing) {
 				active = (active + (e.key === 'ArrowDown' ? 1 : matches.length - 1)) % matches.length;
 				drawSuggest();
 			} else {
