@@ -893,28 +893,60 @@
 		updateSuggest(again);
 	}
 
-	// every empty slot on the line -- an "=" with nothing behind it -- as the
-	// caret position that fills it
-	function slots() {
-		var at = [];
-		var re = /=(?=\s|$)/g;
-		var m;
-		while ((m = re.exec(input.value)) !== null) at.push(m.index + 1);
+	/*
+	 * The end of every named argument on the line, which is where the caret
+	 * carries on writing it: just past the "=" while the slot is still empty,
+	 * past the value once it holds one. Whitespace inside a list or a quote
+	 * belongs to the value, the same rule the argument splitter applies, so
+	 * "filter=[a, b]" is one argument with one end.
+	 *
+	 * With "empty" the ends of the filled ones are left out, for the caret that
+	 * goes looking for what a template still wants.
+	 */
+	function slots(empty) {
+		var v = input.value, at = [], depth = 0, quoted = false, start = -1;
+
+		function take(from, to) {
+			var eq = v.indexOf('=', from);
+			if (eq <= from || eq >= to || v.charAt(from) === '[') return;
+			if (!empty || eq === to - 1) at.push(to);
+		}
+
+		for (var i = 0; i < v.length; i++) {
+			var c = v.charAt(i);
+			if (c === '"') quoted = !quoted;
+			else if (!quoted) {
+				if (c === '[') depth++;
+				else if (c === ']' && depth) depth--;
+			}
+
+			if (!quoted && depth === 0 && /\s/.test(c)) {
+				if (start !== -1) take(start, i);
+				start = -1;
+			} else if (start === -1) {
+				start = i;
+			}
+		}
+		if (start !== -1) take(start, v.length);
+
 		return at;
 	}
 
 	// straight into the first empty slot, so the value can just be typed
+	// straight into the first slot still waiting for a value, since that is what
+	// a freshly picked flavor is asking for
 	function caretToFirstSlot() {
-		var at = slots();
+		var at = slots(true);
 		var pos = at.length ? at[0] : input.value.length;
 		input.setSelectionRange(pos, pos);
 	}
 
 	/*
-	 * A picked flavor leaves the line dotted with empty slots, and Tab walks
-	 * them in the order they are written, wrapping round at the end -- so a
-	 * whole command is filled in without reaching for the mouse or the arrows.
-	 * Slots that already hold a value are done with and are not stopped at.
+	 * A picked flavor leaves the line dotted with slots, and Tab walks them in
+	 * the order they are written, wrapping round at the end -- so a whole
+	 * command is filled in, and gone back over, without reaching for the mouse
+	 * or the arrows. A slot that already holds a value is stopped at too, with
+	 * the caret behind the value, ready to carry on or rub it out.
 	 */
 	function tabToSlot(back) {
 		var at = slots();
