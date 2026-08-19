@@ -18,7 +18,7 @@ jobs:
     - name: Repository Dispatch
       uses: actions/github-script@v8
       with:
-        github-token: ${{ secrets.DOCKER_OPENSIPS_CLI_PAT }}
+        github-token: ${{ secrets.OPENSIPS_WORKFLOW_DISPATCH }}
         script: |
           await github.rest.repos.createDispatchEvent({
             owner: 'OpenSIPS',
