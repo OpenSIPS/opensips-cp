@@ -22,7 +22,8 @@ CREATE FUNCTION unix_timestamp(time_str TIMESTAMP ) RETURNS integer AS $$
   SELECT (date_part('epoch',time_str))::integer;
   $$ LANGUAGE SQL IMMUTABLE;
 
-INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','opensips','Super','Admin',md5('admin:opensips'),'all','all');
+-- ha1 below is md5('admin:opensips')
+INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','opensips','Super','Admin','0273461fc6bf55340b21e41b9adc41bf','all','all');
 
 --
 -- Table for `ocp_monitored_stats`
