@@ -302,7 +302,7 @@ if ($action=="delete"){
 			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 			}
-			if ($stm->execute( array($list,$resultset[$i]['carrierid']) )==NULL)
+			if ($stm->execute( array($new_list,$resultset[$i]['carrierid']) )==NULL)
 				echo 'Carrier DB update failed : ' . print_r($stm->errorInfo(), true);
 		}
 	}
