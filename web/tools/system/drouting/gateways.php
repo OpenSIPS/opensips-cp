@@ -237,6 +237,9 @@ if ($action=="probegw"){
 ################
 if ($action=="delete"){
 	$del_id=$_GET['gwid'];
+	if (!preg_match('/^[0-9a-zA-Z_\-]+$/',$del_id)) {
+		die('Invalid gateway id');
+	}
 	$sql = "delete from ".$table." where gwid=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
@@ -244,20 +247,21 @@ if ($action=="delete"){
 	}
 	$stm->execute( array($del_id) ); 
 
-	$sql_regex = "'(^|,)".$del_id."(=|,|$)'";
+	$sql_regex = "(^|,)".$del_id."(=|,|$)";
 	$repl_regex1 = "'(,".$del_id."(=[^,]+)?,)'";
 	$repl_regex2 = "'((^|,)".$del_id."(=[^,]+)?(,|$))'";
 
 	//remove GW from dr_rules
-	if ($config->db_driver == "mysql") 
-		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist regexp ";
+	if ($config->db_driver == "mysql")
+		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist regexp ?";
 	else if ($config->db_driver == "pgsql")
 		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
 
-	$stm = $link->query($sql.$sql_regex);
+	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 	}
+	$stm->execute( array($sql_regex) );
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 	for($i=0;count($resultset)>$i;$i++){
