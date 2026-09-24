@@ -31,8 +31,9 @@ INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,ava
 
 DROP TABLE IF EXISTS ocp_monitored_stats;
 CREATE TABLE ocp_monitored_stats (
-  name text PRIMARY KEY NOT NULL,
-  box_id integer NOT NULL default '0'
+  name text NOT NULL,
+  box_id integer NOT NULL default '0',
+  PRIMARY KEY (name, box_id)
 );
 SET CLIENT_ENCODING TO 'latin1' ;
 -- --------------------------------------------------------
@@ -46,7 +47,8 @@ CREATE TABLE ocp_monitoring_stats (
   name text NOT NULL,
   time integer NOT NULL,
   value text NOT NULL default '0',
-  box_id integer NOT NULL default '0'
+  box_id integer NOT NULL default '0',
+  PRIMARY KEY (name, time, box_id)
 );
 SET CLIENT_ENCODING TO 'latin1' ;
 
@@ -59,6 +61,7 @@ SET CLIENT_ENCODING TO 'latin1' ;
 CREATE SEQUENCE ocp_boxes_config_id_seq;
 CREATE TABLE ocp_boxes_config (
   id integer Primary KEY DEFAULT nextval('ocp_boxes_config_id_seq'),
+  name text NOT NULL DEFAULT '' UNIQUE,
   mi_conn text DEFAULT NULL,
   monit_conn text DEFAULT NULL,
   monit_user text DEFAULT NULL,
@@ -96,10 +99,11 @@ SELECT setval('ocp_system_config_id_seq', 1);
 CREATE SEQUENCE ocp_tools_config_id_seq;
 CREATE TABLE ocp_tools_config (
   id integer Primary KEY DEFAULT nextval('ocp_tools_config_id_seq'),
-  module text NOT NULL UNIQUE,
-  param text NOT NULL UNIQUE,
+  module text NOT NULL,
+  param text NOT NULL,
   value text DEFAULT NULL,
-  box_id text DEFAULT '' UNIQUE
+  box_id text DEFAULT '',
+  UNIQUE (module, param, box_id)
 );
 
 -- --------------------------------------------------------
