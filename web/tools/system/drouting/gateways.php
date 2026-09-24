@@ -252,7 +252,7 @@ if ($action=="delete"){
 	$repl_regex2 = "'((^|,)".$del_id."(=[^,]+)?(,|$))'";
 
 	//remove GW from dr_rules
-	if ($config->db_driver == "mysql")
+	if ($config->db_driver == "mysql" || $config->db_driver == "sqlite")
 		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist regexp ?";
 	else if ($config->db_driver == "pgsql")
 		$sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
@@ -280,7 +280,7 @@ if ($action=="delete"){
 	}
 
 	//remove GW from dr_carriers
-	if ($config->db_driver == "mysql")
+	if ($config->db_driver == "mysql" || $config->db_driver == "sqlite")
 		$sql = "select carrierid,gwlist from ".get_settings_value("table_carriers")." where gwlist regexp ?";
 	else if ($config->db_driver == "pgsql")
 		$sql = "select carrierid,gwlist from ".get_settings_value("table_carriers")." where gwlist ~* ?";

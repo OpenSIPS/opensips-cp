@@ -1,0 +1,153 @@
+-- WAL lets OpenSIPS and the Control Panel read while the other one writes
+PRAGMA journal_mode=WAL;
+
+CREATE TABLE ocp_admin_privileges (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  first_name varchar(64) NOT NULL default '',
+  last_name varchar(64) NOT NULL default '',
+  username varchar(64) NOT NULL default '',
+  password varchar(64) NOT NULL default '',
+  ha1 varchar(256) default '',
+  blocked varchar(60) default NULL,
+  failed_attempts integer default 0,
+  available_tools varchar(512) NOT NULL default '',
+  permissions varchar(512) default NULL,
+  secret varchar(20) default NULL
+);
+
+-- ha1 below is md5('admin:opensips')
+INSERT INTO ocp_admin_privileges (username,password,first_name,last_name,ha1,available_tools,permissions) values ('admin','opensips','Super','Admin','0273461fc6bf55340b21e41b9adc41bf','all','all');
+
+-- 
+-- Table for `ocp_monitored_stats`
+-- 
+
+DROP TABLE IF EXISTS ocp_monitored_stats;
+CREATE TABLE ocp_monitored_stats (
+  name varchar(64) NOT NULL,
+  box_id integer NOT NULL default 0,
+  PRIMARY KEY (name,box_id)
+);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_monitoring_stats`
+-- 
+
+DROP TABLE IF EXISTS ocp_monitoring_stats;
+CREATE TABLE ocp_monitoring_stats (
+  name varchar(64) NOT NULL,
+  time integer NOT NULL,
+  value varchar(64) NOT NULL default '0',
+  box_id integer NOT NULL default 0,
+  PRIMARY KEY (name,time,box_id)
+);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_boxes_config`
+-- 
+
+CREATE TABLE ocp_boxes_config (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name varchar(64) NOT NULL DEFAULT '',
+  mi_conn varchar(64) DEFAULT NULL,
+  monit_conn varchar(64) DEFAULT NULL,
+  monit_user varchar(64) DEFAULT NULL,
+  monit_pass varchar(64) DEFAULT NULL,
+  monit_ssl integer NOT NULL DEFAULT 0,
+  smonitcharts integer NOT NULL DEFAULT 1,
+  assoc_id varchar(10) DEFAULT '-1',
+  "desc" varchar(128) NOT NULL DEFAULT '',
+  CONSTRAINT name_key UNIQUE (name)
+);
+
+INSERT INTO ocp_boxes_config (mi_conn,"desc",assoc_id) values ('json:127.0.0.1:8888/mi','Default box',1);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_system_config`
+-- 
+
+CREATE TABLE ocp_system_config (
+  assoc_id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name varchar(64) DEFAULT NULL,
+  "desc" varchar(64) DEFAULT ''
+);
+
+INSERT INTO ocp_system_config (assoc_id, name, "desc") values (1,'System 0','Default system');
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_tools_config`
+-- 
+
+CREATE TABLE ocp_tools_config (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  module varchar(64) NOT NULL,
+  param varchar(64) NOT NULL,
+  value blob DEFAULT NULL,
+  box_id varchar(15) DEFAULT '',
+  CONSTRAINT box_key UNIQUE (module,param,box_id)
+);
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_dashboard`
+-- 
+
+CREATE TABLE ocp_dashboard (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name varchar(64) DEFAULT NULL,
+  content text DEFAULT NULL,
+  "order" integer DEFAULT NULL,
+  positions text DEFAULT NULL
+);
+
+INSERT INTO ocp_dashboard VALUES (1,'Default','{"panel_1_widget_1":"{\"widget_title\":\"Users\",\"widget_box\":\"1\",\"addwidget\":\"Add\",\"widget_type\":\"registered_users_widget\",\"panel_id\":\"1\",\"widget_id\":\"panel_1_widget_1\"}","panel_1_widget_2":"{\"widget_name\":\"CDR\",\"widget_refresh\":\"30\",\"addwidget\":\"Add\",\"widget_type\":\"cdr_widget\",\"panel_id\":\"1\",\"widget_id\":\"panel_1_widget_2\"}","panel_1_widget_3":"{\"widget_title\":\"PKG Usage\",\"widget_box\":\"1\",\"widget_warning\":\"50\",\"widget_critical\":\"75\",\"widget_refresh\":\"\",\"addwidget\":\"Add\",\"widget_type\":\"pkg_widget\",\"panel_id\":\"1\",\"widget_id\":\"panel_1_widget_3\"}","panel_1_widget_4":"{\"widget_title\":\"Shared memory\",\"widget_box\":\"1\",\"widget_warning\":\"50\",\"widget_critical\":\"75\",\"widget_refresh\":\"60\",\"addwidget\":\"Add\",\"widget_type\":\"shmem_widget\",\"panel_id\":\"1\",\"widget_id\":\"panel_1_widget_4\"}","panel_1_widget_6":"{\"widget_name\":\"Dispatching\",\"widget_box\":\"1\",\"widget_partition\":\"default\",\"widget_set\":\"\",\"widget_refresh\":\"30\",\"editwidget\":\"Edit\",\"panel_id\":\"1\",\"widget_type\":\"dispatching_widget\",\"widget_id\":\"panel_1_widget_6\"}","panel_1_widget_7":"{\"widget_name\":\"Dynamic Routing\",\"widget_box\":\"1\",\"widget_partition\":\"\",\"widget_refresh\":\"30\",\"editwidget\":\"Edit\",\"panel_id\":\"1\",\"widget_type\":\"gateways_widget\",\"widget_id\":\"panel_1_widget_7\"}","panel_1_widget_11":"{\"widget_name\":\"RTPProxy\",\"widget_box\":\"1\",\"widget_set\":\"0\",\"widget_refresh\":\"60\",\"addwidget\":\"Add\",\"widget_type\":\"rtpproxy_widget\",\"panel_id\":\"1\",\"widget_id\":\"panel_1_widget_11\"}","panel_1_widget_15":"{\"widget_name\":\"RTPEngine\",\"widget_box\":\"1\",\"widget_set\":\"0\",\"widget_refresh\":\"60\",\"addwidget\":\"Add\",\"widget_type\":\"rtpengine_widget\",\"panel_id\":\"1\",\"widget_id\":\"panel_1_widget_15\"}"}',1,'[{"id":"panel_1_widget_1","col":6,"row":1,"size_x":2,"size_y":3},{"id":"panel_1_widget_2","col":8,"row":1,"size_x":2,"size_y":3},{"id":"panel_1_widget_3","col":4,"row":1,"size_x":2,"size_y":3},{"id":"panel_1_widget_4","col":2,"row":1,"size_x":2,"size_y":3},{"id":"panel_1_widget_6","col":2,"row":6,"size_x":2,"size_y":2},{"id":"panel_1_widget_7","col":4,"row":6,"size_x":2,"size_y":2},{"id":"panel_1_widget_11","col":6,"row":6,"size_x":2,"size_y":2},{"id":"panel_1_widget_15","col":8,"row":6,"size_x":2,"size_y":2}]');
+
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_extra_stats`
+-- 
+
+CREATE TABLE ocp_extra_stats (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name text DEFAULT NULL,
+  input text DEFAULT NULL,
+  box_id integer DEFAULT NULL,
+  tool varchar(60) DEFAULT NULL,
+  class varchar(60) DEFAULT NULL
+);
+-- --------------------------------------------------------
+
+-- 
+-- Table for `ocp_db_config`
+-- 
+
+CREATE TABLE ocp_db_config (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  config_name varchar(64) NOT NULL,
+  db_host varchar(64) NOT NULL,
+  db_port varchar(64) NOT NULL,
+  db_user varchar(64) NOT NULL,
+  db_pass varchar(64) DEFAULT NULL,
+  db_name varchar(64) NOT NULL
+);
+
+-- 
+-- Table for `config` tool
+-- 
+
+CREATE TABLE config (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name varchar(255) NOT NULL,
+  value varchar(255) DEFAULT NULL,
+  description varchar(255) NOT NULL DEFAULT ''
+);

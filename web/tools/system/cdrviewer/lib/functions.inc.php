@@ -107,9 +107,9 @@ function cdr_export($start_time,  $end_time ) {
 
 	$sql.=" from ".$cdr_table . " where  ";
 
-	$sql.=" DATE_SUB( ?, INTERVAL ".$delay." SECOND) <= time  and  ";
+	$sql.=" ? <= time  and  ";
 
-	$sql.="time <= DATE_SUB( ?, INTERVAL ".$delay." SECOND)"   ;
+	$sql.="time <= ?"   ;
 
 	$sql .= " order by time desc " ;
 
@@ -119,7 +119,10 @@ function cdr_export($start_time,  $end_time ) {
 	$stm = $link->prepare($sql);
 	if ($stm === false)
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
-	$stm->execute( array($start_time,$end_time) );
+	// same as mysql DATE_SUB(?, INTERVAL $delay SECOND): calendar math, done in UTC so DST cannot shift it
+	$stm->execute( array(
+		gmdate("Y-m-d H:i:s", strtotime($start_time." UTC") - $delay),
+		gmdate("Y-m-d H:i:s", strtotime($end_time." UTC") - $delay) ) );
 	$result = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 

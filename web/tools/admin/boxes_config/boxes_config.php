@@ -65,7 +65,8 @@ if ($action=="modify_params")
 		$params_names.="id";
 		$unknowns.="?";
 		$values[] = $box_id;
-		$sql = "INSERT INTO ".$table." (".$params_names.") VALUES (".$unknowns.") ON DUPLICATE KEY UPDATE ".$update_query;
+		$sql = "INSERT INTO ".$table." (".$params_names.") VALUES (".$unknowns.") ".
+			($config->db_driver == "sqlite" ? "ON CONFLICT(id) DO UPDATE SET " : "ON DUPLICATE KEY UPDATE ").$update_query;
 		$stm = $link->prepare($sql);
 
 		if ($stm === false) {

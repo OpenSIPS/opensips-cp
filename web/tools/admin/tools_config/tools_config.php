@@ -81,12 +81,12 @@ if ($action=="modify_params")
 					}
 					continue;
 				}
-				$sql = "INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON DUPLICATE KEY UPDATE module=?,param=?,value=?";
+				$sql = "REPLACE INTO ".$table." (module, param, value) VALUES (?,?,?)";
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
 					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				if ($stm->execute( array( $current_tool, $module, $_POST[$module], $current_tool, $module, $_POST[$module])) == false) {
+				if ($stm->execute( array( $current_tool, $module, $_POST[$module])) == false) {
 					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 				}    else {
 					$info="Admin credentials were modified";

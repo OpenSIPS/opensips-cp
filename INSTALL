@@ -90,9 +90,13 @@ From the opensips-cp/ folder run:
 	mysql -Dopensips -p < config/db_schema.mysql
 	or
 	psql -h host_name -U postgres_username -d opensips < config/db_schema.pgsql
+	or
+	sqlite3 /var/lib/opensips/opensips.db < config/db_schema.sqlite
 	
 
 This will create the OCP specific tables into the "opensips" database and add a first access user, the "admin" user with the "opensips" password.
+
+SQLite is a file, not a server: OCP, OpenSIPS (db_sqlite module) and the cron jobs must run on the machine holding the file, and the web server user needs write access to both the file and its folder. Install the PHP driver (for debian: apt-get install php-sqlite3), then set db_driver to "sqlite" and db_name to the file path in config/db.inc.php.
 
 
 

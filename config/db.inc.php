@@ -23,7 +23,8 @@
  global $config;
  if (!isset($config)) $config = new stdClass();
 
- //database driver mysql or pgsql
+ //database driver mysql, pgsql or sqlite
+ //for sqlite, only db_name is used: set it to the database file path
  $config->db_driver = "mysql";
 
  //database host

@@ -63,7 +63,8 @@ if ($action=="modify_params")
 		$params_names.="assoc_id";
 		$unknowns.="?";
 		$values[] = $assoc_id;
-		$sql = "INSERT INTO $table (".$params_names.") VALUES (".$unknowns.") ON DUPLICATE KEY UPDATE ".$update_query;
+		$sql = "INSERT INTO $table (".$params_names.") VALUES (".$unknowns.") ".
+			($config->db_driver == "sqlite" ? "ON CONFLICT(assoc_id) DO UPDATE SET " : "ON DUPLICATE KEY UPDATE ").$update_query;
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

@@ -245,7 +245,7 @@ if ($action=="disablecar"){
     $preg_exp2 = "'(,#".$del_id."(=[^,]+)?,)'";
 
     //remove Carriers from dr_rules
-    if ($config->db_driver == "mysql")
+    if ($config->db_driver == "mysql" || $config->db_driver == "sqlite")
         $sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist regexp ?";
     else if ($config->db_driver == "pgsql")
         $sql = "select ruleid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
@@ -304,7 +304,7 @@ if ($action=="search")
 			$qvalues = array();
 			$search_gwlist=$_SESSION['carriers_search_gwlist'];
 			if ($search_gwlist!="") {
-				if ($config->db_driver == "mysql")
+				if ($config->db_driver == "mysql" || $config->db_driver == "sqlite")
 					$sql_search.=" and gwlist regexp ?";
 				else if ($config->db_driver == "pgsql")
 					$sql_search.=" and gwlist ~* ?";

@@ -32,7 +32,7 @@
 
  $search_gwlist=$_SESSION['carriers_search_gwlist'];
  if ($search_gwlist!="") {
-			if ( $config->db_driver == "mysql" ) {
+			if ( $config->db_driver == "mysql" || $config->db_driver == "sqlite" ) {
                           $sql_search.=" and gwlist regexp ?";
 			  array_push( $sql_vals, dr_list_regex($search_gwlist, ",", true));
 			} else if ( $config->db_driver == "pgsql" ) {
