@@ -15,16 +15,17 @@ jobs:
     - name: Set docker-tag variable
       run:  BRANCH="${GITHUB_REF#refs/heads/}"; echo -e "BRANCH=$BRANCH\nDOCKER_TAG=${BRANCH//master/latest}" >> $GITHUB_ENV
     
-    - name: Repository Dispatch
+    - name: Workflow Dispatch
       uses: actions/github-script@v8
       with:
         github-token: ${{ secrets.OPENSIPS_WORKFLOW_DISPATCH }}
         script: |
-          await github.rest.repos.createDispatchEvent({
+          await github.rest.actions.createWorkflowDispatch({
             owner: 'OpenSIPS',
             repo: 'docker-opensips-cp',
-            event_type: 'OpenSIPS CP trigger',
-            client_payload: {
+            workflow_id: 'docker-image.yml',
+            ref: 'main',
+            inputs: {
               docker_tag: process.env.DOCKER_TAG,
               branch: process.env.BRANCH
             }
