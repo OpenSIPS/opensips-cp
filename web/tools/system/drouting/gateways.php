@@ -283,7 +283,7 @@ if ($action=="delete"){
 	if ($config->db_driver == "mysql")
 		$sql = "select carrierid,gwlist from ".get_settings_value("table_carriers")." where gwlist regexp ?";
 	else if ($config->db_driver == "pgsql")
-		$sql = "select carrierid,gwlist from ".get_settings_value("table_rules")." where gwlist ~* ?";
+		$sql = "select carrierid,gwlist from ".get_settings_value("table_carriers")." where gwlist ~* ?";
 
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
