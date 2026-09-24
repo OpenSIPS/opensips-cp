@@ -22,10 +22,14 @@
 
 
 $path_to_cdrviewer="/var/www/html/opensips-cp/web/tools/system/cdrviewer";
-chdir($path_to_smonitor);
+chdir($path_to_cdrviewer);
 require("../../../../config/db.inc.php");
 require("../../../../web/common/cfg_comm.php");
 session_load_from_tool("cdrviewer");
+$_SESSION['current_tool'] = "cdrviewer";
+$delay = get_settings_value("delay");
+$cdr_repository_path = get_settings_value("cdr_repository_path");
+$cdr_set_field_names = get_settings_value("cdr_set_field_names");
 require("../../../../config/tools/system/cdrviewer/db.inc.php");
 require("lib/functions.inc.php");
 require("lib/db_connect.php");
@@ -99,18 +103,21 @@ function	remove_oldest_csv($dir) {
 
 // how to pass arguments :
 // 2008-02-21 00:00:00 2008-02-22 23:59:59
+$nr_args = count($argv) ;
+
+if ( $nr_args != 2 && $nr_args != 5 ) {
+	fwrite(STDERR, "usage: php cdr_export.php <timestamp_file>\n".
+		"       php cdr_export.php <start_day> <start_hour> <end_day> <end_hour>\n");
+	exit(1);
+}
+
 $start_time_day = $argv[1] ;
 
-$start_time_hour = $argv[2] ;
+$start_time_hour = $argv[2] ?? "" ;
 
-$end_time_day = $argv[3] ;
+$end_time_day = $argv[3] ?? "" ;
 
-$end_time_hour = $argv[4] ;
-
-
-
-
-$nr_args = count($argv) ;
+$end_time_hour = $argv[4] ?? "" ;
 
 if ( $nr_args == 2 ){
 	// get timestamp file from command line 

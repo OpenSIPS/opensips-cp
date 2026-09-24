@@ -1,0 +1,8 @@
+# IMPORTANT: the php file must be run in OpenSIPS Control Panel root directory
+
+# export the CDRs created since the previous run, once every hour at x:05, as a
+# CSV file in the "CDR repository path" setting (default /var/lib/opensips_cdrs).
+# The timestamp file must exist before the first run and hold the start time of
+# the first export (yyyy-mm-dd hh:mm:ss); every run moves it to the export end:
+#   echo "$(date '+%Y-%m-%d %H:%M:%S')" > /var/lib/opensips_cdrs/last_export
+5 * * * * root (cd /var/www/html/opensips-cp/; /usr/bin/php cron_job/cdr_export.php /var/lib/opensips_cdrs/last_export)
