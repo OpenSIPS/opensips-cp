@@ -37,9 +37,10 @@ require_once("../../../../config/db.inc.php");
                 $config->db_pass = $config->db_pass_cdrviewer;
                 $config->db_name = $config->db_name_cdrviewer;
         }
-        $dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+        require_once(__DIR__."/../../../../common/db_pdo.php");
+        $dsn = db_dsn($config);
         try {
-               $link = new PDO($dsn, $config->db_user, $config->db_pass);
+               $link = db_pdo($dsn, $config->db_user, $config->db_pass);
         } catch (PDOException $e) {
                error_log(print_r("Failed to connect to: ".$dsn, true));
                print "Error!: " . $e->getMessage() . "<br/>";

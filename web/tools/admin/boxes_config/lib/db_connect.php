@@ -32,9 +32,10 @@
                 $config->db_pass = $config->db_pass_boxes_config;
                 $config->db_name = $config->db_name_boxes_config;
         }
-	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+	require_once(__DIR__."/../../../../common/db_pdo.php");
+	$dsn = db_dsn($config);
 	try {
-		$link = new PDO($dsn, $config->db_user, $config->db_pass);
+		$link = db_pdo($dsn, $config->db_user, $config->db_pass);
 	} catch (PDOException $e) {
 		error_log(print_r("Failed to connect to: ".$dsn, true));
 		print "Error!: " . $e->getMessage() . "<br/>";

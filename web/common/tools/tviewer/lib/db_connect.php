@@ -42,9 +42,10 @@ if (isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['
 		$config->db_host = $config->db_host.";port=".$configuration->db_port;
 }
 
-$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+require_once(__DIR__."/../../../db_pdo.php");
+$dsn = db_dsn($config);
 try {
-	$link = new PDO($dsn, $config->db_user, $config->db_pass, isset($config->db_attr)?$config->db_attr:NULL);
+	$link = db_pdo($dsn, $config->db_user, $config->db_pass, isset($config->db_attr)?$config->db_attr:NULL);
 } catch (PDOException $e) {
 	error_log(print_r("Failed to connect to: ".$dsn, true));
 	print "Error!: " . $e->getMessage() . "<br/>";

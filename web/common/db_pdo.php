@@ -1,8 +1,8 @@
 <?php
 /*
- * Copyright (C) 2011 OpenSIPS Project
+ * Copyright (C) 2026 OpenSIPS Project
  *
- * This file is part of opensips-cp, a free Web Control Panel Application for 
+ * This file is part of opensips-cp, a free Web Control Panel Application for
  * OpenSIPS SIP server.
  *
  * opensips-cp is free software; you can redistribute it and/or modify
@@ -20,19 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+function db_dsn($config) {
+	return $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
+}
 
-require_once(__DIR__."/../config/db.inc.php");
-
-global $config;
-require_once(__DIR__."/common/db_pdo.php");
-$dsn = db_dsn($config);
-
-try {
-	$link = db_pdo($dsn, $config->db_user, $config->db_pass, isset($config->db_attr)?$config->db_attr:NULL);
-} catch (PDOException $e) {
-	error_log(print_r("Failed to connect to: ".$dsn, true));
-	print "Error!: " . $e->getMessage() . "<br/>";
-	die();
+function db_pdo($dsn, $user, $pass, $attr = NULL) {
+	return new PDO($dsn, $user, $pass, $attr);
 }
 
 ?>
