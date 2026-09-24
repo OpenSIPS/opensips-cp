@@ -99,12 +99,12 @@ if ($action=="modify_params")
 					if (is_null($checklist_values)) $checklist_values = "";
 					$_POST[$module] = $checklist_values;
 				}
-				$sql = "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,".$box_id.")";
+				$sql = "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,?)";
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 				}
-				if ($stm->execute( array( $current_tool, $module, $_POST[$module])) == false) {
+				if ($stm->execute( array( $current_tool, $module, $_POST[$module], $box_id)) == false) {
 					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 				}    else {
 					$info="Admin credentials were modified";
