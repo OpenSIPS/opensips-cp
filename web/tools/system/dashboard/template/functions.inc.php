@@ -35,6 +35,7 @@
         CASE
          WHEN '.$order.' = ? THEN ?
          WHEN '.$order.' = ? THEN ?
+         ELSE '.$order.'
         END
         WHERE '.$order.' = ? or '.$order.' = ?
         ';

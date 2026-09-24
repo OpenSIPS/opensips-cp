@@ -108,7 +108,7 @@ if ($action == "add_modify_statistic") {
 
 	$input = json_encode($form_input);
 	
-	$sql = "REPLACE INTO ocp_extra_stats (name, input, tool, class, box_id) VALUES (?,?,?,?,?);";
+	$sql = "INSERT INTO ocp_extra_stats (name, input, tool, class, box_id) VALUES (?,?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -130,30 +130,27 @@ if ($action == "modify_statistic") {
 
 	$input = json_encode($form_input);
 	
-	$sql = "UPDATE ocp_monitoring_stats SET name= CONCAT('custom:', (SELECT tool from ocp_extra_stats where id = ?), ':', ?) where name=  
-	(SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-	
-	if ($stm->execute( array($id, $_POST['name_id'], $id)) == false) {
-		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
-	}	else {
-		$info="Stat was added";
-	}
-
-	$sql = "UPDATE ocp_monitored_stats SET name= CONCAT('custom:', (SELECT tool from ocp_extra_stats where id = ?), ':', ?) where name=  
-	(SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
-	$stm = $link->prepare($sql);
-	if ($stm === false) {
-		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-	}
-	
-	if ($stm->execute( array($id, $_POST['name_id'], $id)) == false) {
-		die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
-	}	else {
-		$info="Stat was added";
+	// monitored stats are named custom:<tool>:<name>; rename them along with the stat
+	// (built here, as pgsql cannot type a bare parameter inside CONCAT)
+	$stm = $link->prepare("SELECT tool, name from ocp_extra_stats where id = ?");
+	if ($stm === false || $stm->execute(array($id)) == false)
+		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));
+	$stat = $stm->fetch(PDO::FETCH_ASSOC);
+	if ($stat && !is_null($stat['tool']) && !is_null($stat['name'])) {
+		$old_name = 'custom:'.$stat['tool'].':'.$stat['name'];
+		$new_name = 'custom:'.$stat['tool'].':'.$_POST['name_id'];
+		foreach (array("ocp_monitoring_stats", "ocp_monitored_stats") as $stats_table) {
+			$sql = "UPDATE ".$stats_table." SET name=? where name=?";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($new_name, $old_name)) == false) {
+				die("Updating record in DB failed: ".print_r($stm->errorInfo(), true)); 
+			}	else {
+				$info="Stat was added";
+			}
+		}
 	}
 
 	$sql = "UPDATE ocp_extra_stats SET name=?, input=? where id = ?";

@@ -202,8 +202,9 @@ if ($dispatcher_group_mode == "static")
   ?>
  </tr>
 <?php
-if ($sql_search=="") $sql_command="from ".$table." order by setid asc";
-else $sql_command="from ".$table." where (1=1) ".$sql_search." order by id asc";
+// the order goes on the row query only: pgsql rejects ORDER BY on the count
+if ($sql_search=="") { $sql_command="from ".$table; $sql_order=" order by setid asc"; }
+else { $sql_command="from ".$table." where (1=1) ".$sql_search; $sql_order=" order by id asc"; }
 $stm = $link->prepare("select count(*) ".$sql_command);
 if ($stm===FALSE) {
 	die('Failed to issue query [select count (*) '.$sql_command.'], error message : ' . $link->errorInfo()[2]);
@@ -222,6 +223,7 @@ else
 	}
 	$start_limit=($page-1)*$res_no;
 	//$sql_command.=" limit ".$start_limit.", ".$res_no;
+	$sql_command.=$sql_order;
 	if ($start_limit==0) $sql_command.=" limit ".$res_no;
 	else $sql_command.=" limit ".$res_no." OFFSET " . $start_limit;
 

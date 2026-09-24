@@ -342,7 +342,7 @@ if ($action == "clone_panel_verify") {
 	if(!$_SESSION['read_only']){
 		$panel_id = $_GET['panel_id'];
 
-		$sql = 'INSERT INTO '.$table.' () VALUES () ';
+		$sql = 'INSERT INTO '.$table.($config->db_driver == "mysql" ? ' () VALUES () ' : ' DEFAULT VALUES');
 				$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -352,7 +352,7 @@ if ($action == "clone_panel_verify") {
 			$form_valid=false;
 		} 
 		
-		$sql = 'select max(id) from '.$table;
+		$sql = 'select max(id) as max_id from '.$table;
 				$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -362,7 +362,7 @@ if ($action == "clone_panel_verify") {
 			$form_valid=false;
 		} 
 		$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-		$latest_panel = $resultset[0]["max(id)"];
+		$latest_panel = $resultset[0]["max_id"];
 
 		$widget_contents = json_decode($_SESSION['config']['panels'][$panel_id]['content'], true);
 		foreach($widget_contents as $key => $widget_content) {

@@ -46,6 +46,12 @@ class cdr_widget extends widget
       "select count(*) from ".$cdr_table." where time > date('now','localtime','-1 day') and time < datetime('now','localtime','-1 day') union all ".
       "select count(*) from ".$cdr_table." where time < datetime('now','localtime') and time > datetime('now','localtime','-7 days') union all ".
       "select count(*) from ".$cdr_table." where time < datetime('now','localtime','-7 days') and time > datetime('now','localtime','-14 days');";
+    else if ($config->db_driver == "pgsql")
+    $sql = "select count(*) from ".$cdr_table. " union all ".
+      "select count(*) from ".$cdr_table." where time > current_date union all ".
+      "select count(*) from ".$cdr_table." where time > current_date - interval '1 day' and time < now() - interval '1 day' union all ".
+      "select count(*) from ".$cdr_table." where time < now() and time > now() - interval '1 week' union all ".
+      "select count(*) from ".$cdr_table." where time < now() - interval '1 week' and time > now() - interval '2 weeks';";
     else
     $sql = "select count(*) from ".$cdr_table. " union all ".
       "select count(*) from ".$cdr_table." where time > curdate() union all ".
@@ -54,12 +60,13 @@ class cdr_widget extends widget
       "select count(*) from ".$cdr_table." where time < NOW() - interval 1 week and time > NOW() - interval 2 week;";
 		$stm = $link->prepare($sql);
 		$stm->execute();
-		$rows = $stm->fetchAll(PDO::FETCH_ASSOC);
-		$this->total_cdrs = $rows[0]['count(*)'];
-		$this->today_cdrs = $rows[1]['count(*)'];
-		$this->yesterday_cdrs = $rows[2]['count(*)'];
-		$this->last_week_cdrs = $rows[3]['count(*)'];
-		$this->prev_week_cdrs = $rows[4]['count(*)'];
+		// by position: pgsql names a count(*) column "count", mysql and sqlite "count(*)"
+		$rows = $stm->fetchAll(PDO::FETCH_COLUMN);
+		$this->total_cdrs = $rows[0];
+		$this->today_cdrs = $rows[1];
+		$this->yesterday_cdrs = $rows[2];
+		$this->last_week_cdrs = $rows[3];
+		$this->prev_week_cdrs = $rows[4];
 	}
 
 	public static function new_form($params = null) { 
