@@ -376,7 +376,7 @@ if ($action == "clone_panel_verify") {
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute( array($panel_name, $widget_contents_json , $_SESSION['config']['panels_max_order'] + 1,
+		if ($stm->execute( array($_POST['panel_name'], $widget_contents_json , $_SESSION['config']['panels_max_order'] + 1,
 		$_SESSION['config']['panels'][$panel_id]['positions'], $latest_panel)) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 			$form_valid=false;
