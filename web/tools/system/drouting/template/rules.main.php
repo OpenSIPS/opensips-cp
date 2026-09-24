@@ -42,15 +42,12 @@
  $sql_vals=array();
  $search_groupid=$_SESSION['rules_search_groupid'];
  if ($search_groupid!="") {
-                           $id=$search_groupid;
-                           $id=str_replace("*",".*",$id);
-                           $id=str_replace("%",".*",$id);
 			   if ($config->db_driver == "mysql" ) {
 	                           $sql_search.=" and groupid regexp ?";
-				   array_push( $sql_vals, "(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)");
+				   array_push( $sql_vals, dr_list_regex($search_groupid, ",;|"));
 			   } else if ($config->db_driver == "pgsql" ) {
 				   $sql_search.=" and groupid ~* ?";
-				   array_push( $sql_vals, "(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)");
+				   array_push( $sql_vals, dr_list_regex($search_groupid, ",;|"));
 			   }
  }
  $search_prefix=$_SESSION['rules_search_prefix'];
@@ -69,20 +66,17 @@
 	 $sql_search.=" and priority=?";
 	 array_push( $sql_vals, $search_priority);
  }
- $search_routeid=$_SESSION['rules_search_routeid'];
- if ($search_routeid!="") {
-	 $sql_search.=" and routeid=?";
-	 array_push( $sql_vals, $search_routeid);
- }
  $search_gwlist=$_SESSION['rules_search_gwlist'];
  if ($search_gwlist!="") {
-                          $id=$search_gwlist;
-                          $id=str_replace("*",".*",$id);
-                          $id=str_replace("%",".*",$id);
+			if ($config->db_driver == "mysql" ) {
                           $sql_search.=" and gwlist regexp ?";
-			  array_push( $sql_vals, "'(^".$id."$)|(^".$id."[,;|])|([,;|]".$id."[,;|])|([,;|]".$id."$)'");
+			  array_push( $sql_vals, dr_list_regex($search_gwlist, ",;|", true));
+			} else if ($config->db_driver == "pgsql" ) {
+                          $sql_search.=" and gwlist ~* ?";
+			  array_push( $sql_vals, dr_list_regex($search_gwlist, ",;|", true));
+			}
                          }
- $search_attributes=$_SESSION['rules_search_attrs'];
+ $search_attrs=$_SESSION['rules_search_attrs'];
  if ($search_attrs!="") {
          $sql_search.=" and attrs like ?";
          array_push( $sql_vals, "%".$search_attrs."%");

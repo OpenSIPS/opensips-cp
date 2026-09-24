@@ -125,4 +125,14 @@ function dr_get_combo_attrs($value, $filter_val = null)
 	return $ret;
 }
 
+// regex matching $id as a whole element of a $sep separated list
+// ("*" and "%" are wildcards); $weighted also accepts "id=weight" elements
+function dr_list_regex($id, $sep, $weighted = false)
+{
+	$id = str_replace(array("*", "%"), ".*", $id);
+	$w = $weighted ? "(=[^".$sep."]+)?" : "";
+	$s = "[".$sep."]";
+	return "(^".$id.$w."$)|(^".$id.$w.$s.")|(".$s.$id.$w.$s.")|(".$s.$id.$w."$)";
+}
+
 ?>

@@ -32,15 +32,12 @@
 
  $search_gwlist=$_SESSION['carriers_search_gwlist'];
  if ($search_gwlist!="") {
-                          $id=$search_gwlist;
-                          $id=str_replace("*",".*",$id);
-                          $id=str_replace("%",".*",$id);
 			if ( $config->db_driver == "mysql" ) {
                           $sql_search.=" and gwlist regexp ?";
-			  array_push( $sql_vals, "'(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'");
+			  array_push( $sql_vals, dr_list_regex($search_gwlist, ",", true));
 			} else if ( $config->db_driver == "pgsql" ) {
                           $sql_search.=" and gwlist ~* ?";
-			  array_push( $sql_vals, "'(^".$id."(=[^,]+)?$)|(^".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?,)|(,".$id."(=[^,]+)?$)'");
+			  array_push( $sql_vals, dr_list_regex($search_gwlist, ",", true));
 			}
  }
 
