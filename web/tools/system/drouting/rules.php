@@ -113,7 +113,6 @@
                     $_SESSION['rules_search_groupid']="";
                     $_SESSION['rules_search_prefix']="";
                     $_SESSION['rules_search_priority']="";
-                    $_SESSION['rules_search_routeid']="";
                     $_SESSION['rules_search_gwlist']="";
 		    $_SESSION['rules_search_attrs']="";
                     $_SESSION['rules_search_description']="";
@@ -220,7 +219,6 @@ if ($action=="search")
                                        $_SESSION['rules_search_groupid']="";
                                        $_SESSION['rules_search_prefix']="";
                                        $_SESSION['rules_search_priority']="";
-                                       $_SESSION['rules_search_routeid']="";
                                        $_SESSION['rules_search_gwlist']="";
 				       $_SESSION['rules_search_attrs']="";
                                        $_SESSION['rules_search_description']="";
@@ -232,7 +230,6 @@ if ($action=="search")
 		$search_groupid=$_POST['search_groupid'];
 		$search_prefix=$_POST['search_prefix'];
 		$search_priority=$_POST['search_priority'];
-		$search_routeid=$_POST['search_routeid'];
 		$search_gwlist=$_POST['search_gwlist'];
 		$search_attrs=$_POST['search_attrs'];
 		$search_description=$_POST['search_description'];
@@ -240,7 +237,6 @@ if ($action=="search")
 			$_SESSION['rules_search_groupid']=$search_groupid;
 			$_SESSION['rules_search_prefix']=$search_prefix;
 			$_SESSION['rules_search_priority']=$search_priority;
-			$_SESSION['rules_search_routeid']=$search_routeid;
 			$_SESSION['rules_search_gwlist']=$search_gwlist;
 			$_SESSION['rules_search_attrs']=$search_attrs;
 			$_SESSION['rules_search_description']=$search_description;
@@ -250,8 +246,11 @@ if ($action=="search")
 			$qvalues = array();
 			$search_groupid=$_SESSION['rules_search_groupid'];
 			if ($search_groupid!="") {
-				$sql_search.=" and groupid like ?";
-				$qvalues[] = "%".$search_groupid."%";
+				if ($config->db_driver == "mysql")
+					$sql_search.=" and groupid regexp ?";
+				else if ($config->db_driver == "pgsql")
+					$sql_search.=" and groupid ~* ?";
+				$qvalues[] = dr_list_regex($search_groupid, ",;|");
 			}
 			$search_prefix=$_SESSION['rules_search_prefix'];
 			if ($search_prefix!="") {
@@ -269,22 +268,20 @@ if ($action=="search")
 				$sql_search.=" and priority=?";
 				$qvalues[] = $search_priority;
 			}
-			$search_routeid=$_SESSION['rules_search_routeid'];
-			if ($search_routeid!="") {
-				$sql_search.=" and routeid=?";
-				$qvalues[] = $search_routeid;
-			}
 			$search_gwlist=$_SESSION['rules_search_gwlist'];
 			if ($search_gwlist!="") {
-				$sql_search.=" and gwlist like ?";
-				$qvalues[] = "%".$search_gwlist."%";
+				if ($config->db_driver == "mysql")
+					$sql_search.=" and gwlist regexp ?";
+				else if ($config->db_driver == "pgsql")
+					$sql_search.=" and gwlist ~* ?";
+				$qvalues[] = dr_list_regex($search_gwlist, ",;|", true);
 			}
-			$search_description=$_SESSION['rules_search_description'];
+			$search_attrs=$_SESSION['rules_search_attrs'];
 			if ($search_attrs!="") {
 				$sql_search.=" and attrs like ?";
 				$qvalues[] = "%".$search_attrs."%";
 			}
-			$search_attrs=$_SESSION['rules_search_attrs'];
+			$search_description=$_SESSION['rules_search_description'];
 			if ($search_description!="") {
 				$sql_search.=" and description like ?";
 				$qvalues[] = "%".$search_description."%";
