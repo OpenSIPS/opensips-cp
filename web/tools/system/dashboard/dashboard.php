@@ -302,7 +302,7 @@ if ($action == "add_widget_verify") { //add widget in db
 
 if ($action == "add_verify") { 
 	if(!$_SESSION['read_only']){
-		$sql = 'INSERT INTO '.$table.' (`name`, `order`) VALUES (?, ?) ';
+		$sql = 'INSERT INTO '.$table.' (name, '.db_ident('order').') VALUES (?, ?) ';
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -373,7 +373,7 @@ if ($action == "clone_panel_verify") {
 		}
 		$widget_contents_json = json_encode($widget_contents);
 
-		$sql = 'UPDATE '.$table.' SET `name`=?, content=?, `order`=?, positions=? where id = ?';
+		$sql = 'UPDATE '.$table.' SET name=?, content=?, '.db_ident('order').'=?, positions=? where id = ?';
 				$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

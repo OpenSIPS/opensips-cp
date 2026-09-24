@@ -108,7 +108,7 @@ if ($action == "add_modify_statistic") {
 
 	$input = json_encode($form_input);
 	
-	$sql = "REPLACE INTO ocp_extra_stats (`name`, `input`, `tool`, `class`, box_id) VALUES (?,?,?,?,?);";
+	$sql = "REPLACE INTO ocp_extra_stats (name, input, tool, class, box_id) VALUES (?,?,?,?,?);";
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -156,7 +156,7 @@ if ($action == "modify_statistic") {
 		$info="Stat was added";
 	}
 
-	$sql = "UPDATE ocp_extra_stats SET `name`=?, `input`=? where id = ?";
+	$sql = "UPDATE ocp_extra_stats SET name=?, input=? where id = ?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

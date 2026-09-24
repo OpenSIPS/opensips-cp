@@ -27,6 +27,13 @@ function db_dsn($config) {
 	return $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 }
 
+// quote a column name (needed for reserved words like order, desc):
+// backticks on mysql, standard double quotes on pgsql and sqlite
+function db_ident($name) {
+	global $config;
+	return $config->db_driver == "mysql" ? "`".$name."`" : '"'.$name.'"';
+}
+
 function db_pdo($dsn, $user, $pass, $attr = NULL) {
 	if (strncmp($dsn, "sqlite:", 7) != 0)
 		return new PDO($dsn, $user, $pass, $attr);

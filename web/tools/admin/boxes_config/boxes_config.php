@@ -54,14 +54,14 @@ if ($action=="modify_params")
 		foreach ($box_params as $attr => $params){
 			if ($params['show_in_edit_form']) {
 				if ($params['type'] != "password" || $_POST[$attr] != "") {
-					$update_query .= "`".$attr."`=?, ";
-					$params_names.="`".$attr."`, ";
+					$update_query .= db_ident($attr)."=?, ";
+					$params_names.=db_ident($attr).", ";
 					$unknowns.="?, ";
 					$values[] = $_POST[$attr];
 				}
 			}
 		}
-		$update_query.="`id`=?;";
+		$update_query.=db_ident("id")."=?;";
 		$params_names.="id";
 		$unknowns.="?";
 		$values[] = $box_id;
@@ -140,7 +140,7 @@ if ($action == "add_verify") {
 			if ($unknowns != "") $unknowns.=",";
 			if ($params_names != "") $params_names.=",";
 			$unknowns.="?";
-			$params_names.="`".$attr."`";
+			$params_names.=db_ident($attr);
 			$values[] = $_POST[$attr];
 		}
 	

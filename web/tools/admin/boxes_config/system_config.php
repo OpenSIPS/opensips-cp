@@ -53,13 +53,13 @@ if ($action=="modify_params")
 		$values = array();
 		foreach ($system_params as $attr => $params){
 			if ($params['show_in_edit_form']) {
-				$update_query .= "`".$attr."`=?, ";
-				$params_names.="`".$attr."`, ";
+				$update_query .= db_ident($attr)."=?, ";
+				$params_names.=db_ident($attr).", ";
 				$unknowns.="?, ";
 				$values[] = $_POST[$attr];
 			}
 		}
-		$update_query.="`assoc_id`=?;";
+		$update_query.=db_ident("assoc_id")."=?;";
 		$params_names.="assoc_id";
 		$unknowns.="?";
 		$values[] = $assoc_id;
@@ -132,7 +132,7 @@ if ($action == "add_verify") {
 				if ($params_names != "") $params_names.=",";
 				if ($unknowns != "") $unknowns.=",";
 				$unknowns.="?";
-				$params_names.="`".$attr."`";
+				$params_names.=db_ident($attr);
 				$values[] = $_POST[$attr];
 			}
 		}
