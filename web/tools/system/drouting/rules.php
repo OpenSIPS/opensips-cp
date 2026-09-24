@@ -271,7 +271,7 @@ if ($action=="search")
 			}
 			$search_routeid=$_SESSION['rules_search_routeid'];
 			if ($search_routeid!="") {
-				$sql_search.=" and routeid='".$search_routeid."'";
+				$sql_search.=" and routeid=?";
 				$qvalues[] = $search_routeid;
 			}
 			$search_gwlist=$_SESSION['rules_search_gwlist'];
