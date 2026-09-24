@@ -98,6 +98,7 @@ function cdr_export($start_time,  $end_time ) {
 	global $cdr_set_field_names;
 	global $cdr_export_time_limit;
 	global $delay;
+	global $link;
 
 
 	$cdr_table = get_settings_value("cdr_table");
@@ -127,17 +128,10 @@ function cdr_export($start_time,  $end_time ) {
 	echo $num_rows ;
 
 
-	$start_time_name=explode(" ",$start_time);
+	// same shift as the query bounds: calendar math in UTC, so DST cannot move it
+	$from_unix_timestamp_start=gmdate("Y-m-d_H:i:s", strtotime($start_time." UTC") - $delay);
 
-	$end_time_name=explode(" ",$end_time);
-
-	$ts_start = strtotime($start_time_name[0]." ".$start_time_name[1]) - $delay ;
-
-	$from_unix_timestamp_start=strftime("%Y-%m-%d_%H:%M:%S",$ts_start);
-
-	$ts_end=strtotime($end_time_name[0]." ".$end_time_name[1]) - $delay ;
-
-	$from_unix_timestamp_end=strftime("%Y-%m-%d_%H:%M:%S",$ts_end);
+	$from_unix_timestamp_end=gmdate("Y-m-d_H:i:s", strtotime($end_time." UTC") - $delay);
 
 	$date=$from_unix_timestamp_start."__".$from_unix_timestamp_end ;
 
@@ -151,6 +145,7 @@ function cdr_export($start_time,  $end_time ) {
 
 	if ($cdr_set_field_names == 1 ) {
 
+		$line = "";
 		$i = 0;
 		foreach ($export_csv as $key=>$value) {
 			$line .= $value;
@@ -233,6 +228,7 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 	
 	if ($cdr_set_field_names == 1 ) {
 
+		$line = "";
 		$i = 0;
 		foreach($export_csv as $key=>$value) {
 			$line .= $value;
