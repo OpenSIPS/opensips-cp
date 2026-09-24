@@ -53,7 +53,7 @@ function print_domains($type,$value,$has_any)
             return;
 
         if ($end_index == 1) {
-            echo('<input type="text" name="'.$type.'" value="'.$options[0][value].'" readonly style="width: 205px" class="dataSelect">');
+            echo('<input type="text" name="'.$type.'" value="'.$options[0]['value'].'" readonly style="width: 205px" class="dataSelect">');
             return;
         }
 
@@ -103,7 +103,7 @@ function print_aliasType($value, $has_any)
             return;
 
         if ($end_index == 1) {
-            echo('<input type="text" name="'.$type.'" value="'.$options[0][label].'" readonly style="width: 205px" class="dataSelect">');
+            echo('<input type="text" name="'.$type.'" value="'.$options[0]['label'].'" readonly style="width: 205px" class="dataSelect">');
             return;
         }
 ?>
