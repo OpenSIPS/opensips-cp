@@ -185,8 +185,8 @@ if ($action=="disablecar"){
 	if (get_settings_value("carrier_attributes_mode") == "params")
 		$attrs = dr_build_attrs(get_settings_value("carrier_attributes"));
                     
-	$_SESSION['rules_search_gwlist']="";
-        $_SESSION['rules_search_description']="";
+	$_SESSION['carriers_search_gwlist']="";
+        $_SESSION['carriers_search_description']="";
                   
 	$sql = "insert into ".$table." (carrierid, gwlist, flags, sort_alg, state, description,attrs) values (?,?,?,?,?,?,?)";
 	$stm = $link->prepare($sql);
@@ -238,7 +238,8 @@ if ($action=="disablecar"){
   }
   $stm->execute( array($del_id) );
 
-    $sql_regex = "'(^#".$del_id."(=[^,]+)?,)|(,#".$del_id."(=[^,]+)?$)|(^#".$del_id."(=[^,]+)?$)|(,#".$del_id."(=[^,]+)?,)'";
+    $sql_regex = "(^#".$del_id."(=[^,]+)?,)|(,#".$del_id."(=[^,]+)?$)|(^#".$del_id."(=[^,]+)?$)|(,#".$del_id."(=[^,]+)?,)";
+    $repl_regex = "'".$sql_regex."'";
 
     $preg_exp1 = "'(^#".$del_id."(=[^,]+)?,)|(,#".$del_id."(=[^,]+)?$)|(^#".$del_id."(=[^,]+)?$)'";
     $preg_exp2 = "'(,#".$del_id."(=[^,]+)?,)'";
@@ -265,9 +266,9 @@ if ($action=="disablecar"){
     for($i=0;count($resultset)>$i;$i++){
         $list=$resultset[$i]['gwlist'];
         if (preg_match($preg_exp1,$list))
-            $list = preg_replace($sql_regex,'',$list);
+            $list = preg_replace($repl_regex,'',$list);
         else if (preg_match($preg_exp2,$list))
-            $list = preg_replace($sql_regex,',',$list);
+            $list = preg_replace($repl_regex,',',$list);
 	if ($stm->execute( array($list,$resultset[$i]['ruleid']) ) == FALSE)
 		echo "Updating DB record failed with: ". print_r($stm->errorInfo(), true);
     }  
@@ -284,8 +285,8 @@ if ($action=="search")
 {
 	$_SESSION[$current_page]=1;
 	if ($_POST['show_all']=="Show All") {
-		$_SESSION['rules_search_gwlist']="";
-		$_SESSION['rules_search_description']="";
+		$_SESSION['carriers_search_gwlist']="";
+		$_SESSION['carriers_search_description']="";
 		$sql_search="";
 	}
 	else {
@@ -295,18 +296,21 @@ if ($action=="search")
         $search_description = $_POST['search_description'];
         $delete = $_POST['delete'];
 		if ($search=="Search") {
-			$_SESSION['rules_search_gwlist']=$search_gwlist;
-			$_SESSION['rules_search_description']=$search_description;
+			$_SESSION['carriers_search_gwlist']=$search_gwlist;
+			$_SESSION['carriers_search_description']=$search_description;
 		}
 		if ($delete=="Delete Matching") {
 			$sql_search="";
 			$qvalues = array();
-			$search_gwlist=$_SESSION['rules_search_gwlist'];
+			$search_gwlist=$_SESSION['carriers_search_gwlist'];
 			if ($search_gwlist!="") {
-				$sql_search.=" and gwlist like ?";
-				$qvalues[] = "%".$search_gwlist."%";
+				if ($config->db_driver == "mysql")
+					$sql_search.=" and gwlist regexp ?";
+				else if ($config->db_driver == "pgsql")
+					$sql_search.=" and gwlist ~* ?";
+				$qvalues[] = dr_list_regex($search_gwlist, ",", true);
 			}
-			$search_description=$_SESSION['rules_search_description'];
+			$search_description=$_SESSION['carriers_search_description'];
 			if ($search_description!="") {
 				$sql_search.=" and description like ?";
 				$qvalues[] = "%".$search_description."%";
