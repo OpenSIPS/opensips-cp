@@ -437,7 +437,7 @@ function get_stats_list($box_id) {
 	$stats_list = [];
 	$i = 0;
 	
-	foreach(get_settings_value_from_tool("groups", "smonitor") as $key=>$group_attr) {
+	foreach((get_settings_value_from_tool("groups", "smonitor") ?: array()) as $key=>$group_attr) {
 	   $stats_list[$i]['name'] = "Group: ".$key;
 	   $stats_list[$i]['from_time'] = "1300";
 	   $i++;
@@ -476,7 +476,7 @@ function get_stats_list_all_boxes() {
 	require_once(__DIR__."/db_connect.php");
 	$stats_list = [];
 
-	foreach(get_settings_value_from_tool("groups", "smonitor") as $key=>$group_attr) {
+	foreach((get_settings_value_from_tool("groups", "smonitor") ?: array()) as $key=>$group_attr) {
 		$stats_list['Group'][] = "Group: ".$key;
 	 }
 
@@ -510,7 +510,7 @@ function show_widget_graphs($id, $group_name, $refresh=null){
 	require_once(__DIR__."/../../../../../config/db.inc.php");
 	require_once(__DIR__."/db_connect.php");
 	$group =[];
-	foreach(get_settings_value_from_tool("groups", "smonitor") as $key=>$group_attr) {
+	foreach((get_settings_value_from_tool("groups", "smonitor") ?: array()) as $key=>$group_attr) {
 		$boxes = [];
 		$groupElements = $group_attr['stats'];
 		$scale = $group_attr['scale'];

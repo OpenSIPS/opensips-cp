@@ -20,11 +20,12 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
- session_start();
+ if (session_status() == PHP_SESSION_NONE)
+     session_start();
 
  if (!isset($_SESSION['user_login'])) {
      echo('<script language="JavaScript">window.open("/cp/index.php?err=2","_parent")</script>');
      exit();	
  }
-  else $_read_only = $_SESSION['read_only'];
+  else $_read_only = $_SESSION['read_only'] ?? true;
 ?>

@@ -241,7 +241,7 @@ if (!is_null($message)) {
     else if ($resultset[$i]['description']!="") $description=$resultset[$i]['description'];
          else $description="&nbsp;";
 if ($memory_status != "0") {
-   $gw_status = $gw_statuses[$resultset[$i]['gwid']];
+   $gw_status = $gw_statuses[$resultset[$i]['gwid']] ?? null;
 	
 	switch ($gw_status) {
 		case "Active": 

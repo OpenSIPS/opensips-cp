@@ -54,9 +54,9 @@ $sql_search="";
 $sql_vals=array();
 $set_cache = array();
 
-$search_setid=$_SESSION['dispatcher_setid'];
-$search_dest=$_SESSION['dispatcher_dest'];
-$search_descr=$_SESSION['dispatcher_descr'];
+$search_setid=$_SESSION['dispatcher_setid'] ?? "";
+$search_dest=$_SESSION['dispatcher_dest'] ?? "";
+$search_descr=$_SESSION['dispatcher_descr'] ?? "";
 
 $dispatcher_group = get_settings_value("dispatcher_groups");
 $dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");

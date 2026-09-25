@@ -363,7 +363,7 @@ function form_generate_checklist($title, $tip, $id, $mlen, $selected, $vals, $te
 	for($i = 0; $i < count($vals); ++$i){
 		print("
 				<input type='checkbox' name='".$id."[]' value='".$vals[$i]."' id='".$id.$vals[$i]."' ".((in_array($vals[$i], $selected))?"checked":"").">
-				<label for=".$id.$vals[$i]." class='dataRecord'>".($texts[$i]?$texts[$i]:$vals[$i])."</label><br>
+				<label for=".$id.$vals[$i]." class='dataRecord'>".(!empty($texts[$i])?$texts[$i]:$vals[$i])."</label><br>
 		");
 	}
 	print("
@@ -469,7 +469,7 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
 
     $options_count = is_array($vals) ? count($vals) : 0;
     if ($options_count == 1 && !$is_optional) {
-        print("             <input type='text' name='".$id."-mask' value='".($texts[0]?$texts[0]:$vals[0])."' readonly style='width: 205px' class='dataSelect'>");
+        print("             <input type='text' name='".$id."-mask' value='".(!empty($texts[0])?$texts[0]:$vals[0])."' readonly style='width: 205px' class='dataSelect'>");
         print("             <input type='hidden' name='".$id."' value='".$vals[0]."'>");
     } else {
         if ($options_count == 0) {
@@ -484,7 +484,7 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
             }
 
             for($i = 0; $i < count($vals); ++$i){
-                print("         <option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".($texts[$i]?$texts[$i]:$vals[$i])."</option>");
+                print("         <option value='".$vals[$i]."'".(($val==$vals[$i])?" selected":"").">".(!empty($texts[$i])?$texts[$i]:$vals[$i])."</option>");
             }
 
             print("         </select>");
