@@ -105,7 +105,8 @@ class status_report_widget extends widget
     if (!$params['widget_name'])
       $params['widget_name'] = "Status";
     $identifiers_list = self::get_identifiers_options();
-    $options = (!$init)?$identifiers_list[$params['widget_box']]:$identifiers_list[0];
+    // identifiers are keyed by box id; a new widget starts on the first box
+    $options = $identifiers_list[(!$init) ? $params['widget_box'] : $boxes_info[0][0]] ?? array();
     form_generate_input_text("Name", "", "widget_name", "n", $params['widget_name'], 20,null);
     form_generate_select("Box", "", "widget_box", null,  $params['widget_box'], $boxes_info[0], $boxes_info[1]);
     form_generate_select("Group/ID", "", "widget_identifier", null, $params['widget_identifier'], $options);

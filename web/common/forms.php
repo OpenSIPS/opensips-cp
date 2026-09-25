@@ -467,7 +467,7 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
                     <tr>
                         <td>");
 
-    $options_count = count($vals);
+    $options_count = is_array($vals) ? count($vals) : 0;
     if ($options_count == 1 && !$is_optional) {
         print("             <input type='text' name='".$id."-mask' value='".($texts[0]?$texts[0]:$vals[0])."' readonly style='width: 205px' class='dataSelect'>");
         print("             <input type='hidden' name='".$id."' value='".$vals[0]."'>");
@@ -475,7 +475,7 @@ function form_generate_select($title,$tip,$id,$mlen,$val,$vals,$texts=null,$is_o
         if ($options_count == 0) {
             $text = $is_optional ? "Empty ..." : "No options available";
             print("         <input type='text' name='".$id."-mask' value='".$text."' readonly style='width: 205px' class='dataSelect'>");
-            print("         <input type='hidden' name='".$id."' value='".$vals[0]."'>");
+            print("         <input type='hidden' name='".$id."' value=''>");
         } else {
             print("         <select name='".$id."' id='".$id."' style='width: ".$mlen."px;' class='dataSelect'>");
 
