@@ -396,43 +396,40 @@ function session_load_from_tool($tool, $box_id = null) {
 	global $config;
 	$table_tools_config = $config->table_tools_config;
 	$module_params = get_params_from_tool($tool);
-	if (!isset($_SESSION['config'][$tool])) {
-		if (is_null($box_id)) {
-			$sql = 'select param, value from '.$table_tools_config.' where module=? ';
-			$stm = $link->prepare($sql);
-			if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-			}
-			if ($stm->execute( array($tool)) == false)
-				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			else {
-				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($resultset as $elem) {
-					if ($module_params[$elem['param']]['type'] == "json") {
-						$_SESSION['config'][$tool][$elem['param']] = json_decode($elem['value'], true);
-					}
-					else $_SESSION['config'][$tool][$elem['param']] = $elem['value'];
-				}
-			} 
-		} else { 
-			$sql = 'select param, value, box_id from '.$table_tools_config.' where module=? ';
-			$stm = $link->prepare($sql);
-			if ($stm === false) {
-				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-			}
-		
-			if ($stm->execute( array($tool)) == false)
-				echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			else {
-				$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-				foreach ($resultset as $elem) {
-					if ($module_params[$elem['param']]['type'] == "json") {
-						$_SESSION['config'][$tool][$elem['box_id']][$elem['param']] = json_decode($elem['value'], true);
-					}
-					else $_SESSION['config'][$tool][$elem['box_id']][$elem['param']] = $elem['value'];
-				}
-			}
-		} 
+	// the tool's global settings are the rows without a box; a box's own rows are
+	// kept apart under their box id, so they never replace the global values
+	$loads = array();
+	if (!isset($_SESSION['config'][$tool]))
+		$loads[] = null;
+	if (!is_null($box_id) && !isset($_SESSION['config'][$tool][$box_id]))
+		$loads[] = $box_id;
+	foreach ($loads as $box) {
+		if (is_null($box)) {
+			$sql = 'select param, value from '.$table_tools_config.' where module=? and (box_id IS NULL OR box_id=\'\')';
+			$vals = array($tool);
+		} else {
+			$sql = 'select param, value from '.$table_tools_config.' where module=? and box_id=?';
+			$vals = array($tool, $box);
+		}
+		$stm = $link->prepare($sql);
+		if ($stm === false) {
+			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		}
+		if ($stm->execute($vals) == false) {
+			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
+			continue;
+		}
+		$target = &$_SESSION['config'][$tool];
+		if (!is_null($box))
+			$target = &$_SESSION['config'][$tool][$box];
+		$target = is_array($target) ? $target : array();
+		foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $elem) {
+			if ($module_params[$elem['param']]['type'] == "json")
+				$target[$elem['param']] = json_decode($elem['value'], true);
+			else
+				$target[$elem['param']] = $elem['value'];
+		}
+		unset($target);
 	}
 	foreach ($module_params as $module=>$params) {
 		$config->$module = get_settings_value_from_tool($module, $tool); 
