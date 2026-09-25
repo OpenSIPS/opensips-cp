@@ -282,13 +282,14 @@ function load_panels() {
 }
 
 function get_db_configs() {
-	$configs = array();
+	// "Default config" first: a select whose stored profile was deleted shows the
+	// first option, and the default is also what the connection falls back to
+	$configs = array("Default config" => 0);
 	if (isset($_SESSION['db_config'])) {
 		foreach($_SESSION['db_config'] as $id => $configuration) {
 			$configs[$configuration['config_name']] = $id;
 		}
 	}
-	$configs["Default config"] = 0;
 	return $configs;
 }
 
