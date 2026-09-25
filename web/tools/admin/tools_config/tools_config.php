@@ -66,7 +66,9 @@ if ($action=="modify_params")
 				if ($params['type'] == "json") {
 					$_POST[$module] = json_encode(json_decode($_POST[$module]));
 				}
-				if ($params['default'] == $_POST[$module]) {
+				// json defaults are arrays: compare them with the decoded value, not the string
+				if ($params['type'] == "json" ? json_decode($_POST[$module], true) == $params['default'] :
+						$params['default'] == $_POST[$module]) {
 					$sql = "DELETE FROM ".$table." where module=? and param=? and (box_id IS NULL OR box_id='')";
 					$stm = $link->prepare($sql);
 					if ($stm === false) {
