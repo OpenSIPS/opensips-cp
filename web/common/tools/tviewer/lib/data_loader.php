@@ -26,26 +26,11 @@
 	/* Connect to DB */
 
 	
-	if (isset($custom_config[$module_id]['db_driver']) && isset($custom_config[$module_id]['db_host']) && isset($custom_config[$module_id]['db_user']) && isset($custom_config[$module_id]['db_name']) ) {
-                $config->db_driver = $custom_config[$module_id]['db_driver'];
-                $config->db_host = $custom_config[$module_id]['db_host'];
-                $config->db_port = $custom_config[$module_id]['db_port'];
-                $config->db_user = $custom_config[$module_id]['db_user'];
-                $config->db_pass = $custom_config[$module_id]['db_pass'];
-                $config->db_name = $custom_config[$module_id]['db_name'];
-		if (isset($config->db_port) && is_int((int)$config->db_port) && 1 < $config->db_port && $config->db_port < 65535) {
-			$config->db_host = $config->db_host.":".$config->db_port;
-		}
-        }
-
-	$dsn = $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
-	try {
-	       $link = new PDO($dsn, $config->db_user, $config->db_pass);
-	} catch (PDOException $e) {
-	       error_log(print_r("Failed to connect to: ".$dsn, true));
-	       print "Error!: " . $e->getMessage() . "<br/>";
-	       die();
-	}
+	require_once(__DIR__."/../../../db_pdo.php");
+	$db = $custom_config[$module_id];
+	if (!isset($db['db_host'], $db['db_user'], $db['db_name']))
+		$db = db_tool_settings($module_id);
+	$link = db_connect($db);
 
 	/* DB table to use */
 	$sTable = $custom_config[$module_id]['custom_table'];
