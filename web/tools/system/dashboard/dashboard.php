@@ -125,6 +125,12 @@ if ($action=="edit_widget")
 {  	
 	$widget_id = $_GET['widget_id'];
 	$panel_id = $_GET['panel_id'];
+	// a stale link (e.g. browser history) can name a widget that was deleted
+	if (!isset($_SESSION['config']['panels'][$panel_id]['widgets'][$widget_id])) {
+		echo('<div class="formError">This widget no longer exists.</div>');
+		require("template/footer.php");
+		exit();
+	}
 	$widget_content = json_decode($_SESSION['config']['panels'][$panel_id]['widgets'][$widget_id]['content'], true);
     require("template/widget/".$page_id.".edit_widget.php");
 	require("template/footer.php");
