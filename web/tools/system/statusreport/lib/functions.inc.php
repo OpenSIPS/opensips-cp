@@ -115,7 +115,7 @@ return $newarr;
 }
 
 function get_box_id($current_box){
-	require_once('../../../../config/boxes.load.php');
+	require('../../../../config/boxes.load.php');
 	foreach ($boxes as $ar) {
 		if ($ar['mi']['conn']==$current_box)
 			return $ar["id"];
