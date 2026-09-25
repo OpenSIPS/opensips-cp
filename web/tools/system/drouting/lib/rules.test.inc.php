@@ -62,6 +62,7 @@
   $gw_weight = $_POST['gw_weight'];
   $car_weight = $_POST['car_weight'];
   $list_sort = $_POST['list_sort'];
+  $attrs = $_POST['attrs'] ?? "";
   $description = $_POST['description'];
 
 if (!empty($lists)) $gwlist=$lists;
