@@ -74,6 +74,9 @@ if ($action =="import_widget") {
 if ($action =="import_widget_true") {
 	$panel_id = $_GET['panel_id'];
 	$widget_dir = $_GET['widget_dir'];
+	// only the widgets shipped under imports/ can be included
+	if (!in_array($widget_dir, glob("imports/*"), true))
+		die("Unknown widget");
 	require_once($widget_dir."/def.php");
 	$widget_params = json_decode($widget_def['json'], true);
 	$widget_params['panel_id'] = $panel_id;
@@ -111,14 +114,6 @@ if ($action =="import_widget_true") {
 	   $errors= "User with Read-Only Rights";
 	  }
 
-}
-
-if ($action == "import_details") {
-	$widget_dir = $_GET['widget_dir'];
-	require_once($widget_dir."/def.php");
-	require("template/dashboard.import_details.php");
-	require("template/footer.php");
-	exit();
 }
 
 if ($action=="edit_widget")

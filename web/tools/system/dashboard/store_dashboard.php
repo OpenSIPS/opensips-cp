@@ -1,5 +1,9 @@
 <?php
+  require("../../../../config/session.inc.php");
   require("../../../common/cfg_comm.php");
+  get_priv("dashboard");
+  if ($_SESSION['read_only'])
+    exit();
   $_SESSION['current_tool'] = "dashboard";
   require("../../../../config/tools/system/dashboard/db.inc.php");
   include("lib/db_connect.php");
