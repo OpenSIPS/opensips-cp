@@ -19,26 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-        global $config;
-
-        require_once("".__DIR__."/../../../../../config/tools/admin/boxes_config/db.inc.php");
-        require_once("".__DIR__."/../../../../../config/db.inc.php");
-
-        if (isset($config->db_host_boxes_config) && isset($config->db_user_boxes_config) && isset($config->db_name_boxes_config) ) {
-                $config->db_host = $config->db_host_boxes_config;
-                $config->db_port = $config->db_port_boxes_config;
-                $config->db_user = $config->db_user_boxes_config;
-                $config->db_pass = $config->db_pass_boxes_config;
-                $config->db_name = $config->db_name_boxes_config;
-        }
-	require_once(__DIR__."/../../../../common/db_pdo.php");
-	$dsn = db_dsn($config);
-	try {
-		$link = db_pdo($dsn, $config->db_user, $config->db_pass);
-	} catch (PDOException $e) {
-		error_log(print_r("Failed to connect to: ".$dsn, true));
-		print "Error!: " . $e->getMessage() . "<br/>";
-		die();
-	}
+global $config;
+require_once(__DIR__."/../../../../../config/tools/admin/boxes_config/db.inc.php");
+require_once(__DIR__."/../../../../common/db_pdo.php");
+$link = db_connect(db_tool_settings("boxes_config", NULL));
 ?>

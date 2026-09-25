@@ -67,4 +67,56 @@ function db_pdo($dsn, $user, $pass, $attr = NULL) {
 	return $link;
 }
 
+// the database $tool is set to use, as db_host, db_port, db_user, db_pass, db_name
+// (and db_attr): the DB Config profile picked by its $profile_setting setting, else the
+// $config->db_*_<tool> values of config/tools/<tool>/db.inc.php; empty means db.inc.php's
+function db_tool_settings($tool, $profile_setting = "db_config") {
+	global $config;
+
+	if ($profile_setting && ($id = get_settings_value_from_tool($profile_setting, $tool))) {
+		if (!isset($_SESSION['db_config']))
+			load_db_config();
+		if (isset($_SESSION['db_config'][$id]))
+			return $_SESSION['db_config'][$id];
+		error_log("DB configuration ".$id." used by ".$tool." does not exist, using the default database");
+	}
+
+	$db = array();
+	foreach (array("host", "port", "user", "pass", "name") as $param) {
+		$name = "db_".$param."_".$tool;
+		if (isset($config->$name))
+			$db["db_".$param] = $config->$name;
+	}
+	return $db;
+}
+
+// connect to $db (as returned by db_tool_settings()) or, if it does not name a
+// database, to the config/db.inc.php one; $config itself is never changed, so a
+// tool's database does not leak into the next connection opened by the same page
+function db_connect($db = NULL) {
+	global $config;
+	require_once(__DIR__."/../../config/db.inc.php");
+
+	$c = clone $config;
+	if (isset($db['db_host'], $db['db_user'], $db['db_name'])) {
+		$c->db_host = $db['db_host'];
+		$c->db_user = $db['db_user'];
+		$c->db_pass = isset($db['db_pass']) ? $db['db_pass'] : '';
+		$c->db_name = $db['db_name'];
+		$c->db_attr = isset($db['db_attr']) ? $db['db_attr'] : NULL;
+		// the per-tool db.inc.php samples add the port to the host themselves
+		if (!empty($db['db_port']) && strpos($c->db_host, ";port=") === false)
+			$c->db_host .= ";port=".$db['db_port'];
+	}
+
+	$dsn = db_dsn($c);
+	try {
+		return db_pdo($dsn, $c->db_user, $c->db_pass, isset($c->db_attr) ? $c->db_attr : NULL);
+	} catch (PDOException $e) {
+		error_log(print_r("Failed to connect to: ".$dsn, true));
+		print "Error!: " . $e->getMessage() . "<br/>";
+		die();
+	}
+}
+
 ?>

@@ -19,30 +19,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-if (get_settings_value("db_config")) {
-	$configuration = get_settings_value("db_config");
-	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
-		$param_name = $param."_".$_SESSION['current_tool'];
-		$config->$param_name = $value;
-	}
-}
-require_once("../../../../config/db.inc.php");
-
-        global $config;
-        if (isset($config->db_host_dispatcher) && isset($config->db_user_dispatcher) && isset($config->db_name_dispatcher) ) {
-                $config->db_host = $config->db_host_dispatcher;
-                $config->db_port = $config->db_port_dispatcher;
-                $config->db_user = $config->db_user_dispatcher;
-                $config->db_pass = $config->db_pass_dispatcher;
-                $config->db_name = $config->db_name_dispatcher;
-        }
-	require_once(__DIR__."/../../../../common/db_pdo.php");
-	$dsn = db_dsn($config);
-	try {
-		$link = db_pdo($dsn, $config->db_user, $config->db_pass);
-	} catch (PDOException $e) {
-		error_log(print_r("Failed to connect to: ".$dsn, true));
-		print "Error!: " . $e->getMessage() . "<br/>";
-		die();
-	}
+global $config;
+require_once(__DIR__."/../../../../common/db_pdo.php");
+$link = db_connect(db_tool_settings("dispatcher"));
 ?>

@@ -19,26 +19,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-
-        global $config;
-
-        require_once("".__DIR__."/../../../../../config/tools/system/keepalived/db.inc.php");
-        require_once("".__DIR__."/../../../../../config/db.inc.php");
-
-        if (isset($config->db_host_keepalived) && isset($config->db_user_keepalived) && isset($config->db_name_keepalived) ) {
-                $config->db_host = $config->db_host_keepalived;
-                $config->db_port = $config->db_port_keepalived;
-                $config->db_user = $config->db_user_keepalived;
-                $config->db_pass = $config->db_pass_keepalived;
-                $config->db_name = $config->db_name_keepalived;
-        }
-	require_once(__DIR__."/../../../../common/db_pdo.php");
-	$dsn = db_dsn($config);
-	try {
-		$link = db_pdo($dsn, $config->db_user, $config->db_pass);
-	} catch (PDOException $e) {
-		error_log(print_r("Failed to connect to: ".$dsn, true));
-		print "Error!: " . $e->getMessage() . "<br/>";
-		die();
-	}
+global $config;
+require_once(__DIR__."/../../../../../config/tools/system/keepalived/db.inc.php");
+require_once(__DIR__."/../../../../common/db_pdo.php");
+$link = db_connect(db_tool_settings("keepalived", NULL));
 ?>

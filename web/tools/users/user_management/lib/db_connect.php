@@ -20,30 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 global $config;
-
-if (get_settings_value_from_tool("db_config", "user_management")) {
-	$configuration = get_settings_value_from_tool("db_config", "user_management");
-	foreach($_SESSION['db_config'][$configuration] as $param => $value) {
-		$param_name = $param."_user_management";
-		$config->$param_name = $value;
-	}
-}
-require_once("../../../../config/db.inc.php");
-
-	if (isset($config->db_host_user_management) && isset($config->db_user_user_management) && isset($config->db_name_user_management) ) {
-		$config->db_host = $config->db_host_user_management;
-		$config->db_port = $config->db_port_user_management;
-		$config->db_user = $config->db_user_user_management;
-		$config->db_pass = $config->db_pass_user_management;
-		$config->db_name = $config->db_name_user_management;
-	}
-	require_once(__DIR__."/../../../../common/db_pdo.php");
-	$dsn = db_dsn($config);
-	try {
-		$link = db_pdo($dsn, $config->db_user, $config->db_pass);
-	} catch (PDOException $e) {
-		error_log(print_r("Failed to connect to: ".$dsn, true));
-		print "Error!: " . $e->getMessage() . "<br/>";
-		die();
-	}
+require_once(__DIR__."/../../../../common/db_pdo.php");
+$link = db_connect(db_tool_settings("user_management"));
 ?>

@@ -21,18 +21,8 @@
  */
 
 
-require_once(__DIR__."/../config/db.inc.php");
-
 global $config;
 require_once(__DIR__."/common/db_pdo.php");
-$dsn = db_dsn($config);
-
-try {
-	$link = db_pdo($dsn, $config->db_user, $config->db_pass, isset($config->db_attr)?$config->db_attr:NULL);
-} catch (PDOException $e) {
-	error_log(print_r("Failed to connect to: ".$dsn, true));
-	print "Error!: " . $e->getMessage() . "<br/>";
-	die();
-}
+$link = db_connect();
 
 ?>
