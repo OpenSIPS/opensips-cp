@@ -2,17 +2,8 @@
 	require_once(__DIR__."/../../../config/session.inc.php");
     require_once(__DIR__."/../../../web/common/cfg_comm.php");
     require_once(__DIR__."/../../../config/tools/system/smonitor/db.inc.php");
-    require_once(__DIR__."/../../../config/db.inc.php");
-    
     require_once(__DIR__."/../db_pdo.php");
-    $dsn = db_dsn($config);
-    try {
-        $link = db_pdo($dsn, $config->db_user, $config->db_pass);
-    } catch (PDOException $e) {
-        error_log(print_r("Failed to connect to: ".$dsn, true));
-        print "Error!: " . $e->getMessage() . "<br/>";
-        die;
-    }
+    $link = db_connect(db_tool_settings("smonitor"));
 
     $statID = $_GET['id'];
     $fstats = json_decode($_GET['stats']);
