@@ -65,12 +65,11 @@ $config->dispatcher = array(
 }"
 	),
 	"display_only_known" => array(
-		"default" => array(),
 		"name" => "Display only known groups",
 		"type" => "dropdown",
 		"options" => array('Yes'=>1, 'No'=>0),
 		"tip"	  => "When displaying dispatcher entries, show only known/provisioned groups",
-		"default" => "No"
+		"default" => 1
 	),
 
 	"talk_to_this_assoc_id" => array(
