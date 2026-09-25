@@ -144,6 +144,11 @@ if (isset($config->lockout_failed_attempts)) {
 $avail_tools = $resultset[0]['available_tools'];
 $avail_perms = $resultset[0]['permissions'];
 
+// start the new login from a clean session: whatever a previous one cached (boxes,
+// systems, tool settings) may come from another database, e.g. before db_driver changed
+session_unset();
+session_regenerate_id(true);
+
 $_SESSION['temp_user_login'] = $name;
 if (!is_null($resultset[0]['secret']))
 	$_SESSION['secret'] = $resultset[0]['secret'];
