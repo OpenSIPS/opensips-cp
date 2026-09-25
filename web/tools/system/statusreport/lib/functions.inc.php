@@ -25,7 +25,7 @@
 # Database Functions #
 ######################
 //require('../../common/mi_comm.php');
-include("db_connect.php");
+include(__DIR__."/db_connect.php");
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/system/statusreport/db.inc.php");
 

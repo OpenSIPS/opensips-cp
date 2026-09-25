@@ -25,13 +25,13 @@
 # Database Functions #
 ######################
 //require('../../common/mi_comm.php');
-include("db_connect.php");
+include(__DIR__."/db_connect.php");
 require_once("../../../../config/db.inc.php");
 require_once("../../../../config/tools/system/smonitor/db.inc.php");
 
 function get_config_var($var_name,$box_id)
 {
-	include("db_connect.php");
+	include(__DIR__."/db_connect.php");
 	global $config;
 
 	$sql="SELECT * FROM ".get_settings_value("table_monitored")." WHERE name = ? AND box_id = ?";
@@ -92,7 +92,7 @@ function get_mi_modules($mi_url)
 
 function get_custom_modules()
 {
-	include("db_connect.php");
+	include(__DIR__."/db_connect.php");
 
 	$sql_command="select * from ocp_extra_stats ORDER BY id;";
 	$stm = $link->prepare( $sql_command );
@@ -122,7 +122,7 @@ function get_custom_modules()
 
 function get_custom_vars($tool, $box_id)
 {
-	include("db_connect.php");
+	include(__DIR__."/db_connect.php");
 
 	$sql_command="select * from ocp_extra_stats where tool = ? ORDER BY id;";
 	$stm = $link->prepare( $sql_command );
@@ -215,7 +215,7 @@ function reset_var($stats, $mi_url)
 }
 
 function clean_stats_table(){
-	include("db_connect.php");
+	include(__DIR__."/db_connect.php");
 	global $config;
 	$global='../../../../config/boxes.global.inc.php';
 	require ($global);
@@ -322,7 +322,7 @@ function show_graph($id,$stat,$box_id,$refresh=null){
 	if ($chart_history == "auto") $chart_history = 3 * 24;
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
-	require("db_connect.php");
+	require(__DIR__."/db_connect.php");
 
 	$_SESSION['id'] = $id;
 	$_SESSION['stat'] = $stat;
@@ -372,7 +372,7 @@ function show_graphs($id,$key,$refresh=null){
   
 	require("../../../../config/tools/system/smonitor/db.inc.php");
 	require("../../../../config/db.inc.php");
-	require("db_connect.php");
+	require(__DIR__."/db_connect.php");
 	$chart_size = get_settings_value_from_tool('chart_size', 'smonitor')+1;
 
     $divId = "";
@@ -414,7 +414,7 @@ function get_stats_classes() {
 }
 
 function get_custom_statistics() {
-	include("db_connect.php");
+	include(__DIR__."/db_connect.php");
 	require_once("../../../../config/db.inc.php");
 	require_once("../../../../config/tools/system/smonitor/db.inc.php");
 	$sql_command="select * from ocp_extra_stats;";
@@ -473,7 +473,7 @@ function get_stats_list($box_id) {
 function get_stats_list_all_boxes() {
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
-	require_once(__DIR__."/db_connect.php");
+	require(__DIR__."/db_connect.php");
 	$stats_list = [];
 
 	foreach((get_settings_value_from_tool("groups", "smonitor") ?: array()) as $key=>$group_attr) {
@@ -488,7 +488,7 @@ function get_stats_list_all_boxes() {
 	
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
-	require_once(__DIR__."/db_connect.php");
+	require(__DIR__."/db_connect.php");
 
 	$sql = "SELECT * FROM ocp_monitoring_stats WHERE name = ? AND box_id = ? ORDER BY time ASC LIMIT 1";
 	$stm = $link->prepare($sql);
@@ -508,7 +508,7 @@ function show_widget_graphs($id, $group_name, $refresh=null){
 	global $gauge_arr;
 	require_once(__DIR__."/../../../../../config/tools/system/smonitor/db.inc.php");
 	require_once(__DIR__."/../../../../../config/db.inc.php");
-	require_once(__DIR__."/db_connect.php");
+	require(__DIR__."/db_connect.php");
 	$group =[];
 	foreach((get_settings_value_from_tool("groups", "smonitor") ?: array()) as $key=>$group_attr) {
 		$boxes = [];
