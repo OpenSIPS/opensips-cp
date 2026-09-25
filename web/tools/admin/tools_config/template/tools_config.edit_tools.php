@@ -37,6 +37,14 @@ require_once("functions.js");
 
 	$current_tool=$_SESSION['current_tool'];
 	$current_tool_name = get_tool_name();
+	if (!is_null($box_id)) {
+		session_load_from_tool($current_tool, $box_id);
+		// $boxes is indexed by position, not by box id
+		$box_desc = "";
+		foreach ($boxes as $box)
+			if ($box['id'] == $box_id)
+				$box_desc = $box['desc'];
+	}
 
     $index_row=0;
 	$permissions=array();
@@ -50,7 +58,7 @@ require_once("functions.js");
 	 if(!isset($box_id)) { ?>
  <td colspan="3" height="10" class="mainTitle">Settings for <?=$current_tool_name?></td>
  <?php  } else { ?>
- <td colspan="3" height="10" class="mainTitle">Settings for <?=$current_tool_name?> for <?=$boxes[$box_id]['desc']?></td>
+ <td colspan="3" height="10" class="mainTitle">Settings for <?=$current_tool_name?> for <?=$box_desc?></td>
  <?php } ?>
  </tr>
   <?php
