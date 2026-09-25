@@ -71,7 +71,14 @@ function db_pdo($dsn, $user, $pass, $attr = NULL) {
 // (and db_attr): the DB Config profile picked by its $profile_setting setting, else the
 // $config->db_*_<tool> values of config/tools/<tool>/db.inc.php; empty means db.inc.php's
 function db_tool_settings($tool, $profile_setting = "db_config") {
-	global $config;
+	global $config, $custom_config;
+	require_once(__DIR__."/../../config/db.inc.php");
+
+	// not every page connecting for $tool loads its db.inc.php (e.g. dashboard widgets);
+	// callers passing no $profile_setting (admin tools) load it themselves, maybe before cfg_comm.php
+	if ($profile_setting && ($path = get_tool_path($tool)) &&
+			file_exists(__DIR__."/../../config/tools/".$path."/db.inc.php"))
+		require_once(__DIR__."/../../config/tools/".$path."/db.inc.php");
 
 	if ($profile_setting && ($id = get_settings_value_from_tool($profile_setting, $tool))) {
 		if (!isset($_SESSION['db_config']))
