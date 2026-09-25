@@ -27,7 +27,7 @@
 <form action="<?=$page_name?>?action=search" method="post">
 <?php csrfguard_generate();
  $rules_attributes_mode = get_settings_value("rules_attributes_mode");
- if($_SESSION['read-only']) {
+ if($_SESSION['read_only']) {
 	$colspan=9;
  } else {
 	$colspan=7;
