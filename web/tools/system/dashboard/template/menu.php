@@ -60,7 +60,7 @@
 				"dashboard.php?action=edit_panel", // page name
 				"Edit panels" // menu name
 		);
-		if ($_GET['action'] == "add_blank_panel")
+		if (($_GET['action'] ?? "") == "add_blank_panel")
 			$current_req = "dashboard.php?action=edit_panel";
 		$first_item = true;
 		if (!isset($config->menu_item)) echo('<font class="menuItemSelect">&nbsp;</font>');
@@ -68,7 +68,7 @@
 		foreach ($config->menu_item as $key => $value)
 		{		
 			if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
-			if ($_SESSION['config']['panels'][$current_tab]['name'] != $config->menu_item[$key]["1"] && $current_req != $config->menu_item[$key]["0"])
+			if (($_SESSION['config']['panels'][$current_tab]['name'] ?? null) !=$config->menu_item[$key]["1"] && $current_req != $config->menu_item[$key]["0"])
 				echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItem">'.$config->menu_item[$key]["1"].'</a>');
 			else echo('<a href="'.$config->menu_item[$key]["0"].'" class="menuItemSelect">'.$config->menu_item[$key]["1"].'</a>');
 			$first_item = false;

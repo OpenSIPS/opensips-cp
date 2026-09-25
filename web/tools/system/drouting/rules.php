@@ -136,7 +136,7 @@
 #################
  if ($action=="add")
  {
-  if ($_POST['add']=="Add") {
+  if (($_POST['add'] ?? "")=="Add") {
 	$groupid=$_POST['groupid'];
 	$prefix=$_POST['prefix'];
 	$time_recurrence = $_POST['time_recurrence'];
@@ -178,7 +178,7 @@
 	$gw_weight = $_POST['gw_weight'];
 	$car_weight = $_POST['car_weight'];
 	$list_sort = $_POST['list_sort'];
-	$attrs = $_POST['attrs'];
+	$attrs = $_POST['attrs'] ?? "";
 	$description = $_POST['description'];
   } else {
     $priority="0";
@@ -215,7 +215,7 @@
 if ($action=="search")
 {
 	$_SESSION[$current_page]=1;
-	if ($_POST['show_all']=="Show All") {
+	if (($_POST['show_all'] ?? "")=="Show All") {
                                        $_SESSION['rules_search_groupid']="";
                                        $_SESSION['rules_search_prefix']="";
                                        $_SESSION['rules_search_priority']="";
@@ -226,12 +226,12 @@ if ($action=="search")
 	}
 	else {
 		$search=$_POST['search'];
-		$delete=$_POST['delete'];
+		$delete=$_POST['delete'] ?? "";
 		$search_groupid=$_POST['search_groupid'];
 		$search_prefix=$_POST['search_prefix'];
 		$search_priority=$_POST['search_priority'];
 		$search_gwlist=$_POST['search_gwlist'];
-		$search_attrs=$_POST['search_attrs'];
+		$search_attrs=$_POST['search_attrs'] ?? "";
 		$search_description=$_POST['search_description'];
 		if ($search=="Search") {
 			$_SESSION['rules_search_groupid']=$search_groupid;

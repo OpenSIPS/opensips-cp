@@ -43,6 +43,7 @@ if (isset($_GET['box_id']) && $_GET['box_id'] != '')
 else
 	$box_id = null;
 
+$current_page="current_page_dashboard";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 

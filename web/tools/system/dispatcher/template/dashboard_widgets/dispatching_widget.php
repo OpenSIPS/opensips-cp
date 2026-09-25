@@ -77,17 +77,19 @@ class dispatching_widget extends widget
     if ($this->partition == null) {
       $stat_res = mi_command("dispatcher:list", array(), $this->widget_box['mi_conn'], $errors);
 
-      foreach($stat_res["PARTITIONS"] as $key => $partition)
+      foreach($stat_res["PARTITIONS"] ?? array() as $key => $partition)
         foreach($partition["SETS"] as $key => $set)
           $this->count_destinations($set);
     } else {
       $stat_res = mi_command("dispatcher:list", array("partition"=>$this->partition), $this->widget_box['mi_conn'], $errors);
+      // MI fails (e.g. the partition no longer exists): no sets to count
+      $sets = $stat_res["PARTITIONS"][0]["SETS"] ?? array();
       if ($this->set != null) {
-        foreach($stat_res["PARTITIONS"][0]["SETS"] as $key => $set)
+        foreach($sets as $key => $set)
           if ($set["id"] == $this->set)
             $this->count_destinations($set);
       } else {
-        foreach($stat_res["PARTITIONS"][0]["SETS"] as $key => $set)
+        foreach($sets as $key => $set)
           $this->count_destinations($set);
       }
     }
