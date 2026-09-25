@@ -180,7 +180,7 @@ function load_widgets() {
 }
 
 function display_settings_button($box_id=null) {
-	if (file_exists(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php") && $_SESSION['permission'] == 'Admin') {
+	if (file_exists(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php") && ($_SESSION['permission'] ?? '') == 'Admin') {
 		require(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php");
 		if (!is_null($config))
 			if(is_null($box_id))
@@ -318,7 +318,7 @@ function get_settings_value_from_tool($current_param, $current_tool, $box_id = n
 			return $_SESSION['config'][$current_tool][$current_param];}}
 
 	else {
-		if (!is_null($_SESSION['config'][$current_tool][$box_id][$current_param])) {
+		if (isset($_SESSION['config'][$current_tool][$box_id][$current_param])) {
 			return $_SESSION['config'][$current_tool][$box_id][$current_param];}}
 	foreach($config->$current_tool as $module=>$params) {
 		if ($module == $current_param && $params['type'] != "title") return $params['default'];

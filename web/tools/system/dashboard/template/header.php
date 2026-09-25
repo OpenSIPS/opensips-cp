@@ -24,7 +24,7 @@ require_once("../../../../config/session.inc.php");
 require_once("../../../../config/tools/system/dashboard/db.inc.php");
 require_once("../../../../config/db.inc.php");
 $page_name = basename($_SERVER['SCRIPT_NAME']);
-$current_tab = $_GET['panel_id'];
+$current_tab = $_GET['panel_id'] ?? null;
 $current_req = basename($_SERVER['REQUEST_URI']);
 $page_id = substr($page_name, 0, strlen($page_name) - 4);
 $_SESSION['current_group'] = "system";
