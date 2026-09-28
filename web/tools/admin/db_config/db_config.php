@@ -50,16 +50,17 @@ if ($action=="modify_params")
 		$db_port = $_POST['db_port'];
 		$db_pass = $_POST['db_pass'];
 		$db_user = $_POST['db_user'];
+		$db_driver = db_config_driver($_POST['db_driver']);
 
 		$id = $_GET['db_id'];
 		$sql = "UPDATE ".$table." SET config_name=?, db_host=?, db_pass=?,
-		 db_user=?, db_name=?, db_port=? WHERE id=?";
+		 db_user=?, db_name=?, db_port=?, db_driver=? WHERE id=?";
 		$stm = $link->prepare($sql);
 
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
-		if ($stm->execute(array($config_name, $db_host, $db_pass, $db_user, $db_name, $db_port, $id)) == false) {
+		if ($stm->execute(array($config_name, $db_host, $db_pass, $db_user, $db_name, $db_port, $db_driver, $id)) == false) {
 			$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
 		}    else {
 			$info="Configuration was modified";
@@ -128,15 +129,16 @@ if ($action == "add_verify") {
 		$db_port = $_POST['db_port'];
 		$db_pass = $_POST['db_pass'];
 		$db_user = $_POST['db_user'];
+		$db_driver = db_config_driver($_POST['db_driver']);
 	
 		$sql = 'INSERT INTO '.$table.' (config_name, db_host, db_name,
-		db_port, db_pass, db_user) VALUES (?,?,?,?,?,?)';
+		db_port, db_pass, db_user, db_driver) VALUES (?,?,?,?,?,?,?)';
 				$stm = $link->prepare($sql);
 		if ($stm === false) {
 			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
 		}
 		$form_valid = true;
-		if ($stm->execute(array($config_name, $db_host, $db_name, $db_port, $db_pass, $db_user)) == false) {
+		if ($stm->execute(array($config_name, $db_host, $db_name, $db_port, $db_pass, $db_user, $db_driver)) == false) {
 			$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
 			$form_valid=false;
 		} 

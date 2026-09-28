@@ -56,6 +56,7 @@ require_once("functions.js");
 	
 	form_generate_input_text("Configuration name", "Name of the configuration",
 	 "config_name", "n", $selected_config['config_name'], 64, null);
+	db_config_driver_select($selected_config['db_driver']);
 	form_generate_input_text("DB host", "Database host", "db_host", "n",
 	 $selected_config['db_host'], 64, null);
 	form_generate_input_text("DB port", "Database port", "db_port", "y",
@@ -64,7 +65,7 @@ require_once("functions.js");
 		$selected_config['db_user'], 64, null);
 	form_generate_input_text("DB password", "Database password", "db_pass",
 		"y", $selected_config['db_pass'], 64, null);
-	form_generate_input_text("DB name", "Database name", "db_name",
+	form_generate_input_text("DB name", "Database name, or the database file path for SQLite", "db_name",
 	 "n", $selected_config["db_name"], 64, null);
 	
 	
@@ -85,6 +86,6 @@ if (!$_SESSION['read_only']) {
 ?>
   </table>
 
-<script> form_init_status(); </script>
+<script> form_init_status(); document.getElementById("db_driver").onchange = db_driver_changed; db_driver_changed(); </script>
 </form>
 

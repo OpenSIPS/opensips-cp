@@ -145,6 +145,9 @@ CREATE TABLE ocp_extra_stats (
 --
 -- Table for `ocp_db_config`
 --
+-- upgrading an existing install, add the db_driver column with:
+-- ALTER TABLE ocp_db_config ADD db_driver text DEFAULT NULL;
+--
 
 CREATE SEQUENCE ocp_db_config_id_seq;
 CREATE TABLE ocp_db_config (
@@ -154,7 +157,8 @@ CREATE TABLE ocp_db_config (
   db_port text NOT NULL default '',
   db_user text NOT NULL default '',
   db_pass text default NULL,
-  db_name text NOT NULL default ''
+  db_name text NOT NULL default '',
+  db_driver text default NULL
 );
 
 CREATE SEQUENCE config_id_seq;

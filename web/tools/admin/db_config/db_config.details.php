@@ -33,6 +33,7 @@ if ($_SESSION['read_only']) {
 
 $db_id = $_GET['db_id'] ?? "";
 if ($db_id == "0") {
+	$driver = $config->db_driver;
 	$host = $config->db_host;
 	$port = $config->db_port;
 	$user = $config->db_user;
@@ -45,6 +46,7 @@ if ($db_id == "0") {
 		exit();
 	}
 	$profile = $_SESSION['db_config'][$db_id];
+	$driver = ($profile['db_driver'] ?? "") != "" ? $profile['db_driver'] : "default (".$config->db_driver.")";
 	$host = $profile['db_host'];
 	$port = $profile['db_port'];
 	$user = $profile['db_user'];
@@ -64,6 +66,7 @@ if ($db_id == "0") {
 
 				<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
 				<?php
+                echo("<tr><td>DB driver</td><td>".htmlspecialchars($driver ?? "")."</td></tr>");
                 echo("<tr><td>DB host</td><td>".htmlspecialchars($host ?? "")."</td></tr>");
                 echo("<tr><td>DB port</td><td>".htmlspecialchars($port ?? "")."</td></tr>");
                 echo("<tr><td>DB user</td><td>".htmlspecialchars($user ?? "")."</td></tr>");

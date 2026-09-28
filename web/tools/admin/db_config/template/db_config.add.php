@@ -31,6 +31,7 @@ require_once("../../../common/forms.php");
   <?php 
 form_generate_input_text("Configuration name", "Name of the configuration",
 	"config_name", "n", "", 64, null);
+db_config_driver_select("");
 form_generate_input_text("DB host", "Database host", "db_host", "n",
 	"", 64, null);
 form_generate_input_text("DB port", "Database port", "db_port", "y",
@@ -39,7 +40,7 @@ form_generate_input_text("DB user", "Database user", "db_user", "n",
 	"", 64, null);
 form_generate_input_text("DB password", "Database password", "db_pass",
 	"y", "", 64, null);
-form_generate_input_text("DB name", "Database name", "db_name",
+form_generate_input_text("DB name", "Database name, or the database file path for SQLite", "db_name",
 	"n", "", 64, null);
 ?>
 
@@ -53,5 +54,5 @@ form_generate_input_text("DB name", "Database name", "db_name",
     </table>
  </tr>
 </table>
-<script> form_init_status(); </script>
+<script> form_init_status(); document.getElementById("db_driver").onchange = db_driver_changed; db_driver_changed(); </script>
 </form>

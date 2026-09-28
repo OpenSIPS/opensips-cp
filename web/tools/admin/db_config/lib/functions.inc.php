@@ -51,5 +51,40 @@ function permission($option,$i,$disabled) {
 	<?php
 }
 
+// the drivers a configuration can use; "" is config/db.inc.php's
+function db_config_drivers() {
+	global $config;
+	return array("" => "Default (".$config->db_driver.")", "mysql" => "MySQL",
+		"pgsql" => "PostgreSQL", "sqlite" => "SQLite");
+}
+
+// the posted driver as stored, NULL for the default; it ends up in the
+// connection's DSN, so anything else is refused
+function db_config_driver($driver) {
+	if (!isset($driver) || $driver === "")
+		return NULL;
+	if (!array_key_exists($driver, db_config_drivers()))
+		die("Unknown DB driver: ".htmlspecialchars($driver));
+	return $driver;
+}
+
+function db_config_driver_select($val) {
+	global $config;
+	$drivers = db_config_drivers();
+	form_generate_select("DB driver", "Database driver; SQLite needs no host or user, only the database file path as DB name",
+		"db_driver", 64, $val, array_keys($drivers), array_values($drivers));
+	// host and user are optional for sqlite: a posted empty value is stored as ''
+	echo('<script>
+	function db_driver_changed() {
+		var driver = document.getElementById("db_driver").value || "'.$config->db_driver.'";
+		["db_host", "db_user"].forEach(function (id) {
+			var field = document.getElementById(id);
+			field.setAttribute("opt", driver == "sqlite" ? "y" : "n");
+			field.oninput();
+		});
+	}
+	</script>');
+}
+
 
 ?>
