@@ -72,8 +72,8 @@ function db_pdo($dsn, $user, $pass, $attr = NULL) {
 	return $link;
 }
 
-// the database $tool is set to use, as db_host, db_port, db_user, db_pass, db_name
-// (and db_attr): the DB Config profile picked by its $profile_setting setting, else the
+// the database $tool is set to use, as db_driver, db_host, db_port, db_user, db_pass,
+// db_name (and db_attr): the DB Config profile picked by its $profile_setting setting, else the
 // $config->db_*_<tool> values of config/tools/<tool>/db.inc.php; empty means db.inc.php's
 function db_tool_settings($tool, $profile_setting = "db_config") {
 	global $config, $custom_config;
@@ -94,12 +94,23 @@ function db_tool_settings($tool, $profile_setting = "db_config") {
 	}
 
 	$db = array();
-	foreach (array("host", "port", "user", "pass", "name") as $param) {
+	foreach (array("driver", "host", "port", "user", "pass", "name") as $param) {
 		$name = "db_".$param."_".$tool;
 		if (isset($config->$name))
 			$db["db_".$param] = $config->$name;
 	}
 	return $db;
+}
+
+// whether $db names a whole database: a sqlite one is only its file path (db_name),
+// the others need a host and a user too; an empty db_driver means db.inc.php's
+function db_settings_complete($db) {
+	global $config;
+	require_once(__DIR__."/../../config/db.inc.php");
+	$driver = !empty($db['db_driver']) ? $db['db_driver'] : $config->db_driver;
+	if ($driver == "sqlite")
+		return isset($db['db_name']);
+	return isset($db['db_host'], $db['db_user'], $db['db_name']);
 }
 
 // connect to $db (as returned by db_tool_settings()) or, if it does not name a
@@ -110,9 +121,11 @@ function db_connect($db = NULL) {
 	require_once(__DIR__."/../../config/db.inc.php");
 
 	$c = clone $config;
-	if (isset($db['db_host'], $db['db_user'], $db['db_name'])) {
-		$c->db_host = $db['db_host'];
-		$c->db_user = $db['db_user'];
+	if (db_settings_complete($db)) {
+		if (!empty($db['db_driver']))
+			$c->db_driver = $db['db_driver'];
+		$c->db_host = isset($db['db_host']) ? $db['db_host'] : '';
+		$c->db_user = isset($db['db_user']) ? $db['db_user'] : '';
 		$c->db_pass = isset($db['db_pass']) ? $db['db_pass'] : '';
 		$c->db_name = $db['db_name'];
 		$c->db_attr = isset($db['db_attr']) ? $db['db_attr'] : NULL;

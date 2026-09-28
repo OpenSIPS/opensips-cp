@@ -21,6 +21,10 @@
  */
 
 
+ //database driver: mysql, pgsql or sqlite - leave unset for the one in config/db.inc.php
+ //for sqlite, only the database name is needed: set it to the database file path
+ //$config->db_driver_drouting = "mysql";
+
  //database host
  //$config->db_host_drouting = "localhost";
  

@@ -20,6 +20,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
+ //database driver: mysql, pgsql or sqlite - leave unset for the one in config/db.inc.php
+ //for sqlite, only the database name is needed: set it to the database file path
+ //$config->db_driver_group_management = "mysql";
+
  //database host
  //$config->db_host_group_management = "localhost";
  
