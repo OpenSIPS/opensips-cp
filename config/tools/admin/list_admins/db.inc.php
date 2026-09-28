@@ -22,23 +22,23 @@
 
  //database driver: mysql, pgsql or sqlite - leave unset for the one in config/db.inc.php
  //for sqlite, only the database name is needed: set it to the database file path
- //$config->db_driver_list_admin = "mysql";
+ //$config->db_driver_list_admins = "mysql";
 
  //database host
- //$config->db_host_list_admin = "localhost";
+ //$config->db_host_list_admins = "localhost";
  
  //database port - leave empty for default
- //$config->db_port_list_admin = "";
+ //$config->db_port_list_admins = "";
  
  //database connection user
- //$config->db_user_list_admin = "root";
+ //$config->db_user_list_admins = "root";
  
  //database connection password
- //$config->db_pass_list_admin = "mysql";
+ //$config->db_pass_list_admins = "mysql";
  
  //database name
- //$config->db_name_list_admin = "opensips";
+ //$config->db_name_list_admins = "opensips";
  
- //if ($config->db_port_list_admin != "") $config->db_host_list_admin = $config->db_host_list_admin . ";port=" . $config->db_port_list_admin;
+ //if ($config->db_port_list_admins != "") $config->db_host_list_admins = $config->db_host_list_admins . ";port=" . $config->db_port_list_admins;
  
 ?>
