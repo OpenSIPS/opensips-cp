@@ -59,8 +59,17 @@ if ($stm===FALSE) {
 $stm->execute();
 $data_no = $stm->fetchColumn(0);
 
-if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
-else
+// the default configuration (config/db.inc.php) is always listed, profiles or not
+require("lib/".$page_id.".main.js");
+$details_link = '';
+if(!$_SESSION['read_only'])
+	$details_link = '<a href="javascript:;" onclick="openStatOverlay(\'0\')"><img src="../../../images/share/details.png" border="0"></a>';
+echo('
+ <tr>
+  <td class="rowOdd">&nbsp;Default</td>');
+echo('<td class="rowOddImg" align="center">'.$details_link.'</td><td></td><td></td></tr>');
+
+if ($data_no!=0)
 {
 	$res_no=$config->results_per_page;
 	$page=$_SESSION[$current_page];
@@ -79,17 +88,9 @@ else
 	       die('Failed to issue query ['.$sql_command.'], error message : ' . print_r($link->errorInfo(), true));
 	$stm->execute();
 	$resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
-	require("lib/".$page_id.".main.js");
 	$index_row=1;
 	$i=0;
 
-	$details_link = '';
-	if(!$_SESSION['read_only'])
-		$details_link = '<a href="javascript:;" onclick="openStatOverlay(\'0\')"><img src="../../../images/share/details.png" border="0"></a>';
-	echo('
- <tr>
-  <td class="rowOdd">&nbsp;Default</td>');
-	echo('<td class="rowOddImg" align="center">'.$details_link.'</td><td></td><td></td></tr>');
 	while (count($resultset)>$i)
 	{
 		$index_row++;
