@@ -20,22 +20,36 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-$db_id = $_GET['db_id'];
-
+require_once(__DIR__."/../../../../config/session.inc.php");
 require(__DIR__."/../../../../config/db.inc.php");
 require(__DIR__."/../../../../web/common/cfg_comm.php");
-if ($db_id == 0) {
+
+// the details include the password: only for users who may edit profiles
+get_priv("db_config");
+if ($_SESSION['read_only']) {
+	echo("<b>You do not have permissions to view this configuration</b>");
+	exit();
+}
+
+$db_id = $_GET['db_id'] ?? "";
+if ($db_id == "0") {
 	$host = $config->db_host;
 	$port = $config->db_port;
 	$user = $config->db_user;
 	$name = $config->db_name;
 	$pass = $config->db_pass;
 } else {
-	$host = $_GET['host'];
-	$port = $_GET['port'];
-	$user = $_GET['user'];
-	$name = $_GET['name'];
-	$pass = $_GET['pass'];
+	load_db_config();
+	if (!isset($_SESSION['db_config'][$db_id])) {
+		echo("<b>Unknown configuration</b>");
+		exit();
+	}
+	$profile = $_SESSION['db_config'][$db_id];
+	$host = $profile['db_host'];
+	$port = $profile['db_port'];
+	$user = $profile['db_user'];
+	$name = $profile['db_name'];
+	$pass = $profile['db_pass'];
 }
 ?>
 	<table width="400" border="0">
@@ -50,11 +64,11 @@ if ($db_id == 0) {
 
 				<table class="ttable" width="100%" cellspacing="2" cellpadding="2" border="0">
 				<?php
-                echo("<tr><td>DB host</td><td>".$host."</td></tr>");
-                echo("<tr><td>DB port</td><td>".$port."</td></tr>");
-                echo("<tr><td>DB user</td><td>".$user."</td></tr>");
-                echo("<tr><td>DB name</td><td>".$name."</td></tr>");
-                echo("<tr><td>DB pass</td><td>".$pass."</td></tr>");
+                echo("<tr><td>DB host</td><td>".htmlspecialchars($host ?? "")."</td></tr>");
+                echo("<tr><td>DB port</td><td>".htmlspecialchars($port ?? "")."</td></tr>");
+                echo("<tr><td>DB user</td><td>".htmlspecialchars($user ?? "")."</td></tr>");
+                echo("<tr><td>DB name</td><td>".htmlspecialchars($name ?? "")."</td></tr>");
+                echo("<tr><td>DB pass</td><td>".htmlspecialchars($pass ?? "")."</td></tr>");
 				?>
 				</table>
 

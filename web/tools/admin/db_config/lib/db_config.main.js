@@ -22,8 +22,8 @@ function toggle(chkbox, group) {
     document.getElementById(group).style.visibility = visSetting;
 }
 
-function openStatOverlay(host, port, user, name, pass, id){
-    url = "db_config.details.php?host="+host+"&port="+port+"&user="+user+"&name="+name+"&pass="+pass+"&db_id="+id;
+function openStatOverlay(id){
+    url = "db_config.details.php?db_id="+encodeURIComponent(id);
     var http = getHTTPObject();
     http.open("GET", url, false);
     http.onreadystatechange = handleHttpResponse(http);
