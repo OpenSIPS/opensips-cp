@@ -280,6 +280,11 @@ function print_example($example, $param, $id) {
 	   );
 }
 
+// a stored value written into a form field: quotes and markup in it stay text
+function form_escape($val) {
+	return htmlspecialchars((string)$val, ENT_QUOTES);
+}
+
 function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=null,$validation=null,$json_format=null) {
 	if ($val !== null)
 		$valid=" valid='ok'";
@@ -307,7 +312,7 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 			</td>
 			<td class='dataRecord' width='250'>
 				<table style='width:100%'><tr><td>
-				<textarea style='height:".$pixelNo."px'   name='".$id."'".$valid.$maxlen." cols=30  id='".$id."' class='dataInput'".$validate.">".$val."</textarea>
+				<textarea style='height:".$pixelNo."px'   name='".$id."'".$valid.$maxlen." cols=30  id='".$id."' class='dataInput'".$validate.">".form_escape($val)."</textarea>
 				</td>
 				<td width='20'>
 				<div id='".$id."_ok'>".(($opt=='y' || $val !== null)?(""):("<img src='../../../images/share/must-icon.png'>"))."</div>
@@ -320,7 +325,7 @@ function form_generate_input_textarea($title,$tip,$id,$opt,$val,$mlen=null,$re=n
 function form_generate_input_text($title,$tip,$id,$opt,$val,$mlen,$re, $validation=null, $format=null) {
 
 	if ($val !== null)
-		$value=" value='".$val."' valid='ok'";
+		$value=" value='".form_escape($val)."' valid='ok'";
 	else
 		$value = "";
 
@@ -401,11 +406,11 @@ function form_generate_input_checkbox($title,$tip,$id,$val,$checked,$hooks="") {
 function form_generate_passwords($title,$val,$confirm_val,$minimum=6,$tip=null,$opt='y') {
 
 	if ($val!=null)
-		$value=" value='".$val."' valid='ok'";
+		$value=" value='".form_escape($val)."' valid='ok'";
 	else
 		$value = "";
 	if ($confirm_val!=null)
-		$confirm_value=" value='".$val."' valid='ok'";
+		$confirm_value=" value='".form_escape($val)."' valid='ok'";
 	else 
 		$confirm_value = "";
 
