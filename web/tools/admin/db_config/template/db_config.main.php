@@ -104,7 +104,7 @@ if ($data_no!=0)
 		}
 ?>
  <tr>
-  <td class="<?=$row_style?>">&nbsp;<?php print $resultset[$i]['config_name']?></td>
+  <td class="<?=$row_style?>">&nbsp;<?php print htmlspecialchars($resultset[$i]['config_name'])?></td>
 <?php
 		echo('<td class='.$row_style."Img".' align="center">'.$details_link.'</td>');
    if(!$_SESSION['read_only'])
