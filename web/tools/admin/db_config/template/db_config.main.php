@@ -83,7 +83,9 @@ else
 	$index_row=1;
 	$i=0;
 
-	$details_link = '<a href="javascript:;" onclick="openStatOverlay(\'pass\',\'pass\',\'pass\',\'pass\',\'pass\',\'0\')"><img src="../../../images/share/details.png" border="0"></a>';
+	$details_link = '';
+	if(!$_SESSION['read_only'])
+		$details_link = '<a href="javascript:;" onclick="openStatOverlay(\'0\')"><img src="../../../images/share/details.png" border="0"></a>';
 	echo('
  <tr>
   <td class="rowOdd">&nbsp;Default</td>');
@@ -95,8 +97,7 @@ else
 		else $row_style="rowEven";
 
 		if(!$_SESSION['read_only']){
-			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['db_host'].'\',\''.$resultset[$i]['db_port'].'\',\''.$resultset[$i]['db_user'].'\',
-            \''.$resultset[$i]['db_name'].'\',\''.$resultset[$i]['db_pass'].'\',\''.$resultset[$i]['id'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
+			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.(int)$resultset[$i]['id'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
 			$edit_link = '<a href="'.$page_name.'?action=edit_db&db_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 			$delete_link='<a href="'.$page_name.'?action=delete&db_id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
 		}
