@@ -40,13 +40,13 @@ class cdr_widget extends widget
     session_load_from_tool("cdrviewer");
 		require(__DIR__."/../../lib/db_connect.php");
 		$cdr_table = get_settings_value_from_tool("cdr_table", "cdrviewer");
-    if ($config->db_driver == "sqlite")
+    if (db_driver($link) == "sqlite")
     $sql = "select count(*) from ".$cdr_table. " union all ".
       "select count(*) from ".$cdr_table." where time > date('now','localtime') union all ".
       "select count(*) from ".$cdr_table." where time > date('now','localtime','-1 day') and time < datetime('now','localtime','-1 day') union all ".
       "select count(*) from ".$cdr_table." where time < datetime('now','localtime') and time > datetime('now','localtime','-7 days') union all ".
       "select count(*) from ".$cdr_table." where time < datetime('now','localtime','-7 days') and time > datetime('now','localtime','-14 days');";
-    else if ($config->db_driver == "pgsql")
+    else if (db_driver($link) == "pgsql")
     $sql = "select count(*) from ".$cdr_table. " union all ".
       "select count(*) from ".$cdr_table." where time > current_date union all ".
       "select count(*) from ".$cdr_table." where time > current_date - interval '1 day' and time < now() - interval '1 day' union all ".

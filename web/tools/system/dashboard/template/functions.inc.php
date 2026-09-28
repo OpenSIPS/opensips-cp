@@ -30,7 +30,7 @@
         require("../../../../config/db.inc.php");
         require("../../../../config/tools/system/dashboard/settings.inc.php");
 
-        $order = db_ident('order');
+        $order = db_ident('order', $link);
         $sql = 'UPDATE '.$table.' SET '.$order.' = 
         CASE
          WHEN '.$order.' = ? THEN ?

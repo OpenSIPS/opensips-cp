@@ -53,18 +53,18 @@ if ($action=="modify_params")
 		$values = array();
 		foreach ($system_params as $attr => $params){
 			if ($params['show_in_edit_form']) {
-				$update_query .= db_ident($attr)."=?, ";
-				$params_names.=db_ident($attr).", ";
+				$update_query .= db_ident($attr, $link)."=?, ";
+				$params_names.=db_ident($attr, $link).", ";
 				$unknowns.="?, ";
 				$values[] = $_POST[$attr];
 			}
 		}
-		$update_query.=db_ident("assoc_id")."=?;";
+		$update_query.=db_ident("assoc_id", $link)."=?;";
 		$params_names.="assoc_id";
 		$unknowns.="?";
 		$values[] = $assoc_id;
 		$sql = "INSERT INTO $table (".$params_names.") VALUES (".$unknowns.") ".
-			($config->db_driver == "mysql" ? "ON DUPLICATE KEY UPDATE " : "ON CONFLICT(assoc_id) DO UPDATE SET ").$update_query;
+			(db_driver($link) == "mysql" ? "ON DUPLICATE KEY UPDATE " : "ON CONFLICT(assoc_id) DO UPDATE SET ").$update_query;
 		$stm = $link->prepare($sql);
 		if ($stm === false) {
 		die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -132,7 +132,7 @@ if ($action == "add_verify") {
 				if ($params_names != "") $params_names.=",";
 				if ($unknowns != "") $unknowns.=",";
 				$unknowns.="?";
-				$params_names.=db_ident($attr);
+				$params_names.=db_ident($attr, $link);
 				$values[] = $_POST[$attr];
 			}
 		}

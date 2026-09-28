@@ -212,7 +212,7 @@ function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
 
 
 	if ($sql_search!="") $sql.=  $sql_search  ;
-	if ($config->db_driver == "mysql")
+	if (db_driver($link) == "mysql")
 		$link->setAttribute(PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, false);
 	if (isset($cdr_export_time_limit))
 		set_time_limit ($cdr_export_time_limit);

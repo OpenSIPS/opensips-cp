@@ -81,7 +81,7 @@ if ($action=="modify_params")
 					}
 					continue;
 				}
-				$sql = ($config->db_driver == "mysql" ? "REPLACE INTO ".$table." (module, param, value) VALUES (?,?,?)" :
+				$sql = (db_driver($link) == "mysql" ? "REPLACE INTO ".$table." (module, param, value) VALUES (?,?,?)" :
 					"INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON CONFLICT (module, param, box_id) DO UPDATE SET value=excluded.value");
 				$stm = $link->prepare($sql);
 				if ($stm === false) {
@@ -102,7 +102,7 @@ if ($action=="modify_params")
 					if (is_null($checklist_values)) $checklist_values = "";
 					$_POST[$module] = $checklist_values;
 				}
-				$sql = ($config->db_driver == "mysql" ? "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,?)" :
+				$sql = (db_driver($link) == "mysql" ? "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,?)" :
 					"INSERT INTO $table (module, param, value, box_id) VALUES (?,?,?,?) ON CONFLICT (module, param, box_id) DO UPDATE SET value=excluded.value");
 				$stm = $link->prepare($sql);
 				if ($stm === false) {

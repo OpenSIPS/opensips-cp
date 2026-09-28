@@ -54,19 +54,19 @@ if ($action=="modify_params")
 		foreach ($box_params as $attr => $params){
 			if ($params['show_in_edit_form']) {
 				if ($params['type'] != "password" || $_POST[$attr] != "") {
-					$update_query .= db_ident($attr)."=?, ";
-					$params_names.=db_ident($attr).", ";
+					$update_query .= db_ident($attr, $link)."=?, ";
+					$params_names.=db_ident($attr, $link).", ";
 					$unknowns.="?, ";
 					$values[] = $_POST[$attr];
 				}
 			}
 		}
-		$update_query.=db_ident("id")."=?;";
+		$update_query.=db_ident("id", $link)."=?;";
 		$params_names.="id";
 		$unknowns.="?";
 		$values[] = $box_id;
 		$sql = "INSERT INTO ".$table." (".$params_names.") VALUES (".$unknowns.") ".
-			($config->db_driver == "mysql" ? "ON DUPLICATE KEY UPDATE " : "ON CONFLICT(id) DO UPDATE SET ").$update_query;
+			(db_driver($link) == "mysql" ? "ON DUPLICATE KEY UPDATE " : "ON CONFLICT(id) DO UPDATE SET ").$update_query;
 		$stm = $link->prepare($sql);
 
 		if ($stm === false) {
@@ -140,7 +140,7 @@ if ($action == "add_verify") {
 			if ($unknowns != "") $unknowns.=",";
 			if ($params_names != "") $params_names.=",";
 			$unknowns.="?";
-			$params_names.=db_ident($attr);
+			$params_names.=db_ident($attr, $link);
 			$values[] = $_POST[$attr];
 		}
 	

@@ -27,11 +27,16 @@ function db_dsn($config) {
 	return $config->db_driver . ':host=' . $config->db_host . ';dbname='. $config->db_name;
 }
 
+// the driver of an open connection (mysql, pgsql or sqlite): a tool's database
+// may use another driver than config/db.inc.php, so SQL is built for its $link
+function db_driver($link) {
+	return $link->getAttribute(PDO::ATTR_DRIVER_NAME);
+}
+
 // quote a column name (needed for reserved words like order, desc):
 // backticks on mysql, standard double quotes on pgsql and sqlite
-function db_ident($name) {
-	global $config;
-	return $config->db_driver == "mysql" ? "`".$name."`" : '"'.$name.'"';
+function db_ident($name, $link) {
+	return db_driver($link) == "mysql" ? "`".$name."`" : '"'.$name.'"';
 }
 
 function db_pdo($dsn, $user, $pass, $attr = NULL) {
