@@ -11,7 +11,8 @@ $db = isset($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]
 	$custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']] : NULL;
 if (!db_settings_complete($db))
 	$db = db_tool_settings($module_id,
-		get_settings_value_from_tool($db_config_submenu, $module_id) ? $db_config_submenu : "db_config");
+		isset(settings($module_id)->params()[$db_config_submenu]) &&
+		settings($module_id)->get($db_config_submenu) ? $db_config_submenu : "db_config");
 $link = db_connect($db);
 
 ?>

@@ -57,7 +57,6 @@ $boxlist=inspect_config_mi();
         $box_id=get_box_id($current_box); 
         $_SESSION['box_id'] = $box_id;
         display_settings_button();
-        session_load();
       ?>
     </td>
   </tr>	

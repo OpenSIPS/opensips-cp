@@ -43,7 +43,7 @@ function get_gwlist()
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".get_settings_value("table_gateways")." order by gwid asc";
+ $sql="select * from ".settings()->get("table_gateways")." order by gwid asc";
  $stm = $link->prepare($sql);
  if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);

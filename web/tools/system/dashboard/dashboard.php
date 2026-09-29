@@ -28,16 +28,14 @@ require("template/header.php");
 require("../../../../config/boxes.global.inc.php");
 require_once("template/functions.inc.js");
 require("../../../../config/tools/system/dashboard/db.inc.php");
-require("../../../../config/tools/system/dashboard/settings.inc.php");
 include("lib/db_connect.php");
 require("../../../../config/globals.php");
 require_once("../../../common/forms.php");
-session_load();
 
 csrfguard_validate();
 
 $widgets = load_widgets();
-$table=get_settings_value("custom_table");
+$table=settings()->get("custom_table");
 if (isset($_GET['box_id']) && $_GET['box_id'] != '')
 	$box_id = $_GET['box_id'];
 else

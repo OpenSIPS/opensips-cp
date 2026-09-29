@@ -24,12 +24,11 @@
 chdir("web/tools/system/smonitor");
 require("../../../../config/db.inc.php");
 require("../../../../web/common/cfg_comm.php");
-session_load_from_tool("smonitor");
 require("lib/functions.inc.php");
 require("../../../../config/boxes.global.inc.php");
 require("lib/db_connect.php");
 
-$history = get_settings_value_from_tool("chart_history", "smonitor");
+$history = settings("smonitor")->get("chart_history");
 if ($history == "auto")
 	$history = 3;
 $history *= 24*60*60; # convert days to seconds
@@ -42,7 +41,7 @@ foreach ($boxes as $idx => $ar){
 		$time=time();
 	
 		$oldest_time = $time - $history;
-		$sql = "DELETE FROM ".$config->table_monitoring." WHERE box_id=".$idx." and time<".$oldest_time;
+		$sql = "DELETE FROM ".settings("smonitor")->get("table_monitoring")." WHERE box_id=".$idx." and time<".$oldest_time;
 		$resultset = $link->exec($sql);
 	}
 } 

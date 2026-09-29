@@ -245,7 +245,7 @@ $table_regex = "^[a-zA-Z0-9_]+$";
 
 function print_description() {
 	global $config;
-	$long = get_settings_value('tool_description');
+	$long = settings()->get('tool_description');
 	$short = substr($long, 0, 100);
 	$long = substr($long, 100, strlen($long));
 	echo (

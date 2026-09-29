@@ -39,7 +39,7 @@
     <td class="dataRecord"><b>Use only first:</b> <?=$resultset[0]['useonlyfirst']?></td>
  </tr>
 
-<?php if (get_settings_value("memory_status") != "0") { ?>
+<?php if (settings()->get("memory_status") != "0") { ?>
  <tr>
      <td class="dataRecord"><b>Memory state:</b> <?=$resultset[0]['enabled']?></td>
  </tr>
@@ -55,8 +55,8 @@
 	</td>
  </tr>
 <?php
-$carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
-$carrier_attributes = get_settings_value("carrier_attributes");
+$carrier_attributes_mode = settings()->get("carrier_attributes_mode");
+$carrier_attributes = settings()->get("carrier_attributes");
 if ($carrier_attributes_mode != "none") { ?>
  <tr>
   <td class="dataRecord"><b><?=($carrier_attributes_mode == "input" && isset($carrier_attributes["display_name"])?$carrier_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>

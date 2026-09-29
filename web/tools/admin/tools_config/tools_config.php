@@ -46,7 +46,8 @@ if ($action=="modify_params")
 {
     if(!$_SESSION['read_only']){
 		$current_tool=$_GET['tool'];
-        $tools_params=get_params();
+		$settings = settings($current_tool);
+		$tools_params = $settings->params();
 		foreach($tools_params as $param => $attr) {
 			if (isset($attr['validation_regex'])) {
 				if (!preg_match("/".$attr['validation_regex']."/", $_POST[$param])) {
@@ -54,68 +55,41 @@ if ($action=="modify_params")
 				}
 			}
 		}
-		if (is_null($box_id)) {
-			foreach ($tools_params as $module=>$params) {
-				if ($params['type'] == "title")
-					continue;
-				if ($params['type'] == "checklist") {
-					$checklist_values = implode( ',', $_POST[$module]);
-					if (is_null($checklist_values)) $checklist_values = "";
-					$_POST[$module] = $checklist_values;
-				}
-				if ($params['type'] == "json") {
-					$_POST[$module] = json_encode(json_decode($_POST[$module]));
-				}
-				// json defaults are arrays: compare them with the decoded value, not the string
-				if ($params['type'] == "json" ? json_decode($_POST[$module], true) == $params['default'] :
-						$params['default'] == $_POST[$module]) {
-					$sql = "DELETE FROM ".$table." where module=? and param=? and (box_id IS NULL OR box_id='')";
-					$stm = $link->prepare($sql);
-					if ($stm === false) {
-						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-					}
-					if ($stm->execute( array( $current_tool, $module)) == false) {
-						$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-					}    else {
-						$info="Admin credentials were modified";
-					}
-					continue;
-				}
-				$sql = (db_driver($link) == "mysql" ? "REPLACE INTO ".$table." (module, param, value) VALUES (?,?,?)" :
-					"INSERT INTO ".$table." (module, param, value) VALUES (?,?,?) ON CONFLICT (module, param, box_id) DO UPDATE SET value=excluded.value");
-				$stm = $link->prepare($sql);
-				if ($stm === false) {
-					die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-				}
-				if ($stm->execute( array( $current_tool, $module, $_POST[$module])) == false) {
-					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-				}    else {
-					$info="Admin credentials were modified";
-				}
+		foreach ($tools_params as $module=>$params) {
+			if ($params['type'] == "title")
+				continue;
+			if ($params['type'] == "checklist") {
+				$checklist_values = implode( ',', $_POST[$module]);
+				if (is_null($checklist_values)) $checklist_values = "";
+				$_POST[$module] = $checklist_values;
 			}
-		} else {
-			foreach ($tools_params as $module=>$params) {
-				if ($params['type'] == "title")
-					continue;
-				if ($params['type'] == "checklist") {
-					$checklist_values = implode( ',', $_POST[$module]);
-					if (is_null($checklist_values)) $checklist_values = "";
-					$_POST[$module] = $checklist_values;
-				}
-				$sql = (db_driver($link) == "mysql" ? "REPLACE INTO $table (module, param, value, box_id) VALUES (?,?,?,?)" :
-					"INSERT INTO $table (module, param, value, box_id) VALUES (?,?,?,?) ON CONFLICT (module, param, box_id) DO UPDATE SET value=excluded.value");
-				$stm = $link->prepare($sql);
-				if ($stm === false) {
+			if ($params['type'] == "json") {
+				$_POST[$module] = json_encode(json_decode($_POST[$module]));
+			}
+			// a value equal to the inherited one (the default for the tool, the tool's for a
+			// box) is not stored, so it keeps following what it inherits;
+			// json values are arrays: compare them with the decoded value, not the string
+			$inherited = is_null($box_id) ? $params['default'] : $settings->get($module);
+			if ($params['type'] == "json" ? json_decode($_POST[$module], true) == $inherited :
+					$inherited == $_POST[$module]) {
+				$sql = "DELETE FROM ".$table." where module=? and param=? and ".
+					(is_null($box_id) ? "(box_id IS NULL OR box_id='')" : "box_id=?");
+				$vals = is_null($box_id) ? array($current_tool, $module) : array($current_tool, $module, $box_id);
+			} else {
+				$sql = (db_driver($link) == "mysql" ? "REPLACE INTO ".$table." (module, param, value, box_id) VALUES (?,?,?,?)" :
+					"INSERT INTO ".$table." (module, param, value, box_id) VALUES (?,?,?,?) ON CONFLICT (module, param, box_id) DO UPDATE SET value=excluded.value");
+				$vals = array($current_tool, $module, $_POST[$module], is_null($box_id) ? '' : $box_id);
+			}
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
 				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-				}
-				if ($stm->execute( array( $current_tool, $module, $_POST[$module], $box_id)) == false) {
-					$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true); 
-				}    else {
-					$info="Admin credentials were modified";
-				}
+			}
+			if ($stm->execute($vals) == false) {
+				$errors= "Updating record in DB failed: ".print_r($stm->errorInfo(), true);
+			}    else {
+				$info="Settings were modified";
 			}
 		}
-		unset($_SESSION['config'][$current_tool]);
 	}   else {
    		$errors= "User with Read-Only Rights";
    	} 

@@ -11,13 +11,13 @@
     $zoomOut = $_GET['zoomOut'];
     $boxes = json_decode($_GET['box']);
     $normal = json_decode($_GET['normal']);
-    $sampling_time = get_settings_value_from_tool("sampling_time", "smonitor");
-    $table_monitoring = get_settings_value_from_tool("table_monitoring", "smonitor");
+    $sampling_time = settings("smonitor")->get("sampling_time");
+    $table_monitoring = settings("smonitor")->get("table_monitoring");
     $vals ="";
     $vals.="date,value,name";
-    $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:get_settings_value_from_tool("chart_size", "smonitor");
+    $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:settings("smonitor")->get("chart_size");
     if ($zoomOut == 'true') {
-        $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:get_settings_value_from_tool("chart_history", "smonitor");
+        $chart_size = isset($_GET['chart_size'])?$_GET['chart_size']:settings("smonitor")->get("chart_history");
         if ($chart_size == "auto")
             $chart_size = 3 * 24; //3 days
     }

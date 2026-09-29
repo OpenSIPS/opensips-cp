@@ -32,7 +32,6 @@ $_SESSION['current_tool'] = $module_id;
 $_SESSION['current_group'] = get_group();
 $no_result = "No Data Found.";
 
-session_load_from_tool($module_id);
 if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
 	require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 ?>

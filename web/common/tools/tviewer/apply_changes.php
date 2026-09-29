@@ -33,7 +33,6 @@ require_once("lib/functions.inc.php");
 require_once("lib/db_connect.php");
 $module_id = $_SESSION["current_tool"];
 
-session_load_from_tool($module_id);
 if (file_exists("../../../../config/tools/".get_tool_path($module_id)."/tviewer.inc.php"))
 	require_once("../../../../config/tools/".get_tool_path($module_id)."/tviewer.inc.php");
 
@@ -67,7 +66,7 @@ if (!empty($params)) {
 <br>
 <?php
 
-$mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$mi_connectors=get_all_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";

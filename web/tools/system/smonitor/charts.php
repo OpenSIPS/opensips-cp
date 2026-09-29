@@ -29,13 +29,12 @@
  require("../../../../config/session.inc.php");
  require("template/header.php");
  include("lib/db_connect.php");
- session_load();
  
  csrfguard_validate();
 
  $box_id=get_box_id($current_box); 
- $table=get_settings_value("table_monitoring");
- $name_table=get_settings_value("table_monitored");
+ $table=settings()->get("table_monitoring");
+ $name_table=settings()->get("table_monitored");
  $_SESSION['stat_open'] = array();
 
  $gauge_arr = get_vars_type($current_box);
@@ -49,7 +48,7 @@
  
  if (isset($_POST['flush']))
  {
-  $sql = "DELETE FROM ".get_settings_value("table_monitoring")." WHERE box_id = ?";
+  $sql = "DELETE FROM ".settings()->get("table_monitoring")." WHERE box_id = ?";
   $stm = $link->prepare($sql);
   if ($stm->execute(array($box_id)) === false)
   	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));

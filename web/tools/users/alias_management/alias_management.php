@@ -25,11 +25,10 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../../config/globals.php");
 
-session_load();
 
 csrfguard_validate();
 
-foreach (get_settings_value("table_aliases") as $key=>$value) {
+foreach (settings()->get("table_aliases") as $key=>$value) {
 	$options[]=array("label"=>$key,"value"=>$value);
 }
 $allowed_alias_tables = array();
@@ -37,9 +36,9 @@ for ($i = 0; $i < count($options); $i++) {
 	$allowed_alias_tables[] = $options[$i]['value'];
 }
 
-$implicit_domain = get_settings_value("implicit_domain");
+$implicit_domain = settings()->get("implicit_domain");
 
-$suppress_alias_type = get_settings_value("suppress_alias_type");
+$suppress_alias_type = settings()->get("suppress_alias_type");
 $suppress_alias_type = $suppress_alias_type && (count($options) == 1);
 
 $current_page="current_page_alias_management";

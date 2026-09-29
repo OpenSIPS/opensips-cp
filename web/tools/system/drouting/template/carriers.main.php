@@ -83,9 +83,9 @@
   <th class="listTitle">Description</th>
 <?php
 $carrier_attrs_colspan = 0;
-$carrier_attributes_mode = get_settings_value("carrier_attributes_mode");
-$carrier_attributes = get_settings_value("carrier_attributes");
-$memory_status = get_settings_value("memory_status");
+$carrier_attributes_mode = settings()->get("carrier_attributes_mode");
+$carrier_attributes = settings()->get("carrier_attributes");
+$memory_status = settings()->get("memory_status");
 if ($carrier_attributes_mode != "none") {
 	if ($carrier_attributes_mode == "input") {
 		echo('<th class="listTitle"><'.(isset($carrier_attributes["display_name"])?$carrier_attributes["display_name"]:"Attributes").'></th>');
@@ -114,11 +114,11 @@ if ($memory_status != "0") {
 //get status for all the gws
 $carrier_statuses = Array ();
 
-$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 
 $params = NULL;
-if (get_settings_value("routing_partition") && get_settings_value("routing_partition") != "")
-	$params['partition_name'] = get_settings_value("routing_partition");
+if (settings()->get("routing_partition") && settings()->get("routing_partition") != "")
+	$params['partition_name'] = settings()->get("routing_partition");
 
 $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[0], $errors);
 
@@ -152,7 +152,7 @@ if (!is_null($message)) {
  if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
-  $res_no=get_settings_value("results_per_page");
+  $res_no=settings()->get("results_per_page");
   $page=$_SESSION[$current_page];
   $page_no=ceil($data_no/$res_no);
   if ($page>$page_no) {
@@ -257,7 +257,7 @@ if ($carrier_attributes_mode == "input") {
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
-               $max_pages = get_settings_value("results_page_range");
+               $max_pages = settings()->get("results_page_range");
                // start page
                if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
                 else $start_page = $page - ($page % $max_pages) + 1;

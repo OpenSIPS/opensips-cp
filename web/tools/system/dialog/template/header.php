@@ -29,7 +29,6 @@
  $_SESSION['current_tool'] = 'dialog';
  $_SESSION['current_group'] = get_group();
  $no_result = "No Data Found.";
- session_load();
 ?>
 
 <html>

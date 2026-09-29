@@ -23,8 +23,8 @@
 require("../../../common/forms.php");
 $set_cache = array();
 
-$dialplan_group_mode = get_settings_value("dialplan_groups_mode");
-$dialplan_group = get_settings_value("dialplan_groups");
+$dialplan_group_mode = settings()->get("dialplan_groups_mode");
+$dialplan_group = settings()->get("dialplan_groups");
 switch ($dialplan_group_mode) {
 	case "static":
 		break;
@@ -83,7 +83,7 @@ if ( !isset($dialplan_attributes_mode) || $dialplan_attributes_mode==1 ) {
 	form_generate_input_text("Attributes", "Attributes (as string) attached to this rule",
 		"attrs", "y", $dp_form['attrs'], 128, NULL);
 } else {
-	foreach( get_settings_value("attrs_cb") as $id => $val ) {
+	foreach( settings()->get("attrs_cb") as $id => $val ) {
 		$checked = ( strpos($dp_form['attrs'], (string)$id) === FALSE ) ? 0 : 1;
 		form_generate_input_checkbox("Attribute '".$val."'", "Script attribute", "dp_attr_".$id, $val, $checked);
 	}

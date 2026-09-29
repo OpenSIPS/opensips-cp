@@ -24,11 +24,10 @@ require_once("../../../../config/tools/system/cdrviewer/db.inc.php");
 require_once("../../../../config/session.inc.php");
 require_once("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
-session_load();
 include("lib/db_connect.php");
-$table=get_settings_value("cdr_table");
+$table=settings()->get("cdr_table");
 
-$sql = "SELECT * FROM ".$table." WHERE ".get_settings_value('cdr_id_field_name')."=?";
+$sql = "SELECT * FROM ".$table." WHERE ".settings()->get('cdr_id_field_name')."=?";
 $stm = $link->prepare($sql);
 if ($stm === false) {
         die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));

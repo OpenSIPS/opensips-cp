@@ -18,7 +18,6 @@ class chart_widget extends widget
 		$this->chart_refresh = intval($array['widget_chart_refresh']) * 1000;
         
         require_once(__DIR__."/../../../../../common/cfg_comm.php");
-        session_load_from_tool("smonitor");
     }
 
 

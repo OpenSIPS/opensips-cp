@@ -7,9 +7,8 @@
 	
 	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 	require_once("../../../../config/db.inc.php");
-	require_once("../../../../web/common/cfg_comm.pgp");
+	require_once("../../../../web/common/cfg_comm.php");
 
-	session_load_from_tool($module_id);
 	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
 		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	

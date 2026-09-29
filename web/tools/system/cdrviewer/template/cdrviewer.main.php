@@ -34,7 +34,7 @@ $search_end=$_SESSION['cdrviewer_search_end'];
 $search_regexp=$_SESSION['cdrviewer_search_val'];
 $cdr_field = $_SESSION['cdrviewer_search_cdr_field'];
 
-$cdr_table = get_settings_value("cdr_table");
+$cdr_table = settings()->get("cdr_table");
 
 $sql_search  = " from ".$cdr_table. " where (1=1) ";
 $sql_vals = array();
@@ -130,18 +130,18 @@ if ($data_no==0) {
 else
 {
 	$page=$_SESSION[$current_page];
-	$page_no=ceil($data_no/get_settings_value("results_per_page"));
+	$page_no=ceil($data_no/settings()->get("results_per_page"));
 	if ($page>$page_no) {
 		$page=$page_no;
 		$_SESSION[$current_page]=$page;
 	}
-	$start_limit=($page-1)*get_settings_value("results_per_page");
+	$start_limit=($page-1)*settings()->get("results_per_page");
 
 	$sql = "select * ".$sql_search." order by time desc " ;
 	if ($start_limit==0)
-		$sql.=" LIMIT ".get_settings_value("results_per_page");
+		$sql.=" LIMIT ".settings()->get("results_per_page");
 	else
-		$sql.=" LIMIT ".get_settings_value("results_per_page")." OFFSET ".$start_limit;
+		$sql.=" LIMIT ".settings()->get("results_per_page")." OFFSET ".$start_limit;
 
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
@@ -183,7 +183,7 @@ else
 
 		foreach ($show_field as $key => $title) {
 			$value = $result[$j][$key];
-			if (get_settings_value('sip_call_id_field_name')==$key) {
+			if (settings()->get('sip_call_id_field_name')==$key) {
 				// link the "callid" field to the tracer module
 				if ($tracer=="") {
 					if (isset($display_fields[$key]))
@@ -199,7 +199,7 @@ else
 			}
 		}
 	   
-	   $this_cdr_id = $result[$j][get_settings_value('cdr_id_field_name')];
+	   $this_cdr_id = $result[$j][settings()->get('cdr_id_field_name')];
 	   $details_cdr='<a href="details.php?cdr_id='.($this_cdr_id).'" class="menuItem"> <img src="../../../images/share/details.png" border="0" onClick="window.open(\'details.php?cdr_id='.($this_cdr_id).'\',\'info\',\'scrollbars=1,width=550,height=300\');return false;"></td></a>&nbsp';	  
 	   ?>
 	   <td class="<?=$row_style?>Img" align="center"><?php print $details_cdr?></td>
@@ -220,7 +220,7 @@ $k++ ;
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = get_settings_value("results_page_range");
+       	$max_pages = settings()->get("results_page_range");
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

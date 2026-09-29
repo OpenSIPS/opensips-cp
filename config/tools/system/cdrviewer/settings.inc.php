@@ -20,9 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 global $table_regex;
-global $config;
 
-$config->cdrviewer = array(
+return array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "DB settings"

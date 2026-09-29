@@ -20,7 +20,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-require("../../../../config/tools/system/keepalived/settings.inc.php");
 
 if(!$_SESSION['read_only']){
 	$colspan = 4;
@@ -29,7 +28,7 @@ if(!$_SESSION['read_only']){
 }
 echo('<div class="breadcrumb"></div>');
 
-foreach(get_settings_value("machines") as $machine) {
+foreach(settings()->get("machines") as $machine) {
     $has_master = false;
     echo('<table style="text-align: center;" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">');
     $boxes_no = count($machine['boxes']);

@@ -25,7 +25,7 @@ function get_alias_types()
         global $config;
         require("../../../../config/globals.php");
 	$aliases = array();
-        foreach (get_settings_values("table_aliases") as $key=>$value)
+        foreach (settings()->get("table_aliases") as $key=>$value)
                 $aliases[]=array("label"=>$key,"value"=>$value);
 	return $aliases;
 }
@@ -100,9 +100,8 @@ function print_domains($type,$value,$has_any)
 }
 
 function get_total_users() {
-	session_load_from_tool("user_management");
         require(__DIR__."/db_connect.php");
-	$users_table=get_settings_value_from_tool("table_users", "user_management");
+	$users_table=settings("user_management")->get("table_users");
         $sql = "select count(*) as no from ".$users_table;
         $stm = $link->prepare($sql);
         $stm->execute();

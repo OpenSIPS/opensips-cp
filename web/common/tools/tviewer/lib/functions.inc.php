@@ -97,7 +97,6 @@ function get_custom_combo_options($combo)
 	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 	require("db_connect.php");
 		
-	session_load_from_tool($module_id);
 	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
 		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	$options = array();
@@ -149,7 +148,6 @@ function get_custom_checklist_options($checklist)
 	require_once("../../../../config/tools/".$branch."/".$module_id."/db.inc.php");
 	require("db_connect.php");
 
-	session_load_from_tool($module_id);
 	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
 		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 
@@ -280,7 +278,6 @@ function get_checklist($key, $values, $valueNames = false) {
 	
     require_once("../../../../web/common/cfg_comm.php");
 
-	session_load_from_tool($module_id);
 	if (file_exists("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php"))
 		require_once("../../../../config/tools/".$branch."/".$module_id."/tviewer.inc.php");
 	

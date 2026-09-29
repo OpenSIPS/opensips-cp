@@ -20,10 +20,9 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 function print_profile() {
-	session_load();
 	global $config;
 
-	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 	// get status from the first one only
 	$message=mi_command("dialog:list_all_profiles", NULL, $mi_connectors[0], $errors);
 

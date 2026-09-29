@@ -22,7 +22,7 @@
 
 function get_gw_types()
 {
- $gateways = get_settings_value("gateway_types_file");
+ $gateways = settings()->get("gateway_types_file");
  $gw_types = array();
  foreach ($gateways as $key => $value) {
 	 $gw_types[$key] = $key . " - " . $value;
@@ -48,7 +48,7 @@ function get_types($name, $set, $width=200)
 
 function get_type($id)
 {
- $gateways = get_settings_value("gateway_types_file");
+ $gateways = settings()->get("gateway_types_file");
  if (array_key_exists($id, $gateways)) {
   echo($id." - ".$gateways[$id]);
  }

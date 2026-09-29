@@ -28,7 +28,6 @@
         require("../../../../config/tools/system/dashboard/db.inc.php");
         include("lib/db_connect.php");
         require("../../../../config/db.inc.php");
-        require("../../../../config/tools/system/dashboard/settings.inc.php");
 
         $order = db_ident('order', $link);
         $sql = 'UPDATE '.$table.' SET '.$order.' = 

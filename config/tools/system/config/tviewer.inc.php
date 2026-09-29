@@ -62,8 +62,8 @@ Example table: table1
 ####################################################################################
 */
 
-$custom_config[$module_id][0]['custom_table'] = get_settings_value("table");
-$custom_config[$module_id][0]['custom_table_primary_key'] = get_settings_value("id");
+$custom_config[$module_id][0]['custom_table'] = settings()->get("table");
+$custom_config[$module_id][0]['custom_table_primary_key'] = settings()->get("id");
 $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
 $custom_config[$module_id][0]['per_page'] = 50;
 $custom_config[$module_id][0]['page_range'] = 3;
@@ -108,9 +108,9 @@ $custom_config[$module_id][0]['page_range'] = 3;
 		 indicates how many characters should be shown from the text area content. Default is 50.
 */
 
- $config_name = get_settings_value("name");
- $config_value = get_settings_value("value");
- $config_desc = get_settings_value("description");
+ $config_name = settings()->get("name");
+ $config_value = settings()->get("value");
+ $config_desc = settings()->get("description");
  
  $custom_config[$module_id][0]['custom_table_column_defs'] = array (	
 			$custom_config[$module_id][0]['custom_table_primary_key'] => 	array (

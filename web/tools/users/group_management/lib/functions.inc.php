@@ -27,11 +27,10 @@ function print_domains($type,$value,$has_any)
 	global $config;
 		require("../../../../config/db.inc.php");
         require("../../../../config/tools/system/domains/db.inc.php");
-		session_load_from_tool("domains");
         require("db_connect.php");
 
 	
-        $table_domains=get_settings_value_from_tool("table_domains", "domains");
+        $table_domains=settings("domains")->get("table_domains");
         $sql="select domain from $table_domains";
         $stm = $link->query($sql);
 	if ($stm === FALSE)
@@ -67,7 +66,6 @@ function print_domains($type,$value,$has_any)
 }
 
 function print_groups($type,$value,$has_any){
-	session_load();
 	?>
 	<select name=<?=$type?> id=<?=$type?> size="1" style="width: 190px" class="dataSelect">
 	<?php
@@ -76,7 +74,7 @@ function print_groups($type,$value,$has_any){
 	if ($has_any)
 		echo('<option value="ANY" selected >ANY</option>');
 	
-	foreach (get_settings_value("grps") as $grp){
+	foreach (settings()->get("grps") as $grp){
 		if (strcmp($grp,$value)==0) 
 			continue;
 		else

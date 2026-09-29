@@ -20,9 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 global $table_regex;
-global $config;
 
-$config->callcenter = array(
+return array(
 	"db_config" => array(
 		"default" => 0,
 		"name" => "DB configuration",
