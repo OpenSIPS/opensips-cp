@@ -23,7 +23,6 @@
 require_once("../../../../config/session.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
-session_load();
 $command="domain:reload";
 
 ?>
@@ -31,7 +30,7 @@ $command="domain:reload";
 <br>
 <?php
 
-$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";

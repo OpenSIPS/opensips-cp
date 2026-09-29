@@ -27,16 +27,15 @@ global $config;
 
 $current_page="current_page_cdrviewer";
 
-session_load();
 
 csrfguard_validate();
 
 include("lib/db_connect.php");
 
-$cdr_repository_path = get_settings_value('cdr_repository_path');
-$cdr_set_field_names = get_settings_value('cdr_set_field_names');
-$delay = get_settings_value('delay');
-$show_field = get_settings_value('show_field');
+$cdr_repository_path = settings()->get('cdr_repository_path');
+$cdr_set_field_names = settings()->get('cdr_set_field_names');
+$delay = settings()->get('delay');
+$show_field = settings()->get('show_field');
 if (isset($show_field[0])) {
 	/* the array is not associative, so we shall convert it */
 	$num_fields = $show_field;

@@ -5,12 +5,11 @@ require_once("../../../common/mi_comm.php");
 require_once("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 require_once("template/dialog_table.inc.php");
-session_load();
 global $state_values;
 
 csrfguard_validate();
 
-$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 if (isset($_GET["callid"]))
 	$callid = $_GET["callid"];
 elseif (isset($_POST["callid"]))

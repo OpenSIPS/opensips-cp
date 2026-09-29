@@ -25,8 +25,8 @@ $flag = array();
 $errors = array();
 $sipURI = array();
 
-$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
-$dispatcher_partition = get_settings_value("dispatcher_partition");
+$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$dispatcher_partition = settings()->get("dispatcher_partition");
 
 // date input from the first box only
 $message=mi_command("dispatcher:list", array("partition"=>$dispatcher_partition), $mi_connectors[0], $errors);
@@ -58,9 +58,9 @@ $search_setid=$_SESSION['dispatcher_setid'] ?? "";
 $search_dest=$_SESSION['dispatcher_dest'] ?? "";
 $search_descr=$_SESSION['dispatcher_descr'] ?? "";
 
-$dispatcher_group = get_settings_value("dispatcher_groups");
-$dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");
-$dispatcher_display_only_known = get_settings_value("display_only_known");
+$dispatcher_group = settings()->get("dispatcher_groups");
+$dispatcher_group_mode = settings()->get("dispatcher_groups_mode");
+$dispatcher_display_only_known = settings()->get("display_only_known");
 switch ($dispatcher_group_mode) {
 	case "database":
 		$query = "SELECT " . $dispatcher_group['id'] . " AS id, " .
@@ -214,7 +214,7 @@ $data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	$res_no=get_settings_value("results_per_page");
+	$res_no=settings()->get("results_per_page");
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
 	if ($page>$page_no) {
@@ -305,7 +305,7 @@ default:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = get_settings_value("results_page_range");
+       	$max_pages = settings()->get("results_page_range");
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

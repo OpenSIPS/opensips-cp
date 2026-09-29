@@ -24,11 +24,10 @@ require ("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
-session_load();
 
 csrfguard_validate();
 
-$table=get_settings_value("table_address");
+$table=settings()->get("table_address");
 $current_page="current_page_address";
 
 include("lib/db_connect.php");
@@ -83,7 +82,7 @@ if ($action=="add_verify")
 		$from_pattern = $_POST['pattern'];
 		$context_info= $_POST['context_info'];
 		if (!isset($grp))
-			$grp = get_settings_value("addresses_groups");
+			$grp = settings()->get("addresses_groups");
 
 		$sql = "INSERT INTO ".$table." (grp, ip, mask, port, proto, pattern, context_info) VALUES 
 			(?, ?, ?, ?, ?, ?, ?)";
@@ -141,7 +140,7 @@ if ($action=="modify")
                 $from_pattern = $_POST['pattern'];
                 $context_info= $_POST['context_info'];
 		if (!isset($grp))
-			$grp = get_settings_value("addresses_groups");
+			$grp = settings()->get("addresses_groups");
 
 		$sql = "UPDATE ".$table." SET grp = ?, ip = ?, mask = ?, port = ?, proto = ?" .
 			", pattern = ?, context_info = ? WHERE id = ?";

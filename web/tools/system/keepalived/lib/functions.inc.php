@@ -53,13 +53,13 @@ function set_defaults($box) {
     if (!isset($box['ssh_user']))
         $box['ssh_user'] = "root";
     if (!isset($box['ssh_pubkey']))
-        $box['ssh_pubkey'] = get_settings_value("ssh_pubkey");
+        $box['ssh_pubkey'] = settings()->get("ssh_pubkey");
     if (!isset($box['ssh_key']))
-        $box['ssh_key'] = get_settings_value("ssh_key");
+        $box['ssh_key'] = settings()->get("ssh_key");
     if (!isset($box['check_exec']))
-        $box['check_exec'] = get_settings_value("check_exec");
+        $box['check_exec'] = settings()->get("check_exec");
     if (!isset($box['check_pattern']))
-        $box['check_pattern'] = get_settings_value("check_pattern");
+        $box['check_pattern'] = settings()->get("check_pattern");
     return $box;
 }
 

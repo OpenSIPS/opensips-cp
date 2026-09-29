@@ -27,7 +27,6 @@ require("../../../../config/db.inc.php");
 require("../../../common/cfg_comm.php");
 require("../siptrace/lib/functions.inc.php");
 include("lib/db_connect.php");
-session_load_from_tool("siptrace");
 
 session_start();
 
@@ -45,7 +44,7 @@ if ($tracer=="homer") {
 if ($tracer=="siptrace") {
 
 	// get the id from siptrace table .
-	$sql = "select id from ".$config->table_trace." where callid=?";
+	$sql = "select id from ".settings("siptrace")->get("table_trace")." where callid=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));

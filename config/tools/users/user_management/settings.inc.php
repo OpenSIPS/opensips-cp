@@ -21,9 +21,8 @@
  */
 
 global $table_regex;
-global $config;
 
-$config->user_management = array(
+return array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "General settings"

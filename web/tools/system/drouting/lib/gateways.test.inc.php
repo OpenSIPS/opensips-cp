@@ -60,7 +60,7 @@ include("db_connect.php");
                   $form_error="- <b>Strip</b> field must be a positive number -";
                  }
   if ($form_valid)
-    if ($socket != NULL && $socket != "" && get_settings_value("sockets") != "")
+    if ($socket != NULL && $socket != "" && settings()->get("sockets") != "")
 	   if (!preg_match('/^(sctp|tls|udp|tcp):(((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))|((([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9\-]*[A-Za-z0-9])))(:([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$/i',$socket)) {
                              $form_valid=false;
                              $form_error="- <b>Socket</b> is invalid -";
@@ -80,11 +80,11 @@ include("db_connect.php");
 	}
 
   if ($form_valid) {
-	  $gw_attributes_mode = get_settings_value("gw_attributes_mode");
+	  $gw_attributes_mode = settings()->get("gw_attributes_mode");
 	  if ($gw_attributes_mode == "input") {
-		  $gw_attributes = get_settings_value("gw_attributes");
+		  $gw_attributes = settings()->get("gw_attributes");
 		  if (isset($gw_attributes['validation_regexp']) &&
-			  !preg_match('/'.get_settings_value("gw_attributes")['validation_regexp'].'/i',$attrs)) {
+			  !preg_match('/'.settings()->get("gw_attributes")['validation_regexp'].'/i',$attrs)) {
 			  $form_valid=false;
 			  $form_error="- <b>".(isset($gw_attributes['display_name'])?$gw_attributes['display_name']:"Attributes")."</b> value is invalid: ".$gw_attributes['validation_error'];
 		  }

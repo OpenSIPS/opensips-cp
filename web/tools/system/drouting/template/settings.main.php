@@ -55,7 +55,7 @@
 <br>
 
 <?php
-if (get_settings_value("group_id_method")=="static")
+if (settings()->get("group_id_method")=="static")
 { 
 ?>
 <form action="<?=$page_name?>?action=groups" method="post">

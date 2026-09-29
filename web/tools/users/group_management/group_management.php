@@ -28,11 +28,10 @@ require("../../../../config/globals.php");
 $errors='';
 $current_page="current_page_group_management";
 
-session_load();
 
 csrfguard_validate();
 
-$table=get_settings_value('table_groups');
+$table=settings()->get('table_groups');
 
 include("lib/db_connect.php");
 

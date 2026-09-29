@@ -24,14 +24,13 @@
 require_once("../../../../config/session.inc.php");
 require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
-session_load();
 ?>
 <fieldset><legend>Sending MI command: <?=$command?></legend>
 <br>
 <?php
 
-$mi_connectors=get_all_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
-$dispatcher_partition = get_settings_value("dispatcher_partition");
+$mi_connectors=get_all_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$dispatcher_partition = settings()->get("dispatcher_partition");
 if ($dispatcher_partition == "")
 	$dispatcher_partition = false;
 

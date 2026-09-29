@@ -38,7 +38,6 @@ require_once("functions.js");
 	$current_tool=$_SESSION['current_tool'];
 	$current_tool_name = get_tool_name();
 	if (!is_null($box_id)) {
-		session_load_from_tool($current_tool, $box_id);
 		// $boxes is indexed by position, not by box id
 		$box_desc = "";
 		foreach ($boxes as $box)
@@ -62,7 +61,7 @@ require_once("functions.js");
  <?php } ?>
  </tr>
   <?php
-	$tools_params=get_params();
+	$tools_params=settings()->params();
 	
 	foreach ($tools_params as $module=>$params) {
 		if (isset($params['opt'])) $opt = "y"; else $opt = "n";
@@ -72,29 +71,29 @@ require_once("functions.js");
 		switch ($params['type']) {
 			case "checklist":
 				if (isAssoc($params['options']))
-				form_generate_checklist($params['name'], $current_tip, $module, 100,  explode(",", get_settings_value($module, $box_id)), array_values($params['options']), array_keys($params['options']));
-				else form_generate_input_checklist($params['name'], $current_tip, $module, 100, explode(",", get_settings_value($module, $box_id)), array_value($params['options']));
+				form_generate_checklist($params['name'], $current_tip, $module, 100,  explode(",", settings()->get($module, $box_id)), array_values($params['options']), array_keys($params['options']));
+				else form_generate_input_checklist($params['name'], $current_tip, $module, 100, explode(",", settings()->get($module, $box_id)), array_value($params['options']));
 				break;
 			case "json":
 				$flags = JSON_PRETTY_PRINT;
 				$validation = "validate_json";
 				if (isset($params['json_format']) && $params['json_format'] == "object")
 					$flags |= JSON_FORCE_OBJECT;
-				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(get_settings_value($module, $box_id), $flags), (isset($params['maxlen'])?$params['maxlen']:NULL), (isset($params['validation_regex'])?$params['validation_regex']:NULL), $validation, (isset($params['json_format'])?$params['json_format']:NULL));
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, json_encode(settings()->get($module, $box_id), $flags), (isset($params['maxlen'])?$params['maxlen']:NULL), (isset($params['validation_regex'])?$params['validation_regex']:NULL), $validation, (isset($params['json_format'])?$params['json_format']:NULL));
 				break;
 			case "textarea":
-				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id));
+				form_generate_input_textarea($params['name'], $current_tip, $module, $opt, settings()->get($module, $box_id));
 				break;
 			case "dropdown": 
 				if (isAssoc($params['options']))
-					form_generate_select($params['name'], $current_tip, $module, 100,  get_settings_value( $module, $box_id), array_values($params['options']), array_keys($params['options']));
-				else form_generate_select($params['name'], $current_tip, $module, 100,  get_settings_value( $module, $box_id), array_values($params['options']));
+					form_generate_select($params['name'], $current_tip, $module, 100,  settings()->get( $module, $box_id), array_values($params['options']), array_keys($params['options']));
+				else form_generate_select($params['name'], $current_tip, $module, 100,  settings()->get( $module, $box_id), array_values($params['options']));
 				break;
 			case "title":
 					print '<tr> <td class=\'sectionTitle\'><b>'.$params['title'].'</b></td></tr>';
 				break;
 			default:
-				form_generate_input_text($params['name'], $current_tip, $module, $opt, get_settings_value($module, $box_id), 100,(isset($params['validation_regex'])?$params['validation_regex']:NULL));
+				form_generate_input_text($params['name'], $current_tip, $module, $opt, settings()->get($module, $box_id), 100,(isset($params['validation_regex'])?$params['validation_regex']:NULL));
 		}
 		if (isset($params['example'])) {
 			print_example($params['example'], $params['name'], $module);

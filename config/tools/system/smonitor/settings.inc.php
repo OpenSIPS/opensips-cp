@@ -20,9 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 global $table_regex;
-global $config;
 
-$config->smonitor = array(
+return array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "General settings"
@@ -120,5 +119,18 @@ $config->smonitor = array(
 		"options" => array("Statistics" => "rt_stats.php", "Statistics Charts" => "charts.php", "Custom stats" => "statistics.php"),
 		"tip"	=> "List of available tabs for smonitor tool",
 		"type"	=> "checklist"
+	),
+	"results_per_page" => array(
+		"default" => 20,
+		"name"    => "Results per page",
+		"tip"    => "Number of custom statistics per page",
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
+	),
+	"results_page_range" => array(
+		"default" => 5,
+		"name"    => "Results page range",
+		"type"    => "number",
+		"validation_regex" => "^[0-9]+$",
 	),
 );

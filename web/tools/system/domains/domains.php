@@ -24,12 +24,11 @@ require("../../../common/cfg_comm.php");
 require("template/header.php");
 require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
-session_load();
 
 csrfguard_validate();
 
-$table=get_settings_value("table_domains");
-$has_attrs=(get_settings_value("attributes") == "1");
+$table=settings()->get("table_domains");
+$has_attrs=(settings()->get("attributes") == "1");
 
 include("lib/db_connect.php");
 

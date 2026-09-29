@@ -21,9 +21,8 @@
  */
 
 global $table_regex;
-global $config;
 
-$config->dialplan = array(
+return array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "General settings"

@@ -180,9 +180,7 @@ function load_widgets() {
 }
 
 function display_settings_button($box_id=null) {
-	if (file_exists(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php") && ($_SESSION['permission'] ?? '') == 'Admin') {
-		require(__DIR__."/../../config/tools/".get_tool_path($_SESSION['current_tool'])."/settings.inc.php");
-		if (!is_null($config))
+	if (settings()->params() && ($_SESSION['permission'] ?? '') == 'Admin') {
 			if(is_null($box_id))
 				echo("
 					<td align=right style=\"border-bottom: 1px solid #ccc!important\">
@@ -222,13 +220,104 @@ function isAssoc(array $arr)
     return array_keys($arr) !== range(0, count($arr) - 1);
 }
 
-function get_params() {
-	return get_params_from_tool($_SESSION['current_tool']);
+// a tool's settings (config/tools/<path>/settings.inc.php), read from the tools_config
+// table on first use and kept for the rest of the request: a box's own value wins over
+// the tool-wide one, which wins over the settings.inc.php default
+class ToolSettings {
+	private static $link = null;
+	private $tool;
+	private $params = null;
+	private $values = array();	// box id ('' for the tool-wide rows) => param => value
+
+	function __construct($tool) {
+		$this->tool = $tool;
+	}
+
+	function params() {
+		if (is_null($this->params)) {
+			// a tool's settings.inc.php returns its definitions; $config must exist
+			// for older ones, which fill it in
+			global $config;
+			if (!isset($config))
+				$config = new stdClass();
+			$file = __DIR__."/../../config/tools/".get_tool_path($this->tool)."/settings.inc.php";
+			$params = ($this->tool && file_exists($file)) ? require($file) : null;
+			if (!is_array($params)) {
+				// backwards compatibility with settings.inc.php files that fill in $config-><tool>
+				$tool = $this->tool;
+				$params = isset($config->$tool) ? $config->$tool : array();
+			}
+			$this->params = $params;
+		}
+		return $this->params;
+	}
+
+	function get($param, $box_id = null) {
+		foreach (array_unique(array((string)$box_id, '')) as $box) {
+			if (!isset($this->values[$box]))
+				$this->values[$box] = $this->load($box);
+			if (isset($this->values[$box][$param]))
+				return $this->values[$box][$param];
+		}
+		$params = $this->params();
+		if (!isset($params[$param])) {
+			// most likely a typo: settings.inc.php does not define it
+			error_log("opensips-cp: unknown setting '".$param."' of tool '".$this->tool."'");
+			return null;
+		}
+		if ($params[$param]['type'] != "title")
+			return $params[$param]['default'];
+		return null;
+	}
+
+	private function load($box) {
+		global $config;
+		if (is_null(self::$link)) {
+			require(__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
+			require(__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
+			self::$link = $link;
+		}
+		$sql = 'select param, value from '.$config->table_tools_config.' where module=? and ';
+		if ($box == '') {
+			$sql .= '(box_id IS NULL OR box_id=\'\')';
+			$vals = array($this->tool);
+		} else {
+			$sql .= 'box_id=?';
+			$vals = array($this->tool, $box);
+		}
+		$stm = self::$link->prepare($sql);
+		if ($stm === false || $stm->execute($vals) === false)
+			die('Failed to issue query ['.$sql.'], error message : ' .
+				print_r(($stm === false ? self::$link : $stm)->errorInfo(), true));
+		$params = $this->params();
+		$values = array();
+		foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $row) {
+			if (isset($params[$row['param']]) && $params[$row['param']]['type'] == "json")
+				$values[$row['param']] = json_decode($row['value'], true);
+			else
+				$values[$row['param']] = $row['value'];
+		}
+		return $values;
+	}
 }
 
-function get_params_from_tool($current_tool) {
-	require("".__DIR__."/../../config/tools/".get_tool_path($current_tool)."/settings.inc.php");
-	return $config->$current_tool;
+// the settings of $tool, or of the current tool
+function settings($tool = null) {
+	static $tools = array();
+	if (is_null($tool))
+		$tool = isset($_SESSION['current_tool']) ? $_SESSION['current_tool'] : null;
+	if (!isset($tools[$tool]))
+		$tools[$tool] = new ToolSettings($tool);
+	return $tools[$tool];
+}
+
+// backwards compatibility with tools that read their settings the old way
+function get_settings_value($param, $box_id = null) {
+	return settings()->get($param, $box_id);
+}
+
+function get_settings_value_from_tool($param, $tool, $box_id = null) {
+	return settings($tool)->get($param, $box_id);
 }
 
 function get_boxes_params() {
@@ -243,7 +332,6 @@ function get_system_params() {
 
 function load_panels() {
 	require("".__DIR__."/../tools/system/dashboard/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/system/dashboard/settings.inc.php");
 	unset($_SESSION['config']['panels']);
 	$max_order = -1;
 	$sql = 'select name, id, content, positions, '.db_ident('order', $link).' from ocp_dashboard';
@@ -311,29 +399,6 @@ function load_db_config() {
 	}
 }
 
-function get_settings_value_from_tool($current_param, $current_tool, $box_id = null) {
-	require("".__DIR__."/../../config/tools/".get_tool_path($current_tool)."/settings.inc.php");
-	if (is_null($box_id)){
-		if (isset($_SESSION['config'][$current_tool][$current_param])){ 
-			return $_SESSION['config'][$current_tool][$current_param];}}
-
-	else {
-		if (isset($_SESSION['config'][$current_tool][$box_id][$current_param])) {
-			return $_SESSION['config'][$current_tool][$box_id][$current_param];}}
-	foreach($config->$current_tool as $module=>$params) {
-		if ($module == $current_param && $params['type'] != "title") return $params['default'];
-	}
-
-	return null;
-}
-
-function get_settings_value($current_param, $box_id = null) {
-	$current_tool = $_SESSION['current_tool'];
-
-	return get_settings_value_from_tool($current_param, $current_tool, $box_id);
-}
-
-
 function inspect_config_mi(){
 	global $opensips_boxes ;
 	global $box_count ;
@@ -386,57 +451,6 @@ function print_back_input() {
 	}
 	echo("<input onclick=\"window.location.href='$previous?action=back';\" class=\"formButton\" value=\"Back\" type=\"button\"/>");
 }
-
-function session_load($box_id = null) {
-	session_load_from_tool($_SESSION['current_tool'], $box_id);
-}
-
-function session_load_from_tool($tool, $box_id = null) {
-	require("".__DIR__."/../tools/admin/tools_config/lib/db_connect.php");
-	require("".__DIR__."/../../config/tools/admin/tools_config/local.inc.php");
-	global $config;
-	$table_tools_config = $config->table_tools_config;
-	$module_params = get_params_from_tool($tool);
-	// the tool's global settings are the rows without a box; a box's own rows are
-	// kept apart under their box id, so they never replace the global values
-	$loads = array();
-	if (!isset($_SESSION['config'][$tool]))
-		$loads[] = null;
-	if (!is_null($box_id) && !isset($_SESSION['config'][$tool][$box_id]))
-		$loads[] = $box_id;
-	foreach ($loads as $box) {
-		if (is_null($box)) {
-			$sql = 'select param, value from '.$table_tools_config.' where module=? and (box_id IS NULL OR box_id=\'\')';
-			$vals = array($tool);
-		} else {
-			$sql = 'select param, value from '.$table_tools_config.' where module=? and box_id=?';
-			$vals = array($tool, $box);
-		}
-		$stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-		}
-		if ($stm->execute($vals) == false) {
-			echo('<tr><td align="center"><div class="formError">'.print_r($stm->errorInfo(), true).'</div></td></tr>');
-			continue;
-		}
-		$target = &$_SESSION['config'][$tool];
-		if (!is_null($box))
-			$target = &$_SESSION['config'][$tool][$box];
-		$target = is_array($target) ? $target : array();
-		foreach ($stm->fetchAll(PDO::FETCH_ASSOC) as $elem) {
-			if ($module_params[$elem['param']]['type'] == "json")
-				$target[$elem['param']] = json_decode($elem['value'], true);
-			else
-				$target[$elem['param']] = $elem['value'];
-		}
-		unset($target);
-	}
-	foreach ($module_params as $module=>$params) {
-		$config->$module = get_settings_value_from_tool($module, $tool); 
-	}
-}
-
 
 function get_tools() {
 	require("../../../../config/modules.inc.php");

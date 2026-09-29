@@ -22,8 +22,8 @@
 
 require("../../../common/forms.php");
 $set_cache = array();
-$dispatcher_group_mode = get_settings_value("dispatcher_groups_mode");
-$dispatcher_group = get_settings_value("dispatcher_groups");
+$dispatcher_group_mode = settings()->get("dispatcher_groups_mode");
+$dispatcher_group = settings()->get("dispatcher_groups");
 
 switch ($dispatcher_group_mode) {
 	case "static":

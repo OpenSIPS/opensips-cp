@@ -24,9 +24,7 @@ require("../../../common/cfg_comm.php");
 get_priv("dashboard");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/dashboard/db.inc.php");
-require("../../../../config/tools/system/dashboard/settings.inc.php");
 include("lib/db_connect.php");
-session_load_from_tool("dashboard");
 if (!isset($_GET['widget_type'])) {
 	error_log("no widget type");
   http_response_code(404);

@@ -34,10 +34,10 @@
       <div class="menuItems">
         <?php
          $first_item = true;
-         $params = get_params();
-         foreach (explode(",",get_settings_value("tabs")) as $tab) {
+         $params = settings()->params();
+         foreach (explode(",",settings()->get("tabs")) as $tab) {
           $tabName = array_search($tab, $params['tabs']['options']);
-          if (!(($tab=="groups.php") && !get_settings_value("table_groups"))) {
+          if (!(($tab=="groups.php") && !settings()->get("table_groups"))) {
             if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
             if ($page_name!=$tab) echo('<a href="'.$tab.'" class="menuItem">'.$tabName.'</a>');
             else echo('<a href="'.$tab.'" class="menuItemSelect">'.$tabName.'</a>');

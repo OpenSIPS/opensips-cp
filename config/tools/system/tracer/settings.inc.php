@@ -20,10 +20,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 global $table_regex;
-global $config;
 $re_ip = "([0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})";
 
-$config->tracer = array(
+return array(
 	"hep_bind_ip" => array(
 		"default" => "",
 		"opt"     => "y",

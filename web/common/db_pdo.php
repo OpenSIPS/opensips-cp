@@ -85,7 +85,8 @@ function db_tool_settings($tool, $profile_setting = "db_config") {
 			file_exists(__DIR__."/../../config/tools/".$path."/db.inc.php"))
 		require_once(__DIR__."/../../config/tools/".$path."/db.inc.php");
 
-	if ($profile_setting && ($id = get_settings_value_from_tool($profile_setting, $tool))) {
+	if ($profile_setting && isset(settings($tool)->params()[$profile_setting]) &&
+			($id = settings($tool)->get($profile_setting))) {
 		if (!isset($_SESSION['db_config']))
 			load_db_config();
 		if (isset($_SESSION['db_config'][$id]))

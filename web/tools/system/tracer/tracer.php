@@ -81,15 +81,15 @@ if ($action == "start") {
 	</tr>
 	');
 	echo ("Tracing started");
-	$host = get_settings_value("hep_bind_ip");
+	$host = settings()->get("hep_bind_ip");
 	if (is_null($host))
 		$host = 0;
-	$port = get_settings_value("hep_bind_port");
+	$port = settings()->get("hep_bind_port");
 	if (is_null($port))
 		$port = 9060;
-	$adv_ip = get_settings_value("hep_advertised_ip");
-	$adv_port = get_settings_value("hep_advertised_port");
-	$prefix = get_settings_value("hep_trace_identifier_prefix");
+	$adv_ip = settings()->get("hep_advertised_ip");
+	$adv_port = settings()->get("hep_advertised_port");
+	$prefix = settings()->get("hep_trace_identifier_prefix");
 	$random = substr(sha1(rand()), 0, 6);
 
 	register_shutdown_function(function() {

@@ -29,7 +29,6 @@
  require("lib/functions.inc.js");
  require("template/header.php");
  
- session_load();
  
  csrfguard_validate();
 
@@ -37,8 +36,8 @@
  $current_page="current_statistics";
 
 
- $table_monitoring=get_settings_value("table_monitoring");
- $table_monitored=get_settings_value("table_monitored");
+ $table_monitoring=settings()->get("table_monitoring");
+ $table_monitored=settings()->get("table_monitored");
  
  include("lib/db_connect.php");
 

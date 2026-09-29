@@ -23,9 +23,8 @@
 // $table_regex is used to validate custom tables names, you can leave this here
 // even if you don't add custom tables
 global $table_regex;
-global $config;
 
-$config->clusterer = array(
+return array(
 	"title0" => array(
 		"type" => "title",
 		"title" => "General settings"

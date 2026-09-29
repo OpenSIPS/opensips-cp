@@ -30,7 +30,6 @@ $page_id = substr($page_name, 0, strlen($page_name) - 4);
 $_SESSION['current_tool'] = 'group_management';
 $_SESSION['current_group'] = get_group();
 $no_result = "No Data Found.";
-session_load();
 ?>
 
 <html>

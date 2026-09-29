@@ -25,10 +25,9 @@ require("template/header.php");
 require("lib/".$page_id.".main.js");
 require ("../../../common/mi_comm.php");
 
-$table=get_settings_value("table_rtpproxy");
+$table=settings()->get("table_rtpproxy");
 $current_page="current_page_rtpproxy";
 
-session_load();
 
 csrfguard_validate();
 
@@ -50,7 +49,7 @@ if ($action=="change_state"){
 	$state= $_GET['state'];
 	$sock = $_GET['sock'];
 
-	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 	for ($i=0;$i<count($mi_connectors);$i++) {
 		if ($state=="0") {
 			mi_command("rtpproxy:enable",array("url"=>$sock,"enable"=> "0") , $mi_connectors[$i], $errors);

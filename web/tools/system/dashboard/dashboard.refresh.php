@@ -24,10 +24,8 @@ require("../../../common/cfg_comm.php");
 get_priv("dashboard");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/dashboard/db.inc.php");
-require("../../../../config/tools/system/dashboard/settings.inc.php");
 include("lib/db_connect.php");
-session_load_from_tool("dashboard");
-$table=get_settings_value_from_tool("custom_table", "dashboard");
+$table=settings("dashboard")->get("custom_table");
 $widget_id = $_GET['id'];
 /* split to get the panel id */
 $panel_id = explode("_", $widget_id)[1];

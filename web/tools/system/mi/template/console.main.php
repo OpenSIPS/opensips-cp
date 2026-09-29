@@ -73,7 +73,7 @@
 		"csrf"        => mi_csrf_token(),
 		"store"       => mi_store_key(),
 		"readOnly"    => (bool)$_SESSION['read_only'],
-		"historySize" => max(1, (int)get_settings_value("history_size"))
+		"historySize" => max(1, (int)settings()->get("history_size"))
 	), JSON_HEX_TAG);
 ?></script>
 <script>

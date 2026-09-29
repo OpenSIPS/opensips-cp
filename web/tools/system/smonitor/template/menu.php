@@ -57,7 +57,6 @@ $boxlist=inspect_config_mi();
         $box_id=get_box_id($current_box); 
         $_SESSION['box_id'] = $box_id;
         display_settings_button();
-        session_load();
       ?>
     </td>
   </tr>	
@@ -68,8 +67,8 @@ $boxlist=inspect_config_mi();
       <div class="menuItems">
         <?php
           $first_item = true;
-          $params = get_params();
-          foreach(explode(",",get_settings_value("tabs")) as $tab) {
+          $params = settings()->params();
+          foreach(explode(",",settings()->get("tabs")) as $tab) {
             $tabName = array_search($tab, $params['tabs']['options']);
             if (!$first_item) echo('&nbsp;&nbsp;|&nbsp;&nbsp;');
             if ($page_name!=$tab) echo('<a href="'.$tab.'" class="menuItem">'.$tabName.'</a>');

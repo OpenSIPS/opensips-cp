@@ -28,11 +28,9 @@
  require_once('../../../../config/boxes.load.php');
  require("../../../common/forms.php");
  
- session_load();
 
  get_mi_identifiers($current_box);
 
- $table=get_settings_value("table_monitored");	
  
  include("lib/db_connect.php");
  

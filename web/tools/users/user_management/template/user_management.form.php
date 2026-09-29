@@ -24,18 +24,18 @@ require_once("../../../common/forms.php");
 require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
 
-$dp_func = get_settings_value("user_format_func");
+$dp_func = settings()->get("user_format_func");
 if ($dp_func) {
 	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, null, "validate_func", generate_validate_function("username", $dp_func));
 } else {
-	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, get_settings_value("user_format"));
+	form_generate_input_text("Username", "The name of the user", "uname", "n", $um_form['username'], 128, settings()->get("user_format"));
 }
 
 $domains = get_domains("user_management", false);
 form_generate_select("Domain", "Users's domain", "domain", 200,
 	$um_form['domain'], $domains);
 
-foreach (get_settings_value("subs_extra") as $key => $value) {
+foreach (settings()->get("subs_extra") as $key => $value) {
 	if (($um_edit && $value['show_in_edit_form'] == false) ||
 		(!$um_edit && $value['show_in_add_form'] == false))
 		continue;

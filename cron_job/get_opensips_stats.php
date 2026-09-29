@@ -24,15 +24,14 @@
 chdir("web/tools/system/smonitor");
 require("../../../../config/db.inc.php");
 require("../../../../web/common/cfg_comm.php");
-session_load_from_tool("smonitor");
 require("lib/functions.inc.php");
 require("../../../../web/common/mi_comm.php");
 require("../../../../config/boxes.global.inc.php");
 require("lib/db_connect.php");
 
-$sampling_time=get_settings_value_from_tool('sampling_time', 'smonitor');
-$table_monitored=get_settings_value_from_tool('table_monitored', 'smonitor');
-$table_monitoring=get_settings_value_from_tool('table_monitoring', 'smonitor');
+$sampling_time=settings('smonitor')->get('sampling_time');
+$table_monitored=settings('smonitor')->get('table_monitored');
+$table_monitoring=settings('smonitor')->get('table_monitoring');
 get_stats_classes();
 $custom_stats = [];
 

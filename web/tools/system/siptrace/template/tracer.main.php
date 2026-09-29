@@ -154,14 +154,14 @@ if ($data_no==0) echo('<tr><td colspan="5" class="rowEven" align="center"><br>'.
 else
 {
 	$page=$_SESSION[$current_page];
-	$page_no=ceil($data_no/get_settings_value("results_per_page"));
+	$page_no=ceil($data_no/settings()->get("results_per_page"));
 	if ($page>$page_no) {
 		$page=$page_no;
 		$_SESSION[$current_page]=$page;
 	}
-	$start_limit=($page-1)*get_settings_value("results_per_page");
-        if ($start_limit==0) $sql.=" limit ".get_settings_value("results_per_page");
-        else $sql.=" limit ".get_settings_value("results_per_page")." OFFSET " . $start_limit;
+	$start_limit=($page-1)*settings()->get("results_per_page");
+        if ($start_limit==0) $sql.=" limit ".settings()->get("results_per_page");
+        else $sql.=" limit ".settings()->get("results_per_page")." OFFSET " . $start_limit;
 	$stm = $link->prepare($sql);
 	if ($stm===FALSE) {
 		die('Failed to issue query ['.$sql_command.'], error message : ' . $link->errorInfo()[2]);
@@ -243,7 +243,7 @@ else
      	$to_ip = $resultset_d[$j]['to_proto'].":".$resultset_d[$j]['to_ip'].":".$resultset_d[$j]['to_port'];
 
      	// identify proxy
-     	if (in_array($from_ip,get_settings_value('proxy_list'))) {
+     	if (in_array($from_ip,settings()->get('proxy_list'))) {
 
      		if ($proxy=="") $proxy=$from_ip;
 
@@ -251,7 +251,7 @@ else
      	}
 
 
-     	if (in_array($to_ip,get_settings_value('proxy_list'))) {
+     	if (in_array($to_ip,settings()->get('proxy_list'))) {
 
      		if ($proxy=="") $proxy=$to_ip;
 
@@ -261,7 +261,7 @@ else
 
      	if ($proxy=="")
      	{
-     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config ('.get_settings_value('proxy_list').')? <br><br></td></tr>');
+     		echo('<tr><td colspan="5" class="rowEven" align="center"><br>Error: Proxy '.$to_ip.'not set in local config ('.settings()->get('proxy_list').')? <br><br></td></tr>');
 
      		exit();
      	}
@@ -336,7 +336,7 @@ else
 	
 	
 
-     	if (( in_array($from_ip,get_settings_value('proxy_list') ) === true ) && ( in_array($to_ip,get_settings_value('proxy_list') ) === true ) )  {
+     	if (( in_array($from_ip,settings()->get('proxy_list') ) === true ) && ( in_array($to_ip,settings()->get('proxy_list') ) === true ) )  {
 
      		if ($status=="") {
 
@@ -462,7 +462,7 @@ else
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = get_settings_value("results_page_range");
+       	$max_pages = settings()->get("results_page_range");
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

@@ -27,11 +27,10 @@ require("lib/".$page_id.".main.js");
 require("../../../common/mi_comm.php");
 require("../../../../config/globals.php");
 
-session_load();
 
 csrfguard_validate();
 
-$table=get_settings_value("table_users");
+$table=settings()->get("table_users");
 $current_page="current_page_user_management";
 $errors='';
 $keepoverlay = false;
@@ -39,7 +38,7 @@ $current_tool = $page_id;
 
 include("lib/db_connect.php");
 
-foreach (get_settings_value("table_aliases") as $key=>$value) {
+foreach (settings()->get("table_aliases") as $key=>$value) {
         $options[]=array("label"=>$key,"value"=>$value);
 }
 
@@ -54,7 +53,7 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 # del_contact #
 ###############
 if ($action=="delcon"){
-    $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+    $mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
     for ($i=0;$i<count($mi_connectors);$i++){
 	$params = array( "table_name"=>"location", "aor"=>$_POST["username"]."@".$_POST["domain"] , "contact"=>$_POST["contact"]);
         $mess=mi_command( "usrloc:rm_contact", $params, $mi_connectors[$i], $errors);
@@ -103,12 +102,12 @@ if ($action=="modify")
 			$errors = "Invalid data (username and domain are mandatory)! No DataBase change performed";
 		} else {
 			if ($_POST['passwd']!="") {
-				if (get_settings_value("passwd_mode")==0) {
+				if (settings()->get("passwd_mode")==0) {
 					$ha1  = "";
 		                        $sha256 = "";
 		                        $sha512t256 = "";
 					$passwd = $_POST['passwd'];
-				} else if (get_settings_value("passwd_mode")==1) {
+				} else if (settings()->get("passwd_mode")==1) {
 					$ha1 = md5($uname.":".$domain.":".$_POST['passwd']);
 		                        $sha256 = hash("sha256", $uname.":".$domain.":".$_POST['passwd']);
 		                        $sha512t256 = hash("sha512/256", $uname.":".$domain.":".$_POST['passwd']);
@@ -118,7 +117,7 @@ if ($action=="modify")
 				$sql = "UPDATE ".$table." SET username=?, domain=?,
 					 password=?, ha1=?, ha1_sha256=?, ha1_sha512t256=?";
 				$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
-				foreach ( get_settings_value("subs_extra") as $key => $value ) {
+				foreach ( settings()->get("subs_extra") as $key => $value ) {
 					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
 						$value = (isset($value["default"])?$value["default"]:NULL);
 					} else {
@@ -142,7 +141,7 @@ if ($action=="modify")
 			} else {
 				$sql = "UPDATE ".$table." SET username=?, domain=?";
 				$sql_vals = array($uname,$domain);
-				foreach ( get_settings_value("subs_extra") as $key => $value ) {
+				foreach ( settings()->get("subs_extra") as $key => $value ) {
 					if (!isset($_POST["extra_".$key]) || $_POST["extra_".$key] == "") {
 						$value = (isset($value["default"])?$value["default"]:NULL);
 					} else {
@@ -232,13 +231,13 @@ if ($action=="dp_act")
 		$_SESSION['lst_uname']="";
 		$_SESSION['lst_domain']="";
 		$_SESSION['users']="";
-		foreach (get_settings_value("subs_extra") as $key => $value)
+		foreach (settings()->get("subs_extra") as $key => $value)
 			$_SESSION['extra_'.$key] = "";
 	} else if($search=="Search"){
 		$_SESSION['lst_uname']=isset($_POST['lst_uname'])?$_POST['lst_uname']:"";
 		$_SESSION['lst_domain']=isset($_POST['lst_domain'])?$_POST['lst_domain']:"";
 		$_SESSION['users']=$_POST['users'];
-		foreach (get_settings_value("subs_extra") as $key => $value)
+		foreach (settings()->get("subs_extra") as $key => $value)
 			if ((isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!=''))
 				$_SESSION['extra_'.$key] = $_POST['extra_'.$key];
 	} 
@@ -284,7 +283,7 @@ if ($action=="add_verify")
 	if(!$_SESSION['read_only']){
 		require("lib/".$page_id.".test.inc.php");
 		if ($form_valid) {
-			if (get_settings_value("passwd_mode")==1) {
+			if (settings()->get("passwd_mode")==1) {
 				$ha1 = md5($uname.":".$domain.":".$passwd);
 				$sha256 = hash("sha256", $uname.":".$domain.":".$passwd);
 				$sha512t256 = hash("sha512/256", $uname.":".$domain.":".$passwd);
@@ -296,12 +295,12 @@ if ($action=="add_verify")
 			}
 
 			$sql = 'INSERT INTO '.$table.' (username,domain,password,ha1,ha1_sha256,ha1_sha512t256';
-			foreach ( get_settings_value("subs_extra") as $key => $value )
+			foreach ( settings()->get("subs_extra") as $key => $value )
 				if (isset($_POST['extra_'.$key]) && $_POST['extra_'.$key]!='')
 					$sql .= ','.$key;
 			$sql .= ') VALUES (?, ?, ?, ?, ?, ? ';
 			$sql_vals = array($uname,$domain,$passwd,$ha1,$sha256,$sha512t256);
-			foreach ( get_settings_value("subs_extra") as $key => $value ) {
+			foreach ( settings()->get("subs_extra") as $key => $value ) {
 				if (!isset($_POST['extra_'.$key]) || $_POST["extra_".$key] == "") {
 					if (!isset($value["default"]))
 						continue;
@@ -359,7 +358,7 @@ if ($action=="add_verify")
 ########################
 # start custom actions #
 ########################
-$subs_extra_actions = get_settings_value("subs_extra_actions");
+$subs_extra_actions = settings()->get("subs_extra_actions");
 if (isset($subs_extra_actions)) {
 	foreach ( $subs_extra_actions as $key => $value ) {
 		if (isset($value["action"]) && $action == $value["action"] && isset($value["action_file"]))

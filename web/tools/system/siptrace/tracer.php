@@ -25,11 +25,10 @@
  require("lib/".$page_id.".main.js");
  require("../../../common/mi_comm.php");
  require("../../../../config/db.inc.php");
- session_load();
  
  csrfguard_validate();
 
- $table=get_settings_value("table_trace");
+ $table=settings()->get("table_trace");
  $current_page="current_page_tracer";
  
  include("lib/db_connect.php");
@@ -56,7 +55,7 @@ if ($action=="toggle") {
 	}
 
 	$command="tracer:trace";
-	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 
 	for ($i=0;$i<count($mi_connectors);$i++){	
 		mi_command( $command, array("mode"=>$sip_trace) ,$mi_connectors[$i],$errors);
@@ -66,7 +65,7 @@ if ($action=="toggle") {
 
 
 // get the current status of the tracing engine
-$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 $msg = mi_command( "tracer:trace", NULL, $mi_connectors[0], $errors);
 if (!is_null($msg)) {
 	$state = $msg['global'];

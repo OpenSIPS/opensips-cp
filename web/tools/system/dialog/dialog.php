@@ -27,7 +27,6 @@ require ("../../../common/mi_comm.php");
 
 $current_page="current_page_dialog";
 
-session_load();
 
 csrfguard_validate();
 
@@ -38,16 +37,16 @@ else $action="";
 if (isset($_GET['page'])) $_SESSION[$current_page]=$_GET['page'];
 else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
-$start_limit=($_SESSION[$current_page]-1)*get_settings_value("results_per_page");
+$start_limit=($_SESSION[$current_page]-1)*settings()->get("results_per_page");
 ################
 # start show #
 ################
 if ($action=="refresh") {
 	$_SESSION[$current_page]=1;
-	$start_limit=($_SESSION[$current_page]-1)*get_settings_value("results_per_page");
-	$mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+	$start_limit=($_SESSION[$current_page]-1)*settings()->get("results_per_page");
+	$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
 	// take the list from the first box only
-	$comm = "dlg_list ".$start_limit." ".get_settings_value("results_per_page");
+	$comm = "dlg_list ".$start_limit." ".settings()->get("results_per_page");
 }
 
 ##############
@@ -64,7 +63,7 @@ if ($action=="delete")
 	if(!$_SESSION['read_only']){
 
 		$id=trim($_GET['id']);
-	        $mi_connectors=get_proxys_by_assoc_id(get_settings_value('talk_to_this_assoc_id'));
+	        $mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
         	for ($i=0;$i<count($mi_connectors);$i++){
 				mi_command( "dialog:end_dlg", array("dialog_id"=>$id),  $mi_connectors[$i], $errors);
 			}

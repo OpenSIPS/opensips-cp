@@ -24,7 +24,7 @@
 // even if you don't add custom tables
 global $table_regex;
 
-$config->your_module = array(
+return array(
 /*
 	"custom_table" => array(
 		"default" => "registrant",

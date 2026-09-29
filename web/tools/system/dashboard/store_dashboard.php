@@ -8,8 +8,7 @@
   require("../../../../config/tools/system/dashboard/db.inc.php");
   include("lib/db_connect.php");
   require("../../../../config/db.inc.php");
-  require("../../../../config/tools/system/dashboard/settings.inc.php");
-  $table=get_settings_value("custom_table");
+  $table=settings()->get("custom_table");
 
   $str_json = file_get_contents('php://input');
   $result = json_decode($str_json);

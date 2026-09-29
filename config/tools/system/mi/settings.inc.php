@@ -20,9 +20,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-global $config;
 
-$config->mi = array(
+return array(
 	"history_size" => array(
 		"default" => 100,
 		"name" => "History size",
