@@ -223,7 +223,7 @@ function isAssoc(array $arr)
 // a tool's settings (config/tools/<path>/settings.inc.php), read from the tools_config
 // table on first use and kept for the rest of the request: a box's own value wins over
 // the tool-wide one, which wins over the settings.inc.php default
-class ToolSettings {
+class ToolSettings implements ArrayAccess {
 	private static $link = null;
 	private $tool;
 	private $params = null;
@@ -268,6 +268,27 @@ class ToolSettings {
 		if ($params[$param]['type'] != "title")
 			return $params[$param]['default'];
 		return null;
+	}
+
+	// $settings['param'] reads the same value as get('param'); settings are read-only
+	#[\ReturnTypeWillChange]
+	function offsetGet($param) {
+		return $this->get($param);
+	}
+
+	#[\ReturnTypeWillChange]
+	function offsetExists($param) {
+		return array_key_exists($param, $this->params()) && !is_null($this->get($param));
+	}
+
+	#[\ReturnTypeWillChange]
+	function offsetSet($param, $value) {
+		throw new LogicException("tool settings are read-only");
+	}
+
+	#[\ReturnTypeWillChange]
+	function offsetUnset($param) {
+		throw new LogicException("tool settings are read-only");
 	}
 
 	private function load($box) {
