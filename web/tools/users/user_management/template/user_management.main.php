@@ -66,7 +66,8 @@ if (($search_domain!="ANY") && ($search_domain!="")) {
 	$sql_search.=" AND s.domain = ?";
 	array_push( $sql_vals, $search_domain);
 }
-foreach (settings()->get("subs_extra") as $key => $value) {
+$settings = settings();
+foreach ($settings["subs_extra"] as $key => $value) {
 	if (!isset($value["searchable"]) || !$value["searchable"])
 		continue;
 	if (isset($_SESSION['extra_'.$key]) && $_SESSION['extra_'.$key] != "") {
@@ -89,7 +90,7 @@ if ($has_alias){
 	$colspan++;
 }
 
-$subs_extra_actions = settings()->get("subs_extra_actions");
+$subs_extra_actions = $settings["subs_extra_actions"];
 if (isset($subs_extra_actions))
 	$colspan += count($subs_extra_actions);
 
@@ -123,7 +124,7 @@ if ( $users == "online_usr" ) {
   <td class="searchRecord" width="200"><?php print_domains("lst_domain",$search_domain,TRUE);?></td>
  </tr>
 <?php
-foreach (settings()->get("subs_extra") as $key => $value) {
+foreach ($settings["subs_extra"] as $key => $value) {
 	if (!isset($value["searchable"]) || !$value["searchable"])
 		continue;
 ?>
@@ -172,7 +173,7 @@ foreach (settings()->get("subs_extra") as $key => $value) {
   <?php
 	$combo_cache = array();
 	require_once("../../../common/forms.php");
-	foreach ( settings()->get("subs_extra") as $key => $value ) {
+	foreach ( $settings["subs_extra"] as $key => $value ) {
 		if (isset($value["show_in_main_form"]) && !$value["show_in_main_form"])
 			continue;
 		echo ('<th class="listTitle">'.$value['header'].'</th>');
@@ -208,12 +209,12 @@ if ($users=="all_usr" || $users=="") {
 	$sql_command="from ".$table." s ".$sql_search;
 	$sql_order=" order by s.id asc";
 } else if ($users=="online_usr") {
-	$table_location = settings()->get('table_location');
+	$table_location = $settings['table_location'];
 	$sql_command="from ".$table." s, $table_location l where s.username=l.username AND s.domain=l.domain ".$sql_search;
 	$sql_order=" order by s.id asc";
 } else if ($users=="offline_usr") {
 	//if ($sql_search!="") $sql_search = substr($sql_search,4);
-	$table_location = settings()->get('table_location');
+	$table_location = $settings['table_location'];
 	$sql_command="from ".$table." s where s.username NOT IN (select s.username from $table s,$table_location l where s.username=l.username AND s.domain=l.domain )".$sql_search;
 	$sql_order=" order by s.id asc";
 }
@@ -227,7 +228,7 @@ $data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	$res_no=settings()->get("results_per_page");
+	$res_no=$settings["results_per_page"];
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
 	if ($page>$page_no) {
@@ -267,7 +268,7 @@ else
   <td class="<?=$row_style?>"><?=$resultset[$i]['username'].'@'.$resultset[$i]['domain']?></td>
 
 <?php
-	foreach ( settings()->get("subs_extra") as $key => $value ) {
+	foreach ( $settings["subs_extra"] as $key => $value ) {
 		if (isset($value["show_in_main_form"]) && !$value["show_in_main_form"])
 			continue;
 		        echo "<td class='".$row_style."'>";
@@ -352,7 +353,7 @@ else
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = settings()->get("results_page_range");
+       	$max_pages = $settings["results_page_range"];
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

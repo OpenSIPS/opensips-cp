@@ -67,13 +67,14 @@
 <div id="log"></div>
 
 <script type="application/json" id="mi_config"><?php
+	$settings = settings();
 	echo json_encode(array(
 		"boxes"       => array_column(mi_boxes(), 'name'),
 		"urls"        => array_column(mi_boxes(), 'url'),
 		"csrf"        => mi_csrf_token(),
 		"store"       => mi_store_key(),
 		"readOnly"    => (bool)$_SESSION['read_only'],
-		"historySize" => max(1, (int)settings()->get("history_size"))
+		"historySize" => max(1, (int)$settings["history_size"])
 	), JSON_HEX_TAG);
 ?></script>
 <script>

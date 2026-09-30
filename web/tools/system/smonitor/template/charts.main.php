@@ -34,8 +34,9 @@
 <?php 
 $i = 0;
 
-$sampling_time=settings()->get('sampling_time');
-$monitored_table=settings()->get('table_monitored');
+$settings = settings();
+$sampling_time=$settings['sampling_time'];
+$monitored_table=$settings['table_monitored'];
 $stat_img="../../../images/share/chart.png";
 
 foreach (get_stats_list($box_id) as $stat_details) {

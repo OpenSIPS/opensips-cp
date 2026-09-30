@@ -21,7 +21,8 @@
 */
 
 
-$has_attrs=(settings()->get("attributes") == "1");
+$settings = settings();
+$has_attrs=($settings["attributes"] == "1");
 if (!$_SESSION['read_only']) {
 
 	if ($action=="edit") {

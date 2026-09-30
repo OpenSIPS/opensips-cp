@@ -66,7 +66,8 @@ if (!empty($params)) {
 <br>
 <?php
 
-$mi_connectors=get_all_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$settings = settings();
+$mi_connectors=get_all_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";

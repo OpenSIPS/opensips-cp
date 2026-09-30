@@ -26,7 +26,8 @@
  include("lib/db_connect.php");
  require_once("lib/common.functions.inc.php");
  require ("../../../common/mi_comm.php");
- $table=settings()->get("table_carriers");
+ $settings = settings();
+ $table=$settings["table_carriers"];
  $current_page="current_page_lists";
  
  csrfguard_validate();
@@ -56,11 +57,11 @@
   $resultset[0]['useweights']   = ($resultset[0]['sort_alg']=="W") ? "Yes" : "No";
   $resultset[0]['useonlyfirst'] = (fmt_binary((int)$resultset[0]['flags'],4,4)) ? "Yes" : "No";
 
-  $mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+  $mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
   $params = array("carrier_id"=>$_GET['carrierid']);
-  if (settings()->get("routing_partition") && settings()->get("routing_partition") != "")
-    $params['partition_name'] = settings()->get("routing_partition");
+  if ($settings["routing_partition"] && $settings["routing_partition"] != "")
+    $params['partition_name'] = $settings["routing_partition"];
 
   $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[0], $errors);
   $resultset[0]['enabled'] = $message['Enabled']=="yes"?"enabled":"disabled";
@@ -78,11 +79,11 @@
 # start enable carrier  #
 #########################
 if ($action=="enablecar"){
-    $mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+    $mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
     $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"1");
-    if (settings()->get("routing_partition") && settings()->get("routing_partition") != "")
-       $params['partition_name'] = settings()->get("routing_partition");
+    if ($settings["routing_partition"] && $settings["routing_partition"] != "")
+       $params['partition_name'] = $settings["routing_partition"];
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[$i], $errors);
@@ -99,11 +100,11 @@ if ($action=="enablecar"){
 # start disable carrier  #
 #########################
 if ($action=="disablecar"){
-    $mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+    $mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
     $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"0");
-    if (settings()->get("routing_partition") && settings()->get("routing_partition") != "")
-       $params['partition_name'] = settings()->get("routing_partition");
+    if ($settings["routing_partition"] && $settings["routing_partition"] != "")
+       $params['partition_name'] = $settings["routing_partition"];
 
     for ($i=0;$i<count($mi_connectors);$i++){
         $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[$i], $errors);
@@ -124,8 +125,8 @@ if ($action=="disablecar"){
   require("lib/".$page_id.".test.inc.php");
   if ($form_valid) {
 	$flags = bindec($useonlyfirst);
-	if (settings()->get("carrier_attributes_mode") == "params")
-		$attrs = dr_build_attrs(settings()->get("carrier_attributes"));
+	if ($settings["carrier_attributes_mode"] == "params")
+		$attrs = dr_build_attrs($settings["carrier_attributes"]);
 
 	$sql = "update ".$table." set gwlist=?, flags=?, sort_alg=?, state=?, description=?, attrs=? where carrierid=?";
 	$stm = $link->prepare($sql);
@@ -182,8 +183,8 @@ if ($action=="disablecar"){
   if ($form_valid) {
  	$flags = bindec($enabled.$useonlyfirst);
 
-	if (settings()->get("carrier_attributes_mode") == "params")
-		$attrs = dr_build_attrs(settings()->get("carrier_attributes"));
+	if ($settings["carrier_attributes_mode"] == "params")
+		$attrs = dr_build_attrs($settings["carrier_attributes"]);
                     
 	$_SESSION['carriers_search_gwlist']="";
         $_SESSION['carriers_search_description']="";
@@ -246,9 +247,9 @@ if ($action=="disablecar"){
 
     //remove Carriers from dr_rules
     if (in_array(db_driver($link), array("mysql", "sqlite")))
-        $sql = "select ruleid,gwlist from ".settings()->get("table_rules")." where gwlist regexp ?";
+        $sql = "select ruleid,gwlist from ".$settings["table_rules"]." where gwlist regexp ?";
     else if (db_driver($link) == "pgsql")
-        $sql = "select ruleid,gwlist from ".settings()->get("table_rules")." where gwlist ~* ?";
+        $sql = "select ruleid,gwlist from ".$settings["table_rules"]." where gwlist ~* ?";
 
     $stm = $link->prepare($sql);
     if ($stm === false) {
@@ -258,7 +259,7 @@ if ($action=="disablecar"){
     $resultset = $stm->fetchAll(PDO::FETCH_ASSOC);
 
 
-    $sql = "update ".settings()->get("table_rules")." set gwlist=? where ruleid=?";
+    $sql = "update ".$settings["table_rules"]." set gwlist=? where ruleid=?";
     $stm = $link->prepare($sql);
     if ($stm === false) {
        die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));

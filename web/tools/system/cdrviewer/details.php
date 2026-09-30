@@ -25,9 +25,10 @@ require_once("../../../../config/session.inc.php");
 require_once("../../../common/cfg_comm.php");
 require_once("lib/functions.inc.php");
 include("lib/db_connect.php");
-$table=settings()->get("cdr_table");
+$settings = settings();
+$table=$settings["cdr_table"];
 
-$sql = "SELECT * FROM ".$table." WHERE ".settings()->get('cdr_id_field_name')."=?";
+$sql = "SELECT * FROM ".$table." WHERE ".$settings['cdr_id_field_name']."=?";
 $stm = $link->prepare($sql);
 if ($stm === false) {
         die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));

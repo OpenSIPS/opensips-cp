@@ -32,10 +32,11 @@ csrfguard_validate();
 
 include("lib/db_connect.php");
 
-$cdr_repository_path = settings()->get('cdr_repository_path');
-$cdr_set_field_names = settings()->get('cdr_set_field_names');
-$delay = settings()->get('delay');
-$show_field = settings()->get('show_field');
+$settings = settings();
+$cdr_repository_path = $settings['cdr_repository_path'];
+$cdr_set_field_names = $settings['cdr_set_field_names'];
+$delay = $settings['delay'];
+$show_field = $settings['show_field'];
 if (isset($show_field[0])) {
 	/* the array is not associative, so we shall convert it */
 	$num_fields = $show_field;

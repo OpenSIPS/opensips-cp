@@ -44,7 +44,7 @@ if ($tracer=="homer") {
 if ($tracer=="siptrace") {
 
 	// get the id from siptrace table .
-	$sql = "select id from ".settings("siptrace")->get("table_trace")." where callid=?";
+	$sql = "select id from ".settings("siptrace")["table_trace"]." where callid=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {
 		die('Failed to issue query, error message : ' . print_r($link->errorInfo(), true));

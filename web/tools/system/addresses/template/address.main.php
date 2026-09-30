@@ -31,8 +31,9 @@ $sql_search="";
 $qvalues = array();
 $set_cache = array();
 
-$perm_group = settings()->get("addresses_groups");
-$perm_group_mode = settings()->get("addresses_groups_mode");
+$settings = settings();
+$perm_group = $settings["addresses_groups"];
+$perm_group_mode = $settings["addresses_groups_mode"];
 switch ($perm_group_mode) {
 	case "database":
 		$query = "SELECT " . $perm_group['id'] . " AS id, " .
@@ -157,7 +158,7 @@ $data_no=count($resultset);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	$res_no=settings()->get("results_per_page");
+	$res_no=$settings["results_per_page"];
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
 	if ($page>$page_no) {
@@ -222,7 +223,7 @@ else
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = settings()->get("results_page_range");
+       	$max_pages = $settings["results_page_range"];
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

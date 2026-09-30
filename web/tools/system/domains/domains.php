@@ -27,8 +27,9 @@ require("../../../common/mi_comm.php");
 
 csrfguard_validate();
 
-$table=settings()->get("table_domains");
-$has_attrs=(settings()->get("attributes") == "1");
+$settings = settings();
+$table=$settings["table_domains"];
+$has_attrs=($settings["attributes"] == "1");
 
 include("lib/db_connect.php");
 

@@ -34,7 +34,8 @@
  get_mi_modules($current_box);
  get_custom_modules($current_box);
 
- $table=settings()->get("table_monitored");	
+ $settings = settings();
+ $table=$settings["table_monitored"];	
  
  include("lib/db_connect.php");
  

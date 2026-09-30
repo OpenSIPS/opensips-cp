@@ -27,8 +27,9 @@ require("../../../common/mi_comm.php");
 
 csrfguard_validate();
 
-$table=settings()->get("table_dialplan");
-$dialplan_attributes_mode = settings()->get("dialplan_attributes_mode");
+$settings = settings();
+$table=$settings["table_dialplan"];
+$dialplan_attributes_mode = $settings["dialplan_attributes_mode"];
 $current_page="current_page_dialplan";
 
 include("lib/db_connect.php");
@@ -87,7 +88,7 @@ if ($action=="add_do")
 {
 	$dpid=$_POST['dpid'];
 	if (!isset($dpid))
-		$dpid = settings()->get("dialplan_groups");
+		$dpid = $settings["dialplan_groups"];
 	$pr=$_POST['pr'];
 	$match_op = $_POST['match_op'];
 	$match_exp= $_POST['match_exp'];
@@ -100,7 +101,7 @@ if ($action=="add_do")
 		$attrs= $_POST['attrs'];
 	} else {
 		$attrs="";
-		foreach( settings()->get("attrs_cb") as $key => $val )
+		foreach( $settings["attrs_cb"] as $key => $val )
 			$attrs.=!isset($_POST["dp_attr_".$key]) ? "" : $key ;
 	}
 	if ($match_only == 1) {
@@ -150,7 +151,7 @@ if ($action=="modify")
 	$id = $_GET['id'];
 	$dpid=$_POST['dpid'];
 	if (!isset($dpid))
-		$dpid = settings()->get("dialplan_groups");
+		$dpid = $settings["dialplan_groups"];
 	$pr=$_POST['pr'];
 	$match_op = $_POST['match_op'];
 	$match_exp= $_POST['match_exp'];
@@ -163,7 +164,7 @@ if ($action=="modify")
 		$attrs= $_POST['attrs'];
 	} else {
 		$attrs="";
-		foreach( settings()->get("attrs_cb") as $key => $val )
+		foreach( $settings["attrs_cb"] as $key => $val )
 			$attrs.=!isset($_POST["dp_attr_".$key]) ? "" : $key ;
 	}
 	if ($match_only == 1) {

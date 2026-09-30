@@ -28,7 +28,8 @@ if(!$_SESSION['read_only']){
 }
 echo('<div class="breadcrumb"></div>');
 
-foreach(settings()->get("machines") as $machine) {
+$settings = settings();
+foreach($settings["machines"] as $machine) {
     $has_master = false;
     echo('<table style="text-align: center;" width="95%" cellspacing="1" cellpadding="1" border="0" align="right">');
     $boxes_no = count($machine['boxes']);

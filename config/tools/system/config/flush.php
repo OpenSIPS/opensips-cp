@@ -1,5 +1,6 @@
 <?php
 
+$settings = settings();
 #################
 # start flush	#
 #################
@@ -7,7 +8,7 @@ if ($action=="flush")
 {
 require("../../../common/mi_comm.php");
 $success = 0;
-$mi_connectors=get_all_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$mi_connectors=get_all_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 for ($i=0;$i<count($mi_connectors);$i++){
 
 	$message=mi_command("config:flush", NULL, $mi_connectors[$i], $errors);

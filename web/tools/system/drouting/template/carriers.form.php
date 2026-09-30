@@ -52,8 +52,9 @@ form_generate_select("Use only first", "Whether to use only the first gateway",
 form_generate_select("DB State", "Whether the carrier should be initially active or not",
 	"state", 128, $dr_form['state'], array(0, 1), array("0 - Active", "1 - Inactive"));
 
-$carrier_attributes_mode = settings()->get("carrier_attributes_mode");
-$carrier_attributes = settings()->get("carrier_attributes");
+$settings = settings();
+$carrier_attributes_mode = $settings["carrier_attributes_mode"];
+$carrier_attributes = $settings["carrier_attributes"];
 if ($carrier_attributes_mode == "input") {
     form_generate_input_text((isset($carrier_attributes["display_name"])?$carrier_attributes["display_name"]:"Attributes"),
 			       "attributes used for the carrier",

@@ -32,8 +32,9 @@ $command="dialplan:reload";
 <br>
 <?php
 
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
-$dialplan_partition = settings()->get("dialplan_partition");
+$settings = settings();
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
+$dialplan_partition = $settings["dialplan_partition"];
 if ($dialplan_partition == "")
 	$dialplan_partition = false;
 

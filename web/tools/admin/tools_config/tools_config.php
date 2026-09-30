@@ -69,7 +69,7 @@ if ($action=="modify_params")
 			// a value equal to the inherited one (the default for the tool, the tool's for a
 			// box) is not stored, so it keeps following what it inherits;
 			// json values are arrays: compare them with the decoded value, not the string
-			$inherited = is_null($box_id) ? $params['default'] : $settings->get($module);
+			$inherited = is_null($box_id) ? $params['default'] : $settings[$module];
 			if ($params['type'] == "json" ? json_decode($_POST[$module], true) == $inherited :
 					$inherited == $_POST[$module]) {
 				$sql = "DELETE FROM ".$table." where module=? and param=? and ".

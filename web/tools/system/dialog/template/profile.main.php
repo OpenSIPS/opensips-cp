@@ -55,6 +55,7 @@
 </table>
 <br><br>
 <?php
+$settings = settings();
 if (isset($_POST['submit'])) {
 ?>
 	<table width="95%" cellspacing="2" cellpadding="2" border="0">
@@ -66,7 +67,7 @@ if (isset($_POST['submit'])) {
 			$profile_param = "";
 
 		$profile = $_POST['profile'];
-		$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 		// get status from the first one only
 		$params = array("profile"=>$profile);
 		if (!empty($profile_param))
@@ -108,7 +109,7 @@ if (isset($_POST['dialogs'])) {
 	if ($profile_size=="0")
 		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 	else {
-		$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 		// get status from the first one only
 		$message=mi_command("dialog:profile_list_dlgs", array("profile"=>$profile), $mi_connectors[0], $errors);
 

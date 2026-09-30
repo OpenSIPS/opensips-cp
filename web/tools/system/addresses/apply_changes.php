@@ -34,8 +34,9 @@ $command="permissions:address_reload";
 <br>
 <?php
 
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
-$addresses_partition = settings()->get("address_partition");
+$settings = settings();
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
+$addresses_partition = $settings["address_partition"];
 if ($addresses_partition == "")
 	$addresses_partition = false;
 

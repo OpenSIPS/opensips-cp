@@ -71,7 +71,8 @@
         $sql_search.=" and attrs like ?";
 	array_push( $sql_vals, "%".$search_attrs."%");
  }
- $gateways_types_cache = settings()->get("gateway_types_file");
+ $settings = settings();
+ $gateways_types_cache = $settings["gateway_types_file"];
 
 ?>
 <table width="350" cellspacing="2" cellpadding="2" border="0">
@@ -104,10 +105,10 @@
   </td>
 </tr>
 <?php
-$gw_sockets = settings()->get("sockets");
-$gw_attributes_mode = settings()->get("gw_attributes_mode");
-$gw_attributes = settings()->get("gw_attributes");
-$memory_status = settings()->get("memory_status");
+$gw_sockets = $settings["sockets"];
+$gw_attributes_mode = $settings["gw_attributes_mode"];
+$gw_attributes = $settings["gw_attributes"];
+$memory_status = $settings["memory_status"];
 if ($gw_attributes_mode == "input") {
 ?>
  <tr>
@@ -177,9 +178,9 @@ if ($memory_status != "0") {
 $gw_statuses = Array ();
 
 $params = NULL;
-if (settings()->get("routing_partition") && settings()->get("routing_partition") != "")
-	$params['partition_name'] = settings()->get("routing_partition");
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+if ($settings["routing_partition"] && $settings["routing_partition"] != "")
+	$params['partition_name'] = $settings["routing_partition"];
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 $message=mi_command( "drouting:gw_status", $params, $mi_connectors[0], $errors);
 
 if (!is_null($message)) {
@@ -210,7 +211,7 @@ if (!is_null($message)) {
  	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
-  $res_no=settings()->get("results_per_page");
+  $res_no=$settings["results_per_page"];
   $page=$_SESSION[$current_page];
   $page_no=ceil($data_no/$res_no);
   if ($page>$page_no) {
@@ -333,7 +334,7 @@ if ($gw_attributes_mode == "input") {
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
-               $max_pages = settings()->get("results_page_range");
+               $max_pages = $settings["results_page_range"];
                // start page
                if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
                 else $start_page = $page - ($page % $max_pages) + 1;

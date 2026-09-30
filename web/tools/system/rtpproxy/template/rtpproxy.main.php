@@ -30,7 +30,8 @@
 <?php
 //fetch cache data
 
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$settings = settings();
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
 // fetch data from the first box only
 $message = mi_command('rtpproxy:show', NULL, $mi_connectors[0], $errors);
@@ -141,7 +142,7 @@ if ($data_no == 0)
 	echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else {
 
-$res_no = settings()->get("results_per_page");
+$res_no = $settings["results_per_page"];
 $page = $_SESSION[$current_page];
 $page_no = ceil($data_no / $res_no);
 if ($page > $page_no) {
@@ -205,7 +206,7 @@ if(!$_SESSION['read_only']){
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = settings()->get("results_page_range");
+       	$max_pages = $settings["results_page_range"];
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

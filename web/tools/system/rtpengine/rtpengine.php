@@ -27,7 +27,8 @@ require ("../../../common/mi_comm.php");
 
 csrfguard_validate();
 
-$table=settings()->get("table_rtpengine");
+$settings = settings();
+$table=$settings["table_rtpengine"];
 $current_page="current_page_rtpengine";
 
 include("lib/db_connect.php");
@@ -48,7 +49,7 @@ if ($action=="change_state"){
 	$state= $_GET['state'];
 	$sock = $_GET['sock'];
 
-	$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 	for ($i=0;$i<count($mi_connectors);$i++) {
 		if ($state=="0") {
 			mi_command("rtpengine:enable",array("url"=>$sock,"enable"=> "0") , $mi_connectors[$i], $errors);

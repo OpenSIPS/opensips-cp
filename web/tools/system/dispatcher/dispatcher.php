@@ -27,7 +27,8 @@ require("../../../common/mi_comm.php");
 
 csrfguard_validate();
 
-$table=settings()->get("table_dispatcher");
+$settings = settings();
+$table=$settings["table_dispatcher"];
 $current_page="current_page_dispatcher";
 
 include("lib/db_connect.php");
@@ -75,7 +76,7 @@ if ($action=="do_add")
 	} else {
 		$setid=$_POST['setid'];
 		if (!isset($setid))
-			$setid = settings()->get("dispatcher_groups");
+			$setid = $settings["dispatcher_groups"];
 
 		$cols = [
 			"setid" => $setid,
@@ -138,7 +139,7 @@ if ($action=="modify")
 		$id = $_GET['id'];
 		$setid=$_POST['setid'];
 		if (!isset($setid))
-			$setid = settings()->get("dispatcher_groups");
+			$setid = $settings["dispatcher_groups"];
 		$destination=$_POST['destination'];
 		$socket = $_POST['socket'];
 		$state = $_POST['state'];
@@ -251,9 +252,9 @@ if ($action=="change_state") {
 	$group = $_GET['group'];
 	$address = $_GET['address'];
 
-	$mi_connectors=get_all_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+	$mi_connectors=get_all_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 	$params = array("state"=>$desired_state,"group"=>(string)$group,"address"=>$address);
-	$dispatcher_partition = settings()->get("dispatcher_partition");
+	$dispatcher_partition = $settings["dispatcher_partition"];
 	if ($dispatcher_partition && $dispatcher_partition != "")
 		$params["group"] = $dispatcher_partition . ":" . $params["group"];
 

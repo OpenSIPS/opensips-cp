@@ -26,14 +26,15 @@
 <div id="content" style="display:none"></div>
 <form action="<?=$page_name?>?action=search" method="post">
 <?php csrfguard_generate();
- $rules_attributes_mode = settings()->get("rules_attributes_mode");
+ $settings = settings();
+ $rules_attributes_mode = $settings["rules_attributes_mode"];
  if($_SESSION['read_only']) {
 	$colspan=9;
  } else {
 	$colspan=7;
  }
  if ($rules_attributes_mode != "none") {
-        $rules_attributes = settings()->get("rules_attributes");
+        $rules_attributes = $settings["rules_attributes"];
 	$row_colspan = 11;
  } else {
 	$row_colspan = 10;
@@ -124,9 +125,9 @@
 </table>
 </form>
 <?php
-$rules_attributes_mode = settings()->get("rules_attributes_mode");
+$rules_attributes_mode = $settings["rules_attributes_mode"];
 if ($rules_attributes_mode != "none")
-	$rules_attributes = settings()->get("rules_attributes");
+	$rules_attributes = $settings["rules_attributes"];
 ?>
 
 <?php if (!$_SESSION['read_only']) { ?>
@@ -173,7 +174,7 @@ if ($rules_attributes_mode != "none")
  if ($data_no==0) echo('<tr><td colspan="'.$row_colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
  else
  {
-  $res_no=settings()->get("results_per_page");
+  $res_no=$settings["results_per_page"];
   $page=$_SESSION[$current_page];
   $page_no=ceil($data_no/$res_no);
   if ($page>$page_no) {
@@ -241,7 +242,7 @@ if ($rules_attributes_mode != "none")
        <?php
         if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
          else {
-               $max_pages = settings()->get("results_page_range");
+               $max_pages = $settings["results_page_range"];
                // start page
                if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
                 else $start_page = $page - ($page % $max_pages) + 1;

@@ -25,7 +25,8 @@
  require("template/header.php");
  include("lib/db_connect.php");
 
- $table=settings()->get("table_groups");
+ $settings = settings();
+ $table=$settings["table_groups"];
  $current_page="current_page_groups";
  
  csrfguard_validate();
@@ -143,7 +144,7 @@
     $description=$_POST['description'];
   } else {
          $groupid="0";
-         $domain=settings()->get("default_domain");
+         $domain=$settings["default_domain"];
         }
   require("template/".$page_id.".add.php");
   require("template/footer.php");

@@ -198,8 +198,8 @@
   <td class="dataRecord">List Sorting</td>
   <td class="dataRecord"><select name="list_sort" id="list_sort" style="width:230px;" class="dataSelect"><?php dr_get_options_of_list_sort($resultset[0]['sort_alg'])?></select></td>
  </tr>
-<?php if (settings()->get("rules_attributes_mode") != "none") { ?>
- <?php $rules_attributes = settings()->get("rules_attributes"); ?>
+<?php $settings = settings(); if ($settings["rules_attributes_mode"] != "none") { ?>
+ <?php $rules_attributes = $settings["rules_attributes"]; ?>
  <tr>
   <td class="dataRecord"><b><?=(isset($rules_attributes["display_name"])?$rules_attributes["display_name"]:"Attributes")?></b></td>
   <td class="dataRecord"><input type="text" name="attrs" value="<?=$resultset[0]['attrs']?>" style="width:230px;" maxlength="128" class="dataInput"></td>

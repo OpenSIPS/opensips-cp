@@ -27,8 +27,9 @@ $sql_search="";
 $sql_vals=array();
 
 $search_dpid=$_SESSION['dialplan_id'];
-$dialplan_group = settings()->get("dialplan_groups");
-$dialplan_group_mode = settings()->get("dialplan_groups_mode");
+$settings = settings();
+$dialplan_group = $settings["dialplan_groups"];
+$dialplan_group_mode = $settings["dialplan_groups_mode"];
 switch ($dialplan_group_mode) {
 	case "database":
 		$set_cache = array();
@@ -148,7 +149,7 @@ $data_no = $stm->fetchColumn(0);
 if ($data_no==0) echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>');
 else
 {
-	$res_no=settings()->get("results_per_page");
+	$res_no=$settings["results_per_page"];
 	$page=$_SESSION[$current_page];
 	$page_no=ceil($data_no/$res_no);
 	if ($page>$page_no) {
@@ -225,7 +226,7 @@ default:
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-       	$max_pages = settings()->get("results_page_range");
+       	$max_pages = $settings["results_page_range"];
        	// start page
        	if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
        	else $start_page = $page - ($page % $max_pages) + 1;

@@ -26,8 +26,9 @@ require("../../../common/mi_comm.php");
 require("../../../common/cfg_comm.php");
 
 $command="drouting:reload";
-if (settings()->get("routing_partition") && settings()->get("routing_partition") != "")
-	$params = array("partition_name"=>settings()->get("routing_partition"));
+$settings = settings();
+if ($settings["routing_partition"] && $settings["routing_partition"] != "")
+	$params = array("partition_name"=>$settings["routing_partition"]);
 else
 	$params = NULL;
 
@@ -36,7 +37,7 @@ else
 <br>
 <?php
 
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
 for ($i=0;$i<count($mi_connectors);$i++){
 	echo "Sending to <b>".$mi_connectors[$i]."</b> : ";

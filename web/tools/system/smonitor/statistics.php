@@ -36,8 +36,9 @@
  $current_page="current_statistics";
 
 
- $table_monitoring=settings()->get("table_monitoring");
- $table_monitored=settings()->get("table_monitored");
+ $settings = settings();
+ $table_monitoring=$settings["table_monitoring"];
+ $table_monitored=$settings["table_monitored"];
  
  include("lib/db_connect.php");
 

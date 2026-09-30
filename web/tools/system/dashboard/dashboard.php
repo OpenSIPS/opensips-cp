@@ -35,7 +35,8 @@ require_once("../../../common/forms.php");
 csrfguard_validate();
 
 $widgets = load_widgets();
-$table=settings()->get("custom_table");
+$settings = settings();
+$table=$settings["custom_table"];
 if (isset($_GET['box_id']) && $_GET['box_id'] != '')
 	$box_id = $_GET['box_id'];
 else

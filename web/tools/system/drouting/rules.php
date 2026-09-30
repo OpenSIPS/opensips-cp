@@ -27,7 +27,8 @@
 
  csrfguard_validate();
 
- $table=settings()->get("table_rules");
+ $settings = settings();
+ $table=$settings["table_rules"];
  $current_page="current_page_rules";
  
  if (isset($_POST['action'])) $action=$_POST['action'];

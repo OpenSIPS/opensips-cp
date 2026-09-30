@@ -38,12 +38,13 @@ function fmt_binary($x, $numbits, $retbit) {
 
 function get_gwlist()
 {
+$settings = settings();
 //include("db_connect.php");
  global $link;
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".settings()->get("table_gateways")." order by gwid asc";
+ $sql="select * from ".$settings["table_gateways"]." order by gwid asc";
  $stm = $link->prepare($sql);
  if ($stm===FALSE) {
 	die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);

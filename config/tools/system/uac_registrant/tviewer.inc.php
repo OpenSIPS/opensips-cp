@@ -31,11 +31,11 @@
  $custom_config[$module_id]['custom_name'] = "UAC Registrant";
  
 
- $custom_config[$module_id][0]['custom_table'] = settings("uac_registrant")->get("custom_table");
+ $custom_config[$module_id][0]['custom_table'] = settings("uac_registrant")["custom_table"];
  $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
  $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
- $custom_config[$module_id][0]['per_page'] = settings("uac_registrant")->get("per_page");
- $custom_config[$module_id][0]['page_range'] = settings("uac_registrant")->get("page_range");
+ $custom_config[$module_id][0]['per_page'] = settings("uac_registrant")["per_page"];
+ $custom_config[$module_id][0]['page_range'] = settings("uac_registrant")["page_range"];
 
 /*
  Columns definition:

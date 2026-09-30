@@ -33,8 +33,9 @@
  csrfguard_validate();
 
  $box_id=get_box_id($current_box); 
- $table=settings()->get("table_monitoring");
- $name_table=settings()->get("table_monitored");
+ $settings = settings();
+ $table=$settings["table_monitoring"];
+ $name_table=$settings["table_monitored"];
  $_SESSION['stat_open'] = array();
 
  $gauge_arr = get_vars_type($current_box);
@@ -48,7 +49,7 @@
  
  if (isset($_POST['flush']))
  {
-  $sql = "DELETE FROM ".settings()->get("table_monitoring")." WHERE box_id = ?";
+  $sql = "DELETE FROM ".$settings["table_monitoring"]." WHERE box_id = ?";
   $stm = $link->prepare($sql);
   if ($stm->execute(array($box_id)) === false)
   	die('Failed to issue query, error message : ' . print_r($stm->errorInfo(), true));
