@@ -52,12 +52,13 @@
 		  $form_error="- this carrier already exists -";
 	  }
   }
+  $settings = settings();
   if ($form_valid) {
-	  $carrier_attributes_mode = settings()->get("carrier_attributes_mode");
+	  $carrier_attributes_mode = $settings["carrier_attributes_mode"];
 	  if ($carrier_attributes_mode == "input") {
-		  $carrier_attributes = settings()->get("carrier_attributes");
+		  $carrier_attributes = $settings["carrier_attributes"];
 		  if (isset($carrier_attributes['validation_regexp']) &&
-			  !preg_match('/'.settings()->get("carrier_attributes")['validation_regexp'].'/i',$attrs)) {
+			  !preg_match('/'.$settings["carrier_attributes"]['validation_regexp'].'/i',$attrs)) {
 			  $form_valid=false;
 			  $form_error="- <b>".(isset($carrier_attributes['display_name'])?$carrier_attributes['display_name']:"Attributes")."</b> value is invalid: ".$carrier_attributes['validation_error'];
 		  }

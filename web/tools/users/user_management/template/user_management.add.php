@@ -31,7 +31,8 @@
 $um_edit = false;
 $um_form['username'] = null;
 $um_form['domain'] = null;
-foreach (settings()->get("subs_extra") as $key => $value)
+$settings = settings();
+foreach ($settings["subs_extra"] as $key => $value)
 	$um_form['extra_'.$key] = null;
 $um_form['passwd'] = null;
 $um_form['confirm_passwd'] = null;

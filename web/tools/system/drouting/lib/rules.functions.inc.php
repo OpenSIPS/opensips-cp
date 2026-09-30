@@ -23,12 +23,13 @@
 
 function get_gwlist()
 {
+ $settings = settings();
  //include("db_connect.php");
  global $link;
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".settings()->get("table_gateways")." order by gwid asc";
+ $sql="select * from ".$settings["table_gateways"]." order by gwid asc";
  $stm = $link->prepare($sql);
  if ($stm === false) {
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -47,12 +48,13 @@ function get_gwlist()
 
 function get_carrierlist()
 {
+ $settings = settings();
  //include("db_connect.php");
  global $link;
  global $config;
  $index = 0;
  $values = array();
- $sql="select * from ".settings()->get("table_carriers")." order by carrierid asc";
+ $sql="select * from ".$settings["table_carriers"]." order by carrierid asc";
  $stm = $link->prepare($sql);
  if ($stm === false) {
  	die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
@@ -81,10 +83,11 @@ function get_groupid($group)
 function get_groupids()
 {
   global $config;
+  $settings = settings();
 	$i = 0;
 	$values = array();
-	if (settings()->get("group_id_method")=="static") {
-    $rules = settings()->get("group_ids_file");
+	if ($settings["group_id_method"]=="static") {
+    $rules = $settings["group_ids_file"];
     foreach($rules as $key=>$value) {
      $values[$i]['groupid'] = (string) $key;
      $values[$i]['description'] = $value; 
@@ -92,7 +95,7 @@ function get_groupids()
     }
 	} else {
 		global $link;
-		$sql="select distinct ".settings()->get("group_id_col"). " as groupid, ".settings()->get("group_name_col"). " as description from ".settings()->get("table_groups")." order by groupid asc";
+		$sql="select distinct ".$settings["group_id_col"]. " as groupid, ".$settings["group_name_col"]. " as description from ".$settings["table_groups"]." order by groupid asc";
 		$stm = $link->prepare($sql);
 		if ($stm===FALSE) {
 			die('Failed to issue query ['.$sql.'], error message : ' . $link->errorInfo()[2]);

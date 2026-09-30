@@ -27,9 +27,10 @@ $search_aaliasusername=$_SESSION['alias_username'];
 $search_adomain=$_SESSION['alias_domain'];
 $search_atype=$_SESSION['alias_type'];
 
-$implicit_domain = settings()->get("implicit_domain");
+$settings = settings();
+$implicit_domain = $settings["implicit_domain"];
 
-$suppress_alias_type = settings()->get("suppress_alias_type");
+$suppress_alias_type = $settings["suppress_alias_type"];
 $alias_types = get_alias_types();
 ?>
 
@@ -168,7 +169,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 			echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 		else { 
 
-        $res = settings()->get("results_per_page");
+        $res = $settings["results_per_page"];
         $page=$_SESSION[$current_page];
         $page_no=ceil($data_no/$res);
         if ($page>$page_no) {
@@ -229,7 +230,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-        $max_pages = settings()->get("results_page_range");
+        $max_pages = $settings["results_page_range"];
         // start page
         if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
         else $start_page = $page - ($page % $max_pages) + 1;
@@ -267,7 +268,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
 		echo('<tr><td colspan="'.$colspan.'" class="rowEven" align="center"><br>'.$no_result.'<br><br></td></tr>'); 
 	else { 
 
-        $res=settings()->get("results_per_page");
+        $res=$settings["results_per_page"];
         $page=$_SESSION[$current_page];
         $page_no=ceil($data_no/$res);
         if ($page>$page_no) {
@@ -328,7 +329,7 @@ if (($search_atype=='ANY') || ($search_atype=='')) {
        <?php
        if ($data_no==0) echo('<font class="pageActive">0</font>&nbsp;');
        else {
-        $max_pages = settings()->get("results_page_range");
+        $max_pages = $settings["results_page_range"];
         // start page
         if ($page % $max_pages == 0) $start_page = $page - $max_pages + 1;
         else $start_page = $page - ($page % $max_pages) + 1;

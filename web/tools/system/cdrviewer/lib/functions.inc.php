@@ -91,9 +91,10 @@ function get_field($string){
 }
 
 function cdr_export($start_time,  $end_time ) {
+	$settings = settings();
 
 	global $config ;
-	$export_csv = settings()->get("export_csv");
+	$export_csv = $settings["export_csv"];
 	global $cdr_repository_path ;
 	global $cdr_set_field_names;
 	global $cdr_export_time_limit;
@@ -101,7 +102,7 @@ function cdr_export($start_time,  $end_time ) {
 	global $link;
 
 
-	$cdr_table = settings()->get("cdr_table");
+	$cdr_table = $settings["cdr_table"];
 
 	$sql = "select * " ;
 
@@ -184,14 +185,15 @@ function cdr_export($start_time,  $end_time ) {
 }
 
 function cdr_put_to_download($start_time , $end_time , $sql_search , $outfile){
+	$settings = settings();
  
 	global $config ;
-	$export_csv = settings()->get("export_csv");
+	$export_csv = $settings["export_csv"];
 	global $cdr_set_field_names;
 	global $cdr_export_time_limit;
 	global $link;
 
-	$cdr_table = settings()->get("cdr_table");
+	$cdr_table = $settings["cdr_table"];
 
 	$sql = "select * " ;
 	$sql_vals=array();

@@ -25,10 +25,11 @@ require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
 
 $domains = get_domains("user_management", false);
-$alias_types = settings()->get("table_aliases");
-$alias_format = settings()->get("alias_format");
-$implicit_domain = settings()->get("implicit_domain");
-$suppress_atype = settings()->get("suppress_alias_type");
+$settings = settings();
+$alias_types = $settings["table_aliases"];
+$alias_format = $settings["alias_format"];
+$implicit_domain = $settings["implicit_domain"];
+$suppress_atype = $settings["suppress_alias_type"];
 
 form_generate_input_text("Username", "The name of the user", "username",
 	"n", $am_form['username'], 128, "^[a-zA-Z0-9&=+$,;?/%]+$");

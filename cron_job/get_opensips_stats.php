@@ -29,9 +29,9 @@ require("../../../../web/common/mi_comm.php");
 require("../../../../config/boxes.global.inc.php");
 require("lib/db_connect.php");
 
-$sampling_time=settings('smonitor')->get('sampling_time');
-$table_monitored=settings('smonitor')->get('table_monitored');
-$table_monitoring=settings('smonitor')->get('table_monitoring');
+$sampling_time=settings('smonitor')['sampling_time'];
+$table_monitored=settings('smonitor')['table_monitored'];
+$table_monitoring=settings('smonitor')['table_monitoring'];
 get_stats_classes();
 $custom_stats = [];
 

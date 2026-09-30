@@ -21,8 +21,9 @@
 */
 function print_profile() {
 	global $config;
+	$settings = settings();
 
-	$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+	$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 	// get status from the first one only
 	$message=mi_command("dialog:list_all_profiles", NULL, $mi_connectors[0], $errors);
 

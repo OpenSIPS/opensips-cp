@@ -23,8 +23,9 @@
 require("../../../common/forms.php");
 $set_cache = array();
 
-$perm_group_mode = settings()->get("addresses_groups_mode");
-$perm_group = settings()->get("addresses_groups");
+$settings = settings();
+$perm_group_mode = $settings["addresses_groups_mode"];
+$perm_group = $settings["addresses_groups"];
 switch ($perm_group_mode) {
 	case "database":
 		$query = "SELECT " . $perm_group['id'] . " AS id, " .

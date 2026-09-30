@@ -27,7 +27,7 @@ function get_domains($module, $has_any)
 
 	require("../../../../web/tools/system/domains/lib/db_connect.php");
 	
-	$table_domains=settings("domains")->get("table_domains");
+	$table_domains=settings("domains")["table_domains"];
 
 	$sql="select domain from $table_domains";
 	$result = $link->query($sql)->fetchAll(PDO::FETCH_COLUMN);

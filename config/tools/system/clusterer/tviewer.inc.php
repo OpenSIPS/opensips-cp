@@ -58,11 +58,12 @@ $custom_config[$module_id]['submenu_items'] = array(
 ############ TAB 0 - CLUSTER NODES ###########
 ##############################################
 
-$custom_config[$module_id][0]['custom_table'] = settings()->get("table_clusterer");
+$settings = settings();
+$custom_config[$module_id][0]['custom_table'] = $settings["table_clusterer"];
 $custom_config[$module_id][0]['custom_table_primary_key'] = "id";
 $custom_config[$module_id][0]['custom_table_order_by'] = $custom_config[$module_id][0]['custom_table_primary_key'];
-$custom_config[$module_id][0]['per_page'] = settings()->get("per_page");
-$custom_config[$module_id][0]['page_range'] = settings()->get("page_range");
+$custom_config[$module_id][0]['per_page'] = $settings["per_page"];
+$custom_config[$module_id][0]['page_range'] = $settings["page_range"];
 
 $custom_config[$module_id][0]['custom_table_column_defs'] = array (
 		"id" 		=> 	array (
@@ -168,7 +169,7 @@ $custom_config[$module_id][0]['reload'] = 1;
 // MI command ran by the "Reload on Server" button
 $custom_config[$module_id][0]['custom_mi_command'] = "clusterer:reload";
 // the system ID to send the reload MI command to
-$talk_to_this_assoc_id = settings()->get("talk_to_this_assoc_id");
+$talk_to_this_assoc_id = $settings["talk_to_this_assoc_id"];
 
 // custom search + one-click state toggle handling (see nodes_hooks.php)
 $custom_config[$module_id][0]['custom_search'] = array (
@@ -209,15 +210,15 @@ $custom_config[$module_id][0]['custom_action_buttons'] = array (
 ########### TAB 1 - CLUSTER BRIDGES ##########
 ##############################################
 
-if (settings()->get("bridge_enabled")) {
+if ($settings["bridge_enabled"]) {
 
 	$custom_config[$module_id]['submenu_items'][1] = "Cluster Bridges";
 
-	$custom_config[$module_id][1]['custom_table'] = settings()->get("table_bridge");
+	$custom_config[$module_id][1]['custom_table'] = $settings["table_bridge"];
 	$custom_config[$module_id][1]['custom_table_primary_key'] = "id";
 	$custom_config[$module_id][1]['custom_table_order_by'] = $custom_config[$module_id][1]['custom_table_primary_key'];
-	$custom_config[$module_id][1]['per_page'] = settings()->get("per_page");
-	$custom_config[$module_id][1]['page_range'] = settings()->get("page_range");
+	$custom_config[$module_id][1]['per_page'] = $settings["per_page"];
+	$custom_config[$module_id][1]['page_range'] = $settings["page_range"];
 
 	$custom_config[$module_id][1]['custom_table_column_defs'] = array (
 			"id" 		=> 	array (

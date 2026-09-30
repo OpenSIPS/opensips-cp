@@ -28,7 +28,7 @@ class dialog_stat extends custom_statistic
     function get_statistics() {
 		$params = array("profile"=>$this->profile);
         $errors = "";
-		$mi_connectors=get_proxys_by_assoc_id(settings("dialog")->get('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id(settings("dialog")['talk_to_this_assoc_id']);
 		$msg=mi_command("dialog:profile_get_size", $params, $mi_connectors[0], $errors);
 		$profile_size = $msg["Profile"]["count"];
         return $profile_size;

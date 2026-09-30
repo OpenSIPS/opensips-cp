@@ -29,8 +29,9 @@ require("../../../common/cfg_comm.php");
 <br>
 <?php
 
-$mi_connectors=get_all_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
-$dispatcher_partition = settings()->get("dispatcher_partition");
+$settings = settings();
+$mi_connectors=get_all_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
+$dispatcher_partition = $settings["dispatcher_partition"];
 if ($dispatcher_partition == "")
 	$dispatcher_partition = false;
 

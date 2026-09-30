@@ -25,7 +25,7 @@ get_priv("dashboard");
 require("../../../../config/db.inc.php");
 require("../../../../config/tools/system/dashboard/db.inc.php");
 include("lib/db_connect.php");
-$table=settings("dashboard")->get("custom_table");
+$table=settings("dashboard")["custom_table"];
 $widget_id = $_GET['id'];
 /* split to get the panel id */
 $panel_id = explode("_", $widget_id)[1];

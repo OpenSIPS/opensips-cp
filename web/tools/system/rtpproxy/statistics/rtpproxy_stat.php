@@ -30,7 +30,7 @@ class rtpproxy_stat extends custom_statistic
     function get_statistics() {
 		require(__DIR__."/../../rtpproxy/lib/db_connect.php");
 		$res = [];
-		$table=settings("rtpproxy")->get("table_rtpproxy");
+		$table=settings("rtpproxy")["table_rtpproxy"];
 		$sql_command = "select * from ".$table." where (1=1) order by id asc";
 		$stm = $link->prepare($sql_command);
 		if ($stm->execute() === false)

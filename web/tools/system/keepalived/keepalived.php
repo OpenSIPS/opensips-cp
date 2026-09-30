@@ -36,15 +36,16 @@ if (isset($_POST['action'])) $action=$_POST['action'];
 else if (isset($_GET['action'])) $action=$_GET['action'];
 else $action="";
 
+$settings = settings();
 if ($action=="switch_box") {
-    foreach(settings()->get("machines") as $machine) {
+    foreach($settings["machines"] as $machine) {
         foreach($machine['boxes'] as $box) {
 	    $box = set_defaults($box);
             if ($box['box'] != $_GET['box'])
 		$mode = "backup";
 	    else
 		$mode = "primary";
-	    $command = isset($box[$mode.'_exec'])?$box[$mode.'_exec']:settings()->get($mode.'_exec');
+	    $command = isset($box[$mode.'_exec'])?$box[$mode.'_exec']:$settings[$mode.'_exec'];
 	    if ($command && $command != "")
 		    ssh_conn($box['ssh_ip'], $box['ssh_port'], $box['ssh_user'], $box['ssh_pubkey'], $box['ssh_key'], $command);
         }

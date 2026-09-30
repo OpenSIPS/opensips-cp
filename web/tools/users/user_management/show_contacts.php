@@ -7,7 +7,8 @@ require_once("lib/functions.inc.php");
 
 csrfguard_validate();
 
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$settings = settings();
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 $message=mi_command( "usrloc:show_contact", array("table_name"=>"location","aor"=>$_GET["username"]."@".$_GET["domain"]), $mi_connectors[0], $errors);
 
 unset($contact);

@@ -66,8 +66,9 @@
 	</td>
  </tr>
 <?php
-$gw_attributes_mode = settings()->get("gw_attributes_mode");
-$gw_attributes = settings()->get("gw_attributes");
+$settings = settings();
+$gw_attributes_mode = $settings["gw_attributes_mode"];
+$gw_attributes = $settings["gw_attributes"];
 if ($gw_attributes_mode != "none") { ?>
  <tr>
   <td class="dataRecord"><b><?=($gw_attributes_mode == "input" && isset($gw_attributes["display_name"])?$gw_attributes["display_name"]:"Attributes")?>:</b> <?=$resultset[0]['attrs']?></td>

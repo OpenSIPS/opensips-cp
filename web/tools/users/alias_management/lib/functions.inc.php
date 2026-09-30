@@ -30,7 +30,7 @@ function print_domains($type,$value,$has_any)
         require("../../../../config/tools/system/domains/db.inc.php");
         require("db_connect.php");
 
-        $table_domains=settings("domains")->get("table_domains");
+        $table_domains=settings("domains")["table_domains"];
 
         $sql="select domain from ".$table_domains;
         $stm= $link->query($sql);
@@ -77,9 +77,10 @@ function print_domains($type,$value,$has_any)
 function get_alias_types()
 {
 	global $config;
+	$settings = settings();
     require("../../../../config/globals.php");
 
-    $aliases_map = settings()->get("table_aliases");
+    $aliases_map = $settings["table_aliases"];
     foreach ($aliases_map as $k=>$v) {
         $aliases[]=array("label"=>$k,"value"=>$v);
     }
@@ -89,10 +90,11 @@ function get_alias_types()
 function print_aliasType($value, $has_any)
 {
         global $config;
+        $settings = settings();
 	require("../../../../config/globals.php");
 	if ($has_any)
 	        $options[]=array("label"=>"ANY","value"=>"ANY");
-        foreach (settings()->get("table_aliases") as $k=>$v) {
+        foreach ($settings["table_aliases"] as $k=>$v) {
                 $options[]=array("label"=>$k,"value"=>$v);
         }
         $start_index = 0;

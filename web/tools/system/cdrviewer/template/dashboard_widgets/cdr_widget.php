@@ -38,7 +38,7 @@ class cdr_widget extends widget
 
 	function set_cdr_entries() {
 		require(__DIR__."/../../lib/db_connect.php");
-		$cdr_table = settings("cdrviewer")->get("cdr_table");
+		$cdr_table = settings("cdrviewer")["cdr_table"];
     if (db_driver($link) == "sqlite")
     $sql = "select count(*) from ".$cdr_table. " union all ".
       "select count(*) from ".$cdr_table." where time > date('now','localtime') union all ".

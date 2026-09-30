@@ -31,7 +31,8 @@ $current_page="current_page_group_management";
 
 csrfguard_validate();
 
-$table=settings()->get('table_groups');
+$settings = settings();
+$table=$settings['table_groups'];
 
 include("lib/db_connect.php");
 

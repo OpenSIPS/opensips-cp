@@ -41,6 +41,7 @@ function ssh_conn($host, $port, $user, $pub_key, $prv_key, $command, $pass = nul
 }
 
 function set_defaults($box) {
+    $settings = settings();
     $default_box = NULL;
     foreach($_SESSION['boxes'] as $loaded_box) {
         if ($loaded_box['name'] == $box['box'])
@@ -53,13 +54,13 @@ function set_defaults($box) {
     if (!isset($box['ssh_user']))
         $box['ssh_user'] = "root";
     if (!isset($box['ssh_pubkey']))
-        $box['ssh_pubkey'] = settings()->get("ssh_pubkey");
+        $box['ssh_pubkey'] = $settings["ssh_pubkey"];
     if (!isset($box['ssh_key']))
-        $box['ssh_key'] = settings()->get("ssh_key");
+        $box['ssh_key'] = $settings["ssh_key"];
     if (!isset($box['check_exec']))
-        $box['check_exec'] = settings()->get("check_exec");
+        $box['check_exec'] = $settings["check_exec"];
     if (!isset($box['check_pattern']))
-        $box['check_pattern'] = settings()->get("check_pattern");
+        $box['check_pattern'] = $settings["check_pattern"];
     return $box;
 }
 

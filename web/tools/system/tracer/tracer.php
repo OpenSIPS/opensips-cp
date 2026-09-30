@@ -73,6 +73,7 @@ $i = 0;
 $test_pack;
 $spawn = null;
 $socket = null;
+$settings = settings();
 if ($action == "start") {
 	echo ('
 	<table class="ttable" width="95%" cellspacing="1" cellpadding="1" border="1" align="right">
@@ -81,15 +82,15 @@ if ($action == "start") {
 	</tr>
 	');
 	echo ("Tracing started");
-	$host = settings()->get("hep_bind_ip");
+	$host = $settings["hep_bind_ip"];
 	if (is_null($host))
 		$host = 0;
-	$port = settings()->get("hep_bind_port");
+	$port = $settings["hep_bind_port"];
 	if (is_null($port))
 		$port = 9060;
-	$adv_ip = settings()->get("hep_advertised_ip");
-	$adv_port = settings()->get("hep_advertised_port");
-	$prefix = settings()->get("hep_trace_identifier_prefix");
+	$adv_ip = $settings["hep_advertised_ip"];
+	$adv_port = $settings["hep_advertised_port"];
+	$prefix = $settings["hep_trace_identifier_prefix"];
 	$random = substr(sha1(rand()), 0, 6);
 
 	register_shutdown_function(function() {

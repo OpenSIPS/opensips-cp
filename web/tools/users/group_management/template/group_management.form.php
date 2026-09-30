@@ -25,7 +25,8 @@ require_once("../../../tools/system/domains/lib/functions.inc.php");
 require_once("lib/functions.inc.php");
 
 $domains = get_domains("user_management", false);
-$groups = settings()->get("grps");
+$settings = settings();
+$groups = $settings["grps"];
 
 
 form_generate_input_text("Username", "The name of the user", "username",

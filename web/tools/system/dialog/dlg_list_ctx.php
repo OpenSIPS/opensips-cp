@@ -9,7 +9,8 @@ global $state_values;
 
 csrfguard_validate();
 
-$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+$settings = settings();
+$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 if (isset($_GET["callid"]))
 	$callid = $_GET["callid"];
 elseif (isset($_POST["callid"]))

@@ -27,7 +27,8 @@ require ("../../../common/mi_comm.php");
 
 csrfguard_validate();
 
-$table=settings()->get("table_lb");
+$settings = settings();
+$table=$settings["table_lb"];
 $current_page="current_page_lb";
 $lb_probing_modes = array("No probing","On disabled","Permanent");
 
@@ -145,12 +146,12 @@ case "toggle":
 	$state= $_GET['state'];
 	$id = $_GET['id'];
 	if ($state=="enabled") {
-		$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("load_balancer:status", array("destination_id"=>$id,"new_status"=>"0"), $mi_connectors[$i], $errors);
 		}
 	} else if ($state=="disabled") {
-		$mi_connectors=get_proxys_by_assoc_id(settings()->get('talk_to_this_assoc_id'));
+		$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 		for($i=0;$i<count($mi_connectors);$i++) {
 			mi_command("load_balancer:status", array("destination_id"=>$id,"new_status"=>"1"), $mi_connectors[$i], $errors);
 		}
