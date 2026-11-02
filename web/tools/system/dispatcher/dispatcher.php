@@ -203,8 +203,8 @@ if ($action=="ds_search")
 
 	$_SESSION[$current_page]=1;
 
-	$show_all=$_POST['show_all'];
-	$search=$_POST['search'];
+	$show_all=$_POST['show_all'] ?? $_GET['show_all'] ?? "";
+	$search=$_POST['search'] ?? $_GET['search'] ?? "";
 
 	if ($show_all=="Show All") {
 		$_SESSION['dispatcher_setid']="";
