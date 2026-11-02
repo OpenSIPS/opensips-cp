@@ -69,18 +69,20 @@ switch ($dispatcher_group_mode) {
 			"FROM " . $dispatcher_group['table'];
 
 		$stm = $link->prepare($query);
-		if ($search_setid !="") {
-			$query .= " WHERE " . $dispatcher_groups['name'] . " LIKE ?";
-			array_push($set_values, "%".$search_setid."%");
-			$search_setid = "";
-		}
 		if ($stm===FALSE) {
 			die('Failed to issue query [' . $query . '], error message : ' . $link->errorInfo()[2]);
 		}
 		$stm->execute();
 		$results = $stm->fetchAll();
+		/* from here on, behave like the "array" mode: id => name */
+		$dispatcher_group = array();
 		foreach ($results as $key => $value)
-			$set_cache[$value['id']] = $value['name'];
+			$dispatcher_group[$value['id']] = $value['name'];
+		if ($search_setid !="") {
+			$set_cache[$search_setid] = $dispatcher_group[$search_setid] ?? $search_setid;
+		} else {
+			$set_cache = $dispatcher_group;
+		}
 		break;
 
 	case "array":
