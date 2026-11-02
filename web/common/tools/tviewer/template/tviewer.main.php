@@ -106,7 +106,7 @@ else {
 				<form id="" action="<?=$page_name?>?action=dp_act" method="post">
 				<table width="350" cellspacing="2" cellpadding="2" border="0">
 				<?php foreach ($custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_column_defs'] as $key => $value) { ?>	
-					<?php if ($key != $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key'] && $value['searchable']) { ?>
+					<?php if (($key != $custom_config[$module_id][$_SESSION[$module_id]['submenu_item_id']]['custom_table_primary_key'] || !empty($value['show_in_add_form'])) && $value['searchable']) { ?>
 					<tr>
 						<td class="searchRecord"><?=$value['header']?></td>
 						<td class="searchRecord" width="200">
