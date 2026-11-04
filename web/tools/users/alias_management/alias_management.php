@@ -79,33 +79,37 @@ if ($action=="add")
 ####################
 if ($action=="add_verified")
 {
-        if(!$_SESSION['read_only']){
+    if (!$_SESSION['read_only']) {
 				
-                $alias_username = $_POST['alias_username'];
-                $alias_domain = $implicit_domain ? $_POST['domain'] : $_POST['alias_domain'];
-                $alias_type = $_POST['alias_type'];
-                $username = $_POST['username'];
-                $domain = $_POST['domain'];
+		$alias_username = $_POST['alias_username'];
+		$alias_domain = $implicit_domain ? $_POST['domain'] : $_POST['alias_domain'];
+		$alias_type = isset($_POST['alias_type']) ? $_POST['alias_type'] : NULL;
+		$username = $_POST['username'];
+		$domain = $_POST['domain'];
 
-                if ($suppress_alias_type) {
-                    $alias_type = $options[0]['value'];
-                }
-                
-                $sql = "INSERT INTO ".$alias_type."
-                (alias_username, alias_domain, username, domain) VALUES (?, ?, ?, ?)";
-                $stm = $link->prepare($sql);
-		if ($stm === false) {
-			die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+		if ($suppress_alias_type) {
+			$alias_type = $options[0]['value'];
 		}
-		if ($stm->execute( array($alias_username,$alias_domain,$username,$domain) ) == false) {
-                	$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
+
+		if ($alias_type === NULL || !in_array($alias_type, $allowed_alias_tables, true)) {
+			$errors = "Invalid alias table";
 		} else {
-	                $info="The new record was added";
-        	        print "New Alias added!";
+			$sql = "INSERT INTO ".$alias_type."
+			(alias_username, alias_domain, username, domain) VALUES (?, ?, ?, ?)";
+			$stm = $link->prepare($sql);
+			if ($stm === false) {
+				die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
+			}
+			if ($stm->execute( array($alias_username,$alias_domain,$username,$domain) ) == false) {
+				$errors= "Inserting record into DB failed: ".print_r($stm->errorInfo(), true);
+			} else {
+				$info="The new record was added";
+				print "New Alias added!";
+			}
 		}
-	}
-        else
+	} else {
 		print "User with Read-Only Rights";
+	}
 }
 
 
