@@ -20,52 +20,6 @@
 * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-function get_alias_types()
-{
-        global $config;
-        require("../../../../config/globals.php");
-	$aliases = array();
-        foreach (get_settings_values("table_aliases") as $key=>$value)
-                $aliases[]=array("label"=>$key,"value"=>$value);
-	return $aliases;
-}
-
-function print_aliasType($value)
-{
-        $domain = $value;
-	$options = get_alias_types();
-        $start_index = 0;
-        $end_index = sizeof($options);
-
-        if ($end_index == 0)
-            return;
-
-        if ($end_index == 1) {
-            echo('<input type="text" name="'.$type.'" value="'.$options[0][label].'" readonly style="width: 205px" class="dataSelect">');
-            return;
-        }
-?>
-        <select name="alias_type" id="alias_type" size="1" style="width: 205px" class="dataSelect">
-         <?php
-           if ($value!=NULL) {
-             echo('<option value="'.$value. '" selected > '.$value.'</option>');
-             $temp = $value;
-             $value = 0;
-           }
-          for ($i=$start_index;$i<$end_index;$i++)
-          {
-           if ($options[$i]['value'] == $temp) {
-                continue;
-           } else {
-             echo('<option value="'.$options[$i]['label']. '"> '.$options[$i]['label'].'</option>');
-           }
-          }
-         ?>
-         </select>
-        <?php
-
-}
-
 function print_domains($type,$value,$has_any)
 {
 	require("../../../../web/tools/system/domains/lib/functions.inc.php");
