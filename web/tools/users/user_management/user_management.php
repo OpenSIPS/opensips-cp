@@ -321,22 +321,9 @@ if ($action=="add_verify")
 			if ($stm->execute( $sql_vals ) == false) {
 				$errors= "Inserting user record into DB failed: ".print_r($stm->errorInfo(), true);
 			} else {
-
-				if ($alias!="") {
-					$sql = 'INSERT INTO '.$alias_type.' (username,domain,alias_username,alias_domain) VALUES (?, ?, ?, ?)';
-					$stm = $link->prepare($sql);
-					if ($stm === false) {
-						die('Failed to issue query ['.$sql.'], error message : ' . print_r($link->errorInfo(), true));
-					}
-					if ($stm->execute( array($uname,$domain,$alias,$domain) )==false) {
-						$errors= "Inserting alias record into DB failed: ".print_r($stm->errorInfo(), true);
-					}
-				}
-
 				$lname=NULL;
 				$fname=NULL;
 				$uname=NULL;
-				$alias=NULL;
 				$passwd=NULL;
 				$confirm_passwd=NULL;
 
