@@ -547,18 +547,61 @@ function csrfguard_generate($prefix="")
 		<input type='hidden' name='CSRFToken' value='{$token}' />");
 }
 
+// State-changing actions that are triggered over GET (delete links, 2FA reset,
+// gateway enable/disable, reordering, ...). These links carry no per-form token,
+// so they are accepted only when the request originates from this site.
+function csrfguard_is_state_changing_get()
+{
+	$action = $_REQUEST['action'] ?? '';
+	return in_array($action, array(
+		'delete', 'delete_widget', 'reset2FA', 'reset',
+		'enablegw', 'disablegw', 'enablecar', 'disablecar', 'toggle',
+		'up', 'down', 'clone', 'change_name', 'clean', 'flush', 'move',
+	), true);
+}
+
+// True only when the request's Origin/Referer is this same site. A request that
+// carries neither is treated as cross-site: a genuine same-site click sends a
+// Referer.
+function csrfguard_same_origin()
+{
+	$host = $_SERVER['HTTP_HOST'] ?? '';
+	if ($host === '')
+		return false;
+	foreach (array('HTTP_ORIGIN', 'HTTP_REFERER') as $header) {
+		if (empty($_SERVER[$header]))
+			continue;
+		$src = parse_url($_SERVER[$header], PHP_URL_HOST);
+		if (!is_string($src) || $src === '')
+			return false;
+		$port = parse_url($_SERVER[$header], PHP_URL_PORT);
+		if (!empty($port))
+			$src .= ':' . $port;
+		return strcasecmp($src, $host) === 0;
+	}
+	return false;
+}
+
 function csrfguard_validate($deny = true)
 {
-	if (count($_POST) == 0)
-		return true;
 	if (isset($_POST['CSRFName']) and isset($_POST['CSRFToken']) ) {
+		// Form submission: validate the single-use, per-form token.
 		$name = $_POST['CSRFName'];
 		$token = $_POST['CSRFToken'];
 		$valid = csrfguard_validate_token($name, $token);
-	} else {
+	} else if (($_SERVER['REQUEST_METHOD'] ?? '') === 'POST') {
+		// A POST with no token is never valid - this closes the old
+		// count($_POST)==0 bypass that let an empty body skip the check.
 		$valid = false;
+	} else if (csrfguard_is_state_changing_get()) {
+		// State change exposed over GET: no per-form token exists, so require
+		// the request to be same-origin.
+		$valid = csrfguard_same_origin();
+	} else {
+		// Plain navigation, listing or form-render request.
+		$valid = true;
 	}
-	
+
 	if ($valid == false && $deny == true) {
 		//header("HTTP/1.1 401 Unauthorized");
 		throw new ErrorException("401 Unauthorized");
