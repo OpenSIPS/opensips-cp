@@ -70,7 +70,7 @@ else
 			$details_link = '<a href="javascript:;" onclick="show_widget(\''.$resultset[$i]['dir'].'\')"><img src="../../../images/share/details.png" border="0"></a>';
             //$details_link = '<a href="'.$page_name.'?action=import_details&widget_dir='.$resultset[$i]['dir'].'"><img src="../../../images/share/details.png" border="0"></a>';
     	if(!$_SESSION['read_only']){	
-			$import_link = '<a href="'.$page_name.'?action=import_widget_true&panel_id='.$panel_id.'&widget_dir='.$resultset[$i]['dir'].'"><img src="../../../images/share/edit.png" border="0"></a>';
+			$import_link = csrf_post_link($page_name, array('action'=>'import_widget_true','panel_id'=>$panel_id,'widget_dir'=>$resultset[$i]['dir']), '<img src="../../../images/share/edit.png" border="0">');
         }
 ?>
  <tr>

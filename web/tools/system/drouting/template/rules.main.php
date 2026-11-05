@@ -209,7 +209,7 @@ if ($rules_attributes_mode != "none")
          else $description="&nbsp;";
    $details_link='<a href="'.$page_name.'?action=details&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/details.png" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['ruleid'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['ruleid'].'" onclick="return confirmDelete(\''.$resultset[$i]['ruleid'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
+   $delete_link=csrf_post_link($page_name, array('action'=>'delete','id'=>$resultset[$i]['ruleid']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete(\''.$resultset[$i]['ruleid'].'\')');
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>

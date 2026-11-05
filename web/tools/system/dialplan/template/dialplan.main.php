@@ -184,7 +184,7 @@ else
 		if(!$_SESSION['read_only']){
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$row[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$row[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$delete_link=csrf_post_link($page_name, array('action'=>'delete','clone'=>0,'id'=>$row[$i]['id']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
 			$clone_link='<a href="'.$page_name.'?action=clone&clone=1&id='.$row[$i]['id'].'"><img src="../../../images/share/add.png" border="0"></a>';
 		}
 ?>

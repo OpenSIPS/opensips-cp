@@ -81,7 +81,7 @@
 if ($action=="enablecar"){
     $mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
-    $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"1");
+    $params = array("carrier_id"=>$_POST['carrierid'],"status"=>"1");
     if ($settings["routing_partition"] && $settings["routing_partition"] != "")
        $params['partition_name'] = $settings["routing_partition"];
 
@@ -89,7 +89,7 @@ if ($action=="enablecar"){
         $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[$i], $errors);
     }
     if (!empty($errors))
-        echo "Error while enabling carrier ".$_GET['carrierid']." (".mi_error_text($errors).")";
+        echo "Error while enabling carrier ".$_POST['carrierid']." (".mi_error_text($errors).")";
 }
 ######################
 # end enable carrier #
@@ -102,7 +102,7 @@ if ($action=="enablecar"){
 if ($action=="disablecar"){
     $mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
-    $params = array("carrier_id"=>$_GET['carrierid'],"status"=>"0");
+    $params = array("carrier_id"=>$_POST['carrierid'],"status"=>"0");
     if ($settings["routing_partition"] && $settings["routing_partition"] != "")
        $params['partition_name'] = $settings["routing_partition"];
 
@@ -110,7 +110,7 @@ if ($action=="disablecar"){
         $message=mi_command( "drouting:carrier_status", $params, $mi_connectors[$i], $errors);
     }
     if (!empty($errors))
-        echo "Error while enabling carrier ".$_GET['carrierid']." (".mi_error_text($errors).")";
+        echo "Error while enabling carrier ".$_POST['carrierid']." (".mi_error_text($errors).")";
 }
 ########################
 # end disable carrier  #
@@ -231,7 +231,7 @@ if ($action=="disablecar"){
 # start delete #
 ################
  if ($action=="delete"){
-  $del_id = $_GET['carrierid'];
+  $del_id = $_POST['carrierid'];
   $sql = "delete from ".$table." where carrierid=?";
   $stm = $link->prepare($sql);
   if ($stm === false) {

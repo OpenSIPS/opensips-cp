@@ -115,7 +115,7 @@ $link=NULL;
 		if ($index_row%2==1) $row_style="rowOdd";
 		else $row_style="rowEven";
 		$edit_link='<a href="'.$page_name.'?action=edit&id='.$row['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-		$delete_link='<a href="'.$page_name.'?action=delete&id='.$row['id'].'" onclick="return confirmDelete(\''.$row['domain'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
+		$delete_link=csrf_post_link($page_name, array('action'=>'delete','id'=>$row['id']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete(\''.$row['domain'].'\')');
 		if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 		?>
 	<tr>

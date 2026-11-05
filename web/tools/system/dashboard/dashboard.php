@@ -72,8 +72,8 @@ if ($action =="import_widget") {
 
 
 if ($action =="import_widget_true") {
-	$panel_id = $_GET['panel_id'];
-	$widget_dir = $_GET['widget_dir'];
+	$panel_id = $_POST['panel_id'];
+	$widget_dir = $_POST['widget_dir'];
 	// only the widgets shipped under imports/ can be included
 	if (!in_array($widget_dir, glob("imports/*"), true))
 		die("Unknown widget");
@@ -162,7 +162,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id = $_GET['panel_id'];
+		$id = $_POST['panel_id'];
 
 		$sql = "DELETE FROM ".$table." WHERE id=?";
       		$stm = $link->prepare($sql);
@@ -397,8 +397,8 @@ if ($action == "clone_panel_verify") {
 }
 
 if ($action == "move_panels") {
-	$order_id1 = $_GET['order_id1'];
-	$order_id2 = $_GET['order_id2'];
+	$order_id1 = $_POST['order_id1'];
+	$order_id2 = $_POST['order_id2'];
 
 	if ($order_id1 != -1 && $order_id2 != -1) {
 		swap_panels($order_id1, $order_id2, $table);

@@ -262,8 +262,8 @@ if ($action=="dp_act")
 if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
-		$id=$_GET['id'];
-		$table = isset($_GET['table']) ? $_GET['table'] : NULL;
+		$id=$_POST['id'];
+		$table = isset($_POST['table']) ? $_POST['table'] : NULL;
 		if ($table === NULL || !in_array($table, $allowed_alias_tables, true)) {
 			$errors = "Invalid alias table";
 		} else {

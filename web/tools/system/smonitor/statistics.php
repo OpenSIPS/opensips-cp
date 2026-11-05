@@ -65,7 +65,7 @@ if ($action == "edit_statistic") {
 }
  
 if ($action == "delete") {
-	$stat_id = $_GET['stat_id'];
+	$stat_id = $_POST['stat_id'];
 
 	$sql = "DELETE from ".$table_monitored." where name = (SELECT CONCAT('custom:', tool, ':',name) from ocp_extra_stats where id = ?)";
 	$stm = $link->prepare($sql);

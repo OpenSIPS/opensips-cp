@@ -281,7 +281,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id = $_GET['id'];
+		$id = $_POST['id'];
 
 		$sql = "DELETE FROM ".$table." WHERE id=?";
       		$stm = $link->prepare($sql);
@@ -331,7 +331,7 @@ if ($action=="reset2FA")
 {
 	if(!$_SESSION['read_only']){
 
-		$id = $_GET['id'];
+		$id = $_POST['id'];
 
 		$sql = "UPDATE $table SET secret=NULL WHERE id=?";
       		$stm = $link->prepare($sql);

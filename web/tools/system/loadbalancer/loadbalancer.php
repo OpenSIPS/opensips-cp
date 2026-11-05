@@ -143,8 +143,8 @@ case "modify":
 #################
 case "toggle":
 
-	$state= $_GET['state'];
-	$id = $_GET['id'];
+	$state= $_POST['state'];
+	$id = $_POST['id'];
 	if ($state=="enabled") {
 		$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 		for($i=0;$i<count($mi_connectors);$i++) {
@@ -166,7 +166,7 @@ case "toggle":
 # start delete #
 ################
 case "delete":
-	$id=$_GET['id'];
+	$id=$_POST['id'];
 	$sql = "DELETE FROM ".$table." WHERE id=?";
 	$stm = $link->prepare($sql);
 	if ($stm === false) {

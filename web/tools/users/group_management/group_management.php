@@ -263,8 +263,8 @@ if ($action=="dp_act")
 if ($action=="delete")
 {
         if(!$_SESSION['read_only']){
-			$id=$_GET['id'];
-			$requested_table = isset($_GET['table']) ? $_GET['table'] : NULL;
+			$id=$_POST['id'];
+			$requested_table = isset($_POST['table']) ? $_POST['table'] : NULL;
 			if ($requested_table !== $table) {
 				$errors = "Invalid group table";
 			} else {

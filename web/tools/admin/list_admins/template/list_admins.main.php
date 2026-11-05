@@ -141,8 +141,8 @@ else
 		if(!$_SESSION['read_only']){
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
-			$reset_link = '<a href="'.$page_name.'?action=reset2FA&id='.$resultset[$i]['id'].'"><img src="../../../images/share/reset.png" border="0"></a>';
+			$delete_link = csrf_post_link($page_name, array('action'=>'delete', 'id'=>$resultset[$i]['id']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
+			$reset_link = csrf_post_link($page_name, array('action'=>'reset2FA', 'id'=>$resultset[$i]['id']), '<img src="../../../images/share/reset.png" border="0">');
 		}
 ?>
  <tr>

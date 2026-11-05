@@ -260,11 +260,11 @@ else
 		if(!$_SESSION['read_only']){
 
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$delete_link=csrf_post_link($page_name, array('action'=>'delete','id'=>$resultset[$i]['id']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
 			if ($state[$i]== "-") 
 				$state_link = $state[$i];
 			else
-				$state_link = '<a href="'.$page_name.'?action=change_state&state='.$state[$i].'&group='.$resultset[$i]['setid'].'&address='.$resultset[$i]['destination'].'"><img align="center" name="status'.$i.'" src="../../../images/share/'.strtolower($state[$i]).'.png" alt="'.$state[$i].'" onclick="return confirmStateChange(\''.$state[$i].'\')" border="0"></a>';
+				$state_link = csrf_post_link($page_name, array('action'=>'change_state','state'=>$state[$i],'group'=>$resultset[$i]['setid'],'address'=>$resultset[$i]['destination']), '<img align="center" name="status'.$i.'" src="../../../images/share/'.strtolower($state[$i]).'.png" alt="'.$state[$i].'" border="0">', 'confirmStateChange(\''.$state[$i].'\')');
 		}
 
 ?>

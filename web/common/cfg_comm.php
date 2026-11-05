@@ -547,9 +547,54 @@ function csrfguard_generate($prefix="")
 		<input type='hidden' name='CSRFToken' value='{$token}' />");
 }
 
-// State-changing actions that are triggered over GET (delete links, 2FA reset,
-// gateway enable/disable, reordering, ...). These links carry no per-form token,
-// so they are accepted only when the request originates from this site.
+/*
+ * Emit a state-changing request as a tokenized POST instead of a GET link.
+ *
+ * $page    the handler script to post to (e.g. $page_name)
+ * $params  the request fields, action included: array('action'=>'delete','id'=>$id)
+ * $content the inner HTML of the link, typically the existing <img ...>
+ * $confirm optional JS expression that must return true for the request to be
+ *          sent (e.g. 'confirmDelete()'); the click is cancelled otherwise
+ *
+ * The form is built in JavaScript and appended to <body> on click, so it never
+ * nests inside a surrounding <form>. One single-use CSRF token is bootstrapped
+ * per page render and reused by whichever single action the user triggers -- a
+ * click submits and reloads the page, so a second token is never needed.
+ */
+function csrf_post_link($page, array $params, $content, $confirm = null)
+{
+	static $bootstrapped = false;
+	$out = '';
+	if (!$bootstrapped) {
+		$bootstrapped = true;
+		$name = "CSRFGuard_".mt_rand(0, mt_getrandmax());
+		$token = csrfguard_generate_token($name);
+		$out .= "<script>\n"
+			."window.cpCsrf = {name: ".json_encode($name).", token: ".json_encode($token)."};\n"
+			."function cpPostAction(url, params) {\n"
+			."  var f = document.createElement('form');\n"
+			."  f.method = 'post'; f.action = url;\n"
+			."  params.CSRFName = window.cpCsrf.name;\n"
+			."  params.CSRFToken = window.cpCsrf.token;\n"
+			."  Object.keys(params).forEach(function (k) {\n"
+			."    var i = document.createElement('input');\n"
+			."    i.type = 'hidden'; i.name = k; i.value = params[k];\n"
+			."    f.appendChild(i);\n"
+			."  });\n"
+			."  document.body.appendChild(f); f.submit();\n"
+			."  return false;\n"
+			."}\n"
+			."</script>\n";
+	}
+	$call = "return cpPostAction(".json_encode($page).", ".json_encode($params).");";
+	$onclick = ($confirm !== null ? "if (!($confirm)) return false; " : "").$call;
+	return $out.'<a href="#" onclick="'.htmlspecialchars($onclick, ENT_QUOTES).'">'.$content.'</a>';
+}
+
+// State-changing actions still reachable over GET. With the tool links now
+// posting through csrf_post_link(), this stays as defense in depth: any such
+// action that is still requested over GET is accepted only when the request
+// originates from this site.
 function csrfguard_is_state_changing_get()
 {
 	$action = $_REQUEST['action'] ?? '';

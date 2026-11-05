@@ -177,7 +177,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id=$_GET['id'];
+		$id=$_POST['id'];
 
 		$sql = "DELETE FROM ".$table." WHERE id=?";
 		$stm = $link->prepare($sql);
@@ -241,16 +241,16 @@ if ($action=="ds_search")
 if ($action=="change_state") {
 
 
-	if ($_GET['state']=='Active') {
+	if ($_POST['state']=='Active') {
 		$desired_state = 'I';
-	} else if ($_GET['state']=='Inactive'){
+	} else if ($_POST['state']=='Inactive'){
 		$desired_state = 'A';
-	} else if ($_GET['state']=='Probing'){
+	} else if ($_POST['state']=='Probing'){
 		$desired_state = 'A';
 	}
 
-	$group = $_GET['group'];
-	$address = $_GET['address'];
+	$group = $_POST['group'];
+	$address = $_POST['address'];
 
 	$mi_connectors=get_all_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 	$params = array("state"=>$desired_state,"group"=>(string)$group,"address"=>$address);

@@ -69,7 +69,7 @@
 if ($action=="enablegw"){
 	$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
-	$params = array("gw_id"=>$_GET['gwid'],"status"=>"1");
+	$params = array("gw_id"=>$_POST['gwid'],"status"=>"1");
 	if ($settings["routing_partition"] && $settings["routing_partition"] != "")
 		$params['partition_name'] = $settings["routing_partition"];
 
@@ -77,7 +77,7 @@ if ($action=="enablegw"){
 		$message=mi_command("drouting:gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
-		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
+		echo "Error while enabling gateway ".$_POST['gwid']." (".mi_error_text($errors).")";
 }
 ##################
 # end enable gw  #
@@ -90,7 +90,7 @@ if ($action=="enablegw"){
 if ($action=="disablegw"){
 	$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 
-	$params = array("gw_id"=>$_GET['gwid'],"status"=>"0");
+	$params = array("gw_id"=>$_POST['gwid'],"status"=>"0");
 	if ($settings["routing_partition"] && $settings["routing_partition"] != "")
 		$params['partition_name'] = $settings["routing_partition"];
 
@@ -98,7 +98,7 @@ if ($action=="disablegw"){
 		$message=mi_command("drouting:gw_status", $params, $mi_connectors[$i], $errors);
 	}
 	if (!empty($errors))
-		echo "Error while enabling gateway ".$_GET['gwid']." (".mi_error_text($errors).")";
+		echo "Error while enabling gateway ".$_POST['gwid']." (".mi_error_text($errors).")";
 }
 ##################
 # end disable gw  #
@@ -236,7 +236,7 @@ if ($action=="probegw"){
 # start delete #
 ################
 if ($action=="delete"){
-	$del_id=$_GET['gwid'];
+	$del_id=$_POST['gwid'];
 	if (!preg_match('/^[0-9a-zA-Z_\-]+$/',$del_id)) {
 		die('Invalid gateway id');
 	}

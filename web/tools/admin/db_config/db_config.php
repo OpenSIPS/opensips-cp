@@ -85,7 +85,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id = $_GET['db_id'];
+		$id = $_POST['db_id'];
 
 		$sql = "DELETE FROM ".$table." WHERE id=?";
       		$stm = $link->prepare($sql);

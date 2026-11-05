@@ -159,6 +159,11 @@
 ################
  if ($action=="delete")
  {
+  // the delete target travels over POST, so derive it from $_POST here rather
+  // than the top-level $_GET read (which still serves the edit/modify forms)
+  $temp = explode("@", $_POST['id']);
+  $id_username = $temp[0];
+  $id_domain = $temp[1];
   $sql = "delete from ".$table." where username=? and domain=?";
   $stm = $link->prepare($sql);
   if ($stm === false) {

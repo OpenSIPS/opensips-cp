@@ -170,7 +170,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id=$_GET['id'];
+		$id=$_POST['id'];
 
 		$sql = "DELETE FROM ".$table." WHERE id = ?";
 		$stm = $link->prepare($sql);

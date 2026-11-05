@@ -53,9 +53,9 @@ for ($i=0; $i<$data_no;$i++) {
 		$rtpengine_cache[ $set ][ $node['url'] ]['ticks']  = $node['recheck_ticks'];
 		
 		if ($node['disabled'] == 1){
-			$rtpengine_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
+			$rtpengine_cache[ $set ][ $node['url'] ]['state_link'] 	= csrf_post_link($page_name, array('action'=>'change_state','state'=>$node['disabled'],'sock'=>$node['url']), '<img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['disabled'].'">', 'confirmStateChange(\''.$node['disabled'].'\')');
 		} else if ($node['disabled'] == 0){
-			$rtpengine_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
+			$rtpengine_cache[ $set ][ $node['url'] ]['state_link'] 	= csrf_post_link($page_name, array('action'=>'change_state','state'=>$node['disabled'],'sock'=>$node['url']), '<img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['disabled'].'">', 'confirmStateChange(\''.$node['disabled'].'\')');
 		}
 	}
 } 	
@@ -173,7 +173,7 @@ else $row_style="rowEven";
 if(!$_SESSION['read_only']){
 
 	$edit_link = '<a href="'.$page_name.'?action=edit&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-	$delete_link='<a href="'.$page_name.'?action=delete&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+	$delete_link=csrf_post_link($page_name, array('action'=>'delete','id'=>$result[$i]['id']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
 }
 // MI url has no =weight suffix; strip it from the DB socket for cache lookup
 $cache_sock = explode('=', $result[$i]['socket'], 2)[0];

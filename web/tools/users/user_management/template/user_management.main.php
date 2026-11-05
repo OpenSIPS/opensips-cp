@@ -261,7 +261,7 @@ else
 
 		if(!$_SESSION['read_only']){
 			$edit_link = '<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'&table='.$table.'"><img src="../../../images/share/edit.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&id='.$resultset[$i]['id'].'&uname='.$resultset[$i]['username'].'&domain='.$resultset[$i]['domain'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+			$delete_link=csrf_post_link($page_name, array('action'=>'delete','id'=>$resultset[$i]['id'],'uname'=>$resultset[$i]['username'],'domain'=>$resultset[$i]['domain']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
 		}
 ?>
  <tr>

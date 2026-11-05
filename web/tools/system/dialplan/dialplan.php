@@ -197,7 +197,7 @@ if ($action=="modify")
 
 if ($action=="delete")
 {
-	$id=$_GET['id'];
+	$id=$_POST['id'];
 
 	$sql = "DELETE FROM ".$table." WHERE id=?";
 	$stm = $link->prepare($sql);

@@ -246,16 +246,16 @@ if ($memory_status != "0") {
 	
 	switch ($gw_status) {
 		case "Active": 
-   			$status='<a href="'.$page_name.'?action=disablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'yes\');"></a>';
+   			$status=csrf_post_link($page_name, array('action'=>'disablegw','gwid'=>$resultset[$i]['gwid']), '<img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable">', 'confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'yes\')');
 			break;
 		case "Inactive": 
-   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+   			$status=csrf_post_link($page_name, array('action'=>'enablegw','gwid'=>$resultset[$i]['gwid']), '<img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Enabled - Click to probe">', 'confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\')');
 			break;
 		case "Disabled MI": 
-   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Enabled - Click to probe" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+   			$status=csrf_post_link($page_name, array('action'=>'enablegw','gwid'=>$resultset[$i]['gwid']), '<img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Enabled - Click to probe">', 'confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\')');
 			break;
 		case "Probing": 
-   			$status='<a href="'.$page_name.'?action=enablegw&gwid='.$resultset[$i]['gwid'].'"><img name="status'.$i.'" src="../../../images/share/probing.png" alt="Enabled - Click to enable" onclick="return confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\');"></a>';
+   			$status=csrf_post_link($page_name, array('action'=>'enablegw','gwid'=>$resultset[$i]['gwid']), '<img name="status'.$i.'" src="../../../images/share/probing.png" alt="Enabled - Click to enable">', 'confirmStateChange(\''.$resultset[$i]['gwid'].'\',\'no\')');
 			break;
 		default: 
 			$status = "n/a";
@@ -277,7 +277,7 @@ if ($memory_status != "0") {
    }
    $details_link='<a href="'.$page_name.'?action=details&gwid='.$resultset[$i]['gwid'].'"><img src="../../../images/share/details.png" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&gwid='.$resultset[$i]['gwid'].'" onclick="return confirmDelete(\''.$resultset[$i]['gwid'].'\')"><img src="../../../images/share/delete.png" border="0"></a>';
+   $delete_link=csrf_post_link($page_name, array('action'=>'delete','gwid'=>$resultset[$i]['gwid']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete(\''.$resultset[$i]['gwid'].'\')');
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>

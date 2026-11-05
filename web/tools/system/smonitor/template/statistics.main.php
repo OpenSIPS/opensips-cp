@@ -92,7 +92,7 @@ else
 				$input_display .= $key." : ".$value."<br>";
 			}
 			$details_link = '<a href="javascript:;" onclick="openStatOverlay(\''.$resultset[$i]['class']::get_description().'\',\''.$resultset[$i]['class'].'\',\''.$resultset[$i]['tool'].'\',\''.base64_encode($input_display).'\')"><img src="../../../images/share/details.png" border="0"></a>';
-			$delete_link='<a href="'.$page_name.'?action=delete&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/delete.png" border="0"></a>';
+			$delete_link=csrf_post_link($page_name, array('action'=>'delete','stat_id'=>$resultset[$i]['id']), '<img src="../../../images/share/delete.png" border="0">');
 			$edit_link = '<a href="'.$page_name.'?action=edit_statistic&class='.$resultset[$i]['class'].'&stat_id='.$resultset[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
 		}
 ?>

@@ -47,8 +47,8 @@ else if (!isset($_SESSION[$current_page])) $_SESSION[$current_page]=1;
 
 if ($action=="change_state"){
 
-	$state= $_GET['state'];
-	$sock = $_GET['sock'];
+	$state= $_POST['state'];
+	$sock = $_POST['sock'];
 
 	$mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
 	for ($i=0;$i<count($mi_connectors);$i++) {
@@ -204,7 +204,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id=$_GET['id'];
+		$id=$_POST['id'];
 		$sql = "DELETE FROM ".$table." WHERE id = ?";
 		$stm = $link->prepare($sql);
 		if ($stm->execute(array($id)) === false)

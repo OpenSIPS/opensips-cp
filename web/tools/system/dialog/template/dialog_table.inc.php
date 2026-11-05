@@ -32,7 +32,7 @@ function display_dialog_table($message){
 
 		if(!$_SESSION['read_only']){
 			if ($message[$i]['state']<5)
-       			     	$delete_link='<a href="'.$page_name.'?action=delete&id='.$message[$i]['ID'].'" onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+       			     	$delete_link=csrf_post_link($page_name, array('action'=>'delete','id'=>$message[$i]['ID']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
 			else
 				$delete_link = "n/a";
         	}

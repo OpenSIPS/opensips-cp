@@ -198,9 +198,9 @@ if ($memory_status != "0") {
 	$carrier_status = $carrier_statuses[$resultset[$i]['carrierid']];
 
 	   if ($carrier_status=="yes")
-	           $status='<a href="'.$page_name.'?action=disablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable" onclick="return confirmDisable(\''.$resultset[$i]['carrierid'].'\');"></a>';
+	           $status=csrf_post_link($page_name, array('action'=>'disablecar','carrierid'=>$resultset[$i]['carrierid']), '<img name="status'.$i.'" src="../../../images/share/active.png" alt="Enabled - Click to disable">', 'confirmDisable(\''.$resultset[$i]['carrierid'].'\')');
       else
-	          $status='<a href="'.$page_name.'?action=enablecar&carrierid='.$resultset[$i]['carrierid'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Disabled - Click to enable" onclick="return confirmEnable(\''.$resultset[$i]['carrierid'].'\')"></a>';
+	          $status=csrf_post_link($page_name, array('action'=>'enablecar','carrierid'=>$resultset[$i]['carrierid']), '<img name="status'.$i.'" src="../../../images/share/inactive.png" alt="Disabled - Click to enable">', 'confirmEnable(\''.$resultset[$i]['carrierid'].'\')');
 }
 
    switch ($resultset[$i]['state']) {
@@ -210,7 +210,7 @@ if ($memory_status != "0") {
 	//edit and delete links					 
    $details_link='<a href="'.$page_name.'?action=details&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/details.png" border="0"></a>';
    $edit_link='<a href="'.$page_name.'?action=edit&carrierid='.$resultset[$i]['carrierid'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-   $delete_link='<a href="'.$page_name.'?action=delete&carrierid='.$resultset[$i]['carrierid'].'" onclick="return confirmDelete(\''.$resultset[$i]['carrierid'].'\')" ><img src="../../../images/share/delete.png" border="0"></a>';
+   $delete_link=csrf_post_link($page_name, array('action'=>'delete','carrierid'=>$resultset[$i]['carrierid']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete(\''.$resultset[$i]['carrierid'].'\')');
    if ($_read_only) $edit_link=$delete_link='<i>n/a</i>';
 ?>
  <tr>

@@ -54,9 +54,9 @@ for ($i=0; $i<count($message);$i++) {
 		$rtpproxies_cache[ $set ][ $node['url'] ]['ticks']  = $node['recheck_ticks'];
 		
 		if ($node['disabled'] == 1){
-			$rtpproxies_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
+			$rtpproxies_cache[ $set ][ $node['url'] ]['state_link'] 	= csrf_post_link($page_name, array('action'=>'change_state','state'=>$node['disabled'],'sock'=>$node['url']), '<img name="status'.$i.'" src="../../../images/share/inactive.png" alt="'.$node['disabled'].'">', 'confirmStateChange(\''.$node['disabled'].'\')');
 		} else if ($node['disabled'] == 0){
-			$rtpproxies_cache[ $set ][ $node['url'] ]['state_link'] 	= '<a href="'.$page_name.'?action=change_state&state='.$node['disabled'].'&sock='.$node['url'].'"><img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['disabled'].'" onclick="return confirmStateChange(\''.$node['disabled'].'\')" border="0"></a>';
+			$rtpproxies_cache[ $set ][ $node['url'] ]['state_link'] 	= csrf_post_link($page_name, array('action'=>'change_state','state'=>$node['disabled'],'sock'=>$node['url']), '<img name="status'.$i.'" src="../../../images/share/active.png" alt="'.$node['disabled'].'">', 'confirmStateChange(\''.$node['disabled'].'\')');
 		}
 	}
 } 	
@@ -172,7 +172,7 @@ else $row_style="rowEven";
 if(!$_SESSION['read_only']){
 
 	$edit_link = '<a href="'.$page_name.'?action=edit&clone=0&id='.$result[$i]['id'].'"><img src="../../../images/share/edit.png" border="0"></a>';
-	$delete_link='<a href="'.$page_name.'?action=delete&clone=0&id='.$result[$i]['id'].'"onclick="return confirmDelete()"><img src="../../../images/share/delete.png" border="0"></a>';
+	$delete_link=csrf_post_link($page_name, array('action'=>'delete','clone'=>0,'id'=>$result[$i]['id']), '<img src="../../../images/share/delete.png" border="0">', 'confirmDelete()');
 }
 # most complex example: "udp:10.0.2.103:7899|8.8.8.8=3", we just want the socket
 $sock = explode("=", $result[$i]['rtpproxy_sock'])[0];

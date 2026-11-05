@@ -182,9 +182,9 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id = $_GET['id'];
-		$uname = $_GET['uname'];
-		$domain = $_GET['domain'];
+		$id = $_POST['id'];
+		$uname = $_POST['uname'];
+		$domain = $_POST['domain'];
 
 		$sql = "DELETE FROM ".$table." WHERE id=?";
 		$stm = $link->prepare($sql);

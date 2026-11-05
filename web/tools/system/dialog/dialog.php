@@ -63,7 +63,7 @@ if ($action=="delete")
 {
 	if(!$_SESSION['read_only']){
 
-		$id=trim($_GET['id']);
+		$id=trim($_POST['id']);
 	        $mi_connectors=get_proxys_by_assoc_id($settings['talk_to_this_assoc_id']);
         	for ($i=0;$i<count($mi_connectors);$i++){
 				mi_command( "dialog:end_dlg", array("dialog_id"=>$id),  $mi_connectors[$i], $errors);
