@@ -19,9 +19,9 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-    $desc = $_GET['description'];
+    $desc = htmlspecialchars($_GET['description'] ?? '', ENT_QUOTES);
     $class = $_GET['class'];
-    $tool = $_GET['tool'];
+    $tool = htmlspecialchars($_GET['tool'] ?? '', ENT_QUOTES);
     $input = $_GET['input'];
     
  ?>
@@ -42,7 +42,7 @@
 				<tr><?php
                 echo ('<td>Provisioning tool: '.$tool.'</td>'); ?></tr>
 				<tr><?php
-                echo ('<td>Statistic input: '.base64_decode($input).'</td>'); ?></tr></table>
+                echo ('<td>Statistic input: '.htmlspecialchars(base64_decode($input), ENT_QUOTES).'</td>'); ?></tr></table>
 			</td>
 		</tr>
 
